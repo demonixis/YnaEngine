@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Windows", "Yna\Yna.Windows.csproj", "{BF58CAF2-143A-420C-8C0E-11D438522C35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples.Windows", "Yna.Samples\Yna.Samples\Yna.Samples.Windows.csproj", "{89F8658C-8D06-40F4-8BCE-60B172C75011}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples3D.Windows", "Yna.Samples3D\Yna.Samples3D\Yna.Samples3D.Windows.csproj", "{D7044ED1-913F-4349-AD98-A640614D1359}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89F8658C-8D06-40F4-8BCE-60B172C75011}.Debug|x86.ActiveCfg = Debug|x86
+		{89F8658C-8D06-40F4-8BCE-60B172C75011}.Debug|x86.Build.0 = Debug|x86
+		{89F8658C-8D06-40F4-8BCE-60B172C75011}.Release|x86.ActiveCfg = Release|x86
+		{89F8658C-8D06-40F4-8BCE-60B172C75011}.Release|x86.Build.0 = Release|x86
+		{BF58CAF2-143A-420C-8C0E-11D438522C35}.Debug|x86.ActiveCfg = Debug|x86
+		{BF58CAF2-143A-420C-8C0E-11D438522C35}.Debug|x86.Build.0 = Debug|x86
+		{BF58CAF2-143A-420C-8C0E-11D438522C35}.Release|x86.ActiveCfg = Release|x86
+		{BF58CAF2-143A-420C-8C0E-11D438522C35}.Release|x86.Build.0 = Release|x86
+		{D7044ED1-913F-4349-AD98-A640614D1359}.Debug|x86.ActiveCfg = Debug|x86
+		{D7044ED1-913F-4349-AD98-A640614D1359}.Debug|x86.Build.0 = Debug|x86
+		{D7044ED1-913F-4349-AD98-A640614D1359}.Release|x86.ActiveCfg = Release|x86
+		{D7044ED1-913F-4349-AD98-A640614D1359}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Yna.Samples\Yna.Samples\Yna.Samples.Windows.csproj
+	EndGlobalSection
+EndGlobal
