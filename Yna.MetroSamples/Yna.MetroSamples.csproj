@@ -12,7 +12,7 @@
     <DefaultLanguage>fr-FR</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-	<MonoGamePlatform>Windows8</MonoGamePlatform>
+    <MonoGamePlatform>Windows8</MonoGamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -123,9 +123,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-	<Content Include="Content\**\*.*">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</Content>
+    <Content Include="Content\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -141,35 +141,23 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Windows8">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\MonoGame.Framework.Windows8.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows 8 Metro\MonoGame.Framework.Windows8.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.D3DCompiler">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\SharpDX.D3DCompiler.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct2D1">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\SharpDX.Direct2D1.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\SharpDX.Direct3D11.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\SharpDX.DXGI.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.MediaFoundation">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\SharpDX.MediaFoundation.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XAudio2">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\SharpDX.XAudio2.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.XAudio2.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XInput">
-      <HintPath>..\..\MonoGame\Windows 8 Metro\SharpDX.XInput.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\mech_final.xnb" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

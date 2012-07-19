@@ -89,17 +89,19 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network.Windows">
-      <HintPath>..\..\MonoGame\Windows\Lidgren.Network.Windows.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows\Lidgren.Network.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Content.Pipeline">
+      <HintPath>..\Externals\MonoGame\Windows\MonoGame.Framework.Content.Pipeline.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\..\MonoGame\Windows\MonoGame.Framework.Windows.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows\MonoGame.Framework.Windows.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
-      <HintPath>..\..\MonoGame\Windows\OpenTK.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="Tao.Sdl">
-      <HintPath>..\..\MonoGame\Windows\Tao.Sdl.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows\Tao.Sdl.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
 </Project>

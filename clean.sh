@@ -1,6 +1,8 @@
 echo "Project Cleaner"
 echo "Start Cleaning..."
 
+rm -Rf *.suo
+
 rm -Rf Yna/bin
 rm -Rf Yna/obj
 

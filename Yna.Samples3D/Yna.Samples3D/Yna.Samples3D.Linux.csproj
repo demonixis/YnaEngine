@@ -47,9 +47,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="GamepadBridge">
-      <HintPath>..\..\Externals\MonoGame\Linux\GamepadBridge.dll</HintPath>
-    </Reference>
     <Reference Include="Lidgren.Network">
       <HintPath>..\..\Externals\MonoGame\Linux\Lidgren.Network.dll</HintPath>
     </Reference>
