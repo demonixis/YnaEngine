@@ -32,12 +32,15 @@ namespace Yna.Sample.States
 		{        
 			// 1 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
 			sephirothSprite = new Sprite (new Vector2 (50, 48), "Sprites//sephiroth");
+            sephirothSprite.LoadContent();
             CreateAnimation(sephirothSprite, 34, 48);
 			sephirothSprite.ForceInsideScreen = true;
             sephirothSprite.SetOriginTo(SpriteOrigin.Center);
 			Add (sephirothSprite);
 
             tifaSprite = new Sprite(new Vector2(350, 150), "Sprites//tifa");
+            tifaSprite.LoadContent();
+
             CreateAnimation(tifaSprite, 32, 48);
             Add(tifaSprite);
 

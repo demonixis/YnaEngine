@@ -25,6 +25,7 @@ namespace Yna.Sample.States
 			
 			// 2 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
 			sonicSprite = new Sprite (new Vector2 (50, 505), "Sprites//soniclg4");
+            sonicSprite.LoadContent();
 			
 			// Indique que le Sprite est animé, renseigne la taille d'un Sprite sur la feuille de Sprite
 			sonicSprite.PrepareAnimation (50, 41);

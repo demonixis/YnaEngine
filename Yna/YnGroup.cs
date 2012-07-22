@@ -50,22 +50,36 @@ namespace Yna
             _members.Clear();
         }
 
+        public int Count()
+        {
+            return _members.Count();
+        }
+
         public override void Initialize() 
         {
-            foreach (YnObject member in _members)
-                member.Initialize();
+            if (_members.Count > 0)
+            {
+                foreach (YnObject member in _members)
+                    member.Initialize();
+            }
         }
 
         public override void LoadContent()
         {
-            foreach (YnObject member in _members)
-                member.LoadContent();
+            if (_members.Count > 0)
+            {
+                foreach (YnObject member in _members)
+                    member.LoadContent();
+            }
         }
 
         public override void UnloadContent()
         {
-            foreach (YnObject member in _members)
-               member.UnloadContent();
+            if (_members.Count > 0)
+            {
+                foreach (YnObject member in _members)
+                    member.UnloadContent();
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -98,8 +112,11 @@ namespace Yna
 
         public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
 		{
-            foreach (YnObject member in _members)
-                member.Draw(gameTime, spriteBatch);
+            if (_members.Count > 0)
+            {
+                foreach (YnObject member in _members)
+                    member.Draw(gameTime, spriteBatch);
+            }
         }
         
         public void AddX(int value)

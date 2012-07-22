@@ -197,8 +197,6 @@ namespace Yna.Display
         public Sprite() 
             : base ()
         {
-
-
             _sourceRectangle = null;
             _lastPosition = Vector2.Zero;
             _rectangle = Rectangle.Empty;
@@ -243,7 +241,6 @@ namespace Yna.Display
             : this(position)
         {
             _textureName = assetName;
-			LoadContent();
         }
 
         public Sprite(Rectangle rectangle, Color color)

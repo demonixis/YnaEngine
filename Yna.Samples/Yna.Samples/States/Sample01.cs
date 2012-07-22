@@ -44,6 +44,7 @@ namespace Yna.Sample.States
             MediaPlayer.Play(music);
             
             background = new Sprite(Vector2.Zero, "Backgrounds//Sky3");
+            background.LoadContent();
             background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
 			
             int spriteWidth = 50;

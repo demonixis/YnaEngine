@@ -31,14 +31,6 @@ namespace Yna
              // Portée global pour l'ensemble du jeu
             YnG.Game = this;
             YnG.GraphicsDeviceManager = this.graphics;
-            #if WINDOWS_PHONE
-            SetScreenResolution(480, 800);
-            #elif NETFX_CORE
-            SetScreenResolution(1024, 768);
-            #else
-            SetScreenResolution(800, 600);
-            #endif
-            
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
             YnG.Camera = new Camera2D();
