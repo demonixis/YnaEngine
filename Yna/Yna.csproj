@@ -92,6 +92,7 @@
     <Compile Include="YnGroup.cs" />
     <Compile Include="YnObject.cs" />
     <Compile Include="State\YnState.cs" />
+    <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
