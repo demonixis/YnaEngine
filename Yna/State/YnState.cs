@@ -33,10 +33,17 @@ namespace Yna.State
 
         public void Add(YnObject sceneObject)
         {
-            if (_assetsLoaded)
-                sceneObject.LoadContent();
-
+            sceneObject.LoadContent();
             _members.Add(sceneObject);
+        }
+
+        public void Add(YnObject[] sceneObjects)
+        {
+            foreach (YnObject sceneObject in sceneObjects)
+            {
+                sceneObject.LoadContent();
+                _members.Add(sceneObject);
+            }
         }
 
         public void Remove(YnObject sceneObject)
