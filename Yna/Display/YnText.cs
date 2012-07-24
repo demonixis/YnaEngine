@@ -32,6 +32,21 @@ namespace Yna.Display
             _color = Color.Black;
         }
 
+        public YnText(SpriteFont font, int x, int y, string text)
+            : this(new Vector2(x, y), text)
+        {
+            _font = font;
+            _textureLoaded = true;
+        }
+
+        public YnText(string fontName, int x, int y, string text)
+            : this(new Vector2(x, y), text)
+        {
+            _textureName = fontName;
+            _textureLoaded = false;
+        }
+        
+        // TODO: Deprecated
         public YnText(SpriteFont font, Vector2 position, string text) 
             : this(position, text)
         {
@@ -39,6 +54,7 @@ namespace Yna.Display
             _textureLoaded = true;
         }
 
+        // TODO: Deprected
         public YnText(string fontName, Vector2 position, string text)
             : this(position, text)
         {
