@@ -40,6 +40,15 @@ namespace Yna
             _members.Add(ynObject);
         }
 
+        public void Add(YnObject[] sceneObject)
+        {
+            int size = sceneObject.Length;
+            for (int i = 0; i < size; i++)
+            {
+                Add(sceneObject[i]);
+            }
+        }
+
         public void Remove(YnObject ynObject)
         {
             _members.Remove(ynObject);

@@ -25,6 +25,7 @@ namespace Yna.Display
         protected bool _isFollowed;
         protected Vector2 _direction;
         protected Vector2 _lastPosition;
+        protected Rectangle _viewport;
 
         // Gestion des collisions
         protected bool _forceInsideScreen;
@@ -94,6 +95,12 @@ namespace Yna.Display
         public Vector2 LastDistance
         {
             get { return _position - _lastPosition; }
+        }
+
+        public Rectangle Viewport
+        {
+            get { return _viewport; }
+            set { _viewport = value; }
         }
 
         /// <summary>
@@ -208,7 +215,8 @@ namespace Yna.Display
             _effects = SpriteEffects.None;
             _layerDepth = 1.0f;
             _textureName = string.Empty;
-            
+
+            _viewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
             _forceInsideScreen = false;
             _forceInsideOutsideScreen = false;
 
@@ -409,27 +417,27 @@ namespace Yna.Display
 
             if (_forceInsideScreen)
             {
-                if (X < 0) 
-                    Position = new Vector2(0, Y);
-                else if (X + Width > YnG.Width)
-                    Position = new Vector2(YnG.Width - Width, Y);
+                if (X < _viewport.X) 
+                    Position = new Vector2(_viewport.X, Y);
+                else if (X + Width > _viewport.Width)
+                    Position = new Vector2(_viewport.Width - Width, Y);
 
-                if (Y < 0)
-                    Position = new Vector2(X, 0);
-                else if (Y + Height > YnG.Height)
-                    Position = new Vector2(X, YnG.Height - Height);
+                if (Y < _viewport.Y)
+                    Position = new Vector2(X, _viewport.Y);
+                else if (Y + Height > _viewport.Height)
+                    Position = new Vector2(X, _viewport.Height - Height);
             }
             else if (_forceInsideOutsideScreen)
             {
-                if (X + Width < 0)
-                    Position = new Vector2(YnG.Width, Y);
-                else if (X > YnG.Width)
-                    Position = new Vector2(0, Y);
+                if (X + Width < _viewport.X)
+                    Position = new Vector2(_viewport.Width, Y);
+                else if (X > _viewport.Width)
+                    Position = new Vector2(_viewport.X, Y);
 
-                if (Y + Height < 0)
-                    Position = new Vector2(X, YnG.Height);
-                else if (Y > YnG.Height)
-                    Position = new Vector2(X, 0);
+                if (Y + Height < _viewport.Y)
+                    Position = new Vector2(X, _viewport.Height);
+                else if (Y > _viewport.Height)
+                    Position = new Vector2(X, _viewport.Y);
             }
         }
 
