@@ -45,19 +45,15 @@ namespace Yna.Sample.States
 			sonicSprite.Scale = new Vector2 (1.5f, 1.5f);
 
 			// Force le sprite à rester sur l'écran
-			sonicSprite.ForceInsideOutsideScreen = true; 
+			sonicSprite.AllowAcrossScreen = true; 
 			
 			// Taux d'accéleration du personnage
-			sonicSprite.Acceleration = new Vector2(3.5f, 2.5f);
+			sonicSprite.Acceleration = new Vector2(2.5f, 1.5f);
+            sonicSprite.VelocityMax = 0.95f;
 			
 			// Ajoute le Sprite à la scène
 			Add (sonicSprite);
 		}
-
-        public override void UnloadContent()
-        {
-            sonicSprite.Die();
-        }
 
         public override void Update(GameTime gameTime)
         {
@@ -67,12 +63,12 @@ namespace Yna.Sample.States
 			if (YnG.Keys.Pressed(Keys.Left))
             {
                 sonicSprite.Play("left");
-                sonicSprite.VelocityX -= 0.2f;
+                sonicSprite.VelocityX -= 0.3f;
             }
             else if (YnG.Keys.Pressed(Keys.Right))
             {
                 sonicSprite.Play("right");
-                sonicSprite.VelocityX += 0.2f;
+                sonicSprite.VelocityX += 0.3f;
             }
 
             if (YnG.Keys.Pressed(Keys.Space))

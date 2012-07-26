@@ -132,6 +132,7 @@
     <Compile Include="YnGroup.cs" />
     <Compile Include="YnObject.cs" />
     <Compile Include="State\YnState.cs" />
+	<Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Windows8">

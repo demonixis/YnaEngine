@@ -124,7 +124,7 @@ namespace Yna.Display
         /// <summary>
         /// Oblige le sprite à ne pas quitter l'écran. Si il sort de l'écran, il est déplacé à sa position inverse
         /// </summary>
-        public bool ForceInsideOutsideScreen
+        public bool AllowAcrossScreen
         {
             get { return _forceInsideOutsideScreen; }
             set
@@ -228,7 +228,7 @@ namespace Yna.Display
 			
             _acceleration = Vector2.One;
 			_velocity = Vector2.Zero;
-			_maxVelocity = 0.95f;
+            _maxVelocity = 1.0f;
 
             _direction = Vector2.One;
 
@@ -417,15 +417,27 @@ namespace Yna.Display
 
             if (_forceInsideScreen)
             {
-                if (X < _viewport.X) 
+                if (X < _viewport.X)
+                {
                     Position = new Vector2(_viewport.X, Y);
+                    _velocity *= 0.0f;
+                }
                 else if (X + Width > _viewport.Width)
+                {
                     Position = new Vector2(_viewport.Width - Width, Y);
+                    _velocity *= 0.0f;
+                }
 
                 if (Y < _viewport.Y)
+                {
                     Position = new Vector2(X, _viewport.Y);
+                    _velocity *= 0.0f;
+                }
                 else if (Y + Height > _viewport.Height)
+                {
                     Position = new Vector2(X, _viewport.Height - Height);
+                    _velocity *= 0.0f;
+                }
             }
             else if (_forceInsideOutsideScreen)
             {
