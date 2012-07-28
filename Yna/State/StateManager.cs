@@ -1,13 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Helpers;
 
 namespace Yna.State
 {
-    public class StateManager : DrawableGameComponent
+    public class StateManager 
     {
+        public Game Game { get; protected set; }
+
+        public GraphicsDevice GraphicsDevice 
+        { 
+            get { return Game.GraphicsDevice; }
+        }
+
+        public ContentManager Content 
+        {
+            get { return Game.Content; }
+        }
+
         private List<GameState> _screens;
         private List<GameState> _safeScreens;
 
@@ -24,28 +37,26 @@ namespace Yna.State
         }
 
         public StateManager(Game game)
-            : base(game)
         {
+            Game = game;
+
             _screens = new List<GameState>();
             _safeScreens = new List<GameState>();
             _initialized = false;
             Initialize();
         }
 
-        public override void Initialize()
+        public virtual void Initialize()
         {
-            base.Initialize();
 
             foreach (GameState state in _screens)
                 state.Initialize();
         }
 
-        protected override void LoadContent()
+        public virtual void LoadContent()
         {
             if (!_initialized)
             {
-                base.LoadContent();
-
                 _spriteBatch = new SpriteBatch(GraphicsDevice);
                 // La texture sera étirée
                 _transitionTexture = GraphicsHelper.CreateTexture(Color.White, 16, 16);
@@ -57,10 +68,8 @@ namespace Yna.State
             }
         }
 
-        protected override void UnloadContent()
+        public virtual void UnloadContent()
         {
-            base.UnloadContent();
-
             if (_initialized && _screens.Count > 0)
             {
                 foreach (GameState screen in _screens)
@@ -68,10 +77,8 @@ namespace Yna.State
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             // Copie sûr des states en cours
             foreach (GameState screen in _screens)
                 _safeScreens.Add(screen);
@@ -89,7 +96,7 @@ namespace Yna.State
             }
         }
 
-        public override void Draw(GameTime gameTime)
+        public virtual void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkCyan);
 
@@ -100,8 +107,6 @@ namespace Yna.State
 
                 screen.Draw(gameTime);
             }
-
-            base.Draw(gameTime);
         }
 
         public void FadeBackBufferToBlack(float alpha)

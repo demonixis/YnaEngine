@@ -31,7 +31,7 @@ namespace Yna
             get { return Game.Content; } 
         }
 
-        public static StateManager ScreenManager { get; set; }
+        public static StateManager StateManager { get; set; }
 		
         public static YnKeyboard Keys { get; set; }
 

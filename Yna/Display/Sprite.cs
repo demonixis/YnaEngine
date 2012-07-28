@@ -239,6 +239,12 @@ namespace Yna.Display
             _initialJumpPosition = Vector2.Zero;
         }
 
+        public Sprite(string assetName)
+            : this(Vector2.Zero)
+        {
+            _textureName = assetName;
+        }
+
         public Sprite(Vector2 position)
             : this()
         {

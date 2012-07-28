@@ -11,7 +11,7 @@ namespace Yna.Samples
     public class YnaSample : Yna.YnGame
     {
         public YnaSample () 
-		    : base(1024, 600, "YNA Framework : Samples 2D", true) { }
+		    : base(1024, 600, "YNA Framework : Samples 2D") { }
 
         protected override void Initialize()
         {

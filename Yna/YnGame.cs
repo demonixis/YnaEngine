@@ -16,12 +16,13 @@ namespace Yna
 	{
 		protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
-        
+        protected StateManager stateManager;
 
         public YnGame()
         {
         	this.graphics = new GraphicsDeviceManager (this);
 			this.Content.RootDirectory = "Content";
+            this.stateManager = new StateManager(this);
 			
 			 // Définition des services
             ServiceHelper.Game = this;
@@ -34,44 +35,24 @@ namespace Yna
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
             YnG.Camera = new Camera2D();
+            YnG.StateManager = stateManager;
             
             this.Window.Title = "YNA Game";
         }
         
-		public YnGame (int width, int height, string title, bool useScreenManager = true)
+		public YnGame (int width, int height, string title)
 			: this()
 		{
 			SetScreenResolution(width, height);
-			
 			this.Window.Title = title;
-		
-            // Définition du ScreenManager
-            UseScreenManager = useScreenManager;
 		}
-		
-		/// <summary>
-		/// Active ou désactive le gestionnaire d'état
-		/// </summary>
-        public bool UseScreenManager
+
+        #region GameState Pattern
+        protected override void LoadContent()
         {
-            get { return (YnG.ScreenManager != null); }
-            set
-            {
-                if (value)
-                {
-                    if (YnG.ScreenManager == null)
-                    {
-                        YnG.ScreenManager = new StateManager(this);
-                        Components.Add(YnG.ScreenManager);
-                    }
-                    else
-                    {
-                        Components.Remove(YnG.ScreenManager);
-                        YnG.ScreenManager.Dispose();
-                        YnG.ScreenManager = null;
-                    }
-                }
-            }
+            base.LoadContent();
+
+            stateManager.LoadContent();
         }
 
         /// <summary>
@@ -82,9 +63,24 @@ namespace Yna
             base.Initialize();
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
+
+            stateManager.Initialize();
         }
 
-		/// <summary>
+        protected override void Update(GameTime gameTime)
+        {
+            stateManager.Update(gameTime);
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            stateManager.Draw(gameTime);
+            base.Draw(gameTime);
+        }
+        #endregion
+
+        /// <summary>
 		/// Change la résolution d'affichage
 		/// </summary>
 		/// <param name="width">Longueur</param>
@@ -93,7 +89,7 @@ namespace Yna
         {
             this.graphics.PreferredBackBufferWidth = width;
             this.graphics.PreferredBackBufferHeight = height;
-            //YnG.GraphicsDeviceManager.ApplyChanges();
+            this.graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -102,15 +98,16 @@ namespace Yna
         /// <param name="nextState">Prochain écran</param>
         public void SwitchState(YnState nextState)
         {
-            if (YnG.ScreenManager != null)
-            {
-                // Si ce n'est pas une popup tous les écran en cours passent à l'état "TransitionOff"
-                // Et son automatiquement vidés et supprimés
-                if (!nextState.IsPopup)
-                    YnG.ScreenManager.Clear();
+            if (!nextState.IsPopup)
+                YnG.StateManager.Clear();
 
-                YnG.ScreenManager.Add(nextState);
-            }
+            YnG.StateManager.Add(nextState); 
+        }
+
+        protected override void UnloadContent()
+        {
+            stateManager.UnloadContent();
+            base.UnloadContent();
         }
 
         /// <summary>
