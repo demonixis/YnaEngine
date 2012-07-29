@@ -101,6 +101,7 @@
     <Reference Include="OpenTK">
       <HintPath>..\Externals\MonoGame\Windows\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="Tao.Sdl">
       <HintPath>..\Externals\MonoGame\Windows\Tao.Sdl.dll</HintPath>
     </Reference>

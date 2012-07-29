@@ -236,6 +236,16 @@ namespace Yna
             set { _rectangle = new Rectangle(X, Y, value, Height); }
         }
 
+        public float ScaledWidth
+        {
+            get { return Width * Scale.X; }
+        }
+
+        public float ScaledHeight
+        {
+            get { return Height * Scale.Y; }
+        }
+
         /// <summary>
         /// Indique si la texture est chargée
         /// </summary>

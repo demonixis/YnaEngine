@@ -39,10 +39,20 @@ namespace Yna
         
         public static Camera2D Camera { get; set; }
 
+        public static int Width
+        {
+            get { return GraphicsDevice.Viewport.Width; }
+        }
+
+        public static int Height
+        {
+            get { return GraphicsDevice.Viewport.Height; }
+        }
+
         /// <summary>
         /// Obtient la largeur de l'écran
         /// </summary>
-		public static int Width 
+		public static int DeviceWidth 
         {
             get { return GraphicsDeviceManager.PreferredBackBufferWidth; }
             set { GraphicsDeviceManager.PreferredBackBufferWidth = value; }
@@ -51,7 +61,7 @@ namespace Yna
 		/// <summary>
 		/// Obtient la hauteur d'écran
 		/// </summary>
-		public static int Height
+		public static int DeviceHeight
         {
             get { return GraphicsDeviceManager.PreferredBackBufferHeight; }
             set { GraphicsDeviceManager.PreferredBackBufferHeight = value; }

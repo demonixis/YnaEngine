@@ -73,6 +73,9 @@ namespace Yna.Display
             if (!_textureLoaded && _textureName != String.Empty)
             {
                 _font = YnG.Content.Load<SpriteFont>(_textureName);
+                Vector2 size = _font.MeasureString(_text);
+                Width = (int)size.X;
+                Height = (int)size.Y;
                 _textureLoaded = true;
             }
         }

@@ -84,7 +84,6 @@ namespace Yna
                     if (_counter == 0)
                     {
                         Active = false;
-                        TimerCompleted(EventArgs.Empty);
                     }
                     else
                     {
@@ -92,6 +91,7 @@ namespace Yna
                         TimerRestarted(EventArgs.Empty);
                     }
 
+                    TimerCompleted(EventArgs.Empty);
                     _elapsedTime = 0;
                 }
             }
