@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Yna</name>
+    </assembly>
+    <members>
+        <member name="T:Yna.Display.Mapping.MapReader">
+            <summary>
+            This class will be instantiated by the XNA Framework Content
+            Pipeline to read the specified data type from binary .xnb format.
+            
+            Unlike the other Content Pipeline support classes, this should
+            be a part of your main game project, and not the Content Pipeline
+            Extension Library project.
+            </summary>
+        </member>
+        <member name="M:Yna.YnGame.Initialize">
+            <summary>
+            Initialisation des ressources
+            </summary>
+        </member>
+        <member name="M:Yna.YnGame.SetScreenResolution(System.Int32,System.Int32)">
+            <summary>
+            Change la résolution d'affichage
+            </summary>
+            <param name="width">Longueur</param>
+            <param name="height">Largeur</param>
+        </member>
+        <member name="M:Yna.YnGame.SwitchState(Yna.State.YnState)">
+            <summary>
+            Remplace l'écran d'état courant par l'état passé en paramètre
+            </summary>
+            <param name="nextState">Prochain écran</param>
+        </member>
+        <member name="M:Yna.YnGame.ExitGame">
+            <summary>
+            Quitte le programme
+            </summary>
+        </member>
+        <member name="T:Yna.Display.Mapping.TileReader">
+            <summary>
+            This class will be instantiated by the XNA Framework Content
+            Pipeline to read the specified data type from binary .xnb format.
+            
+            Unlike the other Content Pipeline support classes, this should
+            be a part of your main game project, and not the Content Pipeline
+            Extension Library project.
+            </summary>
+        </member>
+        <member name="M:Yna.YnObject.#ctor">
+            <summary>
+            Construction d'un objet graphique de base
+            </summary>
+        </member>
+        <member name="M:Yna.YnObject.Die">
+            <summary>
+            Flag qui permet d'indiquer que cet objet doit être détruit
+            La propriété Active est passée à false, l'objet est candidat à la destruction
+            </summary>
+        </member>
+        <member name="M:Yna.YnObject.Recycle">
+            <summary>
+            Permet de recycler l'objet en lui enlevant le flag de candidat à la destruction
+            </summary>
+        </member>
+        <member name="M:Yna.YnObject.Kill">
+            <summary>
+            Permet de désactiver un objet 
+            Les propriétés Active, Pause et Visible sont mise à false 
+            </summary>
+        </member>
+        <member name="M:Yna.YnObject.Revive">
+            <summary>
+            Permet de faire revivre l'objet
+            Les propriétés Active, Pause et Visibles sont mise à true
+            </summary>
+        </member>
+        <member name="M:Yna.YnObject.SetOriginTo(Yna.SpriteOrigin)">
+            <summary>
+            Change le point d'origine de l'objet
+            </summary>
+            <param name="spriteOrigin">Enumeration SpriteOrigin définissant les différents points prédeterminés</param>
+        </member>
+        <member name="P:Yna.YnObject.Active">
+            <summary>
+            Active ou désactive l'objet (Influance la mise à jour et l'affichage)
+            </summary>
+        </member>
+        <member name="P:Yna.YnObject.Visible">
+            <summary>
+            Active ou désactive l'affichage de l'objet (Influance l'affichage)
+            </summary>
+        </member>
+        <member name="P:Yna.YnObject.Pause">
+            <summary>
+            Active ou désactive la pause (Influance la mise à jour)
+            </summary>
+        </member>
+        <member name="P:Yna.YnObject.Dirty">
+            <summary>
+            Indique si l'objet doit être détruit totalement
+            </summary>
+        </member>
+        <member name="P:Yna.YnObject.ScrollFactor">
+            <summary>
+            Indique si l'objet doit suivre la caméra sur X et/ou Y
+            </summary>
+        </member>
+        <member name="P:Yna.YnObject.TextureLoaded">
+            <summary>
+            Indique si la texture est chargée
+            </summary>
+        </member>
+        <member name="P:Yna.YnG.DeviceWidth">
+            <summary>
+            Obtient la largeur de l'écran
+            </summary>
+        </member>
+        <member name="P:Yna.YnG.DeviceHeight">
+            <summary>
+            Obtient la hauteur d'écran
+            </summary>
+        </member>
+        <member name="T:Yna.Display.Event.SpriteScreenCollideEventArgs">
+            <summary>
+            Description of SpriteScreenCollideEventArgs.
+            </summary>
+        </member>
+        <member name="M:Yna.Display.Sprite.PrepareAnimation(System.Int32,System.Int32)">
+            <summary>
+            Indique que la texture utilisée est une feuille de sprite et que le Sprite
+            pourra être animé
+            </summary>
+            <param name="width">Largeur du sprite sur la feuille de sprite</param>
+            <param name="height">Hauteur du sprite sur la feuille de sprite</param>
+        </member>
+        <member name="M:Yna.Display.Sprite.AddAnimation(System.String,System.Int32[],System.Int32,System.Boolean)">
+            <summary>
+            Ajoute une animation au Sprite
+            </summary>
+            <param name="name">Nom de l'animation</param>
+            <param name="indexes">Tableau d'indices</param>
+            <param name="frameRate">Temps entre chaque frame</param>
+            <param name="reversed">Retourner l'animation horizontalement</param>
+        </member>
+        <member name="M:Yna.Display.Sprite.AddAnimation(System.String,Microsoft.Xna.Framework.Rectangle[],System.Int32,System.Boolean)">
+            <summary>
+            Ajoute une animation au Sprite
+            </summary>
+            <param name="name">Nom de l'animation</param>
+            <param name="rectangles">Tableau de rectangles encadrant les animations</param>
+            <param name="frameRate">Temps entre chaque frame</param>
+            <param name="reversed">Retourner l'animation horizontalement</param>
+        </member>
+        <member name="M:Yna.Display.Sprite.Play(System.String)">
+            <summary>
+            Joue une animation.
+            </summary>
+            <param name="animationName">Nom de l'animation</param>
+        </member>
+        <member name="M:Yna.Display.Sprite.PostUpdate(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Cette méthode est appelée juste après Update() et juste avant Draw()
+            </summary>
+            <param name="gameTime"></param>
+        </member>
+        <member name="P:Yna.Display.Sprite.ForceInsideScreen">
+            <summary>
+            Oblige le Sprite à ne pas quitter l'écran
+            </summary>
+        </member>
+        <member name="P:Yna.Display.Sprite.AllowAcrossScreen">
+            <summary>
+            Oblige le sprite à ne pas quitter l'écran. Si il sort de l'écran, il est déplacé à sa position inverse
+            </summary>
+        </member>
+        <member name="P:Yna.Display.Sprite.LastPosition">
+            <summary>
+            Dernière position du Sprite
+            </summary>
+        </member>
+    </members>
+</doc>

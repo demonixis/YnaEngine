@@ -11,6 +11,11 @@ namespace Yna
     public class YnGroup : YnObject
     {
         private List<YnObject> _members;
+
+        public List<YnObject> Members
+        {
+            get { return _members; }
+        }
         
         public YnObject this[int index]
         {

@@ -463,9 +463,12 @@ namespace Yna.Display
         {
             if (!Pause)
                 PostUpdate(gameTime);
-            
+            /*
             if (Visible)
                 spriteBatch.Draw(_texture, Rectangle, SourceRectangle, Color, Rotation, Origin, _effects, LayerDepth);
+            */
+            if (Visible)
+                spriteBatch.Draw(_texture, Position, SourceRectangle, Color, Rotation, Origin, Scale, _effects, LayerDepth);
         }
 
         public override void UnloadContent()
