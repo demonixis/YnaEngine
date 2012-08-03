@@ -264,6 +264,10 @@ namespace Yna.Display
             _texture = GraphicsHelper.CreateTexture(color, rectangle.Width, rectangle.Height);
             _textureLoaded = true;
         }
+
+        public Sprite(int x, int y, string assetName)
+            : this(new Vector2(x, y), assetName) { }
+
         #endregion
 
         /// <summary>
