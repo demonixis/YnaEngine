@@ -331,6 +331,18 @@ namespace Yna.Display
                 return 0;
         }
 
+        public SpriteAnimation GetAnimation(string animationKeyName)
+        {
+            if (_hasAnimation)
+            {
+                return _animator.Animations[animationKeyName];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// Joue une animation.
         /// </summary>

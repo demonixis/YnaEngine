@@ -14,7 +14,9 @@ namespace Yna.Display.Animation
 
         public Rectangle [] Rectangle { get; set; }
         public int FrameRate { get; set; }
-        public bool Reversed { get; set; }        
+        public bool Reversed { get; set; }
+
+        public event EventHandler<EventArgs> AnimationComplete = null;
 
         public int Index 
         {
@@ -56,11 +58,19 @@ namespace Yna.Display.Animation
 
             if (_elapsedTime > FrameRate)
             {
-                Index++;
+                if (++Index == 0)
+                    AnimationComplete(this, EventArgs.Empty);
+                
                 _elapsedTime = 0;
             }
 
             return Rectangle[index];
+        }
+
+        private void OnAnimationComplete(EventArgs e)
+        {
+            if (AnimationComplete != null)
+                AnimationComplete(this, e);
         }
     }
 }
