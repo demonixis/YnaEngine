@@ -311,6 +311,26 @@ namespace Yna.Display
             _sourceRectangle = _animator.Animations[name].Rectangle[0];
         }
 
+        public int GetCurrentAnimationIndex(string animationKeyName)
+        {
+            if (_hasAnimation)
+            {
+                return _animator.Animations[animationKeyName].Index;
+            }
+            else
+                return 0;
+        }
+
+        public int GetAnimationLenght(string animationKeyName)
+        {
+            if (_hasAnimation)
+            {
+                return _animator.Animations[animationKeyName].Length;
+            }
+            else
+                return 0;
+        }
+
         /// <summary>
         /// Joue une animation.
         /// </summary>
@@ -472,7 +492,7 @@ namespace Yna.Display
                 spriteBatch.Draw(_texture, Rectangle, SourceRectangle, Color, Rotation, Origin, _effects, LayerDepth);
             */
             if (Visible)
-                spriteBatch.Draw(_texture, Position, SourceRectangle, Color, Rotation, Origin, Scale, _effects, LayerDepth);
+                spriteBatch.Draw(_texture, Position, SourceRectangle, Color * Alpha, Rotation, Origin, Scale, _effects, LayerDepth);
         }
 
         public override void UnloadContent()

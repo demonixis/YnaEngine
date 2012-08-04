@@ -7,9 +7,15 @@ namespace Yna.Display.Animation
 {
     public class SpriteAnimation
     {
+        private int index;
+        private int max;
+        private int _length;
+        private long _elapsedTime;
+
         public Rectangle [] Rectangle { get; set; }
         public int FrameRate { get; set; }
-        public bool Reversed { get; set; }
+        public bool Reversed { get; set; }        
+
         public int Index 
         {
             get { return index; }
@@ -23,10 +29,11 @@ namespace Yna.Display.Animation
                     index = value;
             }
         }
-        
-        private int index;
-        private int max;
-        private long _elapsedTime;
+
+        public int Length 
+        { 
+            get { return _length; }
+        }
 
         public SpriteAnimation(int length, int frameRate, bool reversed)
         {
@@ -37,6 +44,7 @@ namespace Yna.Display.Animation
             index = 0;
             max = length;
             _elapsedTime = 0;
+            _length = length;
         }
 
         public Rectangle Next(ref SpriteEffects spriteEffect, long elapsedTime)

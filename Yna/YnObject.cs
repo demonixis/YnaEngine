@@ -31,7 +31,6 @@ namespace Yna
         public uint Id { get; set; }
         public string Name { get; set; }
 
-        protected bool _active;
         protected bool _visible;
         protected bool _paused;
         protected bool _dirty;
@@ -55,11 +54,9 @@ namespace Yna
         /// </summary>
         public bool Active
         {
-            get { return _active; }
+            get { return !_paused && _visible && !_dirty; }
             set 
             { 
-                _active = value;
-
                 if (value)
                 {
                     _visible = true;
@@ -81,12 +78,7 @@ namespace Yna
         public bool Visible
         {
             get { return _visible; }
-            set 
-            { 
-                _visible = value;
-                if (!_active && !_dirty)
-                    _active = true;
-            }
+            set { _visible = value; }
         }
 
         /// <summary>
@@ -95,13 +87,7 @@ namespace Yna
         public bool Pause
         {
             get { return _paused; }
-            set 
-            { 
-                _paused = value;
-
-                if (!_active && !_dirty)
-                    _active = true;
-            }
+            set { _paused = value; }
         }
 
         /// <summary>
@@ -116,13 +102,11 @@ namespace Yna
 
                 if (value)
                 {
-                    _active = false;
                     _paused = true;
                     _visible = false;
                 }
                 else
                 {
-                    _active = true;
                     _paused = false;
                     _visible = true;
                 }
@@ -263,7 +247,6 @@ namespace Yna
             Id = counterId++;
             Name = Id.ToString();
 
-            _active = true;
             _visible = true;
             _paused = false;
             _dirty = false;
@@ -305,6 +288,7 @@ namespace Yna
         public virtual void Recycle()
         {
             Dirty = false;
+            Revive();
         }
 
         /// <summary>
@@ -314,6 +298,7 @@ namespace Yna
         public virtual void Kill()
         {
             Active = false;
+            Visible = false;
         }
 
         /// <summary>
@@ -323,6 +308,7 @@ namespace Yna
         public virtual void Revive()
         {
             Active = true;
+            Visible = true;
         }
         
         /// <summary>
