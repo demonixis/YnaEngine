@@ -21,6 +21,8 @@ namespace Yna.State
             get { return Game.Content; }
         }
 
+        public Color ClearColor { get; set; }
+
         private List<GameState> _screens;
         private List<GameState> _safeScreens;
 
@@ -39,6 +41,8 @@ namespace Yna.State
         public StateManager(Game game)
         {
             Game = game;
+
+            ClearColor = Color.Black;
 
             _screens = new List<GameState>();
             _safeScreens = new List<GameState>();
@@ -98,7 +102,7 @@ namespace Yna.State
 
         public virtual void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkCyan);
+            GraphicsDevice.Clear(ClearColor);
 
             foreach (GameState screen in _screens) 
             {

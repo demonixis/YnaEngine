@@ -94,6 +94,12 @@ namespace Yna.State
             set { _screenState = value; }
         }
 
+        public Color ClearColor
+        {
+            get { return screenManager.ClearColor; }
+            set { screenManager.ClearColor = value; }
+        }
+
         public GameState(ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0f)
         {
             _active = true;
