@@ -17,6 +17,22 @@ namespace Yna
         public uint Id { get; protected set; }
         public int Repeat { get; set; }
 
+        public long ElapsedTime
+        {
+            get { return _elapsedTime; }
+        }
+
+        public long TimeRemaining
+        {
+            get
+            {
+                if (_elapsedTime == 0)
+                    return 0;
+                else
+                    return (long)(Duration - ElapsedTime);
+            }
+        }
+
         public event EventHandler<EventArgs> Started = null;
         public event EventHandler<EventArgs> ReStarted = null;
         public event EventHandler<EventArgs> Stopped = null;

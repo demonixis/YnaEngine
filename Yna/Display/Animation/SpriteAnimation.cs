@@ -58,8 +58,9 @@ namespace Yna.Display.Animation
 
             if (_elapsedTime > FrameRate)
             {
-                if (++Index == 0)
-                    AnimationComplete(this, EventArgs.Empty);
+                Index++;
+                if (Index == 0)
+                    OnAnimationComplete(EventArgs.Empty);
                 
                 _elapsedTime = 0;
             }
