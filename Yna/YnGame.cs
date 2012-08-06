@@ -32,6 +32,8 @@ namespace Yna
              // Portée global pour l'ensemble du jeu
             YnG.Game = this;
             YnG.GraphicsDeviceManager = this.graphics;
+            YnG.DeviceWidth = this.graphics.PreferredBackBufferWidth;
+            YnG.DeviceHeight = this.graphics.PreferredBackBufferHeight;
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
             YnG.Camera = new Camera2D();

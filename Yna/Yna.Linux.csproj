@@ -59,13 +59,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="Utils\CircularArray.cs" />
-    <Compile Include="Display\Camera.cs" />
+    <Compile Include="Display\Camera2D.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="YnGroup.cs" />
     <Compile Include="YnObject.cs" />
     <Compile Include="State\YnState.cs" />
-	<Compile Include="YnTimer.cs" />
+    <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network">
