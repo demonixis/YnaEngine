@@ -41,12 +41,24 @@ namespace Yna
 
         public static int Width
         {
-            get { return GraphicsDevice.Viewport.Width; }
+            get 
+            {
+                if (GraphicsDevice != null)
+                    return GraphicsDevice.Viewport.Width;
+                else
+                    return DeviceWidth;
+            }
         }
 
         public static int Height
         {
-            get { return GraphicsDevice.Viewport.Height; }
+            get 
+            {
+                if (GraphicsDevice != null)
+                    return GraphicsDevice.Viewport.Height;
+                else
+                    return DeviceHeight;
+            }
         }
 
         /// <summary>

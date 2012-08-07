@@ -144,6 +144,17 @@ namespace Yna
     		foreach (YnObject member in _members)
     			member.Y += value;
         }
+
+        public void SetScale(float sx, float sy)
+        {
+            foreach (YnObject member in _members)
+                member.Scale = new Vector2(sx, sy);
+        }
+
+        public void SetScale(Vector2 scale)
+        {
+            SetScale(scale.X, Scale.Y);
+        }
         
         public IEnumerator GetEnumerator()
         {

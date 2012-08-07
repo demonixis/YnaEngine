@@ -18,13 +18,13 @@ namespace Yna.Display.Event
 	/// <summary>
 	/// Description of SpriteScreenCollideEventArgs.
 	/// </summary>
-	public class SpriteScreenCollideEventArgs : EventArgs
+	public class ScreenCollideSpriteEventArgs : EventArgs
 	{
-		private bool [] _collide;
-		
-		public SpriteScreenCollideEventArgs(bool [] collide)
+        public SpriteScreenCollide Collide;
+
+		public ScreenCollideSpriteEventArgs(SpriteScreenCollide collide)
 		{
-			_collide = collide;
+			Collide = collide;
 		}
 	}
 }

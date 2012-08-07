@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Helpers;
 
@@ -21,6 +22,11 @@ namespace Yna.Input
         public int Y
         {
             get { return ServiceHelper.Get<IMouseService>().Y(); }
+        }
+
+        public Vector2 Position
+        {
+            get { return new Vector2(X, Y); }
         }
 
         public int Wheel
