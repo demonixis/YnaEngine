@@ -11,22 +11,23 @@ namespace Yna.Sample.States
 {
     public class Sample02 : YnState
     {
-		Sprite background;  // Background
-        Sprite sonicSprite; // Sprite du joueur
+		private Sprite background;  // Background
+        private Sprite sonicSprite; // Sprite du joueur
 
         public Sample02() 
-            : base(1500, 500) { }
+            : base(1500, 500) 
+        {
+            // 1 - Background
+            background = new Sprite(Vector2.Zero, "Backgrounds//sonic-background");
+            Add(background);
+
+            // 2 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
+            sonicSprite = new Sprite(new Vector2(50, 505), "Sprites//soniclg4");
+            Add(sonicSprite);
+        }
 
         public override void Initialize ()
 		{       
-			// 1 - Background
-			background = new Sprite(Vector2.Zero, "Backgrounds//sonic-background");
-			Add(background);
-			
-			// 2 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
-			sonicSprite = new Sprite (new Vector2 (50, 505), "Sprites//soniclg4");
-            sonicSprite.LoadContent();
-			
 			// Indique que le Sprite est animé, renseigne la taille d'un Sprite sur la feuille de Sprite
 			sonicSprite.PrepareAnimation (50, 41);
 			
@@ -50,9 +51,6 @@ namespace Yna.Sample.States
 			// Taux d'accéleration du personnage
 			sonicSprite.Acceleration = new Vector2(2.5f, 1.5f);
             sonicSprite.VelocityMax = 0.95f;
-			
-			// Ajoute le Sprite à la scène
-			Add (sonicSprite);
 		}
 
         public override void Update(GameTime gameTime)

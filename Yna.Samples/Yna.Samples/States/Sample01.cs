@@ -14,14 +14,12 @@ namespace Yna.Sample.States
 {
     public class Sample01 : YnState
     {
-    	const int numSprites = 10;
+    	private const int numSprites = 10;
     	
-        Sprite background;
-        YnGroup sprites;
-        Color [] colors;   
-        
-      //  SoundEffect song;
-        Song music;
+        private Sprite background;
+        private YnGroup sprites;
+        private Color [] colors;   
+        private Song music;
 
         public Sample01() 
             : base (500f, 50f) 
@@ -40,12 +38,14 @@ namespace Yna.Sample.States
             base.Initialize();
 
             //song = YnG.Content.Load<SoundEffect>("audio//scary-tone");
+#if MONOGAME
+#else
             music = YnG.Content.Load<Song>("audio//welcome-to-nova");
             MediaPlayer.Play(music);
-            
+#endif
             background = new Sprite(Vector2.Zero, "Backgrounds//Sky3");
             background.LoadContent();
-            background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            background.SourceRectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
 			
             int spriteWidth = 50;
             int spriteHeight = 50;
@@ -58,7 +58,7 @@ namespace Yna.Sample.States
 
             	Sprite sprite = new Sprite(new Rectangle(0, 0, spriteWidth, spriteHeight), colors[i]);
             	sprite.Position = new Vector2(x, y);
-            	sprite.SetOriginTo(SpriteOrigin.Center);
+            	sprite.SetOriginTo(ObjectOrigin.Center);
             	sprite.AllowAcrossScreen = true;
             	sprites.Add(sprite);
             }
@@ -78,7 +78,8 @@ namespace Yna.Sample.States
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            
+#if MONOGAME
+#else
             if (YnG.Keys.JustPressed(Keys.Enter))
             {
                 if (MediaPlayer.State == MediaState.Stopped)
@@ -95,7 +96,7 @@ namespace Yna.Sample.States
             
             if (YnG.Keys.JustPressed(Keys.Tab))
                 MediaPlayer.Pause();
-            
+#endif
             foreach (Sprite sprite in sprites)
             {
             	sprite.X += 3;

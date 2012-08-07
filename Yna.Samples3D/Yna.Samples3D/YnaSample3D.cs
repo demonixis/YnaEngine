@@ -12,9 +12,26 @@ namespace Yna.Samples3D
     public class YnaSample3D : YnGame
     {
         public YnaSample3D()
-            : base(1280, 800, "YNA 3D Samples")
+            : base()
         {
-            SwitchState(new SpaceGame());
+            this.SetScreenResolution(1280, 800);
+            this.Window.Title = "YNA 3D Samples";  
         }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            SwitchState(new GameMenu());
+        }
+
+#if WINDOWS || XBOX
+        public static void Main(string[] args)
+        {
+            using (YnaSample3D game = new YnaSample3D())
+            {
+                game.Run();
+            }
+        }
+#endif
     }
 }

@@ -12,16 +12,14 @@ namespace Yna.Sample.States
 {
     public class Sample03 : YnState
     {
-        YnText informations;
+        private YnText informations;
 
-        Texture2D gradiant;
-        Sprite sephirothSprite; // Sprite du joueur
-        
-        Sprite tifaSprite;
+        private Texture2D gradiant;
+        private Sprite sephirothSprite; // Sprite du joueur
+        private Sprite tifaSprite;
 
-        SpriteMover mover;
-
-        YnTimer clearMessage;
+        private SpriteMover mover;
+        private YnTimer clearMessage;
 
         public Sample03 () 
             : base(1000f, 0) 
@@ -59,7 +57,7 @@ namespace Yna.Sample.States
             // 4 - Préparation et création des animations des personnages
             CreateAnimation(sephirothSprite, 34, 48);
 			sephirothSprite.ForceInsideScreen = true;
-            sephirothSprite.SetOriginTo(SpriteOrigin.Center);
+            sephirothSprite.SetOriginTo(ObjectOrigin.Center);
 
             CreateAnimation(tifaSprite, 32, 48);
 

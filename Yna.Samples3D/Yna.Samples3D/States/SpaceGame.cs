@@ -26,7 +26,11 @@ namespace Yna.Samples3D.States
         public SpaceGame()
             : base()
         {
-
+            modelPosition = Vector3.Zero;
+            modelRotation = Vector3.Zero;
+            cameraPosition = new Vector3(0.0f, 50.0f, 5000.0f);
+            modelVelocity = Vector3.Zero;
+            rectangle = Rectangle.Empty;
         }
 
         public override void LoadContent()
@@ -37,11 +41,6 @@ namespace Yna.Samples3D.States
             modelShip = YnG.Content.Load<Model>("Models\\p1_wedge");
             aspectRatio = YnG.GraphicsDevice.Viewport.AspectRatio;
             rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
-        }
-
-        public override void UnloadContent()
-        {
-            base.UnloadContent();
         }
 
         private void UpdateInput()
@@ -82,9 +81,9 @@ namespace Yna.Samples3D.States
             }
             else
             {
-                if (keyboard.IsKeyDown(Keys.Left))
+                if (YnG.Keys.Left)
                     modelRotation.Y += 0.10f;
-                else if (keyboard.IsKeyDown(Keys.Right))
+                else if (YnG.Keys.Right)
                     modelRotation.Y -= 0.10f;
 
                 Vector3 modelVelocityAdd = Vector3.Zero;
@@ -94,38 +93,37 @@ namespace Yna.Samples3D.States
 
                 float velocityUp = 0.0f;
 
-                if (keyboard.IsKeyDown(Keys.Up))
+                if (YnG.Keys.Up)
                     velocityUp += 5.0f;
-                else if (keyboard.IsKeyDown(Keys.Down))
+                else if (YnG.Keys.Down)
                     velocityUp -= 5.0f;
 
                 modelVelocityAdd *= velocityUp;
 
                 modelVelocity += modelVelocityAdd;
 
-                if (keyboard.IsKeyDown(Keys.A))
+                if (YnG.Keys.Pressed(Keys.A))
                     modelPosition.Y -= 25.0f;
-                else if (keyboard.IsKeyDown(Keys.W))
+                else if (YnG.Keys.Pressed(Keys.E))
                     modelPosition.Y += 25.0f;
 
-                if (keyboard.IsKeyDown(Keys.Space))
+                if (YnG.Keys.JustPressed(Keys.Space))
                 {
                     modelPosition = Vector3.Zero;
                     modelVelocity = Vector3.Zero;
                     modelRotation = Vector3.Zero;
                 }
 
-                if (keyboard.IsKeyDown(Keys.Escape))
-                {
-                    this.Exit();
-                }
+                if (YnG.Keys.JustPressed(Keys.Escape))
+                    YnG.SwitchState(new GameMenu());
+                
             }
         }
 
         public override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                Exit();
+                YnG.SwitchState(new GameMenu());
 
             UpdateInput();
 
@@ -141,14 +139,16 @@ namespace Yna.Samples3D.States
             spriteBatch.Draw(background, rectangle, Color.White);
             spriteBatch.End();
 
+            // When we draw with a SpriteBatch, BlendState & DepthStencilState are changed
+            // Reset defaults states
             YnG.GraphicsDevice.BlendState = BlendState.Opaque;
             YnG.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-
+            // Setup transforms
             Matrix[] transforms = new Matrix[modelShip.Bones.Count];
             modelShip.CopyAbsoluteBoneTransformsTo(transforms);
 
-
+            // Draw each meshes off the model
             foreach (ModelMesh mesh in modelShip.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)

@@ -5,20 +5,18 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Samples.Windows.States;
+using Yna;
 using Yna.State;
 
-namespace Yna.Sample.States
+namespace Yna.Samples3D.States
 {
     public class GameMenu : YnState
     {
-        SpriteFont font;
-
-        string title;
-        List<MenuItem> items;
-        int index;
-
-        Texture2D background;
+        private SpriteFont font;
+        private string title;
+        private List<MenuItem> items;
+        private int index;
+        private Texture2D background;
 
         private int ItemsLength
         {
@@ -31,10 +29,7 @@ namespace Yna.Sample.States
             title = "Game Menu";
 
             items = new List<MenuItem>();
-			items.Add(new MenuItem("Basic Sprites", true));
-            items.Add(new MenuItem("2D Plateformer"));
-            items.Add(new MenuItem("Animated Sprite"));
-            items.Add(new MenuItem("Simple Tiled Map"));
+			items.Add(new MenuItem("SpaceShip 3D", true));
             items.Add(new MenuItem("Exit"));
 
             index = 0;
@@ -78,11 +73,8 @@ namespace Yna.Sample.States
             {
                 switch (index)
                 {
-                    case 0: YnG.SwitchState(new Sample01()); break;
-                    case 1: YnG.SwitchState(new Sample02()); break;
-                    case 2: YnG.SwitchState(new Sample03()); break;
-                    case 3: YnG.SwitchState(new SimpleTiledMap()); break;
-                    case 4: YnG.Exit(); break;
+                    case 0: YnG.SwitchState(new SpaceGame()); break;
+                    case 1: YnG.Exit(); break;
                     default: break;
                 }
             }

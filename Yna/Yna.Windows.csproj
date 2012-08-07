@@ -24,7 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>DEBUG;OPENTK;</DefineConstants>
+    <DefineConstants>DEBUG;OPENTK;MONOGAME;</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <DocumentationFile>bin\Debug\Yna.Windows.xml</DocumentationFile>
   </PropertyGroup>
@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>OPENTK</DefineConstants>
+    <DefineConstants>OPENTK;MONOGAME;</DefineConstants>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
@@ -86,6 +86,7 @@
     <Compile Include="State\StateManager.cs" />
     <Compile Include="Utils\CircularArray.cs" />
     <Compile Include="Display\Camera2D.cs" />
+    <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="YnGroup.cs" />
@@ -111,7 +112,5 @@
       <HintPath>..\Externals\MonoGame\Windows\Tao.Sdl.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Display\TiledMap" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

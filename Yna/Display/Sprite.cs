@@ -455,7 +455,7 @@ namespace Yna.Display
                 if (Rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
                 {
                     // Mouse Over
-                    MouseOver(this, new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+                    MouseOverSprite(new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
 
                     // Un click une fois
                     if (YnG.Mouse.Clicked(MouseButton.Left) || YnG.Mouse.Clicked(MouseButton.Middle) || YnG.Mouse.Clicked(MouseButton.Right))

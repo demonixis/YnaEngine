@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 namespace Yna
 {
-    public class YnTimer
+    public class YnTimer : YnBase
     {
         private static uint _id = 0;
         private long _elapsedTime;
@@ -89,7 +89,7 @@ namespace Yna
                 Completed(this, e);
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (Active)
             {
