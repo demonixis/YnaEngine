@@ -2,6 +2,7 @@
 using Yna;
 using Yna.Display;
 using Yna.Sample.States;
+using Yna.Samples.Windows.States;
 
 namespace Yna.Samples
 {
@@ -16,8 +17,7 @@ namespace Yna.Samples
         protected override void Initialize()
         {
             base.Initialize();
-            
-            SwitchState(new GameMenu());
+            YnG.SwitchState(new GameMenu());
         }
     }
 }
