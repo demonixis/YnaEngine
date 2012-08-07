@@ -1,0 +1,17 @@
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Content\Backgrounds\space.xnb
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Content\Models\p1_wedge.xnb
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Content\Textures\wedge_p1_diff_v1.xnb
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Content\Textures\wedge_p1_diff_v1_0.xnb
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Yna.Samples3D.Windows.exe
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Yna.Samples3D.Windows.pdb
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Lidgren.Network.Windows.dll
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\MonoGame.Framework.Content.Pipeline.dll
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\MonoGame.Framework.Windows.dll
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\OpenTK.dll
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Tao.Sdl.dll
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Yna.Windows.dll
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Yna.Windows.pdb
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\bin\Debug\Yna.Windows.xml
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\obj\x86\Debug\Yna.Samples3D.Windows.exe
+D:\gamedev\yna\Yna.Samples3D\Yna.Samples3D\obj\x86\Debug\Yna.Samples3D.Windows.pdb

@@ -12,7 +12,7 @@
     <AssemblyName>Yna.Samples.Windows</AssemblyName>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <StartupObject>Yna.Samples.Program</StartupObject>
-	<MonoGamePlatform>Windows</MonoGamePlatform>
+    <MonoGamePlatform>Windows</MonoGamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,22 +43,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-	<Content Include="Content\**\*.*">
+    <Content Include="Content\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-	<Content Include="..\Yna.Samples.Content\Content\**\*.*">
+    <Content Include="..\Yna.Samples.Content\Content\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="States\GameMenu.cs" />
+    <Compile Include="States\IsoMapRenderer.cs" />
     <Compile Include="States\Sample02.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="States\Sample03.cs" />
     <Compile Include="States\Sample01.cs" />
+    <Compile Include="States\SimpleTiledMap.cs" />
     <Compile Include="YnaSample.cs" />
   </ItemGroup>
   <ItemGroup>

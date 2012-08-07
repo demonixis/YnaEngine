@@ -12,7 +12,7 @@
     <AssemblyName>Yna.Samples3D.Windows</AssemblyName>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <StartupObject>Yna.Samples3D.Program</StartupObject>
-	<MonoGamePlatform>Windows</MonoGamePlatform>
+    <MonoGamePlatform>Windows</MonoGamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
