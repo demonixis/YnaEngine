@@ -12,55 +12,80 @@ namespace Yna.Sample.States
 {
     public class Sample03 : YnState
     {
-        YnText infos;
+        YnText informations;
+
         Texture2D gradiant;
         Sprite sephirothSprite; // Sprite du joueur
-        bool clicked = false;
-        bool arrived = false;
-        Vector2 path = Vector2.Zero;
-        Vector2 dest = Vector2.Zero;
         
         Sprite tifaSprite;
 
         SpriteMover mover;
 
+        YnTimer clearMessage;
+
         public Sample03 () 
             : base(1000f, 0) 
-        { }
+        {
+            // 1 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
+            sephirothSprite = new Sprite(new Vector2(150, 250), "Sprites//sephiroth");
+            Add(sephirothSprite);
+
+            tifaSprite = new Sprite(new Vector2(350, 150), "Sprites//tifa");
+            Add(tifaSprite);
+
+            // 2 - Informations de debug
+            informations = new YnText("Fonts/MenuFont", 25, 25, "Informations");
+            informations.Color = Color.Yellow;
+            informations.Scale = new Vector2(2.0f, 2.0f);
+            Add(informations);
+
+            // 3 - Permet de simuler un déplacement aléatoire sur un Sprite
+            mover = new SpriteMover(tifaSprite);
+
+            // 4 - Timer pour faire disparaitre les messages d'info
+            clearMessage = new YnTimer(3500, 0);
+            clearMessage.Completed += new EventHandler<EventArgs>(clearMessage_Completed);
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            gradiant = YnG.Content.Load<Texture2D>("Backgrounds//gradient");
+        }
 
         public override void Initialize ()
 		{        
-			// 1 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
-			sephirothSprite = new Sprite (new Vector2 (50, 48), "Sprites//sephiroth");
-            sephirothSprite.LoadContent();
+            // 4 - Préparation et création des animations des personnages
             CreateAnimation(sephirothSprite, 34, 48);
 			sephirothSprite.ForceInsideScreen = true;
             sephirothSprite.SetOriginTo(SpriteOrigin.Center);
-			Add (sephirothSprite);
-
-            tifaSprite = new Sprite(new Vector2(350, 150), "Sprites//tifa");
-            tifaSprite.LoadContent();
 
             CreateAnimation(tifaSprite, 32, 48);
-            Add(tifaSprite);
 
-            mover = new SpriteMover(tifaSprite);
+            // 5 - Evenements souris
+            sephirothSprite.MouseOver += new EventHandler<Display.Event.MouseOverSpriteEventArgs>(sephirothSprite_MouseOver);
+            sephirothSprite.MouseClicked += new EventHandler<Display.Event.MouseClickSpriteEventArgs>(sephirothSprite_MouseClicked);
 
-            gradiant = YnG.Content.Load<Texture2D>("Backgrounds//gradient");
-
-            infos = new YnText("Fonts//MenuFont", new Vector2(10, 10), String.Format(" X: {0} | Y: {1}", YnG.Mouse.X, YnG.Mouse.Y));
-            infos.Initialize();
-            Add(infos);
-          
+            // On affiche la souris
             YnG.Game.IsMouseVisible = true;
 		}
 
-        private void UpdateInfosText(string text = "")
+        void sephirothSprite_MouseClicked(object sender, Display.Event.MouseClickSpriteEventArgs e)
         {
-            if (text == "")
-                infos.Text = String.Format(" X: {0} | Y: {1}", YnG.Mouse.X, YnG.Mouse.Y);
-            else
-                infos.Text = text;
+            informations.Text = "Vous avez cliquez sur le Sprite !";
+            clearMessage.Start();
+        }
+
+        void sephirothSprite_MouseOver(object sender, Display.Event.MouseOverSpriteEventArgs e)
+        {
+            informations.Text = "La souris est sur le Sprite";
+            clearMessage.Start();
+        }
+
+        void clearMessage_Completed(object sender, EventArgs e)
+        {
+            informations.Text = "Informations en attente...";
         }
 
         private void CreateAnimation(Sprite sprite, int animWidth, int animHeight)
@@ -75,6 +100,8 @@ namespace Yna.Sample.States
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime); // Les objets attachés sont mis à jour
+
+            clearMessage.Update(gameTime);
 
             mover.Update(gameTime);
 
@@ -111,32 +138,7 @@ namespace Yna.Sample.States
                 sephirothSprite.X += 2;
             }
 
-            if (YnG.Mouse.Clicked(MouseButton.Left))
-            {
-                Vector2 mousePosition = new Vector2(YnG.Mouse.X, YnG.Mouse.Y);
-                
-                Vector2 vDirection = Vector2.Subtract(mousePosition, sephirothSprite.Position);
-                float angle = (float)Math.Atan2(vDirection.Y, vDirection.X);
-                //vDirection.Normalize();
-                UpdateInfosText(String.Format("Angle: {0} | vDirection: {1}", angle * 180, vDirection.ToString()));
-                dest = mousePosition;
-                path = vDirection;
-                path.Normalize();
-            }
-
-            if (dest != Vector2.Zero)
-            {
-                if (sephirothSprite.Position == dest)
-                {
-                    dest = Vector2.Zero;
-                    path = Vector2.One;
-                }
-                else
-                {
-                    sephirothSprite.X += (int)(2 * path.X);
-                    sephirothSprite.Y += (int)(2 * path.Y);
-                }
-            }
+           
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());

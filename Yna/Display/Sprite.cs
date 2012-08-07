@@ -469,7 +469,7 @@ namespace Yna.Display
                         else
                             mouseButton = MouseButton.Right;
 
-                        MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true));
+                        MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true));
                     }
 
                     // Un click
@@ -484,7 +484,7 @@ namespace Yna.Display
                         else
                             mouseButton = MouseButton.Right;
 
-                        MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false));
+                        MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false));
                     }
                 }
 
