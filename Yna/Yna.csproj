@@ -64,7 +64,9 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\SpriteMover.cs" />
-    <Compile Include="Display\Event\SpriteScreenCollideEventArgs.cs" />
+    <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
+    <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
+    <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
     <Compile Include="Display\Mapping\Map.cs" />
     <Compile Include="Display\Mapping\MapReader.cs" />
     <Compile Include="Display\Sprite.cs" />
