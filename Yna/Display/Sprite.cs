@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Yna.Helpers;
+using Yna.Input;
 using Yna.Display.Animation;
 using Yna.Display.Event;
 
@@ -191,12 +193,28 @@ namespace Yna.Display
         #endregion
         
         #region Evenements
-        public event EventHandler<SpriteScreenCollideEventArgs> ScreenCollide = null; 
+        public event EventHandler<ScreenCollideSpriteEventArgs> ScreenCollide = null;
+        public event EventHandler<MouseOverSpriteEventArgs> MouseOver = null;
+        public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
+        public event EventHandler<MouseClickSpriteEventArgs> MouseClicked = null;
+        public event EventHandler<MouseClickSpriteEventArgs> MouseDoubleClicked = null;
         
-        private void SpriteColliding(SpriteScreenCollideEventArgs arg)
+        private void CollideScreenSprite(ScreenCollideSpriteEventArgs arg)
         {
         	if (ScreenCollide != null)
         		ScreenCollide(this, arg);
+        }
+
+        private void MouseOverSprite(MouseOverSpriteEventArgs e)
+        {
+            if (MouseOver != null)
+                MouseOver(this, e);
+        }
+
+        private void MouseClickSprite(MouseClickSpriteEventArgs e)
+        {
+            if (MouseClick != null)
+                MouseClick(this, e);
         }
         #endregion
 
@@ -431,6 +449,56 @@ namespace Yna.Display
                         _movementState = MovementState.Walking;
                     }
                 }
+
+                #region Evenements
+                // Souris
+                if (Rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
+                {
+                    // Mouse Over
+                    MouseOver(this, new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+
+                    // Un click une fois
+                    if (YnG.Mouse.Clicked(MouseButton.Left) || YnG.Mouse.Clicked(MouseButton.Middle) || YnG.Mouse.Clicked(MouseButton.Right))
+                    {
+                        MouseButton mouseButton;
+
+                        if (YnG.Mouse.Clicked(MouseButton.Left))
+                            mouseButton = MouseButton.Left;
+                        else if (YnG.Mouse.Clicked(MouseButton.Middle))
+                            mouseButton = MouseButton.Middle;
+                        else
+                            mouseButton = MouseButton.Right;
+
+                        MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true));
+                    }
+
+                    // Un click
+                    if (YnG.Mouse.Click(MouseButton.Left, ButtonState.Pressed) || YnG.Mouse.Click(MouseButton.Middle, ButtonState.Pressed) || YnG.Mouse.Click(MouseButton.Right, ButtonState.Pressed))
+                    {
+                        MouseButton mouseButton;
+
+                        if (YnG.Mouse.Click(MouseButton.Left, ButtonState.Pressed))
+                            mouseButton = MouseButton.Left;
+                        else if (YnG.Mouse.Click(MouseButton.Middle, ButtonState.Pressed))
+                            mouseButton = MouseButton.Middle;
+                        else
+                            mouseButton = MouseButton.Right;
+
+                        MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false));
+                    }
+                }
+
+                // Screen
+                if (X < Viewport.X)
+                    CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Left));
+                else if (X + Width > Viewport.Width)
+                    CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Right));
+
+                if (Y < Viewport.Y)
+                    CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Top));
+                else if (Y + Height > Viewport.Height)
+                    CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Bottom));
+                #endregion
 
                 if (_hasAnimation)
                     _animator.Update(gameTime, LastDistance);
