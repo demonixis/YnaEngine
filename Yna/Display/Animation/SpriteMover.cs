@@ -31,12 +31,13 @@ namespace Yna.Display.Animation
         public override void Update(GameTime gameTime)
         {
             _elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+
             Vector2 direction = _sprite.Direction;
             Vector2 target = _sprite.Position;
 
             if (_elapsedTime >= _refreshInterval)
             {
-                Random rand = new Random();
+                Random rand = new Random((int)(DateTime.Now.Millisecond * gameTime.TotalGameTime.Milliseconds));
                 int randMovement = rand.Next(6);
 
                 switch (randMovement)
