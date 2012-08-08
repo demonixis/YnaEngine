@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna.Display.TiledMap;
+using Yna.Display.TiledMap._2D;
 using Yna.Sample.States;
 using Yna.State;
 
@@ -12,12 +13,12 @@ namespace Yna.Samples.Windows.States
 	/// <summary>
 	/// Example of simple tiled map user and rendering
 	/// </summary>
-	public class SimpleTiledMap : YnState
+	public class TiledMap2DSample : YnState
 	{
 		/// <summary>
 		/// This is the TiledMap component
 		/// </summary>
-		private TiledMap _map;
+		private TiledMap2D _map;
 		
 		/// <summary>
 		/// This Vector represents the point of view on the map.
@@ -34,7 +35,7 @@ namespace Yna.Samples.Windows.States
 		/// </summary>
 		private Texture2D _dummyTexture;
 		
-		public SimpleTiledMap()
+		public TiledMap2DSample()
 		{
 			// A TiledMap contains layers which contains the tiles definitions.
 			// Each layer is rendered on top of the previous one. There is no
@@ -76,7 +77,7 @@ namespace Yna.Samples.Windows.States
 			// use multiple layers, they MUST have the same size. If you don't
 			// want to use all tiles in a layer, fill it with transparent texture
 			// ID.
-			Layer layer = new Layer(data);
+			Layer2D layer = new Layer2D(data);
 			
 			// Here we go, hello TiledMap!
 			// - First there is the tileset texture containing all tiles
@@ -84,7 +85,7 @@ namespace Yna.Samples.Windows.States
 			// - And to finish, the tile size. Note that in this example, tiles are
 			// squares but you can use rectangle tiles too. Just use another constructor
 			// to define tile width and tile height.
-			_map = new TiledMap("Spritesheets//tileset",new Layer[]{layer}, 20);
+			_map = new TiledMap2D("Spritesheets//tileset",new Layer2D[]{layer}, 20);
 			
 			// The map can be moved with a simple Vector2. The camera position
 			// is screen relative. The top left tile will be drawn at this position

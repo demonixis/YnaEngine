@@ -34,7 +34,8 @@ namespace Yna.Sample.States
 			items.Add(new MenuItem("Sprites simples", true));
             items.Add(new MenuItem("Style Plateformer 2D"));
             items.Add(new MenuItem("Style RPG 2D"));
-            items.Add(new MenuItem("Simple Tiled Map"));
+            items.Add(new MenuItem("2D Tiled Map"));
+            items.Add(new MenuItem("Iso Tiled Map"));
             items.Add(new MenuItem("Quitter"));
 
             index = 0;
@@ -81,8 +82,9 @@ namespace Yna.Sample.States
                     case 0: YnG.SwitchState(new Sample01()); break;
                     case 1: YnG.SwitchState(new Sample02()); break;
                     case 2: YnG.SwitchState(new Sample03()); break;
-                    case 3: YnG.SwitchState(new SimpleTiledMap()); break;
-                    case 4: YnG.Exit(); break;
+                    case 3: YnG.SwitchState(new TiledMap2DSample()); break;
+                    case 4: YnG.SwitchState(new IsometricTiledMapSample()) ; break;
+                    case 5: YnG.Exit(); break;
                     default: break;
                 }
             }

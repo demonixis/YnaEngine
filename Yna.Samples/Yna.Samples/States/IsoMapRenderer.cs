@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna.Display.TiledMap;
+using Yna.Display.TiledMap._2D;
 using Yna.Input;
 using Yna.Sample.States;
 using Yna.State;
@@ -17,7 +18,7 @@ namespace Yna.Samples.Windows.States
 	public class IsoMapRenderer : YnState
 	{
 		private Texture2D _tileset;
-		private TiledMap _map;
+		private TiledMap2D _map;
 		private Vector2 _camera;
 		private Rectangle _viewer;
 		private Texture2D _dummyTexture;
@@ -38,7 +39,7 @@ namespace Yna.Samples.Windows.States
 				{4,4,4,4,4,4,4,3,4,5,4,4,4,4,4,4,4,4,4,4},
 				{4,4,4,4,4,4,4,6,7,8,4,4,4,4,4,4,4,4,4,4},
 			};
-			Layer layer1 = new Layer(data);
+			Layer2D layer1 = new Layer2D(data);
 			
 			int[,] data2 = {
 				{14,13,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14},
@@ -52,14 +53,14 @@ namespace Yna.Samples.Windows.States
 				{14,13,14,14,14,14,13,14,14,14,14,14,14,14,14,14,14,14,14,14},
 				{14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14}
 			};
-			Layer layer2 = new Layer(data2);
+			Layer2D layer2 = new Layer2D(data2);
 			layer2.Alpha = 100f;
 			
-			Layer[] layers = new Layer[2];
+			Layer2D[] layers = new Layer2D[2];
 			layers[0] = layer1;
 			layers[1] = layer2;
 			
-			_map = new TiledMap("Spritesheets//tileset", layers, 20);
+			_map = new TiledMap2D("Spritesheets//tileset", layers, 20);
 			
 			_camera = new Vector2(64, 64);
 			_viewer = new Rectangle(128, 128, 256, 256);

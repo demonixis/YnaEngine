@@ -1,54 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿/*
+ * Created by SharpDevelop.
+ * User: Alex
+ * Date: 07/08/2012
+ * Time: 22:09
+ * 
+ * To change this template use Tools | Options | Coding | Edit Standard Headers.
+ */
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display.TiledMap
+namespace Yna.Display.TiledMap._2D
 {
 	/// <summary>
-	/// Tile based map renderer
+	/// Description of TiledMap2D.
 	/// </summary>
-	public class TiledMap
+	public class TiledMap2D : AbstractTiledMap
 	{
-		/// <summary>
-		/// Tile width
-		/// </summary>
-		private int _tileWidth;
-		
-		/// <summary>
-		/// Tile height
-		/// </summary>
-		private int _tileHeight;
-		
-		/// <summary>
-		/// The map width (in tiles)
-		/// </summary>
-		private int _mapWidth;
-		
-		/// <summary>
-		/// The map height (in tiles)
-		/// </summary>
-		private int _mapHeight;
-		
-		/// <summary>
-		/// Layers definition.
-		/// </summary>
-		private Layer[] _layers;
-		
-		/// <summary>
-		/// All map tiles are stored in one texture, one after the other.
-		/// From top left to bottom right, each tile has an id. The first
-		/// texture (top left) has the id 0. The cutting is defined by the
-		/// tiles size. The tileset must fist a multiple of the tile size!
-		/// </summary>
-		private Texture2D _tileset;
-		
-		/// <summary>
-		/// The tileset file name
-		/// </summary>
-		private String _tilesetName;
-		
 		/// <summary>
 		/// This array contains zoning for each tile. It is initialized when
 		/// the tileset texture is loaded
@@ -61,7 +29,7 @@ namespace Yna.Display.TiledMap
 		/// <param name="tilesetName">The Tileset file name</param>
 		/// <param name="layers">The map layers</param>
 		/// <param name="tileSize">The tile width</param>
-		public TiledMap(String tilesetName, Layer[] layers, int tileSize) : this(tilesetName, layers, tileSize, tileSize)
+		public TiledMap2D(String tilesetName, Layer2D[] layers, int tileSize) : this(tilesetName, layers, tileSize, tileSize)
 		{
 		}
 		
@@ -72,7 +40,7 @@ namespace Yna.Display.TiledMap
 		/// <param name="layers">The map layers</param>
 		/// <param name="tileWidth">The tile width</param>
 		/// <param name="tileHeight">The tile height</param>
-		public TiledMap(String tilesetName, Layer[] layers, int tileWidth, int tileHeight) : base()
+		public TiledMap2D(String tilesetName, Layer2D[] layers, int tileWidth, int tileHeight) 
 		{
 			_tilesetName = tilesetName;
 			
@@ -128,21 +96,21 @@ namespace Yna.Display.TiledMap
 		/// <param name="drawZone">The limited zone where the map will be rendered</param>
 		public void Draw(SpriteBatch spriteBatch, Vector2 camera, Rectangle drawZone)
 		{
-			Layer layer;
-			Tile tile;
-			int layerCount = _layers.Count();
+			Layer2D layer;
+			Tile2D tile;
+			int layerCount = _layers.GetUpperBound(0) +1;
 			Rectangle rec;
 			Vector2 position = Vector2.Zero;
 			int delta;
 			for(int layerLevel = 0; layerLevel < layerCount; layerLevel++)
 			{
 				// Each layer is drawn
-				layer = _layers[layerLevel];
+				layer = (Layer2D) _layers[layerLevel];
 				for(int x = 0; x < _mapWidth; x++)
 				{
 					for(int y = 0; y < _mapHeight; y++)
 					{
-						tile = layer.GetTile(x, y);
+						tile = (Tile2D) layer.GetTile(x, y);
 						
 						// Getting the texture position in the tileset
 						rec = _tilesMapping[tile.TextureID];

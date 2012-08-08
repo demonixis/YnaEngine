@@ -66,9 +66,15 @@
     <Compile Include="Display\Sprite.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
-    <Compile Include="Display\TiledMap\Layer.cs" />
-    <Compile Include="Display\TiledMap\Tile.cs" />
-    <Compile Include="Display\TiledMap\TiledMap.cs" />
+    <Compile Include="Display\TiledMap\2D\Layer2D.cs" />
+    <Compile Include="Display\TiledMap\2D\Tile2D.cs" />
+    <Compile Include="Display\TiledMap\2D\TiledMap2D.cs" />
+    <Compile Include="Display\TiledMap\AbstractTile.cs" />
+    <Compile Include="Display\TiledMap\Isometric\LayerIso.cs" />
+    <Compile Include="Display\TiledMap\Isometric\TileIso.cs" />
+    <Compile Include="Display\TiledMap\Isometric\IsometricTiledMap.cs" />
+    <Compile Include="Display\TiledMap\AbstractLayer.cs" />
+    <Compile Include="Display\TiledMap\AbstractTiledMap.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
@@ -113,5 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Display\TiledMap" />
+    <Folder Include="Display\TiledMap\Isometric" />
+    <Folder Include="Display\TiledMap\2D" />
   </ItemGroup>
 </Project>

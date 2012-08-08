@@ -3,14 +3,14 @@
 namespace Yna.Display.TiledMap
 {
 	/// <summary>
-	/// A Tile is a section of a TiledMap.
+	/// This class represents a tile on a tiled map
 	/// </summary>
-	public class Tile
+	public abstract class AbstractTile
 	{
 		/// <summary>
 		/// X position in the map
 		/// </summary>
-		private int _x;
+		protected int _x;
 		/// <summary>
 		/// X tile position in the map
 		/// </summary>
@@ -23,7 +23,7 @@ namespace Yna.Display.TiledMap
 		/// <summary>
 		/// Y position in the map
 		/// </summary>
-		private int _y;
+		protected int _y;
 		/// <summary>
 		/// Y tile position in the map
 		/// </summary>
@@ -36,7 +36,7 @@ namespace Yna.Display.TiledMap
 		/// <summary>
 		/// The texture ID.
 		/// </summary>
-		private int _textureID;
+		protected int _textureID;
 		/// <summary>
 		/// Texture ID (according to the map tileset)
 		/// </summary>
@@ -45,14 +45,14 @@ namespace Yna.Display.TiledMap
 			get{return _textureID;}
 			set{_textureID = value;}
 		}
-		
+
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="x">X position in the map</param>
 		/// <param name="y">Y position in the map</param>
 		/// <param name="textureID">Texture ID fore rendering</param>
-		public Tile(int x, int y, int textureID) : base()
+		public AbstractTile(int x, int y, int textureID) : base()
 		{
 			_x = x;
 			_y = y;
