@@ -41,7 +41,7 @@ namespace Yna.Sample.States
             mover = new SpriteMover(tifaSprite);
 
             // 4 - Timer pour faire disparaitre les messages d'info
-            clearMessage = new YnTimer(3500, 0);
+            clearMessage = new YnTimer(1500, 0);
             clearMessage.Completed += new EventHandler<EventArgs>(clearMessage_Completed);
         }
 
@@ -57,12 +57,11 @@ namespace Yna.Sample.States
             // 4 - Préparation et création des animations des personnages
             CreateAnimation(sephirothSprite, 34, 48);
 			sephirothSprite.ForceInsideScreen = true;
-            sephirothSprite.SetOriginTo(ObjectOrigin.Center);
 
             CreateAnimation(tifaSprite, 32, 48);
 
             // 5 - Evenements souris
-            sephirothSprite.MouseOver += new EventHandler<Display.Event.MouseOverSpriteEventArgs>(sephirothSprite_MouseOver);
+            //sephirothSprite.MouseOver += new EventHandler<Display.Event.MouseOverSpriteEventArgs>(sephirothSprite_MouseOver);
             sephirothSprite.MouseClicked += new EventHandler<Display.Event.MouseClickSpriteEventArgs>(sephirothSprite_MouseClicked);
 
             // On affiche la souris

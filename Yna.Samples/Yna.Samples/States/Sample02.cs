@@ -9,10 +9,21 @@ using Yna.State;
 
 namespace Yna.Sample.States
 {
+    public enum MovementState
+    {
+        JumpingUp, JumpingDown, Walking
+    }
+
     public class Sample02 : YnState
     {
 		private Sprite background;  // Background
         private Sprite sonicSprite; // Sprite du joueur
+
+        // Gestion du saut
+        protected MovementState _movementState;
+        protected int _jumpHeight;              // Hauteur du saut
+        protected Vector2 _initialJumpPosition; // Position initiale
+        protected float _jumpSpeed;             // Vitesse du saut
 
         public Sample02() 
             : base(1500, 500) 
@@ -24,6 +35,12 @@ namespace Yna.Sample.States
             // 2 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
             sonicSprite = new Sprite(new Vector2(50, 505), "Sprites//soniclg4");
             Add(sonicSprite);
+
+            // Saut
+            _movementState = MovementState.Walking;
+            _jumpHeight = 90;
+            _jumpSpeed = 6.5f;
+            _initialJumpPosition = Vector2.Zero;
         }
 
         public override void Initialize ()
@@ -72,11 +89,44 @@ namespace Yna.Sample.States
             if (YnG.Keys.Pressed(Keys.Space))
 			{
 				sonicSprite.Play("up");
-                sonicSprite.Jump();
+                Jump();
 			}
+
+            // Saut
+            if (_movementState != MovementState.Walking)
+            {
+                // Le Sprite est en train de sautter
+                if (_movementState == MovementState.JumpingUp)
+                {
+                    sonicSprite.Position = new Vector2(sonicSprite.X, sonicSprite.Position.Y - _jumpSpeed);
+
+                    if (sonicSprite.Y < (_initialJumpPosition.Y - _jumpHeight))
+                        _movementState = MovementState.JumpingDown;
+                }
+
+                // Le Sprite à terminé de sauter et il redescent
+                if (_movementState == MovementState.JumpingDown)
+                    sonicSprite.Position = new Vector2(sonicSprite.X, sonicSprite.Position.Y + _jumpSpeed);
+
+                // Le saut est terminé on replace la position Y comme au départ
+                if (sonicSprite.Y >= _initialJumpPosition.Y)
+                {
+                    //_position = new Vector2(X, _initialJumpPosition.Y);
+                    _movementState = MovementState.Walking;
+                }
+            }
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());
+        }
+
+        public void Jump()
+        {
+            if (_movementState == MovementState.Walking)
+            {
+                _movementState = MovementState.JumpingUp;
+                _initialJumpPosition = new Vector2(sonicSprite.X, sonicSprite.Y);
+            }
         }
 	}
 }

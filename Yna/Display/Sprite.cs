@@ -10,11 +10,6 @@ using Yna.Display.Event;
 
 namespace Yna.Display
 {
-    public enum MovementState
-    {
-        JumpingUp, JumpingDown, Walking
-    }
-
     public class Sprite : YnObject
     {
         // Physique appliquée au Sprite
@@ -44,12 +39,6 @@ namespace Yna.Display
         protected SpriteAnimator _animator;
         protected long _elapsedTime;
 
-        // Gestion du saut
-        protected MovementState _movementState;
-        protected int _jumpHeight;              // Hauteur du saut
-        protected Vector2 _initialJumpPosition; // Position initiale
-        protected float _jumpSpeed;             // Vitesse du saut
-        
         #region Propriétés
 		
 		public Vector2 Acceleration
@@ -172,24 +161,6 @@ namespace Yna.Display
         {
             get { return _hasAnimation; }
         }
-
-        public int JumpHeight
-        {
-            get { return _jumpHeight; }
-            set { _jumpHeight = value; }
-        }
-
-        public float JumpSpeed
-        {
-            get { return _jumpSpeed; }
-            set { _jumpSpeed = value; }
-        }
-
-        public MovementState MovementState
-        {
-            get { return _movementState; }
-            set { _movementState = value; }
-        }
         #endregion
         
         #region Evenements
@@ -213,8 +184,17 @@ namespace Yna.Display
 
         private void MouseClickSprite(MouseClickSpriteEventArgs e)
         {
+            // Click 
             if (MouseClick != null)
                 MouseClick(this, e);
+
+            // One click
+            if (MouseClicked != null)
+                MouseClicked(this, e);
+
+            // Double click
+            if (MouseDoubleClicked != null)
+                MouseDoubleClicked(this, e);
         }
         #endregion
 
@@ -249,12 +229,6 @@ namespace Yna.Display
             _maxVelocity = 1.0f;
 
             _direction = Vector2.One;
-
-            // Saut
-            _movementState = MovementState.Walking;
-            _jumpHeight = 90;
-            _jumpSpeed = 6.5f;
-            _initialJumpPosition = Vector2.Zero;
         }
 
         public Sprite(string assetName)
@@ -369,15 +343,6 @@ namespace Yna.Display
         {
             _sourceRectangle = _animator.Animations[animationName].Next(ref _effects, _elapsedTime);
         }
-
-        public void Jump()
-        {
-            if (_movementState == MovementState.Walking)
-            {
-                _movementState = MovementState.JumpingUp;
-                _initialJumpPosition = new Vector2(X, Y);
-            }
-        }
         
         public override void Initialize() { }
 
@@ -426,30 +391,6 @@ namespace Yna.Display
                 _position += _velocity * _acceleration;
                 _velocity *= _maxVelocity;
 
-                // Saut
-                if (_movementState != MovementState.Walking)
-                {
-                    // Le Sprite est en train de sautter
-                    if (_movementState == MovementState.JumpingUp)
-                    {
-                        _position = new Vector2(X, _position.Y - _jumpSpeed);
-
-                        if (Y < (_initialJumpPosition.Y - _jumpHeight))
-                            _movementState = MovementState.JumpingDown;
-                    }
-
-                    // Le Sprite à terminé de sauter et il redescent
-                    if (_movementState == MovementState.JumpingDown)
-                        _position = new Vector2(X, _position.Y + _jumpSpeed);
-
-                    // Le saut est terminé on replace la position Y comme au départ
-                    if (Y >= _initialJumpPosition.Y)
-                    {
-                        //_position = new Vector2(X, _initialJumpPosition.Y);
-                        _movementState = MovementState.Walking;
-                    }
-                }
-
                 #region Evenements
                 // Souris
                 if (Rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
@@ -486,6 +427,9 @@ namespace Yna.Display
 
                         MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false));
                     }
+
+                    // Double click
+                    
                 }
 
                 // Screen
