@@ -10,7 +10,7 @@ namespace Yna.Display.Animation
         Up = 0, Down, Left, Right, Idle
     }
 
-    public class SpriteMover
+    public class SpriteMover : YnBase
     {
         protected Sprite _sprite;
         protected float _elapsedTime;
@@ -28,15 +28,16 @@ namespace Yna.Display.Animation
             _moveSpeed = 2;
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             _elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+
             Vector2 direction = _sprite.Direction;
             Vector2 target = _sprite.Position;
 
             if (_elapsedTime >= _refreshInterval)
             {
-                Random rand = new Random();
+                Random rand = new Random((int)(DateTime.Now.Millisecond * gameTime.TotalGameTime.Milliseconds));
                 int randMovement = rand.Next(6);
 
                 switch (randMovement)

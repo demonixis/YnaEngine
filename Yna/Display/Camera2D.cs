@@ -3,6 +3,18 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Display
 {
+    public struct ScrollFactor
+    {
+        public bool X;
+        public bool Y;
+
+        public ScrollFactor(bool x, bool y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+
 	public class Camera2D
 	{
 		private Rectangle _globalCamera;

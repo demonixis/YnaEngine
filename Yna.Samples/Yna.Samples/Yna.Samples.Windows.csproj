@@ -11,7 +11,7 @@
     <RootNamespace>Yna.Samples.Windows</RootNamespace>
     <AssemblyName>Yna.Samples.Windows</AssemblyName>
     <ApplicationIcon>Game.ico</ApplicationIcon>
-    <StartupObject>Yna.Samples.Program</StartupObject>
+    <StartupObject>Yna.Samples.YnaSample</StartupObject>
     <MonoGamePlatform>Windows</MonoGamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;WINDOWS</DefineConstants>
+    <DefineConstants>DEBUG;WINDOWS;OPENTK;MONOGAME;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -32,7 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>WINDOWS</DefineConstants>
+    <DefineConstants>WINDOWS;OPENTK;MONOGAME;</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -58,7 +58,6 @@
     <Compile Include="States\IsometricTiledMapSample.cs" />
     <Compile Include="States\Sample02.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="States\Sample03.cs" />
     <Compile Include="States\Sample01.cs" />
     <Compile Include="States\TiledMap2DSample.cs" />

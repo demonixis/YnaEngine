@@ -7,31 +7,38 @@ using Yna.Display;
 using Yna.Input;
 using Yna.State;
 using Yna.Display.Animation;
+using Yna.Display.Event;
 
 namespace Yna.Sample.States
 {
     public class Sample03 : YnState
     {
-        YnText informations;
+        private YnText informations;
 
-        Texture2D gradiant;
-        Sprite sephirothSprite; // Sprite du joueur
-        
-        Sprite tifaSprite;
+        private Sprite background;
+        private Sprite sephirothSprite; // Sprite du joueur
+        private Sprite tifaSprite;
+        private Sprite cloudSprite;
 
-        SpriteMover mover;
-
-        YnTimer clearMessage;
+        private SpriteMover tifaMover;
+        private SpriteMover cloudMover;
+        private YnTimer clearMessage;
 
         public Sample03 () 
             : base(1000f, 0) 
         {
+            // 0 - The background
+            background = new Sprite("Backgrounds/back-ff6");
+
             // 1 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
             sephirothSprite = new Sprite(new Vector2(150, 250), "Sprites//sephiroth");
             Add(sephirothSprite);
 
             tifaSprite = new Sprite(new Vector2(350, 150), "Sprites//tifa");
             Add(tifaSprite);
+
+            cloudSprite = new Sprite(new Vector2(350, 25), "Sprites//cloud-bike");
+            Add(cloudSprite);
 
             // 2 - Informations de debug
             informations = new YnText("Fonts/MenuFont", 25, 25, "Informations");
@@ -40,52 +47,59 @@ namespace Yna.Sample.States
             Add(informations);
 
             // 3 - Permet de simuler un déplacement aléatoire sur un Sprite
-            mover = new SpriteMover(tifaSprite);
+            tifaMover = new SpriteMover(tifaSprite);
+            cloudMover = new SpriteMover(cloudSprite);
 
             // 4 - Timer pour faire disparaitre les messages d'info
-            clearMessage = new YnTimer(3500, 0);
+            clearMessage = new YnTimer(1500, 0);
             clearMessage.Completed += new EventHandler<EventArgs>(clearMessage_Completed);
         }
 
-        public override void LoadContent()
-        {
-            base.LoadContent();
-
-            gradiant = YnG.Content.Load<Texture2D>("Backgrounds//gradient");
-        }
-
         public override void Initialize ()
-		{        
+		{
+            background.LoadContent();
+            background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+
             // 4 - Préparation et création des animations des personnages
             CreateAnimation(sephirothSprite, 34, 48);
 			sephirothSprite.ForceInsideScreen = true;
-            sephirothSprite.SetOriginTo(SpriteOrigin.Center);
 
             CreateAnimation(tifaSprite, 32, 48);
 
+            cloudSprite.PrepareAnimation(93, 71);
+            cloudSprite.AddAnimation("up", new int[] { 12, 13, 14, 15 }, 25, false);
+            cloudSprite.AddAnimation("down", new int[] { 0, 1, 2, 3 }, 25, false);
+            cloudSprite.AddAnimation("left", new int[] { 4, 5, 6, 7 }, 25, false);
+            cloudSprite.AddAnimation("right", new int[] { 8, 9, 10, 11 }, 25, false);
+            cloudSprite.Scale = new Vector2(2.0f, 2.0f);
+
             // 5 - Evenements souris
-            sephirothSprite.MouseOver += new EventHandler<Display.Event.MouseOverSpriteEventArgs>(sephirothSprite_MouseOver);
-            sephirothSprite.MouseClicked += new EventHandler<Display.Event.MouseClickSpriteEventArgs>(sephirothSprite_MouseClicked);
+            tifaSprite.MouseOver += new EventHandler<MouseOverSpriteEventArgs>(sephirothSprite_MouseOver);
+            sephirothSprite.MouseClicked += new EventHandler<MouseClickSpriteEventArgs>(sephirothSprite_MouseClicked);
+
+            // 6 - Scale of the sprites
+            tifaSprite.Scale = new Vector2(3.0f, 3.0f);
+            sephirothSprite.Scale = new Vector2(3.0f, 3.0f);
 
             // On affiche la souris
             YnG.Game.IsMouseVisible = true;
 		}
 
-        void sephirothSprite_MouseClicked(object sender, Display.Event.MouseClickSpriteEventArgs e)
+        void sephirothSprite_MouseClicked(object sender, MouseClickSpriteEventArgs e)
         {
-            informations.Text = "Vous avez cliquez sur le Sprite !";
+            informations.Text = "You clicked on Sephiroth !";
             clearMessage.Start();
         }
 
-        void sephirothSprite_MouseOver(object sender, Display.Event.MouseOverSpriteEventArgs e)
+        void sephirothSprite_MouseOver(object sender, MouseOverSpriteEventArgs e)
         {
-            informations.Text = "La souris est sur le Sprite";
+            informations.Text = "The mouse is over Tifa's Sprite !";
             clearMessage.Start();
         }
 
         void clearMessage_Completed(object sender, EventArgs e)
         {
-            informations.Text = "Informations en attente...";
+            informations.Text = "Waiting for mouse action";
         }
 
         private void CreateAnimation(Sprite sprite, int animWidth, int animHeight)
@@ -97,24 +111,31 @@ namespace Yna.Sample.States
             sprite.AddAnimation("up", new int[] { 12, 13, 14, 15 }, 150, false);
         }
 
+        private void UpdateAnimations(Sprite sprite)
+        {
+            if (sprite.Direction.X == -1)
+                sprite.Play("left");
+            else if (sprite.Direction.X == 1)
+                sprite.Play("right");
+            else if (sprite.Direction.Y == -1)
+                sprite.Play("up");
+            else if (sprite.Direction.Y == 1)
+                sprite.Play("down");
+            else
+                sprite.Play("down");
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime); // Les objets attachés sont mis à jour
 
             clearMessage.Update(gameTime);
 
-            mover.Update(gameTime);
+            tifaMover.Update(gameTime);
+            cloudMover.Update(gameTime);
 
-            if (tifaSprite.Direction.X == -1)
-                tifaSprite.Play("left");
-            else if (tifaSprite.Direction.X == 1)
-                tifaSprite.Play("right");
-            else if (tifaSprite.Direction.Y == -1)
-                tifaSprite.Play("up");
-            else if (tifaSprite.Direction.Y == 1)
-                tifaSprite.Play("down");
-            else
-                tifaSprite.Play("down");
+            UpdateAnimations(tifaSprite);
+            UpdateAnimations(cloudSprite);
 
 			// Déplacement du Sprite
             if (YnG.Keys.Pressed(Keys.Up))
@@ -138,19 +159,17 @@ namespace Yna.Sample.States
                 sephirothSprite.X += 2;
             }
 
-           
-
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());
         }
 
-        public override void Draw (GameTime gameTime)
-		{
+        public override void Draw(GameTime gameTime)
+        {
             spriteBatch.Begin();
-            spriteBatch.Draw(gradiant, new Rectangle(0, 0, YnG.Width, YnG.Height), Color.White);
+            background.DrawRect(gameTime, spriteBatch);
             spriteBatch.End();
 
-            base.Draw(gameTime); // Les objets attachés sont dessinés
+            base.Draw(gameTime);
         }
     }
 }

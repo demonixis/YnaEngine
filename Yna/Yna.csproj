@@ -72,6 +72,9 @@
     <Compile Include="Display\Sprite.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
+    <Compile Include="Display\TiledMap\Layer.cs" />
+    <Compile Include="Display\TiledMap\Tile.cs" />
+    <Compile Include="Display\TiledMap\TiledMap.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="State\StateManager.cs" />
     <Compile Include="Utils\CircularArray.cs" />
     <Compile Include="Display\Camera2D.cs" />
+    <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="YnGroup.cs" />

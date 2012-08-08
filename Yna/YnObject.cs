@@ -1,39 +1,21 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Display;
 using Yna.Helpers;
 
 namespace Yna
 {
-    public struct ScrollFactor
-    {
-        public bool X;
-        public bool Y;
-
-        public ScrollFactor(bool x, bool y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
-
-    public enum SpriteOrigin
+    public enum ObjectOrigin
     {
     	TopLeft = 0, Top, TopRight, 
         Left, Center, Right,
         BottomLeft, Bottom, BottomRight
     }
     
-    public abstract class YnObject
+    public abstract class YnObject : YnBase
     {
-        private static uint counterId = 0x0001;
-
-        public uint Id { get; set; }
-        public string Name { get; set; }
-
         protected bool _visible;
-        protected bool _paused;
-        protected bool _dirty;
         protected ScrollFactor _scrollFactor;
 
         protected Vector2 _position;
@@ -52,7 +34,7 @@ namespace Yna
         /// <summary>
         /// Active ou désactive l'objet (Influance la mise à jour et l'affichage)
         /// </summary>
-        public bool Active
+        public new bool Active
         {
             get { return !_paused && _visible && !_dirty; }
             set 
@@ -81,19 +63,11 @@ namespace Yna
             set { _visible = value; }
         }
 
-        /// <summary>
-        /// Active ou désactive la pause (Influance la mise à jour)
-        /// </summary>
-        public bool Pause
-        {
-            get { return _paused; }
-            set { _paused = value; }
-        }
 
         /// <summary>
         /// Indique si l'objet doit être détruit totalement
         /// </summary>
-        public bool Dirty
+        public new bool Dirty
         {
             get { return _dirty; }
             set 
@@ -242,14 +216,10 @@ namespace Yna
         /// <summary>
         /// Construction d'un objet graphique de base
         /// </summary>
-        public YnObject()
+        public YnObject() 
+            : base ()
         {
-            Id = counterId++;
-            Name = Id.ToString();
-
             _visible = true;
-            _paused = false;
-            _dirty = false;
             _scrollFactor = new ScrollFactor();
 
             _position = new Vector2(0, 0);
@@ -268,8 +238,6 @@ namespace Yna
         public abstract void LoadContent();
 
         public abstract void UnloadContent();
-
-        public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
@@ -315,35 +283,35 @@ namespace Yna
         /// Change le point d'origine de l'objet
         /// </summary>
         /// <param name="spriteOrigin">Enumeration SpriteOrigin définissant les différents points prédeterminés</param>
-        public void SetOriginTo(SpriteOrigin spriteOrigin)
+        public void SetOriginTo(ObjectOrigin spriteOrigin)
         {
             switch (spriteOrigin)
             {
-                case SpriteOrigin.TopLeft:
+                case ObjectOrigin.TopLeft:
                     _origin = Vector2.Zero;
                     break;
-                case SpriteOrigin.Top:
+                case ObjectOrigin.Top:
                     _origin = new Vector2(Width / 2, 0);
                     break;
-                case SpriteOrigin.TopRight:
+                case ObjectOrigin.TopRight:
                     _origin = new Vector2(Width, 0);
                     break;
-                case SpriteOrigin.Left:
+                case ObjectOrigin.Left:
                     _origin = new Vector2(0, Height / 2);
                     break;
-                case SpriteOrigin.Center:
+                case ObjectOrigin.Center:
                     _origin = new Vector2(Width / 2, Height / 2);
                     break;
-                case SpriteOrigin.Right:
+                case ObjectOrigin.Right:
                     _origin = new Vector2(Width, Height / 2);
                     break;
-                case SpriteOrigin.BottomLeft:
+                case ObjectOrigin.BottomLeft:
                     _origin = new Vector2(0, Height);
                     break;
-                case SpriteOrigin.Bottom:
+                case ObjectOrigin.Bottom:
                     _origin = new Vector2(Width / 2, Height);
                     break;
-                case SpriteOrigin.BottomRight:
+                case ObjectOrigin.BottomRight:
                     _origin = new Vector2(Width, Height);
                     break;
             } 		

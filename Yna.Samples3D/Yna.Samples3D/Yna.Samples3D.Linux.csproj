@@ -11,7 +11,7 @@
     <RootNamespace>Yna.Samples3D.Linux</RootNamespace>
     <AssemblyName>Yna.Samples3D.Linux</AssemblyName>
     <ApplicationIcon>Game.ico</ApplicationIcon>
-    <StartupObject>Yna.Samples3D.Program</StartupObject>
+    <StartupObject>Yna.Samples3D.YnaSample3D</StartupObject>
 	<MonoGamePlatform>Linux</MonoGamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -37,8 +37,8 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="States\GameMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="States\SpaceGame.cs" />
     <Compile Include="YnaSample3D.cs" />
   </ItemGroup>
