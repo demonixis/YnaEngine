@@ -66,13 +66,13 @@
     <Compile Include="Display\Sprite.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
-    <Compile Include="Display\TiledMap\2D\Layer2D.cs" />
-    <Compile Include="Display\TiledMap\2D\Tile2D.cs" />
-    <Compile Include="Display\TiledMap\2D\TiledMap2D.cs" />
+    <Compile Include="Display\TiledMap\Basic\Layer2D.cs" />
+    <Compile Include="Display\TiledMap\Basic\Tile2D.cs" />
+    <Compile Include="Display\TiledMap\Basic\TiledMap2D.cs" />
     <Compile Include="Display\TiledMap\AbstractTile.cs" />
-    <Compile Include="Display\TiledMap\Isometric\LayerIso.cs" />
-    <Compile Include="Display\TiledMap\Isometric\TileIso.cs" />
-    <Compile Include="Display\TiledMap\Isometric\IsometricTiledMap.cs" />
+    <Compile Include="Display\TiledMap\Iso\LayerIso.cs" />
+    <Compile Include="Display\TiledMap\Iso\TileIso.cs" />
+    <Compile Include="Display\TiledMap\Iso\TiledMapIso.cs" />
     <Compile Include="Display\TiledMap\AbstractLayer.cs" />
     <Compile Include="Display\TiledMap\AbstractTiledMap.cs" />
     <Compile Include="Display\YnText.cs" />
@@ -92,6 +92,7 @@
     <Compile Include="State\StateManager.cs" />
     <Compile Include="Utils\CircularArray.cs" />
     <Compile Include="Display\Camera2D.cs" />
+    <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="YnGroup.cs" />
@@ -119,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Display\TiledMap" />
-    <Folder Include="Display\TiledMap\Isometric" />
-    <Folder Include="Display\TiledMap\2D" />
+    <Folder Include="Display\TiledMap\Iso" />
+    <Folder Include="Display\TiledMap\Basic" />
   </ItemGroup>
 </Project>

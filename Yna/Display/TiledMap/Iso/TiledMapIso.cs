@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Display.TiledMap.Isometric
 {
@@ -53,8 +54,8 @@ namespace Yna.Display.TiledMap.Isometric
 			{
 				for(int x = 0; x < tilesPerRow;x++)
 				{
-					_tilesMapping[index] = new Rectangle(_tileWidth*x, _tileHeight*y, _tileWidth, _tileHeight);
-					index++;
+					//_tilesMapping[index] = new Rectangle(_tileWidth*x, _tileHeight*y, _tileWidth, _tileHeight);
+					//index++;
 				}
 			}
 		}
