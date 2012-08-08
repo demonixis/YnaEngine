@@ -113,12 +113,16 @@ namespace Yna.Samples.Windows.States
 		public override void Draw(GameTime gameTime)
 		{
 			base.Draw(gameTime);
+
+            spriteBatch.Begin();
 			
 			// Here we simply draw the map with the camera position and the draw zone
 			_map.Draw(spriteBatch, _camera, _viewport);
 			
 			// A rectangle is drawn to represent the map's drawing zone
 			DrawRectangle(_viewport, Color.Red);
+
+            spriteBatch.End();
 		}
 		
 		public override void Update(GameTime gameTime)
