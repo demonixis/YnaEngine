@@ -50,11 +50,11 @@ namespace Yna.Sample.States
             background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
             background.SourceRectangle = background.Rectangle;
 
-            items.Add(new MenuItem("Basic Sprites", "This sample shows you how to create a collection of sprite\nwithout texture.", true));
-            items.Add(new MenuItem("2D Plateformer", "An example that shows you how to easily create a fast\n2D Platformer with some physics (Acceleration and Velocity)."));
-            items.Add(new MenuItem("Animated Sprite", "How create an animated Sprite with a SpriteSheet ?\nThe answord in this sample"));
-            items.Add(new MenuItem("Simple Tiled Map", "Create a tilemap and a camera"));
-            items.Add(new MenuItem("Exit"));
+            items.Add(new MenuItem(1, "Basic Sprites", "This sample shows you how to create a collection of sprite\nwithout texture.", true));
+            items.Add(new MenuItem(2, "2D Plateformer", "An example that shows you how to easily create a fast\n2D Platformer with some physics (Acceleration and Velocity)."));
+            items.Add(new MenuItem(3, "Animated Sprite", "How create an animated Sprite with a SpriteSheet ?\nThe answord in this sample"));
+            items.Add(new MenuItem(4, "Simple Tiled Map", "Create a tilemap and a camera"));
+            items.Add(new MenuItem(5, "Exit"));
         }
 
         public override void Update(GameTime gameTime)
@@ -104,7 +104,6 @@ namespace Yna.Sample.States
 
     class MenuItem : YnGroup
     {
-        private static int position = 1;
         private const int coefX = 55;
         private const int coefY = 50;
         private const int offset = 60;
@@ -112,15 +111,16 @@ namespace Yna.Sample.States
         private YnText _label;
         private YnText _description;
         private bool _selected;
+        private int _position;
 
         public Color LabelColor
         {
             get
             {
                 if (_selected)
-                    return Color.BlanchedAlmond;
+                    return Color.GreenYellow;
                 else
-                    return Color.AliceBlue;
+                    return Color.BlanchedAlmond;
             }
         }
 
@@ -135,12 +135,13 @@ namespace Yna.Sample.States
             }
         }
 
-        public MenuItem(string name, string description = "",  bool selected = false)
+        public MenuItem(int position, string name, string description = "",  bool selected = false)
         {
             Name = name;
             _selected = selected;
+            _position = position;
             
-            _label = new YnText("Fonts/MenuFont", new Vector2(coefX, offset + coefY * position), Name);
+            _label = new YnText("Fonts/MenuFont", new Vector2(coefX, offset + coefY * _position), Name);
             _label.Color = LabelColor;
             Add(_label);
 
@@ -150,7 +151,7 @@ namespace Yna.Sample.States
             _description.Visible = Selected;
             Add(_description);
 
-            position++;
+            _position++;
         }
     }
 }
