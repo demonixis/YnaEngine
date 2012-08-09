@@ -37,12 +37,6 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\Yna\Yna.Windows.csproj">
-      <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
-      <Name>Yna.Windows</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Content\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -80,7 +74,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\Tilesets" />
+    <ProjectReference Include="..\..\Yna\Yna.Windows.csproj">
+      <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
+      <Name>Yna.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Tilesets\iso_deco_tileset.xnb" />

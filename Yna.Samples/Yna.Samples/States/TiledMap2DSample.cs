@@ -141,10 +141,12 @@ namespace Yna.Samples.Windows.States
 		private void DrawRectangle(Rectangle rectangle, Color color)
         {
 			// Draw each border as a texture
+            spriteBatch.Begin();
             spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, 1), color);
             spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, 1), color);
             spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, 1, rectangle.Height), color);
             spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Right, rectangle.Top, 1, rectangle.Height + 1), color);
+            spriteBatch.End();
         }
 	}
 }
