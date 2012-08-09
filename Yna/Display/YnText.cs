@@ -23,6 +23,12 @@ namespace Yna.Display
             set { _text = value; }
         }
 
+        public float LayerDepth
+        {
+            get { return _layerDepth; }
+            set { _layerDepth = value; }
+        }
+
         private YnText(Vector2 position, string text)
             : base()
         {
@@ -61,6 +67,17 @@ namespace Yna.Display
             _textureName = fontName;
         }
 
+        public void CenterRelativeTo(int width, int height)
+        {
+            if (_textureLoaded)
+            {
+                Position = new Vector2(
+                    (float)(width / 2 - Width / 2),
+                    (float)(height / 2 - Height / 2)
+                    );
+            }
+        }
+
         public override void Initialize()
         {
             LoadContent();
@@ -86,7 +103,8 @@ namespace Yna.Display
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(_font, _text, _position, Color, _rotation, _origin, _scale, _effect, _layerDepth);
+            if (Visible)
+                spriteBatch.DrawString(_font, _text, _position, Color, _rotation, _origin, _scale, _effect, _layerDepth);
         }
     }
 }

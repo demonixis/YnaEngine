@@ -1,9 +1,9 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna;
 using Yna.Display;
 using Yna.Sample.States;
-using Yna.Samples.Windows.States;
 
 namespace Yna.Samples
 {
@@ -21,7 +21,7 @@ namespace Yna.Samples
             YnG.SwitchState(new GameMenu());
         }
 
-        protected override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 

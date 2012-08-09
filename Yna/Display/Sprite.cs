@@ -343,6 +343,16 @@ namespace Yna.Display
         {
             _sourceRectangle = _animator.Animations[animationName].Next(ref _effects, _elapsedTime);
         }
+
+        /// <summary>
+        /// Set Rectangle & SourceRectangle at the same value
+        /// </summary>
+        /// <param name="rectangle">Rectangle</param>
+        public void SetRectangles(Rectangle rectangle)
+        {
+            _sourceRectangle = rectangle;
+            _rectangle = rectangle;
+        }
         
         public override void Initialize() { }
 
@@ -514,12 +524,6 @@ namespace Yna.Display
            
             if (Visible)
                 spriteBatch.Draw(_texture, Position, SourceRectangle, Color * Alpha, Rotation, Origin, Scale, _effects, LayerDepth);
-        }
-
-        public void DrawRect(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-           if (Visible)
-               spriteBatch.Draw(_texture, Rectangle, SourceRectangle, Color, Rotation, Origin, _effects, LayerDepth);  
         }
 
         public override void UnloadContent()

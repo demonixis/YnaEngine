@@ -65,7 +65,7 @@ namespace Yna.Sample.States
         public override void Initialize ()
 		{
             background.LoadContent();
-            background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            background.SetRectangles(new Rectangle(0, 0, YnG.Width, YnG.Height));
 
             // 4 - Préparation et création des animations des personnages
             CreateAnimation(sephirothSprite, 34, 48);
@@ -168,15 +168,6 @@ namespace Yna.Sample.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-            background.DrawRect(gameTime, spriteBatch);
-            spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }

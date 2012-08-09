@@ -7,7 +7,7 @@ using Yna.Display.TiledMap;
 using Yna.Sample.States;
 using Yna.State;
 
-namespace Yna.Samples.Windows.States
+namespace Yna.Sample.States
 {
     /// <summary>
     /// Example of simple tiled map user and rendering
