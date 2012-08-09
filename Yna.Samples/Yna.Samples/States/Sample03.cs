@@ -91,7 +91,7 @@ namespace Yna.Sample.States
 		}
 
         void sephirothSprite_MouseClicked(object sender, MouseClickSpriteEventArgs e)
-        {
+        {   
             informations.Text = "You clicked on Sephiroth !";
             clearMessage.Start();
         }
