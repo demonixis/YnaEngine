@@ -42,7 +42,7 @@ namespace Yna.Display.TiledMap.Isometric
 		
 		public TileIso GetTile(int x, int y)
 		{
-			return (TileIso) base.GetTile(x, y);
+			return base.GetTile(x, y) as TileIso;
 		}
 	}
 }

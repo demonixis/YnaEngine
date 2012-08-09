@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna;
 using Yna.Display;
+using Yna.Display.TiledMap._2D;
+using Yna.Samples.Windows.States;
 using Yna.State;
 
 namespace Yna.Sample.States
@@ -94,7 +96,7 @@ namespace Yna.Sample.States
                     case 0: YnG.SwitchState(new Sample01()); break;
                     case 1: YnG.SwitchState(new Sample02()); break;
                     case 2: YnG.SwitchState(new Sample03()); break;
-                    case 3: YnG.SwitchState(new SimpleTiledMap()); break;
+                    case 3: YnG.SwitchState(new TiledMap2DSample()); break;
                     case 4: YnG.Exit(); break;
                     default: break;
                 }

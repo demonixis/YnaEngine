@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="States\GameMenu.cs" />
-    <Compile Include="States\IsoMapRenderer.cs" />
     <Compile Include="States\IsoTiledMapSample.cs" />
     <Compile Include="States\Sample02.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -47,7 +47,7 @@ namespace Yna.Samples.Windows.States
 				{-1, -1, -1, -1, -1},
 				{-1, -1, -1, -1, -1},
 				{-1, -1, -1, -1, -1},
-				{-1, -1, -1, -1, -1}
+				{ 0,  0,  0,  0,  0}
 			};
 			LayerIso decoLayer = new LayerIso(decoData);
 			
