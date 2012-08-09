@@ -5,75 +5,87 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Samples.Windows.States;
+using Yna;
+using Yna.Display;
 using Yna.State;
 
 namespace Yna.Sample.States
 {
     public class GameMenu : YnState
     {
-        SpriteFont font;
+        private YnText title;
+        private YnGroup items;
+        private int index;
 
-        string title;
-        List<MenuItem> items;
-        int index;
-
-        Texture2D background;
+        Sprite background;
 
         private int ItemsLength
         {
-            get { return items.Count; }
+            get { return items.Count(); }
         }
 
         public GameMenu() 
             : base (1000f, 0)
         {
-            title = "Game Menu";
+            background = new Sprite("Backgrounds/gradient");
+            Add(background);
 
-            items = new List<MenuItem>();
-			items.Add(new MenuItem("Simple sprites", true));
-            items.Add(new MenuItem("2D Plateformer"));
-            items.Add(new MenuItem("2D RPG"));
-            items.Add(new MenuItem("2D Tiled Map"));
-            items.Add(new MenuItem("Iso Tiled Map"));
-            items.Add(new MenuItem("Exit"));
+            title = new YnText("Fonts/MenuFont", Vector2.Zero, "YNA Samples");
+            title.Color = Color.DarkSlateBlue;
+            Add(title);
+
+            items = new YnGroup();
+            Add(items);
 
             index = 0;
         }
 
-        public override void LoadContent()
+        public override void Initialize()
         {
-            base.LoadContent();
+            base.Initialize();
 
-            background = YnG.Content.Load<Texture2D>("Backgrounds//gradient");
+            title.Scale = new Vector2(2.0f, 2.0f);
+            title.CenterRelativeTo(YnG.Width, 100);
 
-            font = YnG.Content.Load<SpriteFont>("Fonts//MenuFont");
+            background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            background.SourceRectangle = background.Rectangle;
+
+            items.Add(new MenuItem("Basic Sprites", "This sample shows you how to create a collection of sprite\nwithout texture.", true));
+            items.Add(new MenuItem("2D Plateformer", "An example that shows you how to easily create a fast\n2D Platformer with some physics (Acceleration and Velocity)."));
+            items.Add(new MenuItem("Animated Sprite", "How create an animated Sprite with a SpriteSheet ?\nThe answord in this sample"));
+            items.Add(new MenuItem("Simple Tiled Map", "Create a tilemap and a camera"));
+            items.Add(new MenuItem("Exit"));
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            if (YnG.Keys.JustPressed(Keys.Up))
+            if (YnG.Keys.JustPressed(Keys.Up) || YnG.Keys.JustPressed(Keys.Down))
             {
-                index--;
+                if (YnG.Keys.JustPressed(Keys.Up))
+                {
+                    index--;
 
-                if (index < 0)
-                    index = ItemsLength - 1;
+                    if (index < 0)
+                        index = ItemsLength - 1;
+                }
+                else if (YnG.Keys.JustPressed(Keys.Down))
+                {
+                    index++;
+
+                    if (index >= ItemsLength)
+                        index = 0;
+                }
+
+                for (int i = 0; i < ItemsLength; i++)
+                    (items[i] as MenuItem).Selected = false;
+
+                (items[index] as MenuItem).Selected = true;
             }
-            else if (YnG.Keys.JustPressed(Keys.Down))
-            {
-                index++;
-                
-                if (index >= ItemsLength)
-                    index = 0;
-            }
 
-
-            for (int i = 0; i < ItemsLength; i++)
-                items[i].Selected = false;
-
-            items[index].Selected = true;
+            if (YnG.Keys.JustPressed(Keys.Escape))
+                YnG.Exit();
 
             if (YnG.Keys.JustPressed(Keys.Enter))
             {
@@ -82,57 +94,63 @@ namespace Yna.Sample.States
                     case 0: YnG.SwitchState(new Sample01()); break;
                     case 1: YnG.SwitchState(new Sample02()); break;
                     case 2: YnG.SwitchState(new Sample03()); break;
-                    case 3: YnG.SwitchState(new TiledMap2DSample()); break;
-                    case 4: YnG.SwitchState(new IsoTiledMapSample()) ; break;
-                    case 5: YnG.Exit(); break;
+                    case 3: YnG.SwitchState(new SimpleTiledMap()); break;
+                    case 4: YnG.Exit(); break;
                     default: break;
                 }
             }
         }
-
-        public override void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-
-            spriteBatch.Draw(background, new Rectangle(0, 0, YnG.Width, YnG.Height), Color.White);
-
-            spriteBatch.DrawString(font, title, new Vector2(getMiddlePosition(title, 2.0f), 25), Color.AntiqueWhite, 0.0f, Vector2.Zero, new Vector2(2.0f, 2.0f), SpriteEffects.None, 1.0f);
-
-            for (int i = 0; i < ItemsLength; i++)
-            {
-                spriteBatch.DrawString(font, items[i].Name, new Vector2(getMiddlePosition(items[i].Name, 1.5f), (i  * 65) + 125), items[i].Color, 0.0f, Vector2.Zero, new Vector2(1.5f, 1.5f), SpriteEffects.None, 1.0f);
-            }
-
-            spriteBatch.End();
-
-            base.Draw(gameTime);
-        }
-
-        private int getMiddlePosition(string text, float zoom = 1)
-        {
-            return (int)(YnG.Width / 2 - (font.MeasureString(text).X / 2) * zoom);
-        }
     }
 
-    class MenuItem
+    class MenuItem : YnGroup
     {
-        public string Name { get; set; }
-        public bool Selected { get; set; }
-        public Color Color
+        private static int position = 1;
+        private const int coefX = 55;
+        private const int coefY = 50;
+        private const int offset = 60;
+
+        private YnText _label;
+        private YnText _description;
+        private bool _selected;
+
+        public Color LabelColor
         {
             get
             {
-                if (Selected)
-                    return Color.DarkBlue;
+                if (_selected)
+                    return Color.BlanchedAlmond;
                 else
-                    return Color.LightCyan;
+                    return Color.AliceBlue;
             }
         }
 
-        public MenuItem(string name, bool selected = false)
+        public bool Selected 
+        {
+            get { return _selected; }
+            set
+            {
+                _selected = value;
+                _label.Color = LabelColor;
+                _description.Visible = _selected;
+            }
+        }
+
+        public MenuItem(string name, string description = "",  bool selected = false)
         {
             Name = name;
-            Selected = selected;
+            _selected = selected;
+            
+            _label = new YnText("Fonts/MenuFont", new Vector2(coefX, offset + coefY * position), Name);
+            _label.Color = LabelColor;
+            Add(_label);
+
+
+            _description = new YnText("Fonts/MenuFont", new Vector2(coefX + 200, offset + coefY), description);
+            _description.Color = Color.AliceBlue;
+            _description.Visible = Selected;
+            Add(_description);
+
+            position++;
         }
     }
 }

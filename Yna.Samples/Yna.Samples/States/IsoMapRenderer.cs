@@ -10,7 +10,7 @@ using Yna.Input;
 using Yna.Sample.States;
 using Yna.State;
 
-namespace Yna.Samples.Windows.States
+namespace Yna.Sample.States
 {
 	/// <summary>
 	/// Description of IsoMapRenderer.

@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Display3D\Camera.cs" />
-    <Compile Include="Display3D\Mesh.cs" />
+    <Compile Include="Display3D\Geometry\AbstractMesh.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\SpriteMover.cs" />
