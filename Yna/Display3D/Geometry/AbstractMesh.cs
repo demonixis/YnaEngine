@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display3D
+namespace Yna.Display3D.Geometry
 {
-    public abstract class Mesh
+    public abstract class AbstractMesh
     {
         protected Game game;
         protected Camera camera;
@@ -79,7 +79,7 @@ namespace Yna.Display3D
             get { return game; }
         }
 
-        public Mesh(Game game, Camera camera)
+        public AbstractMesh(Game game, Camera camera)
         {
             this.game = game;
             this.camera = camera;

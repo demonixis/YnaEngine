@@ -19,9 +19,12 @@ namespace Yna.Sample.States
         private Sprite sephirothSprite; // Sprite du joueur
         private Sprite tifaSprite;
         private Sprite cloudSprite;
+        private Sprite chocoboSprite;
 
         private SpriteMover tifaMover;
         private SpriteMover cloudMover;
+        private SpriteMover chocoboMover;
+        
         private YnTimer clearMessage;
 
         public Sample03 () 
@@ -37,8 +40,11 @@ namespace Yna.Sample.States
             tifaSprite = new Sprite(new Vector2(350, 150), "Sprites//tifa");
             Add(tifaSprite);
 
-            cloudSprite = new Sprite(new Vector2(350, 25), "Sprites//cloud-bike");
+            cloudSprite = new Sprite(new Vector2(350, 25), "Sprites//cloud");
             Add(cloudSprite);
+
+            chocoboSprite = new Sprite(new Vector2(0, 350), "Sprites//chocobo");
+            Add(chocoboSprite);
 
             // 2 - Informations de debug
             informations = new YnText("Fonts/MenuFont", 25, 25, "Informations");
@@ -49,6 +55,7 @@ namespace Yna.Sample.States
             // 3 - Permet de simuler un déplacement aléatoire sur un Sprite
             tifaMover = new SpriteMover(tifaSprite);
             cloudMover = new SpriteMover(cloudSprite);
+            chocoboMover = new SpriteMover(chocoboSprite);
 
             // 4 - Timer pour faire disparaitre les messages d'info
             clearMessage = new YnTimer(1500, 0);
@@ -65,21 +72,19 @@ namespace Yna.Sample.States
 			sephirothSprite.ForceInsideScreen = true;
 
             CreateAnimation(tifaSprite, 32, 48);
-
-            cloudSprite.PrepareAnimation(93, 71);
-            cloudSprite.AddAnimation("up", new int[] { 12, 13, 14, 15 }, 25, false);
-            cloudSprite.AddAnimation("down", new int[] { 0, 1, 2, 3 }, 25, false);
-            cloudSprite.AddAnimation("left", new int[] { 4, 5, 6, 7 }, 25, false);
-            cloudSprite.AddAnimation("right", new int[] { 8, 9, 10, 11 }, 25, false);
-            cloudSprite.Scale = new Vector2(2.0f, 2.0f);
+            CreateAnimation(cloudSprite, 32, 48);
+            CreateAnimation(chocoboSprite, 48, 48);
 
             // 5 - Evenements souris
             tifaSprite.MouseOver += new EventHandler<MouseOverSpriteEventArgs>(sephirothSprite_MouseOver);
             sephirothSprite.MouseClicked += new EventHandler<MouseClickSpriteEventArgs>(sephirothSprite_MouseClicked);
 
             // 6 - Scale of the sprites
-            tifaSprite.Scale = new Vector2(3.0f, 3.0f);
-            sephirothSprite.Scale = new Vector2(3.0f, 3.0f);
+            Vector2 scale = new Vector2(2.0f, 2.0f);
+            tifaSprite.Scale = scale;
+            sephirothSprite.Scale = scale;
+            cloudSprite.Scale = scale;
+            chocoboSprite.Scale = scale;
 
             // On affiche la souris
             YnG.Game.IsMouseVisible = true;
@@ -133,9 +138,11 @@ namespace Yna.Sample.States
 
             tifaMover.Update(gameTime);
             cloudMover.Update(gameTime);
+            chocoboMover.Update(gameTime);
 
             UpdateAnimations(tifaSprite);
             UpdateAnimations(cloudSprite);
+            UpdateAnimations(chocoboSprite);
 
 			// Déplacement du Sprite
             if (YnG.Keys.Pressed(Keys.Up))
