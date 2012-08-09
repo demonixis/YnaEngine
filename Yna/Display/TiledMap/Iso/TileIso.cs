@@ -7,8 +7,30 @@ namespace Yna.Display.TiledMap.Isometric
 	/// </summary>
 	public class TileIso : AbstractTile
 	{
-		private int[] _heights;
+		public static int TOP_LEFT = 0;
+		public static int TOP_RIGHT = 1;
+		public static int BOTTOM_RIGHT = 2;
+		public static int BOTTOM_LEFT = 3;
 		
+		private int[] _heights;
+		public int TopLeft{
+			get{return _heights[TOP_LEFT];}
+			set{_heights[TOP_LEFT] = value;}
+		}
+		public int TopRight{
+			get{return _heights[TOP_RIGHT];}
+			set{_heights[TOP_RIGHT] = value;}
+		}
+		public int BottomRight{
+			get{return _heights[BOTTOM_RIGHT];}
+			set{_heights[BOTTOM_RIGHT] = value;}
+		}
+		public int BottomLeft{
+			get{return _heights[BOTTOM_LEFT];}
+			set{_heights[BOTTOM_LEFT] = value;}
+		}
+		
+
 		/// <summary>
 		/// Constructor with defined heights
 		/// </summary>
@@ -31,37 +53,119 @@ namespace Yna.Display.TiledMap.Isometric
 		{
 			// Heights are initialize at 0
 			_heights = new int[4];
-			_heights[0] = 0;
-			_heights[1] = 0;
-			_heights[2] = 0;
-			_heights[3] = 0;
+			TopLeft = 0;
+			TopRight = 0;
+			BottomRight = 0;
+			BottomLeft = 0;
 		}
-	}
-	
-	/// <summary>
-	/// Isométric tiles (Tile3D) store informations about their vertices
-	/// heights. They're identified by those values
-	/// </summary>
-	public enum Vertex
-	{
-		/// <summary>
-		/// Top left vertex (the top one when rendered)
-		/// </summary>
-		TopLeft = 0,
 		
 		/// <summary>
-		/// Top right vertex (the right one when rendered)
+		/// Flattens the tile to the given height
 		/// </summary>
-		TopRight = 1,
+		/// <param name="height">The height</param>
+		public void FlattenTo(int height)
+		{
+			TopLeft = height;
+			TopRight = height;
+			BottomRight = height;
+			BottomLeft = height;
+		}
 		
 		/// <summary>
-		/// Bottom right vertex (the bottom one when rendered)
+		/// Check tile's heights and return the type. Check documentation 
+		/// for details
 		/// </summary>
-		BottomRight = 2,
+		/// <returns></returns>
+		public int GetType()
+		{
+			int type = 0;
+			if(IsFlat())
+			{
+				type = 0;
+			}
+			else if(IsSlope())
+			{
+				if(TopLeft == TopRight 
+				   && TopLeft > BottomLeft)
+				{
+					type = 5;
+				}
+				else if(TopRight == BottomRight
+				       && TopRight > TopLeft)
+				{
+					type = 6;
+				}
+				else if(BottomRight == BottomLeft
+				       && BottomRight > TopLeft)
+				{
+					type = 7;
+				}
+				else if(TopLeft == BottomLeft
+				       && TopLeft > TopRight)
+				{
+					type = 8;
+				}
+			}
+			
+			return type;
+		}
 		
 		/// <summary>
-		/// Bottom left vertex (the left one when rendered)
+		/// Calculate the max height of the tile
 		/// </summary>
-		BottomLeft = 3
+		/// <returns></returns>
+		public int GetMaxHeight()
+		{
+			int max = Math.Max(TopLeft, TopRight);
+			max = Math.Max(max, BottomRight);
+			max = Math.Max(max, BottomLeft);
+			return max;
+		}
+		
+		/// <summary>
+		/// Calculate the min height of the tile
+		/// </summary>
+		/// <returns></returns>
+		public int GetMinHeight()
+		{
+			int min = Math.Min(TopLeft, TopRight);
+			min = Math.Min(min, BottomRight);
+			min = Math.Min(min, BottomLeft);
+			return min;
+		}
+		
+		/// <summary>
+		/// Tests the tile's heights to define if it is flat
+		/// </summary>
+		/// <returns></returns>
+		public bool IsFlat()
+		{
+			return TopLeft == TopRight
+				&& TopLeft == BottomRight
+				&& TopLeft == BottomLeft;
+		}
+		
+		/// <summary>
+		/// Tests if the tile is "craggy". A craggy tile has a height
+		/// difference of 2 between it's lower and higher vertex. That's the 
+		/// maximum allowed
+		/// </summary>
+		/// <returns></returns>
+		public bool IsCraggy()
+		{
+			return GetMaxHeight() - GetMinHeight() == 2;
+		}
+		
+		/// <summary>
+		/// Tests if the tile is a simple slope : heights are equals 2 by 2
+		/// and equals vertices are neighbours.
+		/// </summary>
+		/// <returns></returns>
+		public bool IsSlope()
+		{
+			return (TopLeft == TopRight && BottomLeft == BottomRight
+			       || TopLeft == BottomLeft && TopRight == BottomRight)
+				&& GetMaxHeight() != GetMinHeight();
+		}
 	}
 }

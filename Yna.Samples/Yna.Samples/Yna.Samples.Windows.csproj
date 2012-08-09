@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="States\GameMenu.cs" />
     <Compile Include="States\IsoMapRenderer.cs" />
-    <Compile Include="States\IsometricTiledMapSample.cs" />
+    <Compile Include="States\IsoTiledMapSample.cs" />
     <Compile Include="States\Sample02.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\Sample03.cs" />
@@ -79,5 +79,12 @@
     <Reference Include="Tao.Sdl">
       <HintPath>..\..\Externals\MonoGame\Windows\Tao.Sdl.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Tilesets" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Tilesets\iso_deco_tileset.xnb" />
+    <None Include="Content\Tilesets\iso_ground_tileset.xnb" />
   </ItemGroup>
 </Project>

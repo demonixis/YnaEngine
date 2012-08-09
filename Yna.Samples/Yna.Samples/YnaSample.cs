@@ -18,7 +18,7 @@ namespace Yna.Samples
         protected override void Initialize()
         {
             base.Initialize();
-            YnG.SwitchState(new GameMenu());
+            YnG.SwitchState(new IsoTiledMapSample());
         }
 
         protected override void Update(Microsoft.Xna.Framework.GameTime gameTime)

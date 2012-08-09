@@ -28,7 +28,7 @@ namespace Yna.Display.TiledMap.Isometric
 		{
 			_layerHeight = data.GetUpperBound(0) +1;
 			_layerWidth = data.GetUpperBound(1) +1;
-			_tiles = new Tile2D[_layerWidth,_layerHeight];
+			_tiles = new TileIso[_layerWidth,_layerHeight];
 			_alpha = 1f;
 			
 			for(int x = 0; x < _layerWidth; x++)
@@ -38,6 +38,11 @@ namespace Yna.Display.TiledMap.Isometric
 					_tiles[x, y] = new TileIso(x, y, data[y, x]);
 				}
 			}
+		}
+		
+		public TileIso GetTile(int x, int y)
+		{
+			return (TileIso) base.GetTile(x, y);
 		}
 	}
 }

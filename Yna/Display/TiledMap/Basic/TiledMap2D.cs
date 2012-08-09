@@ -46,7 +46,6 @@ namespace Yna.Display.TiledMap._2D
 			
 			_layers = layers;
 			
-			// Default map size : 10 tiles 
 			_mapWidth = layers[0].LayerWidth;
 			_mapHeight = layers[0].LayerHeight;
 			
