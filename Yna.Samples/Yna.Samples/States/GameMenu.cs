@@ -56,7 +56,8 @@ namespace Yna.Sample.States
             items.Add(new MenuItem(2, "2D Plateformer", "An example that shows you how to easily create a fast\n2D Platformer with some physics (Acceleration and Velocity)."));
             items.Add(new MenuItem(3, "Animated Sprite", "How create an animated Sprite with a SpriteSheet ?\nThe answord in this sample"));
             items.Add(new MenuItem(4, "Simple Tiled Map", "Create a tilemap and a camera"));
-            items.Add(new MenuItem(5, "Exit"));
+            items.Add(new MenuItem(5, "Isometric Tiled Map", "Create an isometric tilemap and a camera"));
+            items.Add(new MenuItem(6, "Exit"));
         }
 
         public override void Update(GameTime gameTime)
@@ -97,7 +98,8 @@ namespace Yna.Sample.States
                     case 1: YnG.SwitchState(new Sample02()); break;
                     case 2: YnG.SwitchState(new Sample03()); break;
                     case 3: YnG.SwitchState(new TiledMap2DSample()); break;
-                    case 4: YnG.Exit(); break;
+                    case 4: YnG.SwitchState(new IsoTiledMapSample()); break;
+                    case 5: YnG.Exit(); break;
                     default: break;
                 }
             }
