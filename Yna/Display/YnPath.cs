@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Display
 {
-    internal class Destination
+    internal class Path
     {
         public Vector2 Destination;
         public float Speed;
 
-        public Destination(Vector2 destination, float speed)
+        public Path(Vector2 destination, float speed)
         {
             Destination = destination;
             Speed = speed;
@@ -18,10 +18,11 @@ namespace Yna.Display
 
     public class YnPath : YnBase
     {
-        private List<Destination> _destinations;
+        private List<Path> _destinations;
         private bool _repeat;
         private int _pathIndex;
         private Sprite _sprite;
+        private bool _ready;
 
         public event EventHandler<EventArgs> Started = null;
         public event EventHandler<EventArgs> Restarted = null;
@@ -50,26 +51,41 @@ namespace Yna.Display
             _sprite = sprite;
             _repeat = repeat;
             _pathIndex = 0;
-            _destinations = new List<Destination>();
+            _destinations = new List<Path>();
+            _ready = false;
             Active = false;
         }
 
-        public void AddPoint(int x, int y, float speed = 2)
+        public void Begin(int x, int y, float speed = 2)
         {
-            _destinations.Add(new Destination(new Vector2(x, y), speed));
+            if (!Active && _destinations.Count == 0)
+                _destinations.Add(new Path(new Vector2(x, y), speed);
         }
 
-        public void Start()
+        public void Add(int x, int y, float speed = 2)
         {
-            Active = true;
+            _destinations.Add(new Path(new Vector2(x, y), speed));
+        }
+
+        public void End()
+        {
+            if (_destinations.Count > 2)
+                _ready = true;
+
+            _pathIndex = 0;
+        }
+
+        public void Clear()
+        {
+            Active = false;
+            _ready = false;
+            _destinations.Clear();
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (Active)
+            if (Active && _ready)
             {
-                _pathIndex++;
-
                 if (_destinations.Count == _pathIndex)
                 {
                     if (!_repeat)
@@ -85,7 +101,20 @@ namespace Yna.Display
                 }
                 else
                 {
-                    
+                    Vector2 position = _sprite.Position;
+                    Vector2 target = _destinations[_pathIndex].Destination;
+                    Vector2 distance = Vector2.Subtract(target, position);
+                    double angle = Math.Atan2(distance.Y, distance.X);
+
+                    if (position == target)
+                    {
+                        _pathIndex++;
+                    }
+                    else
+                    {
+                        _sprite.X += (int)(Math.Sin(angle) * _destinations[_pathIndex].Speed);
+                        _sprite.Y += (int)(Math.Cos(angle) * _destinations[_pathIndex].Speed);
+                    }
                 }
             }
         }
