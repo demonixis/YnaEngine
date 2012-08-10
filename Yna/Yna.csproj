@@ -85,6 +85,7 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\SpriteMover.cs" />
+    <Compile Include="Display\YnPath.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
