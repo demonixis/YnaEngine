@@ -72,9 +72,15 @@
     <Compile Include="Display\Sprite.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
-    <Compile Include="Display\TiledMap\Layer.cs" />
-    <Compile Include="Display\TiledMap\Tile.cs" />
-    <Compile Include="Display\TiledMap\TiledMap.cs" />
+    <Compile Include="Display\TiledMap\AbstractLayer.cs" />
+    <Compile Include="Display\TiledMap\AbstractTile.cs" />
+    <Compile Include="Display\TiledMap\AbstractTiledMap.cs" />
+    <Compile Include="Display\TiledMap\Basic\Layer2D.cs" />
+    <Compile Include="Display\TiledMap\Basic\Tile2D.cs" />
+    <Compile Include="Display\TiledMap\Basic\TiledMap2D.cs" />
+    <Compile Include="Display\TiledMap\Iso\LayerIso.cs" />
+    <Compile Include="Display\TiledMap\Iso\TiledMapIso.cs" />
+    <Compile Include="Display\TiledMap\Iso\TileIso.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
@@ -100,6 +106,7 @@
     <Compile Include="State\YnState.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

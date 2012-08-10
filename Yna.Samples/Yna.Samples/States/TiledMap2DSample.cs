@@ -85,7 +85,7 @@ namespace Yna.Samples.Windows.States
 			// - And to finish, the tile size. Note that in this example, tiles are
 			// squares but you can use rectangle tiles too. Just use another constructor
 			// to define tile width and tile height.
-			_map = new TiledMap2D("Spritesheets//tileset",new Layer2D[]{layer}, 20);
+			_map = new TiledMap2D("Tilesets//tileset",new Layer2D[]{layer}, 20);
 			
 			// The map can be moved with a simple Vector2. The camera position
 			// is screen relative. The top left tile will be drawn at this position
@@ -114,12 +114,16 @@ namespace Yna.Samples.Windows.States
 		public override void Draw(GameTime gameTime)
 		{
 			base.Draw(gameTime);
-			
+
+            spriteBatch.Begin();
+
 			// Here we simply draw the map with the camera position and the draw zone
 			_map.Draw(spriteBatch, _camera, _viewport);
 			
 			// A rectangle is drawn to represent the map's drawing zone
 			DrawRectangle(_viewport, Color.Red);
+
+            spriteBatch.End();
 		}
 		
 		public override void Update(GameTime gameTime)
