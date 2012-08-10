@@ -10,7 +10,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display.TiledMap._2D
+namespace Yna.Display.TiledMap.Basic
 {
 	/// <summary>
 	/// Description of TiledMap2D.

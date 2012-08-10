@@ -3,12 +3,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Display.TiledMap;
-using Yna.Display.TiledMap._2D;
-using Yna.Sample.States;
+using Yna.Display.TiledMap.Basic;
 using Yna.State;
 
-namespace Yna.Samples.Windows.States
+namespace Yna.Sample.States
 {
 	/// <summary>
 	/// Example of simple tiled map user and rendering
@@ -145,12 +143,10 @@ namespace Yna.Samples.Windows.States
 		private void DrawRectangle(Rectangle rectangle, Color color)
         {
 			// Draw each border as a texture
-            spriteBatch.Begin();
             spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, 1), color);
             spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, 1), color);
             spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, 1, rectangle.Height), color);
             spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Right, rectangle.Top, 1, rectangle.Height + 1), color);
-            spriteBatch.End();
         }
 	}
 }

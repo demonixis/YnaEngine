@@ -7,8 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna;
 using Yna.Display;
-using Yna.Display.TiledMap._2D;
-using Yna.Samples.Windows.States;
 using Yna.State;
 
 namespace Yna.Sample.States

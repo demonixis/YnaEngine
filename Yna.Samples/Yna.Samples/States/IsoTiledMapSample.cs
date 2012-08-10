@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Yna.Display.TiledMap.Isometric;
+using Yna;
 using Yna.State;
 
-namespace Yna.Samples.Windows.States
+namespace Yna.Sample.States
 {
     /// <summary>
     /// Description of IsometricTiledMapSample.
@@ -70,6 +72,14 @@ namespace Yna.Samples.Windows.States
             // around the map (ensuring that no pixel gets out of the zone! :-) )
             _dummyTexture = new Texture2D(YnG.GraphicsDevice, 1, 1);
             _dummyTexture.SetData(new Color[] { Color.White });
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            if (YnG.Keys.JustPressed(Keys.Escape))
+                YnG.SwitchState(new GameMenu());
         }
 
         public override void Draw(GameTime gameTime)
