@@ -59,7 +59,7 @@ namespace Yna.Display
         public void Begin(int x, int y, float speed = 2)
         {
             if (!Active && _destinations.Count == 0)
-                _destinations.Add(new Path(new Vector2(x, y), speed);
+                _destinations.Add(new Path(new Vector2(x, y), speed));
         }
 
         public void Add(int x, int y, float speed = 2)

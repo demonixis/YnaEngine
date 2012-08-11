@@ -55,7 +55,7 @@ namespace Yna.Sample.States
 
             LayerIso[] layers = new LayerIso[] { groundLayer, decoLayer };
 
-            _map = new TiledMapIso("Tilesets//iso_ground_tileset", "Tilesets//iso_deco_tileset", layers, 96, 96, 192);
+            _map = new TiledMapIso("Tilesets/iso_ground_tileset", "Tilesets/iso_deco_tileset", layers, 96, 96, 192);
 
             _camera = new Vector2(YnG.Width / 2 - 96 / 2, 128);
         }

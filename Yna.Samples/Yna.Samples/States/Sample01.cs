@@ -43,7 +43,7 @@ namespace Yna.Sample.States
             music = YnG.Content.Load<Song>("audio//welcome-to-nova");
             MediaPlayer.Play(music);
 #endif
-            background = new Sprite(Vector2.Zero, "Backgrounds//Sky3");
+            background = new Sprite(Vector2.Zero, "Backgrounds/Sky3");
             background.LoadContent();
             background.SourceRectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
 			
@@ -106,8 +106,6 @@ namespace Yna.Sample.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
-                SoundEffect sound = YnG.Content.Load<SoundEffect>("Audio//terminated");
-                sound.Play();
                 YnG.SwitchState(new GameMenu());
             }
         }

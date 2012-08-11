@@ -32,18 +32,19 @@ namespace Yna.Sample.States
         {
             // 0 - The background
             background = new Sprite("Backgrounds/back-ff6");
+            Add(background);
 
             // 1 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
-            sephirothSprite = new Sprite(new Vector2(150, 250), "Sprites//sephiroth");
+            sephirothSprite = new Sprite(new Vector2(150, 250), "Sprites/sephiroth");
             Add(sephirothSprite);
 
-            tifaSprite = new Sprite(new Vector2(350, 150), "Sprites//tifa");
+            tifaSprite = new Sprite(new Vector2(350, 150), "Sprites/tifa");
             Add(tifaSprite);
 
-            cloudSprite = new Sprite(new Vector2(350, 25), "Sprites//cloud");
+            cloudSprite = new Sprite(new Vector2(350, 25), "Sprites/cloud");
             Add(cloudSprite);
 
-            chocoboSprite = new Sprite(new Vector2(0, 350), "Sprites//chocobo");
+            chocoboSprite = new Sprite(new Vector2(0, 350), "Sprites/chocobo");
             Add(chocoboSprite);
 
             // 2 - Informations de debug

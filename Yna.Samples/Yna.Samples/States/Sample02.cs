@@ -29,11 +29,11 @@ namespace Yna.Sample.States
             : base(1500, 500) 
         {
             // 1 - Background
-            background = new Sprite(Vector2.Zero, "Backgrounds//sonic-background");
+            background = new Sprite(Vector2.Zero, "Backgrounds/sonic-background");
             Add(background);
 
             // 2 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
-            sonicSprite = new Sprite(new Vector2(50, 505), "Sprites//soniclg4");
+            sonicSprite = new Sprite(new Vector2(50, 505), "Sprites/soniclg4");
             Add(sonicSprite);
 
             // Saut

@@ -25,6 +25,12 @@ namespace Yna.State
         protected float _rotation;
         protected float _zoom;
 
+        public SpriteSortMode SpriteSortMode
+        {
+            get { return _spriteSortMode; }
+            set { _spriteSortMode = value; }
+        }
+
         public float ScreenRotation
         {
             get { return _rotation; }
