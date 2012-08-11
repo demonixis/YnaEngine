@@ -37,8 +37,8 @@ namespace Yna.Samples3D.States
         {
             base.LoadContent();
 
-            background = YnG.Content.Load<Texture2D>("Backgrounds\\space");
-            modelShip = YnG.Content.Load<Model>("Models\\p1_wedge");
+            background = YnG.Content.Load<Texture2D>("Backgrounds/space");
+            modelShip = YnG.Content.Load<Model>("Models/p1_wedge");
             aspectRatio = YnG.GraphicsDevice.Viewport.AspectRatio;
             rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
         }
@@ -69,8 +69,10 @@ namespace Yna.Samples3D.States
                 modelVelocity += modelVelocityAdd;
 
                 modelPosition.Y += pad.ThumbSticks.Left.Y * 25.0f;
-
+#if NETFX_CORE
+#else
                 GamePad.SetVibration(PlayerIndex.One, pad.Triggers.Right, pad.Triggers.Left);
+#endif
 
                 if (pad.Buttons.A == ButtonState.Pressed)
                 {

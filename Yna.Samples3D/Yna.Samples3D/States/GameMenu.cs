@@ -39,9 +39,9 @@ namespace Yna.Samples3D.States
         {
             base.LoadContent();
 
-            background = YnG.Content.Load<Texture2D>("Backgrounds//gradient");
+            background = YnG.Content.Load<Texture2D>("Backgrounds/gradient");
 
-            font = YnG.Content.Load<SpriteFont>("Fonts//MenuFont");
+            font = YnG.Content.Load<SpriteFont>("Fonts/MenuFont");
         }
 
         public override void Update(GameTime gameTime)
