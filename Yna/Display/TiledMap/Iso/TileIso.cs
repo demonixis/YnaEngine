@@ -76,7 +76,7 @@ namespace Yna.Display.TiledMap.Isometric
 		/// for details
 		/// </summary>
 		/// <returns></returns>
-		public int GetTileType()
+		public int TileType()
 		{
 			int type = 0;
 			if(IsFlat())
@@ -114,7 +114,7 @@ namespace Yna.Display.TiledMap.Isometric
 		/// Calculate the max height of the tile
 		/// </summary>
 		/// <returns></returns>
-		public int GetMaxHeight()
+		public int MaxHeight()
 		{
 			int max = Math.Max(TopLeft, TopRight);
 			max = Math.Max(max, BottomRight);
@@ -126,7 +126,7 @@ namespace Yna.Display.TiledMap.Isometric
 		/// Calculate the min height of the tile
 		/// </summary>
 		/// <returns></returns>
-		public int GetMinHeight()
+		public int MinHeight()
 		{
 			int min = Math.Min(TopLeft, TopRight);
 			min = Math.Min(min, BottomRight);
@@ -153,7 +153,7 @@ namespace Yna.Display.TiledMap.Isometric
 		/// <returns></returns>
 		public bool IsCraggy()
 		{
-			return GetMaxHeight() - GetMinHeight() == 2;
+			return MaxHeight() - MinHeight() == 2;
 		}
 		
 		/// <summary>
@@ -165,7 +165,7 @@ namespace Yna.Display.TiledMap.Isometric
 		{
 			return (TopLeft == TopRight && BottomLeft == BottomRight
 			       || TopLeft == BottomLeft && TopRight == BottomRight)
-				&& GetMaxHeight() != GetMinHeight();
+				&& MaxHeight() != MinHeight();
 		}
 	}
 }

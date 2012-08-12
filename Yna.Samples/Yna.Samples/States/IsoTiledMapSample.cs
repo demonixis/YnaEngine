@@ -43,6 +43,13 @@ namespace Yna.Sample.States
 				{0, 0, 0, 0, 0},
 			};
             LayerIso groundLayer = new LayerIso(groundData);
+            
+            for(int x = 0; x < 5; x++)
+            {
+            	groundLayer.GetTile(x, 0).FlattenTo(1);
+            	groundLayer.GetTile(x, 1).TopLeft = 1;
+            	groundLayer.GetTile(x, 1).TopRight = 1;
+            }
 
             int[,] decoData = {
 				{ 0,  0,  0,  0,  0},
@@ -53,17 +60,20 @@ namespace Yna.Sample.States
 			};
             LayerIso decoLayer = new LayerIso(decoData);
 
-            LayerIso[] layers = new LayerIso[] { groundLayer, decoLayer };
+            LayerIso[] layers = new LayerIso[] { decoLayer };
 
-            _map = new TiledMapIso("Tilesets/iso_ground_tileset", "Tilesets/iso_deco_tileset", layers, 96, 96, 192);
+            _map = new TiledMapIso("Tilesets/iso_ground_tileset", "Tilesets/iso_deco_tileset", groundLayer, layers, 96, 96, 192);
 
             _camera = new Vector2(YnG.Width / 2 - 96 / 2, 128);
+            
+            // Define the drawing zone
+            _viewport = new Rectangle(YnG.Width/2 - 128, 64, 256, 256);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-
+            
             // By calling LoadContent on the map, the tileset texture will be loaded
             // and tile zones will be calculated according to the tile size.
             _map.LoadContent();
@@ -78,8 +88,32 @@ namespace Yna.Sample.States
         {
             base.Update(gameTime);
 
+            // Simple handling of the camera position
+            if (YnG.Keys.Left)
+            {
+            	_camera.X+= 2;
+            	_camera.Y++;
+            }
+            if (YnG.Keys.Right)
+            {
+            	_camera.X -= 2;
+            	_camera.Y--;
+            }
+            if (YnG.Keys.Up)
+            {
+            	_camera.Y++;
+            	_camera.X-=2;
+            }
+            if (YnG.Keys.Down)
+            {
+            	_camera.Y--;
+            	_camera.X+=2;
+            }
+
             if (YnG.Keys.JustPressed(Keys.Escape))
+            {
                 YnG.SwitchState(new GameMenu());
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -90,8 +124,18 @@ namespace Yna.Sample.States
             spriteBatch.Begin();
             _map.Draw(spriteBatch, _camera, _viewport);
             spriteBatch.End();
+            
             // A rectangle is drawn to represent the map's drawing zone
-            //DrawRectangle(_viewport, Color.Red);
+            DrawRectangle(_viewport, Color.Red);
+        }
+        
+        private void DrawRectangle(Rectangle rectangle, Color color)
+        {
+            // Draw each border as a texture
+            spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, 1), color);
+            spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, 1), color);
+            spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, 1, rectangle.Height), color);
+            spriteBatch.Draw(_dummyTexture, new Rectangle(rectangle.Right, rectangle.Top, 1, rectangle.Height + 1), color);
         }
     }
 }
