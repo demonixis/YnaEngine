@@ -1,32 +1,35 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna", "Yna\Yna.Windows.csproj", "{F05F30FF-7CA3-4422-9A4E-14B7D1BB2898}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010 Express for Windows Phone
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Windows", "Yna\Yna.Windows.csproj", "{1D28053D-5C68-4872-992F-EA90A0FE04E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples", "Yna.Samples\Yna.Samples\Yna.Samples.Windows.csproj", "{B7E09EF1-499A-4EFA-ACE6-5C69F5A7E7BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples.Windows", "Yna.Samples\Yna.Samples\Yna.Samples.Windows.csproj", "{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples3D", "Yna.Samples3D\Yna.Samples3D\Yna.Samples3D.Windows.csproj", "{9A124879-9B6C-4550-BB67-92C917A24E75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples3D.Windows", "Yna.Samples3D\Yna.Samples3D\Yna.Samples3D.Windows.csproj", "{CEAA879C-F5B5-44FD-B49D-54A0C5EBBC31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9A124879-9B6C-4550-BB67-92C917A24E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A124879-9B6C-4550-BB67-92C917A24E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A124879-9B6C-4550-BB67-92C917A24E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A124879-9B6C-4550-BB67-92C917A24E75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7E09EF1-499A-4EFA-ACE6-5C69F5A7E7BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7E09EF1-499A-4EFA-ACE6-5C69F5A7E7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7E09EF1-499A-4EFA-ACE6-5C69F5A7E7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7E09EF1-499A-4EFA-ACE6-5C69F5A7E7BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F05F30FF-7CA3-4422-9A4E-14B7D1BB2898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F05F30FF-7CA3-4422-9A4E-14B7D1BB2898}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F05F30FF-7CA3-4422-9A4E-14B7D1BB2898}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F05F30FF-7CA3-4422-9A4E-14B7D1BB2898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D28053D-5C68-4872-992F-EA90A0FE04E2}.Debug|x86.ActiveCfg = Debug|x86
+		{1D28053D-5C68-4872-992F-EA90A0FE04E2}.Debug|x86.Build.0 = Debug|x86
+		{1D28053D-5C68-4872-992F-EA90A0FE04E2}.Release|x86.ActiveCfg = Release|x86
+		{1D28053D-5C68-4872-992F-EA90A0FE04E2}.Release|x86.Build.0 = Release|x86
+		{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}.Debug|x86.ActiveCfg = Debug|x86
+		{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}.Debug|x86.Build.0 = Debug|x86
+		{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}.Release|x86.ActiveCfg = Release|x86
+		{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}.Release|x86.Build.0 = Release|x86
+		{CEAA879C-F5B5-44FD-B49D-54A0C5EBBC31}.Debug|x86.ActiveCfg = Debug|x86
+		{CEAA879C-F5B5-44FD-B49D-54A0C5EBBC31}.Debug|x86.Build.0 = Debug|x86
+		{CEAA879C-F5B5-44FD-B49D-54A0C5EBBC31}.Release|x86.ActiveCfg = Release|x86
+		{CEAA879C-F5B5-44FD-B49D-54A0C5EBBC31}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Yna\Yna.Windows.csproj
 	EndGlobalSection
 EndGlobal
