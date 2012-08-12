@@ -46,16 +46,16 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network.Windows">
-      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows\Lidgren.Network.Windows.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows\Lidgren.Network.Windows.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework.Content.Pipeline">
-      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows\MonoGame.Framework.Content.Pipeline.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows\MonoGame.Framework.Content.Pipeline.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows\MonoGame.Framework.Windows.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows\MonoGame.Framework.Windows.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
-      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows\OpenTK.dll</HintPath>
+      <HintPath>..\Externals\MonoGame\Windows\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -65,7 +65,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Tao.Sdl">
-      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows\Tao.Sdl.dll</HintPath>
+      <HintPath>..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows\Tao.Sdl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
