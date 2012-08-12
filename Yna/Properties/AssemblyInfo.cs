@@ -1,12 +1,12 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Les informations générales sur l’assembly sont contrôlées par 
 // les attributs suivants. Modifiez la valeur de ces attributs pour modifier les informations
 // associées à l’assembly.
-[assembly: AssemblyTitle("Yna.Xna")]
-[assembly: AssemblyProduct("Yna.Xna")]
+[assembly: AssemblyTitle("Yna")]
+[assembly: AssemblyProduct("Yna")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // Dans Windows, le GUID suivant est l’ID de typelib si ce 
 // projet est exposé à COM. Sur les autres plateformes, il identifie de façon unique
 // le conteneur de stockage lorsque l’assembly est déployé sur l’appareil.
-[assembly: Guid("16f503db-d6a3-4174-adfa-d32d745ff2f3")]
+[assembly: Guid("3fbfc831-9c98-4437-b245-afd01e77e624")]
 
 // Les informations de version de l’assembly comprennent les valeurs suivantes :
 //

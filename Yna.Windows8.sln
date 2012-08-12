@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Metro", "Yna\Yna.Metro.csproj", "{FCC2DB0F-C241-400C-AFDB-DC153DF4C433}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna", "Yna\Yna.Windows8.csproj", "{FCC2DB0F-C241-400C-AFDB-DC153DF4C433}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples.Windows8", "Yna.Samples\Yna.Samples\Yna.Samples.Windows8.csproj", "{500B29B0-6AEF-49DB-B692-A86A143692C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples", "Yna.Samples\Yna.Samples\Yna.Samples.Windows8.csproj", "{500B29B0-6AEF-49DB-B692-A86A143692C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples3D.Windows8", "Yna.Samples3D\Yna.Samples3D\Yna.Samples3D.Windows8.csproj", "{6BE50E12-8776-4D21-BAD0-2EC8D4CE7EE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples3D", "Yna.Samples3D\Yna.Samples3D\Yna.Samples3D.Windows8.csproj", "{6BE50E12-8776-4D21-BAD0-2EC8D4CE7EE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{45AC4715-C473-43D4-84E0-5CDFD5124919}</ProjectGuid>
+    <ProjectGuid>{101CF19E-33FE-43BB-9498-94BF2E7DA53D}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -14,7 +14,7 @@
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>Reach</XnaProfile>
-    <XnaCrossPlatformGroupID>8defb19b-6c02-4dac-ad8a-080dd5a92118</XnaCrossPlatformGroupID>
+    <XnaCrossPlatformGroupID>06aff3d2-1e7d-4b7a-b727-4b56ebef4b65</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
@@ -39,7 +39,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\x86\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
@@ -51,7 +51,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\x86\Release</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
@@ -75,12 +75,12 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\GameMenu.cs" />
     <Compile Include="States\IsoTiledMapSample.cs" />
-    <Compile Include="States\Sample02.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="States\Sample03.cs" />
     <Compile Include="States\Sample01.cs" />
+    <Compile Include="States\Sample02.cs" />
+    <Compile Include="States\Sample03.cs" />
     <Compile Include="States\TiledMap2DSample.cs" />
     <Compile Include="YnaSample.cs" />
   </ItemGroup>
@@ -92,13 +92,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Yna\Yna.csproj">
-      <Project>{73E70DF3-9F1F-4627-91C2-0C77044DA9AC}</Project>
+      <Project>{DE4D83AF-5F2D-465A-8682-52692A8DCE7A}</Project>
       <Name>Yna</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yna.SamplesContent\Yna.SamplesContent.contentproj">
-      <Name>Yna.SamplesContent %28Content%29</Name>
+      <Name>Yna.SamplesContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
-      <Project>{4FF29C0C-DD9F-40F3-A2FE-9CEFB170BC91}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

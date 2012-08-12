@@ -9,8 +9,8 @@
     <ProjectGuid>{FCC2DB0F-C241-400C-AFDB-DC153DF4C433}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yna.Metro</RootNamespace>
-    <AssemblyName>Yna.Metro</AssemblyName>
+    <RootNamespace>Yna</RootNamespace>
+    <AssemblyName>Yna.Windows8</AssemblyName>
     <DefaultLanguage>fr-FR</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -110,7 +110,6 @@
     <Compile Include="Display\Mapping\Map.cs" />
     <Compile Include="Display\Mapping\MapReader.cs" />
     <Compile Include="Display\Sprite.cs" />
-	<Compile Include="Display\YnPath.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
     <Compile Include="Display\TiledMap\Basic\Layer2D.cs" />
@@ -145,40 +144,33 @@
     <Compile Include="YnGroup.cs" />
     <Compile Include="YnObject.cs" />
     <Compile Include="State\YnState.cs" />
+    <Compile Include="YnPath.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.Windows8, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Externals\MonoGame\Windows 8 Metro\MonoGame.Framework.Windows8.dll</HintPath>
+    <Reference Include="MonoGame.Framework.Windows8">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows 8 Metro\MonoGame.Framework.Windows8.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows 8 Metro\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct2D1, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.Direct2D1.dll</HintPath>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows 8 Metro\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct3D11, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.Direct3D11.dll</HintPath>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows 8 Metro\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DXGI, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.DXGI.dll</HintPath>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows 8 Metro\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.MediaFoundation, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.MediaFoundation.dll</HintPath>
+    <Reference Include="SharpDX.MediaFoundation">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows 8 Metro\SharpDX.MediaFoundation.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XAudio2, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.XAudio2.dll</HintPath>
+    <Reference Include="SharpDX.XAudio2">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows 8 Metro\SharpDX.XAudio2.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XInput, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Externals\MonoGame\Windows 8 Metro\SharpDX.XInput.dll</HintPath>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Windows 8 Metro\SharpDX.XInput.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

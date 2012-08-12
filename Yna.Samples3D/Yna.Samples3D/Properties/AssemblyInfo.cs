@@ -1,10 +1,10 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
+// Les informations générales sur l’assembly sont contrôlées par 
+// les attributs suivants. Modifiez la valeur de ces attributs pour modifier les informations
+// associées à l’assembly.
 [assembly: AssemblyTitle("Yna.Samples3D")]
 [assembly: AssemblyProduct("Yna.Samples3D")]
 [assembly: AssemblyDescription("")]
@@ -13,22 +13,22 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type. Only Windows
-// assemblies support COM.
+// Si vous définissez ComVisible sur False, les types de cet assembly ne sont plus visibles 
+// pour les composants COM. Si vous devez accéder à un type dans cet assembly à partir de 
+// COM, définissez l’attribut ComVisible sur True pour ce type. Seuls les assemblys
+// Windows prennent COM en charge.
 [assembly: ComVisible(false)]
 
-// On Windows, the following GUID is for the ID of the typelib if this
-// project is exposed to COM. On other platforms, it unique identifies the
-// title storage container when deploying this assembly to the device.
-[assembly: Guid("c7f9f907-31d0-4bbb-ac96-1bb7ac6f581b")]
+// Dans Windows, le GUID suivant est l’ID de typelib si ce 
+// projet est exposé à COM. Sur les autres plateformes, il identifie de façon unique
+// le conteneur de stockage lorsque l’assembly est déployé sur l’appareil.
+[assembly: Guid("3d55fc43-a4f6-4fbb-b86b-5e18342e52b3")]
 
-// Version information for an assembly consists of the following four values:
+// Les informations de version de l’assembly comprennent les valeurs suivantes :
 //
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
+//      Version majeure
+//      Version mineure 
+//      Numéro de version
+//      Révision
 //
 [assembly: AssemblyVersion("1.0.0.0")]

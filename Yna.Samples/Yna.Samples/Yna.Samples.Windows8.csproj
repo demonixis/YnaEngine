@@ -107,7 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\Yna\Yna.Metro.csproj">
+    <ProjectReference Include="..\..\Yna\Yna.Windows8.csproj">
       <Project>{fcc2db0f-c241-400c-afdb-dc153df4c433}</Project>
       <Name>Yna.Metro</Name>
     </ProjectReference>
