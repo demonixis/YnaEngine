@@ -241,6 +241,12 @@ namespace Yna
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, ref Rectangle rectangle)
+        {
+            if (Active)
+                spriteBatch.Draw(Texture, Rectangle, Color);
+        }
+
         /// <summary>
         /// Flag qui permet d'indiquer que cet objet doit être détruit
         /// La propriété Active est passée à false, l'objet est candidat à la destruction

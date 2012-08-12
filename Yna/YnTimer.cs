@@ -11,10 +11,7 @@ namespace Yna
         private long _elapsedTime;
         private int _counter;
 
-
-        public bool Active { get; protected set; }
         public int Duration { get; set; }
-        public uint Id { get; protected set; }
         public int Repeat { get; set; }
 
         public long ElapsedTime

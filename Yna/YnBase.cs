@@ -12,7 +12,7 @@ namespace Yna
         protected bool _dirty;
         protected bool _paused;
 
-        public new bool Active
+        public bool Active
         {
             get { return !_paused && !_dirty; }
             set

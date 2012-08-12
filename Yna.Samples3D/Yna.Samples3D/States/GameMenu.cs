@@ -30,6 +30,7 @@ namespace Yna.Samples3D.States
 
             items = new List<MenuItem>();
 			items.Add(new MenuItem("SpaceShip 3D", true));
+            items.Add(new MenuItem("Nasa Sample"));
             items.Add(new MenuItem("Exit"));
 
             index = 0;
@@ -74,7 +75,8 @@ namespace Yna.Samples3D.States
                 switch (index)
                 {
                     case 0: YnG.SwitchState(new SpaceGame()); break;
-                    case 1: YnG.Exit(); break;
+                    case 1: YnG.SwitchState(new NasaSample()); break;
+                    case 2: YnG.Exit(); break;
                     default: break;
                 }
             }

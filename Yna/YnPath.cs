@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Yna.Display;
 
-namespace Yna.Display
+namespace Yna
 {
     internal class Path
     {
         public Vector2 Destination;
         public float Speed;
+        public bool Arrived;
 
         public Path(Vector2 destination, float speed)
         {
@@ -59,20 +61,36 @@ namespace Yna.Display
         public void Begin(int x, int y, float speed = 2)
         {
             if (!Active && _destinations.Count == 0)
+            {
+                _sprite.Position = new Vector2(x, y);
                 _destinations.Add(new Path(new Vector2(x, y), speed));
+            }
         }
 
+        /// <summary>
+        /// Add a new point to the path
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        /// <param name="speed">Velocity speed for this path</param>
         public void Add(int x, int y, float speed = 2)
         {
             _destinations.Add(new Path(new Vector2(x, y), speed));
         }
 
+        /// <summary>
+        /// Close the path
+        /// </summary>
         public void End()
         {
             if (_destinations.Count > 2)
+            {
                 _ready = true;
 
-            _pathIndex = 0;
+                Active = true;
+
+                _pathIndex = 0;
+            }
         }
 
         public void Clear()
@@ -112,8 +130,8 @@ namespace Yna.Display
                     }
                     else
                     {
-                        _sprite.X += (int)(Math.Sin(angle) * _destinations[_pathIndex].Speed);
-                        _sprite.Y += (int)(Math.Cos(angle) * _destinations[_pathIndex].Speed);
+                        _sprite.X += (int)(Math.Cos(angle) * _destinations[_pathIndex].Speed);
+                        _sprite.Y += (int)(Math.Sin(angle) * _destinations[_pathIndex].Speed);
                     }
                 }
             }

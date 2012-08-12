@@ -113,7 +113,7 @@ namespace Yna.Sample.States
         private YnText _label;
         private YnText _description;
         private bool _selected;
-        private int _position;
+        private int _itemPosition;
 
         public Color LabelColor
         {
@@ -141,9 +141,9 @@ namespace Yna.Sample.States
         {
             Name = name;
             _selected = selected;
-            _position = position;
+            _itemPosition = position;
             
-            _label = new YnText("Fonts/MenuFont", new Vector2(coefX, offset + coefY * _position), Name);
+            _label = new YnText("Fonts/MenuFont", new Vector2(coefX, offset + coefY * _itemPosition), Name);
             _label.Color = LabelColor;
             Add(_label);
 
@@ -153,7 +153,7 @@ namespace Yna.Sample.States
             _description.Visible = Selected;
             Add(_description);
 
-            _position++;
+            _itemPosition++;
         }
     }
 }

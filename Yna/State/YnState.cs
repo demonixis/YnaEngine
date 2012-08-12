@@ -31,6 +31,24 @@ namespace Yna.State
             set { _spriteSortMode = value; }
         }
 
+        public BlendState BlendState
+        {
+            get { return _blendState; }
+            set { _blendState = value; }
+        }
+
+        public SamplerState SamplerState
+        {
+            get { return _samplerState; }
+            set { _samplerState = value; }
+        }
+
+        public DepthStencilState DepthStencilState
+        {
+            get { return _depthStencilState; }
+            set { _depthStencilState = value; }
+        }
+
         public float ScreenRotation
         {
             get { return _rotation; }

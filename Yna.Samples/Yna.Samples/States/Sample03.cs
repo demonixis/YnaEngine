@@ -23,7 +23,7 @@ namespace Yna.Sample.States
 
         private SpriteMover tifaMover;
         private SpriteMover cloudMover;
-        private SpriteMover chocoboMover;
+        private YnPath chocoboMover;
         
         private YnTimer clearMessage;
 
@@ -32,7 +32,6 @@ namespace Yna.Sample.States
         {
             // 0 - The background
             background = new Sprite("Backgrounds/back-ff6");
-            Add(background);
 
             // 1 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
             sephirothSprite = new Sprite(new Vector2(150, 250), "Sprites/sephiroth");
@@ -44,7 +43,7 @@ namespace Yna.Sample.States
             cloudSprite = new Sprite(new Vector2(350, 25), "Sprites/cloud");
             Add(cloudSprite);
 
-            chocoboSprite = new Sprite(new Vector2(0, 350), "Sprites/chocobo");
+            chocoboSprite = new Sprite(Vector2.Zero, "Sprites/chocobo");
             Add(chocoboSprite);
 
             // 2 - Informations de debug
@@ -56,7 +55,7 @@ namespace Yna.Sample.States
             // 3 - Permet de simuler un déplacement aléatoire sur un Sprite
             tifaMover = new SpriteMover(tifaSprite);
             cloudMover = new SpriteMover(cloudSprite);
-            chocoboMover = new SpriteMover(chocoboSprite);
+            chocoboMover = new YnPath(chocoboSprite, true);
 
             // 4 - Timer pour faire disparaitre les messages d'info
             clearMessage = new YnTimer(1500, 0);
@@ -77,27 +76,40 @@ namespace Yna.Sample.States
             CreateAnimation(chocoboSprite, 48, 48);
 
             // 5 - Evenements souris
-            tifaSprite.MouseOver += new EventHandler<MouseOverSpriteEventArgs>(sephirothSprite_MouseOver);
-            sephirothSprite.MouseClicked += new EventHandler<MouseClickSpriteEventArgs>(sephirothSprite_MouseClicked);
+            tifaSprite.MouseOver += new EventHandler<MouseOverSpriteEventArgs>(OnSprite_MouseOver);
+            sephirothSprite.MouseClicked += new EventHandler<MouseClickSpriteEventArgs>(OnSprite_MouseClicked);
 
             // 6 - Scale of the sprites
-            Vector2 scale = new Vector2(2.0f, 2.0f);
+            Vector2 scale = new Vector2(1.5f, 1.5f);
             tifaSprite.Scale = scale;
             sephirothSprite.Scale = scale;
             cloudSprite.Scale = scale;
             chocoboSprite.Scale = scale;
 
+            int x = 350;
+            int y = 350;
+
+            chocoboMover.Begin(x, y);
+            chocoboMover.Add(x + 150, 0);
+            chocoboMover.Add(0, y + 20);
+            chocoboMover.Add(x + 50, 0);
+            chocoboMover.Add(0, y + 150);
+            chocoboMover.Add(x - 150, 0);
+            chocoboMover.Add(0, y - 50);
+            chocoboMover.End();
+            chocoboSprite.ForceInsideScreen = false;
+
             // On affiche la souris
             YnG.Game.IsMouseVisible = true;
 		}
 
-        void sephirothSprite_MouseClicked(object sender, MouseClickSpriteEventArgs e)
+        void OnSprite_MouseClicked(object sender, MouseClickSpriteEventArgs e)
         {   
             informations.Text = "You clicked on Sephiroth !";
             clearMessage.Start();
         }
 
-        void sephirothSprite_MouseOver(object sender, MouseOverSpriteEventArgs e)
+        void OnSprite_MouseOver(object sender, MouseOverSpriteEventArgs e)
         {
             informations.Text = "The mouse is over Tifa's Sprite !";
             clearMessage.Start();
@@ -169,6 +181,15 @@ namespace Yna.Sample.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(background.Texture, background.Rectangle, Color.White);
+            spriteBatch.End();
+
+            base.Draw(gameTime);
         }
     }
 }

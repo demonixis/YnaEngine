@@ -64,7 +64,7 @@
     <Compile Include="Display\Mapping\Map.cs" />
     <Compile Include="Display\Mapping\MapReader.cs" />
     <Compile Include="Display\Sprite.cs" />
-	<Compile Include="Display\YnPath.cs" />
+    <Compile Include="YnPath.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
     <Compile Include="Display\TiledMap\Basic\Layer2D.cs" />
@@ -119,9 +119,5 @@
       <HintPath>..\Externals\MonoGame\Windows\Tao.Sdl.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Display\TiledMap" />
-    <Folder Include="Display\TiledMap\Iso" />
-    <Folder Include="Display\TiledMap\Basic" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -156,7 +156,7 @@ namespace Yna.Display.TiledMap.Isometric
 						if(tile.TextureID != -1)
 						{
 							// Getting the texture position in the tileset
-							tileType = tile.GetType();
+							tileType = tile.GetTileType();
 							if(layerLevel == 0)
 							{
 								rec = _tilesMapping[tile.TextureID, tileType];

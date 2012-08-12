@@ -76,7 +76,7 @@ namespace Yna.Display.TiledMap.Isometric
 		/// for details
 		/// </summary>
 		/// <returns></returns>
-		public int GetType()
+		public int GetTileType()
 		{
 			int type = 0;
 			if(IsFlat())
