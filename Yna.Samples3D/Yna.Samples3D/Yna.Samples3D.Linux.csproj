@@ -3,50 +3,72 @@
   <Import Project="MonoGame\MonoGame.ContentPipeline.targets" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{20A90F6E-4C79-4B2A-84C6-398EE000FCFC}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9A124879-9B6C-4550-BB67-92C917A24E75}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Yna.Samples3D.Linux</RootNamespace>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Yna.Samples3D</RootNamespace>
     <AssemblyName>Yna.Samples3D.Linux</AssemblyName>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-    <StartupObject>Yna.Samples3D.YnaSample3D</StartupObject>
-	<MonoGamePlatform>Linux</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>Linux</MonoGamePlatform>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;WINDOWS</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>none</DebugType>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <DefineConstants>WINDOWS</DefineConstants>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <ApplicationIcon>Game.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Yna.Samples3D.YnaSample3D</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="States\GameMenu.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="States\SpaceGame.cs" />
-    <Compile Include="YnaSample3D.cs" />
+    <Reference Include="Lidgren.Network.Linux">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\Lidgren.Network.Linux.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Content.Pipeline">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\MonoGame.Framework.Content.Pipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Linux">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tao.Sdl">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\Tao.Sdl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Yna\Yna.Linux.csproj">
-      <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
-      <Name>Yna.Linux</Name>
-    </ProjectReference>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="States\GameMenu.cs" />
+    <Compile Include="States\NasaSample.cs" />
+    <Compile Include="States\SpaceGame.cs" />
+    <Compile Include="YnaSample3D.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\**\*.*">
@@ -54,17 +76,23 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\..\Externals\MonoGame\Linux\Lidgren.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\..\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\..\Externals\MonoGame\Linux\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="Tao.Sdl">
-      <HintPath>..\..\Externals\MonoGame\Linux\Tao.Sdl.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\Yna\Yna.Linux.csproj">
+      <Project>{f05f30ff-7ca3-4422-9a4e-14b7d1bb2898}</Project>
+      <Name>Yna.Linux</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Game.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

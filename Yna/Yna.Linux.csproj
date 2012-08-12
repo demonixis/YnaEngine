@@ -1,61 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F05F30FF-7CA3-4422-9A4E-14B7D1BB2898}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yna</RootNamespace>
-    <AssemblyName>Yna</AssemblyName>
+    <AssemblyName>Yna.Linux</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;MONOGAME;LINUX;</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-	<DefineConstants>MONOGAME;LINUX;</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lidgren.Network.Linux">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\Lidgren.Network.Linux.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Content.Pipeline">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\MonoGame.Framework.Content.Pipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Linux">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tao.Sdl">
+      <HintPath>..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\Tao.Sdl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Display3D\Camera.cs" />
     <Compile Include="Display3D\Geometry\AbstractMesh.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\SpriteMover.cs" />
+    <Compile Include="Display\Camera2D.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
     <Compile Include="Display\Mapping\Map.cs" />
     <Compile Include="Display\Mapping\MapReader.cs" />
-    <Compile Include="Display\Sprite.cs" />
-	<Compile Include="Display\YnPath.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
+    <Compile Include="Display\Sprite.cs" />
+    <Compile Include="Display\TiledMap\AbstractLayer.cs" />
+    <Compile Include="Display\TiledMap\AbstractTile.cs" />
+    <Compile Include="Display\TiledMap\AbstractTiledMap.cs" />
     <Compile Include="Display\TiledMap\Basic\Layer2D.cs" />
     <Compile Include="Display\TiledMap\Basic\Tile2D.cs" />
     <Compile Include="Display\TiledMap\Basic\TiledMap2D.cs" />
-    <Compile Include="Display\TiledMap\AbstractTile.cs" />
     <Compile Include="Display\TiledMap\Iso\LayerIso.cs" />
-    <Compile Include="Display\TiledMap\Iso\TileIso.cs" />
     <Compile Include="Display\TiledMap\Iso\TiledMapIso.cs" />
-    <Compile Include="Display\TiledMap\AbstractLayer.cs" />
-    <Compile Include="Display\TiledMap\AbstractTiledMap.cs" />
+    <Compile Include="Display\TiledMap\Iso\TileIso.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
@@ -68,31 +95,25 @@
     <Compile Include="Input\YnGamepad.cs" />
     <Compile Include="Input\YnKeyboard.cs" />
     <Compile Include="Input\YnMouse.cs" />
-    <Compile Include="State\GameState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="State\GameState.cs" />
     <Compile Include="State\StateManager.cs" />
+    <Compile Include="State\YnState.cs" />
     <Compile Include="Utils\CircularArray.cs" />
-    <Compile Include="Display\Camera2D.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="YnGroup.cs" />
     <Compile Include="YnObject.cs" />
-    <Compile Include="State\YnState.cs" />
+    <Compile Include="YnPath.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\Externals\MonoGame\Linux\Lidgren.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\Externals\MonoGame\Linux\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="Tao.Sdl">
-      <HintPath>..\Externals\MonoGame\Linux\Tao.Sdl.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

@@ -7,7 +7,7 @@
     <ProjectGuid>{6BE50E12-8776-4D21-BAD0-2EC8D4CE7EE3}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yna.Samples3D.Windows8</RootNamespace>
+    <RootNamespace>Yna.Samples3D</RootNamespace>
     <AssemblyName>Yna.Samples3D.Windows8</AssemblyName>
     <DefaultLanguage>fr-FR</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
@@ -106,8 +106,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="States\GameMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="States\GameMenu.cs" />
+    <Compile Include="States\NasaSample.cs" />
     <Compile Include="States\SpaceGame.cs" />
     <Compile Include="YnaSample3D.cs" />
   </ItemGroup>
@@ -162,7 +163,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Yna\Yna.Metro.csproj">
+    <ProjectReference Include="..\..\Yna\Yna.Windows8.csproj">
       <Project>{fcc2db0f-c241-400c-afdb-dc153df4c433}</Project>
       <Name>Yna.Metro</Name>
     </ProjectReference>

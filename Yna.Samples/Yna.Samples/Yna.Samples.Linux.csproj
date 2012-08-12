@@ -3,72 +3,99 @@
   <Import Project="MonoGame\MonoGame.ContentPipeline.targets" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{89F8658C-8D06-40F4-8BCE-60B172C75011}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7E09EF1-499A-4EFA-ACE6-5C69F5A7E7BC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Yna.Samples.Linux</RootNamespace>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Yna.Samples</RootNamespace>
     <AssemblyName>Yna.Samples.Linux</AssemblyName>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-    <StartupObject>Yna.Samples.YnaSample</StartupObject>
-	<MonoGamePlatform>Linux</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>Linux</MonoGamePlatform>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;WINDOWS</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MONOGAME</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>none</DebugType>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;MONOGAME</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <DefineConstants>WINDOWS</DefineConstants>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <ApplicationIcon>Game.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Yna.Samples.YnaSample</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Content Include="Content\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Lidgren.Network.Linux">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\Lidgren.Network.Linux.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Content.Pipeline">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\MonoGame.Framework.Content.Pipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Linux">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tao.Sdl">
+      <HintPath>..\..\..\..\..\Visual Studio 2012\Projects\yna\Externals\MonoGame\Linux\Tao.Sdl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\GameMenu.cs" />
     <Compile Include="States\IsoTiledMapSample.cs" />
-    <Compile Include="States\Sample02.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="States\Sample03.cs" />
     <Compile Include="States\Sample01.cs" />
+    <Compile Include="States\Sample02.cs" />
+    <Compile Include="States\Sample03.cs" />
     <Compile Include="States\TiledMap2DSample.cs" />
     <Compile Include="YnaSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Yna\Yna.Linux.csproj">
-      <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
+      <Project>{f05f30ff-7ca3-4422-9a4e-14b7d1bb2898}</Project>
       <Name>Yna.Linux</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-	<Content Include="Content\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\..\Externals\MonoGame\Linux\Lidgren.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\..\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\..\Externals\MonoGame\Linux\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="Tao.Sdl">
-      <HintPath>..\..\Externals\MonoGame\Linux\Tao.Sdl.dll</HintPath>
-    </Reference>
+    <None Include="app.config" />
   </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
