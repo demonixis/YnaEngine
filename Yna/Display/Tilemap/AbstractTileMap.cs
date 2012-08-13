@@ -9,7 +9,7 @@ namespace Yna.Display.TiledMap
 	/// <summary>
 	/// Tile based map renderer
 	/// </summary>
-	public abstract class AbstractTiledMap
+	public abstract class AbstractTileMap<LayerType>
 	{
 		/// <summary>
 		/// Tile width
@@ -34,7 +34,7 @@ namespace Yna.Display.TiledMap
 		/// <summary>
 		/// Layers definition.
 		/// </summary>
-		protected AbstractLayer[] _layers;
+		protected LayerType[] _layers;
 		
 		/// <summary>
 		/// All map tiles are stored in one texture, one after the other.

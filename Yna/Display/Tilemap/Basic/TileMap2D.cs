@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: Alex
- * Date: 07/08/2012
- * Time: 22:09
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,7 +7,7 @@ namespace Yna.Display.TiledMap.Basic
 	/// <summary>
 	/// Description of TiledMap2D.
 	/// </summary>
-	public class TiledMap2D : AbstractTiledMap
+	public class TileMap2D : AbstractTileMap<Layer2D>
 	{
 		/// <summary>
 		/// This array contains zoning for each tile. It is initialized when
@@ -23,13 +15,14 @@ namespace Yna.Display.TiledMap.Basic
 		/// </summary>
 		private Rectangle[] _tilesMapping;
 		
+		#region Constructors
 		/// <summary>
 		/// Constructor for tiled maps with square tiles (same width and height)
 		/// </summary>
 		/// <param name="tilesetName">The Tileset file name</param>
 		/// <param name="layers">The map layers</param>
 		/// <param name="tileSize">The tile width</param>
-		public TiledMap2D(String tilesetName, Layer2D[] layers, int tileSize) : this(tilesetName, layers, tileSize, tileSize)
+		public TileMap2D(String tilesetName, Layer2D[] layers, int tileSize) : this(tilesetName, layers, tileSize, tileSize)
 		{
 		}
 		
@@ -40,7 +33,7 @@ namespace Yna.Display.TiledMap.Basic
 		/// <param name="layers">The map layers</param>
 		/// <param name="tileWidth">The tile width</param>
 		/// <param name="tileHeight">The tile height</param>
-		public TiledMap2D(String tilesetName, Layer2D[] layers, int tileWidth, int tileHeight) 
+		public TileMap2D(String tilesetName, Layer2D[] layers, int tileWidth, int tileHeight) 
 		{
 			_tilesetName = tilesetName;
 			
@@ -53,6 +46,7 @@ namespace Yna.Display.TiledMap.Basic
 			_tileWidth = tileWidth;
 			_tileHeight = tileHeight;
 		}
+		#endregion
 		
 		/// <summary>
 		/// Load the tileset texture and initialize the tiles mapping
@@ -109,7 +103,7 @@ namespace Yna.Display.TiledMap.Basic
 				{
 					for(int y = 0; y < _mapHeight; y++)
 					{
-						tile = (Tile2D) layer.GetTile(x, y);
+						tile = layer[x, y];
 						
 						// Getting the texture position in the tileset
 						rec = _tilesMapping[tile.TextureID];

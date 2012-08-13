@@ -7,12 +7,14 @@ namespace Yna.Display.TiledMap.Isometric
 	/// </summary>
 	public class TileIso : AbstractTile
 	{
-		public static int TOP_LEFT = 0;
-		public static int TOP_RIGHT = 1;
-		public static int BOTTOM_RIGHT = 2;
-		public static int BOTTOM_LEFT = 3;
-		
+		const int TOP_LEFT = 0;
+		const int TOP_RIGHT = 1;
+		const int BOTTOM_RIGHT = 2;
+		const int BOTTOM_LEFT = 3;
+			
 		private int[] _heights;
+		
+		#region Properties
 		public int TopLeft{
 			get{return _heights[TOP_LEFT];}
 			set{_heights[TOP_LEFT] = value;}
@@ -29,8 +31,9 @@ namespace Yna.Display.TiledMap.Isometric
 			get{return _heights[BOTTOM_LEFT];}
 			set{_heights[BOTTOM_LEFT] = value;}
 		}
-		
+		#endregion
 
+		#region Constructors
 		/// <summary>
 		/// Constructor with defined heights
 		/// </summary>
@@ -51,16 +54,15 @@ namespace Yna.Display.TiledMap.Isometric
 		/// <param name="textureID">The texture ID</param>
 		public TileIso(int x, int y, int textureID) : base(x, y, textureID)
 		{
-			// Heights are initialize at 0
+			// Heights are initialized at 0
 			_heights = new int[4];
-			TopLeft = 0;
-			TopRight = 0;
-			BottomRight = 0;
-			BottomLeft = 0;
+			FlattenTo(0);
 		}
+		#endregion
 		
 		/// <summary>
-		/// Flattens the tile to the given height
+		/// Flattens the tile to the given height. All vertex are set
+		/// with the height
 		/// </summary>
 		/// <param name="height">The height</param>
 		public void FlattenTo(int height)
@@ -113,7 +115,7 @@ namespace Yna.Display.TiledMap.Isometric
 		/// <summary>
 		/// Calculate the max height of the tile
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The max height of the tile's vertices</returns>
 		public int MaxHeight()
 		{
 			int max = Math.Max(TopLeft, TopRight);
@@ -125,7 +127,7 @@ namespace Yna.Display.TiledMap.Isometric
 		/// <summary>
 		/// Calculate the min height of the tile
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The min height of the tile's vertices</returns>
 		public int MinHeight()
 		{
 			int min = Math.Min(TopLeft, TopRight);

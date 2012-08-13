@@ -16,7 +16,7 @@ namespace Yna.Sample.States
         /// <summary>
         /// This is the TiledMap component
         /// </summary>
-        private TiledMap2D _map;
+        private TileMap2D _map;
 
         /// <summary>
         /// This Vector represents the point of view on the map.
@@ -83,7 +83,7 @@ namespace Yna.Sample.States
             // - And to finish, the tile size. Note that in this example, tiles are
             // squares but you can use rectangle tiles too. Just use another constructor
             // to define tile width and tile height.
-            _map = new TiledMap2D("Tilesets/tileset", new Layer2D[] { layer }, 20);
+            _map = new TileMap2D("Tilesets/tileset", new Layer2D[] { layer }, 20);
 
             // The map can be moved with a simple Vector2. The camera position
             // is screen relative. The top left tile will be drawn at this position

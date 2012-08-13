@@ -3,7 +3,7 @@
 namespace Yna.Display.TiledMap.Basic
 {
 	/// <summary>
-	/// A Tile is a section of a TiledMap.
+	/// A Tile is a section of a TileMap.
 	/// </summary>
 	public class Tile2D : AbstractTile
 	{

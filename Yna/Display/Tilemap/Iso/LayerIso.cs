@@ -3,12 +3,12 @@
 namespace Yna.Display.TiledMap.Isometric
 {
 	/// <summary>
-	/// Description of LayerIso.
+	/// Tilemap layer for isometric maps
 	/// </summary>
-	public class LayerIso : AbstractLayer
+	public class LayerIso : AbstractLayer<TileIso>
 	{
 		/// <summary>
-		/// Constructor with size
+		/// Constructor with size. Tiles are not initialized
 		/// </summary>
 		/// <param name="width">The layer width</param>
 		/// <param name="height">The layer height</param>
@@ -17,11 +17,11 @@ namespace Yna.Display.TiledMap.Isometric
 			_tiles = new TileIso[width,height];
 			_layerWidth = width;
 			_layerHeight = height;
-			_alpha = 1f;
 		}
 		
 		/// <summary>
-		/// Create the layer from a raw data array containing only tile IDs
+		/// Create the layer from a raw data array containing only tile IDs.
+		/// Heights are set to 0.
 		/// </summary>
 		/// <param name="data">the raw data</param>
 		public LayerIso(int[,] data)
@@ -29,7 +29,6 @@ namespace Yna.Display.TiledMap.Isometric
 			_layerHeight = data.GetUpperBound(0) +1;
 			_layerWidth = data.GetUpperBound(1) +1;
 			_tiles = new TileIso[_layerWidth,_layerHeight];
-			_alpha = 1f;
 			
 			for(int x = 0; x < _layerWidth; x++)
 			{	
@@ -40,9 +39,5 @@ namespace Yna.Display.TiledMap.Isometric
 			}
 		}
 		
-		public new TileIso GetTile(int x, int y)
-		{
-			return base.GetTile(x, y) as TileIso;
-		}
 	}
 }
