@@ -46,9 +46,9 @@ namespace Yna.Sample.States
             
             for(int x = 0; x < 5; x++)
             {
-            	groundLayer.GetTile(x, 0).FlattenTo(1);
-            	groundLayer.GetTile(x, 1).TopLeft = 1;
-            	groundLayer.GetTile(x, 1).TopRight = 1;
+            	groundLayer[x, 0].FlattenTo(1);
+            	groundLayer[x, 1].TopLeft = 1;
+            	groundLayer[x, 1].TopRight = 1;
             }
 
             int[,] decoData = {

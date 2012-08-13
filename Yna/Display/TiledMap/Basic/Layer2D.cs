@@ -3,12 +3,12 @@
 namespace Yna.Display.TiledMap.Basic
 {
 	/// <summary>
-	/// A 2 dimension layer for AbstractTiledMaps
+	/// A 2 dimension layer
 	/// </summary>
-	public class Layer2D : AbstractLayer
+	public class Layer2D : AbstractLayer<Tile2D>
 	{
 		/// <summary>
-		/// Constructor with size
+		/// Constructor with layer size. Tiles are not initialized.
 		/// </summary>
 		/// <param name="width">The layer width</param>
 		/// <param name="height">The layer height</param>
@@ -17,11 +17,10 @@ namespace Yna.Display.TiledMap.Basic
 			_tiles = new Tile2D[width,height];
 			_layerWidth = width;
 			_layerHeight = height;
-			_alpha = 1f;
 		}
 		
 		/// <summary>
-		/// Create the layer from a raw data array containing only tile IDs
+		/// Create the layer from a raw data array containing tile IDs
 		/// </summary>
 		/// <param name="data">the raw data</param>
 		public Layer2D(int[,] data)
@@ -29,13 +28,12 @@ namespace Yna.Display.TiledMap.Basic
 			_layerHeight = data.GetUpperBound(0) +1;
 			_layerWidth = data.GetUpperBound(1) +1;
 			_tiles = new Tile2D[_layerWidth,_layerHeight];
-			_alpha = 1f;
 			
 			for(int x = 0; x < _layerWidth; x++)
 			{	
 				for(int y = 0; y < _layerHeight; y++)
 				{
-					_tiles[x, y] = new Tile2D(x, y, data[y, x]);
+					this[x, y] = new Tile2D(x, y, data[y, x]);
 				}
 			}
 		}

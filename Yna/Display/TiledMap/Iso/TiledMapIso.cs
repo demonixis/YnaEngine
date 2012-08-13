@@ -7,8 +7,9 @@ namespace Yna.Display.TiledMap.Isometric
 	/// <summary>
 	/// Description of IsometricTiledMap.
 	/// </summary>
-	public class TiledMapIso : AbstractTiledMap
+	public class TiledMapIso : AbstractTiledMap<LayerIso>
 	{
+		#region Attributes
 		/// <summary>
 		/// This array contains zoning for each tile. It is initialized when
 		/// the tileset texture is loaded
@@ -39,7 +40,9 @@ namespace Yna.Display.TiledMap.Isometric
 		/// In TiledMapIso, the ground layer is defined here
 		/// </summary>
 		private LayerIso _groundLayer;
+		#endregion
 		
+		#region Constructors
 		/// <summary>
 		/// Basically, the TiledMap is initialized with default values
 		/// </summary>
@@ -75,6 +78,7 @@ namespace Yna.Display.TiledMap.Isometric
 			: this(groundTilesetName, null, groundLayer, layers, tileWidth, tileHeight, 0)
 		{
 		}
+		#endregion
 		
 		/// <summary>
 		/// Load the tileset texture and initialize the tiles mapping
@@ -167,8 +171,6 @@ namespace Yna.Display.TiledMap.Isometric
 		/// <param name="drawZone">The limited zone where the map will be rendered</param>
 		public void DrawDeco(SpriteBatch spriteBatch, Vector2 camera, Rectangle drawZone)
 		{
-			DrawGround(spriteBatch, camera, drawZone);
-			
 			// The camera position is the top vertex rendered
 			LayerIso layer;
 			TileIso tile;
@@ -187,7 +189,7 @@ namespace Yna.Display.TiledMap.Isometric
 				{
 					for(int y = 0; y < _mapHeight; y++)
 					{
-						tile = layer.GetTile(x, y);
+						tile = layer[x, y];
 						// A texture ID of -1 means that the tile is unused : it's not rendered
 						if(tile.TextureID != -1)
 						{
@@ -206,12 +208,12 @@ namespace Yna.Display.TiledMap.Isometric
 							// above is the position of the top left edge on the map. This
 							// value must be translated to align the texture to the bottom
 							// of the tile
-							position.Y -= tileHeight - _tileHeight/2 + (_groundLayer.GetTile(x, y).MinHeight() * _tileHeight/4);
+							position.Y -= tileHeight - _tileHeight/2 + (_groundLayer[x, y].MinHeight() * _tileHeight/4);
 							
 							// Handle tiles out of the screen
-							if(position.X > drawZone.X - _tileWidth
+							if(position.X >= drawZone.X - _tileWidth
 						   		|| position.X < drawZone.X + drawZone.Width
-						   		||position.Y > drawZone.Y - _tileHeight
+						   		||position.Y >= drawZone.Y - _tileHeight
 						   		|| position.Y < drawZone.Y + drawZone.Height)
 							{
 								// If the tile is on the edge of the draw zone, only the portion
@@ -277,7 +279,7 @@ namespace Yna.Display.TiledMap.Isometric
 			{
 				for(int y = 0; y < _mapHeight; y++)
 				{
-					tile = _groundLayer.GetTile(x, y);
+					tile = _groundLayer[x, y];
 					// A texture ID of -1 means that the tile is unused : it's not rendered
 					if(tile.TextureID != -1)
 					{

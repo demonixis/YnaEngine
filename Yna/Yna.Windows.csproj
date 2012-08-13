@@ -64,7 +64,7 @@
     <Compile Include="Display\Mapping\TileReader.cs" />
     <Compile Include="Display\TiledMap\Basic\Layer2D.cs" />
     <Compile Include="Display\TiledMap\Basic\Tile2D.cs" />
-    <Compile Include="Display\TiledMap\Basic\TiledMap2D.cs" />
+    <Compile Include="Display\TiledMap\Basic\TileMap2D.cs" />
     <Compile Include="Display\TiledMap\AbstractTile.cs" />
     <Compile Include="Display\TiledMap\Iso\LayerIso.cs" />
     <Compile Include="Display\TiledMap\Iso\TileIso.cs" />

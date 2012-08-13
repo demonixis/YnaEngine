@@ -7,10 +7,10 @@ namespace Yna.Display.TiledMap
 	/// </summary>
 	public abstract class AbstractTile
 	{
-		/// <summary>
-		/// X position in the map
-		/// </summary>
 		protected int _x;
+		protected int _y;
+		protected int _textureID;
+		
 		/// <summary>
 		/// X tile position in the map
 		/// </summary>
@@ -21,10 +21,6 @@ namespace Yna.Display.TiledMap
 		}
 		
 		/// <summary>
-		/// Y position in the map
-		/// </summary>
-		protected int _y;
-		/// <summary>
 		/// Y tile position in the map
 		/// </summary>
 		public int Y
@@ -33,10 +29,6 @@ namespace Yna.Display.TiledMap
 			set{_y = value;}
 		}
 		
-		/// <summary>
-		/// The texture ID.
-		/// </summary>
-		protected int _textureID;
 		/// <summary>
 		/// Texture ID (according to the map tileset)
 		/// </summary>
