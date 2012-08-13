@@ -7,18 +7,45 @@ namespace Yna
 {
     public class YnTimer : YnBase
     {
-        private static uint _id = 0;
-        private long _elapsedTime;
+        #region Private declarations
+
+        private int _duration;
+        private int _repeat;
         private int _counter;
+        private long _elapsedTime;
 
-        public int Duration { get; set; }
-        public int Repeat { get; set; }
+        #endregion
 
+        /// <summary>
+        /// Get or Set the Duration of the timer
+        /// </summary>
+        public int Duration 
+        {
+            get { return _duration; }
+            set { _duration = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the number of time the timer is repeated
+        /// </summary>
+        public int Repeat 
+        {
+            get { return _repeat; }
+            set { _repeat = value; }
+        }
+
+        /// <summary>
+        /// Get elapsed time since the start of the timer
+        /// </summary>
         public long ElapsedTime
         {
             get { return _elapsedTime; }
         }
 
+
+        /// <summary>
+        /// Get the time beforce the timer is completed
+        /// </summary>
         public long TimeRemaining
         {
             get
@@ -30,14 +57,29 @@ namespace Yna
             }
         }
 
+        /// <summary>
+        /// Trigger when the timer start
+        /// </summary>
         public event EventHandler<EventArgs> Started = null;
+
+        /// <summary>
+        /// Trigger when the timer is terminated and restart
+        /// </summary>
         public event EventHandler<EventArgs> ReStarted = null;
+
+        /// <summary>
+        /// Trigger when the timer is stopped
+        /// </summary>
         public event EventHandler<EventArgs> Stopped = null;
+
+        /// <summary>
+        /// Trigger when the timer is finish
+        /// </summary>
         public event EventHandler<EventArgs> Completed = null;
+
 
         public YnTimer(int duration, int repeat = -1)
         {
-            Id = _id++;
             Duration = duration;
             Repeat = repeat;
             _elapsedTime = 0;
@@ -45,46 +87,59 @@ namespace Yna
             Active = false;
         }
 
+        /// <summary>
+        /// Start the timer
+        /// </summary>
         public void Start()
         {
             Active = true;
             TimerStarted(EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Stop the timer
+        /// </summary>
         public void Stop()
         {
             Active = false;
             TimerStopped(EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Pause the timer
+        /// </summary>
         public void Kill()
         {
             Active = false;
         }
 
-        public void TimerStarted(EventArgs e)
+        #region Events handlers
+
+        private void TimerStarted(EventArgs e)
         {
             if (Started != null)
                 Started(this, e);
         }
 
-        public void TimerRestarted(EventArgs e)
+        private void TimerRestarted(EventArgs e)
         {
             if (ReStarted != null)
                 ReStarted(this, e);
         }
 
-        public void TimerStopped(EventArgs e)
+        private void TimerStopped(EventArgs e)
         {
             if (Stopped != null)
                 Stopped(this, e);
         }
 
-        public void TimerCompleted(EventArgs e)
+        private void TimerCompleted(EventArgs e)
         {
             if (Completed != null)
                 Completed(this, e);
         }
+
+        #endregion
 
         public override void Update(GameTime gameTime)
         {

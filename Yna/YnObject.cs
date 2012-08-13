@@ -221,7 +221,7 @@ namespace Yna
         {
             _visible = true;
             _scrollFactor = new ScrollFactor();
-
+            
             _position = new Vector2(0, 0);
             _rectangle = Rectangle.Empty;
             _texture = null;

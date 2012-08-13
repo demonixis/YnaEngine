@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010 Express for Windows Phone
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Windows", "Yna\Yna.Windows.csproj", "{1D28053D-5C68-4872-992F-EA90A0FE04E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Windows", "Yna\Yna.Windows.csproj", "{BF58CAF2-143A-420C-8C0E-11D438522C35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Samples.Windows", "Yna.Samples\Yna.Samples\Yna.Samples.Windows.csproj", "{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}"
 EndProject
@@ -13,10 +13,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1D28053D-5C68-4872-992F-EA90A0FE04E2}.Debug|x86.ActiveCfg = Debug|x86
-		{1D28053D-5C68-4872-992F-EA90A0FE04E2}.Debug|x86.Build.0 = Debug|x86
-		{1D28053D-5C68-4872-992F-EA90A0FE04E2}.Release|x86.ActiveCfg = Release|x86
-		{1D28053D-5C68-4872-992F-EA90A0FE04E2}.Release|x86.Build.0 = Release|x86
+		{BF58CAF2-143A-420C-8C0E-11D438522C35}.Debug|x86.ActiveCfg = Debug|x86
+		{BF58CAF2-143A-420C-8C0E-11D438522C35}.Debug|x86.Build.0 = Debug|x86
+		{BF58CAF2-143A-420C-8C0E-11D438522C35}.Release|x86.ActiveCfg = Release|x86
+		{BF58CAF2-143A-420C-8C0E-11D438522C35}.Release|x86.Build.0 = Release|x86
 		{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}.Debug|x86.ActiveCfg = Debug|x86
 		{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}.Debug|x86.Build.0 = Debug|x86
 		{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}.Release|x86.ActiveCfg = Release|x86

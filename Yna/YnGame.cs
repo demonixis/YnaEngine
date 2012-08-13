@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Yna.State;
 using Yna.Helpers;
 using Yna.Input;
+using Yna.Input.Service;
 using Yna.Display;
 
 namespace Yna

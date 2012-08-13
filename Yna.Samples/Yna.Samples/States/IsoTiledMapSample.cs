@@ -123,10 +123,10 @@ namespace Yna.Sample.States
             // Here we simply draw the map with the camera position and the draw zone
             spriteBatch.Begin();
             _map.Draw(spriteBatch, _camera, _viewport);
-            spriteBatch.End();
             
             // A rectangle is drawn to represent the map's drawing zone
             DrawRectangle(_viewport, Color.Red);
+            spriteBatch.End();
         }
         
         private void DrawRectangle(Rectangle rectangle, Color color)

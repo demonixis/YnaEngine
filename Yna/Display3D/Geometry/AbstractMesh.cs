@@ -8,7 +8,7 @@ namespace Yna.Display3D.Geometry
     public abstract class AbstractMesh
     {
         protected Game game;
-        protected Camera camera;
+        protected Camera3D camera;
 
         protected Vector3 position;
         protected Vector3 rotation;
@@ -68,7 +68,7 @@ namespace Yna.Display3D.Geometry
             set { position = new Vector3(position.X, position.Y, value); }
         }
 
-        public Camera Camera
+        public Camera3D Camera
         {
             get { return camera; }
             set { camera = value; }
@@ -79,7 +79,7 @@ namespace Yna.Display3D.Geometry
             get { return game; }
         }
 
-        public AbstractMesh(Game game, Camera camera)
+        public AbstractMesh(Game game, Camera3D camera)
         {
             this.game = game;
             this.camera = camera;

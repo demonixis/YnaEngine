@@ -16,7 +16,7 @@ namespace Yna.Sample.States
     {
     	private const int numSprites = 10;
     	
-        private Sprite background;
+        private YnSprite background;
         private YnGroup sprites;
         private Color [] colors;   
         private Song music;
@@ -43,7 +43,7 @@ namespace Yna.Sample.States
             music = YnG.Content.Load<Song>("audio//welcome-to-nova");
             MediaPlayer.Play(music);
 #endif
-            background = new Sprite(Vector2.Zero, "Backgrounds/Sky3");
+            background = new YnSprite(Vector2.Zero, "Backgrounds/Sky3");
             background.LoadContent();
             background.SourceRectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
 			
@@ -56,7 +56,7 @@ namespace Yna.Sample.States
             	float x = rand.Next(0, YnG.Width - spriteWidth);
             	float y = rand.Next(0, YnG.Height - spriteHeight);
 
-            	Sprite sprite = new Sprite(new Rectangle(0, 0, spriteWidth, spriteHeight), colors[i]);
+            	YnSprite sprite = new YnSprite(new Rectangle(0, 0, spriteWidth, spriteHeight), colors[i]);
             	sprite.Position = new Vector2(x, y);
             	sprite.SetOriginTo(ObjectOrigin.Center);
             	sprite.AllowAcrossScreen = true;
@@ -97,7 +97,7 @@ namespace Yna.Sample.States
             if (YnG.Keys.JustPressed(Keys.Tab))
                 MediaPlayer.Pause();
 #endif
-            foreach (Sprite sprite in sprites)
+            foreach (YnSprite sprite in sprites)
             {
             	sprite.X += 3;
             	sprite.Y += 2;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Yna.Display;
 
-namespace Yna
+namespace Yna.Display
 {
     internal class Path
     {
@@ -23,7 +23,7 @@ namespace Yna
         private List<Path> _destinations;
         private bool _repeat;
         private int _pathIndex;
-        private Sprite _sprite;
+        private YnSprite _sprite;
         private bool _ready;
 
         public event EventHandler<EventArgs> Started = null;
@@ -48,7 +48,7 @@ namespace Yna
                 Arrived(this, e);
         }
 
-        public YnPath(Sprite sprite, bool repeat)
+        public YnPath(YnSprite sprite, bool repeat)
         {
             _sprite = sprite;
             _repeat = repeat;

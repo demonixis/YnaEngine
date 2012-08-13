@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Yna;
 using Yna.Helpers;
 
-namespace Yna.Input
+namespace Yna.Input.Service
 {
     #if !NETFX_CORE
     public class GamepadService : GameComponent, IGamepadService

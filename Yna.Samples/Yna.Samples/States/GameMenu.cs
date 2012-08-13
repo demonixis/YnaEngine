@@ -17,7 +17,7 @@ namespace Yna.Sample.States
         private YnGroup items;
         private int index;
 
-        Sprite background;
+        YnSprite background;
 
         private int ItemsLength
         {
@@ -27,7 +27,7 @@ namespace Yna.Sample.States
         public GameMenu() 
             : base (1000f, 0)
         {
-            background = new Sprite("Backgrounds/gradient");
+            background = new YnSprite("Backgrounds/gradient");
             Add(background);
 
             title = new YnText("Fonts/MenuFont", Vector2.Zero, "YNA Samples");

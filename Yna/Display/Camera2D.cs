@@ -19,7 +19,7 @@ namespace Yna.Display
 	{
 		private Rectangle _globalCamera;
 		private Rectangle _screenCamera;
-		private Sprite _sprite;
+		private YnSprite _sprite;
         private Vector2 _spritePosition;
         private bool _follow;
 
@@ -86,7 +86,7 @@ namespace Yna.Display
 			_follow = false;
 		}
 		
-		public void follow(Sprite sprite)
+		public void follow(YnSprite sprite)
 		{
 			_sprite = sprite;
 			_follow = true;
