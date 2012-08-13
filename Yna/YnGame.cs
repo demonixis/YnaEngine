@@ -38,6 +38,7 @@ namespace Yna
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
             YnG.Camera = new Camera2D();
+            YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.StateManager = stateManager;
             
             this.Window.Title = "YNA Game";

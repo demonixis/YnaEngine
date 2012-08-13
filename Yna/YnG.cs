@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Reflection;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -14,7 +12,12 @@ using Yna.State;
 using Yna.Input;
 
 namespace Yna
-{	
+{
+    public enum MonoGameContext
+    {
+        Unknow = 0, XNA, Windows, Windows8, Linux, Mac 
+    }
+
     public static class YnG
     {
         public static Game Game { get; set; }
@@ -38,6 +41,8 @@ namespace Yna
         public static YnMouse Mouse { get; set; }
         
         public static Camera2D Camera { get; set; }
+
+        public static MonoGameContext MonoGameContext { get; set; }
 
         public static int Width
         {
@@ -89,9 +94,39 @@ namespace Yna
             (Game as YnGame).SwitchState(state);
         }
 
+        public static void AddScreen(GameState gameState)
+        {
+            StateManager.Add(gameState);
+        }
+
         public static void Exit()
         {
             Game.Exit();
+        }
+
+        /// <summary>
+        /// Get the platform context 
+        /// </summary>
+        /// <returns>MonoGame platform used</returns>
+        public static MonoGameContext GetPlateformContext()
+        {
+            MonoGameContext context = MonoGameContext.Unknow; // Default
+
+            Assembly[] AssembliesLoaded = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (Assembly assembly in AssembliesLoaded)
+            {
+                if (assembly.FullName.Contains("MonoGame.Framework.Windows"))
+                    context = MonoGameContext.Windows;
+                else if (assembly.FullName.Contains("MonoGame.Framework.Windows8"))
+                    context = MonoGameContext.Windows8;
+                else if (assembly.FullName.Contains("MonoGame.Framework.Linux"))
+                    context = MonoGameContext.Linux;
+                else if (assembly.FullName.Contains("Microsoft.XNA.Framework"))
+                    context = MonoGameContext.XNA;
+            }
+
+            return context;
         }
     }
 }

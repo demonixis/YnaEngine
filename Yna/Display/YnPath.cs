@@ -5,77 +5,36 @@ using Yna.Display;
 
 namespace Yna.Display
 {
-    internal class Path
-    {
-        public Vector2 Destination;
-        public float Speed;
-        public bool Arrived;
-
-        public Path(Vector2 destination, float speed)
-        {
-            Destination = destination;
-            Speed = speed;
-        }
-    }
-
     public class YnPath : YnBase
     {
-        private List<Path> _destinations;
-        private bool _repeat;
-        private int _pathIndex;
         private YnSprite _sprite;
-        private bool _ready;
+        private List<Vector2> _destinations;
+        private Vector2 [] _directions;
+        private float[] _lenghts;
+        private int _index;
+        private float _stagePosition;
+        private float _speed;
 
-        public event EventHandler<EventArgs> Started = null;
-        public event EventHandler<EventArgs> Restarted = null;
-        public event EventHandler<EventArgs> Arrived = null;
-
-        private void OnStarted(EventArgs e)
-        {
-            if (Started != null)
-                Started(this, e);
-        }
-
-        private void OnRestarted(EventArgs e)
-        {
-            if (Restarted != null)
-                Restarted(this, e);
-        }
-
-        private void OnArrived(EventArgs e)
-        {
-            if (Arrived != null)
-                Arrived(this, e);
-        }
-
-        public YnPath(YnSprite sprite, bool repeat)
+        public YnPath(YnSprite sprite)
         {
             _sprite = sprite;
-            _repeat = repeat;
-            _pathIndex = 0;
-            _destinations = new List<Path>();
-            _ready = false;
+            _destinations = new List<Vector2>();
             Active = false;
+            _speed = 2;
         }
 
-        public void Begin(int x, int y, float speed = 2)
+        public void Begin(int x, int y)
         {
             if (!Active && _destinations.Count == 0)
             {
-                _sprite.Position = new Vector2(x, y);
-                _destinations.Add(new Path(new Vector2(x, y), speed));
+                _index = 0;
+                _destinations.Add(new Vector2(x, y));
             }
         }
-
-        /// <summary>
-        /// Add a new point to the path
-        /// </summary>
-        /// <param name="x">X coordinate</param>
-        /// <param name="y">Y coordinate</param>
-        /// <param name="speed">Velocity speed for this path</param>
-        public void Add(int x, int y, float speed = 2)
+    
+        public void Add(int x, int y)
         {
-            _destinations.Add(new Path(new Vector2(x, y), speed));
+            _destinations.Add(new Vector2(x, y));
         }
 
         /// <summary>
@@ -85,54 +44,48 @@ namespace Yna.Display
         {
             if (_destinations.Count > 2)
             {
-                _ready = true;
-
                 Active = true;
+                
+                int count = _destinations.Count - 1;
+                
+                _lenghts = new float[count];
+                _directions = new Vector2[count];
 
-                _pathIndex = 0;
+                for (int i = 0; i < count; i++)
+                {
+                    _directions[i] = _destinations[i + 1] - _destinations[i];
+                    _lenghts[i] = _directions[i].Length();
+                    _directions[i].Normalize();
+                }
             }
         }
 
         public void Clear()
         {
             Active = false;
-            _ready = false;
             _destinations.Clear();
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (Active && _ready)
+            if (Active)
             {
-                if (_destinations.Count == _pathIndex)
+                if (_index != _destinations.Count - 1)
                 {
-                    if (!_repeat)
-                    {
-                        Active = false;
-                    }
-                    else
-                    {
-                        OnRestarted(EventArgs.Empty);
-                    }
-                    _pathIndex = 0;
-                    OnArrived(EventArgs.Empty);
-                }
-                else
-                {
-                    Vector2 position = _sprite.Position;
-                    Vector2 target = _destinations[_pathIndex].Destination;
-                    Vector2 distance = Vector2.Subtract(target, position);
-                    double angle = Math.Atan2(distance.Y, distance.X);
+                    _stagePosition = _speed * gameTime.TotalGameTime.Seconds;
 
-                    if (position == target)
+                    while (_stagePosition > _lenghts[_index])
                     {
-                        _pathIndex++;
+                        _stagePosition -= _lenghts[_index];
+                        _index++;
+
+                        if (_index == _destinations.Count - 1)
+                        {
+                            _sprite.Position = _destinations[_index];
+                            return;
+                        }
                     }
-                    else
-                    {
-                        _sprite.X += (int)(Math.Cos(angle) * _destinations[_pathIndex].Speed);
-                        _sprite.Y += (int)(Math.Sin(angle) * _destinations[_pathIndex].Speed);
-                    }
+                    _sprite.Position = _destinations[_index] + _directions[_index] * _stagePosition;
                 }
             }
         }

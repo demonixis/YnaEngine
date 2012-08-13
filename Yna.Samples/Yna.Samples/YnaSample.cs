@@ -18,7 +18,7 @@ namespace Yna.Samples
         public YnaSample () 
 		    : base(1024, 600, "YNA Framework : Samples 2D") 
         {
- 
+
         }
 #endif
 

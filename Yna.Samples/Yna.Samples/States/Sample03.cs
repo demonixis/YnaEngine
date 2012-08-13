@@ -19,11 +19,9 @@ namespace Yna.Sample.States
         private YnSprite sephirothSprite; // Sprite du joueur
         private YnSprite tifaSprite;
         private YnSprite cloudSprite;
-        private YnSprite chocoboSprite;
 
         private SpriteMover tifaMover;
         private SpriteMover cloudMover;
-        private YnPath chocoboMover;
         
         private YnTimer clearMessage;
 
@@ -43,9 +41,6 @@ namespace Yna.Sample.States
             cloudSprite = new YnSprite(new Vector2(350, 25), "Sprites/cloud");
             Add(cloudSprite);
 
-            chocoboSprite = new YnSprite(Vector2.Zero, "Sprites/chocobo");
-            Add(chocoboSprite);
-
             // 2 - Informations de debug
             informations = new YnText("Fonts/MenuFont", 25, 25, "Informations");
             informations.Color = Color.Yellow;
@@ -55,7 +50,6 @@ namespace Yna.Sample.States
             // 3 - Permet de simuler un déplacement aléatoire sur un Sprite
             tifaMover = new SpriteMover(tifaSprite);
             cloudMover = new SpriteMover(cloudSprite);
-            chocoboMover = new YnPath(chocoboSprite, true);
 
             // 4 - Timer pour faire disparaitre les messages d'info
             clearMessage = new YnTimer(1500, 0);
@@ -73,7 +67,6 @@ namespace Yna.Sample.States
 
             CreateAnimation(tifaSprite, 32, 48);
             CreateAnimation(cloudSprite, 32, 48);
-            CreateAnimation(chocoboSprite, 48, 48);
 
             // 5 - Evenements souris
             tifaSprite.MouseOver += new EventHandler<MouseOverSpriteEventArgs>(OnSprite_MouseOver);
@@ -84,20 +77,6 @@ namespace Yna.Sample.States
             tifaSprite.Scale = scale;
             sephirothSprite.Scale = scale;
             cloudSprite.Scale = scale;
-            chocoboSprite.Scale = scale;
-
-            int x = 350;
-            int y = 350;
-
-            chocoboMover.Begin(x, y);
-            chocoboMover.Add(x + 150, 0);
-            chocoboMover.Add(0, y + 20);
-            chocoboMover.Add(x + 50, 0);
-            chocoboMover.Add(0, y + 150);
-            chocoboMover.Add(x - 150, 0);
-            chocoboMover.Add(0, y - 50);
-            chocoboMover.End();
-            chocoboSprite.ForceInsideScreen = false;
 
             // On affiche la souris
             YnG.Game.IsMouseVisible = true;
@@ -151,11 +130,9 @@ namespace Yna.Sample.States
 
             tifaMover.Update(gameTime);
             cloudMover.Update(gameTime);
-            chocoboMover.Update(gameTime);
 
             UpdateAnimations(tifaSprite);
             UpdateAnimations(cloudSprite);
-            UpdateAnimations(chocoboSprite);
 
 			// Déplacement du Sprite
             if (YnG.Keys.Pressed(Keys.Up))
