@@ -6,69 +6,84 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna;
+using Yna.Display;
 using Yna.State;
 
 namespace Yna.Samples3D.States
 {
     public class GameMenu : YnState
     {
-        private SpriteFont font;
-        private string title;
-        private List<MenuItem> items;
+        private YnText title;
+        private YnGroup items;
         private int index;
-        private Texture2D background;
+
+        YnSprite background;
 
         private int ItemsLength
         {
-            get { return items.Count; }
+            get { return items.Count(); }
         }
 
-        public GameMenu() 
-            : base (1000f, 0)
+        public GameMenu()
+            : base(1000f, 0)
         {
-            title = "Game Menu";
+            background = new YnSprite("Backgrounds/gradient");
+            Add(background);
 
-            items = new List<MenuItem>();
-			items.Add(new MenuItem("SpaceShip 3D", true));
-            items.Add(new MenuItem("Nasa Sample"));
-            items.Add(new MenuItem("Exit"));
+            title = new YnText("Fonts/MenuFont", Vector2.Zero, "YNA Samples");
+            title.Color = Color.DarkSlateBlue;
+            Add(title);
+
+            items = new YnGroup();
+            Add(items);
 
             index = 0;
         }
 
-        public override void LoadContent()
+        public override void Initialize()
         {
-            base.LoadContent();
+            base.Initialize();
 
-            background = YnG.Content.Load<Texture2D>("Backgrounds/gradient");
+            title.Scale = new Vector2(2.0f, 2.0f);
+            title.CenterRelativeTo(YnG.Width, 100);
 
-            font = YnG.Content.Load<SpriteFont>("Fonts/MenuFont");
+            background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            background.SourceRectangle = background.Rectangle;
+
+            items.Add(new MenuItem(1, "3D model 1", "Load an FBX model and moving it with keyboard or gamepad", true));
+            items.Add(new MenuItem(2, "3D model 2", "Load an FBX model and use of first person camera"));
+            items.Add(new MenuItem(3, "Exit"));
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            if (YnG.Keys.JustPressed(Keys.Up))
+            if (YnG.Keys.JustPressed(Keys.Up) || YnG.Keys.JustPressed(Keys.Down))
             {
-                index--;
+                if (YnG.Keys.JustPressed(Keys.Up))
+                {
+                    index--;
 
-                if (index < 0)
-                    index = ItemsLength - 1;
+                    if (index < 0)
+                        index = ItemsLength - 1;
+                }
+                else if (YnG.Keys.JustPressed(Keys.Down))
+                {
+                    index++;
+
+                    if (index >= ItemsLength)
+                        index = 0;
+                }
+
+                for (int i = 0; i < ItemsLength; i++)
+                    (items[i] as MenuItem).Selected = false;
+
+                (items[index] as MenuItem).Selected = true;
             }
-            else if (YnG.Keys.JustPressed(Keys.Down))
-            {
-                index++;
-                
-                if (index >= ItemsLength)
-                    index = 0;
-            }
 
-
-            for (int i = 0; i < ItemsLength; i++)
-                items[i].Selected = false;
-
-            items[index].Selected = true;
+            if (YnG.Keys.JustPressed(Keys.Escape))
+                YnG.Exit();
 
             if (YnG.Keys.JustPressed(Keys.Enter))
             {
@@ -76,55 +91,62 @@ namespace Yna.Samples3D.States
                 {
                     case 0: YnG.SwitchState(new SpaceGame()); break;
                     case 1: YnG.SwitchState(new NasaSample()); break;
-                    case 2: YnG.Exit(); break;
-                    default: break;
+                    default: YnG.Exit(); break;
                 }
             }
         }
-
-        public override void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-
-            spriteBatch.Draw(background, new Rectangle(0, 0, YnG.Width, YnG.Height), Color.White);
-
-            spriteBatch.DrawString(font, title, new Vector2(getMiddlePosition(title, 2.0f), 25), Color.AntiqueWhite, 0.0f, Vector2.Zero, new Vector2(2.0f, 2.0f), SpriteEffects.None, 1.0f);
-
-            for (int i = 0; i < ItemsLength; i++)
-            {
-                spriteBatch.DrawString(font, items[i].Name, new Vector2(getMiddlePosition(items[i].Name, 1.5f), (i  * 65) + 125), items[i].Color, 0.0f, Vector2.Zero, new Vector2(1.5f, 1.5f), SpriteEffects.None, 1.0f);
-            }
-
-            spriteBatch.End();
-
-            base.Draw(gameTime);
-        }
-
-        private int getMiddlePosition(string text, float zoom = 1)
-        {
-            return (int)(YnG.Width / 2 - (font.MeasureString(text).X / 2) * zoom);
-        }
     }
 
-    class MenuItem
+    class MenuItem : YnGroup
     {
-        public string Name { get; set; }
-        public bool Selected { get; set; }
-        public Color Color
+        private const int coefX = 55;
+        private const int coefY = 50;
+        private const int offset = 60;
+
+        private YnText _label;
+        private YnText _description;
+        private bool _selected;
+        private int _itemPosition;
+
+        public Color LabelColor
         {
             get
             {
-                if (Selected)
-                    return Color.DarkBlue;
+                if (_selected)
+                    return Color.GreenYellow;
                 else
-                    return Color.LightCyan;
+                    return Color.BlanchedAlmond;
             }
         }
 
-        public MenuItem(string name, bool selected = false)
+        public bool Selected
+        {
+            get { return _selected; }
+            set
+            {
+                _selected = value;
+                _label.Color = LabelColor;
+                _description.Visible = _selected;
+            }
+        }
+
+        public MenuItem(int position, string name, string description = "", bool selected = false)
         {
             Name = name;
-            Selected = selected;
+            _selected = selected;
+            _itemPosition = position;
+
+            _label = new YnText("Fonts/MenuFont", new Vector2(coefX, offset + coefY * _itemPosition), Name);
+            _label.Color = LabelColor;
+            Add(_label);
+
+
+            _description = new YnText("Fonts/MenuFont", new Vector2(coefX + 200, offset + coefY), description);
+            _description.Color = Color.AliceBlue;
+            _description.Visible = Selected;
+            Add(_description);
+
+            _itemPosition++;
         }
     }
 }

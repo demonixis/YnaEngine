@@ -10,7 +10,7 @@ using Yna.Display.Event;
 
 namespace Yna.Display
 {
-    public class Sprite : YnObject
+    public class YnSprite : YnObject
     {
         // Physique appliquée au Sprite
 		protected Vector2 _acceleration;
@@ -199,7 +199,7 @@ namespace Yna.Display
         #endregion
 
         #region constructeurs
-        public Sprite() 
+        public YnSprite() 
             : base ()
         {
             _sourceRectangle = null;
@@ -231,25 +231,25 @@ namespace Yna.Display
             _direction = Vector2.One;
         }
 
-        public Sprite(string assetName)
+        public YnSprite(string assetName)
             : this(Vector2.Zero)
         {
             _textureName = assetName;
         }
 
-        public Sprite(Vector2 position)
+        public YnSprite(Vector2 position)
             : this()
         {
             _position = position;
         }
 
-        public Sprite(Vector2 position, string assetName) 
+        public YnSprite(Vector2 position, string assetName) 
             : this(position)
         {
             _textureName = assetName;
         }
 
-        public Sprite(Rectangle rectangle, Color color)
+        public YnSprite(Rectangle rectangle, Color color)
             : this()
         {
             Rectangle = rectangle;
@@ -257,7 +257,7 @@ namespace Yna.Display
             _textureLoaded = true;
         }
 
-        public Sprite(int x, int y, string assetName)
+        public YnSprite(int x, int y, string assetName)
             : this(new Vector2(x, y), assetName) { }
 
         #endregion
@@ -379,9 +379,6 @@ namespace Yna.Display
         {
             _textureName = textureName;
             _textureLoaded = false;
-
-            if (_texture != null)
-                _texture.Dispose();
             
             _texture = null;
             
@@ -530,6 +527,50 @@ namespace Yna.Display
         {
             if (_texture != null && Dirty)
                 _texture.Dispose();
+        }
+
+        /// <summary>
+        /// Naïve test collision with rectangle
+        /// </summary>
+        /// <param name="spriteA"></param>
+        /// <param name="spriteB"></param>
+        /// <returns></returns>
+        public static bool RectCollide(YnSprite spriteA, YnSprite spriteB)
+        {
+            return spriteA.Rectangle.Intersects(spriteB.Rectangle);
+        }
+
+        /// <summary>
+        /// Perfect pixel test collision
+        /// </summary>
+        /// <param name="spriteA"></param>
+        /// <param name="spriteB"></param>
+        /// <returns></returns>
+        public static bool PerfectPixelCollide(YnSprite spriteA, YnSprite spriteB)
+        {
+            int top = Math.Max(spriteA.Rectangle.Top, spriteB.Rectangle.Top);
+            int bottom = Math.Min(spriteA.Rectangle.Bottom, spriteB.Rectangle.Bottom);
+            int left = Math.Max(spriteA.Rectangle.Left, spriteB.Rectangle.Left);
+            int right = Math.Min(spriteA.Rectangle.Right, spriteB.Rectangle.Right);
+
+            for (int y = top; y < bottom; y++)  // De haut en bas
+            {
+                for (int x = left; x < right; x++)  // de gauche à droite
+                {
+                    int index_A = (x - spriteA.Rectangle.Left) + (y - spriteA.Rectangle.Top) * spriteA.Rectangle.Width;
+                    int index_B = (x - spriteB.Rectangle.Left) + (y - spriteB.Rectangle.Top) * spriteB.Rectangle.Width;
+
+                    Color[] colorsSpriteA = GraphicsHelper.GetTextureData(spriteA);
+                    Color[] colorsSpriteB = GraphicsHelper.GetTextureData(spriteB);
+
+                    Color colorSpriteA = colorsSpriteA[index_A];
+                    Color colorSpriteB = colorsSpriteB[index_B];
+
+                    if (colorSpriteA.A != 0 && colorSpriteB.A != 0)
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }

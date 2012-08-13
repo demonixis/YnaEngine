@@ -9,7 +9,7 @@ namespace Yna.Display.TiledMap
 	/// <summary>
 	/// Tile based map renderer
 	/// </summary>
-	public abstract class AbstractTiledMap<LayerType>
+	public abstract class AbstractTileMap<LayerType>
 	{
 		/// <summary>
 		/// Tile width

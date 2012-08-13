@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1D28053D-5C68-4872-992F-EA90A0FE04E2}</ProjectGuid>
+    <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Yna.Windows</RootNamespace>
     <AssemblyName>Yna.Windows</AssemblyName>
@@ -49,52 +49,53 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Display3D\Camera.cs" />
+    <Compile Include="Display3D\Camera3D.cs" />
     <Compile Include="Display3D\Geometry\AbstractMesh.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\SpriteMover.cs" />
+    <Compile Include="Display\Camera2D.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
     <Compile Include="Display\Mapping\Map.cs" />
     <Compile Include="Display\Mapping\MapReader.cs" />
-    <Compile Include="Display\Sprite.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
-    <Compile Include="Display\TiledMap\Basic\Layer2D.cs" />
-    <Compile Include="Display\TiledMap\Basic\Tile2D.cs" />
-    <Compile Include="Display\TiledMap\Basic\TileMap2D.cs" />
-    <Compile Include="Display\TiledMap\AbstractTile.cs" />
-    <Compile Include="Display\TiledMap\Iso\LayerIso.cs" />
-    <Compile Include="Display\TiledMap\Iso\TileIso.cs" />
-    <Compile Include="Display\TiledMap\Iso\TiledMapIso.cs" />
-    <Compile Include="Display\TiledMap\AbstractLayer.cs" />
-    <Compile Include="Display\TiledMap\AbstractTiledMap.cs" />
+    <Compile Include="Display\YnSprite.cs" />
+    <Compile Include="Display\TileMap\AbstractLayer.cs" />
+    <Compile Include="Display\TileMap\AbstractTile.cs" />
+    <Compile Include="Display\TileMap\AbstractTileMap.cs" />
+    <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
+    <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
+    <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />
+    <Compile Include="Display\TileMap\Iso\LayerIso.cs" />
+    <Compile Include="Display\TileMap\Iso\TileIso.cs" />
+    <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
-    <Compile Include="Input\GamepadService.cs" />
-    <Compile Include="Input\IGamepadService.cs" />
-    <Compile Include="Input\IKeyboardService.cs" />
-    <Compile Include="Input\IMouseService.cs" />
-    <Compile Include="Input\KeyboardService.cs" />
-    <Compile Include="Input\MouseService.cs" />
+    <Compile Include="Input\Service\GamepadService.cs" />
+    <Compile Include="Input\Service\IGamepadService.cs" />
+    <Compile Include="Input\Service\IKeyboardService.cs" />
+    <Compile Include="Input\Service\IMouseService.cs" />
+    <Compile Include="Input\Service\KeyboardService.cs" />
+    <Compile Include="Input\Service\MouseService.cs" />
     <Compile Include="Input\YnGamepad.cs" />
     <Compile Include="Input\YnKeyboard.cs" />
     <Compile Include="Input\YnMouse.cs" />
-    <Compile Include="State\GameState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="State\GameState.cs" />
     <Compile Include="State\StateManager.cs" />
-    <Compile Include="Utils\CircularArray.cs" />
-    <Compile Include="Display\Camera2D.cs" />
+    <Compile Include="State\YnState.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="YnGroup.cs" />
     <Compile Include="YnObject.cs" />
-    <Compile Include="State\YnState.cs" />
-    <Compile Include="YnPath.cs" />
+    <Compile Include="Display\YnPath.cs" />
+    <Compile Include="YnPoint.cs" />
+    <Compile Include="YnRectangle.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

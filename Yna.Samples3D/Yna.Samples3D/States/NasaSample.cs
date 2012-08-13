@@ -20,7 +20,7 @@ namespace Yna.Samples3D.States
         Vector3 modelPosition;
         Vector3 modelRotation; 
 
-        Camera camera;
+        Camera3D camera;
 
         public NasaSample()
             : base()
@@ -28,7 +28,7 @@ namespace Yna.Samples3D.States
             modelPosition = Vector3.Zero;
             modelRotation = Vector3.Zero;
 
-            camera = new Camera(YnG.Game);
+            camera = new Camera3D(YnG.Game);
         }
 
         public override void LoadContent()
@@ -54,9 +54,9 @@ namespace Yna.Samples3D.States
 
             camera.Update(gameTime);
 
-            if (YnG.Keys.Pressed(Keys.Z))
+            if (YnG.Keys.Pressed(Keys.Z) || YnG.Keys.Up)
                 camera.Translate(new Vector3(0, 0, 0.65f));
-            else if (YnG.Keys.Pressed(Keys.S))
+            else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
                 camera.Translate(new Vector3(0, 0, -0.65f));
 
             if (YnG.Keys.Pressed(Keys.Q))

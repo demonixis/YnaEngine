@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Helpers;
 
-namespace Yna.Input
+namespace Yna.Input.Service
 {
     public class MouseService : GameComponent, IMouseService
     {

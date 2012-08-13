@@ -10,7 +10,7 @@ namespace Yna.Display3D
 		Fixed = 0, FirstPerson = 1, ThirdPerson = 2
 	}
 	
-    public class Camera
+    public class Camera3D
     {
         private Game game;
         private Matrix view;
@@ -97,7 +97,7 @@ namespace Yna.Display3D
 		
 		#endregion
 
-        public Camera(Game game)
+        public Camera3D(Game game)
         {
             this.game = game;
 

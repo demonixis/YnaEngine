@@ -7,7 +7,7 @@ namespace Yna.Display.TiledMap.Basic
 	/// <summary>
 	/// Description of TiledMap2D.
 	/// </summary>
-	public class TileMap2D : AbstractTiledMap<Layer2D>
+	public class TileMap2D : AbstractTileMap<Layer2D>
 	{
 		/// <summary>
 		/// This array contains zoning for each tile. It is initialized when

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Helpers;
+using Yna.Input.Service;
 
 namespace Yna.Input
 {

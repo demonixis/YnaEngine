@@ -12,14 +12,14 @@ namespace Yna.Display.Animation
 
     public class SpriteMover : YnBase
     {
-        protected Sprite _sprite;
+        protected YnSprite _sprite;
         protected float _elapsedTime;
         protected SpriteMovements _movement;
         protected int _nbMovements;
         protected float _refreshInterval;
         protected float _moveSpeed;
 
-        public SpriteMover(Sprite sprite)
+        public SpriteMover(YnSprite sprite)
         {
             _sprite = sprite;
             _elapsedTime = 0;

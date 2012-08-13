@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Yna.Input
+namespace Yna.Input.Service
 {
     public interface IGamepadService
     {

@@ -15,11 +15,11 @@ namespace Yna.Sample.States
     {
         private YnText informations;
 
-        private Sprite background;
-        private Sprite sephirothSprite; // Sprite du joueur
-        private Sprite tifaSprite;
-        private Sprite cloudSprite;
-        private Sprite chocoboSprite;
+        private YnSprite background;
+        private YnSprite sephirothSprite; // Sprite du joueur
+        private YnSprite tifaSprite;
+        private YnSprite cloudSprite;
+        private YnSprite chocoboSprite;
 
         private SpriteMover tifaMover;
         private SpriteMover cloudMover;
@@ -31,19 +31,19 @@ namespace Yna.Sample.States
             : base(1000f, 0) 
         {
             // 0 - The background
-            background = new Sprite("Backgrounds/back-ff6");
+            background = new YnSprite("Backgrounds/back-ff6");
 
             // 1 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
-            sephirothSprite = new Sprite(new Vector2(150, 250), "Sprites/sephiroth");
+            sephirothSprite = new YnSprite(new Vector2(150, 250), "Sprites/sephiroth");
             Add(sephirothSprite);
 
-            tifaSprite = new Sprite(new Vector2(350, 150), "Sprites/tifa");
+            tifaSprite = new YnSprite(new Vector2(350, 150), "Sprites/tifa");
             Add(tifaSprite);
 
-            cloudSprite = new Sprite(new Vector2(350, 25), "Sprites/cloud");
+            cloudSprite = new YnSprite(new Vector2(350, 25), "Sprites/cloud");
             Add(cloudSprite);
 
-            chocoboSprite = new Sprite(Vector2.Zero, "Sprites/chocobo");
+            chocoboSprite = new YnSprite(Vector2.Zero, "Sprites/chocobo");
             Add(chocoboSprite);
 
             // 2 - Informations de debug
@@ -120,7 +120,7 @@ namespace Yna.Sample.States
             informations.Text = "Waiting for mouse action";
         }
 
-        private void CreateAnimation(Sprite sprite, int animWidth, int animHeight)
+        private void CreateAnimation(YnSprite sprite, int animWidth, int animHeight)
         {
             sprite.PrepareAnimation(animWidth, animHeight);
             sprite.AddAnimation("down", new int[] { 0, 1, 2, 3 }, 150, false);
@@ -129,7 +129,7 @@ namespace Yna.Sample.States
             sprite.AddAnimation("up", new int[] { 12, 13, 14, 15 }, 150, false);
         }
 
-        private void UpdateAnimations(Sprite sprite)
+        private void UpdateAnimations(YnSprite sprite)
         {
             if (sprite.Direction.X == -1)
                 sprite.Play("left");

@@ -23,7 +23,7 @@ namespace Yna.Helpers
             return texture2D;
         }
 
-        public static Color[] GetTextureData (Sprite s)
+        public static Color[] GetTextureData (YnSprite s)
         {
             Color[] textureData = new Color[s.Texture.Width * s.Texture.Height];
             s.Texture.GetData(textureData);

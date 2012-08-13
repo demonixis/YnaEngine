@@ -7,7 +7,7 @@ namespace Yna.Display.TiledMap.Isometric
 	/// <summary>
 	/// Description of IsometricTiledMap.
 	/// </summary>
-	public class TiledMapIso : AbstractTiledMap<LayerIso>
+	public class TiledMapIso : AbstractTileMap<LayerIso>
 	{
 		#region Attributes
 		/// <summary>

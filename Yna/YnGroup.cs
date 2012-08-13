@@ -12,11 +12,19 @@ namespace Yna
     {
         private List<YnObject> _members;
 
+        /// <summary>
+        /// Members of the group
+        /// </summary>
         public List<YnObject> Members
         {
             get { return _members; }
         }
         
+        /// <summary>
+        /// Get or Set the [index] element of the collection
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public YnObject this[int index]
         {
         	get

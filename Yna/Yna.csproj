@@ -59,7 +59,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Display3D\Camera.cs" />
+    <Compile Include="Display3D\Camera3D.cs" />
     <Compile Include="Display3D\Geometry\AbstractMesh.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="Display\Mapping\MapReader.cs" />
     <Compile Include="Display\Mapping\Tile.cs" />
     <Compile Include="Display\Mapping\TileReader.cs" />
-    <Compile Include="Display\Sprite.cs" />
+    <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TiledMap\AbstractLayer.cs" />
     <Compile Include="Display\TiledMap\AbstractTile.cs" />
     <Compile Include="Display\TiledMap\AbstractTiledMap.cs" />
@@ -85,12 +85,12 @@
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
-    <Compile Include="Input\GamepadService.cs" />
-    <Compile Include="Input\IGamepadService.cs" />
-    <Compile Include="Input\IKeyboardService.cs" />
-    <Compile Include="Input\IMouseService.cs" />
-    <Compile Include="Input\KeyboardService.cs" />
-    <Compile Include="Input\MouseService.cs" />
+    <Compile Include="Input\Service\GamepadService.cs" />
+    <Compile Include="Input\Service\IGamepadService.cs" />
+    <Compile Include="Input\Service\IKeyboardService.cs" />
+    <Compile Include="Input\Service\IMouseService.cs" />
+    <Compile Include="Input\Service\KeyboardService.cs" />
+    <Compile Include="Input\Service\MouseService.cs" />
     <Compile Include="Input\YnGamepad.cs" />
     <Compile Include="Input\YnKeyboard.cs" />
     <Compile Include="Input\YnMouse.cs" />
@@ -98,13 +98,14 @@
     <Compile Include="State\GameState.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\YnState.cs" />
-    <Compile Include="Utils\CircularArray.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="YnGroup.cs" />
     <Compile Include="YnObject.cs" />
-    <Compile Include="YnPath.cs" />
+    <Compile Include="Display\YnPath.cs" />
+    <Compile Include="YnPoint.cs" />
+    <Compile Include="YnRectangle.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

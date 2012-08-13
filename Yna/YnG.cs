@@ -93,37 +93,5 @@ namespace Yna
         {
             Game.Exit();
         }
-
-        public static bool RectCollide (Sprite spriteA, Sprite spriteB)
-        {
-            return spriteA.Rectangle.Intersects(spriteB.Rectangle);
-        }
-
-        public static bool PerfectPixelCollide (Sprite spriteA, Sprite spriteB)
-        {
-            int top = Math.Max(spriteA.Rectangle.Top, spriteB.Rectangle.Top);
-            int bottom = Math.Min(spriteA.Rectangle.Bottom, spriteB.Rectangle.Bottom);
-            int left = Math.Max(spriteA.Rectangle.Left, spriteB.Rectangle.Left);
-            int right = Math.Min(spriteA.Rectangle.Right, spriteB.Rectangle.Right);
-
-            for (int y = top; y < bottom; y++)  // De haut en bas
-            {
-                for (int x = left; x < right; x++)  // de gauche à droite
-                {
-                    int index_A = (x - spriteA.Rectangle.Left) + (y - spriteA.Rectangle.Top) * spriteA.Rectangle.Width;
-                    int index_B = (x - spriteB.Rectangle.Left) + (y - spriteB.Rectangle.Top) * spriteB.Rectangle.Width;
-
-                    Color[] colorsSpriteA = GraphicsHelper.GetTextureData(spriteA);
-                    Color[] colorsSpriteB = GraphicsHelper.GetTextureData(spriteB);
-
-                    Color colorSpriteA = colorsSpriteA[index_A];
-                    Color colorSpriteB = colorsSpriteB[index_B];
-
-                    if (colorSpriteA.A != 0 && colorSpriteB.A != 0)
-                        return true;
-                }
-            }
-            return false;
-        }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Yna;
 using Yna.Helpers;
 
-namespace Yna.Input
+namespace Yna.Input.Service
 {
     public class KeyboardService : GameComponent, IKeyboardService
     {
