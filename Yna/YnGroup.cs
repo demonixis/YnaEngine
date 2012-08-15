@@ -19,6 +19,14 @@ namespace Yna
         {
             get { return _members; }
         }
+
+        /// <summary>
+        /// The size of the collection
+        /// </summary>
+        public int Count
+        {
+            get { return _members.Count(); }
+        }
         
         /// <summary>
         /// Get or Set the [index] element of the collection
@@ -48,11 +56,19 @@ namespace Yna
             _members = new List<YnObject>(capacity);
         }
 
-        public void Add(YnObject ynObject)
+        /// <summary>
+        /// Add a new object in the collecion
+        /// </summary>
+        /// <param name="sceneObject">An object or derivated from YnObject</param>
+        public void Add(YnObject sceneObject)
         {
-            _members.Add(ynObject);
+            _members.Add(sceneObject);
         }
 
+        /// <summary>
+        /// Add a new object in the collecion
+        /// </summary>
+        /// <param name="sceneObject">An array of objects or derivated from YnObject</param>
         public void Add(YnObject[] sceneObject)
         {
             int size = sceneObject.Length;
@@ -62,19 +78,14 @@ namespace Yna
             }
         }
 
-        public void Remove(YnObject ynObject)
+        public void Remove(YnObject sceneObject)
         {
-            _members.Remove(ynObject);
+            _members.Remove(sceneObject);
         }
 
         public void Clear()
         {
             _members.Clear();
-        }
-
-        public int Count()
-        {
-            return _members.Count();
         }
 
         public override void Initialize() 

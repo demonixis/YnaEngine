@@ -7,9 +7,24 @@ namespace Yna
 {
     public class YnRectangle
     {
+        /// <summary>
+        /// Get or Set the X position 
+        /// </summary>
         public int X { get; set; }
+
+        /// <summary>
+        /// Get or Set the Y position
+        /// </summary>
         public int Y { get; set; }
+
+        /// <summary>
+        /// Get or Set the width of the rectangle
+        /// </summary>
         public int Width { get; set; }
+
+        /// <summary>
+        /// Get or Set the height of the rectangle
+        /// </summary>
         public int Height { get; set; }
 
         public YnRectangle()

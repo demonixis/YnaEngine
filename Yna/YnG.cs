@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Reflection;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
 using Yna.Display;
 using Yna.Helpers;
 using Yna.State;
@@ -18,32 +16,67 @@ namespace Yna
         Unknow = 0, XNA, Windows, Windows8, Linux, Mac 
     }
 
+    /// <summary>
+    /// Static class that expose important object relative to the current context like
+    /// Game, GraphicsDevice, Input, etc...
+    /// </summary>
     public static class YnG
     {
+        /// <summary>
+        /// Get or Set the Game instance
+        /// </summary>
         public static Game Game { get; set; }
         
+
+        /// <summary>
+        /// Get the GraphicsDevice instance relative to the Game object
+        /// </summary>
         public static GraphicsDevice GraphicsDevice 
         { 
             get { return Game.GraphicsDevice; } 
         }
 
+        /// <summary>
+        /// Get the GraphicsDeviceManager relative to the Game object
+        /// </summary>
         public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
         
+        /// <summary>
+        /// Get the ContentManager instance relative to the Game object
+        /// </summary>
         public static ContentManager Content 
         { 
             get { return Game.Content; } 
         }
 
+        /// <summary>
+        /// Get or Set the State Manager
+        /// </summary>
         public static StateManager StateManager { get; set; }
 		
+        /// <summary>
+        /// Get or Set the keyboard states
+        /// </summary>
         public static YnKeyboard Keys { get; set; }
 
+        /// <summary>
+        /// Get or Set the mouse states
+        /// </summary>
         public static YnMouse Mouse { get; set; }
         
+        /// <summary>
+        /// Get or Set the Camera 2D who can follow a Sprite
+        /// </summary>
         public static Camera2D Camera { get; set; }
 
+        /// <summary>
+        /// Get or Set the version of XNA or MonoGame you are using
+        /// </summary>
         public static MonoGameContext MonoGameContext { get; set; }
 
+        /// <summary>
+        /// Get the width of the current viewport
+        /// </summary>
         public static int Width
         {
             get 
@@ -55,6 +88,9 @@ namespace Yna
             }
         }
 
+        /// <summary>
+        /// Get the height of the current viewport
+        /// </summary>
         public static int Height
         {
             get 
@@ -67,7 +103,7 @@ namespace Yna
         }
 
         /// <summary>
-        /// Obtient la largeur de l'écran
+        /// Get or Set the width of the screen
         /// </summary>
 		public static int DeviceWidth 
         {
@@ -76,7 +112,7 @@ namespace Yna
         }
 
 		/// <summary>
-		/// Obtient la hauteur d'écran
+		/// Get or Set the height of the screen
 		/// </summary>
 		public static int DeviceHeight
         {
@@ -84,21 +120,29 @@ namespace Yna
             set { GraphicsDeviceManager.PreferredBackBufferHeight = value; }
         }
 
+        /// <summary>
+        /// Change the screen resolution
+        /// </summary>
+        /// <param name="width">Screen width</param>
+        /// <param name="height">Screen height</param>
         public static void SetScreenResolution(int width, int height)
         {
         	(Game as YnGame).SetScreenResolution(width, height);
         }
 
+        /// <summary>
+        /// Switch to a new state, just pass a new instance of a state and 
+        /// the StateManager will clear all other state and use your new state
+        /// </summary>
+        /// <param name="state">New state</param>
         public static void SwitchState(YnState state)
         {
             (Game as YnGame).SwitchState(state);
         }
 
-        public static void AddScreen(GameState gameState)
-        {
-            StateManager.Add(gameState);
-        }
-
+        /// <summary>
+        /// Close the game
+        /// </summary>
         public static void Exit()
         {
             Game.Exit();

@@ -21,7 +21,7 @@ namespace Yna.Samples3D.States
 
         private int ItemsLength
         {
-            get { return items.Count(); }
+            get { return items.Count; }
         }
 
         public GameMenu()

@@ -5,29 +5,42 @@ using Yna.Display;
 
 namespace Yna.Display
 {
-    internal class Path
+    internal class Destination
     {
-        public Vector2 Destination;
+        public Vector2 Point;
         public float Speed;
-        public bool Arrived;
 
-        public Path(int x, int y, float speed)
+        public Destination(int x, int y, float speed)
         {
-            Destination = new Vector2(x, y);
+            Point = new Vector2(x, y);
             Speed = speed;
         }
     }
 
     public class YnPath : YnBase
     {
-        private List<Path> _destinations;
+        #region Private declarations
+        private List<Destination> _destinations;
         private bool _repeat;
         private int _pathIndex;
         private YnSprite _sprite;
         private bool _ready;
+        #endregion
 
+        #region Events
+        /// <summary>
+        /// Trigger when the sprite begin to move
+        /// </summary>
         public event EventHandler<EventArgs> Started = null;
+
+        /// <summary>
+        /// Trigger when the path is restarted
+        /// </summary>
         public event EventHandler<EventArgs> Restarted = null;
+
+        /// <summary>
+        /// Trigger when the path is finised
+        /// </summary>
         public event EventHandler<EventArgs> Arrived = null;
 
         private void OnStarted(EventArgs e)
@@ -48,12 +61,19 @@ namespace Yna.Display
                 Arrived(this, e);
         }
 
+        #endregion
+
+        /// <summary>
+        /// Create a path that a Sprite will follow automatically
+        /// </summary>
+        /// <param name="sprite">The sprite who must follow this path</param>
+        /// <param name="repeat">Repeat or not the path</param>
         public YnPath(YnSprite sprite, bool repeat)
         {
             _sprite = sprite;
             _repeat = repeat;
             _pathIndex = 0;
-            _destinations = new List<Path>();
+            _destinations = new List<Destination>();
             _ready = false;
             Active = false;
         }
@@ -66,7 +86,7 @@ namespace Yna.Display
         /// <param name="speed">Velocity speed for this path</param>
         public void Add(int x, int y, float speed = 2)
         {
-            _destinations.Add(new Path(x, y, speed));
+            _destinations.Add(new Destination(x, y, speed));
         }
 
         /// <summary>
@@ -85,11 +105,11 @@ namespace Yna.Display
             if (_destinations.Count > 1)
             {
                 int size = _destinations.Count;
-                _destinations.Add(new Path(destinationX + (int)_destinations[size - 1].Destination.X, destinationY + (int)_destinations[size - 1].Destination.Y, speed));
+                _destinations.Add(new Destination(destinationX + (int)_destinations[size - 1].Point.X, destinationY + (int)_destinations[size - 1].Point.Y, speed));
             }
 
             // Add new path to the destinations
-            _destinations.Add(new Path(destX, destY, speed));
+            _destinations.Add(new Destination(destX, destY, speed));
         }
 
         /// <summary>
@@ -107,6 +127,9 @@ namespace Yna.Display
             }
         }
 
+        /// <summary>
+        /// Clear the current path
+        /// </summary>
         public void Clear()
         {
             Active = false;
@@ -134,7 +157,7 @@ namespace Yna.Display
                 else
                 {
                     Vector2 position = _sprite.Position;
-                    Vector2 target = _destinations[_pathIndex].Destination;
+                    Vector2 target = _destinations[_pathIndex].Point;
                     Vector2 distance = target - position;
 
                     if (position == target)

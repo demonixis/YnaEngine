@@ -13,16 +13,21 @@ namespace Yna.Input
 
     public class YnMouse
     {
-        public YnMouse() { }
+        private IMouseService service;
+
+        public YnMouse() 
+        {
+            service = ServiceHelper.Get<IMouseService>();
+        }
 
         public int X 
         { 
-            get { return ServiceHelper.Get<IMouseService>().X(); } 
+            get { return service.X(); } 
         }
 
         public int Y
         {
-            get { return ServiceHelper.Get<IMouseService>().Y(); }
+            get { return service.Y(); }
         }
 
         public Vector2 Position
@@ -32,12 +37,12 @@ namespace Yna.Input
 
         public int Wheel
         {
-            get { return ServiceHelper.Get<IMouseService>().Wheel(); }
+            get { return service.Wheel(); }
         }
 
         public bool Moving
         {
-            get { return ServiceHelper.Get<IMouseService>().Moving(); }
+            get { return service.Moving(); }
         }
 
         public bool Drag(MouseButton button)
@@ -56,9 +61,9 @@ namespace Yna.Input
 
             switch (button)
             {
-                case MouseButton.Left: result = ServiceHelper.Get<IMouseService>().ClickLeft(state); break;
-                case MouseButton.Middle: result = ServiceHelper.Get<IMouseService>().ClickMiddle(state); break;
-                case MouseButton.Right: result = ServiceHelper.Get<IMouseService>().ClickMiddle(state); break;
+                case MouseButton.Left: result = service.ClickLeft(state); break;
+                case MouseButton.Middle: result = service.ClickMiddle(state); break;
+                case MouseButton.Right: result = service.ClickMiddle(state); break;
             }
 
             return result; 

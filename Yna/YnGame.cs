@@ -74,21 +74,23 @@ namespace Yna
         protected override void Update(GameTime gameTime)
         {
             stateManager.Update(gameTime);
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             stateManager.Draw(gameTime);
+
             base.Draw(gameTime);
         }
         #endregion
 
         /// <summary>
-		/// Change la résolution d'affichage
-		/// </summary>
-		/// <param name="width">Longueur</param>
-		/// <param name="height">Largeur</param>
+        /// Change the screen resolution
+        /// </summary>
+        /// <param name="width">Screen width</param>
+        /// <param name="height">Screen height</param>
         public void SetScreenResolution(int width, int height)
         {
             this.graphics.PreferredBackBufferWidth = width;
@@ -97,9 +99,10 @@ namespace Yna
         }
 
         /// <summary>
-        /// Remplace l'écran d'état courant par l'état passé en paramètre
+        /// Switch to a new state, just pass a new instance of a state and 
+        /// the StateManager will clear all other state and use your new state
         /// </summary>
-        /// <param name="nextState">Prochain écran</param>
+        /// <param name="state">New state</param>
         public void SwitchState(YnState nextState)
         {
             if (!nextState.IsPopup)
@@ -115,7 +118,7 @@ namespace Yna
         }
 
         /// <summary>
-        /// Quitte le programme
+        /// Close the game
         /// </summary>
         public void ExitGame()
         {
