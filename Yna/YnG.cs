@@ -60,6 +60,11 @@ namespace Yna
         public static YnKeyboard Keys { get; set; }
 
         /// <summary>
+        /// Get or Set the Gamepad states
+        /// </summary>
+        public static YnGamepad Gamepad { get; set; }
+
+        /// <summary>
         /// Get or Set the mouse states
         /// </summary>
         public static YnMouse Mouse { get; set; }

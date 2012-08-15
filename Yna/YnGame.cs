@@ -29,6 +29,7 @@ namespace Yna
             ServiceHelper.Game = this;
             Components.Add(new KeyboardService(this));
             Components.Add(new MouseService(this));
+            Components.Add(new GamepadService(this));
             
              // Portée global pour l'ensemble du jeu
             YnG.Game = this;
@@ -37,6 +38,7 @@ namespace Yna
             YnG.DeviceHeight = this.graphics.PreferredBackBufferHeight;
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
+            YnG.Gamepad = new YnGamepad();
             YnG.Camera = new Camera2D();
             YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.StateManager = stateManager;

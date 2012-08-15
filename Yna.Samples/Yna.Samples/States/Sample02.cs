@@ -75,18 +75,18 @@ namespace Yna.Sample.States
             base.Update(gameTime); // Les objets attachés sont mis à jour
 			
 			// Déplacement du Sprite
-			if (YnG.Keys.Pressed(Keys.Left))
+			if (YnG.Keys.Pressed(Keys.Left) || YnG.Gamepad.Left(PlayerIndex.One))
             {
                 sonicSprite.Play("left");
                 sonicSprite.VelocityX -= 0.3f;
             }
-            else if (YnG.Keys.Pressed(Keys.Right))
+            else if (YnG.Keys.Pressed(Keys.Right) || YnG.Gamepad.Right(PlayerIndex.One))
             {
                 sonicSprite.Play("right");
                 sonicSprite.VelocityX += 0.3f;
             }
 
-            if (YnG.Keys.Pressed(Keys.Space))
+            if (YnG.Keys.Pressed(Keys.Space) || YnG.Gamepad.A(PlayerIndex.One))
 			{
 				sonicSprite.Play("up");
                 Jump();
@@ -116,7 +116,7 @@ namespace Yna.Sample.States
                 }
             }
 
-            if (YnG.Keys.JustPressed(Keys.Escape))
+            if (YnG.Keys.JustPressed(Keys.Escape) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.Back))
                 YnG.SwitchState(new GameMenu());
         }
 

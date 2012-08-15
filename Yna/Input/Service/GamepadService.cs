@@ -38,7 +38,7 @@ namespace Yna.Input.Service
             base.Update(gameTime);
         }
 
-        #region IKeyboardService Membres
+        #region IGamepadService Membres
 
         bool IGamepadService.Connected(PlayerIndex index)
         {
