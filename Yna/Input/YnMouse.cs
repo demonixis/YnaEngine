@@ -47,7 +47,7 @@ namespace Yna.Input
 
         public bool Drag(MouseButton button)
         {
-            return Clicked(button) && Moving;
+            return Click(button) && Moving;
         }
 
         public bool Drop (MouseButton button)
@@ -55,7 +55,7 @@ namespace Yna.Input
             return Released(button) && !Moving;
         }
 
-        public bool Click(MouseButton button, ButtonState state)
+        public bool ClickOn(MouseButton button, ButtonState state)
         {
             bool result = false;
 
@@ -69,14 +69,24 @@ namespace Yna.Input
             return result; 
         }
 
-        public bool Clicked(MouseButton button)
+        public bool Click(MouseButton button)
         {
-            return Click(button, ButtonState.Pressed);
+            return ClickOn(button, ButtonState.Pressed);
         }
 
         public bool Released(MouseButton button)
         {
-            return Click(button, ButtonState.Released);
+            return ClickOn(button, ButtonState.Released);
+        }
+
+        public bool JustClicked(MouseButton button)
+        {
+            return service.JustClicked(button);
+        }
+
+        public bool JustReleased(MouseButton button)
+        {
+            return service.JustReleased(button);
         }
     }
 }

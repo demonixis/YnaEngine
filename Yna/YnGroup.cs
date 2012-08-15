@@ -62,6 +62,7 @@ namespace Yna
         /// <param name="sceneObject">An object or derivated from YnObject</param>
         public void Add(YnObject sceneObject)
         {
+            sceneObject.Parent = this;
             _members.Add(sceneObject);
         }
 

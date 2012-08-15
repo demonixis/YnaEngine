@@ -16,6 +16,7 @@ namespace Yna.Sample.States
         private YnText title;
         private YnGroup items;
         private int index;
+        private bool itemClicked;
 
         YnSprite background;
 
@@ -37,6 +38,10 @@ namespace Yna.Sample.States
             items = new YnGroup();
             Add(items);
 
+            itemClicked = false;
+
+            YnG.ShowMouse = true;
+
             index = 0;
         }
 
@@ -51,27 +56,64 @@ namespace Yna.Sample.States
             background.SourceRectangle = background.Rectangle;
 
             items.Add(new MenuItem(1, "Basic Sprites", "This sample shows you how to create a collection of sprite\nwithout texture.", true));
-            items.Add(new MenuItem(2, "2D Plateformer", "An example that shows you how to easily create a fast\n2D Platformer with some physics (Acceleration and Velocity)."));
+            items.Add(new MenuItem(2, "2D Plateformer", "An example that shows you how to easily create a fast\n2D Platformer with some physics (Acceleration and Velocity).\n\nIt show you how to using the Gamepad too"));
             items.Add(new MenuItem(3, "Animated Sprite", "How create an animated Sprite with a SpriteSheet ?\nThe answord in this sample"));
             items.Add(new MenuItem(4, "Simple Tiled Map", "Create a tilemap and a camera"));
             items.Add(new MenuItem(5, "Isometric Tiled Map", "Create an isometric tilemap and a camera"));
             items.Add(new MenuItem(6, "Exit"));
+
+            foreach (MenuItem item in items)
+            {
+                item.Label.MouseOver += new EventHandler<Display.Event.MouseOverSpriteEventArgs>(Label_MouseOver);
+                item.Label.MouseJustClicked += new EventHandler<Display.Event.MouseClickSpriteEventArgs>(Label_MouseJustClicked);
+            }
+        }
+
+        void Label_MouseJustClicked(object sender, Display.Event.MouseClickSpriteEventArgs e)
+        {
+            // We are on an event callback
+            // We can't switch to another state here because the update method of YnState is maybe updating
+            // an object, so we can't break that
+            itemClicked = true;
+        }
+
+        void Label_MouseOver(object sender, Display.Event.MouseOverSpriteEventArgs e)
+        {
+            YnText ynText = (sender as YnText);
+
+            if (ynText != null)
+            {
+                MenuItem group = ynText.Parent as MenuItem;
+
+                if (group != null)
+                {
+                    if (index != group.ItemPosition - 2)
+                    {
+                        for (int i = 0; i < ItemsLength; i++)
+                            (items[i] as MenuItem).Selected = false;
+
+                        group.Selected = true;
+
+                        index = group.ItemPosition - 2;
+                    }
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            if (YnG.Keys.JustPressed(Keys.Up) || YnG.Keys.JustPressed(Keys.Down))
+            if (YnG.Keys.JustPressed(Keys.Up) || YnG.Keys.JustPressed(Keys.Down) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.DPadUp) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.DPadDown))
             {
-                if (YnG.Keys.JustPressed(Keys.Up))
+                if (YnG.Keys.JustPressed(Keys.Up) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.DPadUp))
                 {
                     index--;
 
                     if (index < 0)
                         index = ItemsLength - 1;
                 }
-                else if (YnG.Keys.JustPressed(Keys.Down))
+                else if (YnG.Keys.JustPressed(Keys.Down) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.DPadDown))
                 {
                     index++;
 
@@ -85,21 +127,40 @@ namespace Yna.Sample.States
                 (items[index] as MenuItem).Selected = true;
             }
 
+            if (YnG.Keys.JustPressed(Keys.Enter) || itemClicked)
+            {
+                itemClicked = false;
+                LaunchDemo();
+            }
+
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.Exit();
+        }
 
-            if (YnG.Keys.JustPressed(Keys.Enter))
+        private void LaunchDemo()
+        {
+            switch (index)
             {
-                switch (index)
-                {
-                    case 0: YnG.SwitchState(new Sample01()); break;
-                    case 1: YnG.SwitchState(new Sample02()); break;
-                    case 2: YnG.SwitchState(new Sample03()); break;
-                    case 3: YnG.SwitchState(new TiledMap2DSample()); break;
-                    case 4: YnG.SwitchState(new IsoTiledMapSample()); break;
-                    case 5: YnG.Exit(); break;
-                    default: break;
-                }
+                case 0:
+                    YnG.SwitchState(new Sample01());
+                    break;
+                case 1:
+                    YnG.SwitchState(new Sample02());
+                    break;
+                case 2:
+                    YnG.SwitchState(new Sample03());
+                    break;
+                case 3:
+                    YnG.SwitchState(new TiledMap2DSample());
+                    break;
+                case 4:
+                    YnG.SwitchState(new IsoTiledMapSample());
+                    break;
+                case 5:
+                    YnG.Exit();
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -114,6 +175,16 @@ namespace Yna.Sample.States
         private YnText _description;
         private bool _selected;
         private int _itemPosition;
+
+        public int ItemPosition
+        {
+            get { return _itemPosition; }
+        }
+
+        public YnText Label
+        {
+            get { return _label; }
+        }
 
         public Color LabelColor
         {

@@ -59,7 +59,7 @@ namespace Yna.Sample.States
             	YnSprite sprite = new YnSprite(new Rectangle(0, 0, spriteWidth, spriteHeight), colors[i]);
             	sprite.Position = new Vector2(x, y);
             	sprite.SetOriginTo(ObjectOrigin.Center);
-            	sprite.AllowAcrossScreen = true;
+            	sprite.AcrossScreen = true;
             	sprites.Add(sprite);
             }
 

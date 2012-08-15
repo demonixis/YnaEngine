@@ -1,8 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Yna.Display;
 using Yna.Helpers;
+using Yna.Input;
+using Yna.Display.Event;
 
 namespace Yna
 {
@@ -17,6 +20,8 @@ namespace Yna
     {
         protected bool _visible;
         protected ScrollFactor _scrollFactor;
+
+        protected YnObject _parent;
 
         protected Vector2 _position;
         protected Rectangle _rectangle;
@@ -94,6 +99,12 @@ namespace Yna
         {
             get { return _scrollFactor; }
             set { _scrollFactor = value; }
+        }
+
+        public YnObject Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
         }
 
         public Color Color
@@ -213,6 +224,44 @@ namespace Yna
         }
         #endregion
 
+        #region Events
+
+        public event EventHandler<MouseOverSpriteEventArgs> MouseOver = null;
+        public event EventHandler<MouseClickSpriteEventArgs> MouseJustClicked = null;
+        public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
+        public event EventHandler<MouseClickSpriteEventArgs> MouseClicked = null;
+        public event EventHandler<MouseClickSpriteEventArgs> MouseDoubleClicked = null;
+
+        private void MouseOverSprite(MouseOverSpriteEventArgs e)
+        {
+            if (MouseOver != null)
+                MouseOver(this, e);
+        }
+
+        private void MouseJustClickedSprite(MouseClickSpriteEventArgs e)
+        {
+            if (MouseJustClicked != null)
+                MouseJustClicked(this, e);
+        }
+
+        // TODO : Need refactoring
+        private void MouseClickSprite(MouseClickSpriteEventArgs e)
+        {
+            // Click 
+            if (MouseClick != null)
+                MouseClick(this, e);
+
+            // One click
+            if (MouseClicked != null)
+                MouseClicked(this, e);
+
+            // Double click
+            if (MouseDoubleClicked != null)
+                MouseDoubleClicked(this, e);
+        }
+
+        #endregion
+
         /// <summary>
         /// Construction d'un objet graphique de base
         /// </summary>
@@ -221,6 +270,7 @@ namespace Yna
         {
             _visible = true;
             _scrollFactor = new ScrollFactor();
+            _parent = null;
             
             _position = new Vector2(0, 0);
             _rectangle = Rectangle.Empty;
@@ -240,6 +290,52 @@ namespace Yna
         public abstract void UnloadContent();
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+
+        public override void Update(GameTime gameTime)
+        {
+            #region Mouse events
+
+            // Souris
+            if (Rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
+            {
+                // Mouse Over
+                MouseOverSprite(new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+
+                // Un click une fois
+                if (YnG.Mouse.JustClicked(MouseButton.Left) || YnG.Mouse.JustClicked(MouseButton.Middle) || YnG.Mouse.JustClicked(MouseButton.Right))
+                {
+                    MouseButton mouseButton;
+
+                    if (YnG.Mouse.JustClicked(MouseButton.Left))
+                        mouseButton = MouseButton.Left;
+                    else if (YnG.Mouse.JustClicked(MouseButton.Middle))
+                        mouseButton = MouseButton.Middle;
+                    else
+                        mouseButton = MouseButton.Right;
+                    
+                    MouseJustClickedSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true));
+                }
+
+                // Un click
+                if (YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Right, ButtonState.Pressed))
+                {
+                    MouseButton mouseButton;
+
+                    if (YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed))
+                        mouseButton = MouseButton.Left;
+                    else if (YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed))
+                        mouseButton = MouseButton.Middle;
+                    else
+                        mouseButton = MouseButton.Right;
+
+                    MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false));
+                }
+
+                // Double click
+            }
+
+            #endregion
+        }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, ref Rectangle rectangle)
         {

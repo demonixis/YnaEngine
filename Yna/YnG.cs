@@ -125,6 +125,12 @@ namespace Yna
             set { GraphicsDeviceManager.PreferredBackBufferHeight = value; }
         }
 
+        public static bool ShowMouse
+        {
+            get { return Game.IsMouseVisible; }
+            set { Game.IsMouseVisible = value; }
+        }
+
         /// <summary>
         /// Change the screen resolution
         /// </summary>

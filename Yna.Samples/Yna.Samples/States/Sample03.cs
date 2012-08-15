@@ -20,8 +20,8 @@ namespace Yna.Sample.States
         private YnSprite tifaSprite;
         private YnSprite cloudSprite;
 
-        private SpriteMover tifaMover;
-        private YnPath cloudMover;
+        private YnPath tifaPath;
+        private YnPath cloudPath;
         
         private YnTimer clearMessage;
 
@@ -31,29 +31,30 @@ namespace Yna.Sample.States
             // 0 - The background
             background = new YnSprite("Backgrounds/back-ff6");
 
-            // 1 - Création d'un Sprite à la position 50, 50 en utilisant la texture soniclg4 du dossier 2d
+            // 1 - Player's Sprite
             sephirothSprite = new YnSprite(new Vector2(150, 250), "Sprites/sephiroth");
             Add(sephirothSprite);
 
+            // 2 - Let's create 2 PNJs player
             tifaSprite = new YnSprite(new Vector2(350, 150), "Sprites/tifa");
             Add(tifaSprite);
 
             cloudSprite = new YnSprite(new Vector2(350, 25), "Sprites/cloud");
             Add(cloudSprite);
 
-            // 2 - Informations de debug
+            // 3 - We wan't debug informations
             informations = new YnText("Fonts/MenuFont", 25, 25, "Informations");
             informations.Color = Color.Yellow;
             informations.Scale = new Vector2(2.0f, 2.0f);
             Add(informations);
 
-            // 3 - Permet de simuler un déplacement aléatoire sur un Sprite
-            tifaMover = new SpriteMover(tifaSprite);
-            cloudMover = new YnPath(cloudSprite, true);
-
-            // 4 - Timer pour faire disparaitre les messages d'info
+            // Add a clear timer for update informations
             clearMessage = new YnTimer(1500, 0);
             clearMessage.Completed += new EventHandler<EventArgs>(clearMessage_Completed);
+
+            // 4 - Create 2 path for PNJs
+            tifaPath = new YnPath(tifaSprite, true);
+            cloudPath = new YnPath(cloudSprite, true);
         }
 
         public override void Initialize ()
@@ -61,33 +62,43 @@ namespace Yna.Sample.States
             background.LoadContent();
             background.SetRectangles(new Rectangle(0, 0, YnG.Width, YnG.Height));
 
-            // 4 - Préparation et création des animations des personnages
+            // Create animations for all Sprites
             CreateAnimation(sephirothSprite, 34, 48);
-			sephirothSprite.ForceInsideScreen = true;
-
             CreateAnimation(tifaSprite, 32, 48);
             CreateAnimation(cloudSprite, 32, 48);
 
-            // 5 - Evenements souris
+            // The player can't exit the screen
+			sephirothSprite.InsideScreen = true; 
+
+            // Ok now we'll play with mouse events !
             tifaSprite.MouseOver += new EventHandler<MouseOverSpriteEventArgs>(OnSprite_MouseOver);
             sephirothSprite.MouseClicked += new EventHandler<MouseClickSpriteEventArgs>(OnSprite_MouseClicked);
 
-            // 6 - Scale of the sprites
+            // Change the scale
             Vector2 scale = new Vector2(1.5f, 1.5f);
             tifaSprite.Scale = scale;
             sephirothSprite.Scale = scale;
             cloudSprite.Scale = scale;
 
+            // Create paths relative to the Sprite's start position
             cloudSprite.Position = new Vector2(150, 250);
-            cloudMover.AddTo(150, 0, 2);
-            cloudMover.AddTo(0, 200, 2);
-            cloudMover.AddTo(0, -250, 2);
-            cloudMover.AddTo(0, 100, 2);
-            cloudMover.AddTo(-150, -50, 2);
-            cloudMover.AddTo(-10, 10, 2);
-            cloudMover.AddTo(100, 0, 2);
-            cloudMover.AddTo(0, 100, 2);
-            cloudMover.End();
+            cloudPath.AddTo(150, 0, 2);
+            cloudPath.AddTo(0, 200, 2);
+            cloudPath.AddTo(0, -250, 2);
+            cloudPath.AddTo(0, 100, 2);
+            cloudPath.AddTo(-150, -50, 2);
+            cloudPath.AddTo(-10, 10, 2);
+            cloudPath.AddTo(100, 0, 2);
+            cloudPath.AddTo(0, 100, 2);
+            cloudPath.End();
+
+            tifaSprite.Position = new Vector2(350, 350);
+            tifaPath.AddTo(150, 0, 2);
+            tifaPath.AddTo(0, 200, 2);
+            tifaPath.AddTo(0, -250, 2);
+            tifaPath.AddTo(0, 100, 2);
+            tifaPath.AddTo(-150, -50, 2);
+            tifaPath.End();
 
             // On affiche la souris
             YnG.Game.IsMouseVisible = true;
@@ -121,13 +132,13 @@ namespace Yna.Sample.States
 
         private void UpdateAnimations(YnSprite sprite)
         {
-            if (sprite.Direction.X == -1)
+            if (sprite.Direction.X < 0)
                 sprite.Play("left");
-            else if (sprite.Direction.X == 1)
+            else if (sprite.Direction.X > 0)
                 sprite.Play("right");
-            else if (sprite.Direction.Y == -1)
+            else if (sprite.Direction.Y < 0)
                 sprite.Play("up");
-            else if (sprite.Direction.Y == 1)
+            else if (sprite.Direction.Y > 0)
                 sprite.Play("down");
             else
                 sprite.Play("down");
@@ -139,33 +150,31 @@ namespace Yna.Sample.States
 
             clearMessage.Update(gameTime);
 
-            tifaMover.Update(gameTime);
-            cloudMover.Update(gameTime);
+            tifaPath.Update(gameTime);
+            cloudPath.Update(gameTime);
 
-            UpdateAnimations(tifaSprite);
-            UpdateAnimations(cloudSprite);
-
-			// Déplacement du Sprite
+			// Moving the Player's Sprite with the keyboard
             if (YnG.Keys.Pressed(Keys.Up))
             {
-                sephirothSprite.Play("up");
                 sephirothSprite.Y -= 2;
             }
             else if (YnG.Keys.Pressed(Keys.Down))
             {
-                sephirothSprite.Play("down");
                 sephirothSprite.Y += 2;
             }
             else if (YnG.Keys.Pressed(Keys.Left))
             {
-                sephirothSprite.Play("left");
                 sephirothSprite.X -= 2;
             }
             else if (YnG.Keys.Pressed(Keys.Right))
             {
-                sephirothSprite.Play("right");
                 sephirothSprite.X += 2;
             }
+
+            // Update animation relative to there own direction
+            UpdateAnimations(sephirothSprite);
+            UpdateAnimations(tifaSprite);
+            UpdateAnimations(cloudSprite);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());

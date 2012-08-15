@@ -59,5 +59,33 @@ namespace Yna.Input.Service
         {
             return mouseState.MiddleButton == state;
         }
+
+        bool IMouseService.JustClicked(MouseButton button)
+        {
+            bool justClicked = false;
+
+            if (button == MouseButton.Left)
+                justClicked = mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released;
+            else if (button == MouseButton.Middle)
+                justClicked = mouseState.MiddleButton == ButtonState.Pressed && lastMouseState.MiddleButton == ButtonState.Released;
+            else if (button == MouseButton.Right)
+                justClicked = mouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released;
+
+            return justClicked;
+        }
+
+        bool IMouseService.JustReleased(MouseButton button)
+        {
+            bool justReleased = false;
+
+            if (button == MouseButton.Left)
+                justReleased = mouseState.LeftButton == ButtonState.Released && lastMouseState.LeftButton == ButtonState.Pressed;
+            else if (button == MouseButton.Middle)
+                justReleased = mouseState.MiddleButton == ButtonState.Released && lastMouseState.MiddleButton == ButtonState.Pressed;
+            else if (button == MouseButton.Right)
+                justReleased = mouseState.RightButton == ButtonState.Released && lastMouseState.RightButton == ButtonState.Pressed;
+
+            return justReleased;
+        }
     }
 }

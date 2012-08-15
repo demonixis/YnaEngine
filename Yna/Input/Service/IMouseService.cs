@@ -18,5 +18,9 @@ namespace Yna.Input.Service
         bool ClickRight(ButtonState state);
 
         bool ClickMiddle(ButtonState state);
+
+        bool JustClicked(MouseButton button);
+
+        bool JustReleased(MouseButton button);
     }
 }

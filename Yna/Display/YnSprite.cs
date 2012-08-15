@@ -12,36 +12,39 @@ namespace Yna.Display
 {
     public class YnSprite : YnObject
     {
-        // Physique appliquée au Sprite
+        #region Private declarations
+
+        // Some physics
 		protected Vector2 _acceleration;
 		protected Vector2 _velocity;
 		protected float _maxVelocity;
         
-        // Déplacements
+        // Moving the sprite
         protected bool _canMove;
         protected bool _isFollowed;
         protected Vector2 _direction;
         protected Vector2 _lastPosition;
         protected Rectangle _viewport;
 
-        // Gestion des collisions
-        protected bool _forceInsideScreen;
-        protected bool _forceInsideOutsideScreen;
-        protected bool _forceBounce;
+        // Collide with screen
+        protected bool _InsideScreen;
+        protected bool _acrossScreen;
 
-        // Position et rendu
+        // Position
         protected Rectangle? _sourceRectangle;
         protected SpriteEffects _effects;
         protected float _layerDepth;
 		
-        // Gestion des animations
+        // Animations
         protected bool _hasAnimation;
         protected SpriteAnimator _animator;
         protected long _elapsedTime;
 
+        #endregion
+
         #region Propriétés
-		
-		public Vector2 Acceleration
+
+        public Vector2 Acceleration
 		{
 			get { return _acceleration; }
 			set { _acceleration = value; }
@@ -95,19 +98,18 @@ namespace Yna.Display
         }
 
         /// <summary>
-        /// Oblige le Sprite à ne pas quitter l'écran
+        /// Force or not the sprite to 
         /// </summary>
-        public bool ForceInsideScreen
+        public bool InsideScreen
         {
-            get { return _forceInsideScreen; }
+            get { return _InsideScreen; }
             set
             {
-                _forceInsideScreen = value;
+                _InsideScreen = value;
 
-                if (_forceInsideScreen)
+                if (_InsideScreen)
                 {
-                    _forceInsideOutsideScreen = false;
-                    _forceBounce = false;
+                    _acrossScreen = false;
                 }
             }
         }
@@ -115,17 +117,16 @@ namespace Yna.Display
         /// <summary>
         /// Oblige le sprite à ne pas quitter l'écran. Si il sort de l'écran, il est déplacé à sa position inverse
         /// </summary>
-        public bool AllowAcrossScreen
+        public bool AcrossScreen
         {
-            get { return _forceInsideOutsideScreen; }
+            get { return _acrossScreen; }
             set
             {
-                _forceInsideOutsideScreen = value;
+                _acrossScreen = value;
 
-                if (_forceInsideOutsideScreen)
+                if (_acrossScreen)
                 {
-                    _forceInsideScreen = false;
-                    _forceBounce = false;
+                    _InsideScreen = false;
                 }
             }
         }
@@ -164,38 +165,15 @@ namespace Yna.Display
         #endregion
         
         #region Evenements
+
         public event EventHandler<ScreenCollideSpriteEventArgs> ScreenCollide = null;
-        public event EventHandler<MouseOverSpriteEventArgs> MouseOver = null;
-        public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
-        public event EventHandler<MouseClickSpriteEventArgs> MouseClicked = null;
-        public event EventHandler<MouseClickSpriteEventArgs> MouseDoubleClicked = null;
         
         private void CollideScreenSprite(ScreenCollideSpriteEventArgs arg)
         {
         	if (ScreenCollide != null)
         		ScreenCollide(this, arg);
         }
-
-        private void MouseOverSprite(MouseOverSpriteEventArgs e)
-        {
-            if (MouseOver != null)
-                MouseOver(this, e);
-        }
-
-        private void MouseClickSprite(MouseClickSpriteEventArgs e)
-        {
-            // Click 
-            if (MouseClick != null)
-                MouseClick(this, e);
-
-            // One click
-            if (MouseClicked != null)
-                MouseClicked(this, e);
-
-            // Double click
-            if (MouseDoubleClicked != null)
-                MouseDoubleClicked(this, e);
-        }
+        
         #endregion
 
         #region constructeurs
@@ -215,8 +193,8 @@ namespace Yna.Display
             _textureName = string.Empty;
 
             _viewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
-            _forceInsideScreen = false;
-            _forceInsideOutsideScreen = false;
+            _InsideScreen = false;
+            _acrossScreen = false;
 
             _hasAnimation = false;
             _animator = null;
@@ -273,6 +251,8 @@ namespace Yna.Display
             : this(new Vector2(x, y), assetName) { }
 
         #endregion
+
+        #region Animation methods
 
         /// <summary>
         /// Indique que la texture utilisée est une feuille de sprite et que le Sprite
@@ -356,6 +336,8 @@ namespace Yna.Display
             _sourceRectangle = _animator.Animations[animationName].Next(ref _effects, _elapsedTime);
         }
 
+        #endregion
+
         /// <summary>
         /// Set Rectangle & SourceRectangle at the same value
         /// </summary>
@@ -399,6 +381,8 @@ namespace Yna.Display
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             if (!Pause)
             {
                 // Sauvegarde de la dernière position
@@ -410,46 +394,7 @@ namespace Yna.Display
                 _position += _velocity * _acceleration;
                 _velocity *= _maxVelocity;
 
-                #region Evenements
-                // Souris
-                if (Rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
-                {
-                    // Mouse Over
-                    MouseOverSprite(new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
-
-                    // Un click une fois
-                    if (YnG.Mouse.Clicked(MouseButton.Left) || YnG.Mouse.Clicked(MouseButton.Middle) || YnG.Mouse.Clicked(MouseButton.Right))
-                    {
-                        MouseButton mouseButton;
-
-                        if (YnG.Mouse.Clicked(MouseButton.Left))
-                            mouseButton = MouseButton.Left;
-                        else if (YnG.Mouse.Clicked(MouseButton.Middle))
-                            mouseButton = MouseButton.Middle;
-                        else
-                            mouseButton = MouseButton.Right;
-
-                        MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true));
-                    }
-
-                    // Un click
-                    if (YnG.Mouse.Click(MouseButton.Left, ButtonState.Pressed) || YnG.Mouse.Click(MouseButton.Middle, ButtonState.Pressed) || YnG.Mouse.Click(MouseButton.Right, ButtonState.Pressed))
-                    {
-                        MouseButton mouseButton;
-
-                        if (YnG.Mouse.Click(MouseButton.Left, ButtonState.Pressed))
-                            mouseButton = MouseButton.Left;
-                        else if (YnG.Mouse.Click(MouseButton.Middle, ButtonState.Pressed))
-                            mouseButton = MouseButton.Middle;
-                        else
-                            mouseButton = MouseButton.Right;
-
-                        MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false));
-                    }
-
-                    // Double click
-                    
-                }
+                #region Events handlers
 
                 // Screen
                 if (X < Viewport.X)
@@ -461,6 +406,7 @@ namespace Yna.Display
                     CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Top));
                 else if (Y + Height > Viewport.Height)
                     CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Bottom));
+
                 #endregion
 
                 if (_hasAnimation)
@@ -488,7 +434,11 @@ namespace Yna.Display
                 YnG.Camera.Y += Y;
             }
 
-            if (_forceInsideScreen)
+            // Update the direction
+            Direction = new Vector2(LastDistance.X, LastDistance.Y);
+            Direction.Normalize();
+
+            if (_InsideScreen)
             {
                 if (X < _viewport.X)
                 {
@@ -512,7 +462,7 @@ namespace Yna.Display
                     _velocity *= 0.0f;
                 }
             }
-            else if (_forceInsideOutsideScreen)
+            else if (_acrossScreen)
             {
                 if (X + Width < _viewport.X)
                     Position = new Vector2(_viewport.Width, Y);

@@ -99,7 +99,10 @@ namespace Yna.Display
 
         public override void UnloadContent() { }
 
-        public override void Update(GameTime gameTime) { }
+        public override void Update(GameTime gameTime) 
+        {
+            base.Update(gameTime);
+        }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
