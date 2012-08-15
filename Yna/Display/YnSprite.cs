@@ -249,10 +249,22 @@ namespace Yna.Display
             _textureName = assetName;
         }
 
+        /// <summary>
+        /// DEPREACTED : Use YnSprite(YnRectangle, Color) instead
+        /// </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="color"></param>
         public YnSprite(Rectangle rectangle, Color color)
             : this()
         {
             Rectangle = rectangle;
+            _texture = GraphicsHelper.CreateTexture(color, rectangle.Width, rectangle.Height);
+            _textureLoaded = true;
+        }
+
+        public YnSprite(YnRectangle rectangle, Color color)
+        {
+            Rectangle = new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
             _texture = GraphicsHelper.CreateTexture(color, rectangle.Width, rectangle.Height);
             _textureLoaded = true;
         }

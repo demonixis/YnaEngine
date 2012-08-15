@@ -21,7 +21,7 @@ namespace Yna.Sample.States
         private YnSprite cloudSprite;
 
         private SpriteMover tifaMover;
-        private SpriteMover cloudMover;
+        private YnPath cloudMover;
         
         private YnTimer clearMessage;
 
@@ -49,7 +49,7 @@ namespace Yna.Sample.States
 
             // 3 - Permet de simuler un déplacement aléatoire sur un Sprite
             tifaMover = new SpriteMover(tifaSprite);
-            cloudMover = new SpriteMover(cloudSprite);
+            cloudMover = new YnPath(cloudSprite, true);
 
             // 4 - Timer pour faire disparaitre les messages d'info
             clearMessage = new YnTimer(1500, 0);
@@ -77,6 +77,17 @@ namespace Yna.Sample.States
             tifaSprite.Scale = scale;
             sephirothSprite.Scale = scale;
             cloudSprite.Scale = scale;
+
+            cloudSprite.Position = new Vector2(150, 250);
+            cloudMover.AddTo(150, 0, 2);
+            cloudMover.AddTo(0, 200, 2);
+            cloudMover.AddTo(0, -250, 2);
+            cloudMover.AddTo(0, 100, 2);
+            cloudMover.AddTo(-150, -50, 2);
+            cloudMover.AddTo(-10, 10, 2);
+            cloudMover.AddTo(100, 0, 2);
+            cloudMover.AddTo(0, 100, 2);
+            cloudMover.End();
 
             // On affiche la souris
             YnG.Game.IsMouseVisible = true;
