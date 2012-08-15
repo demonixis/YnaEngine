@@ -8,6 +8,8 @@ namespace Yna.State
 {
     public class YnState : GameState
     {
+        #region Private declarations
+
         protected List<YnObject> _members;
         protected List<YnObject> _dirtyObjects;
 
@@ -24,6 +26,15 @@ namespace Yna.State
         protected Matrix _transformMatrix;
         protected float _rotation;
         protected float _zoom;
+
+        #endregion
+
+        #region Properties
+
+        public List<YnObject> Members
+        {
+            get { return _members; }
+        }
 
         public SpriteSortMode SpriteSortMode
         {
@@ -49,12 +60,19 @@ namespace Yna.State
             set { _depthStencilState = value; }
         }
 
+
+        /// <summary>
+        /// Get or Set the rotation used on the state
+        /// </summary>
         public float ScreenRotation
         {
             get { return _rotation; }
             set { _rotation = value; }
         }
 
+        /// <summary>
+        /// Get or Set the zoom factor used on the state
+        /// </summary>
         public float ScreenZoom
         {
             get { return _zoom; }
@@ -67,11 +85,13 @@ namespace Yna.State
             }
         }
 
-        public List<YnObject> Members
-        {
-            get { return _members; }
-        }
+        #endregion
 
+        /// <summary>
+        /// Create a new state that represent a game layer
+        /// </summary>
+        /// <param name="timeTransitionOn">Transition time on start</param>
+        /// <param name="timeTransitionOff">Transition time on end</param>
         public YnState(float timeTransitionOn = 1500f, float timeTransitionOff = 0f) 
             : base (ScreenType.GameState, timeTransitionOn, timeTransitionOff)
         {

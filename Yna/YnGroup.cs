@@ -152,27 +152,35 @@ namespace Yna
             }
         }
         
+        /// <summary>
+        /// Add the value on X property of all members of the group
+        /// </summary>
+        /// <param name="value">Value to add</param>
         public void AddX(int value)
         {
     		foreach (YnObject member in _members)
     			member.X += value;
         }
-        
+
+        /// <summary>
+        /// Add the value on Y property of all members of the group
+        /// </summary>
+        /// <param name="value">Value to add</param>
         public void AddY(int value)
         {
     		foreach (YnObject member in _members)
     			member.Y += value;
         }
 
+        /// <summary>
+        /// Set scale on all members of the group
+        /// </summary>
+        /// <param name="sx"></param>
+        /// <param name="sy"></param>
         public void SetScale(float sx, float sy)
         {
             foreach (YnObject member in _members)
                 member.Scale = new Vector2(sx, sy);
-        }
-
-        public void SetScale(Vector2 scale)
-        {
-            SetScale(scale.X, Scale.Y);
         }
         
         public IEnumerator GetEnumerator()

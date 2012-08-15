@@ -16,10 +16,12 @@ namespace Yna
 
         #endregion
 
+        #region Properties
+
         /// <summary>
         /// Get or Set the Duration of the timer
         /// </summary>
-        public int Duration 
+        public int Duration
         {
             get { return _duration; }
             set { _duration = value; }
@@ -28,7 +30,7 @@ namespace Yna
         /// <summary>
         /// Get or Set the number of time the timer is repeated
         /// </summary>
-        public int Repeat 
+        public int Repeat
         {
             get { return _repeat; }
             set { _repeat = value; }
@@ -57,6 +59,10 @@ namespace Yna
             }
         }
 
+        #endregion
+
+        #region Events
+
         /// <summary>
         /// Trigger when the timer start
         /// </summary>
@@ -77,6 +83,7 @@ namespace Yna
         /// </summary>
         public event EventHandler<EventArgs> Completed = null;
 
+        #endregion
 
         public YnTimer(int duration, int repeat = -1)
         {
@@ -106,11 +113,18 @@ namespace Yna
         }
 
         /// <summary>
-        /// Pause the timer
+        /// Kill the timer and shutdown all events
         /// </summary>
         public void Kill()
         {
             Active = false;
+            _counter = 0;
+            _elapsedTime = 0;
+          
+            // Destroy Events
+            Completed = null;
+            ReStarted = null;
+            Started = null;
         }
 
         #region Events handlers
