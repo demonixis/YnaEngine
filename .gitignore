@@ -2,5 +2,7 @@ Thumbs.db
 *.suo
 *.cachefile
 *.user
+*.pidb
+*.userprefs
 bin/
 obj/
