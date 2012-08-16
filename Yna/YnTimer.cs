@@ -64,24 +64,34 @@ namespace Yna
         #region Events
 
         /// <summary>
-        /// Trigger when the timer start
+        /// Triggered when the timer start
         /// </summary>
         public event EventHandler<EventArgs> Started = null;
 
         /// <summary>
-        /// Trigger when the timer is terminated and restart
+        /// Triggered when the timer is terminated and restart
         /// </summary>
         public event EventHandler<EventArgs> ReStarted = null;
 
         /// <summary>
-        /// Trigger when the timer is stopped
+        /// Triggered when the timer is stopped
         /// </summary>
         public event EventHandler<EventArgs> Stopped = null;
 
         /// <summary>
-        /// Trigger when the timer is finish
+        /// Triggered when the timer is finish
         /// </summary>
         public event EventHandler<EventArgs> Completed = null;
+
+        /// <summary>
+        /// Triggered when the pause is activated
+        /// </summary>
+        public event EventHandler<EventArgs> Paused = null;
+
+        /// <summary>
+        /// Triggered when the timer restart after a pause
+        /// </summary>
+        public event EventHandler<EventArgs> Resumed = null;
 
         #endregion
 
@@ -104,11 +114,42 @@ namespace Yna
         }
 
         /// <summary>
+        /// Restart the timer with rested values passed to the contructor
+        /// </summary>
+        public void Restart()
+        {
+            Active = true;
+            _counter = 0;
+            _elapsedTime = 0;
+            TimerRestarted(EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Pause the timer 
+        /// </summary>
+        public void Pause()
+        {
+            Active = false;
+            TimerPaused(EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Resume the timer avec a call of Pause() method
+        /// </summary>
+        public void Resume()
+        {
+            Active = true;
+            TimerResumed(EventArgs.Empty);
+        }
+
+        /// <summary>
         /// Stop the timer
         /// </summary>
         public void Stop()
         {
             Active = false;
+            _counter = 0;
+            _elapsedTime = 0;
             TimerStopped(EventArgs.Empty);
         }
 
@@ -125,6 +166,8 @@ namespace Yna
             Completed = null;
             ReStarted = null;
             Started = null;
+            Paused = null;
+            Resumed = null;
         }
 
         #region Events handlers
@@ -139,6 +182,18 @@ namespace Yna
         {
             if (ReStarted != null)
                 ReStarted(this, e);
+        }
+
+        private void TimerPaused(EventArgs e)
+        {
+            if (Paused != null)
+                Paused(this, e);
+        }
+
+        private void TimerResumed(EventArgs e)
+        {
+            if (Resumed != null)
+                Resumed(this, e);
         }
 
         private void TimerStopped(EventArgs e)
