@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yna.Input.Plugins</RootNamespace>
+    <RootNamespace>Yna.Input</RootNamespace>
     <AssemblyName>Yna.Input.Plugins</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Input\Kinect\KinectController.cs" />
+    <Compile Include="Input\Kinect\KinectUserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Input\Wii\WiimoteController.cs" />
   </ItemGroup>
