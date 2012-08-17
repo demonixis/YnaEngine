@@ -125,22 +125,6 @@ namespace Yna
                     if (!member.Pause)
                         member.Update(gameTime);
                 }
-
-                PostUpdate();
-            }
-        }
-
-        protected virtual void PostUpdate()
-        {
-            int size = _members.Count;
-            
-            if (size > 0)
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    if (_members[i].Dirty)
-                        _members.Remove(_members[i]);
-                }
             }
         }
 

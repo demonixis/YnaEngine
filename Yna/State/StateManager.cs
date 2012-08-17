@@ -111,6 +111,20 @@ namespace Yna.State
 
                 screen.Draw(gameTime);
             }
+
+            // Copie sûr des states en cours
+            foreach (GameState screen in _screens)
+                _safeScreens.Add(screen);
+
+            while (_safeScreens.Count > 0)
+            {
+                int index = _safeScreens.Count - 1;
+                GameState screen = _safeScreens[index];
+                _safeScreens.RemoveAt(index);
+
+                if (screen.Visible)              
+                    screen.Draw(gameTime);               
+            }
         }
 
         public void FadeBackBufferToBlack(float alpha)

@@ -93,6 +93,8 @@
     <Compile Include="State\GameState.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\YnState.cs" />
+    <Compile Include="Utils\ListStack.cs" />
+    <Compile Include="Utils\ListQueue.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
