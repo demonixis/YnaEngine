@@ -34,9 +34,6 @@
     <Reference Include="MonoGame.Framework.Content.Pipeline">
       <HintPath>..\Externals\MonoGame\Linux\MonoGame.Framework.Content.Pipeline.dll</HintPath>
     </Reference>
-    <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\Externals\MonoGame\Linux\OpenTK.dll</HintPath>
     </Reference>
@@ -46,6 +43,9 @@
     </Reference>
     <Reference Include="Lidgren.Network">
       <HintPath>..\Externals\MonoGame\Linux\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Linux">
+      <HintPath>..\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
