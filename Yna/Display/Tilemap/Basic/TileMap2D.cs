@@ -9,35 +9,36 @@ namespace Yna.Display.TiledMap.Basic
 	/// </summary>
 	public class TileMap2D : AbstractTileMap<Layer2D>
 	{
+		#region Properties
 		/// <summary>
-		/// This array contains zoning for each tile. It is initialized when
-		/// the tileset texture is loaded
+		/// 
 		/// </summary>
-		private Rectangle[] _tilesMapping;
+		private Rectangle[] Mapping{get; set;}
+		#endregion
 		
 		#region Constructors
 		/// <summary>
 		/// Constructor for tiled maps with square tiles (same width and height)
 		/// </summary>
-		/// <param name="tilesetName">The Tileset file name</param>
+		/// <param name="tilesetName">The tileset name</param>
 		/// <param name="layers">The map layers</param>
 		/// <param name="tileSize">The tile width</param>
-		public TileMap2D(String tilesetName, Layer2D[] layers, int tileSize) : this(tilesetName, layers, tileSize, tileSize)
+		public TileMap2D(string tilesetName, Layer2D[] layers, int tileSize) : this(tilesetName, layers, tileSize, tileSize)
 		{
 		}
 		
 		/// <summary>
 		/// Basically, the TiledMap is initialized with default values
 		/// </summary>
-		/// <param name="tilesetName">The Tileset file name</param>
+		/// <param name="tilesetName">The tileset name</param>
 		/// <param name="layers">The map layers</param>
 		/// <param name="tileWidth">The tile width</param>
 		/// <param name="tileHeight">The tile height</param>
-		public TileMap2D(String tilesetName, Layer2D[] layers, int tileWidth, int tileHeight) 
+		public TileMap2D(string tilesetName, Layer2D[] layers, int tileWidth, int tileHeight) 
 		{
-			_tilesetName = tilesetName;
 			
 			_layers = layers;
+			_tilesetName = tilesetName;
 			
 			_mapWidth = layers[0].LayerWidth;
 			_mapHeight = layers[0].LayerHeight;
@@ -53,19 +54,25 @@ namespace Yna.Display.TiledMap.Basic
 		/// </summary>
 		public void LoadContent()
 		{
+			int layerCount = _layers.GetUpperBound(0) + 1;
+			int index;
+			int tilesPerColumn;
+			int tilesPerRow;
+			
+			// First, we load the tileset
 			_tileset = YnG.Content.Load<Texture2D>(_tilesetName);
 			
-			// Initialize the tile zoning
-			int tilesPerRow = _tileset.Width / _tileWidth;
-			int tilesPerColumn = _tileset.Height / _tileHeight;
+			tilesPerRow = _tileset.Width / _tileWidth;
+			tilesPerColumn = _tileset.Height / _tileHeight;
 			
-			_tilesMapping = new Rectangle[tilesPerRow * tilesPerColumn];
-			int index = 0;
+			index = 0;
+			Mapping = new Rectangle[tilesPerRow * tilesPerColumn];
 			for(int y = 0; y < tilesPerColumn;y++)
 			{
 				for(int x = 0; x < tilesPerRow;x++)
 				{
-					_tilesMapping[index] = new Rectangle(_tileWidth*x, _tileHeight*y, _tileWidth, _tileHeight);
+					// Each tile texture is zoned and stored in mapping array
+					Mapping[index] = new Rectangle(_tileWidth*x, _tileHeight*y, _tileWidth, _tileHeight);
 					index++;
 				}
 			}
@@ -106,7 +113,7 @@ namespace Yna.Display.TiledMap.Basic
 						tile = layer[x, y];
 						
 						// Getting the texture position in the tileset
-						rec = _tilesMapping[tile.TextureID];
+						rec = Mapping[tile.TextureID];
 						
 						// Getting tile's real position on screen
 						position.X = _tileWidth * tile.X + camera.X;
@@ -153,11 +160,12 @@ namespace Yna.Display.TiledMap.Basic
 							}
 							
 							// The tile is totally on the screen
-							spriteBatch.Draw(_tileset, position, rec, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 1f);
+							spriteBatch.Draw(_tileset, position, rec, Color.White);
 						}
 					}
 				}
 			}
 		}
+		
 	}
 }

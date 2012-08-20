@@ -43,14 +43,14 @@ namespace Yna.Sample.States
 				{0, 0, 0, 0, 0},
 			};
             LayerIso groundLayer = new LayerIso(groundData);
-            
+            /*
             for(int x = 0; x < 5; x++)
             {
             	groundLayer[x, 0].FlattenTo(1);
             	groundLayer[x, 1].TopLeft = 1;
             	groundLayer[x, 1].TopRight = 1;
             }
-
+			*/
             int[,] decoData = {
 				{ 0,  0,  0,  0,  0},
 				{-1, -1, -1, -1, -1},

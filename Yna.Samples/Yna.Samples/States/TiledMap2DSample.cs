@@ -76,6 +76,7 @@ namespace Yna.Sample.States
             // want to use all tiles in a layer, fill it with transparent texture
             // ID.
             Layer2D layer = new Layer2D(data);
+            layer.TilesetName = "Tilesets/tileset";
 
             // Here we go, hello TiledMap!
             // - First there is the tileset texture containing all tiles

@@ -48,6 +48,5 @@ namespace Yna.Display.TiledMap
 		/// The tileset file name
 		/// </summary>
 		protected String _tilesetName;
-		
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Windows.Helpers;
 
 namespace Yna.Display.TiledMap.Isometric
 {
@@ -147,8 +148,7 @@ namespace Yna.Display.TiledMap.Isometric
 		{
 			// TODO use static rectangle instead of this
 			Rectangle rec = new Rectangle(0, 0, YnG.Width, YnG.Height);
-			DrawGround(spriteBatch, camera, rec);
-			DrawDeco(spriteBatch, camera, rec);
+			Draw(spriteBatch, camera, rec);
 		}
 		
 		/// <summary>
@@ -159,7 +159,10 @@ namespace Yna.Display.TiledMap.Isometric
 		/// <param name="drawZone">The limited zone where the map will be rendered</param>
 		public void Draw(SpriteBatch spriteBatch, Vector2 camera, Rectangle drawZone)
 		{
-			DrawGround(spriteBatch, camera, drawZone);
+			// Draw the base layer (ground)
+			DrawLayer(spriteBatch, camera, drawZone, _groundLayer, _tileWidth, _tileHeight);
+			
+			// Draw the decoration layers
 			DrawDeco(spriteBatch, camera, drawZone);
 		}
 		
@@ -171,178 +174,82 @@ namespace Yna.Display.TiledMap.Isometric
 		/// <param name="drawZone">The limited zone where the map will be rendered</param>
 		public void DrawDeco(SpriteBatch spriteBatch, Vector2 camera, Rectangle drawZone)
 		{
-			// The camera position is the top vertex rendered
 			LayerIso layer;
-			TileIso tile;
 			int layerCount = _layers.GetUpperBound(0) +1;
-			Rectangle rec;
-			Vector2 position = Vector2.Zero;
-			int tileType;
-			int tileHeight;
-			Texture2D tileset;
-			int delta;
 			for(int layerLevel = 0; layerLevel < layerCount; layerLevel++)
 			{
 				// Each layer is drawn
-				layer = (LayerIso) _layers[layerLevel];
-				for(int x = 0; x < _mapWidth; x++)
-				{
-					for(int y = 0; y < _mapHeight; y++)
-					{
-						tile = layer[x, y];
-						// A texture ID of -1 means that the tile is unused : it's not rendered
-						if(tile.TextureID != -1)
-						{
-							// Getting the texture position in the tileset
-							tileType = tile.TileType();
-							rec = _decoMapping[tile.TextureID, tileType];
-							tileHeight = _decoTileHeight;
-							tileset = _decoTileset;
-							
-							// Getting tile's real position on screen
-							position.X = camera.X  + (_tileWidth * x / 2) - (_tileHeight * y/2);
-							position.Y = camera.Y + (_tileHeight * x / 4) + (_tileHeight * y / 4) - (_tileHeight/4 * tile.MinHeight());
-							
-							// All tile textures are aligned to the bottom in order to
-							// handle differents textures height. The Y position calculated
-							// above is the position of the top left edge on the map. This
-							// value must be translated to align the texture to the bottom
-							// of the tile
-							position.Y -= tileHeight - _tileHeight/2 + (_groundLayer[x, y].MinHeight() * _tileHeight/4);
-							
-							// Handle tiles out of the screen
-							if(position.X >= drawZone.X - _tileWidth
-						   		|| position.X < drawZone.X + drawZone.Width
-						   		||position.Y >= drawZone.Y - _tileHeight
-						   		|| position.Y < drawZone.Y + drawZone.Height)
-							{
-								// If the tile is on the edge of the draw zone, only the portion
-								// of the tile in the zone is rendered
-								if(position.X < drawZone.X)
-								{
-									// The tile is out on the left side
-									delta = drawZone.X - (int) position.X;
-									rec.X += delta;
-									rec.Width -= delta;
-									position.X = drawZone.X;
-								}
-								else if(position.X > drawZone.X + drawZone.Width - _tileWidth)
-								{
-									// The tile is out on the right side
-									delta = drawZone.X + drawZone.Width - (int) position.X;
-									rec.Width -= _tileWidth - delta;
-								}
-								
-								if(position.Y < drawZone.Y)
-								{
-									// The tile is out on the top side
-									delta = drawZone.Y - (int) position.Y;
-									rec.Y += delta;
-									rec.Height -= delta;
-									position.Y = drawZone.Y;
-								}
-								else if(position.Y > drawZone.Y + drawZone.Height - _decoTileHeight)
-								{
-									// The tile is out on the bottom side
-									delta = drawZone.Y + drawZone.Height - (int) position.Y;
-									rec.Height -= _decoTileHeight - delta;
-								}
-								
-								spriteBatch.Draw(tileset, position, rec, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 1f);
-							}
-							// TODO handle vertical tiles
-						}
-					}
-				}
+				layer = _layers[layerLevel];
+				DrawLayer(spriteBatch, camera, drawZone, layer, _tileWidth, _decoTileHeight);
 			}
 		}
-		
-		/// <summary>
-		/// Draw the ground layer
-		/// </summary>
-		/// <param name="spriteBatch"></param>
-		/// <param name="camera">The current position of the camera on the map</param>
-		/// <param name="drawZone">The limited zone where the map will be rendered</param>
-		private void DrawGround(SpriteBatch spriteBatch, Vector2 camera, Rectangle drawZone)
+
+		public void DrawLayer(SpriteBatch spriteBatch, Vector2 camera, Rectangle drawZone, LayerIso layer, int tileWidth, int tileHeight)
 		{
-			// The camera position is the top vertex rendered
 			TileIso tile;
-			int layerCount = _layers.GetUpperBound(0) +1;
-			Rectangle rec;
-			Vector2 position = Vector2.Zero;
-			int tileType;
-			int tileHeight;
-			Texture2D tileset;
+			Rectangle texRect;
+			Vector2 position;
 			int delta;
-			// Each layer is drawn
 			for(int x = 0; x < _mapWidth; x++)
 			{
 				for(int y = 0; y < _mapHeight; y++)
 				{
-					tile = _groundLayer[x, y];
-					// A texture ID of -1 means that the tile is unused : it's not rendered
-					if(tile.TextureID != -1)
+					tile = layer[x, y];
+					// Here we get the translated coordinates of the current tile
+					// Note that this position is the simple translation of the tile
+					// position on the map.
+					position = IsometricHelper.ToOrtho(x, y);
+					
+					// To get correct orthogonals coordinates, they're respectively 
+					// multiplied by half width and half height
+					position.X *= tileWidth / 2;
+					position.Y *= tileHeight / 2;
+					
+					// We're almost done : add the camera position
+					position.X += camera.X;
+					position.Y += camera.Y;
+					
+					// Textures may not be rendered entirely if the drawZone parameter
+					// is a smaller rectangle than the game window.
+					texRect = _tilesMapping[tile.TextureID, tile.TileType()];
+					if(drawZone.Width != YnG.DeviceWidth
+					  && drawZone.Height != YnG.DeviceHeight)
 					{
-						// Getting the texture position in the tileset
-						tileType = tile.TileType();
-						rec = _tilesMapping[tile.TextureID, tileType];
-						tileHeight = _tileHeight;
-						tileset = _tileset;
-						
-						// Getting tile's real position on screen
-						position.X = camera.X  + (_tileWidth * x / 2) - (_tileHeight * y/2);
-						position.Y = camera.Y + (_tileHeight * x / 4) + (_tileHeight * y / 4) - (_tileHeight/4 * tile.MinHeight());
-						
-						// All tile textures are aligned to the bottom in order to
-						// handle differents textures height. The Y position calculated
-						// above is the position of the top left edge on the map. This
-						// value must be translated to align the texture to the bottom
-						// of the tile
-						position.Y -= tileHeight /2;
-						
-						// Handle tiles out of the screen
-						// TODO factorize this part
-						if(position.X > drawZone.X - _tileWidth
-					   		&& position.X < drawZone.X + drawZone.Width
-					   		&& position.Y > drawZone.Y - _tileHeight
-					   		&& position.Y < drawZone.Y + drawZone.Height)
+						// The tile must be cropped.
+						// If the tile is on the edge of the draw zone, only the portion
+						// of the tile in the zone is rendered
+						if(position.X < drawZone.X)
 						{
-							// If the tile is on the edge of the draw zone, only the portion
-							// of the tile in the zone is rendered
-							if(position.X < drawZone.X)
-							{
-								// The tile is out on the left side
-								delta = drawZone.X - (int) position.X;
-								rec.X += delta;
-								rec.Width -= delta;
-								position.X = drawZone.X;
-							}
-							else if(position.X > drawZone.X + drawZone.Width - _tileWidth)
-							{
-								// The tile is out on the right side
-								delta = drawZone.X + drawZone.Width - (int) position.X;
-								rec.Width -= _tileWidth - delta;
-							}
-							
-							if(position.Y < drawZone.Y)
-							{
-								// The tile is out on the top side
-								delta = drawZone.Y - (int) position.Y;
-								rec.Y += delta;
-								rec.Height -= delta;
-								position.Y = drawZone.Y;
-							}
-							else if(position.Y > drawZone.Y + drawZone.Height - _tileHeight)
-							{
-								// The tile is out on the bottom side
-								delta = drawZone.Y + drawZone.Height - (int) position.Y;
-								rec.Height -= _tileHeight - delta;
-							}
-							
-							spriteBatch.Draw(tileset, position, rec, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 1f);
+							// The tile is out on the left side
+							delta = drawZone.X - (int) position.X;
+							texRect.X += delta;
+							texRect.Width -= delta;
+							position.X = drawZone.X;
 						}
-						// TODO handle vertical tiles
+						else if(position.X > drawZone.X + drawZone.Width - tileWidth)
+						{
+							// The tile is out on the right side
+							delta = drawZone.X + drawZone.Width - (int) position.X;
+							texRect.Width -= tileWidth - delta;
+						}
+						
+						if(position.Y < drawZone.Y)
+						{
+							// The tile is out on the top side
+							delta = drawZone.Y - (int) position.Y;
+							texRect.Y += delta;
+							texRect.Height -= delta;
+							position.Y = drawZone.Y;
+						}
+						else if(position.Y > drawZone.Y + drawZone.Height - tileHeight)
+						{
+							// The tile is out on the bottom side
+							delta = drawZone.Y + drawZone.Height - (int) position.Y;
+							texRect.Height -= tileHeight - delta;
+						}
 					}
+					
+					spriteBatch.Draw(_tileset, position, texRect, Color.White);
 				}
 			}
 		}

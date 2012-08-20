@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Display.TiledMap
 {
@@ -12,6 +14,7 @@ namespace Yna.Display.TiledMap
 		protected int _layerWidth;
 		protected int _layerHeight;
 		protected TileType[,] _tiles;
+		protected string _tilesetName;
 		#endregion
 		
 		#region Properties
@@ -38,6 +41,17 @@ namespace Yna.Display.TiledMap
 		{
 			get{return _tiles;}
 		}
+		
+		/// <summary>
+		/// The layer's tileset name
+		/// </summary>
+		public string TilesetName{get; set;}
+		
+		/// <summary>
+		/// The tileset mapping
+		/// </summary>
+		public Rectangle[] Mapping{get; set;}
+		
 		#endregion
 		
 		/// <summary>
