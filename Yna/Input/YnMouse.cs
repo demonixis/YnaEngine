@@ -88,5 +88,21 @@ namespace Yna.Input
         {
             return service.JustReleased(button);
         }
+
+        /// <summary>
+        /// Get the currrent mouse state
+        /// </summary>
+        public MouseState MouseState
+        {
+            get { return (service as MouseService).MouseState; }
+        }
+
+        /// <summary>
+        /// Get the last mouse state
+        /// </summary>
+        public MouseState LastMouseState
+        {
+            get { return (service as MouseService).LastMouseState; }
+        }
     }
 }

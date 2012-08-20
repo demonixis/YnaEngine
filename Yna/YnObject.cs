@@ -35,7 +35,7 @@ namespace Yna
 
         protected bool _textureLoaded;
 
-        #region Propriétés
+        #region Properties
         /// <summary>
         /// Active ou désactive l'objet (Influance la mise à jour et l'affichage)
         /// </summary>
@@ -128,7 +128,13 @@ namespace Yna
         public Rectangle Rectangle
         {
             get { return _rectangle; }
-            set { _rectangle = value; }
+            set 
+            { 
+                _rectangle = value;
+
+                _position.X = _rectangle.X;
+                _position.Y = _rectangle.Y;
+            }
         }
 
         public Texture2D Texture
@@ -227,15 +233,20 @@ namespace Yna
         #region Events
 
         public event EventHandler<MouseOverSpriteEventArgs> MouseOver = null;
+        public event EventHandler<MouseLeaveSpriteEventArgs> MouseLeave = null;
         public event EventHandler<MouseClickSpriteEventArgs> MouseJustClicked = null;
         public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
-        public event EventHandler<MouseClickSpriteEventArgs> MouseClicked = null;
-        public event EventHandler<MouseClickSpriteEventArgs> MouseDoubleClicked = null;
 
         private void MouseOverSprite(MouseOverSpriteEventArgs e)
         {
             if (MouseOver != null)
                 MouseOver(this, e);
+        }
+
+        private void MouseLeaveSprite(MouseLeaveSpriteEventArgs e)
+        {
+            if (MouseLeave != null)
+                MouseLeave(this, e);
         }
 
         private void MouseJustClickedSprite(MouseClickSpriteEventArgs e)
@@ -244,20 +255,10 @@ namespace Yna
                 MouseJustClicked(this, e);
         }
 
-        // TODO : Need refactoring
         private void MouseClickSprite(MouseClickSpriteEventArgs e)
         {
-            // Click 
             if (MouseClick != null)
                 MouseClick(this, e);
-
-            // One click
-            if (MouseClicked != null)
-                MouseClicked(this, e);
-
-            // Double click
-            if (MouseDoubleClicked != null)
-                MouseDoubleClicked(this, e);
         }
 
         #endregion
@@ -293,48 +294,54 @@ namespace Yna
 
         public override void Update(GameTime gameTime)
         {
-            #region Mouse events
-
-            // Souris
-            if (Rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
+            if (!Pause)
             {
-                // Mouse Over
-                MouseOverSprite(new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+                #region Mouse events
 
-                // Un click une fois
-                if (YnG.Mouse.JustClicked(MouseButton.Left) || YnG.Mouse.JustClicked(MouseButton.Middle) || YnG.Mouse.JustClicked(MouseButton.Right))
+                // Souris
+                if (Rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
                 {
-                    MouseButton mouseButton;
+                    // Mouse Over
+                    MouseOverSprite(new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
 
-                    if (YnG.Mouse.JustClicked(MouseButton.Left))
-                        mouseButton = MouseButton.Left;
-                    else if (YnG.Mouse.JustClicked(MouseButton.Middle))
-                        mouseButton = MouseButton.Middle;
-                    else
-                        mouseButton = MouseButton.Right;
-                    
-                    MouseJustClickedSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true));
+                    // Just clicked
+                    if (YnG.Mouse.JustClicked(MouseButton.Left) || YnG.Mouse.JustClicked(MouseButton.Middle) || YnG.Mouse.JustClicked(MouseButton.Right))
+                    {
+                        MouseButton mouseButton;
+
+                        if (YnG.Mouse.JustClicked(MouseButton.Left))
+                            mouseButton = MouseButton.Left;
+                        else if (YnG.Mouse.JustClicked(MouseButton.Middle))
+                            mouseButton = MouseButton.Middle;
+                        else
+                            mouseButton = MouseButton.Right;
+
+                        MouseJustClickedSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true));
+                    }
+
+                    // one click
+                    if (YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Right, ButtonState.Pressed))
+                    {
+                        MouseButton mouseButton;
+
+                        if (YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed))
+                            mouseButton = MouseButton.Left;
+                        else if (YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed))
+                            mouseButton = MouseButton.Middle;
+                        else
+                            mouseButton = MouseButton.Right;
+
+                        MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false));
+                    }
+                }
+                // Mouse leave
+                else if (Rectangle.Contains(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y))
+                {
+                    MouseLeaveSprite(new MouseLeaveSpriteEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
                 }
 
-                // Un click
-                if (YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Right, ButtonState.Pressed))
-                {
-                    MouseButton mouseButton;
-
-                    if (YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed))
-                        mouseButton = MouseButton.Left;
-                    else if (YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed))
-                        mouseButton = MouseButton.Middle;
-                    else
-                        mouseButton = MouseButton.Right;
-
-                    MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false));
-                }
-
-                // Double click
+                #endregion
             }
-
-            #endregion
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, ref Rectangle rectangle)

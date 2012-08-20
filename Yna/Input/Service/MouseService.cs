@@ -10,6 +10,16 @@ namespace Yna.Input.Service
         private MouseState mouseState;
         private MouseState lastMouseState;
 
+        public MouseState MouseState
+        {
+            get { return mouseState; }
+        }
+
+        public MouseState LastMouseState
+        {
+            get { return lastMouseState; }
+        }
+
         public MouseService(Game game)
             : base(game)
         {

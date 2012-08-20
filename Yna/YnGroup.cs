@@ -118,6 +118,8 @@ namespace Yna
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             if (_members.Count > 0)
             {
                 foreach (YnObject member in _members)

@@ -65,6 +65,7 @@
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Camera2D.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
+    <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
     <Compile Include="Display\YnSprite.cs" />

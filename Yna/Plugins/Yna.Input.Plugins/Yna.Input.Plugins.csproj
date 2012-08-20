@@ -67,10 +67,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Input\Kinect\KinectController.cs" />
-    <Compile Include="Input\Kinect\KinectUserProfile.cs" />
+    <Compile Include="Kinect\KinectSensorController.cs" />
+    <Compile Include="Kinect\KinectUserProfile.cs" />
+    <Compile Include="Service\IKinectSensorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Input\Wii\WiimoteController.cs" />
+    <Compile Include="Service\IWiimoteService.cs" />
+    <Compile Include="Wii\WiimoteController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Yna.csproj">

@@ -29,6 +29,18 @@ namespace Yna.Display
             set { _layerDepth = value; }
         }
 
+        public new int Width
+        {
+            get { return (int)_font.MeasureString(_text).X; }
+            protected set { base.Width = value; }
+        }
+
+        public new int Height
+        {
+            get { return (int)_font.MeasureString(_text).Y; }
+            protected set { base.Height = value; }
+        }
+
         private YnText(Vector2 position, string text)
             : base()
         {

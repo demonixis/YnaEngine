@@ -7,9 +7,9 @@ using Yna;
 
 namespace Yna.Input.Kinect
 {
-    public class KinectController
+    public class KinectSensorController
     {
-        private static KinectController _instance;
+        private static KinectSensorController _instance;
         private static readonly object _lock = new object();
 
         private bool _isAvailable;
@@ -17,7 +17,7 @@ namespace Yna.Input.Kinect
         private float maxX = 0.4f;
         private float maxY = 0.4f;
         
-        private List<KinectUserProfile> _userProfiles;
+        private KinectUserProfile [] _userProfiles;
 
         private KinectSensor _kinectSensor;
 
@@ -53,12 +53,16 @@ namespace Yna.Input.Kinect
 
         #endregion
 
-        private KinectController()
+        private KinectSensorController()
         {
+            _userProfiles = new KinectUserProfile[2];
+            for (int i = 0; i < 2; i++)
+                _userProfiles[i] = new KinectUserProfile();
 
+            Initialize();
         }
 
-        public static KinectController Instance
+        public static KinectSensorController Instance
         {
             get
             {
@@ -68,8 +72,8 @@ namespace Yna.Input.Kinect
                     {
                         if (_instance == null)
                         {
-                            _instance = new KinectController();
-                            _instance.Initialize();
+                            _instance = new KinectSensorController();
+                            
                         }
                     }
                 }
@@ -81,7 +85,6 @@ namespace Yna.Input.Kinect
         private void Initialize()
         {
             _playerCount = 0;
-            _userProfiles = new List<KinectUserProfile>(2);
 
             for (int i = 0; i < 2; i++)
                 _userProfiles[i] = new KinectUserProfile();
@@ -149,6 +152,7 @@ namespace Yna.Input.Kinect
 
                     if (sk.TrackingState == SkeletonTrackingState.Tracked)
                     {
+
                         if (sk.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked &&
                             sk.Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked)
                         {

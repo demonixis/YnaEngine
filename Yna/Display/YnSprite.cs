@@ -238,6 +238,8 @@ namespace Yna.Display
             Rectangle = rectangle;
             _texture = GraphicsHelper.CreateTexture(color, rectangle.Width, rectangle.Height);
             _textureLoaded = true;
+            _position = new Vector2(rectangle.X, rectangle.Y);
+            _rectangle = rectangle;
         }
 
         public YnSprite(YnRectangle rectangle, Color color)

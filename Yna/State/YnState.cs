@@ -118,6 +118,7 @@ namespace Yna.State
         public void Add(YnObject sceneObject)
         {
             sceneObject.LoadContent();
+            sceneObject.Initialize();
             _members.EnQueue(sceneObject);
         }
 
@@ -126,6 +127,7 @@ namespace Yna.State
             foreach (YnObject sceneObject in sceneObjects)
             {
                 sceneObject.LoadContent();
+                sceneObject.Initialize();
                 _members.EnQueue(sceneObject);
             }
         }

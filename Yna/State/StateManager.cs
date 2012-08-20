@@ -7,16 +7,16 @@ using Yna.Helpers;
 
 namespace Yna.State
 {
-    public class StateManager 
+    public class StateManager
     {
         public Game Game { get; protected set; }
 
-        public GraphicsDevice GraphicsDevice 
-        { 
+        public GraphicsDevice GraphicsDevice
+        {
             get { return Game.GraphicsDevice; }
         }
 
-        public ContentManager Content 
+        public ContentManager Content
         {
             get { return Game.Content; }
         }
@@ -93,24 +93,14 @@ namespace Yna.State
                 GameState screen = _safeScreens[index];
                 _safeScreens.RemoveAt(index);
 
-                if (!screen.Visible)
-                    continue;
-
-                screen.Update(gameTime);
+                if (screen.Active)
+                    screen.Update(gameTime);
             }
         }
 
         public virtual void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(ClearColor);
-
-            foreach (GameState screen in _screens) 
-            {
-                if (!screen.Visible)
-                    continue;
-
-                screen.Draw(gameTime);
-            }
 
             // Copie sûr des states en cours
             foreach (GameState screen in _screens)
@@ -122,8 +112,8 @@ namespace Yna.State
                 GameState screen = _safeScreens[index];
                 _safeScreens.RemoveAt(index);
 
-                if (screen.Visible)              
-                    screen.Draw(gameTime);               
+                if (screen.Visible)
+                    screen.Draw(gameTime);
             }
         }
 
@@ -159,7 +149,7 @@ namespace Yna.State
         {
             _screens.Remove(screen);
             _safeScreens.Remove(screen);
-            
+
             if (_initialized)
                 screen.UnloadContent();
         }
