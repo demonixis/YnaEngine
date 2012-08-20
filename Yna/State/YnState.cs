@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna;
+using Yna.Utils;
 
 namespace Yna.State
 {
@@ -10,8 +11,8 @@ namespace Yna.State
     {
         #region Private declarations
 
-        protected List<YnObject> _members;
-        protected List<YnObject> _dirtyObjects;
+        protected ListQueue<YnObject> _members;
+        private ListQueue<YnObject> _safeObjects;
 
         protected bool _assetsLoaded;
         protected bool _initialized;
@@ -31,7 +32,7 @@ namespace Yna.State
 
         #region Properties
 
-        public List<YnObject> Members
+        public ListQueue<YnObject> Members
         {
             get { return _members; }
         }
@@ -95,8 +96,9 @@ namespace Yna.State
         public YnState(float timeTransitionOn = 1500f, float timeTransitionOff = 0f) 
             : base (ScreenType.GameState, timeTransitionOn, timeTransitionOff)
         {
-            _members = new List<YnObject>();
-            _dirtyObjects = new List<YnObject>();
+            _members = new ListQueue<YnObject>();
+            _safeObjects = new ListQueue<YnObject>();
+
             _assetsLoaded = false;
             _initialized = false;
             _removeRequest = false;
@@ -116,7 +118,7 @@ namespace Yna.State
         public void Add(YnObject sceneObject)
         {
             sceneObject.LoadContent();
-            _members.Add(sceneObject);
+            _members.EnQueue(sceneObject);
         }
 
         public void Add(YnObject[] sceneObjects)
@@ -124,14 +126,14 @@ namespace Yna.State
             foreach (YnObject sceneObject in sceneObjects)
             {
                 sceneObject.LoadContent();
-                _members.Add(sceneObject);
+                _members.EnQueue(sceneObject);
             }
         }
 
         public void Remove(YnObject sceneObject)
         {
-            _dirtyObjects.Add(sceneObject);
-            _removeRequest = true;
+            sceneObject.UnloadContent();
+            _members.Remove(sceneObject);
         }
 
         public override void Initialize() 
@@ -177,12 +179,22 @@ namespace Yna.State
         {
             base.Update(gameTime);
 
-            if (_members.Count > 0)
+            int memberSize = _members.Count;
+
+            if (memberSize > 0)
             {
-                foreach (YnObject sceneObject in _members)
+                // We make a copy of the current collection for prevent error
+                // if we add/remove an object of the collection during update
+                // A collection can't be modified during a foreach
+                for (int i = 0; i < memberSize; i++)
+                    _safeObjects.EnQueue(_members[i]);
+
+                while (_safeObjects.Count > 0)
                 {
-                    if (!sceneObject.Pause)
-                        sceneObject.Update(gameTime);
+                    YnObject sceneObject = _safeObjects.DeQueue();             
+
+                    if (!sceneObject.Pause)                  
+                        sceneObject.Update(gameTime); 
                 }
             }
         }
@@ -204,34 +216,25 @@ namespace Yna.State
 
             _transformMatrix = GetTransformMatrix();
 
-            if (_members.Count > 0)
+            int memberSize = _members.Count;
+
+            if (memberSize > 0)
             {
                 spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _transformMatrix);
 
-                foreach (YnObject sceneObject in _members)
+                for (int i = 0; i < memberSize; i++)
+                    _safeObjects.EnQueue(_members[i]);
+
+                while (_safeObjects.Count > 0)
                 {
+                    YnObject sceneObject = _safeObjects.DeQueue();
+
                     if (sceneObject.Visible)
                         sceneObject.Draw(gameTime, spriteBatch);
                 }
 
                 spriteBatch.End();
             }
-
-            if (_removeRequest)
-                PurgeDirty();
-        }
-
-        protected virtual void PurgeDirty()
-        {
-            if (_dirtyObjects.Count > 0)
-            {
-                foreach (YnObject dirty in _dirtyObjects)
-                    _members.Remove(dirty);
-
-                _dirtyObjects.Clear();
-            }
-
-            _removeRequest = true;
         }
     }
 }
