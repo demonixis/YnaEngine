@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Yna.Display.TiledMap.Isometric;
 
-namespace Yna.Windows.Helpers
+namespace Yna.Helpers
 {
 	/// <summary>
 	/// Utility class for isometric transformations and ease

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Windows.Helpers;
+using Yna.Helpers;
 
 namespace Yna.Display.TiledMap.Isometric
 {

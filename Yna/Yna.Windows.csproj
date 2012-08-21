@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Yna.Windows</RootNamespace>
+    <RootNamespace>Yna</RootNamespace>
     <AssemblyName>Yna.Windows</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
