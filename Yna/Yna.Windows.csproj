@@ -54,9 +54,12 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Camera2D.cs" />
+    <Compile Include="Display\Effect\YnTransition.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
+    <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
+    <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TileMap\AbstractLayer.cs" />
     <Compile Include="Display\TileMap\AbstractTile.cs" />
@@ -84,6 +87,8 @@
     <Compile Include="State\GameState.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\YnState.cs" />
+    <Compile Include="Utils\ListStack.cs" />
+    <Compile Include="Utils\ListQueue.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />

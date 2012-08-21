@@ -122,7 +122,13 @@ namespace Yna
         public Vector2 Position
         {
             get { return _position; }
-            set { _position = value; }
+            set 
+            { 
+                _position = value;
+
+                _rectangle.X = (int)_position.X;
+                _rectangle.Y = (int)_position.Y;
+            }
         }
 
         public Rectangle Rectangle

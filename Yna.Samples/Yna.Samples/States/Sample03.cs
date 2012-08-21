@@ -72,7 +72,7 @@ namespace Yna.Sample.States
 
             // Ok now we'll play with mouse events !
             tifaSprite.MouseOver += new EventHandler<MouseOverSpriteEventArgs>(OnSprite_MouseOver);
-            sephirothSprite.MouseClicked += new EventHandler<MouseClickSpriteEventArgs>(OnSprite_MouseClicked);
+            sephirothSprite.MouseClick += new EventHandler<MouseClickSpriteEventArgs>(OnSprite_MouseClicked);
 
             // Change the scale
             Vector2 scale = new Vector2(1.5f, 1.5f);

@@ -72,6 +72,7 @@
     <Compile Include="Service\IKinectSensorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IWiimoteService.cs" />
+    <Compile Include="Service\KinectSensorService.cs" />
     <Compile Include="Wii\WiimoteController.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -168,11 +168,12 @@ namespace Yna.Input.Kinect
                                 scaledLeft.Position.Z));
 
                             _userProfiles[currentPlayer].SetVector3(scaledRight.JointType, new Vector3(
-                               scaledLeft.Position.X,
-                               scaledLeft.Position.Y,
-                               scaledLeft.Position.Z));
-                            return; // TODO : We must remove that and count the number of human tracked (2 max)
+                               scaledRight.Position.X,
+                               scaledRight.Position.Y,
+                               scaledRight.Position.Z));
+                            
                         }
+                        return; // TODO : We must remove that and count the number of human tracked (2 max)
                     }
                 }
             }

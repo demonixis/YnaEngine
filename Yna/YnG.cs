@@ -165,6 +165,9 @@ namespace Yna
         /// <returns>MonoGame platform used</returns>
         public static MonoGameContext GetPlateformContext()
         {
+#if NETFX_CORE
+            return MonoGameContext.Windows8;
+#else
             MonoGameContext context = MonoGameContext.Unknow; // Default
 
             Assembly[] AssembliesLoaded = AppDomain.CurrentDomain.GetAssemblies();
@@ -182,6 +185,7 @@ namespace Yna
             }
 
             return context;
+#endif
         }
     }
 }

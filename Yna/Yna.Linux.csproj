@@ -54,12 +54,25 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Camera2D.cs" />
+    <Compile Include="Display\Effect\YnTransition.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
+    <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
+    <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
+    <Compile Include="Display\TileMap\AbstractLayer.cs" />
+    <Compile Include="Display\TileMap\AbstractTile.cs" />
+    <Compile Include="Display\TileMap\AbstractTileMap.cs" />
+    <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
+    <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
+    <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />
+    <Compile Include="Display\TileMap\Iso\LayerIso.cs" />
+    <Compile Include="Display\TileMap\Iso\TileIso.cs" />
+    <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
+    <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
     <Compile Include="Input\Service\GamepadService.cs" />
     <Compile Include="Input\Service\IGamepadService.cs" />
@@ -74,6 +87,8 @@
     <Compile Include="State\GameState.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\YnState.cs" />
+    <Compile Include="Utils\ListStack.cs" />
+    <Compile Include="Utils\ListQueue.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
@@ -83,15 +98,6 @@
     <Compile Include="YnPoint.cs" />
     <Compile Include="YnRectangle.cs" />
     <Compile Include="YnTimer.cs" />
-    <Compile Include="Display\Tilemap\AbstractLayer.cs" />
-    <Compile Include="Display\Tilemap\AbstractTile.cs" />
-    <Compile Include="Display\Tilemap\AbstractTileMap.cs" />
-    <Compile Include="Display\Tilemap\Basic\Layer2D.cs" />
-    <Compile Include="Display\Tilemap\Basic\Tile2D.cs" />
-    <Compile Include="Display\Tilemap\Basic\TileMap2D.cs" />
-    <Compile Include="Display\Tilemap\Iso\LayerIso.cs" />
-    <Compile Include="Display\Tilemap\Iso\TileIso.cs" />
-    <Compile Include="Display\Tilemap\Iso\TileMapIso.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

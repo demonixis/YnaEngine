@@ -7,7 +7,6 @@ using Yna.Helpers;
 
 namespace Yna.Input.Service
 {
-    #if !NETFX_CORE
     public class GamepadService : GameComponent, IGamepadService
     {
         GamePadState [] state;
@@ -83,5 +82,4 @@ namespace Yna.Input.Service
 
 		#endregion
     }
-#endif
 }
