@@ -11,6 +11,7 @@ namespace Yna
     public class YnGroup : YnObject
     {
         private List<YnObject> _members;
+        private List<YnObject> _safeMembers;
 
         /// <summary>
         /// Members of the group
@@ -27,7 +28,7 @@ namespace Yna
         {
             get { return _members.Count(); }
         }
-        
+
         /// <summary>
         /// Get or Set the [index] element of the collection
         /// </summary>
@@ -35,25 +36,26 @@ namespace Yna
         /// <returns></returns>
         public YnObject this[int index]
         {
-        	get
-        	{
-        		if (index < 0 || index > _members.Count - 1)
-        			return null;
-        		else
-        			return _members[index];
-        	}
-        	set
-        	{
-        		if (index < 0 || index > _members.Count - 1)
-        			throw new IndexOutOfRangeException();
-        		else
-        			_members[index] = value;
-        	}	
+            get
+            {
+                if (index < 0 || index > _members.Count - 1)
+                    return null;
+                else
+                    return _members[index];
+            }
+            set
+            {
+                if (index < 0 || index > _members.Count - 1)
+                    throw new IndexOutOfRangeException();
+                else
+                    _members[index] = value;
+            }
         }
 
         public YnGroup(int capacity = 0)
         {
             _members = new List<YnObject>(capacity);
+            _safeMembers = new List<YnObject>();
         }
 
         /// <summary>
@@ -87,9 +89,10 @@ namespace Yna
         public void Clear()
         {
             _members.Clear();
+            _safeMembers.Clear();
         }
 
-        public override void Initialize() 
+        public override void Initialize()
         {
             if (_members.Count > 0)
             {
@@ -120,60 +123,41 @@ namespace Yna
         {
             base.Update(gameTime);
 
-            if (_members.Count > 0)
+            // We make a copy of all screens to provide any error
+            // if a screen is removed during the update opreation
+            int nbMembers = _members.Count;
+
+            if (nbMembers > 0)
             {
-                foreach (YnObject member in _members)
+                _safeMembers.Clear();
+                _safeMembers.AddRange(_members);
+
+                for (int i = 0; i < nbMembers; i++)
                 {
-                    if (!member.Pause)
-                        member.Update(gameTime);
+                    if (!_safeMembers[i].Pause)
+                        _safeMembers[i].Update(gameTime);
                 }
             }
         }
 
-        public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
-		{
-            if (_members.Count > 0)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            int nbMembers = _safeMembers.Count;
+
+            if (nbMembers > 0)
             {
-                foreach (YnObject member in _members)
-                    member.Draw(gameTime, spriteBatch);
+                for (int i = 0; i < nbMembers; i++)
+                {
+                    if (_safeMembers[i].Visible)
+                        _safeMembers[i].Draw(gameTime, spriteBatch);
+                }
             }
         }
-        
-        /// <summary>
-        /// Add the value on X property of all members of the group
-        /// </summary>
-        /// <param name="value">Value to add</param>
-        public void AddX(int value)
-        {
-    		foreach (YnObject member in _members)
-    			member.X += value;
-        }
 
-        /// <summary>
-        /// Add the value on Y property of all members of the group
-        /// </summary>
-        /// <param name="value">Value to add</param>
-        public void AddY(int value)
-        {
-    		foreach (YnObject member in _members)
-    			member.Y += value;
-        }
-
-        /// <summary>
-        /// Set scale on all members of the group
-        /// </summary>
-        /// <param name="sx"></param>
-        /// <param name="sy"></param>
-        public void SetScale(float sx, float sy)
-        {
-            foreach (YnObject member in _members)
-                member.Scale = new Vector2(sx, sy);
-        }
-        
         public IEnumerator GetEnumerator()
         {
-        	foreach (YnObject member in _members)
-        		yield return member;
+            foreach (YnObject member in _members)
+                yield return member;
         }
     }
 }

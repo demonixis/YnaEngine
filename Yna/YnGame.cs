@@ -67,8 +67,6 @@ namespace Yna
             base.Initialize();
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
-
-            stateManager.Initialize();
         }
 
         protected override void Update(GameTime gameTime)

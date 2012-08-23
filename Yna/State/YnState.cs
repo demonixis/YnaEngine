@@ -11,8 +11,8 @@ namespace Yna.State
     {
         #region Private declarations
 
-        protected ListQueue<YnObject> _members;
-        private ListQueue<YnObject> _safeObjects;
+        protected List<YnObject> _members;
+        private List<YnObject> _safeMembers;
 
         protected bool _assetsLoaded;
         protected bool _initialized;
@@ -32,7 +32,7 @@ namespace Yna.State
 
         #region Properties
 
-        public ListQueue<YnObject> Members
+        public List<YnObject> Members
         {
             get { return _members; }
         }
@@ -96,8 +96,8 @@ namespace Yna.State
         public YnState(float timeTransitionOn = 1500f, float timeTransitionOff = 0f) 
             : base (ScreenType.GameState, timeTransitionOn, timeTransitionOff)
         {
-            _members = new ListQueue<YnObject>();
-            _safeObjects = new ListQueue<YnObject>();
+            _members = new List<YnObject>();
+            _safeMembers = new List<YnObject>();
 
             _assetsLoaded = false;
             _initialized = false;
@@ -119,7 +119,7 @@ namespace Yna.State
         {
             sceneObject.LoadContent();
             sceneObject.Initialize();
-            _members.EnQueue(sceneObject);
+            _members.Add(sceneObject);
         }
 
         public void Add(YnObject[] sceneObjects)
@@ -128,7 +128,7 @@ namespace Yna.State
             {
                 sceneObject.LoadContent();
                 sceneObject.Initialize();
-                _members.EnQueue(sceneObject);
+                _members.Add(sceneObject);
             }
         }
 
@@ -136,6 +136,12 @@ namespace Yna.State
         {
             sceneObject.UnloadContent();
             _members.Remove(sceneObject);
+        }
+
+        public void Clear()
+        {
+            _members.Clear();
+            _safeMembers.Clear();
         }
 
         public override void Initialize() 
@@ -181,22 +187,19 @@ namespace Yna.State
         {
             base.Update(gameTime);
 
-            int memberSize = _members.Count;
+            // We make a copy of all screens to provide any error
+            // if a screen is removed during the update opreation
+            int nbMembers = _members.Count;
 
-            if (memberSize > 0)
+            if (nbMembers > 0)
             {
-                // We make a copy of the current collection for prevent error
-                // if we add/remove an object of the collection during update
-                // A collection can't be modified during a foreach
-                for (int i = 0; i < memberSize; i++)
-                    _safeObjects.EnQueue(_members[i]);
+                _safeMembers.Clear();
+                _safeMembers.AddRange(_members);
 
-                while (_safeObjects.Count > 0)
+                for (int i = 0; i < nbMembers; i++)
                 {
-                    YnObject sceneObject = _safeObjects.DeQueue();             
-
-                    if (!sceneObject.Pause)                  
-                        sceneObject.Update(gameTime); 
+                    if (!_safeMembers[i].Pause)
+                        _safeMembers[i].Update(gameTime);
                 }
             }
         }
@@ -218,21 +221,16 @@ namespace Yna.State
 
             _transformMatrix = GetTransformMatrix();
 
-            int memberSize = _members.Count;
+            int nbMembers = _safeMembers.Count;
 
-            if (memberSize > 0)
+            if (nbMembers > 0)
             {
                 spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _transformMatrix);
-
-                for (int i = 0; i < memberSize; i++)
-                    _safeObjects.EnQueue(_members[i]);
-
-                while (_safeObjects.Count > 0)
+                
+                for (int i = 0; i < nbMembers; i++)
                 {
-                    YnObject sceneObject = _safeObjects.DeQueue();
-
-                    if (sceneObject.Visible)
-                        sceneObject.Draw(gameTime, spriteBatch);
+                    if (_safeMembers[i].Visible)
+                        _safeMembers[i].Draw(gameTime, spriteBatch);
                 }
 
                 spriteBatch.End();

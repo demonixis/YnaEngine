@@ -47,14 +47,6 @@ namespace Yna.State
             _screens = new List<GameState>();
             _safeScreens = new List<GameState>();
             _initialized = false;
-            Initialize();
-        }
-
-        public virtual void Initialize()
-        {
-
-            foreach (GameState state in _screens)
-                state.Initialize();
         }
 
         public virtual void LoadContent()
@@ -66,7 +58,10 @@ namespace Yna.State
                 _transitionTexture = GraphicsHelper.CreateTexture(Color.White, 16, 16);
 
                 foreach (GameState screen in _screens)
+                {
                     screen.LoadContent();
+                    screen.Initialize();
+                }
 
                 _initialized = true;
             }
@@ -81,39 +76,40 @@ namespace Yna.State
             }
         }
 
-        public virtual void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            // Copie sûr des states en cours
-            foreach (GameState screen in _screens)
-                _safeScreens.Add(screen);
+            // We make a copy of all screens to provide any error
+            // if a screen is removed during the update opreation
+            int nbScreens = _screens.Count;
 
-            while (_safeScreens.Count > 0)
+            if (nbScreens > 0)
             {
-                int index = _safeScreens.Count - 1;
-                GameState screen = _safeScreens[index];
-                _safeScreens.RemoveAt(index);
+                _safeScreens.Clear();
+                _safeScreens.AddRange(_screens);
 
-                if (screen.Active)
-                    screen.Update(gameTime);
+                for (int i = 0; i < nbScreens; i++)
+                {
+                    if (_safeScreens[i].Active)
+                        _safeScreens[i].Update(gameTime);
+                }
             }
         }
 
-        public virtual void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(ClearColor);
 
-            // Copie sûr des states en cours
-            foreach (GameState screen in _screens)
-                _safeScreens.Add(screen);
+            // We make a copy of all screens to provide any error
+            // if a screen is removed during the update opreation
+            int nbScreens = _safeScreens.Count;
 
-            while (_safeScreens.Count > 0)
+            if (nbScreens > 0)
             {
-                int index = _safeScreens.Count - 1;
-                GameState screen = _safeScreens[index];
-                _safeScreens.RemoveAt(index);
-
-                if (screen.Visible)
-                    screen.Draw(gameTime);
+                for (int i = 0; i < nbScreens; i++)
+                {
+                    if (_safeScreens[i].Visible)
+                        _safeScreens[i].Draw(gameTime);
+                }
             }
         }
 
