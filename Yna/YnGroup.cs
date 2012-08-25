@@ -13,6 +13,9 @@ namespace Yna
         private List<YnObject> _members;
         private List<YnObject> _safeMembers;
 
+        private bool _initialized;
+        private bool _assetsLoaded;
+
         /// <summary>
         /// Members of the group
         /// </summary>
@@ -27,6 +30,26 @@ namespace Yna
         public int Count
         {
             get { return _members.Count(); }
+        }
+
+        /// <summary>
+        /// Get or set the status of initialization
+        /// True when all objects are initialized
+        /// False when initialization has not started yet
+        /// </summary>
+        public bool Initialized
+        {
+            get { return _initialized; }
+            set { _initialized = value; }
+        }
+
+        /// <summary>
+        /// Get or set the status of asset loading
+        /// </summary>
+        public bool AssetsLoaded
+        {
+            get { return _assetsLoaded; }
+            set { _assetsLoaded = value; }
         }
 
         /// <summary>
@@ -56,6 +79,8 @@ namespace Yna
         {
             _members = new List<YnObject>(capacity);
             _safeMembers = new List<YnObject>();
+            _initialized = false;
+            _assetsLoaded = false;
         }
 
         /// <summary>
@@ -65,6 +90,13 @@ namespace Yna
         public void Add(YnObject sceneObject)
         {
             sceneObject.Parent = this;
+
+            if (_assetsLoaded)
+                sceneObject.LoadContent();
+
+            if (_initialized)
+                sceneObject.Initialize();
+
             _members.Add(sceneObject);
         }
 
@@ -77,6 +109,12 @@ namespace Yna
             int size = sceneObject.Length;
             for (int i = 0; i < size; i++)
             {
+                if (_assetsLoaded)
+                    sceneObject[i].LoadContent();
+
+                if (_initialized)
+                    sceneObject[i].Initialize();
+
                 Add(sceneObject[i]);
             }
         }
@@ -99,6 +137,8 @@ namespace Yna
                 foreach (YnObject member in _members)
                     member.Initialize();
             }
+
+            _initialized = true;
         }
 
         public override void LoadContent()
@@ -108,6 +148,8 @@ namespace Yna
                 foreach (YnObject member in _members)
                     member.LoadContent();
             }
+
+            _assetsLoaded = true;
         }
 
         public override void UnloadContent()
