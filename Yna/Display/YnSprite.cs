@@ -422,20 +422,6 @@ namespace Yna.Display
         /// <param name="gameTime"></param>
         public virtual void PostUpdate(GameTime gameTime)
         {
-            // On garde les mêmes positions à l'écran
-            if (!_scrollFactor.X)
-                X += YnG.Camera.X;
-
-            if (!_scrollFactor.Y)
-                Y += YnG.Camera.Y;
-
-            // Gestion de la caméra si le Sprite est suivie
-            if (_isFollowed)
-            {
-                YnG.Camera.X += X;
-                YnG.Camera.Y += Y;
-            }
-
             // Update the direction
             Direction = new Vector2(LastDistance.X, LastDistance.Y);
             Direction.Normalize();

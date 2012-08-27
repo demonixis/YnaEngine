@@ -2,28 +2,41 @@
 using Microsoft.Xna.Framework;
 namespace Yna
 {
+    /// <summary>
+    /// Base class for all object on the Framework
+    /// </summary>
     public abstract class YnBase
     {
         #region private declarations
 
         private static uint counterId = 0x0001;
 
-        /// <summary>
-        /// Get the unique identification code of this object
-        /// </summary>
-        public uint Id { get; set; }
-
-        /// <summary>
-        /// Get or Set the name of this object
-        /// </summary>
-        public string Name { get; set; }
-
+        private uint _id;
+        private string _name;
         protected bool _dirty;
         protected bool _paused;
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Get the unique identification code of this object
+        /// </summary>
+        public uint Id 
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the name of this object
+        /// </summary>
+        public string Name 
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
         /// <summary>
         /// Active or Desactive this object
@@ -80,8 +93,8 @@ namespace Yna
 
         public YnBase()
         {
-            Id = counterId++;
-            Name = Id.ToString();
+            _id = counterId++;
+            _name = Id.ToString();
             _paused = false;
             _dirty = false;
         }

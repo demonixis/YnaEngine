@@ -15,21 +15,21 @@ namespace Yna
 	{
 		protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
-        protected StateManager stateManager;
+        protected ScreenManager stateManager;
 
         public YnGame()
         {
         	this.graphics = new GraphicsDeviceManager (this);
 			this.Content.RootDirectory = "Content";
-            this.stateManager = new StateManager(this);
+            this.stateManager = new ScreenManager(this);
 			
-			 // Définition des services
+			 // Setup services
             ServiceHelper.Game = this;
             Components.Add(new KeyboardService(this));
             Components.Add(new MouseService(this));
             Components.Add(new GamepadService(this));
             
-             // Portée global pour l'ensemble du jeu
+             // Registry globals objects
             YnG.Game = this;
             YnG.GraphicsDeviceManager = this.graphics;
             YnG.DeviceWidth = this.graphics.PreferredBackBufferWidth;
@@ -37,7 +37,6 @@ namespace Yna
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
             YnG.Gamepad = new YnGamepad();
-            YnG.Camera = new Camera2D();
             YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.StateManager = stateManager;
             
@@ -60,7 +59,7 @@ namespace Yna
         }
 
         /// <summary>
-        /// Initialisation des ressources
+        /// Initialization
         /// </summary>
         protected override void Initialize()
         {
@@ -69,6 +68,10 @@ namespace Yna
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
         }
 
+        /// <summary>
+        /// Update all actives objects
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
             stateManager.Update(gameTime);
@@ -76,6 +79,10 @@ namespace Yna
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draw all actives objects on the screen
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
             stateManager.Draw(gameTime);
@@ -98,7 +105,7 @@ namespace Yna
 
         /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
-        /// the StateManager will clear all other state and use your new state
+        /// the StateManager will clear all other states and use the new state
         /// </summary>
         /// <param name="state">New state</param>
         public void SwitchState(YnState nextState)

@@ -11,6 +11,9 @@ using Yna.Input;
 
 namespace Yna
 {
+    /// <summary>
+    /// Determine the MonoGame platform
+    /// </summary>
     public enum MonoGameContext
     {
         Unknow = 0, XNA, Windows, Windows8, Linux, Mac 
@@ -52,7 +55,7 @@ namespace Yna
         /// <summary>
         /// Get or Set the State Manager
         /// </summary>
-        public static StateManager StateManager { get; set; }
+        public static ScreenManager StateManager { get; set; }
 		
         /// <summary>
         /// Get or Set the keyboard states
@@ -68,11 +71,6 @@ namespace Yna
         /// Get or Set the mouse states
         /// </summary>
         public static YnMouse Mouse { get; set; }
-        
-        /// <summary>
-        /// Get or Set the Camera 2D who can follow a Sprite
-        /// </summary>
-        public static Camera2D Camera { get; set; }
 
         /// <summary>
         /// Get or Set the version of XNA or MonoGame you are using

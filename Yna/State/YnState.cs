@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna;
-using Yna.Utils;
+using Yna.Display;
 
 namespace Yna.State
 {
-    public class YnState : GameState
+    public class YnState : Screen
     {
         #region Private declarations
 
@@ -32,38 +32,52 @@ namespace Yna.State
 
         #region Properties
 
+        /// <summary>
+        /// Get members attached to the scene
+        /// </summary>
         public List<YnObject> Members
         {
             get { return _members; }
         }
 
+        /// <summary>
+        /// Get or Set SpriteSortMode
+        /// </summary>
         public SpriteSortMode SpriteSortMode
         {
             get { return _spriteSortMode; }
             set { _spriteSortMode = value; }
         }
 
+        /// <summary>
+        /// Get or Set BlendState
+        /// </summary>
         public BlendState BlendState
         {
             get { return _blendState; }
             set { _blendState = value; }
         }
 
+        /// <summary>
+        /// Get or Set SamplerState
+        /// </summary>
         public SamplerState SamplerState
         {
             get { return _samplerState; }
             set { _samplerState = value; }
         }
 
+        /// <summary>
+        /// Get or Set DepthStencilState
+        /// </summary>
         public DepthStencilState DepthStencilState
         {
             get { return _depthStencilState; }
             set { _depthStencilState = value; }
         }
 
-
         /// <summary>
-        /// Get or Set the rotation used on the state
+        /// Get or Set the rotation used on the screen
         /// </summary>
         public float ScreenRotation
         {
@@ -72,7 +86,7 @@ namespace Yna.State
         }
 
         /// <summary>
-        /// Get or Set the zoom factor used on the state
+        /// Get or Set the zoom factor used on the screen
         /// </summary>
         public float ScreenZoom
         {
@@ -93,8 +107,8 @@ namespace Yna.State
         /// </summary>
         /// <param name="timeTransitionOn">Transition time on start</param>
         /// <param name="timeTransitionOff">Transition time on end</param>
-        public YnState(float timeTransitionOn = 1500f, float timeTransitionOff = 0f) 
-            : base (ScreenType.GameState, timeTransitionOn, timeTransitionOff)
+        public YnState(float timeTransitionOn = 1500f, float timeTransitionOff = 0f)
+            : base(ScreenType.GameState, timeTransitionOn, timeTransitionOff)
         {
             _members = new List<YnObject>();
             _safeMembers = new List<YnObject>();
@@ -115,6 +129,12 @@ namespace Yna.State
             _zoom = 1.0f;
         }
 
+        #region Collection methods
+
+        /// <summary>
+        /// Add object on the scene
+        /// </summary>
+        /// <param name="sceneObject"></param>
         public void Add(YnObject sceneObject)
         {
             sceneObject.LoadContent();
@@ -122,6 +142,10 @@ namespace Yna.State
             _members.Add(sceneObject);
         }
 
+        /// <summary>
+        /// Add objects on the scene
+        /// </summary>
+        /// <param name="sceneObjects"></param>
         public void Add(YnObject[] sceneObjects)
         {
             foreach (YnObject sceneObject in sceneObjects)
@@ -132,19 +156,30 @@ namespace Yna.State
             }
         }
 
+        /// <summary>
+        /// Remove an object from the scene
+        /// </summary>
+        /// <param name="sceneObject"></param>
         public void Remove(YnObject sceneObject)
         {
             sceneObject.UnloadContent();
             _members.Remove(sceneObject);
         }
 
+        /// <summary>
+        /// Clear all members on the scene
+        /// </summary>
         public void Clear()
         {
             _members.Clear();
             _safeMembers.Clear();
         }
 
-        public override void Initialize() 
+        #endregion
+
+        #region GameState pattern
+
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -204,17 +239,6 @@ namespace Yna.State
             }
         }
 
-        protected Matrix GetTransformMatrix()
-        {
-            Matrix translateToOrigin = Matrix.CreateTranslation(-YnG.Width / 2, -YnG.Height / 2, 0);
-            Matrix rotation = Matrix.CreateRotationZ(MathHelper.ToRadians(_rotation));
-            Matrix zoom = Matrix.CreateScale(_zoom);
-            Matrix translateBackToPosition = Matrix.CreateTranslation(YnG.Width / 2, YnG.Height / 2, 0);
-            Matrix composition = translateToOrigin * rotation * zoom * translateBackToPosition;
-
-            return composition;
-        }
-
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
@@ -226,7 +250,7 @@ namespace Yna.State
             if (nbMembers > 0)
             {
                 spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _transformMatrix);
-                
+
                 for (int i = 0; i < nbMembers; i++)
                 {
                     if (_safeMembers[i].Visible)
@@ -235,6 +259,23 @@ namespace Yna.State
 
                 spriteBatch.End();
             }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Get the transformed matrix who can be used for translate, rotate or zoom the state
+        /// </summary>
+        /// <returns></returns>
+        protected Matrix GetTransformMatrix()
+        {
+            Matrix translateToOrigin = Matrix.CreateTranslation(-YnG.Width / 2, -YnG.Height / 2, 0);
+            Matrix rotation = Matrix.CreateRotationZ(MathHelper.ToRadians(_rotation));
+            Matrix zoom = Matrix.CreateScale(_zoom);
+            Matrix translateBackToPosition = Matrix.CreateTranslation(YnG.Width / 2, YnG.Height / 2, 0);
+            Matrix composition = translateToOrigin * rotation * zoom * translateBackToPosition;
+
+            return composition;
         }
     }
 }

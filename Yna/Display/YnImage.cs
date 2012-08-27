@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Display
 {
+    /// <summary>
+    /// Represent a basic image
+    /// </summary>
     public class YnImage : YnObject
     {
         public YnImage(string imageAsset)

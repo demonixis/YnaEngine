@@ -7,45 +7,57 @@ using Yna.Helpers;
 
 namespace Yna.State
 {
-    public class StateManager
+    public class ScreenManager
     {
+        #region Private declarations
+        private List<Screen> _screens;
+        private List<Screen> _safeScreens;
+        private bool _initialized;
+
+        private Texture2D _transitionTexture;
+        private SpriteBatch _spriteBatch;
+
+        #endregion
+
+        #region Properties
+
+        public Color ClearColor { get; set; }
         public Game Game { get; protected set; }
 
+        /// <summary>
+        /// Get the Game's GraphicsDevice 
+        /// </summary>
         public GraphicsDevice GraphicsDevice
         {
             get { return Game.GraphicsDevice; }
         }
 
+        /// <summary>
+        /// Get the Content
+        /// </summary>
         public ContentManager Content
         {
             get { return Game.Content; }
         }
 
-        public Color ClearColor { get; set; }
-
-        private List<GameState> _screens;
-        private List<GameState> _safeScreens;
-
-        private bool _initialized;
-
-        private Texture2D _transitionTexture;
-
-        private SpriteBatch _spriteBatch;
-
+        /// <summary>
+        /// Get the SpriteBatch
+        /// </summary>
         public SpriteBatch SpriteBatch
         {
             get { return _spriteBatch; }
-            set { _spriteBatch = value; }
         }
 
-        public StateManager(Game game)
+        #endregion
+
+        public ScreenManager(Game game)
         {
             Game = game;
 
             ClearColor = Color.Black;
 
-            _screens = new List<GameState>();
-            _safeScreens = new List<GameState>();
+            _screens = new List<Screen>();
+            _safeScreens = new List<Screen>();
             _initialized = false;
         }
 
@@ -57,7 +69,7 @@ namespace Yna.State
                 // La texture sera étirée
                 _transitionTexture = GraphicsHelper.CreateTexture(Color.White, 16, 16);
 
-                foreach (GameState screen in _screens)
+                foreach (Screen screen in _screens)
                 {
                     screen.LoadContent();
                     screen.Initialize();
@@ -71,7 +83,7 @@ namespace Yna.State
         {
             if (_initialized && _screens.Count > 0)
             {
-                foreach (GameState screen in _screens)
+                foreach (Screen screen in _screens)
                     screen.UnloadContent();
             }
         }
@@ -118,6 +130,11 @@ namespace Yna.State
             FadeBackBuffer(Color.Black, alpha);
         }
 
+        /// <summary>
+        /// Fade the backbuffer 
+        /// </summary>
+        /// <param name="color">Transition color</param>
+        /// <param name="alpha">Alpha color</param>
         public void FadeBackBuffer(Color color, float alpha)
         {
             _spriteBatch.Begin();
@@ -125,23 +142,32 @@ namespace Yna.State
             _spriteBatch.End();
         }
 
-        #region Ajout, Suppression et Récupération des Screen
-        public void Add(GameState screen)
+        #region Collection methods
+
+        /// <summary>
+        /// Add a new screen to the Manager
+        /// </summary>
+        /// <param name="screen">Screen to add</param>
+        public void Add(Screen screen)
         {
             screen.ScreenManager = this;
 
-            // Si le manager n'est pas encore prêt le Screen actuel sera chargé en même temps 
-            // que les autres, dans LoadContent().
+            // If the manager is not yet ready we don't need to initialize and load its content
+            // Because it's donne in the init. process
             if (_initialized)
             {
-                screen.Initialize();
                 screen.LoadContent();
+                screen.Initialize();
             }
 
             _screens.Add(screen);
         }
 
-        public void Remove(GameState screen)
+        /// <summary>
+        /// Remove a screen to the Manager
+        /// </summary>
+        /// <param name="screen">Screen to remove</param>
+        public void Remove(Screen screen)
         {
             _screens.Remove(screen);
             _safeScreens.Remove(screen);
@@ -150,6 +176,9 @@ namespace Yna.State
                 screen.UnloadContent();
         }
 
+        /// <summary>
+        /// Clear all the Screens in the Manager
+        /// </summary>
         public void Clear()
         {
             if (_screens.Count > 0)
@@ -159,12 +188,21 @@ namespace Yna.State
             }
         }
 
-        public GameState GetScreenAt(int index)
+        /// <summary>
+        /// Get Screen at a position
+        /// </summary>
+        /// <param name="index">position</param>
+        /// <returns>The screen at the position</returns>
+        public Screen GetScreenAt(int index)
         {
             return _screens[index];
         }
 
-        public GameState[] GetScreens()
+        /// <summary>
+        /// Get alls screens
+        /// </summary>
+        /// <returns></returns>
+        public Screen[] GetScreens()
         {
             return _screens.ToArray();
         }

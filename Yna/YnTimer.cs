@@ -21,7 +21,7 @@ namespace Yna
         /// <summary>
         /// Get or Set the Duration of the timer
         /// </summary>
-        public int Duration
+        public int Interval
         {
             get { return _duration; }
             set { _duration = value; }
@@ -55,7 +55,7 @@ namespace Yna
                 if (_elapsedTime == 0)
                     return 0;
                 else
-                    return (long)(Duration - ElapsedTime);
+                    return (long)(Interval - ElapsedTime);
             }
         }
 
@@ -95,9 +95,9 @@ namespace Yna
 
         #endregion
 
-        public YnTimer(int duration, int repeat = -1)
+        public YnTimer(int interval, int repeat = -1)
         {
-            Duration = duration;
+            Interval = interval;
             Repeat = repeat;
             _elapsedTime = 0;
             _counter = Repeat;
@@ -216,7 +216,7 @@ namespace Yna
             {
                 _elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
 
-                if (_elapsedTime >= Duration)
+                if (_elapsedTime >= Interval)
                 {
                     if (_counter == 0)
                     {
