@@ -199,7 +199,7 @@ namespace Yna.Display.TiledMap.Isometric
 					// Note that this position is the simple translation of the tile
 					// position on the map.
 					position = IsometricHelper.ToOrtho(x, y);
-					
+
 					// To get correct orthogonals coordinates, they're respectively 
 					// multiplied by half width and half height
 					position.X *= tileWidth / 2;

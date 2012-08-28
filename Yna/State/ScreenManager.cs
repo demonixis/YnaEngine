@@ -99,7 +99,9 @@ namespace Yna.State
                 _safeScreens.Clear();
                 _safeScreens.AddRange(_screens);
 
-                for (int i = 0; i < nbScreens; i++)
+                int nbSafeScreen = _safeScreens.Count;
+
+                for (int i = 0; i < nbSafeScreen; i++)
                 {
                     if (_safeScreens[i].Active)
                         _safeScreens[i].Update(gameTime);
@@ -170,7 +172,6 @@ namespace Yna.State
         public void Remove(Screen screen)
         {
             _screens.Remove(screen);
-            _safeScreens.Remove(screen);
 
             if (_initialized)
                 screen.UnloadContent();

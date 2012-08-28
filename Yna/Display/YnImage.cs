@@ -41,10 +41,5 @@ namespace Yna.Display
                     throw new Exception("[YnImage] The texture name is empty");
             }
         }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(_texture, _rectangle, _color * _alpha);
-        }
     }
 }

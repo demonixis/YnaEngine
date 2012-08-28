@@ -20,8 +20,6 @@ namespace Yna.Display
 		protected float _maxVelocity;
         
         // Moving the sprite
-        protected bool _canMove;
-        protected bool _isFollowed;
         protected Vector2 _direction;
         protected Vector2 _lastPosition;
         protected Rectangle _viewport;
@@ -42,55 +40,73 @@ namespace Yna.Display
 
         #endregion
 
-        #region Propriétés
+        #region Properties
 
+        /// <summary>
+        /// Get or Set Acceleration
+        /// </summary>
         public Vector2 Acceleration
 		{
 			get { return _acceleration; }
 			set { _acceleration = value; }
 		}
 		
+        /// <summary>
+        /// Get or Set Velocity
+        /// </summary>
 		public Vector2 Velocity
 		{
 			get { return _velocity; }
 			set { _velocity = value; }
 		}
 		
+        /// <summary>
+        /// Get or Set the X value of the Velocity
+        /// </summary>
 		public float VelocityX
 		{
 			get { return _velocity.X; }
-			set { _velocity = new Vector2(_velocity.X = value, _velocity.Y); }	
+			set { _velocity.X = value; }	
 		}
 		
+        /// <summary>
+        /// Get or Set set Y value of the Velocity
+        /// </summary>
 		public float VelocityY
 		{
 			get { return _velocity.Y; }
-			set { _velocity = new Vector2(_velocity.X, _velocity.Y = value); }	
+			set { _velocity.Y = value; }	
 		}
 		
+        /// <summary>
+        /// Get or Set the VelocityMax
+        /// </summary>
 		public float VelocityMax
 		{
 			get { return _maxVelocity; }
 			set { _maxVelocity = value; }
 		}
-		
-        public bool CanMove
-        {
-            get { return _canMove; }
-            set { _canMove = value; }
-        }
 
+        /// <summary>
+        /// Get or Set the direction of the sprite
+        /// </summary>
         public Vector2 Direction
         {
             get { return _direction; }
             set { _direction = value; }
         }
 
+        /// <summary>
+        /// Get the last distance traveled by the sprite
+        /// </summary>
         public Vector2 LastDistance
         {
             get { return _position - _lastPosition; }
         }
 
+        /// <summary>
+        /// Get or Set the rectangle Viewport used for this sprite. Default is the size of the screen
+        /// </summary>
         public Rectangle Viewport
         {
             get { return _viewport; }
@@ -98,7 +114,7 @@ namespace Yna.Display
         }
 
         /// <summary>
-        /// Force or not the sprite to 
+        /// Force or not the sprite to stay in screen
         /// </summary>
         public bool InsideScreen
         {
@@ -108,14 +124,12 @@ namespace Yna.Display
                 _InsideScreen = value;
 
                 if (_InsideScreen)
-                {
                     _acrossScreen = false;
-                }
             }
         }
 
         /// <summary>
-        /// Oblige le sprite à ne pas quitter l'écran. Si il sort de l'écran, il est déplacé à sa position inverse
+        /// Authorizes or not the object across the screen and appear on the opposite
         /// </summary>
         public bool AcrossScreen
         {
@@ -125,14 +139,12 @@ namespace Yna.Display
                 _acrossScreen = value;
 
                 if (_acrossScreen)
-                {
                     _InsideScreen = false;
-                }
             }
         }
 
         /// <summary>
-        /// Dernière position du Sprite
+        /// Get or Set the last position of the sprite
         /// </summary>
         public Vector2 LastPosition
         {
@@ -140,24 +152,36 @@ namespace Yna.Display
             set { _lastPosition = value; }
         }
 
+        /// <summary>
+        /// Get or Set the Source rectangle
+        /// </summary>
         public Rectangle? SourceRectangle
         {
             get { return _sourceRectangle;  }
             set { _sourceRectangle = value; }
         }
 
+        /// <summary>
+        /// Get or Set the SpriteEffect used for drawing the sprite
+        /// </summary>
         public SpriteEffects Effects
         {
             get { return _effects; }
             set { _effects = value; }
         }
 
+        /// <summary>
+        /// Get or Set the layer depth
+        /// </summary>
         public float LayerDepth
         {
             get { return _layerDepth; }
             set { _layerDepth = value; }
         }
 
+        /// <summary>
+        /// Get the animation status
+        /// </summary>
         public bool HasAnimation
         {
             get { return _hasAnimation; }
@@ -166,6 +190,10 @@ namespace Yna.Display
         
         #region Evenements
 
+        /// <summary>
+        /// Triggered when the sprite is colliding with it's registered viewport
+        /// @see Viewport property
+        /// </summary>
         public event EventHandler<ScreenCollideSpriteEventArgs> ScreenCollide = null;
         
         private void CollideScreenSprite(ScreenCollideSpriteEventArgs arg)
@@ -176,7 +204,11 @@ namespace Yna.Display
         
         #endregion
 
-        #region constructeurs
+        #region constructors
+
+        /// <summary>
+        /// Create a sprite with default values
+        /// </summary>
         public YnSprite() 
             : base ()
         {
@@ -209,18 +241,27 @@ namespace Yna.Display
             _direction = Vector2.One;
         }
 
+        private YnSprite(Vector2 position)
+            : this()
+        {
+            _position = position;
+        }
+
+        /// <summary>
+        /// Create a sprite
+        /// </summary>
+        /// <param name="assetName">Image name that will loaded from the content manager</param>
         public YnSprite(string assetName)
             : this(Vector2.Zero)
         {
             _textureName = assetName;
         }
 
-        public YnSprite(Vector2 position)
-            : this()
-        {
-            _position = position;
-        }
-
+        /// <summary>
+        /// Create a sprite
+        /// </summary>
+        /// <param name="position">Position of the sprite</param>
+        /// <param name="assetName">Image name that will loaded from the content manager</param>
         public YnSprite(Vector2 position, string assetName) 
             : this(position)
         {
@@ -228,10 +269,10 @@ namespace Yna.Display
         }
 
         /// <summary>
-        /// DEPREACTED : Use YnSprite(YnRectangle, Color) instead
+        /// Create a sprite without asset
         /// </summary>
-        /// <param name="rectangle"></param>
-        /// <param name="color"></param>
+        /// <param name="rectangle">Size of the sprite</param>
+        /// <param name="color">Color of the sprite</param>
         public YnSprite(Rectangle rectangle, Color color)
             : this()
         {
@@ -242,42 +283,31 @@ namespace Yna.Display
             _rectangle = rectangle;
         }
 
-        public YnSprite(YnRectangle rectangle, Color color)
-        {
-            Rectangle = new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-            _texture = GraphicsHelper.CreateTexture(color, rectangle.Width, rectangle.Height);
-            _textureLoaded = true;
-        }
-
-        public YnSprite(int x, int y, string assetName)
-            : this(new Vector2(x, y), assetName) { }
-
         #endregion
 
         #region Animation methods
 
         /// <summary>
-        /// Indique que la texture utilisée est une feuille de sprite et que le Sprite
-        /// pourra être animé
+        /// Prepare the sprite for animation.
         /// </summary>
-        /// <param name="width">Largeur du sprite sur la feuille de sprite</param>
-        /// <param name="height">Hauteur du sprite sur la feuille de sprite</param>
+        /// <param name="width">width of a sprite on the spritesheet</param>
+        /// <param name="height">height of a sprite on the spritesheet</param>
         public void PrepareAnimation(int width, int height)
         {
             _hasAnimation = true;
             _animator = new SpriteAnimator(width, height, _texture.Width, _texture.Height);
             
-            // Le sprite fait désormais la taille d'une animation
+            // The sprite size is now the size of a sprite on the spritesheet
             Rectangle = new Rectangle(X, Y, width, height);
         }
 
         /// <summary>
-        /// Ajoute une animation au Sprite
+        /// Add an animation
         /// </summary>
-        /// <param name="name">Nom de l'animation</param>
-        /// <param name="indexes">Tableau d'indices</param>
-        /// <param name="frameRate">Temps entre chaque frame</param>
-        /// <param name="reversed">Retourner l'animation horizontalement</param>
+        /// <param name="name">Animation name</param>
+        /// <param name="indexes">Array of index that represent images</param>
+        /// <param name="frameRate">Framerate for this animation</param>
+        /// <param name="reversed">Reverse or not the animation</param>
         public void AddAnimation(string name, int[] indexes, int frameRate, bool reversed)
         {
             _animator.Add(name, indexes, frameRate, reversed);
@@ -285,54 +315,61 @@ namespace Yna.Display
         }
 
         /// <summary>
-        /// Ajoute une animation au Sprite
+        /// Add an animation
         /// </summary>
-        /// <param name="name">Nom de l'animation</param>
-        /// <param name="rectangles">Tableau de rectangles encadrant les animations</param>
-        /// <param name="frameRate">Temps entre chaque frame</param>
-        /// <param name="reversed">Retourner l'animation horizontalement</param>
+        /// <param name="name">Animation name</param>
+        /// <param name="rectangles">Array of Rectangles that represents animations on the spritesheet</param>
+        /// <param name="frameRate">Framerate for this animation</param>
+        /// <param name="reversed">Reverse or not the animation</param>
         public void AddAnimation(string name, Rectangle[] rectangles, int frameRate, bool reversed)
         {
             _animator.Add(name, rectangles, frameRate, reversed);
             _sourceRectangle = _animator.Animations[name].Rectangle[0];
         }
 
+        /// <summary>
+        /// Get the current animation index
+        /// </summary>
+        /// <param name="animationKeyName">Animation name</param>
+        /// <returns>Index of the animation</returns>
         public int GetCurrentAnimationIndex(string animationKeyName)
         {
-            if (_hasAnimation)
-            {
+            if (_hasAnimation)           
                 return _animator.Animations[animationKeyName].Index;
-            }
             else
                 return 0;
-        }
-
-        public int GetAnimationLenght(string animationKeyName)
-        {
-            if (_hasAnimation)
-            {
-                return _animator.Animations[animationKeyName].Length;
-            }
-            else
-                return 0;
-        }
-
-        public SpriteAnimation GetAnimation(string animationKeyName)
-        {
-            if (_hasAnimation)
-            {
-                return _animator.Animations[animationKeyName];
-            }
-            else
-            {
-                return null;
-            }
         }
 
         /// <summary>
-        /// Joue une animation.
+        /// Get the length of an animation
         /// </summary>
-        /// <param name="animationName">Nom de l'animation</param>
+        /// <param name="animationKeyName">Animation name</param>
+        /// <returns>Length of the animation</returns>
+        public int GetAnimationLenght(string animationKeyName)
+        {
+            if (_hasAnimation)
+                return _animator.Animations[animationKeyName].Length;
+            else
+                return 0;
+        }
+
+        /// <summary>
+        /// Get the SpriteAnimation object for a specified animation
+        /// </summary>
+        /// <param name="animationKeyName">Animation name</param>
+        /// <returns>The SpriteAnimation object</returns>
+        public SpriteAnimation GetAnimation(string animationKeyName)
+        {
+            if (_hasAnimation)
+                return _animator.Animations[animationKeyName];
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Play an animation
+        /// </summary>
+        /// <param name="animationName">Animation name</param>
         public void Play(string animationName)
         {
             _sourceRectangle = _animator.Animations[animationName].Next(ref _effects, _elapsedTime);
@@ -371,6 +408,11 @@ namespace Yna.Display
             }
         }
 
+        /// <summary>
+        /// Load content with a specific texture
+        /// if a texture is already loaded, it's replaced by the new
+        /// </summary>
+        /// <param name="textureName">Texture name</param>
         public virtual void LoadContent(string textureName)
         {
             _textureName = textureName;
@@ -417,7 +459,8 @@ namespace Yna.Display
         }
 
         /// <summary>
-        /// Cette méthode est appelée juste après Update() et juste avant Draw()
+        /// Post updates for sprite collide and direction
+        /// Called after Update() and before Draw() 
         /// </summary>
         /// <param name="gameTime"></param>
         public virtual void PostUpdate(GameTime gameTime)
@@ -473,17 +516,11 @@ namespace Yna.Display
                 spriteBatch.Draw(_texture, Position, SourceRectangle, Color * Alpha, Rotation, Origin, Scale, _effects, LayerDepth);
         }
 
-        public override void UnloadContent()
-        {
-            if (_texture != null && Dirty)
-                _texture.Dispose();
-        }
-
         /// <summary>
-        /// Naïve test collision with rectangle
+        /// Simple test collision with rectangles
         /// </summary>
-        /// <param name="spriteA"></param>
-        /// <param name="spriteB"></param>
+        /// <param name="spriteA">Sprite 1</param>
+        /// <param name="spriteB">Sprite 2</param>
         /// <returns></returns>
         public static bool RectCollide(YnSprite spriteA, YnSprite spriteB)
         {
@@ -493,8 +530,8 @@ namespace Yna.Display
         /// <summary>
         /// Perfect pixel test collision
         /// </summary>
-        /// <param name="spriteA"></param>
-        /// <param name="spriteB"></param>
+        /// <param name="spriteA">Sprite 1</param>
+        /// <param name="spriteB">Sprite 2</param>
         /// <returns></returns>
         public static bool PerfectPixelCollide(YnSprite spriteA, YnSprite spriteB)
         {
@@ -521,6 +558,17 @@ namespace Yna.Display
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Optimised perfect collide test
+        /// </summary>
+        /// <param name="spriteA">Sprite 1</param>
+        /// <param name="spriteB">Sprite 2</param>
+        /// <returns></returns>
+        public static bool PerfectCollide(YnSprite spriteA, YnSprite spriteB)
+        {
+            return RectCollide(spriteA, spriteB) && PerfectPixelCollide(spriteA, spriteB);
         }
     }
 }

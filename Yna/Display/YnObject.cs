@@ -356,9 +356,14 @@ namespace Yna.Display
 
         public abstract void LoadContent();
 
-        public abstract void UnloadContent();
-
-        public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+        /// <summary>
+        /// Dispose the Texture2D object if the Dirty property is set to true
+        /// </summary>
+        public virtual void UnloadContent()
+        {
+            if (_texture != null && Dirty)
+                _texture.Dispose();
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -413,10 +418,10 @@ namespace Yna.Display
             }
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, ref Rectangle rectangle)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (Active)
-                spriteBatch.Draw(Texture, Rectangle, Color);
+            if (Visible)
+                spriteBatch.Draw(Texture, Rectangle, Color * Alpha);
         }
 
         /// <summary>

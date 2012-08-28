@@ -160,7 +160,7 @@ namespace Yna.State
                 if (_timeTransitionCounter <= 0)
                     screenManager.Remove(this);
                 else
-                    UpdateTransition(gameTime, _timeTransitionOff, -1);
+                    UpdateTransition(gameTime, _timeTransitionOff, 1);
             }
         }
 
@@ -198,7 +198,10 @@ namespace Yna.State
         public void Exit()
         {
             if (_timeTransitionOff <= 0)
+            {
+                UnloadContent();
                 screenManager.Remove(this);
+            }
             else
             {
                 _timeTransitionCounter = _timeTransitionOff;
