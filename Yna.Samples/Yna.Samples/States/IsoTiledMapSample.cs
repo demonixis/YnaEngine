@@ -6,7 +6,7 @@ using Yna.Display.TiledMap.Isometric;
 using Yna;
 using Yna.State;
 
-namespace Yna.Sample.States
+namespace Yna.Samples.States
 {
     /// <summary>
     /// Description of IsometricTiledMapSample.
@@ -112,7 +112,7 @@ namespace Yna.Sample.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
-                YnG.SwitchState(new GameMenu());
+                YnG.SwitchState(new Menu());
             }
         }
 

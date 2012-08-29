@@ -10,21 +10,26 @@ using Yna;
 using Yna.Display;
 using Yna.State;
 
-namespace Yna.Sample.States
+namespace Yna.Samples.States
 {
-    public class Sample01 : YnState
+    public class BasicSprites : YnState
     {
         private const int numSprites = 10;
 
-        private YnSprite background;
+        private YnImage background;
         private YnGroup sprites;
         private Color[] colors;
         private Song music;
 
-        public Sample01()
+        public BasicSprites()
             : base(500f, 50f)
         {
+            background = new YnImage("Backgrounds/Sky3");
+            Add(background);
+
             sprites = new YnGroup(numSprites);
+            Add(sprites);
+
             colors = new Color[numSprites];
 
             Random rand = new Random(DateTime.Now.Millisecond);
@@ -37,18 +42,15 @@ namespace Yna.Sample.States
         {
             base.Initialize();
 
-            //song = YnG.Content.Load<SoundEffect>("audio//scary-tone");
-#if MONOGAME
-#else
+#if !MONOGAME
             music = YnG.Content.Load<Song>("audio//welcome-to-nova");
             MediaPlayer.Play(music);
 #endif
-            background = new YnSprite(Vector2.Zero, "Backgrounds/Sky3");
-            background.LoadContent();
-            background.SourceRectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
 
             int spriteWidth = 50;
             int spriteHeight = 50;
+
             Random rand = new Random(DateTime.Now.Millisecond);
 
             for (int i = 0; i < numSprites; i++)
@@ -62,9 +64,6 @@ namespace Yna.Sample.States
                 sprite.AcrossScreen = true;
                 sprites.Add(sprite);
             }
-
-            Add(background);
-            Add(sprites);
         }
 
         public override void UnloadContent()
@@ -78,8 +77,7 @@ namespace Yna.Sample.States
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-#if MONOGAME
-#else
+#if !MONOGAME
             if (YnG.Keys.JustPressed(Keys.Enter))
             {
                 if (MediaPlayer.State == MediaState.Stopped)
@@ -106,12 +104,11 @@ namespace Yna.Sample.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
-#if MONOGAME
-#else
+#if !MONOGAME
                 if (MediaPlayer.State == MediaState.Playing)
                     MediaPlayer.Stop();
 #endif
-                YnG.SwitchState(new GameMenu());
+                YnG.SwitchState(new Menu());
             }
         }
     }

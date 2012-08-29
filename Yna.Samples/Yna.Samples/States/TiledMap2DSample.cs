@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using Yna.Display.TiledMap.Basic;
 using Yna.State;
 
-namespace Yna.Sample.States
+namespace Yna.Samples.States
 {
     /// <summary>
     /// Example of simple tiled map user and rendering
@@ -128,14 +128,19 @@ namespace Yna.Sample.States
         public override void Update(GameTime gameTime)
         {
             // Simple handling of the camera position
-            if (YnG.Keys.Left) _camera.X++;
-            if (YnG.Keys.Right) _camera.X--;
-            if (YnG.Keys.Up) _camera.Y++;
-            if (YnG.Keys.Down) _camera.Y--;
+            if (YnG.Keys.Left) 
+                _camera.X++;
+            else if (YnG.Keys.Right) 
+                _camera.X--;
+            
+            if (YnG.Keys.Up) 
+                _camera.Y++;
+            else if (YnG.Keys.Down) 
+                _camera.Y--;
 
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
-                YnG.SwitchState(new GameMenu());
+                YnG.SwitchState(new Menu());
             }
         }
 

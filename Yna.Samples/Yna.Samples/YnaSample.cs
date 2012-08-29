@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna;
 using Yna.Display;
-using Yna.Sample.States;
+using Yna.Samples.States;
 
 namespace Yna.Samples
 {
@@ -25,7 +25,7 @@ namespace Yna.Samples
         protected override void Initialize()
         {
             base.Initialize();
-            YnG.SwitchState(new GameMenu());
+            YnG.SwitchState(new Menu());
         }
 
         protected override void Update(GameTime gameTime)

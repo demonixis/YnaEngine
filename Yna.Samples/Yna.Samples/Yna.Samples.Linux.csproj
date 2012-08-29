@@ -52,12 +52,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="States\GameMenu.cs" />
-    <Compile Include="States\IsoTiledMapSample.cs" />
-    <Compile Include="States\Sample02.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="States\Sample03.cs" />
-    <Compile Include="States\Sample01.cs" />
+    <Compile Include="States\AnimatedSprites.cs" />
+    <Compile Include="States\Menu.cs" />
+    <Compile Include="States\IsoTiledMapSample.cs" />
+    <Compile Include="States\MenuItem.cs" />
+    <Compile Include="States\BasicSprites.cs" />
     <Compile Include="States\TiledMap2DSample.cs" />
     <Compile Include="YnaSample.cs" />
   </ItemGroup>
