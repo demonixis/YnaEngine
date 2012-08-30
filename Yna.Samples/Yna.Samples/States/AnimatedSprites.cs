@@ -21,6 +21,11 @@ namespace Yna.Samples.States
         private YnSprite manSprite;
         private YnSprite gunnerSprite;
 
+        // And now some objects
+        private YnImage woodObject;
+        private YnImage wood2Object;
+        private YnImage houseObject;
+
         public AnimatedSprites()
             : base (1500, 0)
         {
@@ -39,6 +44,16 @@ namespace Yna.Samples.States
 
             gunnerSprite = new YnSprite("Sprites/BRivera-gunnerwalkcycle");
             Add(gunnerSprite);
+
+            // Objects
+            woodObject = new YnImage("Objects/fullpufftree");
+            Add(woodObject);
+
+            wood2Object = new YnImage("Objects/whitheredtree1");
+            Add(wood2Object);
+
+            houseObject = new YnImage("Objects/building11");
+            Add(houseObject);
         }
 
         public override void Initialize()
@@ -54,10 +69,18 @@ namespace Yna.Samples.States
             manSprite.Position = new Vector2((YnG.Width - manSprite.Width) - 50, (YnG.Height - manSprite.Height) - 50);
             gunnerSprite.Position = new Vector2((YnG.Width / 2) - (gunnerSprite.Width / 2), (YnG.Height / 2) - (gunnerSprite.Height / 2));
 
+            // Force the sprite to stay on the screen
+            manSprite.InsideScreen = true;
+
             // Create animations for sprites
             CreateSpriteAnimations(womanSprite);
             CreateSpriteAnimations(manSprite);
             CreateSpriteAnimations(gunnerSprite);
+
+            // Position for objects
+            woodObject.Position = new Vector2(50, YnG.Height - (1.5f * (woodObject.Height)));
+            wood2Object.Position = new Vector2((YnG.Width - 50) - wood2Object.Width, YnG.Height - (1.5f * (wood2Object.Height)));
+            houseObject.Position = new Vector2((YnG.Width / 2) - (houseObject.Width / 2), 10); 
         }
 
         public override void Update(GameTime gameTime)

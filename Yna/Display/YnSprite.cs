@@ -376,16 +376,6 @@ namespace Yna.Display
         }
 
         #endregion
-
-        /// <summary>
-        /// Set Rectangle & SourceRectangle at the same value
-        /// </summary>
-        /// <param name="rectangle">Rectangle</param>
-        public void SetRectangles(Rectangle rectangle)
-        {
-            _sourceRectangle = rectangle;
-            _rectangle = rectangle;
-        }
         
         public override void Initialize() { }
 

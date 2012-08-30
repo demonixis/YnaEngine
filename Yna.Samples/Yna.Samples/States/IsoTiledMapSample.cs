@@ -36,11 +36,18 @@ namespace Yna.Samples.States
         public IsoTiledMapSample()
         {
             int[,] groundData = {
-				{0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			};
             LayerIso groundLayer = new LayerIso(groundData);
             /*
@@ -51,12 +58,20 @@ namespace Yna.Samples.States
             	groundLayer[x, 1].TopRight = 1;
             }
 			*/
-            int[,] decoData = {
-				{ 0,  0,  0,  0,  0},
-				{-1, -1, -1, -1, -1},
-				{-1, -1, -1, -1, -1},
-				{-1, -1, -1, -1, -1},
-				{ 0,  0,  0,  0,  0}
+            int[,] decoData = 
+            {
+				{ 0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+				{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+				{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+				{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+				{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+				{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+				{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+				{ 0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 			};
             LayerIso decoLayer = new LayerIso(decoData);
 
@@ -65,15 +80,15 @@ namespace Yna.Samples.States
             _map = new TiledMapIso("Tilesets/iso_ground_tileset", "Tilesets/iso_deco_tileset", groundLayer, layers, 96, 96, 192);
 
             _camera = new Vector2(YnG.Width / 2 - 96 / 2, 128);
-            
+
             // Define the drawing zone
-            _viewport = new Rectangle(YnG.Width/2 - 128, 64, 256, 256);
+            _viewport = new Rectangle(YnG.Width / 2 - 128, 64, 256, 256);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-            
+
             // By calling LoadContent on the map, the tileset texture will be loaded
             // and tile zones will be calculated according to the tile size.
             _map.LoadContent();
@@ -91,23 +106,23 @@ namespace Yna.Samples.States
             // Simple handling of the camera position
             if (YnG.Keys.Left)
             {
-            	_camera.X+= 2;
-            	_camera.Y++;
+                _camera.X += 2;
+                _camera.Y++;
             }
             if (YnG.Keys.Right)
             {
-            	_camera.X -= 2;
-            	_camera.Y--;
+                _camera.X -= 2;
+                _camera.Y--;
             }
             if (YnG.Keys.Up)
             {
-            	_camera.Y++;
-            	_camera.X-=2;
+                _camera.Y++;
+                _camera.X -= 2;
             }
             if (YnG.Keys.Down)
             {
-            	_camera.Y--;
-            	_camera.X+=2;
+                _camera.Y--;
+                _camera.X += 2;
             }
 
             if (YnG.Keys.JustPressed(Keys.Escape))
@@ -123,12 +138,12 @@ namespace Yna.Samples.States
             // Here we simply draw the map with the camera position and the draw zone
             spriteBatch.Begin();
             _map.Draw(spriteBatch, _camera, _viewport);
-            
+
             // A rectangle is drawn to represent the map's drawing zone
             DrawRectangle(_viewport, Color.Red);
             spriteBatch.End();
         }
-        
+
         private void DrawRectangle(Rectangle rectangle, Color color)
         {
             // Draw each border as a texture
