@@ -9,7 +9,7 @@ namespace Yna
     {
         #region Private declarations
 
-        private int _duration;
+        private int _interval;
         private int _repeat;
         private int _counter;
         private long _elapsedTime;
@@ -23,8 +23,8 @@ namespace Yna
         /// </summary>
         public int Interval
         {
-            get { return _duration; }
-            set { _duration = value; }
+            get { return _interval; }
+            set { _interval = value; }
         }
 
         /// <summary>

@@ -370,6 +370,8 @@ namespace Yna.Display
             // Check mouse events
             if (!Pause)
             {
+                Rectangle = new Rectangle(X, Y, Width, Height);
+
                 #region Mouse events
 
                 // Souris
