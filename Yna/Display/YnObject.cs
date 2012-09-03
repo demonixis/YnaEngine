@@ -25,13 +25,14 @@ namespace Yna.Display
         protected Rectangle _rectangle;
         protected Texture2D _texture;
         protected string _textureName;
+        protected bool _textureLoaded;
         protected Color _color;
         protected float _rotation;
         protected Vector2 _origin;
         protected Vector2 _scale;
+        protected SpriteEffects _effects;
+        protected float _layerDepth;
         protected float _alpha;
-
-        protected bool _textureLoaded;
 
         #region Properties
 
@@ -211,6 +212,24 @@ namespace Yna.Display
         }
 
         /// <summary>
+        /// Get or Set the SpriteEffect used for drawing the sprite
+        /// </summary>
+        public SpriteEffects Effects
+        {
+            get { return _effects; }
+            set { _effects = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the layer depth
+        /// </summary>
+        public float LayerDepth
+        {
+            get { return _layerDepth; }
+            set { _layerDepth = value; }
+        }
+
+        /// <summary>
         /// Get or Set the X position of the object.
         /// Note: The rectangle is updated when a value is setted
         /// </summary>
@@ -341,15 +360,18 @@ namespace Yna.Display
             _visible = true;
             _parent = null;
             
-            _position = new Vector2(0, 0);
+            _position = Vector2.Zero;
             _rectangle = Rectangle.Empty;
             _texture = null;
             _textureName = String.Empty;
+            _textureLoaded = false;
             _color = Color.White;
             _rotation = 0.0f;
             _origin = Vector2.Zero;
             _scale = Vector2.One;
             _alpha = 1.0f;
+            _effects = SpriteEffects.None;
+            _layerDepth = 1.0f;
         }
 
         public abstract void Initialize();
@@ -423,7 +445,7 @@ namespace Yna.Display
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (Visible)
-                spriteBatch.Draw(Texture, Rectangle, Color * Alpha);
+                spriteBatch.Draw(Texture, Rectangle, null, Color * Alpha, Rotation, Origin, Effects, LayerDepth);
         }
 
         /// <summary>

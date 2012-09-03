@@ -30,8 +30,7 @@ namespace Yna.Display
 
         // Position
         protected Rectangle? _sourceRectangle;
-        protected SpriteEffects _effects;
-        protected float _layerDepth;
+        
 		
         // Animations
         protected bool _hasAnimation;
@@ -162,24 +161,6 @@ namespace Yna.Display
         }
 
         /// <summary>
-        /// Get or Set the SpriteEffect used for drawing the sprite
-        /// </summary>
-        public SpriteEffects Effects
-        {
-            get { return _effects; }
-            set { _effects = value; }
-        }
-
-        /// <summary>
-        /// Get or Set the layer depth
-        /// </summary>
-        public float LayerDepth
-        {
-            get { return _layerDepth; }
-            set { _layerDepth = value; }
-        }
-
-        /// <summary>
         /// Get the animation status
         /// </summary>
         public bool HasAnimation
@@ -214,15 +195,6 @@ namespace Yna.Display
         {
             _sourceRectangle = null;
             _lastPosition = Vector2.Zero;
-            _rectangle = Rectangle.Empty;
-            _color = Color.White;
-            _alpha = 1.0f;
-            _rotation = 0.0f;
-            _origin = Vector2.Zero;
-            _scale = Vector2.One;
-            _effects = SpriteEffects.None;
-            _layerDepth = 1.0f;
-            _textureName = string.Empty;
 
             _viewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
             _InsideScreen = false;
@@ -232,8 +204,6 @@ namespace Yna.Display
             _animator = null;
             _elapsedTime = 0;
 
-            _textureLoaded = false;
-			
             _acceleration = Vector2.One;
 			_velocity = Vector2.Zero;
             _maxVelocity = 1.0f;
