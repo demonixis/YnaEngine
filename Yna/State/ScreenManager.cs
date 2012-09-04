@@ -7,7 +7,7 @@ using Yna.Helpers;
 
 namespace Yna.State
 {
-    public class ScreenManager
+    public class ScreenManager : DrawableGameComponent
     {
         #region Private declarations
         private List<Screen> _screens;
@@ -22,23 +22,6 @@ namespace Yna.State
         #region Properties
 
         public Color ClearColor { get; set; }
-        public Game Game { get; protected set; }
-
-        /// <summary>
-        /// Get the Game's GraphicsDevice 
-        /// </summary>
-        public GraphicsDevice GraphicsDevice
-        {
-            get { return Game.GraphicsDevice; }
-        }
-
-        /// <summary>
-        /// Get the Content
-        /// </summary>
-        public ContentManager Content
-        {
-            get { return Game.Content; }
-        }
 
         /// <summary>
         /// Get the SpriteBatch
@@ -51,9 +34,8 @@ namespace Yna.State
         #endregion
 
         public ScreenManager(Game game)
+            : base (game)
         {
-            Game = game;
-
             ClearColor = Color.Black;
 
             _screens = new List<Screen>();
@@ -61,7 +43,7 @@ namespace Yna.State
             _initialized = false;
         }
 
-        public virtual void LoadContent()
+        protected override void LoadContent()
         {
             if (!_initialized)
             {
@@ -79,7 +61,7 @@ namespace Yna.State
             }
         }
 
-        public virtual void UnloadContent()
+        protected override void UnloadContent()
         {
             if (_initialized && _screens.Count > 0)
             {
@@ -88,7 +70,7 @@ namespace Yna.State
             }
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             // We make a copy of all screens to provide any error
             // if a screen is removed during the update opreation
@@ -109,7 +91,7 @@ namespace Yna.State
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(ClearColor);
 
