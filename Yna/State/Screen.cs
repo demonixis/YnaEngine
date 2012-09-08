@@ -150,7 +150,6 @@ namespace Yna.State
             {
                 if (_timeTransitionCounter <= 0)
                     _screenState = ScreenState.Active;
-
                 else
                     UpdateTransition(gameTime, _timeTransitionOn, 1);
 
