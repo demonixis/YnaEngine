@@ -28,6 +28,7 @@ namespace Yna
             Components.Add(new KeyboardService(this));
             Components.Add(new MouseService(this));
             Components.Add(new GamepadService(this));
+            Components.Add(stateManager);
             
              // Registry globals objects
             YnG.Game = this;
@@ -55,7 +56,7 @@ namespace Yna
         {
             base.LoadContent();
 
-            stateManager.LoadContent();
+            //stateManager.LoadContent();
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace Yna
         /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
-            stateManager.Update(gameTime);
+            //stateManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -85,7 +86,7 @@ namespace Yna
         /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
-            stateManager.Draw(gameTime);
+            //stateManager.Draw(gameTime);
 
             base.Draw(gameTime);
         }
@@ -118,7 +119,7 @@ namespace Yna
 
         protected override void UnloadContent()
         {
-            stateManager.UnloadContent();
+            //stateManager.UnloadContent();
             base.UnloadContent();
         }
 

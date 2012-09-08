@@ -171,8 +171,23 @@ namespace Yna.Input.Kinect
                                scaledRight.Position.X,
                                scaledRight.Position.Y,
                                scaledRight.Position.Z));
-                            
                         }
+
+                        _userProfiles[currentPlayer].SetVector3(JointType.Head, new Vector3(
+                            sk.Joints[JointType.Head].Position.X,
+                            sk.Joints[JointType.Head].Position.Y,
+                            sk.Joints[JointType.Head].Position.Z));
+
+                        _userProfiles[currentPlayer].SetVector3(JointType.FootLeft, new Vector3(
+                            sk.Joints[JointType.FootLeft].Position.X,
+                            sk.Joints[JointType.FootLeft].Position.Y,
+                            sk.Joints[JointType.FootLeft].Position.Z));
+
+                        _userProfiles[currentPlayer].SetVector3(JointType.FootRight, new Vector3(
+                            sk.Joints[JointType.FootRight].Position.X,
+                            sk.Joints[JointType.FootRight].Position.Y,
+                            sk.Joints[JointType.FootRight].Position.Z));
+
                         return; // TODO : We must remove that and count the number of human tracked (2 max)
                     }
                 }
