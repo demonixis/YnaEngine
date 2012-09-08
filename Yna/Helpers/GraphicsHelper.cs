@@ -5,7 +5,7 @@ using Yna.Display;
 
 namespace Yna.Helpers
 {
-    class GraphicsHelper
+    public class GraphicsHelper
     {
         public static Color[] CreateColor (Color textureColor, int width, int height)
         {
