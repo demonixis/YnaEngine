@@ -50,6 +50,13 @@ namespace Yna.Display
             _color = Color.Black;
         }
 
+        public YnText(string fontName, string text)
+            : this(Vector2.Zero, text)
+        {
+            _textureName = fontName;
+            _textureLoaded = false;
+        }
+
         public YnText(SpriteFont font, int x, int y, string text)
             : this(new Vector2(x, y), text)
         {
