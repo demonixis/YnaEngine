@@ -18,6 +18,7 @@ namespace Yna
         protected ScreenManager stateManager;
 
         public YnGame()
+            : base()
         {
         	this.graphics = new GraphicsDeviceManager (this);
 			this.Content.RootDirectory = "Content";
@@ -51,46 +52,11 @@ namespace Yna
 			this.Window.Title = title;
 		}
 
-        #region GameState Pattern
         protected override void LoadContent()
         {
             base.LoadContent();
-
-            //stateManager.LoadContent();
+            this.spriteBatch = new SpriteBatch(GraphicsDevice);
         }
-
-        /// <summary>
-        /// Initialization
-        /// </summary>
-        protected override void Initialize()
-        {
-            base.Initialize();
-
-            spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
-        }
-
-        /// <summary>
-        /// Update all actives objects
-        /// </summary>
-        /// <param name="gameTime"></param>
-        protected override void Update(GameTime gameTime)
-        {
-            //stateManager.Update(gameTime);
-
-            base.Update(gameTime);
-        }
-
-        /// <summary>
-        /// Draw all actives objects on the screen
-        /// </summary>
-        /// <param name="gameTime"></param>
-        protected override void Draw(GameTime gameTime)
-        {
-            //stateManager.Draw(gameTime);
-
-            base.Draw(gameTime);
-        }
-        #endregion
 
         /// <summary>
         /// Change the screen resolution
@@ -104,23 +70,45 @@ namespace Yna
             this.graphics.ApplyChanges();
         }
 
+        public void ActiveStateManager(bool active)
+        {
+            if (active)
+            {
+                if (YnG.StateManager == null)
+                {
+                    YnG.StateManager = new ScreenManager(this);
+                    this.Components.Add(YnG.StateManager);
+                }
+            }
+            else
+            {
+                if (YnG.StateManager != null)
+                {
+                    this.Components.Remove(YnG.StateManager);
+                    YnG.StateManager = null;
+                }
+            }
+        }
+
         /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
         /// the StateManager will clear all other states and use the new state
         /// </summary>
         /// <param name="state">New state</param>
-        public void SwitchState(YnState nextState)
+        /// <returns>True if the state manager has done the swith, false if it disabled</returns>
+        public bool SwitchState(YnState nextState)
         {
-            if (!nextState.IsPopup)
-                YnG.StateManager.Clear();
+            if (YnG.StateManager != null)
+            {
+                if (!nextState.IsPopup)
+                    YnG.StateManager.Clear();
 
-            YnG.StateManager.Add(nextState); 
-        }
+                YnG.StateManager.Add(nextState);
 
-        protected override void UnloadContent()
-        {
-            //stateManager.UnloadContent();
-            base.UnloadContent();
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

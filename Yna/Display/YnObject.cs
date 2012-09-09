@@ -10,11 +10,11 @@ namespace Yna.Display
 {
     public enum ObjectOrigin
     {
-    	TopLeft = 0, Top, TopRight, 
+        TopLeft = 0, Top, TopRight,
         Left, Center, Right,
         BottomLeft, Bottom, BottomRight
     }
-    
+
     public abstract class YnObject : YnBase
     {
         protected bool _visible;
@@ -44,8 +44,8 @@ namespace Yna.Display
         public new bool Active
         {
             get { return !_paused && _visible && !_dirty; }
-            set 
-            { 
+            set
+            {
                 if (value)
                 {
                     _visible = true;
@@ -77,8 +77,8 @@ namespace Yna.Display
         public new bool Dirty
         {
             get { return _dirty; }
-            set 
-            { 
+            set
+            {
                 _dirty = value;
 
                 if (value)
@@ -128,8 +128,8 @@ namespace Yna.Display
         public Vector2 Position
         {
             get { return _position; }
-            set 
-            { 
+            set
+            {
                 _position = value;
 
                 _rectangle.X = (int)_position.X;
@@ -144,8 +144,8 @@ namespace Yna.Display
         public Rectangle Rectangle
         {
             get { return _rectangle; }
-            set 
-            { 
+            set
+            {
                 _rectangle = value;
 
                 _position.X = _rectangle.X;
@@ -187,28 +187,28 @@ namespace Yna.Display
         public Vector2 Scale
         {
             get { return _scale; }
-            set 
-            { 
+            set
+            {
                 _scale = value;
                 Rectangle = new Rectangle(X, Y, (int)(_scale.X * Width), (int)(_scale.Y * Height));
             }
         }
-        
+
         /// <summary>
         /// Get or Set the Alpha applied to the object. Value between 0.0f and 1.0f
         /// </summary>
         public float Alpha
         {
-        	get { return _alpha; }
-        	set 
-        	{
-        		_alpha = value;
+            get { return _alpha; }
+            set
+            {
+                _alpha = value;
 
-        		if (_alpha > 1.0)
-        			_alpha = 1.0f;
-        		else if (_alpha < 0)
-        			_alpha = 0.0f;
-        	}
+                if (_alpha > 1.0)
+                    _alpha = 1.0f;
+                else if (_alpha < 0)
+                    _alpha = 0.0f;
+            }
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace Yna.Display
         public int X
         {
             get { return (int)_position.X; }
-            set 
+            set
             {
                 _position.X = value;
                 _rectangle.X = value;
@@ -250,8 +250,8 @@ namespace Yna.Display
         public int Y
         {
             get { return (int)_position.Y; }
-            set 
-            { 
+            set
+            {
                 _position = new Vector2(X, value);
                 _rectangle.Y = value;
             }
@@ -306,6 +306,16 @@ namespace Yna.Display
         #region Events
 
         /// <summary>
+        /// Triggered when the object was killed
+        /// </summary>
+        public event EventHandler<EventArgs> Killed = null;
+
+        /// <summary>
+        /// Triggered when the object was revived
+        /// </summary>
+        public event EventHandler<EventArgs> Revived = null;
+
+        /// <summary>
         /// Triggered when the mouse is over the object
         /// </summary>
         public event EventHandler<MouseOverSpriteEventArgs> MouseOver = null;
@@ -324,6 +334,18 @@ namespace Yna.Display
         /// Triggered when click are detected over the object
         /// </summary>
         public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
+
+        private void KillSprite(EventArgs e)
+        {
+            if (Killed != null)
+                Killed(this, e);
+        }
+
+        private void ReviveSprite(EventArgs e)
+        {
+            if (Revived != null)
+                Revived(this, e);
+        }
 
         private void MouseOverSprite(MouseOverSpriteEventArgs e)
         {
@@ -354,12 +376,12 @@ namespace Yna.Display
         /// <summary>
         /// A basic graphic object
         /// </summary>
-        public YnObject() 
-            : base ()
+        public YnObject()
+            : base()
         {
             _visible = true;
             _parent = null;
-            
+
             _position = Vector2.Zero;
             _rectangle = Rectangle.Empty;
             _texture = null;
@@ -473,6 +495,8 @@ namespace Yna.Display
         {
             Active = false;
             Visible = false;
+
+            KillSprite(EventArgs.Empty);
         }
 
         /// <summary>
@@ -483,8 +507,10 @@ namespace Yna.Display
         {
             Active = true;
             Visible = true;
+
+            ReviveSprite(EventArgs.Empty);
         }
-        
+
         /// <summary>
         /// Change the origin of the object
         /// </summary>
@@ -493,16 +519,16 @@ namespace Yna.Display
         {
             switch (spriteOrigin)
             {
-                case ObjectOrigin.TopLeft:      _origin = Vector2.Zero;                       break;
-                case ObjectOrigin.Top:          _origin = new Vector2(Width / 2, 0);          break;
-                case ObjectOrigin.TopRight:     _origin = new Vector2(Width, 0);              break;
-                case ObjectOrigin.Left:         _origin = new Vector2(0, Height / 2);         break;
-                case ObjectOrigin.Center:       _origin = new Vector2(Width / 2, Height / 2); break;
-                case ObjectOrigin.Right:        _origin = new Vector2(Width, Height / 2);     break;
-                case ObjectOrigin.BottomLeft:   _origin = new Vector2(0, Height);             break;
-                case ObjectOrigin.Bottom:       _origin = new Vector2(Width / 2, Height);     break;
-                case ObjectOrigin.BottomRight:  _origin = new Vector2(Width, Height);         break;
-            } 		
+                case ObjectOrigin.TopLeft: _origin = Vector2.Zero; break;
+                case ObjectOrigin.Top: _origin = new Vector2(Width / 2, 0); break;
+                case ObjectOrigin.TopRight: _origin = new Vector2(Width, 0); break;
+                case ObjectOrigin.Left: _origin = new Vector2(0, Height / 2); break;
+                case ObjectOrigin.Center: _origin = new Vector2(Width / 2, Height / 2); break;
+                case ObjectOrigin.Right: _origin = new Vector2(Width, Height / 2); break;
+                case ObjectOrigin.BottomLeft: _origin = new Vector2(0, Height); break;
+                case ObjectOrigin.Bottom: _origin = new Vector2(Width / 2, Height); break;
+                case ObjectOrigin.BottomRight: _origin = new Vector2(Width, Height); break;
+            }
         }
     }
 }

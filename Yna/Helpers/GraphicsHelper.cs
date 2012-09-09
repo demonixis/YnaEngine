@@ -29,5 +29,13 @@ namespace Yna.Helpers
             s.Texture.GetData(textureData);
             return textureData;
         }
+
+        public static void DrawLine(SpriteBatch batch, Texture2D lineTexture, float tickness, Color color, Vector2 pointA, Vector2 pointB)
+        {
+            float angle = (float)Math.Atan2(pointB.Y - pointA.Y, pointB.X - pointA.X);
+            float length = Vector2.Distance(pointA, pointB);
+
+            batch.Draw(lineTexture, pointA, null, color, angle, Vector2.Zero, new Vector2(length, tickness), SpriteEffects.None, 0);
+        }
     }
 }
