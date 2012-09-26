@@ -52,6 +52,12 @@ namespace Yna
 			this.Window.Title = title;
 		}
 
+        protected override void Initialize()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            base.Initialize();
+        }
+
         protected override void LoadContent()
         {
             base.LoadContent();
