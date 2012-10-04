@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display3D
+namespace Yna.Display3D.Camera
 {
-	public enum CameraType
-	{
-		Fixed = 0, FirstPerson = 1, ThirdPerson = 2
-	}
+    public enum MoveType
+    {
+        Up = 0, Down, Left, Right
+    }
 	
-    public class Camera3D
+    public class FirstPersonCamera
     {
         private Game game;
         private Matrix view;
@@ -23,7 +23,6 @@ namespace Yna.Display3D
 		// Paramètrage de la caméra
 		protected float _nearClip;
 		protected float _farClip;
-		protected CameraType _cameraType;
 		
 		// Position, cible, placement
 		protected Vector3 _reference;
@@ -78,13 +77,7 @@ namespace Yna.Display3D
             get { return _position; }
             set { _position = value; }
         }
-		
-		public CameraType CameraType
-		{
-			get { return _cameraType; }
-			set { _cameraType = value; }
-		}
-		
+
 		public float AspectRatio
 		{
 			get { return game.GraphicsDevice.Viewport.Width / game.GraphicsDevice.Viewport.Height; }	
@@ -97,11 +90,9 @@ namespace Yna.Display3D
 		
 		#endregion
 
-        public Camera3D(Game game)
+        public FirstPersonCamera()
         {
-            this.game = game;
-
-			_cameraType = CameraType.FirstPerson;
+            
         }
 
         public void Initialize()
@@ -132,6 +123,16 @@ namespace Yna.Display3D
             _position.X += v.X;
             _position.Z += v.Z;
 		}
+
+        public void Translate(float x, float y, float z)
+        {
+            Vector3 move = new Vector3(x, y, z);
+            Matrix forwardMovement = Matrix.CreateRotationY(_yaw);
+            Vector3 v = Vector3.Transform(move, forwardMovement);
+            _position.X += v.X;
+            _position.Y += v.Y;
+            _position.Z += v.Z;
+        }
 		
 		public void RotateY(float angle)
 		{
@@ -141,34 +142,17 @@ namespace Yna.Display3D
 			if ((_yaw >= MathHelper.Pi * 2) || (_yaw <= -MathHelper.Pi * 2))
 				_yaw = 0.0f;
 		}
-		
-		public void UpdateFirstPerson(GameTime gameTime)
-		{
-			Matrix matRotationY = Matrix.CreateRotationY(_yaw);
-
-			Vector3 transformedReference = Vector3.Transform(_reference, matRotationY);
-			
-			_target = _position + transformedReference;
-			
-			view = Matrix.CreateLookAt (_position, _target, Vector3.Up);
-			projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
-		}
-		
-		public void UpdateFixed(GameTime gameTime)
-		{
-			
-			view = Matrix.CreateLookAt (_position, _reference, Vector3.Up);
-			
-			projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
-		}
-		
 
         public void Update(GameTime gameTime)
         {
-            if (_cameraType == CameraType.FirstPerson)
-				UpdateFirstPerson(gameTime);
-			else if (_cameraType == CameraType.Fixed)
-				UpdateFixed(gameTime);
+            Matrix matRotationY = Matrix.CreateRotationY(_yaw);
+
+            Vector3 transformedReference = Vector3.Transform(_reference, matRotationY);
+
+            _target = _position + transformedReference;
+
+            view = Matrix.CreateLookAt(_position, _target, Vector3.Up);
+            projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
         }
     }
 }
