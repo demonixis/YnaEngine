@@ -4,17 +4,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Display3D.Camera
 {
-    public class FirstPersonCamera : BaseCamera
+    public class FixedCamera : BaseCamera
     {
         #region Constructors
 
-        public FirstPersonCamera()
+        public FixedCamera()
             : base()
         {
 
         }
 
-        public FirstPersonCamera(Game game)
+        public FixedCamera(Game game)
             : base(game)
         {
 
@@ -24,13 +24,8 @@ namespace Yna.Display3D.Camera
 
         public override void Update(GameTime gameTime)
         {
-            Matrix matRotationY = Matrix.CreateRotationY(_yaw);
+            _view = Matrix.CreateLookAt(_position, _reference, Vector3.Up);
 
-            Vector3 transformedReference = Vector3.Transform(_reference, matRotationY);
-
-            _target = _position + transformedReference;
-
-            _view = Matrix.CreateLookAt(_position, _target, Vector3.Up);
             _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
         }
     }

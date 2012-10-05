@@ -11,6 +11,7 @@ namespace Yna.Display3D
         protected Vector3 _position;
         protected Vector3 _rotation;
         protected Vector3 _scale;
+
         protected Matrix _view;
 
         #region Properties for position/rotation/scale
@@ -89,9 +90,5 @@ namespace Yna.Display3D
             _rotation = Vector3.Zero;
             _scale = Vector3.One;
         }
-
-        public abstract void Initialize();
-
-        public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
     }
 }
