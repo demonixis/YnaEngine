@@ -9,6 +9,11 @@ namespace Yna.Display3D
 	{
 		Fixed = 0, FirstPerson = 1, ThirdPerson = 2
 	}
+
+    public enum MoveType
+    {
+        Up = 0, Down, Left, Right
+    }
 	
     public class Camera3D
     {
@@ -132,6 +137,17 @@ namespace Yna.Display3D
             _position.X += v.X;
             _position.Z += v.Z;
 		}
+
+        // TODO : make it some awesome =D
+        public void Translate(float x, float y, float z)
+        {
+            Vector3 move = new Vector3(x, y, z);
+            Matrix forwardMovement = Matrix.CreateRotationY(_yaw);
+            Vector3 v = Vector3.Transform(move, forwardMovement);
+            _position.X += v.X;
+            _position.Y += v.Y;
+            _position.Z += v.Z;
+        }
 		
 		public void RotateY(float angle)
 		{
