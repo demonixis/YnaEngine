@@ -212,7 +212,7 @@ namespace Yna.Display3D.Terrain
 
                 _boundingBox.Max.X = _boundingBox.Max.X > _vertices[i].Position.X ? _boundingBox.Max.X : _vertices[i].Position.X;
                 _boundingBox.Max.Y = _boundingBox.Max.X > _vertices[i].Position.Y ? _boundingBox.Max.Y : _vertices[i].Position.Y;
-                _boundingBox.Max.Z = _boundingBox.Max.X > _vertices[i].Position.Z ? _boundingBox.Max.Z : _vertices[i].Position.Z; 
+                _boundingBox.Max.Z = _boundingBox.Max.X > _vertices[i].Position.Z ? _boundingBox.Max.Z : _vertices[i].Position.Z;
             }
         }
 
@@ -222,14 +222,14 @@ namespace Yna.Display3D.Terrain
         /// <param name="device"></param>
         public virtual void Draw(GraphicsDevice device)
         {
-            _basicEffect.World = _camera.World; 
+            _basicEffect.World = _camera.World * Matrix.CreateScale(Scale) *
+                Matrix.CreateRotationX(Rotation.X) *
+                Matrix.CreateRotationY(Rotation.Y) *
+                Matrix.CreateRotationZ(Rotation.Z) *
+                Matrix.CreateTranslation(Position);
 
-            _basicEffect.View = _camera.View * 
-                Matrix.CreateTranslation(Position) *
-                Matrix.CreateScale(Scale) * 
-                Matrix.CreateRotationX(Rotation.X) * 
-                Matrix.CreateRotationY(Rotation.Y) * 
-                Matrix.CreateRotationZ(Rotation.Z);
+            _basicEffect.View = _camera.View;
+                
 
             _basicEffect.Projection = _camera.Projection;
 

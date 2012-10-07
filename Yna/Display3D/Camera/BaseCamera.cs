@@ -136,6 +136,11 @@ namespace Yna.Display3D.Camera
             _pich += MathHelper.ToRadians(angle);
         }
 
+        public void Pitch(float angle)
+        {
+            _pich += MathHelper.ToRadians(angle);
+        }
+
         /// <summary>
         /// Translate the camera on X, Y and Z axis
         /// </summary>
