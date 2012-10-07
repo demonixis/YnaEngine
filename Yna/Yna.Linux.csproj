@@ -48,9 +48,15 @@
       <HintPath>..\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Display3D\Camera3D.cs" />
-    <Compile Include="Display3D\Geometry\AbstractMesh.cs" />
+    <ItemGroup>
+    <Compile Include="Display3D\Camera\BaseCamera.cs" />
+    <Compile Include="Display3D\Camera\FixedCamera.cs" />
+    <Compile Include="Display3D\Terrain\Heightmap.cs" />
+    <Compile Include="Display3D\Terrain\Terrain.cs" />
+    <Compile Include="Display3D\Camera\FirstPersonCamera.cs" />
+    <Compile Include="Display3D\YnBase3D.cs" />
+    <Compile Include="Display3D\YnG3.cs" />
+    <Compile Include="Display3D\YnGame3D.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Effect\YnTransition.cs" />

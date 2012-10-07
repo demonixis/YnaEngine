@@ -7,7 +7,6 @@ namespace Yna.Display3D
 {
     public abstract class YnBase3D
     {
-        protected Game _game;
         protected Vector3 _position;
         protected Vector3 _rotation;
         protected Vector3 _scale;
@@ -76,12 +75,6 @@ namespace Yna.Display3D
         {
             get { return _view; }
             set { _view = value; }
-        }
-
-        public Game Game
-        {
-            get { return _game; }
-            set { _game = value; }
         }
 
         public YnBase3D()

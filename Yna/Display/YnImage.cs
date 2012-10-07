@@ -56,5 +56,10 @@ namespace Yna.Display
                     throw new Exception("[YnImage] The texture name is empty");
             }
         }
+
+        public void SetFullScreen()
+        {
+            Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+        }
     }
 }

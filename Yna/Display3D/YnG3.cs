@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Yna;
+using Yna.Display3D;
+using Yna.Display3D.Camera;
 
 namespace Yna.Display3D
 {
-    class YnG3
+    public class YnG3
     {
+        public static BaseCamera ActiveCamera { get; set; }
     }
 }

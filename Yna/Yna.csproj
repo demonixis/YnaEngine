@@ -63,11 +63,12 @@
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Terrain\Heightmap.cs" />
-    <Compile Include="Display3D\Terrain\Terrain.cs" />
+    <Compile Include="Display3D\Terrain\BaseTerrain.cs" />
     <Compile Include="Display3D\Camera\FirstPersonCamera.cs" />
+    <Compile Include="Display3D\Terrain\SimpleTerrain.cs" />
     <Compile Include="Display3D\YnBase3D.cs" />
     <Compile Include="Display3D\YnG3.cs" />
-    <Compile Include="Display3D\YnGame3D.cs" />
+    <Compile Include="Display3D\YnScene.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Effect\YnTransition.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
+    <Compile Include="YnInterfaces.cs" />
     <Compile Include="YnPoint.cs" />
     <Compile Include="YnRectangle.cs" />
     <Compile Include="YnTimer.cs" />

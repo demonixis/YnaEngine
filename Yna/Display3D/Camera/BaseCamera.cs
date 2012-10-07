@@ -11,6 +11,7 @@ namespace Yna.Display3D.Camera
 
         // Rotation sur Y et X
         protected float _yaw;
+        protected float _pich;
 
         // Paramètrage de la caméra
         protected float _nearClip;
@@ -85,13 +86,6 @@ namespace Yna.Display3D.Camera
 
         public BaseCamera()
         {
-            _game = YnG.Game;
-            SetupCamera();
-        }
-
-        public BaseCamera(Game game)
-        {
-            YnG.Game = game;
             SetupCamera();
         }
 
@@ -102,6 +96,7 @@ namespace Yna.Display3D.Camera
             _target = target;
 
             _yaw = 0.0f;
+            _pich = 0.0f;
 
             _nearClip = nearClip;
             _farClip = farClip;
@@ -128,6 +123,17 @@ namespace Yna.Display3D.Camera
 
             if ((_yaw >= MathHelper.Pi * 2) || (_yaw <= -MathHelper.Pi * 2))
                 _yaw = 0.0f;
+        }
+
+        public void PitchUp(float angle)
+        {
+            _pich -= MathHelper.ToRadians(angle);
+
+        }
+
+        public void PitchDown(float angle)
+        {
+            _pich += MathHelper.ToRadians(angle);
         }
 
         /// <summary>

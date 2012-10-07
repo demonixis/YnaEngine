@@ -14,19 +14,17 @@ namespace Yna.Display3D.Camera
 
         }
 
-        public FirstPersonCamera(Game game)
-            : base(game)
-        {
-
-        }
-
         #endregion
 
+        /// <summary>
+        /// Update the position of the camera
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            Matrix matRotationY = Matrix.CreateRotationY(_yaw);
+            Matrix matRotation = Matrix.CreateRotationX(_pich) * Matrix.CreateRotationY(_yaw);
 
-            Vector3 transformedReference = Vector3.Transform(_reference, matRotationY);
+            Vector3 transformedReference = Vector3.Transform(_reference, matRotation);
 
             _target = _position + transformedReference;
 

@@ -14,12 +14,6 @@ namespace Yna.Display3D.Camera
 
         }
 
-        public FixedCamera(Game game)
-            : base(game)
-        {
-
-        }
-
         #endregion
 
         public override void Update(GameTime gameTime)
