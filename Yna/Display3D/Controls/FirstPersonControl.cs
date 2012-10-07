@@ -73,9 +73,9 @@ namespace Yna.Display3D.Controls
             Vector2 leftStickValue = YnG.Gamepad.LeftStickValue(_playerIndex);
             Vector2 rightStickValue = YnG.Gamepad.RightStickValue(_playerIndex);
 
-            _camera.Translate(-leftStickValue.X, 0, leftStickValue.Y);
-            _camera.RotateY(-rightStickValue.X);
-            _camera.Pitch(-rightStickValue.Y);
+            _camera.Translate(-leftStickValue.X * _moveSpeed, 0, leftStickValue.Y * _moveSpeed);
+            _camera.RotateY(-rightStickValue.X * _rotateSpeed);
+            _camera.Pitch(-rightStickValue.Y * _pitchSpeed);
 
             if (YnG.Gamepad.LeftShoulder(_playerIndex))
                 _camera.Translate(0, _moveSpeed, 0);

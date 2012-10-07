@@ -52,7 +52,8 @@ namespace Yna.Samples3D.States
 
             items.Add(new MenuItem(1, "Space Ship", "Loading an FBX space ship model and play with\nit with keyboard or gamepad", true));
             items.Add(new MenuItem(2, "Nasa Station", "Loading an FBX model from the Nasa web site.\nThis sample demonstrate how to use\nthe FPS Camera."));
-            items.Add(new MenuItem(3, "Exit"));
+            items.Add(new MenuItem(3, "Heightmap", "Create a heightmap with 2 images file. The \nfirst for the geometry and the second\nfor the texture."));
+            items.Add(new MenuItem(4, "Exit"));
         }
 
         public override void Update(GameTime gameTime)
@@ -91,6 +92,7 @@ namespace Yna.Samples3D.States
                 {
                     case 0: YnG.SwitchState(new SpaceGame()); break;
                     case 1: YnG.SwitchState(new NasaSample()); break;
+                    case 2: YnG.SwitchState(new HeightmapSample()); break;
                     default: YnG.Exit(); break;
                 }
             }
