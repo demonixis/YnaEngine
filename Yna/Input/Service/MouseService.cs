@@ -20,6 +20,16 @@ namespace Yna.Input.Service
             get { return lastMouseState; }
         }
 
+        public Vector2 Delta
+        {
+            get 
+            { 
+                return new Vector2(
+                    mouseState.X - lastMouseState.X, 
+                    mouseState.Y - lastMouseState.Y); 
+            }
+        }
+
         public MouseService(Game game)
             : base(game)
         {

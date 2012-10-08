@@ -35,6 +35,16 @@ namespace Yna.Input
             get { return new Vector2(X, Y); }
         }
 
+        public Vector2 Delta
+        {
+            get
+            {
+                return new Vector2(
+                    (service as MouseService).Delta.X, 
+                    (service as MouseService).Delta.Y);
+            }
+        }
+
         public int Wheel
         {
             get { return service.Wheel(); }

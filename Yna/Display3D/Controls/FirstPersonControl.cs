@@ -85,7 +85,8 @@ namespace Yna.Display3D.Controls
 
         protected virtual void UpdateMouseInput(GameTime gameTime)
         {
-
+            _camera.RotateY(-YnG.Mouse.Delta.X * 0.5f);
+            _camera.Pitch(YnG.Mouse.Delta.Y * 0.5f);
         }
     }
 }
