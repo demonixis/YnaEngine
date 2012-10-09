@@ -17,6 +17,7 @@ namespace Yna.Display3D.Terrain
         protected BoundingBox _boundingBox;
         protected Texture2D _texture;
         protected string _textureName;
+        protected Vector2 _textureRepeat;
 
         protected VertexPositionColorTexture[] _vertices;
         protected short[] _indices;
@@ -79,6 +80,12 @@ namespace Yna.Display3D.Terrain
             }
         }
 
+        public Vector2 TextureRepeat
+        {
+            get { return _textureRepeat; }
+            set { _textureRepeat = value; }
+        }
+
         /// <summary>
         /// Bounding box for the terrain, can be refreashed with a call of CreateBoundingBox()
         /// </summary>
@@ -129,6 +136,7 @@ namespace Yna.Display3D.Terrain
             _boundingBox = new BoundingBox();
             _texture = null;
             _textureName = String.Empty;
+            _textureRepeat = Vector2.One;
 
             _lightningEnabled = false;
             _colorEnabled = true;

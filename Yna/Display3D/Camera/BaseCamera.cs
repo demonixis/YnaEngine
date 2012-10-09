@@ -141,13 +141,7 @@ namespace Yna.Display3D.Camera
             _pich += MathHelper.ToRadians(angle);
         }
 
-        /// <summary>
-        /// Translate the camera on X, Y and Z axis
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        public void Translate(float x, float y, float z)
+        public override void Translate(float x, float y, float z)
         {
             Vector3 move = new Vector3(x, y, z);
             Matrix forwardMovement = Matrix.CreateRotationY(_yaw);

@@ -5,113 +5,18 @@ using Yna.Display3D.Camera;
 
 namespace Yna.Display3D.Controls
 {
-    public class FirstPersonControl
+    public class FirstPersonControl : BaseControl
     {
-        private FirstPersonCamera _camera;
-
-        private PlayerIndex _playerIndex;
-
-        private float _moveSpeed;
-        private float _strafeSpeed;
-        private float _pitchSpeed;
-        private float _rotateSpeed;
-
-        private bool _useKeyboard;
-        private bool _useGamepad;
-        private bool _useMouse;
-
-        #region Properties
-
-        /// <summary>
-        /// Get or Set the move speed
-        /// </summary>
-        public float MoveSpeed
-        {
-            get { return _moveSpeed; }
-            set
-            {
-                if (value >= 0)
-                    _moveSpeed = value;
-            }
-        }
-
-        /// <summary>
-        /// Get or Set the strafe speed
-        /// </summary>
-        public float StrafeSpeed
-        {
-            get { return _strafeSpeed; }
-            set
-            {
-                if (value >= 0)
-                    _strafeSpeed = value;
-            }
-        }
-
-        /// <summary>
-        /// Get or Set the pitch speed
-        /// </summary>
-        public float PitchSpeed
-        {
-            get { return _pitchSpeed; }
-            set
-            {
-                if (value >= 0)
-                    _pitchSpeed = value;
-            }
-        }
-
-        /// <summary>
-        /// Get or Set the rotate speed
-        /// </summary>
-        public float RotateSpeed
-        {
-            get { return _rotateSpeed; }
-            set
-            {
-                if (value >= 0)
-                    _rotateSpeed = value;
-            }
-        }
-
-        public bool UseKeyboard
-        {
-            get { return _useKeyboard; }
-            set { _useKeyboard = value; }
-        }
-
-        public bool UseGamepad
-        {
-            get { return _useGamepad; }
-            set { _useGamepad = value; }
-        }
-
-        public bool UseMouse
-        {
-            get { return _useMouse; }
-            set { _useMouse = value; }
-        }
-
-        #endregion
-
         public FirstPersonControl(FirstPersonCamera camera)
+            : base(camera)
         {
-            _camera = camera;
-            _moveSpeed = 0.3f;
-            _strafeSpeed = 0.2f;
-            _pitchSpeed = 0.2f;
-            _rotateSpeed = 0.3f;
-            _playerIndex = PlayerIndex.One;
 
-            _useKeyboard = true;
-            _useGamepad = true;
-            _useMouse = false;
         }
 
         public FirstPersonControl(FirstPersonCamera camera, PlayerIndex index)
-            : this(camera)
+            : base(camera, index)
         {
-            _playerIndex = index;
+            
         }
 
         public void Update(GameTime gameTime)

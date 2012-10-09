@@ -37,7 +37,9 @@ namespace Yna.Display3D.Terrain
                 for (int y = 0; y < Depth; y++)
                 {
                     _vertices[x + y * Width].Position = new Vector3(x, 0, y);
-                    _vertices[x + y * Width].TextureCoordinate = new Vector2((float)x / (float)Width, (float)y / (float)Depth);
+                    _vertices[x + y * Width].TextureCoordinate = new Vector2(
+                        ((float)x / (float)Width) * _textureRepeat.X, 
+                        ((float)y / (float)Depth) * _textureRepeat.Y);
                     _vertices[x + y * Width].Color = new Color(0, 147, 14);
                 }
             }

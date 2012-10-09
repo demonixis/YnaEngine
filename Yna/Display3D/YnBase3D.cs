@@ -83,5 +83,21 @@ namespace Yna.Display3D
             _rotation = Vector3.Zero;
             _scale = Vector3.One;
         }
+
+        /// <summary>
+        /// Translate on X, Y and Z axis
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        public virtual void Translate(float x, float y, float z)
+        {
+            Vector3 move = new Vector3(x, y, z);
+            Matrix forwardMovement = Matrix.CreateRotationY(_rotation.Y);
+            Vector3 v = Vector3.Transform(move, forwardMovement);
+            _position.X += v.X;
+            _position.Y += v.Y;
+            _position.Z += v.Z;
+        }
     }
 }
