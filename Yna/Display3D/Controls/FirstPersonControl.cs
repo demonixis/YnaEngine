@@ -12,25 +12,118 @@ namespace Yna.Display3D.Controls
         private PlayerIndex _playerIndex;
 
         private float _moveSpeed;
-        private float _strafSpeed;
+        private float _strafeSpeed;
         private float _pitchSpeed;
         private float _rotateSpeed;
+
+        private bool _useKeyboard;
+        private bool _useGamepad;
+        private bool _useMouse;
+
+        #region Properties
+
+        /// <summary>
+        /// Get or Set the move speed
+        /// </summary>
+        public float MoveSpeed
+        {
+            get { return _moveSpeed; }
+            set
+            {
+                if (value >= 0)
+                    _moveSpeed = value;
+            }
+        }
+
+        /// <summary>
+        /// Get or Set the strafe speed
+        /// </summary>
+        public float StrafeSpeed
+        {
+            get { return _strafeSpeed; }
+            set
+            {
+                if (value >= 0)
+                    _strafeSpeed = value;
+            }
+        }
+
+        /// <summary>
+        /// Get or Set the pitch speed
+        /// </summary>
+        public float PitchSpeed
+        {
+            get { return _pitchSpeed; }
+            set
+            {
+                if (value >= 0)
+                    _pitchSpeed = value;
+            }
+        }
+
+        /// <summary>
+        /// Get or Set the rotate speed
+        /// </summary>
+        public float RotateSpeed
+        {
+            get { return _rotateSpeed; }
+            set
+            {
+                if (value >= 0)
+                    _rotateSpeed = value;
+            }
+        }
+
+        public bool UseKeyboard
+        {
+            get { return _useKeyboard; }
+            set { _useKeyboard = value; }
+        }
+
+        public bool UseGamepad
+        {
+            get { return _useGamepad; }
+            set { _useGamepad = value; }
+        }
+
+        public bool UseMouse
+        {
+            get { return _useMouse; }
+            set { _useMouse = value; }
+        }
+
+        #endregion
 
         public FirstPersonControl(FirstPersonCamera camera)
         {
             _camera = camera;
             _moveSpeed = 0.3f;
-            _strafSpeed = 0.2f;
+            _strafeSpeed = 0.2f;
             _pitchSpeed = 0.2f;
             _rotateSpeed = 0.3f;
             _playerIndex = PlayerIndex.One;
+
+            _useKeyboard = true;
+            _useGamepad = true;
+            _useMouse = false;
+        }
+
+        public FirstPersonControl(FirstPersonCamera camera, PlayerIndex index)
+            : this(camera)
+        {
+            _playerIndex = index;
         }
 
         public void Update(GameTime gameTime)
         {
-            UpdateKeyboardInput(gameTime);
-            UpdateMouseInput(gameTime);
-            UpdateGamepadInput(gameTime);
+            if (_useKeyboard)
+                UpdateKeyboardInput(gameTime);
+
+            if (_useMouse)
+                UpdateMouseInput(gameTime);
+
+            if (_useGamepad)
+                UpdateGamepadInput(gameTime);
 
             _camera.Update(gameTime);
         }
@@ -57,9 +150,9 @@ namespace Yna.Display3D.Controls
 
             // Translation Left/Right
             if (YnG.Keys.Pressed(Keys.Q))
-                _camera.Translate(_strafSpeed, 0, 0);
+                _camera.Translate(_strafeSpeed, 0, 0);
             else if (YnG.Keys.Pressed(Keys.D))
-                _camera.Translate(-_strafSpeed, 0, 0);
+                _camera.Translate(-_strafeSpeed, 0, 0);
 
             // Rotation Left/Right
             if (YnG.Keys.Left)
