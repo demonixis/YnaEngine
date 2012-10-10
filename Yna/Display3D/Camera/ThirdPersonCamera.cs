@@ -75,7 +75,7 @@ namespace Yna.Display3D.Camera
 
         public override void Update(GameTime gameTime)
         {
-            Matrix matRotation = Matrix.CreateRotationY(_followedObject.Rotation.Y) * Matrix.CreateRotationY(_yaw);
+            Matrix matRotation = Matrix.CreateRotationY(_yaw) * Matrix.CreateRotationY(_followedObject.Rotation.Y);
 
             Vector3 transformedReference = Vector3.Transform(_reference, matRotation);
 

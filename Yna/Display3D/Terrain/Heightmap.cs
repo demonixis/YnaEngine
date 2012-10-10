@@ -27,7 +27,7 @@ namespace Yna.Display3D.Terrain
             _colorEnabled = false;
         }
 
-        public void LoadContent()
+        public override void LoadContent()
         {
             base.LoadContent();
             _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);

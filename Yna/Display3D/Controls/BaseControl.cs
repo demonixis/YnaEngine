@@ -129,10 +129,22 @@ namespace Yna.Display3D.Controls
             _camera.Update(gameTime);
         }
 
+        /// <summary>
+        /// Update keyboard input
+        /// </summary>
+        /// <param name="gameTime">GameTime</param>
         protected abstract void UpdateKeyboardInput(GameTime gameTime);
 
+        /// <summary>
+        /// Update Gamepad input
+        /// </summary>
+        /// <param name="gameTime">GameTime</param>
         protected abstract void UpdateGamepadInput(GameTime gameTime);
 
+        /// <summary>
+        /// Update mouse input
+        /// </summary>
+        /// <param name="gameTime">GameTime</param>
         protected abstract void UpdateMouseInput(GameTime gameTime);
     }
 }

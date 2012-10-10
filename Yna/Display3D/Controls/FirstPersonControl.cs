@@ -49,9 +49,9 @@ namespace Yna.Display3D.Controls
 
             // Look Up/Down
             if (YnG.Keys.Pressed(Keys.PageUp))
-                _camera.PitchUp(_pitchSpeed);
+                _camera.Pitch(_pitchSpeed);
             else if (YnG.Keys.Pressed(Keys.PageDown))
-                _camera.PitchDown(_pitchSpeed);
+                _camera.Pitch(-_pitchSpeed);
 
             // Translation Left/Right
             if (YnG.Keys.Pressed(Keys.Q))

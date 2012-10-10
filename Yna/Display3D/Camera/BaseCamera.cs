@@ -19,7 +19,6 @@ namespace Yna.Display3D.Camera
 
         // Position, cible, placement
         protected Vector3 _reference;
-        protected Vector3 _position;
         protected Vector3 _target;
 
 
@@ -89,6 +88,13 @@ namespace Yna.Display3D.Camera
             SetupCamera();
         }
 
+        /// <summary>
+        /// Initialize camera
+        /// </summary>
+        /// <param name="position">World position</param>
+        /// <param name="target">Targeted position</param>
+        /// <param name="nearClip">Near vision</param>
+        /// <param name="farClip">Far vision</param>
         public virtual void SetupCamera(Vector3 position, Vector3 target, float nearClip, float farClip)
         {
             _position = position;
@@ -108,6 +114,9 @@ namespace Yna.Display3D.Camera
             _world = Matrix.Identity;
         }
 
+        /// <summary>
+        /// Initialize camera with default parameters
+        /// </summary>
         public virtual void SetupCamera()
         {
             SetupCamera(new Vector3(0.0f, 0.0f, 5.0f), Vector3.Zero, 1.0f, 3500.0f);
@@ -125,27 +134,23 @@ namespace Yna.Display3D.Camera
                 _yaw = 0.0f;
         }
 
-        public void PitchUp(float angle)
-        {
-            _pich -= MathHelper.ToRadians(angle);
-
-        }
-
-        public void PitchDown(float angle)
-        {
-            _pich += MathHelper.ToRadians(angle);
-        }
-
         public void Pitch(float angle)
         {
             _pich += MathHelper.ToRadians(angle);
         }
 
+        /// <summary>
+        /// Translate the camera
+        /// </summary>
+        /// <param name="x">X value</param>
+        /// <param name="y">Y value</param>
+        /// <param name="z">Z value</param>
         public override void Translate(float x, float y, float z)
         {
             Vector3 move = new Vector3(x, y, z);
             Matrix forwardMovement = Matrix.CreateRotationY(_yaw);
             Vector3 v = Vector3.Transform(move, forwardMovement);
+            
             _position.X += v.X;
             _position.Y += v.Y;
             _position.Z += v.Z;

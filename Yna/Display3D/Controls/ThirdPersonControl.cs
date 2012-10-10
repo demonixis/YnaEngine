@@ -37,15 +37,15 @@ namespace Yna.Display3D.Controls
 
             // Translation Forward/backward
             if (YnG.Keys.Pressed(Keys.Z) || YnG.Keys.Up)
-                _followedObject.Translate(0, 0, _moveSpeed);
-            else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
                 _followedObject.Translate(0, 0, -_moveSpeed);
+            else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
+                _followedObject.Translate(0, 0, _moveSpeed);
 
             // Translation Left/Right
             if (YnG.Keys.Pressed(Keys.Q))
-                _followedObject.Translate(_strafeSpeed, 0, 0);
-            else if (YnG.Keys.Pressed(Keys.D))
                 _followedObject.Translate(-_strafeSpeed, 0, 0);
+            else if (YnG.Keys.Pressed(Keys.D))
+                _followedObject.Translate(_strafeSpeed, 0, 0);
 
             // Rotation Left/Right
             if (YnG.Keys.Left)
@@ -54,9 +54,9 @@ namespace Yna.Display3D.Controls
                 _followedObject.RotateY(-_rotateSpeed);
 
             if (YnG.Keys.Pressed(Keys.W))
-                _camera.RotateY(3);
+                _camera.RotateY(-_rotateSpeed);
             else if (YnG.Keys.Pressed(Keys.X))
-                _camera.RotateY(-3);
+                _camera.RotateY(_rotateSpeed);
         }
 
         protected override void UpdateGamepadInput(GameTime gameTime)

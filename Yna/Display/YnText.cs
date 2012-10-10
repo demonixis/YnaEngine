@@ -9,7 +9,6 @@ namespace Yna.Display
         protected SpriteFont _font;
         protected string _text;
         protected SpriteEffects _effect;
-        protected float _layerDepth;
 		
 		public SpriteFont Font
 		{
