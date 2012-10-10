@@ -65,6 +65,7 @@
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
     <Compile Include="Display3D\Controls\BaseControl.cs" />
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
+    <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Model3D.cs" />
     <Compile Include="Display3D\Terrain\Heightmap.cs" />

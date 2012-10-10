@@ -89,7 +89,7 @@ namespace Yna.Display3D.Camera
             SetupCamera();
         }
 
-        public void SetupCamera(Vector3 position, Vector3 target, float nearClip, float farClip)
+        public virtual void SetupCamera(Vector3 position, Vector3 target, float nearClip, float farClip)
         {
             _position = position;
             _reference = new Vector3(0.0f, 0.0f, 10.0f); // fix that
@@ -108,7 +108,7 @@ namespace Yna.Display3D.Camera
             _world = Matrix.Identity;
         }
 
-        public void SetupCamera()
+        public virtual void SetupCamera()
         {
             SetupCamera(new Vector3(0.0f, 0.0f, 5.0f), Vector3.Zero, 1.0f, 3500.0f);
         }
@@ -117,7 +117,7 @@ namespace Yna.Display3D.Camera
         /// Rotate the camera around Y axis
         /// </summary>
         /// <param name="angle">An angle in degree</param>
-        public void RotateY(float angle)
+        public override void RotateY(float angle)
         {
             _yaw += MathHelper.ToRadians(angle);
 

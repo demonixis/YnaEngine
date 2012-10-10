@@ -99,5 +99,13 @@ namespace Yna.Display3D
             _position.Y += v.Y;
             _position.Z += v.Z;
         }
+
+        public virtual void RotateY(float angle)
+        {
+            _rotation.Y += MathHelper.ToRadians(angle);
+
+            if ((_rotation.Y >= MathHelper.Pi * 2) || (_rotation.Y <= -MathHelper.Pi * 2))
+                _rotation.Y = 0.0f;
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace Yna.Display3D.Controls
             
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (_useKeyboard)
                 UpdateKeyboardInput(gameTime);
@@ -33,7 +33,7 @@ namespace Yna.Display3D.Controls
             _camera.Update(gameTime);
         }
 
-        protected virtual void UpdateKeyboardInput(GameTime gameTime)
+        protected override void UpdateKeyboardInput(GameTime gameTime)
         {
             // Translation Up/Down
             if (YnG.Keys.Pressed(Keys.A))
@@ -66,7 +66,7 @@ namespace Yna.Display3D.Controls
                 _camera.RotateY(-_rotateSpeed);
         }
 
-        protected virtual void UpdateGamepadInput(GameTime gameTime)
+        protected override void UpdateGamepadInput(GameTime gameTime)
         {
             Vector2 leftStickValue = YnG.Gamepad.LeftStickValue(_playerIndex);
             Vector2 rightStickValue = YnG.Gamepad.RightStickValue(_playerIndex);
@@ -81,7 +81,7 @@ namespace Yna.Display3D.Controls
                 _camera.Translate(0, -_moveSpeed, 0);
         }
 
-        protected virtual void UpdateMouseInput(GameTime gameTime)
+        protected override void UpdateMouseInput(GameTime gameTime)
         {
             _camera.RotateY(-YnG.Mouse.Delta.X * 0.5f);
             _camera.Pitch(YnG.Mouse.Delta.Y * 0.5f);
