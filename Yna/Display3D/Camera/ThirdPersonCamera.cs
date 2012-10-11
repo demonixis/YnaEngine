@@ -36,7 +36,7 @@ namespace Yna.Display3D.Camera
 
         public ThirdPersonCamera()
         {
-            _reference = new Vector3(0, 25, -25);
+            _reference = new Vector3(0, 25, 25);
 
             SetupCamera();
         }

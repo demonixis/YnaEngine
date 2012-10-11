@@ -13,6 +13,28 @@ namespace Yna.Display3D
         private Texture2D _texture;
         private BasicEffect _basicEffect;
 
+        private float _width;
+        private float _height;
+        private float _depth;
+
+        public float Width
+        {
+            get { return _width; }
+            set { _width = value; }
+        }
+
+        public float Height
+        {
+            get { return _height; }
+            set { _height = value; }
+        }
+
+        public float Depth
+        {
+            get { return _depth; }
+            set { _depth = value; }
+        }
+
         public BaseCamera Camera
         {
             get { return _camera; }
@@ -24,12 +46,22 @@ namespace Yna.Display3D
         {
             _position = position;
             _modelName = modelName;
+
+            _width = 0;
+            _height = 0;
+            _depth = 0;
         }
 
         public void LoadContent()
         {
             _basicEffect = new BasicEffect(YnG.GraphicsDevice);
             _model = YnG.Content.Load<Model>(_modelName);
+
+            BoundingBox boundingBox = GetBoundingBox();
+
+            _width = boundingBox.Max.X - boundingBox.Min.X;
+            _height = boundingBox.Max.Y - boundingBox.Min.Y;
+            _depth = boundingBox.Max.Z - boundingBox.Min.Z;
         }
 
         public void SetupShader()
@@ -39,12 +71,32 @@ namespace Yna.Display3D
 
         public void Update(GameTime gameTime)
         {
-            
+
+        }
+
+        public virtual BoundingBox GetBoundingBox()
+        {
+            BoundingBox boundingBox = new BoundingBox();
+
+            foreach (ModelMesh mesh in _model.Meshes)
+            {
+                float radius = mesh.BoundingSphere.Radius;
+
+                boundingBox.Min.X = boundingBox.Min.X < Position.X ? boundingBox.Min.X : Position.X;
+                boundingBox.Min.Y = boundingBox.Min.Y < Position.Y ? boundingBox.Min.Y : Position.Y;
+                boundingBox.Min.Z = boundingBox.Min.Z < Position.Z ? boundingBox.Min.Z : Position.Z;
+
+                boundingBox.Max.X = boundingBox.Max.X > Position.X + radius ? boundingBox.Max.X : Position.X + radius;
+                boundingBox.Max.Y = boundingBox.Max.X > Position.Y + radius ? boundingBox.Max.Y : Position.Y + radius;
+                boundingBox.Max.Z = boundingBox.Max.X > Position.Z + radius ? boundingBox.Max.Z : Position.Z + radius;
+            }
+
+            return boundingBox;
         }
 
         public void Draw(GraphicsDevice device)
         {
-            Matrix [] transforms = new Matrix[_model.Bones.Count];
+            Matrix[] transforms = new Matrix[_model.Bones.Count];
             _model.CopyAbsoluteBoneTransformsTo(transforms);
 
             foreach (ModelMesh mesh in _model.Meshes)
@@ -53,14 +105,14 @@ namespace Yna.Display3D
                 {
                     effect.EnableDefaultLighting();
 
-                    effect.World = 
+                    effect.World =
                          transforms[mesh.ParentBone.Index] *
                         _camera.World * Matrix.CreateScale(Scale) *
                         Matrix.CreateRotationX(Rotation.X) *
                         Matrix.CreateRotationY(Rotation.Y) *
                         Matrix.CreateRotationZ(Rotation.Z) *
                         Matrix.CreateTranslation(Position);
-                       
+
 
                     effect.View = _camera.View;
                     effect.Projection = _camera.Projection;

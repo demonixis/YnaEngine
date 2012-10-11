@@ -37,15 +37,15 @@ namespace Yna.Display3D.Controls
 
             // Translation Forward/backward
             if (YnG.Keys.Pressed(Keys.Z) || YnG.Keys.Up)
-                _followedObject.Translate(0, 0, -_moveSpeed);
-            else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
                 _followedObject.Translate(0, 0, _moveSpeed);
+            else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
+                _followedObject.Translate(0, 0, -_moveSpeed);
 
             // Translation Left/Right
             if (YnG.Keys.Pressed(Keys.Q))
-                _followedObject.Translate(-_strafeSpeed, 0, 0);
-            else if (YnG.Keys.Pressed(Keys.D))
                 _followedObject.Translate(_strafeSpeed, 0, 0);
+            else if (YnG.Keys.Pressed(Keys.D))
+                _followedObject.Translate(-_strafeSpeed, 0, 0);
 
             // Rotation Left/Right
             if (YnG.Keys.Left)
@@ -53,10 +53,29 @@ namespace Yna.Display3D.Controls
             else if (YnG.Keys.Right)
                 _followedObject.RotateY(-_rotateSpeed);
 
+            // Rotate the camera arround the followed object
             if (YnG.Keys.Pressed(Keys.W))
                 _camera.RotateY(-_rotateSpeed);
             else if (YnG.Keys.Pressed(Keys.X))
                 _camera.RotateY(_rotateSpeed);
+
+            // Add or reduce the distance between camera and object
+            if (YnG.Keys.Pressed(Keys.PageUp) || YnG.Keys.Pressed(Keys.PageDown))
+            {
+                ThirdPersonCamera camera = (_camera as ThirdPersonCamera);
+
+                if (YnG.Keys.Pressed(Keys.PageUp))
+                {
+                    camera.Distance += 0.5f;
+                    camera.Angle -= 0.5f;
+                    
+                }
+                else
+                {
+                    camera.Distance -= 0.5f;
+                    camera.Angle += 0.5f;
+                }
+            }
         }
 
         protected override void UpdateGamepadInput(GameTime gameTime)

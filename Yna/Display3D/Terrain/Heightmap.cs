@@ -82,5 +82,26 @@ namespace Yna.Display3D.Terrain
                 }
             }
         }
+
+        public float GetTerrainHeight(float positionX, float positionZ)
+        {
+            float terrainHeigth = 0.0f;
+
+            int x = (int)positionX;
+            int z = (int)positionZ;
+
+            if (x < 0 || x > _width - 1 || z < 0 || z > _depth - 1)
+                terrainHeigth = 0.0f;
+            else
+            {
+                float triangleY0 = _heightData[x, z];
+                float triangleY1 = _heightData[x + 1, z];
+                float triangleY2 = _heightData[x, z + 1];
+                float triangleY3 = _heightData[x + 1, z + 1];
+
+                //
+            }
+            return terrainHeigth;
+        }
     }
 }
