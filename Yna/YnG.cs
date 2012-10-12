@@ -123,6 +123,9 @@ namespace Yna
             set { GraphicsDeviceManager.PreferredBackBufferHeight = value; }
         }
 
+		/// <summary>
+		/// Show of hide the mouse pointer
+		/// </summary>
         public static bool ShowMouse
         {
             get { return Game.IsMouseVisible; }

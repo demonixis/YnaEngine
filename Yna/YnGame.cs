@@ -11,8 +11,11 @@ using Yna.Display;
 
 namespace Yna
 {
+	/// <summary>
+	/// Global Game container
+	/// </summary>
 	public class YnGame : Game
-	{
+	{		
 		protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
         protected ScreenManager stateManager;
