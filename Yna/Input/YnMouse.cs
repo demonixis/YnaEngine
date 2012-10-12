@@ -11,6 +11,9 @@ namespace Yna.Input
         Left, Middle, Right
     }
 
+    /// <summary>
+    /// The mouse manager
+    /// </summary>
     public class YnMouse
     {
         private IMouseService service;
@@ -20,16 +23,25 @@ namespace Yna.Input
             service = ServiceHelper.Get<IMouseService>();
         }
 
+        /// <summary>
+        /// Get the X coordinate of the mouse on the screen
+        /// </summary>
         public int X 
         { 
             get { return service.X(); } 
         }
 
+        /// <summary>
+        /// Get the Y coordinate of the mouse on the screen
+        /// </summary>
         public int Y
         {
             get { return service.Y(); }
         }
 
+        /// <summary>
+        /// Get the mouse position on screen
+        /// </summary>
         public Vector2 Position
         {
             get { return new Vector2(X, Y); }

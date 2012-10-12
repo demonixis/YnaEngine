@@ -24,13 +24,6 @@ namespace Yna.Display
     	/// </summary>
     	protected SpriteEffects TextEffects { get; set;}
 
-    	// TODO get rid of this
-        public float LayerDepth
-        {
-            get { return _layerDepth; }
-            set { _layerDepth = value; }
-        }
-
         /// <summary>
         /// The text width according to it's font
         /// </summary>

@@ -85,7 +85,7 @@ namespace Yna.State
 
                 for (int i = 0; i < nbSafeScreen; i++)
                 {
-                    if (_safeScreens[i].Active)
+                    if (_safeScreens[i].IsActive)
                         _safeScreens[i].Update(gameTime);
                 }
             }
@@ -103,7 +103,7 @@ namespace Yna.State
             {
                 for (int i = 0; i < nbScreens; i++)
                 {
-                    if (_safeScreens[i].Visible)
+                    if (_safeScreens[i].IsVisible)
                         _safeScreens[i].Draw(gameTime);
                 }
             }

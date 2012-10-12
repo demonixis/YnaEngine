@@ -65,12 +65,6 @@ namespace Yna.Display3D.Camera
             set { _target = value; }
         }
 
-        public Vector3 Position
-        {
-            get { return _position; }
-            set { _position = value; }
-        }
-
         public float AspectRatio
         {
             get { return YnG.Width / YnG.Height; }

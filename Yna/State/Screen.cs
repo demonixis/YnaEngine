@@ -21,69 +21,69 @@ namespace Yna.State
         GameState, Popup
     }
 
+    /// <summary>
+    /// Abstract Game state (also named Sreen)
+    /// </summary>
     public abstract class Screen
     {
-        private bool _active;
-        private bool _exiting;
-        private bool _visible;
-        private bool _isPopup;
-
-        private ScreenState _screenState;
-        private float _timeTransitionOn;
-        private float _timeTransitionOff;
-        private float _timeTransitionCounter;
-        private float _transitionAlpha;
+    	/// <summary>
+    	/// The screen activity : inactive screens will not be updated
+    	/// </summary>
+    	public bool IsActive { get; set; }
+    	
+    	/// <summary>
+    	/// The exit in progress flag
+    	/// </summary>
+    	public bool IsExiting { get; set; }
+    	
+    	/// <summary>
+    	/// The screen visibility
+    	/// </summary>
+    	public bool IsVisible { get; set; }
+    	
+    	/// <summary>
+    	/// The screen type (popup or gamestate)
+    	/// </summary>
+    	public bool IsPopup { get; set; }
+    	
+    	/// <summary>
+        /// The current Screen state
+        /// </summary>
+    	private ScreenState ScreenState { get ; set;}
+    	
+    	/// <summary>
+    	/// The current "On" transition time
+    	/// </summary>
+    	public float TransitionOn { get; set; }
+    	
+    	private float _timeTransitionOff;
+    	/// <summary>
+    	/// The current "Off" transition time
+    	/// </summary>
+    	public float TransitionOff {
+    		get
+    		{
+    			if(_timeTransitionOff <= 0)
+    			{
+    				_timeTransitionOff = 1;
+    			}
+    			return _timeTransitionOff;
+    		}
+    		set{_timeTransitionOff = value;}
+    	}
+        
+    	/// <summary>
+    	/// The transition counter
+    	/// </summary>
+    	private float TimeTransitionCounter { get; set; }
+    	
+    	/// <summary>
+    	/// The current transition Alpha value 
+    	/// </summary>
+        private float TransitionAlpha { get; set; }
 
         protected SpriteBatch spriteBatch;
         protected ScreenManager screenManager;
-
-        public bool Active
-        {
-            get { return _active; }
-            set { _active = value; }
-        }
-
-        public bool Exiting
-        {
-            get { return _exiting; }
-            set { _exiting = value; }
-        }
-
-        public bool Visible
-        {
-            get { return _visible; }
-            set { _visible = value; }
-        }
-
-        public bool IsPopup
-        {
-            get { return _isPopup; }
-            set { _isPopup = value; }
-        }
-
-        public float TransitionOn
-        {
-            get { return _timeTransitionOn; }
-            set { _timeTransitionOn = value; }
-        }
-
-        public float TransitionOff
-        {
-            get
-            {
-                if (_timeTransitionOff <= 0)
-                    _timeTransitionOff = 1;
-                return _timeTransitionOff;
-            }
-            set { _timeTransitionOff = value; }
-        }
-
-        public float TransitionAlpha
-        {
-            get { return _transitionAlpha; }
-            set { _transitionAlpha = value; }
-        }
-
         /// <summary>
         /// Get or Set the Screen Manager
         /// </summary>
@@ -98,15 +98,6 @@ namespace Yna.State
         }
 
         /// <summary>
-        /// Get or Set the screen state
-        /// </summary>
-        public ScreenState ScreenState
-        {
-            get { return _screenState; }
-            set { _screenState = value; }
-        }
-
-        /// <summary>
         /// Get or Set the clear color
         /// </summary>
         public Color ClearColor
@@ -115,23 +106,29 @@ namespace Yna.State
             set { screenManager.ClearColor = value; }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="type">The screen type</param>
+        /// <param name="timeTransitionOn">Fade in time on screen switch</param>
+        /// <param name="timeTransitionOff">Fade out time on screen switch</param>
         public Screen(ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0f)
         {
-            _active = true;
-            _exiting = false;
-            _visible = true;
-            _isPopup = (type == ScreenType.Popup) ? true : false;
-            _screenState = ScreenState.TransitionOn;
+            IsActive = true;
+            IsExiting = false;
+            IsVisible = true;
+            IsPopup = (type == ScreenType.Popup) ? true : false;
+            ScreenState = ScreenState.TransitionOn;
 
-            _timeTransitionOn = timeTransitionOn;
-            _timeTransitionOff = timeTransitionOff;
-            _timeTransitionCounter = _timeTransitionOn;
-            _transitionAlpha = 1.0f;
+            TransitionOn = timeTransitionOn;
+            TransitionOff = timeTransitionOff;
+            TimeTransitionCounter = TransitionOn;
+            TransitionAlpha = 1.0f;
         }
 
         public virtual void Initialize()
         {
-
+			// Nothing here
         }
 
         public virtual void LoadContent()
@@ -144,50 +141,69 @@ namespace Yna.State
 
         }
 
+        /// <summary>
+        /// Performs the transitions
+        /// </summary>
+        /// <param name="gameTime">Time since last update</param>
         public virtual void Update(GameTime gameTime)
         {
-            if (_screenState == ScreenState.TransitionOn)
+        	// Handle transitions
+            if (ScreenState == ScreenState.TransitionOn)
             {
-                if (_timeTransitionCounter <= 0)
-                    _screenState = ScreenState.Active;
+            	// The screen is fading in
+                if (TimeTransitionCounter <= 0)
+                {
+                	// The fade in is done, the screen is ready, set it as active
+                    ScreenState = ScreenState.Active;
+                }
                 else
-                    UpdateTransition(gameTime, _timeTransitionOn, 1);
+                {
+                	// The transition is in progress, step it
+                    UpdateTransition(gameTime, TransitionOn, 1);
+                }
 
             }
-            else if (_screenState == ScreenState.TransitionOff)
+            else if (ScreenState == ScreenState.TransitionOff)
             {
-                if (_timeTransitionCounter <= 0)
+            	// The screen is fading out
+                if (TimeTransitionCounter <= 0)
+                {
+                	// the fade out is done, remove the screen from the manager
                     screenManager.Remove(this);
+                }
                 else
+                {
+                	// The transition is in progress, go for the next step
                     UpdateTransition(gameTime, _timeTransitionOff, 1);
+                }
             }
         }
 
         /// <summary>
         /// Update Transition effect
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Time since last update</param>
         /// <param name="timer">Fade timer</param>
         /// <param name="direction">FadeIn or FadeOut</param>
         /// <returns></returns>
         private bool UpdateTransition(GameTime gameTime, float timer, int direction)
         {
-            _timeTransitionCounter -= gameTime.ElapsedGameTime.Milliseconds * direction;
-            _transitionAlpha = _timeTransitionCounter / timer;
-            _transitionAlpha = MathHelper.Clamp(_transitionAlpha, 0, 1);
-            return _transitionAlpha >= 1 || _transitionAlpha <= 0;
+            TimeTransitionCounter -= gameTime.ElapsedGameTime.Milliseconds * direction;
+            TransitionAlpha = TimeTransitionCounter / timer;
+            TransitionAlpha = MathHelper.Clamp(TransitionAlpha, 0, 1);
+            return TransitionAlpha >= 1 || TransitionAlpha <= 0;
         }
 
         /// <summary>
-        /// Draw the fade effect
+        /// Draw the fade effects
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Time since last draw</param>
         public virtual void Draw(GameTime gameTime)
         {
-            if (_screenState == ScreenState.TransitionOn)          
+        	if (ScreenState == ScreenState.TransitionOn)
                 screenManager.FadeBackBufferToBlack(TransitionAlpha);
             
-            else if (_screenState == ScreenState.TransitionOff)
+            else if (ScreenState == ScreenState.TransitionOff)
                 screenManager.FadeBackBufferToBlack(TransitionAlpha);  
         }
 
@@ -196,16 +212,16 @@ namespace Yna.State
         /// </summary>
         public void Exit()
         {
-            if (_timeTransitionOff <= 0)
+            if (TransitionOff <= 0)
             {
                 UnloadContent();
                 screenManager.Remove(this);
             }
             else
             {
-                _timeTransitionCounter = _timeTransitionOff;
-                _screenState = ScreenState.TransitionOff;
-                _exiting = true;
+                TimeTransitionCounter = TransitionOff;
+                ScreenState = ScreenState.TransitionOff;
+                IsExiting = true;
             }
         }
     }
