@@ -17,35 +17,37 @@ namespace Yna.Display3D
         private float _height;
         private float _depth;
 
+        /// <summary>
+        /// Get the width of the model
+        /// </summary>
         public float Width
         {
             get { return _width; }
-            set { _width = value; }
         }
 
+        /// <summary>
+        /// Get the height of the model
+        /// </summary>
         public float Height
         {
             get { return _height; }
-            set { _height = value; }
         }
 
+        /// <summary>
+        /// Get the depth of the model
+        /// </summary>
         public float Depth
         {
             get { return _depth; }
-            set { _depth = value; }
         }
 
+        /// <summary>
+        /// Get or Set the camera used for this model
+        /// </summary>
         public BaseCamera Camera
         {
             get { return _camera; }
-            set 
-            { 
-                _camera = value;
-                if (_camera is ThirdPersonCamera)
-                {
-                    (_camera as ThirdPersonCamera).FollowedObject = this;
-                }
-            }
+            set { _camera = value; }
         }
 
         public Model3D(string modelName, Vector3 position)

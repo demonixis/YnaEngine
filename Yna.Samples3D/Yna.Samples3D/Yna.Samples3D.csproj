@@ -81,6 +81,7 @@
     <Compile Include="States\NasaSample.cs" />
     <Compile Include="States\SimpleTerrainSample.cs" />
     <Compile Include="States\SpaceGame.cs" />
+    <Compile Include="States\ThirdPersonHeightmapSample.cs" />
     <Compile Include="States\ThirdPersonSample.cs" />
     <Compile Include="YnaSample3D.cs" />
   </ItemGroup>

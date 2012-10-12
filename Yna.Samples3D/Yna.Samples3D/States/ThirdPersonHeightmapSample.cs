@@ -14,39 +14,48 @@ using Yna.Display3D.Controls;
 
 namespace Yna.Samples3D.States
 {
-    public class HeightmapSample : YnState
+    public class ThirdPersonHeightmapSample : YnState
     {
         YnImage sky;
         YnText textInfo;
-        YnText inputInfo;
 
-        Heightmap heightmap;
-        FirstPersonCamera camera;
-        FirstPersonControl control;
+        Model3D alien;
+        Heightmap terrain;
+        ThirdPersonCamera camera;
+        ThirdPersonControl control;
 
         RasterizerState rasterizerState;
 
-        public HeightmapSample()
+        public ThirdPersonHeightmapSample()
             : base()
         {
-            // 1 - Creating an FPSCamera
-            camera = new FirstPersonCamera();
+            // 1 - Create an FPSCamera
+            camera = new ThirdPersonCamera(7, -15, 0);
             camera.SetupCamera();
 
-            // 2 - Creating a controler (Keyboard + Gamepad + mouse)
-            control = new FirstPersonControl(camera);
+            // 2 Create a 3D Alien
+            alien = new Model3D("Models/alien1_L", Vector3.Zero);
+            alien.Scale = new Vector3(0.05f); // Change the scale because this object is too big :O
+            alien.Camera = camera;
 
-            // 3 - Create an Heigmap with 2 textures
+            // This camera will follow alien position
+            camera.FollowedObject = alien;
+
+            // 3 - Create a controler (Keyboard + Gamepad + mouse)
+            // --- Setup move/rotate speeds
+            control = new ThirdPersonControl(camera, alien);
+            control.MoveSpeed = 0.1f;
+            control.RotateSpeed = 0.3f;
+
+            // 4 - Create a simple terrain with a size of 100x100 
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
-            heightmap = new Heightmap("Backgrounds/heightfield", "Backgrounds/textureMap");
-            heightmap.Camera = camera;
+            terrain = new Heightmap("Backgrounds/heightfield", "Backgrounds/textureMap");
+            terrain.Camera = camera;
 
-            // Sky & debug info
+            // Sky & debug text ;)
             sky = new YnImage("Backgrounds/sky");
             textInfo = new YnText("Fonts/MenuFont", "F1 - Wireframe mode\nF2 - Normal mode");
-
-            inputInfo = new YnText("Fonts/MenuFont", "A/E for Up/Down the camera\nZQSD for moving\nArrow keys for rotate\nPageUp/Down for pich Up/Down");
 
             rasterizerState = new RasterizerState();
         }
@@ -65,16 +74,14 @@ namespace Yna.Samples3D.States
             textInfo.Color = Color.Wheat;
             textInfo.Scale = new Vector2(1.1f);
 
-            inputInfo.LoadContent();
-            inputInfo.Position = new Vector2(YnG.Width - inputInfo.Width - 5, 10);
-            inputInfo.Color = Color.Wheat;
-            inputInfo.Scale = new Vector2(0.9f);
+            // Load alien texture
+            alien.LoadContent();
 
             // Load texture's terrain
-            heightmap.LoadContent();
+            terrain.LoadContent();
 
-            // Set the camera position at the middle of the terrain
-            camera.Position = new Vector3(heightmap.Width / 2, 15, heightmap.Height / 2);
+            // Set the alien's position at the middle of the terrain
+            alien.Position = new Vector3(terrain.Width / 2, 0, terrain.Depth / 2);
         }
 
         public override void Update(GameTime gameTime)
@@ -87,7 +94,8 @@ namespace Yna.Samples3D.States
             // Update control
             control.Update(gameTime);
 
-            camera.Y = heightmap.GetTerrainHeight(camera.X, camera.Z) + 2;
+            // Basic collide detection with the ground
+            alien.Y = terrain.GetTerrainHeight(alien.X, alien.Z);
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))
@@ -116,16 +124,18 @@ namespace Yna.Samples3D.States
             // Wirefram or solid fillmode
             YnG.GraphicsDevice.RasterizerState = rasterizerState;
 
-            // Draw the heightmap
-            heightmap.Draw(YnG.GraphicsDevice);
+            // Draw the terrain
+            terrain.Draw(YnG.GraphicsDevice);
 
-            // Draw text
+            // Draw the alien
+            alien.Draw(YnG.GraphicsDevice);
+
             spriteBatch.Begin();
             textInfo.Draw(gameTime, spriteBatch);
-            inputInfo.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
     }
 }
+

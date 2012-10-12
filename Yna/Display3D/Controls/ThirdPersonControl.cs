@@ -68,7 +68,6 @@ namespace Yna.Display3D.Controls
                 {
                     camera.Distance += 0.5f;
                     camera.Angle -= 0.5f;
-                    
                 }
                 else
                 {

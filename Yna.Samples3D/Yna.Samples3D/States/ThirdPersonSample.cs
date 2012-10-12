@@ -38,6 +38,9 @@ namespace Yna.Samples3D.States
             alien.Scale = new Vector3(0.2f); // Change the scale because this object is too big :O
             alien.Camera = camera;
 
+            // This camera will follow alien position
+            camera.FollowedObject = alien;
+
             // 3 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
             control = new ThirdPersonControl(camera, alien);

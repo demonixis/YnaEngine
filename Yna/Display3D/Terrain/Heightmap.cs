@@ -90,7 +90,7 @@ namespace Yna.Display3D.Terrain
             int x = (int)positionX;
             int z = (int)positionZ;
 
-            if (x < 0 || x > _width - 1 || z < 0 || z > _depth - 1)
+            if (x < 0 || x >= _width - 1 || z < 0 || z >= _depth - 1)
                 terrainHeigth = 0.0f;
             else
             {
@@ -99,8 +99,25 @@ namespace Yna.Display3D.Terrain
                 float triangleY2 = _heightData[x, z + 1];
                 float triangleY3 = _heightData[x + 1, z + 1];
 
-                //
+                // Determine where are the point
+                float segX = positionX - x;
+                float segZ = positionZ - z;
+
+                // We are on the first triangle
+                if ((segX + segZ) < 1)
+                {
+                    terrainHeigth = triangleY0;
+                    terrainHeigth += (triangleY1 - triangleY0) * segX;
+                    terrainHeigth += (triangleY2 - triangleY0) * segZ;
+                }
+                else // Second triangle
+                {
+                    terrainHeigth = triangleY3;
+                    terrainHeigth += (triangleY1 - triangleY3) * segX;
+                    terrainHeigth += (triangleY2 - triangleY3) * segZ;
+                }
             }
+
             return terrainHeigth;
         }
     }

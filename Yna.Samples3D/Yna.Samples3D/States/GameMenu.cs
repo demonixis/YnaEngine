@@ -55,7 +55,8 @@ namespace Yna.Samples3D.States
             items.Add(new MenuItem(3, "Simple Terrain", "Creating a simple rectangular terrain with a texture"));
             items.Add(new MenuItem(4, "Heightmap", "Create a heightmap with 2 images file. The \nfirst for the geometry and the second\nfor the texture."));
             items.Add(new MenuItem(5, "Third Person", "Loading an object and setting up a third person camera who follow\nthe model and can rotate arround it."));
-            items.Add(new MenuItem(6, "Exit"));
+            items.Add(new MenuItem(6, "3rd with heightmap", "Using a ThirdPersonCamera for follow an object on a heightmap\nwith basic ground collide."));
+            items.Add(new MenuItem(7, "Exit"));
         }
 
         public override void Update(GameTime gameTime)
@@ -97,6 +98,7 @@ namespace Yna.Samples3D.States
                     case 2: YnG.SwitchState(new SimpleTerrainSample()); break;
                     case 3: YnG.SwitchState(new HeightmapSample()); break;
                     case 4: YnG.SwitchState(new ThirdPersonSample()); break;
+                    case 5: YnG.SwitchState(new ThirdPersonHeightmapSample()); break;
                     default: YnG.Exit(); break;
                 }
             }

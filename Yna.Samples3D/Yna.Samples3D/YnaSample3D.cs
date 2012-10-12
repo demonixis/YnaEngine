@@ -20,7 +20,7 @@ namespace Yna.Samples3D
         public YnaSample3D()
             : base()
         {
-            this.SetScreenResolution(800, 600);
+            this.SetScreenResolution(1024, 600);
             this.Window.Title = "YNA 3D Samples";  
         }
 #endif
