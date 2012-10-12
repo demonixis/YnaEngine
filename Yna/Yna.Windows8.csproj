@@ -101,13 +101,17 @@
   <ItemGroup>
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
+    <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
+    <Compile Include="Display3D\Controls\BaseControl.cs" />
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
+    <Compile Include="Display3D\Controls\KeyMapping.cs" />
+    <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
+    <Compile Include="Display3D\Model3D.cs" />
     <Compile Include="Display3D\Terrain\Heightmap.cs" />
     <Compile Include="Display3D\Terrain\BaseTerrain.cs" />
     <Compile Include="Display3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Display3D\Terrain\SimpleTerrain.cs" />
     <Compile Include="Display3D\YnBase3D.cs" />
-    <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnScene.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />

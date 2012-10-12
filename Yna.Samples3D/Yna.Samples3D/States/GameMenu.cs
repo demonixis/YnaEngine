@@ -54,7 +54,8 @@ namespace Yna.Samples3D.States
             items.Add(new MenuItem(2, "Nasa Station", "Loading an FBX model from the Nasa web site.\nThis sample demonstrate how to use\nthe FPS Camera."));
             items.Add(new MenuItem(3, "Simple Terrain", "Creating a simple rectangular terrain with a texture"));
             items.Add(new MenuItem(4, "Heightmap", "Create a heightmap with 2 images file. The \nfirst for the geometry and the second\nfor the texture."));
-            items.Add(new MenuItem(5, "Exit"));
+            items.Add(new MenuItem(5, "Third Person", "Loading an object and setting up a third person camera who follow\nthe model and can rotate arround it."));
+            items.Add(new MenuItem(6, "Exit"));
         }
 
         public override void Update(GameTime gameTime)
@@ -95,6 +96,7 @@ namespace Yna.Samples3D.States
                     case 1: YnG.SwitchState(new NasaSample()); break;
                     case 2: YnG.SwitchState(new SimpleTerrainSample()); break;
                     case 3: YnG.SwitchState(new HeightmapSample()); break;
+                    case 4: YnG.SwitchState(new ThirdPersonSample()); break;
                     default: YnG.Exit(); break;
                 }
             }

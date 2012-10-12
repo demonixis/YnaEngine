@@ -38,7 +38,14 @@ namespace Yna.Display3D
         public BaseCamera Camera
         {
             get { return _camera; }
-            set { _camera = value; }
+            set 
+            { 
+                _camera = value;
+                if (_camera is ThirdPersonCamera)
+                {
+                    (_camera as ThirdPersonCamera).FollowedObject = this;
+                }
+            }
         }
 
         public Model3D(string modelName, Vector3 position)
