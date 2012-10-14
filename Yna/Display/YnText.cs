@@ -17,7 +17,7 @@ namespace Yna.Display
     	/// <summary>
     	/// The text to display
     	/// </summary>
-    	protected string Text { get; set; }
+    	public string Text { get; set; }
     	
     	/// <summary>
     	/// The text effects

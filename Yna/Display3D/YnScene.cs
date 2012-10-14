@@ -9,12 +9,13 @@ using Yna.Display3D.Camera;
 
 namespace Yna.Display3D
 {
-    public class YnScene : YnBase3D, IYnUpdatable, IYnDrawable3
+    public class YnScene : YnObject3D
     {
-        protected List<YnBase3D> _members;
+        protected List<YnObject3D> _members;
+        private List<YnObject3D> _safeMembers;
+        protected BaseCamera _camera;
         protected bool _initialized;
-
-        protected BaseCamera _activeCamera;
+        protected YnObject3D _parent;
 
         #region Properties
 
@@ -23,11 +24,27 @@ namespace Yna.Display3D
             get { return _members.Count; }
         }
 
-        #endregion
+        public BaseCamera Camera
+        {
+            get { return _camera; }
+            set 
+            { 
+                _camera = value;
 
-        #region Indexer
+                foreach (YnObject3D sceneObject in _members)
+                    sceneObject.Camera = _camera;
+            }
+        }
 
-        public YnBase3D this[int index]
+        /// <summary>
+        /// Get the YnObject3D on this scene
+        /// </summary>
+        public List<YnObject3D> SceneObjects
+        {
+            get { return _members; }
+        }
+
+        public YnObject3D this[int index]
         {
             get
             {
@@ -45,33 +62,134 @@ namespace Yna.Display3D
             }
         }
 
-        #endregion
-
-        public YnScene(Game game)
+        /// <summary>
+        /// Get the parent object of the scene
+        /// </summary>
+        public YnObject3D Parent
         {
-            _members = new List<YnBase3D>();
-            _initialized = false;
+            get { return _parent; }
         }
 
-        #region Update & Draw
+        #endregion
 
-        void IYnUpdatable.Update(GameTime gameTime)
+        #region Constructors
+
+        public YnScene(BaseCamera camera)
         {
-            int size = _members.Count;
-            if (size > 0)
+            _members = new List<YnObject3D>();
+            _safeMembers = new List<YnObject3D>();
+            _initialized = false;
+            _camera = camera;
+        }
+
+        public YnScene()
+            : this(new FixedCamera())
+        {
+
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Get the bounding box of the scene. All YnObject3D's BoundingBox are updated
+        /// </summary>
+        /// <returns>The bounding box of the scene</returns>
+        public override BoundingBox GetBoundingBox()
+        {
+            BoundingBox boundingBox = new BoundingBox();
+
+            if (_initialized)
             {
-                foreach (IYnUpdatable sceneObject in _members)
-                    sceneObject.Update(gameTime);
+                if (_members.Count > 0)
+                {
+                    foreach (YnObject3D sceneObject in _members)
+                    {
+                        BoundingBox box = sceneObject.GetBoundingBox();
+
+                        boundingBox.Min.X = box.Min.X < boundingBox.Min.X ? box.Min.X : boundingBox.Min.X;
+                        boundingBox.Min.X = box.Min.Y < boundingBox.Min.Y ? box.Min.Y : boundingBox.Min.Y;
+                        boundingBox.Min.X = box.Min.Z < boundingBox.Min.Z ? box.Min.Z : boundingBox.Min.Z;
+
+                        boundingBox.Min.X = box.Min.X < boundingBox.Min.X ? box.Min.X : boundingBox.Min.X;
+                        boundingBox.Min.X = box.Min.Y < boundingBox.Min.Y ? box.Min.Y : boundingBox.Min.Y;
+                        boundingBox.Min.X = box.Min.Z < boundingBox.Min.Z ? box.Min.Z : boundingBox.Min.Z;
+                    }
+                }
+            }
+
+            // Update sizes of the scene
+            _width = boundingBox.Max.X - boundingBox.Min.X;
+            _height = boundingBox.Max.Y - boundingBox.Min.Y;
+            _depth = boundingBox.Max.Z - boundingBox.Min.Z;
+
+            return boundingBox;
+        }
+
+        #region Content Management
+
+        public void LoadContent()
+        {
+            if (!_initialized)
+            {
+                if (_members.Count > 0)
+                {
+                    foreach (YnObject3D sceneObject in _members)
+                    {
+                        sceneObject.LoadContent();
+                        sceneObject.Camera = _camera;
+                    }
+                }
+
+                _initialized = true;
             }
         }
 
-        void IYnDrawable3.Draw(GraphicsDevice device)
+        public void UnloadContent()
         {
-            int size = _members.Count;
-            if (size > 0)
+            if (_initialized)
             {
-                foreach (IYnDrawable3 sceneObject in _members)
-                    sceneObject.Draw(device);
+                if (_members.Count > 0)
+                {
+                    foreach (YnObject3D sceneObject in _members)
+                        sceneObject.UnloadContent();
+                }
+
+                _initialized = false;
+            }
+        }
+
+        #endregion
+
+        #region Update & Draw
+
+        public override void Update(GameTime gameTime)
+        {
+            int nbMembers = _members.Count;
+
+            if (nbMembers > 0)
+            {
+                _safeMembers.Clear();
+                _safeMembers.AddRange(_members);
+
+                for (int i = 0; i < nbMembers; i++)
+                {
+                    if (!_safeMembers[i].Pause)
+                        _safeMembers[i].Update(gameTime);
+                }
+            }
+        }
+
+        public override void Draw(GraphicsDevice device)
+        {
+            int nbMembers = _safeMembers.Count;
+
+            if (nbMembers > 0)
+            {
+                for (int i = 0; i < nbMembers; i++)
+                {
+                    if (_safeMembers[i].Visible)
+                        _safeMembers[i].Draw(device);
+                }
             }
         }
 
@@ -79,14 +197,25 @@ namespace Yna.Display3D
 
         #region Collection methods
 
-        public void Add(YnBase3D sceneObject)
+        public void Add(YnObject3D sceneObject)
         {
+            if (_initialized)
+            {
+                sceneObject.LoadContent();
+                sceneObject.Camera = _camera;
+            }
             _members.Add(sceneObject);
         }
 
-        public void Remove(YnBase3D sceneObject)
+        public void Remove(YnObject3D sceneObject)
         {
             _members.Remove(sceneObject);
+        }
+
+        public void Clear()
+        {
+            _members.Clear();
+            _safeMembers.Clear();
         }
 
         #endregion

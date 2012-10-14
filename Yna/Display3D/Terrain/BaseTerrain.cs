@@ -9,25 +9,18 @@ namespace Yna.Display3D.Terrain
     /// <summary>
     /// Abstract class that represent a basic Terrain
     /// </summary>
-    public abstract class BaseTerrain : YnBase3D
+    public abstract class BaseTerrain : YnObject3D
     {
-        protected int _width;
-        protected int _height;
-        protected int _depth;
-        protected BoundingBox _boundingBox;
         protected Texture2D _texture;
         protected string _textureName;
         protected Vector2 _textureRepeat;
 
         protected VertexPositionColorTexture[] _vertices;
         protected short[] _indices;
-        protected BasicEffect _basicEffect;
         protected bool _lightningEnabled;
         protected bool _colorEnabled;
         protected bool _textureEnabled;
         protected bool _initialized;
-
-        protected BaseCamera _camera;
 
         #region Properties
 
@@ -36,8 +29,8 @@ namespace Yna.Display3D.Terrain
         /// </summary>
         public int Width
         {
-            get { return _width; }
-            protected set { _width = value; }
+            get { return (int)_width; }
+            protected set { _width = (float)value; }
         }
 
         /// <summary>
@@ -45,8 +38,8 @@ namespace Yna.Display3D.Terrain
         /// </summary>
         public int Height
         {
-            get { return _height; }
-            protected set { _height = value; }
+            get { return (int)_height; }
+            protected set { _height = (float)value; }
         }
 
         /// <summary>
@@ -54,8 +47,8 @@ namespace Yna.Display3D.Terrain
         /// </summary>
         public int Depth
         {
-            get { return _depth; }
-            protected set { _depth = value; }
+            get { return (int)_depth; }
+            protected set { _depth = (float)value; }
         }
 
         /// <summary>
@@ -128,6 +121,7 @@ namespace Yna.Display3D.Terrain
         /// Basic initialization for an abstract terrain
         /// </summary>
         public BaseTerrain()
+            : base(new Vector3(0, 0, 0))
         {
             _width = 0;
             _height = 0;
@@ -144,11 +138,19 @@ namespace Yna.Display3D.Terrain
             _initialized = false;
         }
 
+        public BaseTerrain(Vector3 position)
+            : this ()
+        {
+            _position = position;
+        }
+
         /// <summary>
         /// Load terrain's texture if the _textureEnabled variable is true
         /// </summary>
-        public virtual void LoadContent()
+        public override void LoadContent()
         {
+            base.LoadContent();
+
             if (!_initialized)
             {
                 if (_textureName != String.Empty)
@@ -157,8 +159,6 @@ namespace Yna.Display3D.Terrain
                     _initialized = true;
                 }
             }
-
-            _basicEffect = new BasicEffect(YnG.GraphicsDevice);
         }
 
         /// <summary>
@@ -210,8 +210,10 @@ namespace Yna.Display3D.Terrain
         /// <summary>
         /// Create the bounding box of the object
         /// </summary>
-        public void CreateBoundingBox()
+        public override BoundingBox GetBoundingBox()
         {
+            BoundingBox = new BoundingBox();
+
             for (int i = 0; i < _vertices.Length; i++)
             {
                 _boundingBox.Min.X = _boundingBox.Min.X < _vertices[i].Position.X ? _boundingBox.Min.X : _vertices[i].Position.X;
@@ -222,13 +224,19 @@ namespace Yna.Display3D.Terrain
                 _boundingBox.Max.Y = _boundingBox.Max.X > _vertices[i].Position.Y ? _boundingBox.Max.Y : _vertices[i].Position.Y;
                 _boundingBox.Max.Z = _boundingBox.Max.X > _vertices[i].Position.Z ? _boundingBox.Max.Z : _vertices[i].Position.Z;
             }
+
+            _width = _boundingBox.Max.X - _boundingBox.Min.X;
+            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+
+            return _boundingBox;
         }
 
         /// <summary>
         /// Draw Terrain
         /// </summary>
         /// <param name="device"></param>
-        public virtual void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device)
         {
             _basicEffect.World = _camera.World * Matrix.CreateScale(Scale) *
                 Matrix.CreateRotationX(Rotation.X) *

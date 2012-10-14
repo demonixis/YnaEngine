@@ -14,13 +14,12 @@ using Yna.Display3D.Controls;
 
 namespace Yna.Samples3D.States
 {
-    public class SimpleTerrainSample : YnState
+    public class SimpleTerrainSample : YnState3D
     {
         YnImage sky;
         YnText textInfo;
 
         SimpleTerrain terrain;
-        FirstPersonCamera camera;
         FirstPersonControl control;
 
         RasterizerState rasterizerState;
@@ -29,18 +28,21 @@ namespace Yna.Samples3D.States
             : base()
         {
             // 1 - Create an FPSCamera
-            camera = new FirstPersonCamera();
-            camera.SetupCamera();
+            _camera = new FirstPersonCamera();
+            _camera.SetupCamera();
+            Add(_camera);
 
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
-            control = new FirstPersonControl(camera);
+            control = new FirstPersonControl((FirstPersonCamera)_camera);
             control.MoveSpeed = 0.1f;
             control.RotateSpeed = 0.3f;
+            Add(control);
 
             // 3 - Create a simple terrain with a size of 100x100 
             terrain = new SimpleTerrain(100, 100, "Backgrounds/textureMap");
-            terrain.Camera = camera; // The terrain use this camera
+            terrain.Camera = _camera; // The terrain use this camera
+            Add(terrain);
 
             // Sky & debug text ;)
             sky = new YnImage("Backgrounds/sky");
@@ -63,11 +65,8 @@ namespace Yna.Samples3D.States
             textInfo.Color = Color.Wheat;
             textInfo.Scale = new Vector2(1.1f);
 
-            // Load texture's terrain
-            terrain.LoadContent();
-
             // Set the camera position at the middle of the terrain
-            camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Height / 2);
+            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Height / 2);
         }
 
         public override void Update(GameTime gameTime)
@@ -76,9 +75,6 @@ namespace Yna.Samples3D.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());
-
-            // Update control
-            control.Update(gameTime);
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))
@@ -107,9 +103,6 @@ namespace Yna.Samples3D.States
 
             // Wirefram or solid fillmode
             YnG.GraphicsDevice.RasterizerState = rasterizerState;
-
-            // Draw the terrain
-            terrain.Draw(YnG.GraphicsDevice);
 
             base.Draw(gameTime);
         }

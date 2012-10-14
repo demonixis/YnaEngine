@@ -31,7 +31,6 @@ namespace Yna.Display3D.Terrain
         {
             base.LoadContent();
             _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);
-            _basicEffect = new BasicEffect(YnG.GraphicsDevice);
 
             LoadHeightDatas();
             CreateVertices();

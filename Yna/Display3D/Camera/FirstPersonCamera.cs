@@ -22,7 +22,7 @@ namespace Yna.Display3D.Camera
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            Matrix matRotation = Matrix.CreateRotationX(_pich) * Matrix.CreateRotationY(_yaw);
+            Matrix matRotation = Matrix.CreateRotationX(_pitch) * Matrix.CreateRotationY(_yaw) * Matrix.CreateRotationZ(_roll);
 
             Vector3 transformedReference = Vector3.Transform(_reference, matRotation);
 

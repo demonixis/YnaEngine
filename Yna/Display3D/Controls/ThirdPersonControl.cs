@@ -7,21 +7,21 @@ namespace Yna.Display3D.Controls
 {
     public class ThirdPersonControl : BaseControl
     {
-        YnBase3D _followedObject;
+        YnObject3D _followedObject;
 
-        YnBase3D FollowedObject
+        public YnObject3D FollowedObject
         {
             get { return _followedObject; }
             set { _followedObject = value; }
         }
 
-        public ThirdPersonControl(ThirdPersonCamera camera, YnBase3D followedObject)
+        public ThirdPersonControl(ThirdPersonCamera camera, YnObject3D followedObject)
             : base(camera)
         {
             _followedObject = followedObject;
         }
 
-        public ThirdPersonControl(ThirdPersonCamera camera, YnBase3D followedObject, PlayerIndex index)
+        public ThirdPersonControl(ThirdPersonCamera camera, YnObject3D followedObject, PlayerIndex index)
             : this(camera, followedObject)
         {
             _playerIndex = index;

@@ -5,7 +5,7 @@ using Yna.Display3D.Camera;
 
 namespace Yna.Display3D.Controls
 {
-    public abstract class BaseControl
+    public abstract class BaseControl : YnBase3D
     {
         protected BaseCamera _camera;
 
@@ -115,7 +115,7 @@ namespace Yna.Display3D.Controls
             _playerIndex = index;
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (_useKeyboard)
                 UpdateKeyboardInput(gameTime);

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna.Display;
+using Yna.Display3D;
 using Yna.Helpers;
 using Yna.State;
 using Yna.Input;
@@ -142,12 +143,22 @@ namespace Yna
         	(Game as YnGame).SetScreenResolution(width, height);
         }
 
+        public static void SetScreenResolutionToMax(bool fullscreen)
+        {
+            (YnG.Game as YnGame).SetScreenResolutionToMax(true);
+        }
+
         /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
         /// the StateManager will clear all other state and use your new state
         /// </summary>
         /// <param name="state">New state</param>
         public static void SwitchState(YnState state)
+        {
+            (Game as YnGame).SwitchState(state);
+        }
+
+        public static void SwitchState(YnState3D state)
         {
             (Game as YnGame).SwitchState(state);
         }

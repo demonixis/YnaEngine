@@ -56,7 +56,7 @@ namespace Yna.Display3D.Camera
             _target = target;
 
             _yaw = 0.0f;
-            _pich = 0.0f;
+            _pitch = 0.0f;
 
             _nearClip = nearClip;
             _farClip = farClip;

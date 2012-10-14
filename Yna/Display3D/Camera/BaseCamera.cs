@@ -9,9 +9,10 @@ namespace Yna.Display3D.Camera
         protected Matrix _projection;
         protected Matrix _world;
 
-        // Rotation sur Y et X
+        // Rotation X/Y/Z
         protected float _yaw;
-        protected float _pich;
+        protected float _pitch;
+        protected float _roll;
 
         // Paramètrage de la caméra
         protected float _nearClip;
@@ -22,7 +23,8 @@ namespace Yna.Display3D.Camera
         protected Vector3 _target;
 
 
-        #region Propriétés
+        #region Properties
+
         public Matrix Projection
         {
             get { return _projection; }
@@ -96,12 +98,12 @@ namespace Yna.Display3D.Camera
             _target = target;
 
             _yaw = 0.0f;
-            _pich = 0.0f;
+            _pitch = 0.0f;
 
             _nearClip = nearClip;
             _farClip = farClip;
 
-            _view = Matrix.CreateLookAt(_position, _target, Vector3.Up);
+            _view = Matrix.CreateLookAt(_position, target, Vector3.Up);
 
             _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
             
@@ -120,7 +122,7 @@ namespace Yna.Display3D.Camera
         /// Rotate the camera around Y axis
         /// </summary>
         /// <param name="angle">An angle in degree</param>
-        public override void RotateY(float angle)
+        public void RotateY(float angle)
         {
             _yaw += MathHelper.ToRadians(angle);
 
@@ -130,7 +132,12 @@ namespace Yna.Display3D.Camera
 
         public void Pitch(float angle)
         {
-            _pich += MathHelper.ToRadians(angle);
+            _pitch += MathHelper.ToRadians(angle);
+        }
+
+        public void Roll(float angle)
+        {
+            _roll += MathHelper.ToRadians(angle);
         }
 
         /// <summary>
@@ -139,17 +146,15 @@ namespace Yna.Display3D.Camera
         /// <param name="x">X value</param>
         /// <param name="y">Y value</param>
         /// <param name="z">Z value</param>
-        public override void Translate(float x, float y, float z)
+        public void Translate(float x, float y, float z)
         {
             Vector3 move = new Vector3(x, y, z);
-            Matrix forwardMovement = Matrix.CreateRotationY(_yaw);
+            Matrix forwardMovement = Matrix.CreateRotationX(_pitch) * Matrix.CreateRotationY(_yaw) * Matrix.CreateRotationZ(_roll);
             Vector3 v = Vector3.Transform(move, forwardMovement);
             
             _position.X += v.X;
             _position.Y += v.Y;
             _position.Z += v.Z;
         }
-
-        public abstract void Update(GameTime gameTime);
     }
 }

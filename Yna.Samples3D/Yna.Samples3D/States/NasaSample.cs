@@ -13,13 +13,11 @@ using Yna.Display3D.Controls;
 
 namespace Yna.Samples3D.States
 {
-    public class NasaSample : YnState
+    public class NasaSample : YnState3D
     {
         YnImage background;
 
-        Model stationModel;
-        Vector3 modelPosition;
-        Vector3 modelRotation; 
+        YnModel stationModel;
 
         FirstPersonCamera camera;
         FirstPersonControl control;
@@ -29,17 +27,19 @@ namespace Yna.Samples3D.States
         {
             background = new YnImage("Backgrounds/earth");
 
-            modelPosition = Vector3.Zero;
-            modelRotation = Vector3.Zero;
-
             camera = new FirstPersonCamera();
+            Add(camera);
+
+            stationModel = new YnModel("Models/ISSComplete1");
+            Add(stationModel);
+
             control = new FirstPersonControl(camera);
+            Add(control);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-            stationModel = YnG.Content.Load<Model>("Models/ISSComplete1");
             background.LoadContent();
             background.SetFullScreen();
         }
@@ -49,15 +49,13 @@ namespace Yna.Samples3D.States
             base.Initialize();
 
             camera.Position = new Vector3(50.0f, 0.0f, -50.0f);
-            camera.Yaw = -0.69f;
+            camera.Yaw = -(float)Math.PI / 4;
         }
 
         public override void Update(GameTime gameTime)
         {
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());
-
-            control.Update(gameTime);
             
             base.Update(gameTime);
         }
@@ -72,25 +70,6 @@ namespace Yna.Samples3D.States
             // Reset defaults states
             YnG.GraphicsDevice.BlendState = BlendState.Opaque;
             YnG.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-
-            // Setup transforms
-            Matrix[] transforms = new Matrix[stationModel.Bones.Count];
-            stationModel.CopyAbsoluteBoneTransformsTo(transforms);
-
-            // Draw each meshes off the model
-            foreach (ModelMesh mesh in stationModel.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.World = camera.World * transforms[mesh.ParentBone.Index];
-
-                    effect.View = camera.View;
-
-                    effect.Projection = camera.Projection;
-                }
-                mesh.Draw();
-            }
 
             base.Draw(gameTime);
         }

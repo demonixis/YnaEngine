@@ -56,7 +56,7 @@ namespace Yna.Samples3D.States
             items.Add(new MenuItem(4, "Heightmap", "Create a heightmap with 2 images file. The \nfirst for the geometry and the second\nfor the texture."));
             items.Add(new MenuItem(5, "Third Person", "Loading an object and setting up a third person camera who follow\nthe model and can rotate arround it."));
             items.Add(new MenuItem(6, "3rd with heightmap", "Using a ThirdPersonCamera for follow an object on a heightmap\nwith basic ground collide."));
-            items.Add(new MenuItem(7, "Exit"));
+            items.Add(new MenuItem(8, "Exit"));
         }
 
         public override void Update(GameTime gameTime)

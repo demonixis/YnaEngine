@@ -8,33 +8,34 @@ using Yna.Helpers;
 using Yna.Input;
 using Yna.Input.Service;
 using Yna.Display;
+using Yna.Display3D;
 
 namespace Yna
 {
-	/// <summary>
-	/// Global Game container
-	/// </summary>
-	public class YnGame : Game
-	{		
-		protected GraphicsDeviceManager graphics;
+    /// <summary>
+    /// Global Game container
+    /// </summary>
+    public class YnGame : Game
+    {
+        protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
         protected ScreenManager stateManager;
 
         public YnGame()
             : base()
         {
-        	this.graphics = new GraphicsDeviceManager (this);
-			this.Content.RootDirectory = "Content";
+            this.graphics = new GraphicsDeviceManager(this);
+            this.Content.RootDirectory = "Content";
             this.stateManager = new ScreenManager(this);
-			
-			 // Setup services
+
+            // Setup services
             ServiceHelper.Game = this;
             Components.Add(new KeyboardService(this));
             Components.Add(new MouseService(this));
             Components.Add(new GamepadService(this));
             Components.Add(stateManager);
-            
-             // Registry globals objects
+
+            // Registry globals objects
             YnG.Game = this;
             YnG.GraphicsDeviceManager = this.graphics;
             YnG.DeviceWidth = this.graphics.PreferredBackBufferWidth;
@@ -44,16 +45,16 @@ namespace Yna
             YnG.Gamepad = new YnGamepad();
             YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.StateManager = stateManager;
-            
+
             this.Window.Title = "YNA Game";
         }
-        
-		public YnGame (int width, int height, string title)
-			: this()
-		{
-			SetScreenResolution(width, height);
-			this.Window.Title = title;
-		}
+
+        public YnGame(int width, int height, string title)
+            : this()
+        {
+            SetScreenResolution(width, height);
+            this.Window.Title = title;
+        }
 
         protected override void Initialize()
         {
@@ -77,6 +78,14 @@ namespace Yna
             this.graphics.PreferredBackBufferWidth = width;
             this.graphics.PreferredBackBufferHeight = height;
             this.graphics.ApplyChanges();
+        }
+
+        public void SetScreenResolutionToMax(bool fullscreen)
+        {
+            SetScreenResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+
+            if (fullscreen)
+                graphics.ToggleFullScreen();
         }
 
         public void ActiveStateManager(bool active)
@@ -106,6 +115,21 @@ namespace Yna
         /// <param name="state">New state</param>
         /// <returns>True if the state manager has done the swith, false if it disabled</returns>
         public bool SwitchState(YnState nextState)
+        {
+            if (YnG.StateManager != null)
+            {
+                if (!nextState.IsPopup)
+                    YnG.StateManager.Clear();
+
+                YnG.StateManager.Add(nextState);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool SwitchState(YnState3D nextState)
         {
             if (YnG.StateManager != null)
             {

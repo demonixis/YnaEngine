@@ -69,8 +69,7 @@ namespace Yna.Samples3D.States
                 modelVelocity += modelVelocityAdd;
 
                 modelPosition.Y += pad.ThumbSticks.Left.Y * 25.0f;
-#if NETFX_CORE
-#else
+#if !NETFX_CORE
                 GamePad.SetVibration(PlayerIndex.One, pad.Triggers.Right, pad.Triggers.Left);
 #endif
 

@@ -60,13 +60,15 @@
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Controls\TopControl.cs" />
-    <Compile Include="Display3D\Model3D.cs" />
+    <Compile Include="Display3D\YnModel.cs" />
+    <Compile Include="Display3D\YnObject3D.cs" />
     <Compile Include="Display3D\Terrain\Heightmap.cs" />
     <Compile Include="Display3D\Terrain\BaseTerrain.cs" />
     <Compile Include="Display3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Display3D\Terrain\SimpleTerrain.cs" />
     <Compile Include="Display3D\YnBase3D.cs" />
     <Compile Include="Display3D\YnScene.cs" />
+    <Compile Include="Display3D\YnState3D.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Effect\YnTransition.cs" />
@@ -101,7 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="State\Screen.cs" />
     <Compile Include="State\ScreenManager.cs" />
-    <Compile Include="State\YnState.cs" />
+    <Compile Include="YnState.cs" />
     <Compile Include="Utils\ListStack.cs" />
     <Compile Include="Utils\ListQueue.cs" />
     <Compile Include="YnBase.cs" />
@@ -110,7 +112,6 @@
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
-    <Compile Include="YnInterfaces.cs" />
     <Compile Include="YnPoint.cs" />
     <Compile Include="YnRectangle.cs" />
     <Compile Include="YnTimer.cs" />

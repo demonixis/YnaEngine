@@ -14,12 +14,11 @@ using Yna.Display3D.Controls;
 
 namespace Yna.Samples3D.States
 {
-    public class ThirdPersonSample : YnState
+    public class ThirdPersonSample : YnState3D
     {
         YnImage sky;
-        YnText textInfo;
 
-        Model3D alien;
+        YnObject3D alien;
         SimpleTerrain terrain;
         ThirdPersonCamera camera;
         ThirdPersonControl control;
@@ -32,11 +31,13 @@ namespace Yna.Samples3D.States
             // 1 - Create an FPSCamera
             camera = new ThirdPersonCamera();
             camera.SetupCamera();
+            Add(camera);
 
             // 2 Create a 3D Alien
-            alien = new Model3D("Models/alien1_L", Vector3.Zero);
+            alien = new YnModel("Models/alien1_L", Vector3.Zero);
             alien.Scale = new Vector3(0.2f); // Change the scale because this object is too big :O
             alien.Camera = camera;
+            Add(alien);
 
             // This camera will follow alien position
             camera.FollowedObject = alien;
@@ -46,14 +47,15 @@ namespace Yna.Samples3D.States
             control = new ThirdPersonControl(camera, alien);
             control.MoveSpeed = 0.1f;
             control.RotateSpeed = 0.3f;
-         
+            Add(control);
+
             // 4 - Create a simple terrain with a size of 100x100 
             terrain = new SimpleTerrain(100, 100, "Backgrounds/textureMap");
             terrain.Camera = camera; // The terrain use this camera
+            Add(terrain);
 
             // Sky & debug text ;)
             sky = new YnImage("Backgrounds/sky");
-            textInfo = new YnText("Fonts/MenuFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
         }
@@ -65,18 +67,6 @@ namespace Yna.Samples3D.States
             // Sky
             sky.LoadContent();
             sky.SetFullScreen();
-            
-            // Debug text config
-            textInfo.LoadContent();
-            textInfo.Position = new Vector2(10, 10);
-            textInfo.Color = Color.Wheat;
-            textInfo.Scale = new Vector2(1.1f);
-
-            // Load alien texture
-            alien.LoadContent();
-
-            // Load texture's terrain
-            terrain.LoadContent();
 
             // Set the alien's position at the middle of the terrain
             alien.Position = new Vector3(terrain.Width / 2, 0, terrain.Depth / 2);
@@ -88,9 +78,6 @@ namespace Yna.Samples3D.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());
-
-            // Update control
-            control.Update(gameTime);
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))
@@ -110,7 +97,6 @@ namespace Yna.Samples3D.States
             // Draw 2D part
             spriteBatch.Begin();
             sky.Draw(gameTime, spriteBatch);
-            textInfo.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 
             // Restore default states for 3D
@@ -119,12 +105,6 @@ namespace Yna.Samples3D.States
 
             // Wirefram or solid fillmode
             YnG.GraphicsDevice.RasterizerState = rasterizerState;
-
-            // Draw the terrain
-            terrain.Draw(YnG.GraphicsDevice);
-
-            // Draw the alien
-            alien.Draw(YnG.GraphicsDevice);
 
             base.Draw(gameTime);
         }

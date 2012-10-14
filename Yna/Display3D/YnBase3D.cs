@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Display3D
 {
-    public abstract class YnBase3D
+    public abstract class YnBase3D : YnBase
     {
         protected Vector3 _position;
         protected Vector3 _rotation;
@@ -113,32 +113,9 @@ namespace Yna.Display3D
             _scale = Vector3.One;
         }
 
-        /// <summary>
-        /// Translate on X, Y and Z axis
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        public virtual void Translate(float x, float y, float z)
+        public override void Update(GameTime gameTime)
         {
-            Vector3 move = new Vector3(x, y, z);
-            Matrix forwardMovement = Matrix.CreateRotationY(_rotation.Y);
-            Vector3 v = Vector3.Transform(move, forwardMovement);
-            _position.X += v.X;
-            _position.Y += v.Y;
-            _position.Z += v.Z;
-        }
-
-        /// <summary>
-        /// Rotate arround Y axis
-        /// </summary>
-        /// <param name="angle">Angle in degress</param>
-        public virtual void RotateY(float angle)
-        {
-            _rotation.Y += MathHelper.ToRadians(angle);
-
-            if ((_rotation.Y >= MathHelper.Pi * 2) || (_rotation.Y <= -MathHelper.Pi * 2))
-                _rotation.Y = 0.0f;
+           
         }
     }
 }

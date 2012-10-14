@@ -24,7 +24,7 @@ namespace Yna.State
     /// <summary>
     /// Abstract Game state (also named Sreen)
     /// </summary>
-    public abstract class Screen
+    public abstract class Screen : IDisposable
     {
     	/// <summary>
     	/// The screen activity : inactive screens will not be updated
@@ -82,8 +82,16 @@ namespace Yna.State
     	/// </summary>
         private float TransitionAlpha { get; set; }
 
+        /// <summary>
+        /// The spriteBatch object for drawing
+        /// </summary>
         protected SpriteBatch spriteBatch;
+
+        /// <summary>
+        /// Reference to ScreenManager
+        /// </summary>
         protected ScreenManager screenManager;
+
         /// <summary>
         /// Get or Set the Screen Manager
         /// </summary>
@@ -138,7 +146,7 @@ namespace Yna.State
 
         public virtual void UnloadContent()
         {
-
+            
         }
 
         /// <summary>
@@ -223,6 +231,11 @@ namespace Yna.State
                 ScreenState = ScreenState.TransitionOff;
                 IsExiting = true;
             }
+        }
+
+        void IDisposable.Dispose()
+        {
+            UnloadContent();
         }
     }
 }

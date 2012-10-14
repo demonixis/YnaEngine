@@ -18,8 +18,14 @@ namespace Yna.Display3D.Camera
 
         public override void Update(GameTime gameTime)
         {
-            _view = Matrix.CreateLookAt(_position, _reference, Vector3.Up);
+            Matrix matRotation = Matrix.CreateRotationX(_pitch) * Matrix.CreateRotationY(_yaw);
 
+            Vector3 transformedReference = Vector3.Transform(_reference, matRotation);
+
+            Vector3 target = _position + transformedReference;
+
+            _view = Matrix.CreateLookAt(_position, target, Vector3.Up);
+            
             _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
         }
     }
