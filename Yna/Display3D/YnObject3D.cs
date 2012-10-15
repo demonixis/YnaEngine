@@ -15,6 +15,8 @@ namespace Yna.Display3D
         protected float _width;
         protected float _height;
         protected float _depth;
+        protected YnObject3D _parent;
+        protected bool _initialized;
 
         #region Properties
 
@@ -69,6 +71,15 @@ namespace Yna.Display3D
             set { _world = value; }
         }
 
+        /// <summary>
+        /// Get the parent object of the scene
+        /// </summary>
+        public YnObject3D Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -83,6 +94,7 @@ namespace Yna.Display3D
             _depth = 0;
 
             _visible = true;
+            _initialized = false;
         }
 
         public YnObject3D()

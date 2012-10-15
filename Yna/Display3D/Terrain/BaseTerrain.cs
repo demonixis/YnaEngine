@@ -20,14 +20,13 @@ namespace Yna.Display3D.Terrain
         protected bool _lightningEnabled;
         protected bool _colorEnabled;
         protected bool _textureEnabled;
-        protected bool _initialized;
 
         #region Properties
 
         /// <summary>
         /// Width of the terrain
         /// </summary>
-        public int Width
+        public new int Width
         {
             get { return (int)_width; }
             protected set { _width = (float)value; }
@@ -36,7 +35,7 @@ namespace Yna.Display3D.Terrain
         /// <summary>
         /// Height of the terrain
         /// </summary>
-        public int Height
+        public new int Height
         {
             get { return (int)_height; }
             protected set { _height = (float)value; }
@@ -45,7 +44,7 @@ namespace Yna.Display3D.Terrain
         /// <summary>
         /// Depth of the terrain
         /// </summary>
-        public int Depth
+        public new int Depth
         {
             get { return (int)_depth; }
             protected set { _depth = (float)value; }
@@ -104,15 +103,6 @@ namespace Yna.Display3D.Terrain
         {
             get { return _basicEffect; }
             set { _basicEffect = value; }
-        }
-
-        /// <summary>
-        /// The camera used for viewing the terrain
-        /// </summary>
-        public BaseCamera Camera
-        {
-            get { return _camera; }
-            set { _camera = value; }
         }
 
         #endregion
