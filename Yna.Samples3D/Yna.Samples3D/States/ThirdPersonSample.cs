@@ -50,7 +50,7 @@ namespace Yna.Samples3D.States
             Add(control);
 
             // 4 - Create a simple terrain with a size of 100x100 
-            terrain = new SimpleTerrain(100, 100, "Backgrounds/textureMap");
+            terrain = new SimpleTerrain("Backgrounds/textureMap", 100, 100);
             terrain.Camera = camera; // The terrain use this camera
             Add(terrain);
 

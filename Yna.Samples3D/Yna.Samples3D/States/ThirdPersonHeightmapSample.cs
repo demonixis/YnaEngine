@@ -82,7 +82,7 @@ namespace Yna.Samples3D.States
                 YnG.SwitchState(new GameMenu());
 
             // Basic collide detection with the ground
-            alien.Y = terrain.GetTerrainHeight(alien.X, alien.Z);
+            alien.Y = terrain.GetTerrainHeight(alien.X, alien.Y, alien.Z);
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))

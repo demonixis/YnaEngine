@@ -39,8 +39,8 @@ namespace Yna.Samples3D.States
             control.RotateSpeed = 0.3f;
             Add(control);
 
-            // 3 - Create a simple terrain with a size of 100x100 
-            terrain = new SimpleTerrain(100, 100, "Backgrounds/textureMap");
+            // 3 - Create a simple terrain with a size of 100x100 with 5x5 space between each vertex
+            terrain = new SimpleTerrain("Backgrounds/textureMap", 100, 100, 5, 5);
             terrain.Camera = _camera; // The terrain use this camera
             Add(terrain);
 
@@ -66,7 +66,7 @@ namespace Yna.Samples3D.States
             textInfo.Scale = new Vector2(1.1f);
 
             // Set the camera position at the middle of the terrain
-            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Height / 2);
+            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 2);
         }
 
         public override void Update(GameTime gameTime)

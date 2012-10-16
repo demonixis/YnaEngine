@@ -41,6 +41,7 @@ namespace Yna.Samples3D.States
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
             heightmap = new Heightmap("Backgrounds/heightfield", "Backgrounds/textureMap");
+            heightmap.SegmentSizes = new Vector3(5.0f); // vertex between each vertex
             Add(heightmap);
 
             // Sky & debug info
@@ -63,9 +64,12 @@ namespace Yna.Samples3D.States
             textInfo.Position = new Vector2(10, 10);
             textInfo.Color = Color.Wheat;
             textInfo.Scale = new Vector2(1.1f);
-
+            heightmap.GetBoundingBox();
             // Set the camera position at the middle of the terrain
-            camera.Position = new Vector3(heightmap.Width / 2, 15, heightmap.Height / 2);
+            camera.Position = new Vector3(heightmap.Width / 2, 0, heightmap.Depth / 2);
+            camera.Y = heightmap.GetTerrainHeight(camera.X, camera.Y, camera.Z) + 2;
+
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -75,7 +79,7 @@ namespace Yna.Samples3D.States
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SwitchState(new GameMenu());
 
-            camera.Y = heightmap.GetTerrainHeight(camera.X, camera.Z) + 2;
+            camera.Y = heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 2;
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))

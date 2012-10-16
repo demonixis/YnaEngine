@@ -14,6 +14,8 @@ namespace Yna.Display3D.Terrain
         protected Texture2D _texture;
         protected string _textureName;
         protected Vector2 _textureRepeat;
+        protected Vector3 _segmentSizes;
+        protected bool _constructed;
 
         protected VertexPositionColorTexture[] _vertices;
         protected short[] _indices;
@@ -48,6 +50,28 @@ namespace Yna.Display3D.Terrain
         {
             get { return (int)_depth; }
             protected set { _depth = (float)value; }
+        }
+
+        /// <summary>
+        /// Get or Set the segments size. It represent the space between two vertex.
+        /// The terrain is reconstructed when you set a new value
+        /// </summary>
+        public Vector3 SegmentSizes
+        {
+            get { return _segmentSizes; }
+            set 
+            {
+                if (value != Vector3.Zero)
+                {
+                    _segmentSizes = value;
+
+                    if (_constructed)
+                    {
+                        CreateVertices();
+                        CreateIndices();
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -121,6 +145,8 @@ namespace Yna.Display3D.Terrain
             _texture = null;
             _textureName = String.Empty;
             _textureRepeat = Vector2.One;
+            _constructed = false;
+            _segmentSizes = Vector3.One;
 
             _lightningEnabled = false;
             _colorEnabled = true;
@@ -228,15 +254,16 @@ namespace Yna.Display3D.Terrain
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device)
         {
-            _basicEffect.World = _camera.World * Matrix.CreateScale(Scale) *
+            _basicEffect.World = 
+                Matrix.CreateScale(Scale) *
                 Matrix.CreateRotationX(Rotation.X) *
                 Matrix.CreateRotationY(Rotation.Y) *
                 Matrix.CreateRotationZ(Rotation.Z) *
-                Matrix.CreateTranslation(Position);
+                Matrix.CreateTranslation(Position) *
+                 _camera.World;
 
             _basicEffect.View = _camera.View;
-                
-
+  
             _basicEffect.Projection = _camera.Projection;
 
             foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)

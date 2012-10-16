@@ -73,11 +73,12 @@ namespace Yna.Display3D
 
                     effect.World =
                          transforms[mesh.ParentBone.Index] *
-                        _camera.World * Matrix.CreateScale(Scale) *
+                        Matrix.CreateScale(Scale) *
                         Matrix.CreateRotationX(Rotation.X) *
                         Matrix.CreateRotationY(Rotation.Y) *
                         Matrix.CreateRotationZ(Rotation.Z) *
-                        Matrix.CreateTranslation(Position);
+                        Matrix.CreateTranslation(Position) *
+                        _camera.World;
 
                     effect.View = _camera.View;
                     effect.Projection = _camera.Projection;
