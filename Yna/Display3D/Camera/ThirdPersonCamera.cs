@@ -84,6 +84,8 @@ namespace Yna.Display3D.Camera
             _view = Matrix.CreateLookAt(position, _followedObject.Position, Vector3.Up);
 
             _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
+
+            _world = Matrix.Identity;
         }
     }
 }

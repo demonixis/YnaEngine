@@ -103,15 +103,6 @@ namespace Yna.Display3D.Terrain
         }
 
         /// <summary>
-        /// Bounding box for the terrain, can be refreashed with a call of CreateBoundingBox()
-        /// </summary>
-        public BoundingBox BoundingBox
-        {
-            get { return _boundingBox; }
-            set { _boundingBox = value; }
-        }
-
-        /// <summary>
         /// Vertices that compose the terrain
         /// </summary>
         public VertexPositionColorTexture[] Vertices
@@ -226,10 +217,8 @@ namespace Yna.Display3D.Terrain
         /// <summary>
         /// Create the bounding box of the object
         /// </summary>
-        public override BoundingBox GetBoundingBox()
+        public void CreateBoundingBox()
         {
-            BoundingBox = new BoundingBox();
-
             for (int i = 0; i < _vertices.Length; i++)
             {
                 _boundingBox.Min.X = _boundingBox.Min.X < _vertices[i].Position.X ? _boundingBox.Min.X : _vertices[i].Position.X;
@@ -244,8 +233,6 @@ namespace Yna.Display3D.Terrain
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
-
-            return _boundingBox;
         }
 
         /// <summary>
@@ -254,14 +241,14 @@ namespace Yna.Display3D.Terrain
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device)
         {
-            _basicEffect.World = 
-                Matrix.CreateScale(Scale) *
+            World = Matrix.CreateScale(Scale) *
                 Matrix.CreateRotationX(Rotation.X) *
                 Matrix.CreateRotationY(Rotation.Y) *
                 Matrix.CreateRotationZ(Rotation.Z) *
-                Matrix.CreateTranslation(Position) *
-                 _camera.World;
+                Matrix.CreateTranslation(Position);
 
+            _basicEffect.World = World;
+                
             _basicEffect.View = _camera.View;
   
             _basicEffect.Projection = _camera.Projection;

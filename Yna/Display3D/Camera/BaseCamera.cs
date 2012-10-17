@@ -7,7 +7,6 @@ namespace Yna.Display3D.Camera
     public abstract class BaseCamera : YnBase3D
     {
         protected Matrix _projection;
-        protected Matrix _world;
 
         // Rotation X/Y/Z
         protected float _yaw;
@@ -29,12 +28,6 @@ namespace Yna.Display3D.Camera
         {
             get { return _projection; }
             set { _projection = value; }
-        }
-
-        public Matrix World
-        {
-            get { return _world; }
-            set { _world = value; }
         }
 
         public float Yaw

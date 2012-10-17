@@ -64,7 +64,7 @@ namespace Yna.Samples3D.States
             textInfo.Position = new Vector2(10, 10);
             textInfo.Color = Color.Wheat;
             textInfo.Scale = new Vector2(1.1f);
-            heightmap.GetBoundingBox();
+            heightmap.CreateBoundingBox();
             // Set the camera position at the middle of the terrain
             camera.Position = new Vector3(heightmap.Width / 2, 0, heightmap.Depth / 2);
             camera.Y = heightmap.GetTerrainHeight(camera.X, camera.Y, camera.Z) + 2;

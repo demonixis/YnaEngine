@@ -71,6 +71,11 @@ namespace Yna.Display3D
             set { _parent = value; }
         }
 
+        public BoundingBox BoundingBox
+        {
+            get { return _boundingBox; }
+        }
+        
         #endregion
 
         #region Constructors
@@ -86,6 +91,7 @@ namespace Yna.Display3D
 
             _visible = true;
             _initialized = false;
+            _boundingBox = new BoundingBox();
         }
 
         public YnObject3D()
@@ -123,12 +129,6 @@ namespace Yna.Display3D
             _position.Y += v.Y;
             _position.Z += v.Z;
         }
-
-        /// <summary>
-        /// Get the bounding box of the object
-        /// </summary>
-        /// <returns></returns>
-        public abstract BoundingBox GetBoundingBox();
 
         #region GameState pattern
 

@@ -49,100 +49,21 @@ namespace Yna.Display3D
 
             _model = YnG.Content.Load<Model>(_modelName);
 
-            _boundingBox = GetBoundingBox();
+            _boundingBox = YnModel.CreateBoundingBox(_model);
 
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
         }
 
-        public override BoundingBox GetBoundingBox()
-        {
-            return GetBoundingBox(true);
-        }
-
-        public virtual BoundingBox GetBoundingBox(bool updateBoundingBoxes)
-        {
-            if (updateBoundingBoxes)
-                _boundingBoxes.Clear();
-
-            // Global boundingBox
-            BoundingBox boundingBox = new BoundingBox();
-
-            Vector3 min = new Vector3(float.MaxValue);
-            Vector3 max = new Vector3(float.MinValue);
-
-            Matrix[] transforms = new Matrix[_model.Bones.Count];
-            _model.CopyAbsoluteBoneTransformsTo(transforms);
-
-            UpdateMatrix();
-
-            foreach (ModelMesh mesh in _model.Meshes)
-            {
-                foreach (ModelMeshPart meshPart in mesh.MeshParts)
-                {
-                    int vertexStride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
-                    int vertexBufferSize = meshPart.NumVertices * vertexStride;
-
-                    float[] vertexData = new float[vertexBufferSize / sizeof(float)];
-                    meshPart.VertexBuffer.GetData<float>(vertexData);
-
-                    for (int i = 0, l = vertexData.Length; i < l; i += vertexStride / sizeof(float))
-                    {
-                        Vector3 position = new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
-                        Vector3 transformedPosition = Vector3.Transform(position, transforms[mesh.ParentBone.Index] * World * View);
-
-                        min = Vector3.Min(min, transformedPosition);
-                        max = Vector3.Max(max, transformedPosition);
-                    }
-                }
-
-                // Update boudingBox for all mesh in model
-                if (updateBoundingBoxes)
-                {
-                    string tempName = mesh.Name;
-                    string name = mesh.Name;
-
-                    int cpt = 0;
-
-                    while (_boundingBoxes.ContainsKey(name))
-                    {
-                        name = String.Format("{0}_{1}", tempName, cpt.ToString());
-                        cpt++;
-                    }
-
-                    _boundingBoxes.Add(mesh.Name, new BoundingBox(min, max));
-                }
-            }
-
-            boundingBox.Min = min;
-            boundingBox.Max = max;
-
-            return boundingBox;
-        }
-
-        private void UpdateMatrix()
-        {
-            World =
-                Matrix.CreateScale(Scale) *
-                Matrix.CreateRotationX(Rotation.X) *
-                Matrix.CreateRotationY(Rotation.Y) *
-                Matrix.CreateRotationZ(Rotation.Z) *
-                Matrix.CreateTranslation(Position) *
-                _camera.World;
-
-            View = _camera.View;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            UpdateMatrix();
-
-            _boundingBox = GetBoundingBox();     
-        }
-
         public override void Draw(GraphicsDevice device)
         {
+            World = Matrix.CreateScale(Scale) *
+                    Matrix.CreateRotationX(Rotation.X) *
+                    Matrix.CreateRotationY(Rotation.Y) *
+                    Matrix.CreateRotationZ(Rotation.Z) *
+                    Matrix.CreateTranslation(Position); 
+
             Matrix[] transforms = new Matrix[_model.Bones.Count];
             _model.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -154,12 +75,59 @@ namespace Yna.Display3D
 
                     effect.World = transforms[mesh.ParentBone.Index] * World;
 
-                    effect.View = View;
+                    effect.View = _camera.View;
 
                     effect.Projection = _camera.Projection;
                 }
                 mesh.Draw();
             }
         }
+
+        #region Static methods
+
+        public static BoundingBox CreateBoundingBox(Model model)
+        {
+            Vector3 modelMin = new Vector3(float.MaxValue);
+            Vector3 modelMax = new Vector3(float.MinValue);
+
+            Matrix[] _transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(_transforms);
+
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                Vector3 meshMax = new Vector3(float.MinValue);
+                Vector3 meshMin = new Vector3(float.MaxValue);
+
+                foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                {
+                    int stride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
+
+                    byte[] vertexData = new byte[stride * meshPart.NumVertices];
+                    meshPart.VertexBuffer.GetData(meshPart.VertexOffset * stride, vertexData, 0, meshPart.NumVertices, 1);
+
+                    Vector3 vertexPosition = new Vector3();
+
+                    for (int i = 0, l = vertexData.Length; i < l; i += stride)
+                    {
+                        vertexPosition.X = BitConverter.ToSingle(vertexData, i);
+                        vertexPosition.Y = BitConverter.ToSingle(vertexData, i + sizeof(float));
+                        vertexPosition.Z = BitConverter.ToSingle(vertexData, i + sizeof(float) * 2);
+
+                        meshMin = Vector3.Min(meshMin, vertexPosition);
+                        meshMax = Vector3.Max(meshMax, vertexPosition);
+                    }
+                }
+
+                meshMin = Vector3.Transform(meshMin, _transforms[mesh.ParentBone.Index]);
+                meshMax = Vector3.Transform(meshMax, _transforms[mesh.ParentBone.Index]);
+
+                modelMin = Vector3.Min(modelMin, meshMin);
+                modelMax = Vector3.Max(modelMax, meshMax);
+            }
+
+            return new BoundingBox(modelMin, modelMax);
+        }
+
+        #endregion
     }
 }

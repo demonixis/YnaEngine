@@ -27,6 +27,8 @@ namespace Yna.Display3D.Camera
             _view = Matrix.CreateLookAt(_position, target, Vector3.Up);
             
             _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
+
+            _world = Matrix.Identity;
         }
     }
 }

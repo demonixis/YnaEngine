@@ -83,9 +83,9 @@ namespace Yna.Display3D
         /// Get the bounding box of the scene. All YnObject3D's BoundingBox are updated
         /// </summary>
         /// <returns>The bounding box of the scene</returns>
-        public override BoundingBox GetBoundingBox()
+        public void CreateBoundingBox()
         {
-            BoundingBox boundingBox = new BoundingBox();
+            _boundingBox = new BoundingBox();
 
             if (_initialized)
             {
@@ -93,25 +93,23 @@ namespace Yna.Display3D
                 {
                     foreach (YnObject3D sceneObject in _members)
                     {
-                        BoundingBox box = sceneObject.GetBoundingBox();
+                        BoundingBox box = sceneObject.BoundingBox;
 
-                        boundingBox.Min.X = box.Min.X < boundingBox.Min.X ? box.Min.X : boundingBox.Min.X;
-                        boundingBox.Min.X = box.Min.Y < boundingBox.Min.Y ? box.Min.Y : boundingBox.Min.Y;
-                        boundingBox.Min.X = box.Min.Z < boundingBox.Min.Z ? box.Min.Z : boundingBox.Min.Z;
+                        _boundingBox.Min.X = box.Min.X < _boundingBox.Min.X ? box.Min.X : _boundingBox.Min.X;
+                        _boundingBox.Min.X = box.Min.Y < _boundingBox.Min.Y ? box.Min.Y : _boundingBox.Min.Y;
+                        _boundingBox.Min.X = box.Min.Z < _boundingBox.Min.Z ? box.Min.Z : _boundingBox.Min.Z;
 
-                        boundingBox.Min.X = box.Min.X < boundingBox.Min.X ? box.Min.X : boundingBox.Min.X;
-                        boundingBox.Min.X = box.Min.Y < boundingBox.Min.Y ? box.Min.Y : boundingBox.Min.Y;
-                        boundingBox.Min.X = box.Min.Z < boundingBox.Min.Z ? box.Min.Z : boundingBox.Min.Z;
+                        _boundingBox.Min.X = box.Min.X < _boundingBox.Min.X ? box.Min.X : _boundingBox.Min.X;
+                        _boundingBox.Min.X = box.Min.Y < _boundingBox.Min.Y ? box.Min.Y : _boundingBox.Min.Y;
+                        _boundingBox.Min.X = box.Min.Z < _boundingBox.Min.Z ? box.Min.Z : _boundingBox.Min.Z;
                     }
                 }
             }
 
             // Update sizes of the scene
-            _width = boundingBox.Max.X - boundingBox.Min.X;
-            _height = boundingBox.Max.Y - boundingBox.Min.Y;
-            _depth = boundingBox.Max.Z - boundingBox.Min.Z;
-
-            return boundingBox;
+            _width = _boundingBox.Max.X - _boundingBox.Min.X;
+            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
         }
 
         #region Content Management
