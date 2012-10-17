@@ -11,6 +11,7 @@ namespace Yna.Display3D
         protected Vector3 _rotation;
         protected Vector3 _scale;
         protected Matrix _view;
+        protected Matrix _world;
 
         #region Properties for position/rotation/scale
 
@@ -95,8 +96,6 @@ namespace Yna.Display3D
             set { _position.Z = value; }
         }
 
-        #endregion
-
         /// <summary>
         /// Get or Set the view matrix
         /// </summary>
@@ -106,11 +105,25 @@ namespace Yna.Display3D
             set { _view = value; }
         }
 
+        /// <summary>
+        /// Get or Set the World matrix of the object
+        /// </summary>
+        public Matrix World
+        {
+            get { return _world; }
+            set { _world = value; }
+        }
+
+        #endregion
+
         public YnBase3D()
         {
             _position = Vector3.Zero;
             _rotation = Vector3.Zero;
             _scale = Vector3.One;
+
+            _view = Matrix.Identity;
+            _world = Matrix.Identity;
         }
 
         public override void Update(GameTime gameTime)

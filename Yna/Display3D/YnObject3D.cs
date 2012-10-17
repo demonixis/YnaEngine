@@ -8,7 +8,7 @@ namespace Yna.Display3D
     public abstract class YnObject3D : YnBase3D, IDisposable
     {
         protected BaseCamera _camera;
-        protected Matrix _world;
+        
         protected BasicEffect _basicEffect;
         protected BoundingBox _boundingBox;
         protected bool _visible;
@@ -60,15 +60,6 @@ namespace Yna.Display3D
         {
             get { return _camera; }
             set { _camera = value; }
-        }
-
-        /// <summary>
-        /// Get or Set the World matrix of the object
-        /// </summary>
-        public Matrix World
-        {
-            get { return _world; }
-            set { _world = value; }
         }
 
         /// <summary>
