@@ -86,6 +86,11 @@
     <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
+    <Compile Include="Display\Gui\Gui.cs" />
+    <Compile Include="Display\Gui\YnBorder.cs" />
+    <Compile Include="Display\Gui\YnLabel.cs" />
+    <Compile Include="Display\Gui\YnSkin.cs" />
+    <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TileMap\AbstractLayer.cs" />

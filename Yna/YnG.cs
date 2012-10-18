@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna.Display;
+using Yna.Display.Gui;
 using Yna.Display3D;
 using Yna.Helpers;
 using Yna.State;
@@ -133,6 +134,11 @@ namespace Yna
             set { Game.IsMouseVisible = value; }
         }
 
+        /// <summary>
+        /// The default UI skin
+        /// </summary>
+        public static YnSkin DefaultSkin { get; set; }
+        
         /// <summary>
         /// Change the screen resolution
         /// </summary>

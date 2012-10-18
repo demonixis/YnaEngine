@@ -25,7 +25,7 @@ namespace Yna.Samples
         protected override void Initialize()
         {
             base.Initialize();
-            YnG.SwitchState(new Menu());
+            YnG.SwitchState(new UIExample());
         }
 
         protected override void Update(GameTime gameTime)
