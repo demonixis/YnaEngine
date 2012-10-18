@@ -11,7 +11,8 @@ namespace Yna.Display3D.Camera
         public FixedCamera()
             : base()
         {
-
+            _position = new Vector3(0.0f, 5.0f, -5.0f);
+            _target = new Vector3(0.0f, 0.0f, 0.0f);
         }
 
         #endregion

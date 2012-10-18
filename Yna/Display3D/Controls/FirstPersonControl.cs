@@ -64,6 +64,11 @@ namespace Yna.Display3D.Controls
                 _camera.RotateY(_rotateSpeed);
             else if (YnG.Keys.Right)
                 _camera.RotateY(-_rotateSpeed);
+
+            if (YnG.Keys.Pressed(Keys.W))
+                _camera.Roll(_rotateSpeed);
+            else if (YnG.Keys.Pressed(Keys.X))
+                _camera.Roll(-_rotateSpeed);
         }
 
         protected override void UpdateGamepadInput(GameTime gameTime)

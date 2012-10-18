@@ -126,6 +126,7 @@ namespace Yna.Display3D.Camera
         public void Pitch(float angle)
         {
             _pitch += MathHelper.ToRadians(angle);
+
         }
 
         public void Roll(float angle)

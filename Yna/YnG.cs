@@ -134,6 +134,30 @@ namespace Yna
         }
 
         /// <summary>
+        /// Get the rectangle that represent the screen size
+        /// </summary>
+        public static Rectangle ScreenRectangle
+        {
+            get { return new Rectangle(0, 0, Width, Height); }
+        }
+
+        /// <summary>
+        /// Get the center of the screen on X axis
+        /// </summary>
+        public static int ScreenCenterX
+        {
+            get { return Game.Window.ClientBounds.Width / 2; }
+        }
+
+        /// <summary>
+        /// Get the center of the screen on Y axis
+        /// </summary>
+        public static int ScreenCenterY
+        {
+            get { return Game.Window.ClientBounds.Height / 2; }
+        }
+
+        /// <summary>
         /// Change the screen resolution
         /// </summary>
         /// <param name="width">Screen width</param>
@@ -143,6 +167,10 @@ namespace Yna
         	(Game as YnGame).SetScreenResolution(width, height);
         }
 
+        /// <summary>
+        /// Set the screen resolution to the same resolution used on desktop
+        /// </summary>
+        /// <param name="fullscreen"></param>
         public static void SetScreenResolutionToMax(bool fullscreen)
         {
             (YnG.Game as YnGame).SetScreenResolutionToMax(true);
