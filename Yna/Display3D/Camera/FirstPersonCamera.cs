@@ -11,7 +11,14 @@ namespace Yna.Display3D.Camera
         public FirstPersonCamera()
             : base()
         {
+            SetupCamera();
+        }
 
+        public FirstPersonCamera(Vector3 position)
+        {
+            _position = position;
+
+            SetupCamera(_position, _target, 1.0f, 3500.0f);
         }
 
         #endregion
@@ -22,6 +29,8 @@ namespace Yna.Display3D.Camera
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             Matrix matRotation = Matrix.CreateRotationX(_pitch) * Matrix.CreateRotationY(_yaw) * Matrix.CreateRotationZ(_roll);
 
             Vector3 transformedReference = Vector3.Transform(_reference, matRotation);

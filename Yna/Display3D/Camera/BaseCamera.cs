@@ -7,6 +7,11 @@ namespace Yna.Display3D.Camera
     public abstract class BaseCamera : YnBase3D
     {
         protected Matrix _projection;
+    
+        protected BoundingSphere _boundingSphere;
+        protected float _boundingRadius;
+        protected BoundingBox _boundingBox;
+        protected BoundingFrustum _boundingFrustrum;
 
         // Rotation X/Y/Z
         protected float _yaw;
@@ -70,11 +75,43 @@ namespace Yna.Display3D.Camera
             get { return MathHelper.PiOver4; }
         }
 
+        public BoundingSphere BoundingSphere
+        {
+            get { return _boundingSphere; }
+            protected set { _boundingSphere = value; }
+        }
+
+        public float BoundingRadius
+        {
+            get { return _boundingRadius; }
+            set { _boundingRadius = value; }
+        }
+
+        public BoundingBox BoundingBox
+        {
+            get { return _boundingBox; }
+            protected set { _boundingBox = value; }
+        }
+
+        public BoundingFrustum BoundingFrustrum
+        {
+            get { return _boundingFrustrum; }
+            protected set { _boundingFrustrum = value; }
+        }
+
         #endregion
 
         public BaseCamera()
         {
-            SetupCamera();
+            _boundingRadius = 5;
+            
+            _boundingSphere = new BoundingSphere(Vector3.Zero, _boundingRadius);
+
+            _boundingBox = new BoundingBox(
+                new Vector3(X - _boundingRadius, Y - _boundingRadius, Z - _boundingRadius),
+                new Vector3(X + _boundingRadius, Y + _boundingRadius, Z + _boundingRadius));
+
+            _boundingFrustrum = new BoundingFrustum(Matrix.Identity);
         }
 
         /// <summary>
@@ -87,7 +124,9 @@ namespace Yna.Display3D.Camera
         public virtual void SetupCamera(Vector3 position, Vector3 target, float nearClip, float farClip)
         {
             _position = position;
+
             _reference = new Vector3(0.0f, 0.0f, 10.0f); // fix that
+
             _target = target;
 
             _yaw = 0.0f;
@@ -149,6 +188,17 @@ namespace Yna.Display3D.Camera
             _position.X += v.X;
             _position.Y += v.Y;
             _position.Z += v.Z;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            _boundingSphere = new BoundingSphere(Position, _boundingRadius);
+
+            _boundingBox = new BoundingBox(
+                new Vector3(X - _boundingRadius, Y - _boundingRadius, Z - _boundingRadius), 
+                new Vector3(X + _boundingRadius, Y + _boundingRadius, Z + _boundingRadius));
+
+            _boundingFrustrum = new BoundingFrustum(View * Projection);
         }
     }
 }
