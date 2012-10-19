@@ -6,9 +6,9 @@ namespace Yna.Display3D.Camera
 {
     public class ThirdPersonCamera : BaseCamera
     {
-        private YnBase3D _followedObject;
+        private YnObject3D _followedObject;
 
-        public YnBase3D FollowedObject
+        public YnObject3D FollowedObject
         {
             get { return _followedObject; }
             set { _followedObject = value; }

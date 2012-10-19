@@ -15,6 +15,15 @@ namespace Yna.Display3D.Controls
             set { _followedObject = value; }
         }
 
+        public ThirdPersonControl(ThirdPersonCamera camera)
+            : base(camera)
+        {
+            if (camera.FollowedObject == null)
+                throw new Exception("[ThirdPersonCamera] The followed object is null");
+
+            _followedObject = camera.FollowedObject;
+        }
+
         public ThirdPersonControl(ThirdPersonCamera camera, YnObject3D followedObject)
             : base(camera)
         {
