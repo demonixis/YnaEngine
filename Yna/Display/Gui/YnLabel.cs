@@ -36,7 +36,16 @@ namespace Yna.Display.Gui
         {
             Color color = (UseCustomColor) ? TextColor : skin.DefaultTextColor;
 
-            spriteBatch.DrawString(skin.Font, Text, Position, color);
+            spriteBatch.DrawString(skin.Font, Text, AbsolutePosition, color);
+        }
+
+        public override void Layout()
+        {
+            base.Layout();
+
+            Vector2 size = Skin.Font.MeasureString(Text);
+            bounds.Width = (int) size.X;
+            bounds.Height = (int) size.Y;
         }
     }
 }

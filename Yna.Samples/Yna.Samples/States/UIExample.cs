@@ -19,25 +19,59 @@ namespace Yna.Samples.States
 		{
             Gui = new Gui(YnG.Game);
 
-            YnLabel titleLabel = Gui.Add(new YnLabel());
-            titleLabel.Text = "[GUI Examples]";
+            // Simple Label example
+            YnLabel simpleLabel = Gui.Add(new YnLabel());
+            simpleLabel.Text = "Simple Label";
+            simpleLabel.Position = new Vector2(10, 10);
+            
 
-            YnLabel label = Gui.Add(new YnLabel());
-            label.Text = "This is a simple label";
-            label.Position = new Vector2(50, 50);
+            // Simple vertical panel
+            YnLabel simpleTitle = Gui.Add(new YnLabel());
+            simpleTitle.Text = "Automatic resize of panels :";
+            simpleTitle.Position = new Vector2(10, 30);
 
+            YnPanel panel = Gui.Add(new YnPanel());
+            panel.Orientation = YnOrientation.Vertical;
+            panel.Bounds = new Rectangle(10, 50, 50, 50);
+            panel.Padding = 5;
 
-            /*
-			UiManager = new YnUiManager();
-			YnUiText simpleLabel = UiManager.Add(new YnUiText());
-			simpleLabel.Text = "Simple labe";
-			simpleLabel.Position = Vector2.Zero;
-			
-			YnUiWindow window = UiManager.Add(new YnUiWindow());
-			window.Rectangle = new Rectangle(50, 50, 250, 200);
-			YnUiText windowLabel = window.Add(new YnUiText());
-			windowLabel.Text = "Label inside window";
-             */
+            panel.Add(new YnLabel() { Text = "Short" });
+            panel.Add(new YnLabel() { Text = "Some basic text" });
+            panel.Add(new YnLabel() { Text = "Some extreme and dangerously long label" });
+            
+
+            // Complex panel
+            YnLabel complexTitle = Gui.Add(new YnLabel());
+            complexTitle.Text = "Complex panel management :";
+            complexTitle.Position = new Vector2(350, 80);
+
+            YnPanel complexPanel = Gui.Add(new YnPanel());
+            complexPanel.Orientation = YnOrientation.Horizontal;
+            complexPanel.Position = new Vector2(350, 100);
+            complexPanel.Padding = 3;
+
+            YnPanel leftPanel = complexPanel.Add(new YnPanel());
+            leftPanel.Padding = 3;
+            leftPanel.Orientation = YnOrientation.Vertical;
+            leftPanel.Add(new YnLabel() { Text = "Left label A with long text" });
+            leftPanel.Add(new YnLabel() { Text = "Left label B" });
+
+            YnPanel RightPanel = complexPanel.Add(new YnPanel());
+            RightPanel.Padding = 3;
+            RightPanel.Orientation = YnOrientation.Vertical;
+            RightPanel.Add(new YnLabel() { Text = "Right label A" });
+            RightPanel.Add(new YnLabel() { Text = "Right label B withe loooooong text" });
+        
+            // Panel without padding
+            YnPanel noPaddingPanel = Gui.Add(new YnPanel());
+            noPaddingPanel.Position = new Vector2(10, 180);
+            noPaddingPanel.Add(new YnLabel() { Text = "Panel without padding" });
+
+            // Panel with padding
+            YnPanel paddedPanel = Gui.Add(new YnPanel());
+            paddedPanel.Position = new Vector2(10, 210);
+            paddedPanel.Padding = 20;
+            paddedPanel.Add(new YnLabel() { Text = "Panel without big padding" });
 		}
 		
 		public override void Update(GameTime gameTime)
@@ -59,8 +93,6 @@ namespace Yna.Samples.States
 		{
 			
 			base.LoadContent();
-			
-			Background = YnG.Content.Load<Texture2D>("Backgrounds/greenground1");
 		}
 		
 		public override void Draw(GameTime gameTime)
@@ -68,7 +100,7 @@ namespace Yna.Samples.States
 			base.Draw(gameTime);
 			
 			spriteBatch.Begin();
-			//spriteBatch.Draw(Background, Vector2.Zero, Color.White);
+			// Nothing!
 			spriteBatch.End();
 			
 			

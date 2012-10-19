@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Helpers;
 
 namespace Yna.Display.Gui
 {
@@ -56,6 +57,19 @@ namespace Yna.Display.Gui
                 // TODO Load the skin
                 //Skin = Game.Content.Load<YnSkin>(SkinName);
             }
+
+            // Initializes the skin for all added widgets
+            foreach(YnWidget widget in Widgets)
+            {
+                widget.InitSkin(Skin);
+            }
+
+
+            // Do the layout for all widgets
+            foreach (YnWidget widget in Widgets)
+            {
+                widget.Layout();
+            }
         }
 
         /// <summary>
@@ -83,21 +97,47 @@ namespace Yna.Display.Gui
         public W Add<W>(W widget) where W : YnWidget
         {
             Widgets.Add(widget);
+            // If the skin is already loaded, link it directly
+            if(Skin != null)
+            {
+                widget.Skin = Skin;
+            }
             return widget;
         }
     }
 
     /// <summary>
-    /// Default skin
+    /// Default skin with basic rendering
     /// </summary>
     class DefaultSkin : YnSkin
     {
+        /// <summary>
+        /// The constructor of the default skin builds all textures from scratch.
+        /// Must be used after Content Manager has been started
+        /// </summary>
         public DefaultSkin()
             : base()
         {
+            // Default font
             FontName = "Fonts/DefaultFont";
             Font = YnG.Game.Content.Load<SpriteFont>(FontName);
             DefaultTextColor = Color.White;
+
+            // Default borders
+            const int borderSize = 2;
+            Color borderColor = Color.LightGray;
+            BoxBorder = new YnBorder();
+            BoxBorder.TopLeft     = GraphicsHelper.CreateTexture(borderColor, borderSize, borderSize);
+            BoxBorder.Top         = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
+            BoxBorder.TopRight    = GraphicsHelper.CreateTexture(borderColor, borderSize, borderSize);
+            BoxBorder.Right       = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
+            BoxBorder.BottomRight = GraphicsHelper.CreateTexture(borderColor, borderSize, borderSize);
+            BoxBorder.Bottom      = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
+            BoxBorder.BottomLeft  = GraphicsHelper.CreateTexture(borderColor, borderSize, borderSize);
+            BoxBorder.Left        = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
+
+            // Default background
+            BoxBackground = GraphicsHelper.CreateTexture(Color.DarkGray, 1, 1);
         }
     }
 }
