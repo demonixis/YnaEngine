@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,6 +12,7 @@ namespace Yna.State
     public class ScreenManager : DrawableGameComponent
     {
         #region Private declarations
+
         private List<Screen> _screens;
         private List<Screen> _safeScreens;
         private bool _initialized;
@@ -31,10 +34,35 @@ namespace Yna.State
             get { return _spriteBatch; }
         }
 
+        /// <summary>
+        /// Get the screen at index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Screen this[int index]
+        {
+            get
+            {
+                if (index < 0 || index > _screens.Count - 1)
+                    return null;
+                else
+                    return _screens[index];
+            }
+            set
+            {
+                if (index < 0 || index > _screens.Count - 1)
+                    throw new IndexOutOfRangeException();
+                else
+                    _screens[index] = value;
+            }
+        }
+
         #endregion
 
+        #region GameState pattern
+
         public ScreenManager(Game game)
-            : base (game)
+            : base(game)
         {
             ClearColor = Color.Black;
 
@@ -85,7 +113,7 @@ namespace Yna.State
 
                 for (int i = 0; i < nbSafeScreen; i++)
                 {
-                    if (_safeScreens[i].IsActive)
+                    if (_safeScreens[i].Active)
                         _safeScreens[i].Update(gameTime);
                 }
             }
@@ -103,11 +131,15 @@ namespace Yna.State
             {
                 for (int i = 0; i < nbScreens; i++)
                 {
-                    if (_safeScreens[i].IsVisible)
+                    if (_safeScreens[i].Visible)
                         _safeScreens[i].Draw(gameTime);
                 }
             }
         }
+
+        #endregion
+
+        #region Helpers for fadein/out the screen
 
         public void FadeBackBufferToBlack(float alpha)
         {
@@ -115,7 +147,7 @@ namespace Yna.State
         }
 
         /// <summary>
-        /// Fade the backbuffer 
+        /// Fade the screen to the specified color
         /// </summary>
         /// <param name="color">Transition color</param>
         /// <param name="alpha">Alpha color</param>
@@ -125,6 +157,8 @@ namespace Yna.State
             _spriteBatch.Draw(_transitionTexture, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), color * alpha);
             _spriteBatch.End();
         }
+
+        #endregion
 
         #region Collection methods
 
@@ -189,6 +223,13 @@ namespace Yna.State
         {
             return _screens.ToArray();
         }
+
+        public IEnumerator GetEnumerator()
+        {
+            foreach (Screen screen in _screens)
+                yield return screen;
+        }
+
         #endregion
     }
 }

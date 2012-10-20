@@ -18,9 +18,7 @@ namespace Yna.Display
     public abstract class YnObject : YnBase
     {
         protected bool _visible;
-
         protected YnObject _parent;
-
         protected Vector2 _position;
         protected Rectangle _rectangle;
         protected Texture2D _texture;

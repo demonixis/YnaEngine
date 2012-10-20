@@ -145,7 +145,7 @@ namespace Yna
 
         public static void SetScreenResolutionToMax(bool fullscreen)
         {
-            (YnG.Game as YnGame).SetScreenResolutionToMax(true);
+            (Game as YnGame).SetScreenResolutionToMax(true);
         }
 
         /// <summary>

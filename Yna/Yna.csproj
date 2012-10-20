@@ -122,8 +122,6 @@
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
-    <Compile Include="YnPoint.cs" />
-    <Compile Include="YnRectangle.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup />

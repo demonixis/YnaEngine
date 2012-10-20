@@ -10,11 +10,16 @@ namespace Yna.Display
 {
     public class YnGroup : YnObject
     {
+        #region Private declarations
+
         private List<YnObject> _members;
         private List<YnObject> _safeMembers;
-
         private bool _initialized;
         private bool _assetsLoaded;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Members of the group
@@ -75,6 +80,8 @@ namespace Yna.Display
             }
         }
 
+        #endregion
+
         public YnGroup(int capacity = 0)
         {
             _members = new List<YnObject>(capacity);
@@ -83,52 +90,7 @@ namespace Yna.Display
             _assetsLoaded = false;
         }
 
-        /// <summary>
-        /// Add a new object in the collecion
-        /// </summary>
-        /// <param name="sceneObject">An object or derivated from YnObject</param>
-        public void Add(YnObject sceneObject)
-        {
-            sceneObject.Parent = this;
-
-            if (_assetsLoaded)
-                sceneObject.LoadContent();
-
-            if (_initialized)
-                sceneObject.Initialize();
-
-            _members.Add(sceneObject);
-        }
-
-        /// <summary>
-        /// Add a new object in the collecion
-        /// </summary>
-        /// <param name="sceneObject">An array of objects or derivated from YnObject</param>
-        public void Add(YnObject[] sceneObject)
-        {
-            int size = sceneObject.Length;
-            for (int i = 0; i < size; i++)
-            {
-                if (_assetsLoaded)
-                    sceneObject[i].LoadContent();
-
-                if (_initialized)
-                    sceneObject[i].Initialize();
-
-                Add(sceneObject[i]);
-            }
-        }
-
-        public void Remove(YnObject sceneObject)
-        {
-            _members.Remove(sceneObject);
-        }
-
-        public void Clear()
-        {
-            _members.Clear();
-            _safeMembers.Clear();
-        }
+        #region GameState pattern
 
         public override void Initialize()
         {
@@ -196,10 +158,63 @@ namespace Yna.Display
             }
         }
 
+        #endregion
+
+        #region Collection methods
+
+        /// <summary>
+        /// Add a new object in the collecion
+        /// </summary>
+        /// <param name="sceneObject">An object or derivated from YnObject</param>
+        public void Add(YnObject sceneObject)
+        {
+            sceneObject.Parent = this;
+
+            if (_assetsLoaded)
+                sceneObject.LoadContent();
+
+            if (_initialized)
+                sceneObject.Initialize();
+
+            _members.Add(sceneObject);
+        }
+
+        /// <summary>
+        /// Add a new object in the collecion
+        /// </summary>
+        /// <param name="sceneObject">An array of objects or derivated from YnObject</param>
+        public void Add(YnObject[] sceneObject)
+        {
+            int size = sceneObject.Length;
+            for (int i = 0; i < size; i++)
+            {
+                if (_assetsLoaded)
+                    sceneObject[i].LoadContent();
+
+                if (_initialized)
+                    sceneObject[i].Initialize();
+
+                Add(sceneObject[i]);
+            }
+        }
+
+        public void Remove(YnObject sceneObject)
+        {
+            _members.Remove(sceneObject);
+        }
+
+        public void Clear()
+        {
+            _members.Clear();
+            _safeMembers.Clear();
+        }
+
         public IEnumerator GetEnumerator()
         {
             foreach (YnObject member in _members)
                 yield return member;
         }
+
+        #endregion
     }
 }

@@ -55,12 +55,12 @@ namespace Yna.Samples.States
             _selected = selected;
             _itemPosition = position;
 
-            _label = new YnText("Fonts/MenuFont", new Vector2(coefX, offset + coefY * _itemPosition), Name);
+            _label = new YnText("Fonts/MenuFont", coefX, offset + coefY * _itemPosition, Name);
             _label.Color = LabelColor;
             Add(_label);
 
 
-            _description = new YnText("Fonts/MenuFont", new Vector2(coefX + 200, offset + coefY), description);
+            _description = new YnText("Fonts/MenuFont", coefX + 200, offset + coefY, description);
             _description.Color = Color.AliceBlue;
             _description.Visible = Selected;
             Add(_description);

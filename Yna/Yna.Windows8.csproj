@@ -98,7 +98,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <ItemGroup>
+   <ItemGroup>
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
@@ -160,8 +160,6 @@
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
-    <Compile Include="YnPoint.cs" />
-    <Compile Include="YnRectangle.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
