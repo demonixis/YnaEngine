@@ -31,6 +31,9 @@ namespace Yna.Display3D.Terrain
             CreateVertices();
             CreateIndices();
             SetupShader();
+
+            CreateBoundingBox();
+            CreateBoundingSphere();
         }
 
         protected override void CreateVertices()

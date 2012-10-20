@@ -3,12 +3,99 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Display3D;
+using Yna.Display3D.Camera;
 
 namespace Yna.Display3D
 {
+    public struct CollideInformation
+    {
+        public float Distance;
+        public YnObject3D Object3D;
+    }
+
     public class YnG3
     {
+        #region Coordinates 2D/3D
+
+        /// <summary>
+        /// Get 2D position (on screen) from 3D position (on world)
+        /// </summary>
+        /// <param name="camera">Camera to use</param>
+        /// <param name="position">Position 3D</param>
+        /// <returns>The screen position</returns>
+        public static Vector2 WorldToScreen(BaseCamera camera, ref Vector3 position)
+        {
+            Vector3 p2d = YnG.GraphicsDevice.Viewport.Project(position, camera.Projection, camera.View, Matrix.Identity);
+
+            return new Vector2(p2d.X, p2d.Y);
+        }
+
+        /// <summary>
+        /// Get 3D world position of from the 2D position (on screen)
+        /// </summary>
+        /// <param name="camera">Camera to use</param>
+        /// <param name="position">Position on world</param>
+        /// <returns>Position on 3D world</returns>
+        public static Vector3 ScreenToWorld(BaseCamera camera, ref Vector2 position)
+        {
+            Vector3 p3d = YnG.GraphicsDevice.Viewport.Unproject(new Vector3(position, 0.0f), camera.Projection, camera.View, Matrix.Identity);
+
+            return p3d;
+        }
+
+        #endregion
+
         #region Collision detection
+
+        /// <summary>
+        /// Get a Ray from the mouse coordinate
+        /// </summary>
+        /// <param name="camera">Camera to use</param>
+        /// <returns>A ray</returns>
+        public static Ray GetMouseRay(BaseCamera camera)
+        {
+            Vector3 nearPoint = new Vector3(YnG.Mouse.Position, 0);
+            Vector3 farPoint = new Vector3(YnG.Mouse.Position, 1);
+
+            nearPoint = YnG.GraphicsDevice.Viewport.Unproject(nearPoint, camera.Projection, camera.View, Matrix.Identity);
+            farPoint = YnG.GraphicsDevice.Viewport.Unproject(farPoint, camera.Projection, camera.View, Matrix.Identity);
+
+            // Get the direction
+            Vector3 direction = farPoint - nearPoint;
+            direction.Normalize();
+
+            return new Ray(nearPoint, direction);
+        }
+
+        /// <summary>
+        /// Get the distance between the mouse cursor and an object3D
+        /// </summary>
+        /// <param name="camera">Camera to use</param>
+        /// <param name="object3D">Object3D</param>
+        /// <returns>The distance between the object and the mouse cursor, -1 if not collide</returns>
+        public static float MouseCollideWithObject(BaseCamera camera, YnObject3D object3D)
+        {
+            float? distance = GetMouseRay(camera).Intersects(object3D.BoundingSphere);
+
+            return distance != null ? (float)distance : -1.0f;
+        }
+
+        public static CollideInformation[] MouseCollideWithGroup(BaseCamera camera, YnGroup3D group)
+        {
+            List<CollideInformation> collides = new List<CollideInformation>();
+
+            int groupSize = group.Count;
+
+            for (int i = 0; i < groupSize; i++)
+            {
+                float distance = MouseCollideWithObject(camera, group[i]);
+
+                if (distance > -1)
+                    collides.Add(new CollideInformation() { Object3D = group[i], Distance = distance });
+            }
+
+            return collides.ToArray();
+        }
 
         /// <summary>
         /// Test if two models colliding
@@ -41,7 +128,7 @@ namespace Yna.Display3D
 
                     if (meshABS.Intersects(meshBBS))
                         collide = true;
-                    
+
                     j++;
                 }
             }
