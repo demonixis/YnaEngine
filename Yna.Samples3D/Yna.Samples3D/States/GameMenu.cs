@@ -30,7 +30,7 @@ namespace Yna.Samples3D.States
             background = new YnSprite("Backgrounds/gradient");
             Add(background);
 
-            title = new YnText("Fonts/MenuFont", Vector2.Zero, "YNA Samples");
+            title = new YnText("Fonts/MenuFont", "YNA Samples");
             title.Color = Color.DarkSlateBlue;
             Add(title);
 
@@ -144,12 +144,12 @@ namespace Yna.Samples3D.States
             _selected = selected;
             _itemPosition = position;
 
-            _label = new YnText("Fonts/MenuFont", new Vector2(coefX, offset + coefY * _itemPosition), Name);
+            _label = new YnText("Fonts/MenuFont", coefX, offset + coefY * _itemPosition, Name);
             _label.Color = LabelColor;
             Add(_label);
 
 
-            _description = new YnText("Fonts/MenuFont", new Vector2(coefX + 200, offset + coefY), description);
+            _description = new YnText("Fonts/MenuFont", coefX + 200, offset + coefY, description);
             _description.Color = Color.AliceBlue;
             _description.Visible = Selected;
             Add(_description);

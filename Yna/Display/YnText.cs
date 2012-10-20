@@ -4,32 +4,45 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Display
 {
-	/// <summary>
-	/// Simple text component
-	/// </summary>
+    /// <summary>
+    /// Simple text component
+    /// </summary>
     public class YnText : YnObject
     {
-    	/// <summary>
-    	/// The SpriteFont which will be used to draw the text
-    	/// </summary>
-    	protected SpriteFont Font { get; set; }
-    	
-    	/// <summary>
-    	/// The text to display
-    	/// </summary>
-    	public string Text { get; set; }
-    	
-    	/// <summary>
-    	/// The text effects
-    	/// </summary>
-    	protected SpriteEffects TextEffects { get; set;}
+        #region private declaration
+
+        private SpriteFont _font;
+        private string _text;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// The Sprite_font which will be used to draw the text
+        /// </summary>
+        protected SpriteFont Font 
+        { 
+            get { return _font; }
+            set { _font = value; }
+        }
+
+        /// <summary>
+        /// The text to display
+        /// </summary>
+        public string Text
+        {
+            get { return _text; }
+            set { _text = value; }
+
+        }
 
         /// <summary>
         /// The text width according to it's font
         /// </summary>
         public new int Width
         {
-            get { return (int) Font.MeasureString(Text).X; }
+            get { return (int)_font.MeasureString(Text).X; }
             protected set { base.Width = value; }
         }
 
@@ -38,9 +51,13 @@ namespace Yna.Display
         /// </summary>
         public new int Height
         {
-            get { return (int)Font.MeasureString(Text).Y; }
+            get { return (int)_font.MeasureString(Text).Y; }
             protected set { base.Height = value; }
         }
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Constructor
@@ -50,7 +67,7 @@ namespace Yna.Display
         private YnText(Vector2 position, string text)
             : base()
         {
-            Text = text;
+            _text = text;
             _position = position;
             _textureLoaded = false;
             _color = Color.Black;
@@ -78,7 +95,7 @@ namespace Yna.Display
         public YnText(SpriteFont font, int x, int y, string text)
             : this(new Vector2(x, y), text)
         {
-            Font = font;
+            _font = font;
             _textureLoaded = true;
         }
 
@@ -95,22 +112,7 @@ namespace Yna.Display
             _textureName = fontName;
             _textureLoaded = false;
         }
-        
-        #region Deprecated constructors
-        // TODO: Deprecated
-        public YnText(SpriteFont font, Vector2 position, string text) 
-            : this(position, text)
-        {
-            Font = font;
-            _textureLoaded = true;
-        }
 
-        // TODO: Deprected
-        public YnText(string fontName, Vector2 position, string text)
-            : this(position, text)
-        {
-            _textureName = fontName;
-        }
         #endregion
 
         /// <summary>
@@ -123,16 +125,18 @@ namespace Yna.Display
             if (_textureLoaded)
             {
                 Position = new Vector2(
-                    (float) (x / 2 - Width / 2),
-                    (float) (y / 2 - Height / 2)
+                    (float)(x / 2 - Width / 2),
+                    (float)(y / 2 - Height / 2)
                 );
             }
         }
 
+        #region GameState pattern
+
         public override void Initialize()
         {
             LoadContent();
-            Vector2 size = Font.MeasureString(Text);
+            Vector2 size = _font.MeasureString(Text);
             Rectangle = new Rectangle(X, Y, (int)size.X, (int)size.Y);
         }
 
@@ -140,27 +144,25 @@ namespace Yna.Display
         {
             if (!_textureLoaded && _textureName != String.Empty)
             {
-                Font = YnG.Content.Load<SpriteFont>(_textureName);
-                Vector2 size = Font.MeasureString(Text);
-                Width = (int) size.X;
-                Height = (int) size.Y;
+                _font = YnG.Content.Load<SpriteFont>(_textureName);
                 _textureLoaded = true;
+
+                Vector2 size = _font.MeasureString(Text);
+                Width = (int)size.X;
+                Height = (int)size.Y;
             }
         }
 
         public override void UnloadContent() { }
 
-        public override void Update(GameTime gameTime) 
-        {
-            base.Update(gameTime);
-        }
-
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (Visible)
             {
-                spriteBatch.DrawString(Font, Text, _position, Color, _rotation, _origin, _scale, TextEffects, _layerDepth);
+                spriteBatch.DrawString(_font, _text, _position, _color, _rotation, _origin, _scale, _effects, _layerDepth);
             }
         }
+
+        #endregion
     }
 }
