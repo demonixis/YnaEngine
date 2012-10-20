@@ -5,12 +5,20 @@ using Yna.Display3D.Camera;
 
 namespace Yna.Display3D
 {
+    /// <summary>
+    /// This is a base class for all things that can be drawn on the screen
+    /// </summary>
     public abstract class YnObject3D : YnBase3D, IDisposable
     {
+        #region Protected & private declarations
+
         protected BaseCamera _camera;
-        
+        protected Vector3 _lastPosition;
+        protected Vector3 _direction;
+        protected Vector3 _lastDirection;
         protected BasicEffect _basicEffect;
         protected BoundingBox _boundingBox;
+        protected BoundingSphere _boundingSphere;
         protected bool _visible;
         protected float _width;
         protected float _height;
@@ -18,7 +26,43 @@ namespace Yna.Display3D
         protected YnObject3D _parent;
         protected bool _initialized;
 
+        #endregion
+
         #region Properties
+
+        /// <summary>
+        /// Get or Set the status of the object
+        /// If true the object is not paused and is visible
+        /// Else it's paused and not visible
+        /// </summary>
+        public new bool Active
+        {
+            get { return !_paused && _visible && !_dirty; }
+            set
+            {
+                if (value)
+                {
+                    _visible = true;
+                    _paused = false;
+                    _dirty = false;
+                }
+                else
+                {
+                    _visible = false;
+                    _paused = true;
+                    _dirty = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or Set the visibility status of the object
+        /// </summary>
+        public bool Visible
+        {
+            get { return _visible; }
+            set { _visible = value; }
+        }
 
         /// <summary>
         /// Get the width of the model
@@ -45,15 +89,6 @@ namespace Yna.Display3D
         }
 
         /// <summary>
-        /// Determine if this object is visible. If not, it's not rendered
-        /// </summary>
-        public bool Visible
-        {
-            get { return _visible; }
-            set { _visible = value; }
-        }
-
-        /// <summary>
         /// Get or Set the camera used for this model
         /// </summary>
         public BaseCamera Camera
@@ -71,9 +106,47 @@ namespace Yna.Display3D
             set { _parent = value; }
         }
 
+        /// <summary>
+        /// Get the bounding box of the object
+        /// </summary>
         public BoundingBox BoundingBox
         {
             get { return _boundingBox; }
+        }
+
+        /// <summary>
+        /// Get the bounding sphere of the model
+        /// </summary>
+        public BoundingSphere BoundingSphere
+        {
+            get { return _boundingSphere; }
+        }
+
+        /// <summary>
+        /// Get the bounding frustrum of the model
+        /// </summary>
+        public BoundingFrustum BoundingFrustrum
+        {
+            get { return new BoundingFrustum(_camera.Projection * View); }
+        }
+
+        /// <summary>
+        /// Get the last position
+        /// </summary>
+        public Vector3 LastPosition
+        {
+            get { return _lastPosition; }
+        }
+
+        public Vector3 Direction
+        {
+            get { return _direction; }
+            set { _direction = value; }
+        }
+
+        public Vector3 LastDirection
+        {
+            get { return _lastDirection; }
         }
         
         #endregion
@@ -84,14 +157,19 @@ namespace Yna.Display3D
             : base()
         {
             _position = position;
+            _lastPosition = position;
 
             _width = 0;
             _height = 0;
             _depth = 0;
 
+            _direction = Vector3.Zero;
+            _lastDirection = Vector3.Zero;
+
             _visible = true;
             _initialized = false;
             _boundingBox = new BoundingBox();
+            _boundingSphere = new BoundingSphere();
         }
 
         public YnObject3D()
@@ -101,6 +179,8 @@ namespace Yna.Display3D
         }
 
         #endregion
+
+        #region Rotation & Translation methods
 
         /// <summary>
         /// Rotate arround Y axis
@@ -130,6 +210,8 @@ namespace Yna.Display3D
             _position.Z += v.Z;
         }
 
+        #endregion
+
         #region GameState pattern
 
         /// <summary>
@@ -157,9 +239,13 @@ namespace Yna.Display3D
 
         #endregion
 
+        #region IDisposable implementation
+
         void IDisposable.Dispose()
         {
             UnloadContent();
         }
+
+        #endregion
     }
 }

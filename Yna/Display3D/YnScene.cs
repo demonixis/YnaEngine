@@ -11,6 +11,7 @@ namespace Yna.Display3D
 {
     public class YnScene : YnGroup3D
     {
+
         #region Constructors
 
         public YnScene(BaseCamera camera)

@@ -36,7 +36,7 @@ namespace Yna.Display3D
             _safeBaseMembers = new List<YnBase3D>();
             _initialized = false;
         }
-        
+
         public YnState3D(BaseCamera camera)
             : this()
         {
@@ -82,10 +82,7 @@ namespace Yna.Display3D
                 _safeBaseMembers.AddRange(_baseMembers);
 
                 for (int i = 0; i < nbMembers; i++)
-                {
-                    if (!_safeBaseMembers[i].Pause)
-                        _safeBaseMembers[i].Update(gameTime);
-                }
+                    _safeBaseMembers[i].Update(gameTime);
             }
 
             _scene.Update(gameTime);
@@ -95,7 +92,7 @@ namespace Yna.Display3D
         {
             base.Draw(gameTime);
 
-            _scene.Draw(this.ScreenManager.Game.GraphicsDevice);
+            _scene.Draw(YnG.GraphicsDevice);
         }
 
         #region Collection Management

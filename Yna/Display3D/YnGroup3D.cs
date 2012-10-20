@@ -16,11 +16,17 @@ namespace Yna.Display3D
 
         #region Properties
 
+        /// <summary>
+        /// Get the number of elements in the group
+        /// </summary>
         public int Count
         {
             get { return _members.Count; }
         }
 
+        /// <summary>
+        /// Get or Set the camera used for this group. If set all objects are updated with this camera
+        /// </summary>
         public new BaseCamera Camera
         {
             get { return _camera; }
@@ -79,6 +85,8 @@ namespace Yna.Display3D
 
         #endregion
 
+        #region Compute bounding box & bounding sphere
+
         /// <summary>
         /// Get the bounding box of the scene. All YnObject3D's BoundingBox are updated
         /// </summary>
@@ -112,7 +120,21 @@ namespace Yna.Display3D
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
         }
 
-        #region Content Management
+        /// <summary>
+        /// Create the global bouding sphere of the group
+        /// </summary>
+        public void CreateBoundingSphere()
+        {
+            if (_boundingBox.Min.X == _boundingBox.Max.X && _boundingBox.Min.Y == _boundingBox.Max.Y && _boundingBox.Min.Z == _boundingBox.Max.Z)
+                CreateBoundingBox();
+
+            _boundingSphere.Center = new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2);
+            _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
+        }
+
+        #endregion
+
+        #region GameState Pattern
 
         public override void LoadContent()
         {
@@ -145,37 +167,39 @@ namespace Yna.Display3D
             }
         }
 
-        #endregion
-
-        #region Update & Draw
-
         public override void Update(GameTime gameTime)
         {
-            int nbMembers = _members.Count;
-
-            if (nbMembers > 0)
+            if (!Pause)
             {
-                _safeMembers.Clear();
-                _safeMembers.AddRange(_members);
+                int nbMembers = _members.Count;
 
-                for (int i = 0; i < nbMembers; i++)
+                if (nbMembers > 0)
                 {
-                    if (!_safeMembers[i].Pause)
-                        _safeMembers[i].Update(gameTime);
+                    _safeMembers.Clear();
+                    _safeMembers.AddRange(_members);
+
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (!_safeMembers[i].Pause)
+                            _safeMembers[i].Update(gameTime);
+                    }
                 }
             }
         }
 
         public override void Draw(GraphicsDevice device)
         {
-            int nbMembers = _safeMembers.Count;
-
-            if (nbMembers > 0)
+            if (Visible)
             {
-                for (int i = 0; i < nbMembers; i++)
+                int nbMembers = _safeMembers.Count;
+
+                if (nbMembers > 0)
                 {
-                    if (_safeMembers[i].Visible)
-                        _safeMembers[i].Draw(device);
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_safeMembers[i].Visible)
+                            _safeMembers[i].Draw(device);
+                    }
                 }
             }
         }
@@ -184,6 +208,10 @@ namespace Yna.Display3D
 
         #region Collection methods
 
+        /// <summary>
+        /// Add an object to the group, the camera used for this group will be used for this object
+        /// </summary>
+        /// <param name="sceneObject">An object3D</param>
         public void Add(YnObject3D sceneObject)
         {
             if (sceneObject is YnScene)
@@ -200,23 +228,30 @@ namespace Yna.Display3D
             _members.Add(sceneObject);
         }
 
+        /// <summary>
+        /// Remove an object of the group
+        /// </summary>
+        /// <param name="sceneObject"></param>
         public void Remove(YnObject3D sceneObject)
         {
             _members.Remove(sceneObject);
         }
 
+        /// <summary>
+        /// Clear the group
+        /// </summary>
         public void Clear()
         {
             _members.Clear();
             _safeMembers.Clear();
         }
 
-        #endregion
-
         public IEnumerator GetEnumerator()
         {
             foreach (YnBase3D member in _members)
                 yield return member;
         }
+
+        #endregion     
     }
 }

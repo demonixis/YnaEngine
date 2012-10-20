@@ -192,11 +192,11 @@ namespace Yna.Display3D.Camera
 
         public override void Update(GameTime gameTime)
         {
-            _boundingSphere = new BoundingSphere(Position, _boundingRadius);
+            _boundingSphere.Center = _position;
+            _boundingSphere.Radius = _boundingRadius;
 
-            _boundingBox = new BoundingBox(
-                new Vector3(X - _boundingRadius, Y - _boundingRadius, Z - _boundingRadius), 
-                new Vector3(X + _boundingRadius, Y + _boundingRadius, Z + _boundingRadius));
+            _boundingBox.Min = new Vector3(X - _boundingRadius, Y - _boundingRadius, Z - _boundingRadius);
+            _boundingBox.Max = new Vector3(X + _boundingRadius, Y + _boundingRadius, Z + _boundingRadius);
 
             _boundingFrustrum = new BoundingFrustum(View * Projection);
         }

@@ -121,7 +121,6 @@ namespace Yna.Display3D
             _position = Vector3.Zero;
             _rotation = Vector3.Zero;
             _scale = Vector3.One;
-
             _view = Matrix.Identity;
             _world = Matrix.Identity;
         }

@@ -236,6 +236,18 @@ namespace Yna.Display3D.Terrain
         }
 
         /// <summary>
+        /// Create the bounding sphere of the object
+        /// </summary>
+        public void CreateBoundingSphere()
+        {
+            if (_boundingBox.Min.X == _boundingBox.Max.X && _boundingBox.Min.Y == _boundingBox.Max.Y && _boundingBox.Min.Z == _boundingBox.Max.Z)
+                CreateBoundingBox();
+
+            _boundingSphere.Center = new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2);
+            _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
+        }
+
+        /// <summary>
         /// Draw Terrain
         /// </summary>
         /// <param name="device"></param>
@@ -247,9 +259,11 @@ namespace Yna.Display3D.Terrain
                 Matrix.CreateRotationZ(Rotation.Z) *
                 Matrix.CreateTranslation(Position);
 
+            View = _camera.View;
+
             _basicEffect.World = World;
                 
-            _basicEffect.View = _camera.View;
+            _basicEffect.View = View;
   
             _basicEffect.Projection = _camera.Projection;
 

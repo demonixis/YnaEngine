@@ -10,18 +10,41 @@ namespace Yna.Display3D
     {
         protected Model _model;
         protected string _modelName;
-        protected Dictionary<string, BoundingBox> _boundingBoxes;
 
         #region Properties
 
+        /// <summary>
+        /// Get the Model instance
+        /// </summary>
         public Model Model
         {
             get { return _model; }
         }
 
-        public Dictionary<string, BoundingBox> BoundingBoxes
+        /// <summary>
+        /// Get all meshes off the model
+        /// </summary>
+        public ModelMesh [] Meshes
         {
-            get { return _boundingBoxes; }
+            get
+            {
+                ModelMesh[] meshes = new ModelMesh[_model.Meshes.Count];
+                _model.Meshes.CopyTo(meshes, 0);
+                return meshes;
+            }
+        }
+
+        /// <summary>
+        /// Get all bones off the model
+        /// </summary>
+        public ModelBone[] Bones
+        {
+            get
+            {
+                ModelBone[] bones = new ModelBone[_model.Bones.Count];
+                _model.Bones.CopyTo(bones, 0);
+                return bones;
+            }
         }
 
         #endregion
@@ -32,7 +55,6 @@ namespace Yna.Display3D
             : base(position)
         {
             _modelName = modelName;
-            _boundingBoxes = new Dictionary<string, BoundingBox>();
         }
 
         public YnModel(string modelName)
@@ -43,13 +65,13 @@ namespace Yna.Display3D
 
         #endregion
 
+        #region GameState Pattern
+
         public override void LoadContent()
         {
             base.LoadContent();
 
             _model = YnG.Content.Load<Model>(_modelName);
-
-            _boundingBox = YnModel.CreateBoundingBox(_model);
 
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
@@ -81,51 +103,6 @@ namespace Yna.Display3D
                 }
                 mesh.Draw();
             }
-        }
-
-        #region Static methods
-
-        public static BoundingBox CreateBoundingBox(Model model)
-        {
-            Vector3 modelMin = new Vector3(float.MaxValue);
-            Vector3 modelMax = new Vector3(float.MinValue);
-
-            Matrix[] _transforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(_transforms);
-
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                Vector3 meshMax = new Vector3(float.MinValue);
-                Vector3 meshMin = new Vector3(float.MaxValue);
-
-                foreach (ModelMeshPart meshPart in mesh.MeshParts)
-                {
-                    int stride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
-
-                    byte[] vertexData = new byte[stride * meshPart.NumVertices];
-                    meshPart.VertexBuffer.GetData(meshPart.VertexOffset * stride, vertexData, 0, meshPart.NumVertices, 1);
-
-                    Vector3 vertexPosition = new Vector3();
-
-                    for (int i = 0, l = vertexData.Length; i < l; i += stride)
-                    {
-                        vertexPosition.X = BitConverter.ToSingle(vertexData, i);
-                        vertexPosition.Y = BitConverter.ToSingle(vertexData, i + sizeof(float));
-                        vertexPosition.Z = BitConverter.ToSingle(vertexData, i + sizeof(float) * 2);
-
-                        meshMin = Vector3.Min(meshMin, vertexPosition);
-                        meshMax = Vector3.Max(meshMax, vertexPosition);
-                    }
-                }
-
-                meshMin = Vector3.Transform(meshMin, _transforms[mesh.ParentBone.Index]);
-                meshMax = Vector3.Transform(meshMax, _transforms[mesh.ParentBone.Index]);
-
-                modelMin = Vector3.Min(modelMin, meshMin);
-                modelMax = Vector3.Max(modelMax, meshMax);
-            }
-
-            return new BoundingBox(modelMin, modelMax);
         }
 
         #endregion
