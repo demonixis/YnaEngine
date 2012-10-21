@@ -18,7 +18,7 @@ namespace Yna.Samples3D.States
     {
         YnImage sky;
 
-        YnObject3D alien;
+        YnModel alien;
         Heightmap terrain;
         ThirdPersonCamera camera;
         ThirdPersonControl control;
@@ -36,7 +36,6 @@ namespace Yna.Samples3D.States
             // 2 Create a 3D Alien
             alien = new YnModel("Models/alien1_L", Vector3.Zero);
             alien.Scale = new Vector3(0.05f); // Change the scale because this object is too big :O
-            alien.Camera = camera;
             Add(alien);
 
             // This camera will follow alien position

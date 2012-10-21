@@ -91,7 +91,7 @@ namespace Yna.Display3D
         /// Get the bounding box of the scene. All YnObject3D's BoundingBox are updated
         /// </summary>
         /// <returns>The bounding box of the scene</returns>
-        public void CreateBoundingBox()
+        public override void UpdateBoundingVolumes()
         {
             _boundingBox = new BoundingBox();
 
@@ -118,21 +118,29 @@ namespace Yna.Display3D
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
-        }
-
-        /// <summary>
-        /// Create the global bouding sphere of the group
-        /// </summary>
-        public void CreateBoundingSphere()
-        {
-            if (_boundingBox.Min.X == _boundingBox.Max.X && _boundingBox.Min.Y == _boundingBox.Max.Y && _boundingBox.Min.Z == _boundingBox.Max.Z)
-                CreateBoundingBox();
 
             _boundingSphere.Center = new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2);
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
+
+            World = Matrix.Identity;
+
+            foreach (YnObject3D members in _members)
+                World *= members.World;
+
+            _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
         }
 
         #endregion
+
+        public override void UpdateMatrix()
+        {
+            World = Matrix.Identity;
+
+            foreach (YnObject3D members in _members)
+                World *= members.World;
+
+            View = _camera.View;
+        }
 
         #region GameState Pattern
 
@@ -144,8 +152,8 @@ namespace Yna.Display3D
                 {
                     foreach (YnObject3D sceneObject in _members)
                     {
-                        sceneObject.LoadContent();
                         sceneObject.Camera = _camera;
+                        sceneObject.LoadContent(); 
                     }
                 }
 

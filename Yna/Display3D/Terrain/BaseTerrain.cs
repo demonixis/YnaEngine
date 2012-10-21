@@ -11,6 +11,8 @@ namespace Yna.Display3D.Terrain
     /// </summary>
     public abstract class BaseTerrain : YnObject3D
     {
+        #region Private declarations
+
         protected Texture2D _texture;
         protected string _textureName;
         protected Vector2 _textureRepeat;
@@ -22,6 +24,8 @@ namespace Yna.Display3D.Terrain
         protected bool _lightningEnabled;
         protected bool _colorEnabled;
         protected bool _textureEnabled;
+
+        #endregion
 
         #region Properties
 
@@ -59,7 +63,7 @@ namespace Yna.Display3D.Terrain
         public Vector3 SegmentSizes
         {
             get { return _segmentSizes; }
-            set 
+            set
             {
                 if (value != Vector3.Zero)
                 {
@@ -128,11 +132,6 @@ namespace Yna.Display3D.Terrain
         public BaseTerrain()
             : base(new Vector3(0, 0, 0))
         {
-            _width = 0;
-            _height = 0;
-            _depth = 0;
-
-            _boundingBox = new BoundingBox();
             _texture = null;
             _textureName = String.Empty;
             _textureRepeat = Vector2.One;
@@ -146,27 +145,12 @@ namespace Yna.Display3D.Terrain
         }
 
         public BaseTerrain(Vector3 position)
-            : this ()
+            : this()
         {
             _position = position;
         }
 
-        /// <summary>
-        /// Load terrain's texture if the _textureEnabled variable is true
-        /// </summary>
-        public override void LoadContent()
-        {
-            base.LoadContent();
-
-            if (!_initialized)
-            {
-                if (_textureName != String.Empty)
-                {
-                    _texture = YnG.Content.Load<Texture2D>(_textureName);
-                    _initialized = true;
-                }
-            }
-        }
+        #region Vertices construction & Setup
 
         /// <summary>
         /// Create the vertex array
@@ -214,11 +198,17 @@ namespace Yna.Display3D.Terrain
             _basicEffect.TextureEnabled = _textureEnabled;
         }
 
+        #endregion
+
+        #region Bounding volumes
+
         /// <summary>
         /// Create the bounding box of the object
         /// </summary>
-        public void CreateBoundingBox()
+        protected void CreateBoundingBox()
         {
+            _boundingBox = new BoundingBox();
+
             for (int i = 0; i < _vertices.Length; i++)
             {
                 _boundingBox.Min.X = _boundingBox.Min.X < _vertices[i].Position.X ? _boundingBox.Min.X : _vertices[i].Position.X;
@@ -238,7 +228,7 @@ namespace Yna.Display3D.Terrain
         /// <summary>
         /// Create the bounding sphere of the object
         /// </summary>
-        public void CreateBoundingSphere()
+        protected void CreateBoundingSphere()
         {
             if (_boundingBox.Min.X == _boundingBox.Max.X && _boundingBox.Min.Y == _boundingBox.Max.Y && _boundingBox.Min.Z == _boundingBox.Max.Z)
                 CreateBoundingBox();
@@ -247,11 +237,20 @@ namespace Yna.Display3D.Terrain
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
         }
 
-        /// <summary>
-        /// Draw Terrain
-        /// </summary>
-        /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device)
+        public override void UpdateBoundingVolumes()
+        {
+            UpdateMatrix();
+
+            CreateBoundingBox();
+
+            CreateBoundingSphere();
+
+            _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
+        }
+
+        #endregion
+
+        public override void UpdateMatrix()
         {
             World = Matrix.CreateScale(Scale) *
                 Matrix.CreateRotationX(Rotation.X) *
@@ -260,11 +259,37 @@ namespace Yna.Display3D.Terrain
                 Matrix.CreateTranslation(Position);
 
             View = _camera.View;
+        }
+
+        /// <summary>
+        /// Load terrain's texture if the _textureEnabled variable is true
+        /// </summary>
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            if (!_initialized)
+            {
+                if (_textureName != String.Empty)
+                {
+                    _texture = YnG.Content.Load<Texture2D>(_textureName);
+                    _initialized = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draw Terrain
+        /// </summary>
+        /// <param name="device"></param>
+        public override void Draw(GraphicsDevice device)
+        {
+            UpdateMatrix();
 
             _basicEffect.World = World;
-                
+
             _basicEffect.View = View;
-  
+
             _basicEffect.Projection = _camera.Projection;
 
             foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)

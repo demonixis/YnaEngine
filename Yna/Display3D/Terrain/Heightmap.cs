@@ -36,12 +36,17 @@ namespace Yna.Display3D.Terrain
         public override void LoadContent()
         {
             base.LoadContent();
+
             _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);
 
             LoadHeightDatas();
             CreateVertices();
             CreateIndices();
+
             SetupShader();
+
+            // Create BoundingBox/Sphere/Frustrum
+            UpdateBoundingVolumes();
         }
 
         private void LoadHeightDatas()
@@ -58,6 +63,8 @@ namespace Yna.Display3D.Terrain
                 for (int y = 0; y < Depth; y++)
                     _heightData[x, y] = colors[x + y * Width].B / 10.0f; // Max height 25.5f
         }
+
+        #region Terrain construction
 
         protected override void CreateVertices()
         {
@@ -135,5 +142,7 @@ namespace Yna.Display3D.Terrain
 
             return (terrainHeigth * _segmentSizes.Y);
         }
+
+        #endregion
     }
 }

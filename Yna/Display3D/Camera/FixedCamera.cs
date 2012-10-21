@@ -35,9 +35,9 @@ namespace Yna.Display3D.Camera
 
             Vector3 transformedReference = Vector3.Transform(_reference, matRotation);
 
-            Vector3 target = _position + transformedReference;
+            _target = _position + transformedReference;
 
-            _view = Matrix.CreateLookAt(_position, target, Vector3.Up);
+            _view = Matrix.CreateLookAt(_position, _target, Vector3.Up);
             
             _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
 

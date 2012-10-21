@@ -10,6 +10,7 @@ namespace Yna.Display3D
     {
         protected Model _model;
         protected string _modelName;
+        protected Matrix[] _bonesTransforms;
 
         #region Properties
 
@@ -65,6 +66,67 @@ namespace Yna.Display3D
 
         #endregion
 
+        public override void UpdateBoundingVolumes()
+        {
+            // 1 - Global Bounding box
+            Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+            _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
+
+            // Update matrix world
+            UpdateMatrix();
+          
+            // For each mesh of the model
+            foreach (ModelMesh mesh in _model.Meshes)
+            {
+                foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                {
+                    // Vertex buffer parameters
+                    int vertexStride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
+                    int vertexBufferSize = meshPart.NumVertices * vertexStride;
+
+                    // Get vertex data as float
+                    float[] vertexData = new float[vertexBufferSize / sizeof(float)];
+                    meshPart.VertexBuffer.GetData<float>(vertexData);
+
+                    // Iterate through vertices (possibly) growing bounding box, all calculations are done in world space
+                    for (int i = 0; i < vertexBufferSize / sizeof(float); i += vertexStride / sizeof(float))
+                    {
+                        Vector3 transformedPosition = Vector3.Transform(new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]), _bonesTransforms[mesh.ParentBone.Index] * World);
+
+                        min = Vector3.Min(min, transformedPosition);
+                        max = Vector3.Max(max, transformedPosition);
+                    }
+                }
+            }
+
+            _boundingBox.Min = min;
+            _boundingBox.Max = max;
+
+            // 2 - Global bounding sphere
+            _width = _boundingBox.Max.X - _boundingBox.Min.X;
+            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+
+            _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
+            _boundingSphere.Center = _position;
+           
+            // 3 - Update frustrum
+            _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
+        }
+
+        public override void UpdateMatrix()
+        {
+            World = Matrix.CreateScale(Scale) *
+                    Matrix.CreateRotationX(Rotation.X) *
+                    Matrix.CreateRotationY(Rotation.Y) *
+                    Matrix.CreateRotationZ(Rotation.Z) *
+                    Matrix.CreateTranslation(Position);
+
+            View = _camera.View;
+        }
+
         #region GameState Pattern
 
         public override void LoadContent()
@@ -73,6 +135,10 @@ namespace Yna.Display3D
 
             _model = YnG.Content.Load<Model>(_modelName);
 
+            _bonesTransforms = new Matrix[_model.Bones.Count];
+
+            UpdateBoundingVolumes();
+
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
@@ -80,14 +146,9 @@ namespace Yna.Display3D
 
         public override void Draw(GraphicsDevice device)
         {
-            World = Matrix.CreateScale(Scale) *
-                    Matrix.CreateRotationX(Rotation.X) *
-                    Matrix.CreateRotationY(Rotation.Y) *
-                    Matrix.CreateRotationZ(Rotation.Z) *
-                    Matrix.CreateTranslation(Position); 
-
-            Matrix[] transforms = new Matrix[_model.Bones.Count];
-            _model.CopyAbsoluteBoneTransformsTo(transforms);
+            UpdateMatrix();
+            
+            _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 
             foreach (ModelMesh mesh in _model.Meshes)
             {
@@ -95,9 +156,9 @@ namespace Yna.Display3D
                 {
                     effect.EnableDefaultLighting();
 
-                    effect.World = transforms[mesh.ParentBone.Index] * World;
+                    effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
 
-                    effect.View = _camera.View;
+                    effect.View = View;
 
                     effect.Projection = _camera.Projection;
                 }
@@ -106,5 +167,10 @@ namespace Yna.Display3D
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return String.Format("[YnModel] {0}", _modelName);
+        }
     }
 }

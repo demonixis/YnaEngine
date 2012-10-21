@@ -7,7 +7,7 @@ namespace Yna.Display3D.Camera
     public abstract class BaseCamera : YnBase3D
     {
         protected Matrix _projection;
-    
+
         protected BoundingSphere _boundingSphere;
         protected float _boundingRadius;
         protected BoundingBox _boundingBox;
@@ -22,10 +22,9 @@ namespace Yna.Display3D.Camera
         protected float _nearClip;
         protected float _farClip;
 
-        // Position, cible, placement
+        // target, placement
         protected Vector3 _reference;
         protected Vector3 _target;
-
 
         #region Properties
 

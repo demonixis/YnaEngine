@@ -13,17 +13,33 @@ namespace Yna.Display3D
         #region Protected & private declarations
 
         protected BaseCamera _camera;
+
+        // Direction
         protected Vector3 _lastPosition;
         protected Vector3 _direction;
         protected Vector3 _lastDirection;
+
+        // Bounding Sphere/Box/Frustrom
         protected BasicEffect _basicEffect;
         protected BoundingBox _boundingBox;
         protected BoundingSphere _boundingSphere;
+        protected BoundingFrustum _boundingFrustrum;
+
+        // Visibility
         protected bool _visible;
+
+        // Static or dynamic object
+        protected bool _dynamic;
+
+        // Sizes
         protected float _width;
         protected float _height;
         protected float _depth;
+        
+        // Parent
         protected YnObject3D _parent;
+        
+        // Initialization
         protected bool _initialized;
 
         #endregion
@@ -62,6 +78,15 @@ namespace Yna.Display3D
         {
             get { return _visible; }
             set { _visible = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the value of dynamic, if true the bouding values will be updated on each update
+        /// </summary>
+        public bool Dynamic
+        {
+            get { return _dynamic; }
+            set { _dynamic = value; }
         }
 
         /// <summary>
@@ -127,7 +152,7 @@ namespace Yna.Display3D
         /// </summary>
         public BoundingFrustum BoundingFrustrum
         {
-            get { return new BoundingFrustum(_camera.Projection * View); }
+            get { return _boundingFrustrum; }
         }
 
         /// <summary>
@@ -168,8 +193,11 @@ namespace Yna.Display3D
 
             _visible = true;
             _initialized = false;
+            _dynamic = false;
+
             _boundingBox = new BoundingBox();
             _boundingSphere = new BoundingSphere();
+            _boundingFrustrum = new BoundingFrustum(Matrix.Identity);
         }
 
         public YnObject3D()
@@ -212,6 +240,41 @@ namespace Yna.Display3D
 
         #endregion
 
+        #region Bounding volumes
+
+        /// <summary>
+        /// Get the updated bounding box
+        /// </summary>
+        /// <returns>Updated bounding box</returns>
+        public virtual BoundingBox GetBoundingBox()
+        {
+            return new BoundingBox(Vector3.Add(_boundingBox.Min, _position), Vector3.Add(_boundingBox.Max, _position));
+        }
+
+        /// <summary>
+        /// Get the updated bounding sphere
+        /// </summary>
+        /// <returns>Updated bounding sphere</returns>
+        public virtual BoundingSphere GetBoundingSphere()
+        {
+            return new BoundingSphere(_position, _boundingSphere.Radius);
+        }
+
+        /// <summary>
+        /// Get the updated bounding frustrum
+        /// </summary>
+        /// <returns>Updated bounding frustrum</returns>
+        public virtual BoundingFrustum GetBoundingFrustrum()
+        {
+            return new BoundingFrustum(_camera.Projection * World);
+        }
+
+        public abstract void UpdateMatrix();
+
+        public abstract void UpdateBoundingVolumes();
+
+        #endregion
+
         #region GameState pattern
 
         /// <summary>
@@ -229,6 +292,12 @@ namespace Yna.Display3D
         {
             if (_basicEffect != null)
                 _basicEffect.Dispose();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (_dynamic)
+                UpdateBoundingVolumes();
         }
 
         /// <summary>
