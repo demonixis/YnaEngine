@@ -3,108 +3,23 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Display3D;
 using Yna.Display3D.Camera;
+using Yna.Display3D.Primitive;
 
 namespace Yna.Display3D.Terrain
 {
     /// <summary>
     /// Abstract class that represent a basic Terrain
     /// </summary>
-    public abstract class BaseTerrain : YnObject3D
+    public abstract class BaseTerrain : BasePrimitive
     {
         #region Private declarations
 
-        protected Texture2D _texture;
-        protected string _textureName;
-        protected Vector2 _textureRepeat;
-        protected Vector3 _segmentSizes;
-        protected bool _constructed;
-
         protected VertexPositionColorTexture[] _vertices;
         protected short[] _indices;
-        protected bool _lightningEnabled;
-        protected bool _colorEnabled;
-        protected bool _textureEnabled;
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Width of the terrain
-        /// </summary>
-        public new int Width
-        {
-            get { return (int)_width; }
-            protected set { _width = (float)value; }
-        }
-
-        /// <summary>
-        /// Height of the terrain
-        /// </summary>
-        public new int Height
-        {
-            get { return (int)_height; }
-            protected set { _height = (float)value; }
-        }
-
-        /// <summary>
-        /// Depth of the terrain
-        /// </summary>
-        public new int Depth
-        {
-            get { return (int)_depth; }
-            protected set { _depth = (float)value; }
-        }
-
-        /// <summary>
-        /// Get or Set the segments size. It represent the space between two vertex.
-        /// The terrain is reconstructed when you set a new value
-        /// </summary>
-        public Vector3 SegmentSizes
-        {
-            get { return _segmentSizes; }
-            set
-            {
-                if (value != Vector3.Zero)
-                {
-                    _segmentSizes = value;
-
-                    if (_constructed)
-                    {
-                        CreateVertices();
-                        CreateIndices();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// True if the texture is loaded
-        /// </summary>
-        public bool Initialized
-        {
-            get { return _initialized; }
-            set { _initialized = value; }
-        }
-
-        /// <summary>
-        /// Texture to use with the terrain
-        /// </summary>
-        public Texture2D Texture
-        {
-            get { return _texture; }
-            set
-            {
-                _texture = value;
-                _textureName = _texture.Name;
-            }
-        }
-
-        public Vector2 TextureRepeat
-        {
-            get { return _textureRepeat; }
-            set { _textureRepeat = value; }
-        }
 
         /// <summary>
         /// Vertices that compose the terrain
@@ -115,15 +30,6 @@ namespace Yna.Display3D.Terrain
             set { _vertices = value; }
         }
 
-        /// <summary>
-        /// Shader effect
-        /// </summary>
-        public BasicEffect BasicEffect
-        {
-            get { return _basicEffect; }
-            set { _basicEffect = value; }
-        }
-
         #endregion
 
         /// <summary>
@@ -132,12 +38,6 @@ namespace Yna.Display3D.Terrain
         public BaseTerrain()
             : base(new Vector3(0, 0, 0))
         {
-            _texture = null;
-            _textureName = String.Empty;
-            _textureRepeat = Vector2.One;
-            _constructed = false;
-            _segmentSizes = Vector3.One;
-
             _lightningEnabled = false;
             _colorEnabled = true;
             _textureEnabled = false;
@@ -182,20 +82,6 @@ namespace Yna.Display3D.Terrain
                     _indices[counter++] = topRight;
                 }
             }
-        }
-
-        /// <summary>
-        /// Setup the basic effet
-        /// </summary>
-        protected virtual void SetupShader()
-        {
-            _basicEffect.LightingEnabled = _lightningEnabled;
-
-            _basicEffect.VertexColorEnabled = _colorEnabled;
-
-            _basicEffect.Texture = _texture;
-
-            _basicEffect.TextureEnabled = _textureEnabled;
         }
 
         #endregion
@@ -250,17 +136,7 @@ namespace Yna.Display3D.Terrain
 
         #endregion
 
-        public override void UpdateMatrix()
-        {
-            World = Matrix.CreateScale(Scale) *
-                Matrix.CreateRotationX(Rotation.X) *
-                Matrix.CreateRotationY(Rotation.Y) *
-                Matrix.CreateRotationZ(Rotation.Z) *
-                Matrix.CreateTranslation(Position);
-
-            View = _camera.View;
-        }
-
+        
         /// <summary>
         /// Load terrain's texture if the _textureEnabled variable is true
         /// </summary>

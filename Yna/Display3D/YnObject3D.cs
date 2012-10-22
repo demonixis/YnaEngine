@@ -156,6 +156,15 @@ namespace Yna.Display3D
         }
 
         /// <summary>
+        /// Shader effect
+        /// </summary>
+        public BasicEffect BasicEffect
+        {
+            get { return _basicEffect; }
+            set { _basicEffect = value; }
+        }
+
+        /// <summary>
         /// Get the last position
         /// </summary>
         public Vector3 LastPosition
