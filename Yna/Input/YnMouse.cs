@@ -52,8 +52,8 @@ namespace Yna.Input
             get
             {
                 return new Vector2(
-                    (service as MouseService).Delta.X, 
-                    (service as MouseService).Delta.Y);
+                    (X == LastMouseState.X) ? 0 : (LastMouseState.X - X), 
+                    (Y == LastMouseState.Y) ? 0 : (LastMouseState.Y - Y));
             }
         }
 

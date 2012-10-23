@@ -154,7 +154,16 @@ namespace Yna.Display3D
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.EnableDefaultLighting();
+                    //effect.EnableDefaultLighting();
+
+                    effect.LightingEnabled = true;
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0, 0);
+                    effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);
+                    effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0);
+                    effect.DirectionalLight0.Enabled = true;
+                    
+                    effect.AmbientLightColor = new Vector3(2f, 2f, 2f);
+                    effect.EmissiveColor = new Vector3(0, 0.3f, 0.15f);
 
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
 

@@ -70,6 +70,7 @@
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Controls\TopControl.cs" />
     <Compile Include="Display3D\Primitive\BasePrimitive.cs" />
+    <Compile Include="Display3D\Primitive\Cube.cs" />
     <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnGroup3D.cs" />
     <Compile Include="Display3D\YnModel.cs" />

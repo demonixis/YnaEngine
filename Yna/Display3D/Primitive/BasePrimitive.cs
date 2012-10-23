@@ -84,7 +84,7 @@ namespace Yna.Display3D.Primitive
         public Vector3 SegmentSizes
         {
             get { return _segmentSizes; }
-            protected set { _segmentSizes = value; }
+            set { _segmentSizes = value; }
         }
 
         public bool NeedUpdate
@@ -98,7 +98,7 @@ namespace Yna.Display3D.Primitive
         public BasePrimitive()
             : this(new Vector3(0, 0, 0))
         {
-            
+
         }
 
         public BasePrimitive(Vector3 position)
@@ -158,16 +158,16 @@ namespace Yna.Display3D.Primitive
 
         public override void Draw(GraphicsDevice device)
         {
-            if (_needUpdate)
-            {
-                SetupShader();
-                UpdateMatrix();
-                UpdateBoundingVolumes();
-                _needUpdate = false;
-            }
+            UpdateMatrix();
 
             if (_dynamic)
-                UpdateMatrix();
+                UpdateBoundingVolumes();
+
+            _basicEffect.World = World;
+
+            _basicEffect.View = View;
+
+            _basicEffect.Projection = _camera.Projection;
         }
     }
 }

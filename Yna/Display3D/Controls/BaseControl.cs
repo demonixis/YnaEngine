@@ -15,6 +15,7 @@ namespace Yna.Display3D.Controls
         protected float _strafeSpeed;
         protected float _pitchSpeed;
         protected float _rotateSpeed;
+        protected bool _mouseLock;
 
         protected bool _useKeyboard;
         protected bool _useGamepad;
@@ -61,6 +62,12 @@ namespace Yna.Display3D.Controls
             }
         }
 
+        public bool MouseLock
+        {
+            get { return _mouseLock; }
+            set { _mouseLock = value; }
+        }
+
         /// <summary>
         /// Get or Set the rotate speed
         /// </summary>
@@ -89,7 +96,12 @@ namespace Yna.Display3D.Controls
         public bool UseMouse
         {
             get { return _useMouse; }
-            set { _useMouse = value; }
+            set 
+            {
+                _useMouse = value;
+                if (_useMouse)
+                    Mouse.SetPosition(YnG.Width / 2, YnG.Height / 2);
+            }
         }
 
         #endregion
