@@ -181,9 +181,9 @@ namespace Yna.Display3D.Camera
         public void Translate(float x, float y, float z)
         {
             Vector3 move = new Vector3(x, y, z);
-            Matrix forwardMovement = Matrix.CreateRotationX(_pitch) * Matrix.CreateRotationY(_yaw) * Matrix.CreateRotationZ(_roll);
+            Matrix forwardMovement = Matrix.CreateRotationY(_yaw);
             Vector3 v = Vector3.Transform(move, forwardMovement);
-            
+
             _position.X += v.X;
             _position.Y += v.Y;
             _position.Z += v.Z;

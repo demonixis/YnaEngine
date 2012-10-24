@@ -126,5 +126,10 @@ namespace Yna.Input
         {
             get { return (service as MouseService).LastMouseState; }
         }
+
+        public void SetPosition(int x, int y)
+        {
+            Mouse.SetPosition(x, y);
+        }
     }
 }

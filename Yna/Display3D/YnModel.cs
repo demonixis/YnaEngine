@@ -51,6 +51,12 @@ namespace Yna.Display3D
             }
         }
 
+        public BasicLight Light
+        {
+            get { return _basicLight; }
+            set { _basicLight = value; }
+        }
+
         #endregion
 
         #region Constructor
