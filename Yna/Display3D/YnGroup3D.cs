@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Content;
 using Yna.Display3D.Camera;
 
 namespace Yna.Display3D
@@ -63,6 +64,25 @@ namespace Yna.Display3D
                 else
                     _members[index] = value;
             }
+        }
+
+        #endregion
+
+        #region events
+
+        public event EventHandler<ContentLoadStartedEventArgs> ContentLoadStarted = null;
+        public event EventHandler<ContentLoadDoneEventArgs> ContentLoadDone = null;
+
+        protected void OnContentLoadStarted(ContentLoadStartedEventArgs e)
+        {
+            if (ContentLoadStarted != null)
+                ContentLoadStarted(this, e);
+        }
+
+        protected void OnContentLoadDone(ContentLoadDoneEventArgs e)
+        {
+            if (ContentLoadDone != null)
+                ContentLoadDone(this, e);
         }
 
         #endregion
@@ -148,6 +168,9 @@ namespace Yna.Display3D
         {
             if (!_initialized)
             {
+                TimeSpan startLoading = new TimeSpan();
+                OnContentLoadStarted(new ContentLoadStartedEventArgs(_members.Count));
+
                 if (_members.Count > 0)
                 {
                     foreach (YnObject3D sceneObject in _members)
@@ -156,6 +179,9 @@ namespace Yna.Display3D
                         sceneObject.LoadContent(); 
                     }
                 }
+
+                TimeSpan stopLoading = new TimeSpan() - startLoading;
+                OnContentLoadDone(new ContentLoadDoneEventArgs(stopLoading, _members.Count));
 
                 _initialized = true;
             }
