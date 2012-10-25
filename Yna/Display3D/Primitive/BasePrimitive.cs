@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Display3D.Light;
 
 namespace Yna.Display3D.Primitive
 {
@@ -12,6 +13,7 @@ namespace Yna.Display3D.Primitive
         protected string _textureName;
         protected Vector2 _textureRepeat;
         protected Vector3 _segmentSizes;
+        protected BasicLight _basicLight;
         protected bool _lightningEnabled;
         protected bool _colorEnabled;
         protected bool _textureEnabled;
@@ -56,6 +58,22 @@ namespace Yna.Display3D.Primitive
         {
             get { return _initialized; }
             set { _initialized = value; }
+        }
+
+        public BasicLight Light
+        {
+            get { return _basicLight; }
+            set { _basicLight = value; }
+        }
+
+        public bool LightningEnabled
+        {
+            get { return _lightningEnabled; }
+            set
+            {
+                _lightningEnabled = value;
+                _basicEffect.LightingEnabled = _lightningEnabled; 
+            }
         }
 
         /// <summary>
@@ -109,6 +127,8 @@ namespace Yna.Display3D.Primitive
             _textureRepeat = Vector2.One;
             _segmentSizes = Vector3.One;
 
+            _basicLight = new BasicLight();
+
             _lightningEnabled = false;
             _colorEnabled = true;
             _textureEnabled = false;
@@ -156,17 +176,30 @@ namespace Yna.Display3D.Primitive
             _boundingFrustrum = new BoundingFrustum(World * _camera.Projection);
         }
 
+        public virtual void SetupLightning(BasicEffect effect)
+        {
+            if (_lightningEnabled)
+            {
+                effect.EnableDefaultLighting();
+                effect.Alpha = _basicLight.Alpha;
+                effect.AmbientLightColor = _basicLight.Ambient;
+                effect.DiffuseColor = _basicLight.Diffuse;
+                effect.SpecularColor = _basicLight.Specular;
+                effect.EmissiveColor = _basicLight.Emissive;
+            }
+        }
+
         public override void Draw(GraphicsDevice device)
         {
             UpdateMatrix();
 
             if (_dynamic)
                 UpdateBoundingVolumes();
-
+            
+            SetupLightning(_basicEffect);
+            
             _basicEffect.World = World;
-
             _basicEffect.View = View;
-
             _basicEffect.Projection = _camera.Projection;
         }
     }

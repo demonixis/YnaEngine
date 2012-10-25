@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Storage;
 
-namespace SpaceGame.Manager
+namespace Yna.Manager
 {
     public class StorageManager
     {

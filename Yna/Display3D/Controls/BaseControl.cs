@@ -65,7 +65,15 @@ namespace Yna.Display3D.Controls
         public bool MouseLock
         {
             get { return _mouseLock; }
-            set { _mouseLock = value; }
+            set 
+            { 
+                _mouseLock = value;
+                if (_mouseLock)
+                {
+                    YnG.Mouse.SetPosition(YnG.Width / 2, YnG.Height / 2);
+                    YnG.Mouse.ResetDelta();
+                }
+            }
         }
 
         /// <summary>

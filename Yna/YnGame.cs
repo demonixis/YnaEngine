@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Audio;
 using Yna.State;
 using Yna.Helpers;
 using Yna.Input;
@@ -45,6 +46,7 @@ namespace Yna
             YnG.Gamepad = new YnGamepad();
             YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.StateManager = stateManager;
+            YnG.AudioManager = AudioManager.Instance;
 
             this.Window.Title = "YNA Game";
         }

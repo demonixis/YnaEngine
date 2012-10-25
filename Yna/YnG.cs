@@ -57,7 +57,12 @@ namespace Yna
         /// Get or Set the State Manager
         /// </summary>
         public static ScreenManager StateManager { get; set; }
-		
+
+        /// <summary>
+        /// Get or Set the audio manager
+        /// </summary>
+        public static AudioManager AudioManager { get; set; }
+
         /// <summary>
         /// Get or Set the keyboard states
         /// </summary>

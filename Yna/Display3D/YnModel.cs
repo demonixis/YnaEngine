@@ -149,6 +149,18 @@ namespace Yna.Display3D
             View = _camera.View;
         }
 
+        protected virtual void SetupLightning(BasicEffect effect)
+        {
+            effect.LightingEnabled = true;
+            effect.DirectionalLight0.Enabled = true;
+            effect.DirectionalLight0.DiffuseColor = _basicLight.Diffuse;
+            effect.DirectionalLight0.Direction = _basicLight.Direction;
+            effect.DirectionalLight0.SpecularColor = _basicLight.Specular;
+            effect.AmbientLightColor = _basicLight.Ambient;
+            effect.EmissiveColor = _basicLight.Emissive;
+            effect.Alpha = _basicLight.Alpha;
+        }
+
         #region GameState Pattern
 
         public override void LoadContent()
@@ -178,15 +190,7 @@ namespace Yna.Display3D
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    //effect.EnableDefaultLighting();
-
-                    effect.LightingEnabled = true;
-                    effect.DirectionalLight0.Enabled = true;
-                    effect.DirectionalLight0.DiffuseColor = _basicLight.Diffuse;
-                    effect.DirectionalLight0.Direction = _basicLight.Direction;
-                    effect.DirectionalLight0.SpecularColor = _basicLight.Specular;
-                    effect.AmbientLightColor = _basicLight.Ambient;
-                    effect.EmissiveColor = _basicLight.Emissive;
+                    SetupLightning(effect);
 
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
 

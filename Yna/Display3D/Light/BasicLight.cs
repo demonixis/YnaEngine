@@ -64,9 +64,9 @@ namespace Yna.Display3D.Light
         {
             Initialize();
             _ambientLightColor = new Vector3(1.0f);
-            _diffuseLightColor = new Vector3(0.0f);
-            _emissiveLightColor = new Vector3(0.0f);
-            _specularLightColor = new Vector3(0.0f);
+            _diffuseLightColor = Vector3.Zero;
+            _emissiveLightColor = Vector3.Zero;
+            _specularLightColor = Vector3.Zero;
             _alpha = 1.0f;
         }
 

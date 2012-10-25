@@ -18,6 +18,8 @@ namespace Yna.Input
     {
         private IMouseService service;
 
+        private Vector2 _delta;
+
         public YnMouse() 
         {
             service = ServiceHelper.Get<IMouseService>();
@@ -49,12 +51,15 @@ namespace Yna.Input
 
         public Vector2 Delta
         {
-            get
+            get 
             {
-                return new Vector2(
-                    (X == LastMouseState.X) ? 0 : (LastMouseState.X - X), 
+                _delta = new Vector2(
+                    (X == LastMouseState.X) ? 0 : (LastMouseState.X - X),
                     (Y == LastMouseState.Y) ? 0 : (LastMouseState.Y - Y));
+
+                return _delta; 
             }
+            protected set { _delta = value; }
         }
 
         public int Wheel
@@ -130,6 +135,11 @@ namespace Yna.Input
         public void SetPosition(int x, int y)
         {
             Mouse.SetPosition(x, y);
+        }
+
+        public void ResetDelta()
+        {
+            Delta = Vector2.Zero;
         }
     }
 }

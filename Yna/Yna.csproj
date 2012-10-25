@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Content\ContentEventArgs.cs" />
+    <Compile Include="Content\YnContent.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
