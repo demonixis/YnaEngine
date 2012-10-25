@@ -18,9 +18,19 @@ namespace Yna.Display.Gui
         public YnBorder BoxBorder { get; set; }
 
         /// <summary>
+        /// Border definition for hovered bos widgets
+        /// </summary>
+        public YnBorder HoveredBoxBorder { get; set; }
+
+        /// <summary>
         /// Background image for box widgets
         /// </summary>
         public Texture2D BoxBackground { get; set; }
+
+        /// <summary>
+        /// Hovered background image for box widgets
+        /// </summary>
+        public Texture2D HoveredBackground { get; set; }
 
         /// <summary>
         /// The skin font

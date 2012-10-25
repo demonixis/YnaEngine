@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Display.Event;
+using Yna.Input;
+using Microsoft.Xna.Framework.Input;
 
 namespace Yna.Display.Gui
 {
@@ -126,6 +128,11 @@ namespace Yna.Display.Gui
         /// </summary>
         public bool Pack { get; set; }
 
+        /// <summary>
+        /// True if the widget is currently hovered by the mouse
+        /// </summary>
+        public bool IsHovered { get; set; }
+
         #endregion
 
         #region Constructors
@@ -141,6 +148,7 @@ namespace Yna.Display.Gui
             IsVisible = true;
             IsActive = true;
             Parent = null;
+            IsHovered = false;
             Children = new List<YnWidget>();
             Orientation = YnOrientation.Vertical;
             Bounds = Rectangle.Empty;
@@ -164,11 +172,11 @@ namespace Yna.Display.Gui
             {
                 // Draw the borders
                 if (WithBorder)
-                    DrawBorders(gameTime, spriteBatch, skin);
+                    DrawBorders(gameTime, spriteBatch, skin.BoxBorder);
 
                 // Draw the background
                 if(WithBackground)
-                    DrawBackground(gameTime, spriteBatch, skin);
+                    DrawBackground(gameTime, spriteBatch, skin.BoxBackground);
 
                 // Draw the component itself
                 DrawWidget(gameTime, spriteBatch, skin);
@@ -185,17 +193,17 @@ namespace Yna.Display.Gui
         /// <param name="gameTime">Elasped time since last draw</param>
         /// <param name="spriteBatch">The sprite batch</param>
         /// <param name="skin">The rendering skin used</param>
-        protected virtual void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected virtual void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
         {
-            Rectangle source = new Rectangle(0, 0, skin.BoxBackground.Width, skin.BoxBackground.Height);
+            Rectangle source = new Rectangle(0, 0, background.Width, background.Height);
             Rectangle dest = new Rectangle(
-                (int) AbsolutePosition.X + skin.BoxBorder.TopLeft.Width,
-                (int) AbsolutePosition.Y + skin.BoxBorder.TopLeft.Height,
-                Bounds.Width - skin.BoxBorder.TopLeft.Width - skin.BoxBorder.TopRight.Width,
-                Bounds.Height - skin.BoxBorder.BottomLeft.Height - skin.BoxBorder.BottomRight.Height
+                (int) AbsolutePosition.X + Skin.BoxBorder.TopLeft.Width,
+                (int) AbsolutePosition.Y + Skin.BoxBorder.TopLeft.Height,
+                Bounds.Width - Skin.BoxBorder.TopLeft.Width - Skin.BoxBorder.TopRight.Width,
+                Bounds.Height - Skin.BoxBorder.BottomLeft.Height - Skin.BoxBorder.BottomRight.Height
             );
 
-            spriteBatch.Draw(skin.BoxBackground, dest, source, Color.White);
+            spriteBatch.Draw(background, dest, source, Color.White);
         }
 
         /// <summary>
@@ -205,7 +213,7 @@ namespace Yna.Display.Gui
         /// <param name="gameTime">Elasped time since last draw</param>
         /// <param name="spriteBatch">The sprite batch</param>
         /// <param name="skin">The rendering skin used</param>
-        protected virtual void DrawBorders(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected virtual void DrawBorders(GameTime gameTime, SpriteBatch spriteBatch, YnBorder border)
         {
             Vector2 pos = Vector2.Zero;
             Rectangle source = Rectangle.Empty;
@@ -215,64 +223,64 @@ namespace Yna.Display.Gui
             // Top left
             pos.X = AbsolutePosition.X;
             pos.Y = AbsolutePosition.Y;
-            spriteBatch.Draw(skin.BoxBorder.TopLeft, pos, Color.White);
+            spriteBatch.Draw(border.TopLeft, pos, Color.White);
 
             // top right
-            pos.X = AbsolutePosition.X + Bounds.Width - skin.BoxBorder.TopRight.Width;
+            pos.X = AbsolutePosition.X + Bounds.Width - border.TopRight.Width;
             pos.Y = AbsolutePosition.Y;
-            spriteBatch.Draw(skin.BoxBorder.TopRight, pos, Color.White);
+            spriteBatch.Draw(border.TopRight, pos, Color.White);
 
             // Bottom right
-            pos.X = AbsolutePosition.X + Bounds.Width - skin.BoxBorder.TopRight.Width;
-            pos.Y = AbsolutePosition.Y + Bounds.Height - skin.BoxBorder.BottomRight.Height;
-            spriteBatch.Draw(skin.BoxBorder.TopRight, pos, Color.White);
+            pos.X = AbsolutePosition.X + Bounds.Width - border.TopRight.Width;
+            pos.Y = AbsolutePosition.Y + Bounds.Height - border.BottomRight.Height;
+            spriteBatch.Draw(border.TopRight, pos, Color.White);
 
             // Bottom left
             pos.X = AbsolutePosition.X;
-            pos.Y = AbsolutePosition.Y + Bounds.Height - skin.BoxBorder.BottomLeft.Height;
-            spriteBatch.Draw(skin.BoxBorder.BottomLeft, pos, Color.White);
+            pos.Y = AbsolutePosition.Y + Bounds.Height - border.BottomLeft.Height;
+            spriteBatch.Draw(border.BottomLeft, pos, Color.White);
 
 
             // Draw borders
             // Top
-            source = skin.BoxBorder.Top.Bounds;
+            source = border.Top.Bounds;
             dest = new Rectangle(
-                (int) AbsolutePosition.X + skin.BoxBorder.TopLeft.Width,
+                (int) AbsolutePosition.X + border.TopLeft.Width,
                 (int) AbsolutePosition.Y,
-                Bounds.Width - skin.BoxBorder.TopLeft.Width - skin.BoxBorder.TopRight.Width,
-                skin.BoxBorder.Top.Height
+                Bounds.Width - border.TopLeft.Width - border.TopRight.Width,
+                border.Top.Height
             );
-            spriteBatch.Draw(skin.BoxBorder.Top, dest, source, Color.White);
+            spriteBatch.Draw(border.Top, dest, source, Color.White);
 
             // Right
-            source = skin.BoxBorder.Right.Bounds;
+            source = border.Right.Bounds;
             dest = new Rectangle(
-                (int) AbsolutePosition.X + Bounds.Width - skin.BoxBorder.TopRight.Width,
-                (int) AbsolutePosition.Y + skin.BoxBorder.TopRight.Height,
-                skin.BoxBorder.Right.Width,
-                Bounds.Height - skin.BoxBorder.TopRight.Height - skin.BoxBorder.BottomRight.Height
+                (int) AbsolutePosition.X + Bounds.Width - border.TopRight.Width,
+                (int) AbsolutePosition.Y + border.TopRight.Height,
+                border.Right.Width,
+                Bounds.Height - border.TopRight.Height - border.BottomRight.Height
             );
-            spriteBatch.Draw(skin.BoxBorder.Right, dest, source, Color.White);
+            spriteBatch.Draw(border.Right, dest, source, Color.White);
 
             // Bottom
-            source = skin.BoxBorder.Bottom.Bounds;
+            source = border.Bottom.Bounds;
             dest = new Rectangle(
-                (int) AbsolutePosition.X + skin.BoxBorder.BottomLeft.Width,
-                (int) AbsolutePosition.Y + Bounds.Height - skin.BoxBorder.Bottom.Height,
-                Bounds.Width - skin.BoxBorder.BottomLeft.Width - skin.BoxBorder.BottomRight.Width,
-                skin.BoxBorder.Top.Height
+                (int) AbsolutePosition.X + border.BottomLeft.Width,
+                (int) AbsolutePosition.Y + Bounds.Height - border.Bottom.Height,
+                Bounds.Width - border.BottomLeft.Width - border.BottomRight.Width,
+                border.Top.Height
             );
-            spriteBatch.Draw(skin.BoxBorder.Top, dest, source, Color.White);
+            spriteBatch.Draw(border.Top, dest, source, Color.White);
 
             // Left
-            source = skin.BoxBorder.Left.Bounds;
+            source = border.Left.Bounds;
             dest = new Rectangle(
                 (int) AbsolutePosition.X,
-                (int) AbsolutePosition.Y + skin.BoxBorder.TopLeft.Height,
-                skin.BoxBorder.Left.Width,
-                Bounds.Height - skin.BoxBorder.TopLeft.Height - skin.BoxBorder.BottomLeft.Height
+                (int) AbsolutePosition.Y + border.TopLeft.Height,
+                border.Left.Width,
+                Bounds.Height - border.TopLeft.Height - border.BottomLeft.Height
             );
-            spriteBatch.Draw(skin.BoxBorder.Right, dest, source, Color.White);
+            spriteBatch.Draw(border.Right, dest, source, Color.White);
         }
 
         /// <summary>
@@ -395,7 +403,57 @@ namespace Yna.Display.Gui
 
         public void Update(GameTime gameTime)
         {
-            // TODO Handle events here
+            foreach (YnWidget child in Children)
+            {
+                child.Update(gameTime);
+            }
+
+            // No event handling if not visible nor active
+            if(IsVisible && IsActive)
+            {
+                Rectangle absoluteBounds = bounds;
+                Vector2 absolutePosition = AbsolutePosition;
+                absoluteBounds.X = (int) absolutePosition.X;
+                absoluteBounds.Y = (int) absolutePosition.Y;
+                if (absoluteBounds.Contains(YnG.Mouse.X, YnG.Mouse.Y))
+                {
+                    // The mouse is hovering the widget
+                    DoMouseOver();
+
+                    // No need to perform tests if there is no click handler
+                    if (MouseClick != null)
+                    {
+                        // There is a click handler : 2 kinds of events to handle :
+                        // 1. Simple click
+                        // 2. Mouse button down
+
+                        // Part (1) : Simple click
+                        bool leftClick = YnG.Mouse.JustClicked(MouseButton.Left);
+                        bool middleClick = YnG.Mouse.JustClicked(MouseButton.Middle);
+                        bool rightClick = YnG.Mouse.JustClicked(MouseButton.Right);
+                        if (leftClick || middleClick || rightClick)
+                        {
+                            // A mouse button was "just clicked"
+                            DoMouseClick(leftClick, middleClick, rightClick, true);
+                        }
+
+                        // Part (2) : Mouse button down
+                        bool leftDown = YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed);
+                        bool middleDown = YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed);
+                        bool rightDown = YnG.Mouse.ClickOn(MouseButton.Right, ButtonState.Pressed);
+                        if (leftDown || middleDown || rightDown)
+                        {
+                            // A mouse button is down
+                            DoMouseClick(leftClick, middleClick, rightClick, false);
+                        }
+                    }
+                }
+                else
+                {
+                    // The mouse left the widget
+                    DoMouseLeave();
+                }
+            }
         }
 
         /// <summary>
@@ -498,6 +556,43 @@ namespace Yna.Display.Gui
         /// Triggered when click are detected over the object
         /// </summary>
         public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
+
+        /// <summary>
+        /// Performs the mouse over actions and send proper the event
+        /// </summary>
+        protected virtual void DoMouseOver()
+        {
+            IsHovered = true;
+            if (MouseOver != null) MouseOver(this, new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+        }
+
+        /// <summary>
+        /// Performs the mouse leave actions and send the proper event
+        /// </summary>
+        protected virtual void DoMouseLeave()
+        {
+            IsHovered = false;
+            if (MouseLeave != null) MouseLeave(this, new MouseLeaveSpriteEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
+        }
+
+        /// <summary>
+        /// Performs the mouse click actions and send the proper event
+        /// </summary>
+        /// <param name="leftClick">left click</param>
+        /// <param name="middleClick">Middle click</param>
+        /// <param name="rightClick">right click</param>
+        /// <param name="justClicked">just clicked or pressed</param>
+        protected virtual void DoMouseClick(bool leftClick, bool middleClick, bool rightClick, bool justClicked)
+        {
+            if (leftClick)
+                MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, justClicked));
+
+            if (middleClick)
+                MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Middle, justClicked));
+
+            if (rightClick)
+                MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Right, justClicked));
+        }
 
         #endregion
     }

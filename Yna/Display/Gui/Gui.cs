@@ -88,6 +88,16 @@ namespace Yna.Display.Gui
             GuiSpriteBatch.End();
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            foreach (YnWidget widget in Widgets)
+            {
+                widget.Update(gameTime);
+            }
+        }
+
         /// <summary>
         /// Add a widget to the UI
         /// </summary>
@@ -124,20 +134,36 @@ namespace Yna.Display.Gui
             DefaultTextColor = Color.White;
 
             // Default borders
-            const int borderSize = 2;
-            Color borderColor = Color.LightGray;
+            Color transparentColor = new Color(0, 0, 0, 0);
+            const int borderSize = 1;
+            Color borderColor = Color.Gray;
             BoxBorder = new YnBorder();
-            BoxBorder.TopLeft     = GraphicsHelper.CreateTexture(borderColor, borderSize, borderSize);
+            BoxBorder.TopLeft     = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
             BoxBorder.Top         = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
-            BoxBorder.TopRight    = GraphicsHelper.CreateTexture(borderColor, borderSize, borderSize);
+            BoxBorder.TopRight    = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
             BoxBorder.Right       = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
-            BoxBorder.BottomRight = GraphicsHelper.CreateTexture(borderColor, borderSize, borderSize);
+            BoxBorder.BottomRight = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
             BoxBorder.Bottom      = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
-            BoxBorder.BottomLeft  = GraphicsHelper.CreateTexture(borderColor, borderSize, borderSize);
+            BoxBorder.BottomLeft  = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
             BoxBorder.Left        = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
 
             // Default background
             BoxBackground = GraphicsHelper.CreateTexture(Color.DarkGray, 1, 1);
+
+            // Hovered borders
+            borderColor = Color.White;
+            HoveredBoxBorder = new YnBorder();
+            HoveredBoxBorder.TopLeft     = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
+            HoveredBoxBorder.Top         = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
+            HoveredBoxBorder.TopRight    = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
+            HoveredBoxBorder.Right       = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
+            HoveredBoxBorder.BottomRight = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
+            HoveredBoxBorder.Bottom      = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
+            HoveredBoxBorder.BottomLeft  = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
+            HoveredBoxBorder.Left        = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
+
+            // Hovered background
+            HoveredBackground = GraphicsHelper.CreateTexture(new Color(100, 100, 100), 1, 1);
         }
     }
 }

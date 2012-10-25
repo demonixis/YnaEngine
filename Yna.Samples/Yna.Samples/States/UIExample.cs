@@ -17,6 +17,8 @@ namespace Yna.Samples.States
 		
 		public UIExample()
 		{
+            YnG.ShowMouse = true;
+
             Gui = new Gui(YnG.Game);
 
             // Simple Label example
@@ -72,6 +74,17 @@ namespace Yna.Samples.States
             paddedPanel.Position = new Vector2(10, 210);
             paddedPanel.Padding = 20;
             paddedPanel.Add(new YnLabel() { Text = "Panel without big padding" });
+            
+            // Buttons in a toolbar
+            YnPanel toolbar = Gui.Add(new YnPanel());
+            toolbar.Orientation = YnOrientation.Horizontal;
+            toolbar.Position = new Vector2(300, 300);
+            toolbar.Padding = 2;
+
+            toolbar.Add(new YnTextButton() { Text = "Load" });
+            toolbar.Add(new YnTextButton() { Text = "Save" });
+            toolbar.Add(new YnTextButton() { Text = "Options" });
+            toolbar.Add(new YnTextButton() { Text = "Exit" });
 		}
 		
 		public override void Update(GameTime gameTime)
