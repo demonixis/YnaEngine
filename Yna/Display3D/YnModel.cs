@@ -65,7 +65,10 @@ namespace Yna.Display3D
         }
 
         #endregion
-
+		
+#if LINUX
+		public override void UpdateBoundingVolumes() { }	
+#else		
         public override void UpdateBoundingVolumes()
         {
             // 1 - Global Bounding box
@@ -115,6 +118,7 @@ namespace Yna.Display3D
             // 3 - Update frustrum
             _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
         }
+		#endif
 
         public override void UpdateMatrix()
         {

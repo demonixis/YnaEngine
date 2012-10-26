@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;LINUX;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
@@ -29,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>LINUX;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Content.Pipeline">
@@ -48,7 +49,7 @@
       <HintPath>..\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
     </Reference>
   </ItemGroup>
-<ItemGroup>
+  <ItemGroup>
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
@@ -78,15 +79,6 @@
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
-    <Compile Include="Display\TileMap\AbstractLayer.cs" />
-    <Compile Include="Display\TileMap\AbstractTile.cs" />
-    <Compile Include="Display\TileMap\AbstractTileMap.cs" />
-    <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
-    <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
-    <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />
-    <Compile Include="Display\TileMap\Iso\LayerIso.cs" />
-    <Compile Include="Display\TileMap\Iso\TileIso.cs" />
-    <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
@@ -113,6 +105,15 @@
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
     <Compile Include="YnTimer.cs" />
+    <Compile Include="Display\Tilemap\AbstractLayer.cs" />
+    <Compile Include="Display\Tilemap\AbstractTile.cs" />
+    <Compile Include="Display\Tilemap\AbstractTileMap.cs" />
+    <Compile Include="Display\Tilemap\Basic\Layer2D.cs" />
+    <Compile Include="Display\Tilemap\Basic\Tile2D.cs" />
+    <Compile Include="Display\Tilemap\Basic\TileMap2D.cs" />
+    <Compile Include="Display\Tilemap\Iso\LayerIso.cs" />
+    <Compile Include="Display\Tilemap\Iso\TileIso.cs" />
+    <Compile Include="Display\Tilemap\Iso\TileMapIso.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

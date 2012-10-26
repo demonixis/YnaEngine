@@ -27,7 +27,7 @@ Global
 		{DC31CF5C-ADFE-49D4-8120-C4342F1AC910}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Yna.Samples\Yna.Samples\Yna.Samples.Linux.csproj
+		StartupItem = Yna.Samples3D\Yna.Samples3D\Yna.Samples3D.Linux.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
