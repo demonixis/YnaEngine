@@ -107,6 +107,9 @@ namespace Yna.Display3D.Controls
             _useKeyboard = true;
             _useGamepad = true;
             _useMouse = false;
+#if LINUX
+			_useGamepad = false;
+#endif
         }
 
         public BaseControl(BaseCamera camera, PlayerIndex index)
