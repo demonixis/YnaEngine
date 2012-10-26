@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using Yna;
+using Yna.Content;
 
 namespace Yna.Audio
 {
@@ -69,6 +70,12 @@ namespace Yna.Audio
             MusicVolume = 0.6f;
         }
 
+        private void CheckYnContent()
+        {
+            if (YnG.YnContent == null)
+                YnG.YnContent = new YnContent();
+        }
+
         public void PlaySound(string assetName, float volume, float pitch = 0.0f, float pan = 0.0f)
         {
             if (_soundEnabled)
@@ -100,17 +107,20 @@ namespace Yna.Audio
         // TODO : Add a custom content, remove the name parameter (determine it)
         private Song LoadMusicFromStream(string name, string path)
         {
-            Song song = Song.FromUri(name, new Uri(path));
-            // TODO : add a custom content manager for preventing multiple loading
-            return song;
+            CheckYnContent();
+            return YnG.YnContent.Load<Song>(path);
         }
 
-        // TODO : Add a custom content
+        /// <summary>
+        /// Load a sound from a stream and stored automatically it in a custom content manager
+        /// see : YnContent
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private SoundEffect LoadSoundFromStream(string path)
         {
-            SoundEffect sound = SoundEffect.FromStream(new StreamReader(path).BaseStream);
-
-            return sound;
+            CheckYnContent();
+            return YnG.YnContent.Load<SoundEffect>(path);
         }
 
         // TODO : Add a custom content, remove the name parameter (determine it)

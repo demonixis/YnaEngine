@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Yna.Audio;
+using Yna.Content;
 using Yna.Display;
 using Yna.Display3D;
 using Yna.Helpers;
@@ -62,6 +64,13 @@ namespace Yna
         /// Get or Set the audio manager
         /// </summary>
         public static AudioManager AudioManager { get; set; }
+
+        /// <summary>
+        /// Get or set a custom content manager, who allow you to don't use XNA's ContentManager for loading
+        /// Texture2D, Song & SoundEffect. It is disabled by defaut but it can be automatically activated if you load
+        /// an asset from stream in a YnManager*
+        /// </summary>
+        public static YnContent YnContent { get; set; }
 
         /// <summary>
         /// Get or Set the keyboard states
