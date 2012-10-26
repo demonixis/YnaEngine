@@ -50,6 +50,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Content\ContentEventArgs.cs" />
+    <Compile Include="Content\YnContent.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
@@ -58,7 +61,9 @@
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Controls\TopControl.cs" />
+    <Compile Include="Display3D\Light\BasicLight.cs" />
     <Compile Include="Display3D\Primitive\BasePrimitive.cs" />
+    <Compile Include="Display3D\Primitive\Cube.cs" />
     <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnGroup3D.cs" />
     <Compile Include="Display3D\YnModel.cs" />
@@ -79,6 +84,15 @@
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
+    <Compile Include="Display\TileMap\AbstractLayer.cs" />
+    <Compile Include="Display\TileMap\AbstractTile.cs" />
+    <Compile Include="Display\TileMap\AbstractTileMap.cs" />
+    <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
+    <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
+    <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />
+    <Compile Include="Display\TileMap\Iso\LayerIso.cs" />
+    <Compile Include="Display\TileMap\Iso\TileIso.cs" />
+    <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
@@ -92,9 +106,11 @@
     <Compile Include="Input\YnGamepad.cs" />
     <Compile Include="Input\YnKeyboard.cs" />
     <Compile Include="Input\YnMouse.cs" />
+    <Compile Include="Interfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="State\Screen.cs" />
     <Compile Include="State\ScreenManager.cs" />
+    <Compile Include="Storage\StorageManager.cs" />
     <Compile Include="YnState.cs" />
     <Compile Include="Utils\ListStack.cs" />
     <Compile Include="Utils\ListQueue.cs" />
@@ -105,15 +121,6 @@
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
     <Compile Include="YnTimer.cs" />
-    <Compile Include="Display\Tilemap\AbstractLayer.cs" />
-    <Compile Include="Display\Tilemap\AbstractTile.cs" />
-    <Compile Include="Display\Tilemap\AbstractTileMap.cs" />
-    <Compile Include="Display\Tilemap\Basic\Layer2D.cs" />
-    <Compile Include="Display\Tilemap\Basic\Tile2D.cs" />
-    <Compile Include="Display\Tilemap\Basic\TileMap2D.cs" />
-    <Compile Include="Display\Tilemap\Iso\LayerIso.cs" />
-    <Compile Include="Display\Tilemap\Iso\TileIso.cs" />
-    <Compile Include="Display\Tilemap\Iso\TileMapIso.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
