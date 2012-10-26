@@ -132,7 +132,8 @@ namespace Yna.Content
                     _loadedAssets.Add(name, texture);
                     _disposableAssets.Add(texture);
                 }
-
+				// TODO : construct a song/SoundEffect with stream on Linux or use OpenAL directly...
+#if !LINUX
                 else if (typeof(T) == typeof(Song))
                 {
                     Song song = Song.FromUri(name, new Uri(path));
@@ -146,6 +147,7 @@ namespace Yna.Content
                     _loadedAssets.Add(name, sound);
                     _disposableAssets.Add(sound);
                 }
+#endif
             }
 
             return (T)_loadedAssets[name];
