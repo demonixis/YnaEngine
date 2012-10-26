@@ -48,7 +48,7 @@
       <HintPath>..\Externals\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
     </Reference>
   </ItemGroup>
-   <ItemGroup>
+<ItemGroup>
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
@@ -57,6 +57,7 @@
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Controls\TopControl.cs" />
+    <Compile Include="Display3D\Primitive\BasePrimitive.cs" />
     <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnGroup3D.cs" />
     <Compile Include="Display3D\YnModel.cs" />
