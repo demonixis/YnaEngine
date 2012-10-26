@@ -21,6 +21,25 @@ namespace Yna.Samples.States
 
             Gui = new Gui(YnG.Game);
 
+            // Buttons in a toolbar
+            int tileSize = 150;
+            int padding = 10;
+            int tileCount = 5;
+
+            YnPanel toolbar = Gui.Add(new YnPanel());
+            toolbar.WithBackground = false;
+            toolbar.Orientation = YnOrientation.Horizontal;
+            toolbar.Padding = padding;
+            toolbar.Height = tileSize;
+            toolbar.Position = new Vector2(YnG.Width / 2 - (tileSize * tileCount + padding * (tileCount+1)) / 2, YnG.Height / 2 - toolbar.Height / 2);
+
+            toolbar.Add(new YnTextButton() { Text = "New", Width = tileSize, Height = tileSize });
+            toolbar.Add(new YnTextButton() { Text = "Load", Width = tileSize, Height = tileSize });
+            toolbar.Add(new YnTextButton() { Text = "Options", Width = tileSize, Height = tileSize });
+            toolbar.Add(new YnTextButton() { Text = "Store", Width = tileSize, Height = tileSize });
+            toolbar.Add(new YnTextButton() { Text = "Exit", Width = tileSize, Height = tileSize });
+
+            /*
             // Simple Label example
             YnLabel simpleLabel = Gui.Add(new YnLabel());
             simpleLabel.Text = "Simple Label";
@@ -79,12 +98,13 @@ namespace Yna.Samples.States
             YnPanel toolbar = Gui.Add(new YnPanel());
             toolbar.Orientation = YnOrientation.Horizontal;
             toolbar.Position = new Vector2(300, 300);
-            toolbar.Padding = 2;
+            toolbar.Padding = 5;
 
             toolbar.Add(new YnTextButton() { Text = "Load" });
             toolbar.Add(new YnTextButton() { Text = "Save" });
             toolbar.Add(new YnTextButton() { Text = "Options" });
             toolbar.Add(new YnTextButton() { Text = "Exit" });
+             */
 		}
 		
 		public override void Update(GameTime gameTime)

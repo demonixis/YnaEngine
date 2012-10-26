@@ -15,22 +15,32 @@ namespace Yna.Display.Gui
         /// <summary>
         /// Border definitions for box widgets
         /// </summary>
-        public YnBorder BoxBorder { get; set; }
+        public YnBorder PanelBorder { get; set; }
+
+        /// <summary>
+        /// Border definitions for buttons
+        /// </summary>
+        public YnBorder ButtonBorder { get; set; }
 
         /// <summary>
         /// Border definition for hovered bos widgets
         /// </summary>
-        public YnBorder HoveredBoxBorder { get; set; }
+        public YnBorder HoveredButtonBorder { get; set; }
 
         /// <summary>
         /// Background image for box widgets
         /// </summary>
-        public Texture2D BoxBackground { get; set; }
+        public Texture2D PanelBackground { get; set; }
 
         /// <summary>
-        /// Hovered background image for box widgets
+        /// Background image for buttons
         /// </summary>
-        public Texture2D HoveredBackground { get; set; }
+        public Texture2D ButtonBackground { get; set; }
+
+        /// <summary>
+        /// Hovered background image for buttons
+        /// </summary>
+        public Texture2D HoveredButtonBackground { get; set; }
 
         /// <summary>
         /// The skin font
@@ -46,5 +56,15 @@ namespace Yna.Display.Gui
         /// The default text color
         /// </summary>
         public Color DefaultTextColor { get; set; }
+
+        /// <summary>
+        /// The text color for clicked buttons
+        /// </summary>
+        public Color ClickedButtonTextColor { get; set; }
+
+        /// <summary>
+        /// Clicked background image for buttons
+        /// </summary>
+        public Texture2D ClickedButtonBackground { get; set; }
     }
 }

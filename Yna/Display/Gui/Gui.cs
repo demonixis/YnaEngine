@@ -50,7 +50,10 @@ namespace Yna.Display.Gui
             if (SkinName == null)
             {
                 // No skin, use the default one
-                Skin = new DefaultSkin();
+                // Skin = YnSkinGenerator.Generate(new Color(250, 100, 50)); // Orange
+                // Skin = YnSkinGenerator.Generate(Color.Coral);
+                // Skin = YnSkinGenerator.Generate(Color.DeepPink);
+                Skin = YnSkinGenerator.Generate(Color.DodgerBlue);
             }
             else
             {
@@ -137,17 +140,18 @@ namespace Yna.Display.Gui
             Color transparentColor = new Color(0, 0, 0, 0);
             const int borderSize = 1;
             Color borderColor = Color.Gray;
-            BoxBorder = new YnBorder();
-            BoxBorder.TopLeft     = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            BoxBorder.Top         = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
-            BoxBorder.TopRight    = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            BoxBorder.Right       = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
-            BoxBorder.BottomRight = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            BoxBorder.Bottom      = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
-            BoxBorder.BottomLeft  = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            BoxBorder.Left        = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
+            PanelBorder = new YnBorder();
+            PanelBorder.TopLeft     = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
+            PanelBorder.Top         = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
+            PanelBorder.TopRight    = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
+            PanelBorder.Right       = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
+            PanelBorder.BottomRight = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
+            PanelBorder.Bottom      = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
+            PanelBorder.BottomLeft  = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
+            PanelBorder.Left        = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
 
             // Default background
+            /*
             BoxBackground = GraphicsHelper.CreateTexture(Color.DarkGray, 1, 1);
 
             // Hovered borders
@@ -164,6 +168,7 @@ namespace Yna.Display.Gui
 
             // Hovered background
             HoveredBackground = GraphicsHelper.CreateTexture(new Color(100, 100, 100), 1, 1);
+             * */
         }
     }
 }

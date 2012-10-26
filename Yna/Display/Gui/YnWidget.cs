@@ -133,6 +133,22 @@ namespace Yna.Display.Gui
         /// </summary>
         public bool IsHovered { get; set; }
 
+        /// <summary>
+        /// Set to true to adjust children sizes to fit in the container
+        /// </summary>
+        public bool AdjustChildren { get; set; }
+
+        public int Width
+        {
+            get { return bounds.Width; }
+            set { bounds.Width = value; UpdateBounds(); }
+        }
+
+        public int Height
+        {
+            get { return bounds.Height; }
+            set { bounds.Height = value; UpdateBounds(); }
+        }
         #endregion
 
         #region Constructors
@@ -172,11 +188,11 @@ namespace Yna.Display.Gui
             {
                 // Draw the borders
                 if (WithBorder)
-                    DrawBorders(gameTime, spriteBatch, skin.BoxBorder);
+                    DrawBorders(gameTime, spriteBatch, skin.PanelBorder);
 
                 // Draw the background
                 if(WithBackground)
-                    DrawBackground(gameTime, spriteBatch, skin.BoxBackground);
+                    DrawBackground(gameTime, spriteBatch, skin.PanelBackground);
 
                 // Draw the component itself
                 DrawWidget(gameTime, spriteBatch, skin);
@@ -196,12 +212,20 @@ namespace Yna.Display.Gui
         protected virtual void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
         {
             Rectangle source = new Rectangle(0, 0, background.Width, background.Height);
-            Rectangle dest = new Rectangle(
-                (int) AbsolutePosition.X + Skin.BoxBorder.TopLeft.Width,
-                (int) AbsolutePosition.Y + Skin.BoxBorder.TopLeft.Height,
-                Bounds.Width - Skin.BoxBorder.TopLeft.Width - Skin.BoxBorder.TopRight.Width,
-                Bounds.Height - Skin.BoxBorder.BottomLeft.Height - Skin.BoxBorder.BottomRight.Height
-            );
+            Rectangle dest;
+            if (Skin.PanelBorder != null)
+            {
+                dest = new Rectangle(
+                    (int) AbsolutePosition.X + Skin.PanelBorder.TopLeft.Width,
+                    (int) AbsolutePosition.Y + Skin.PanelBorder.TopLeft.Height,
+                    Bounds.Width - Skin.PanelBorder.TopLeft.Width - Skin.PanelBorder.TopRight.Width,
+                    Bounds.Height - Skin.PanelBorder.BottomLeft.Height - Skin.PanelBorder.BottomRight.Height
+                );
+            }
+            else
+            {
+                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, Bounds.Width, Bounds.Height);
+            }
 
             spriteBatch.Draw(background, dest, source, Color.White);
         }
@@ -399,10 +423,31 @@ namespace Yna.Display.Gui
                     }
                     break;
             }
+
+            // New that the layout is done, we can adjust sizes
+            if (AdjustChildren)
+            {
+                int maxHeight = GetMaxChildHeight();
+                int maxWidth = GetMaxChildWidth();
+                foreach (YnWidget child in Children)
+                {
+                    switch (Orientation)
+                    {
+                        case YnOrientation.Horizontal:
+                            child.Height = maxHeight - Padding * 2;
+                            break;
+                        case YnOrientation.Vertical:
+                            child.Width = maxWidth - Padding * 2;
+                            break;
+                    }
+                }
+            }
         }
 
         public void Update(GameTime gameTime)
         {
+            DoCustomUpdate(gameTime);
+
             foreach (YnWidget child in Children)
             {
                 child.Update(gameTime);
@@ -420,32 +465,28 @@ namespace Yna.Display.Gui
                     // The mouse is hovering the widget
                     DoMouseOver();
 
-                    // No need to perform tests if there is no click handler
-                    if (MouseClick != null)
+                    // There is a click handler : 2 kinds of events to handle :
+                    // 1. Simple click
+                    // 2. Mouse button down
+
+                    // Part (1) : Simple click
+                    bool leftClick = YnG.Mouse.JustClicked(MouseButton.Left);
+                    bool middleClick = YnG.Mouse.JustClicked(MouseButton.Middle);
+                    bool rightClick = YnG.Mouse.JustClicked(MouseButton.Right);
+                    if (leftClick || middleClick || rightClick)
                     {
-                        // There is a click handler : 2 kinds of events to handle :
-                        // 1. Simple click
-                        // 2. Mouse button down
+                        // A mouse button was "just clicked"
+                        DoMouseClick(leftClick, middleClick, rightClick, true);
+                    }
 
-                        // Part (1) : Simple click
-                        bool leftClick = YnG.Mouse.JustClicked(MouseButton.Left);
-                        bool middleClick = YnG.Mouse.JustClicked(MouseButton.Middle);
-                        bool rightClick = YnG.Mouse.JustClicked(MouseButton.Right);
-                        if (leftClick || middleClick || rightClick)
-                        {
-                            // A mouse button was "just clicked"
-                            DoMouseClick(leftClick, middleClick, rightClick, true);
-                        }
-
-                        // Part (2) : Mouse button down
-                        bool leftDown = YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed);
-                        bool middleDown = YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed);
-                        bool rightDown = YnG.Mouse.ClickOn(MouseButton.Right, ButtonState.Pressed);
-                        if (leftDown || middleDown || rightDown)
-                        {
-                            // A mouse button is down
-                            DoMouseClick(leftClick, middleClick, rightClick, false);
-                        }
+                    // Part (2) : Mouse button down
+                    bool leftDown = YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed);
+                    bool middleDown = YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed);
+                    bool rightDown = YnG.Mouse.ClickOn(MouseButton.Right, ButtonState.Pressed);
+                    if (leftDown || middleDown || rightDown)
+                    {
+                        // A mouse button is down
+                        DoMouseClick(leftDown, middleDown, rightDown, false);
                     }
                 }
                 else
@@ -454,6 +495,15 @@ namespace Yna.Display.Gui
                     DoMouseLeave();
                 }
             }
+        }
+
+        /// <summary>
+        /// Performs custom Update
+        /// </summary>
+        /// <param name="gameTime"></param>
+        protected virtual void DoCustomUpdate(GameTime gameTime)
+        {
+            // To override if needed
         }
 
         /// <summary>
@@ -519,7 +569,7 @@ namespace Yna.Display.Gui
         /// <returns>The max height used</returns>
         protected virtual int GetMaxChildWidth()
         {
-            int maxWidth = Bounds.Width;
+            int maxWidth = bounds.Width;
 
             foreach (YnWidget widget in Children)
             {
@@ -585,13 +635,14 @@ namespace Yna.Display.Gui
         protected virtual void DoMouseClick(bool leftClick, bool middleClick, bool rightClick, bool justClicked)
         {
             if (leftClick)
-                MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, justClicked));
-
+            {
+                if (MouseClick != null ) MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, justClicked));
+            }
             if (middleClick)
-                MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Middle, justClicked));
+                if (MouseClick != null) MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Middle, justClicked));
 
             if (rightClick)
-                MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Right, justClicked));
+                if (MouseClick != null) MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Right, justClicked));
         }
 
         #endregion

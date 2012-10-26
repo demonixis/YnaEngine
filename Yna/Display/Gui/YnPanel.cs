@@ -12,9 +12,8 @@ namespace Yna.Display.Gui
         public YnPanel()
             : base()
         {
-            WithBackground = true;
-            WithBorder = true;
             Pack = true;
+            WithBackground = true;
         }
 
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
