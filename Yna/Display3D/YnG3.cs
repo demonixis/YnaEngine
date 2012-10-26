@@ -15,7 +15,7 @@ namespace Yna.Display3D
 
     public class YnG3
     {
-        #region Coordinates 2D/3D
+        #region Get 2D/3D coordinates
 
         /// <summary>
         /// Get 2D position (on screen) from 3D position (on world)
@@ -45,7 +45,7 @@ namespace Yna.Display3D
 
         #endregion
 
-        #region Collision detection
+        #region Mouse cursor collision
 
         /// <summary>
         /// Get a Ray from the mouse coordinate
@@ -108,6 +108,10 @@ namespace Yna.Display3D
             return collides.ToArray();
         }
 
+        #endregion
+
+        #region Models collision
+
         /// <summary>
         /// check if two models colliding
         /// </summary>
@@ -159,6 +163,47 @@ namespace Yna.Display3D
                 if (group[i] is YnModel)
                 {
                     if (SphereCollide(model, group[i] as YnModel))
+                        collides.Add(group[i] as YnModel);
+                }
+            }
+
+            return collides.ToArray();
+        }
+
+        /// <summary>
+        /// check if two models colliding with there bounding box
+        /// </summary>
+        /// <param name="modelA">First model</param>
+        /// <param name="modelB">Second model</param>
+        /// <returns>True if modelA collinding modelB else false</returns>
+        public static bool CubeCollide(YnModel modelA, YnModel modelB)
+        {
+            if (modelA.Dynamic)
+                modelA.UpdateBoundingVolumes();
+
+            if (modelB.Dynamic)
+                modelB.UpdateBoundingVolumes();
+
+            return modelA.BoundingBox.Intersects(modelB.BoundingBox);
+        }
+
+        /// <summary>
+        /// Test if the model colliding another objects with there bounding box
+        /// </summary>
+        /// <param name="model">The model</param>
+        /// <param name="group">A collection of models</param>
+        /// <returns>Array of models that collides with model</returns>
+        public static YnModel[] CubeCollide(YnModel model, YnGroup3D group)
+        {
+            List<YnModel> collides = new List<YnModel>();
+
+            int groupSize = group.Count;
+
+            for (int i = 0; i < groupSize; i++)
+            {
+                if (group[i] is YnModel)
+                {
+                    if (CubeCollide(model, group[i] as YnModel))
                         collides.Add(group[i] as YnModel);
                 }
             }

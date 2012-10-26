@@ -31,7 +31,7 @@ namespace Yna.Display3D.Camera
         {
             base.Update(gameTime);
 
-            Matrix matRotation = Matrix.CreateRotationX(_pitch) * Matrix.CreateRotationY(_yaw) * Matrix.CreateRotationZ(_roll);
+            Matrix matRotation = Matrix.CreateFromYawPitchRoll(_yaw, _pitch, _roll);
 
             Vector3 transformedReference = Vector3.Transform(_reference, matRotation);
 

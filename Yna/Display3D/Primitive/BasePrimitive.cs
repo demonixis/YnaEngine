@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Display3D.Light;
 
 namespace Yna.Display3D.Primitive
 {
@@ -12,6 +13,7 @@ namespace Yna.Display3D.Primitive
         protected string _textureName;
         protected Vector2 _textureRepeat;
         protected Vector3 _segmentSizes;
+        protected BasicLight _basicLight;
         protected bool _lightningEnabled;
         protected bool _colorEnabled;
         protected bool _textureEnabled;
@@ -58,6 +60,22 @@ namespace Yna.Display3D.Primitive
             set { _initialized = value; }
         }
 
+        public BasicLight Light
+        {
+            get { return _basicLight; }
+            set { _basicLight = value; }
+        }
+
+        public bool LightningEnabled
+        {
+            get { return _lightningEnabled; }
+            set
+            {
+                _lightningEnabled = value;
+                _basicEffect.LightingEnabled = _lightningEnabled; 
+            }
+        }
+
         /// <summary>
         /// Texture to use with the terrain
         /// </summary>
@@ -84,7 +102,7 @@ namespace Yna.Display3D.Primitive
         public Vector3 SegmentSizes
         {
             get { return _segmentSizes; }
-            protected set { _segmentSizes = value; }
+            set { _segmentSizes = value; }
         }
 
         public bool NeedUpdate
@@ -98,7 +116,7 @@ namespace Yna.Display3D.Primitive
         public BasePrimitive()
             : this(new Vector3(0, 0, 0))
         {
-            
+
         }
 
         public BasePrimitive(Vector3 position)
@@ -108,6 +126,8 @@ namespace Yna.Display3D.Primitive
             _textureName = String.Empty;
             _textureRepeat = Vector2.One;
             _segmentSizes = Vector3.One;
+
+            _basicLight = new BasicLight();
 
             _lightningEnabled = false;
             _colorEnabled = true;
@@ -156,18 +176,31 @@ namespace Yna.Display3D.Primitive
             _boundingFrustrum = new BoundingFrustum(World * _camera.Projection);
         }
 
+        public virtual void SetupLightning(BasicEffect effect)
+        {
+            if (_lightningEnabled)
+            {
+                effect.EnableDefaultLighting();
+                effect.Alpha = _basicLight.Alpha;
+                effect.AmbientLightColor = _basicLight.Ambient;
+                effect.DiffuseColor = _basicLight.Diffuse;
+                effect.SpecularColor = _basicLight.Specular;
+                effect.EmissiveColor = _basicLight.Emissive;
+            }
+        }
+
         public override void Draw(GraphicsDevice device)
         {
-            if (_needUpdate)
-            {
-                SetupShader();
-                UpdateMatrix();
-                UpdateBoundingVolumes();
-                _needUpdate = false;
-            }
+            UpdateMatrix();
 
             if (_dynamic)
-                UpdateMatrix();
+                UpdateBoundingVolumes();
+            
+            SetupLightning(_basicEffect);
+            
+            _basicEffect.World = World;
+            _basicEffect.View = View;
+            _basicEffect.Projection = _camera.Projection;
         }
     }
 }

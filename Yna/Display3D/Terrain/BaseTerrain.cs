@@ -50,6 +50,22 @@ namespace Yna.Display3D.Terrain
             _position = position;
         }
 
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            if (!_initialized)
+            {
+                if (_textureName != String.Empty && _texture == null)
+                {
+                    _texture = YnG.Content.Load<Texture2D>(_textureName);
+                    _textureEnabled = true;
+                    _colorEnabled = false;
+                    _initialized = true;
+                }
+            }
+        }
+
         #region Vertices construction & Setup
 
         /// <summary>
@@ -63,15 +79,16 @@ namespace Yna.Display3D.Terrain
         protected virtual void CreateIndices()
         {
             _indices = new short[(Width - 1) * (Depth - 1) * 6];
+
             int counter = 0;
 
             for (int x = 0; x < Width - 1; x++)
             {
                 for (int y = 0; y < Depth - 1; y++)
                 {
-                    short lowerLeft = (short)(x + y * Width);
-                    short lowerRight = (short)((x + 1) + y * Width);
-                    short topLeft = (short)(x + (y + 1) * Width);
+                    short lowerLeft = (short)(x + y * Width);             
+                    short lowerRight = (short)((x + 1) + y * Width);       
+                    short topLeft = (short)(x + (y + 1) * Width);                
                     short topRight = (short)((x + 1) + (y + 1) * Width);
 
                     _indices[counter++] = topLeft;
@@ -136,37 +153,13 @@ namespace Yna.Display3D.Terrain
 
         #endregion
 
-        
-        /// <summary>
-        /// Load terrain's texture if the _textureEnabled variable is true
-        /// </summary>
-        public override void LoadContent()
-        {
-            base.LoadContent();
-
-            if (!_initialized)
-            {
-                if (_textureName != String.Empty)
-                {
-                    _texture = YnG.Content.Load<Texture2D>(_textureName);
-                    _initialized = true;
-                }
-            }
-        }
-
         /// <summary>
         /// Draw Terrain
         /// </summary>
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device)
         {
-            UpdateMatrix();
-
-            _basicEffect.World = World;
-
-            _basicEffect.View = View;
-
-            _basicEffect.Projection = _camera.Projection;
+            base.Draw(device);
 
             foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
             {

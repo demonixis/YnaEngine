@@ -16,7 +16,7 @@ namespace Yna.Samples
         }
 #else
         public YnaSample () 
-		    : base(1024, 600, "YNA Framework : Samples 2D") 
+		    : base(640, 480, "YNA Framework : Samples 2D") 
         {
 
         }

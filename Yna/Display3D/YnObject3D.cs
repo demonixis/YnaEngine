@@ -306,7 +306,14 @@ namespace Yna.Display3D
         public override void Update(GameTime gameTime)
         {
             if (_dynamic)
+            {
                 UpdateBoundingVolumes();
+
+                _lastDirection = (_position - _lastPosition);
+                _lastDirection.Normalize();
+
+                _lastPosition = _position;
+            }
         }
 
         /// <summary>

@@ -6,6 +6,11 @@ namespace Yna.Display3D.Camera
 {
     public abstract class BaseCamera : YnBase3D
     {
+        // Direction
+        protected Vector3 _lastPosition;
+        protected Vector3 _direction;
+        protected Vector3 _lastDirection;
+
         protected Matrix _projection;
 
         protected BoundingSphere _boundingSphere;
@@ -27,6 +32,25 @@ namespace Yna.Display3D.Camera
         protected Vector3 _target;
 
         #region Properties
+
+        /// <summary>
+        /// Get the last position
+        /// </summary>
+        public Vector3 LastPosition
+        {
+            get { return _lastPosition; }
+        }
+
+        public Vector3 Direction
+        {
+            get { return _direction; }
+            set { _direction = value; }
+        }
+
+        public Vector3 LastDirection
+        {
+            get { return _lastDirection; }
+        }
 
         public Matrix Projection
         {
@@ -111,6 +135,10 @@ namespace Yna.Display3D.Camera
                 new Vector3(X + _boundingRadius, Y + _boundingRadius, Z + _boundingRadius));
 
             _boundingFrustrum = new BoundingFrustum(Matrix.Identity);
+
+            _lastPosition = _position;
+            _direction = Vector3.Zero;
+            _lastDirection = Vector3.Zero;
         }
 
         /// <summary>
@@ -153,7 +181,7 @@ namespace Yna.Display3D.Camera
         /// Rotate the camera around Y axis
         /// </summary>
         /// <param name="angle">An angle in degree</param>
-        public void RotateY(float angle)
+        public virtual void RotateY(float angle)
         {
             _yaw += MathHelper.ToRadians(angle);
 
@@ -161,13 +189,13 @@ namespace Yna.Display3D.Camera
                 _yaw = 0.0f;
         }
 
-        public void Pitch(float angle)
+        public virtual void Pitch(float angle)
         {
             _pitch += MathHelper.ToRadians(angle);
 
         }
 
-        public void Roll(float angle)
+        public virtual void Roll(float angle)
         {
             _roll += MathHelper.ToRadians(angle);
         }
@@ -178,18 +206,18 @@ namespace Yna.Display3D.Camera
         /// <param name="x">X value</param>
         /// <param name="y">Y value</param>
         /// <param name="z">Z value</param>
-        public void Translate(float x, float y, float z)
+        public virtual void Translate(float x, float y, float z)
         {
             Vector3 move = new Vector3(x, y, z);
-            Matrix forwardMovement = Matrix.CreateRotationX(_pitch) * Matrix.CreateRotationY(_yaw) * Matrix.CreateRotationZ(_roll);
+            Matrix forwardMovement = Matrix.CreateRotationY(_yaw);
             Vector3 v = Vector3.Transform(move, forwardMovement);
-            
+
             _position.X += v.X;
             _position.Y += v.Y;
             _position.Z += v.Z;
         }
 
-        public override void Update(GameTime gameTime)
+        public virtual void UpdateBoundingVolumes()
         {
             _boundingSphere.Center = _position;
             _boundingSphere.Radius = _boundingRadius;
@@ -198,6 +226,16 @@ namespace Yna.Display3D.Camera
             _boundingBox.Max = new Vector3(X + _boundingRadius, Y + _boundingRadius, Z + _boundingRadius);
 
             _boundingFrustrum = new BoundingFrustum(View * Projection);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            UpdateBoundingVolumes();
+
+            _lastDirection = (_position - _lastPosition);
+            _lastDirection.Normalize();
+
+            _lastPosition = _position;
         }
     }
 }

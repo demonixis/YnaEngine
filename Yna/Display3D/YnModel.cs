@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Content;
 using Yna.Display3D.Camera;
+using Yna.Display3D.Light;
 
 namespace Yna.Display3D
 {
@@ -11,6 +13,7 @@ namespace Yna.Display3D
         protected Model _model;
         protected string _modelName;
         protected Matrix[] _bonesTransforms;
+        protected BasicLight _basicLight;
 
         #region Properties
 
@@ -48,6 +51,12 @@ namespace Yna.Display3D
             }
         }
 
+        public BasicLight Light
+        {
+            get { return _basicLight; }
+            set { _basicLight = value; }
+        }
+
         #endregion
 
         #region Constructor
@@ -56,6 +65,7 @@ namespace Yna.Display3D
             : base(position)
         {
             _modelName = modelName;
+            _basicLight = new BasicLight();
         }
 
         public YnModel(string modelName)
@@ -64,11 +74,23 @@ namespace Yna.Display3D
 
         }
 
+        #endregion	
+
+        #region Events
+
+        public event EventHandler<AssetLoadedEventArgs> AssetLoaded = null;
+
+        protected void OnAssetLoaded(AssetLoadedEventArgs e)
+        {
+            if (AssetLoaded != null)
+                AssetLoaded(this, e);
+        }
+
         #endregion
 		
 #if LINUX
 		public override void UpdateBoundingVolumes() { }	
-#else		
+#else	
         public override void UpdateBoundingVolumes()
         {
             // 1 - Global Bounding box
@@ -131,6 +153,18 @@ namespace Yna.Display3D
             View = _camera.View;
         }
 
+        protected virtual void SetupLightning(BasicEffect effect)
+        {
+            effect.LightingEnabled = true;
+            effect.DirectionalLight0.Enabled = true;
+            effect.DirectionalLight0.DiffuseColor = _basicLight.Diffuse;
+            effect.DirectionalLight0.Direction = _basicLight.Direction;
+            effect.DirectionalLight0.SpecularColor = _basicLight.Specular;
+            effect.AmbientLightColor = _basicLight.Ambient;
+            effect.EmissiveColor = _basicLight.Emissive;
+            effect.Alpha = _basicLight.Alpha;
+        }
+
         #region GameState Pattern
 
         public override void LoadContent()
@@ -146,6 +180,8 @@ namespace Yna.Display3D
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+
+            OnAssetLoaded(new AssetLoadedEventArgs(_modelName));
         }
 
         public override void Draw(GraphicsDevice device)
@@ -158,7 +194,7 @@ namespace Yna.Display3D
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.EnableDefaultLighting();
+                    SetupLightning(effect);
 
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
 
