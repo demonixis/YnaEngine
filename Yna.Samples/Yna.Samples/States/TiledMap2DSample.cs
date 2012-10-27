@@ -141,7 +141,7 @@ namespace Yna.Samples.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
-                YnG.SwitchState(new Menu());
+                YnG.StateManager.SetScreenActive("menu");
             }
         }
 

@@ -31,6 +31,7 @@ namespace Yna.State
         private bool _exiting;
         private bool _visible;
         private bool _isPopup;
+        private bool _initialized;
 
         protected string _name;
 
@@ -54,6 +55,14 @@ namespace Yna.State
         {
             get { return _name; }
             set { _name = value; }
+        }
+
+        /// <summary>
+        /// Indicates whether the object is initialized
+        /// </summary>
+        public bool Initialized
+        {
+            get { return _initialized; }
         }
 
         /// <summary>
@@ -182,7 +191,7 @@ namespace Yna.State
 
         public virtual void Initialize()
         {
-
+            _initialized = true;
         }
 
         public virtual void LoadContent()
@@ -207,10 +216,16 @@ namespace Yna.State
             }
             else if (_screenState == ScreenState.TransitionOff)
             {
-                if (_timeTransitionCounter <= 0)
+                if (_timeTransitionCounter <= 0 && _exiting)
                     screenManager.Remove(this);
+                else if (_timeTransitionCounter <= 0 && !_exiting)
+                    _screenState = State.ScreenState.Hidden;
                 else
                     UpdateTransition(gameTime, _timeTransitionOff, 1);
+            }
+            else if (_screenState == State.ScreenState.Hidden)
+            {
+                Active = false;
             }
         }
 

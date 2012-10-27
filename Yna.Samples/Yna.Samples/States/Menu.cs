@@ -60,7 +60,7 @@ namespace Yna.Samples.States
             items.Add(new MenuItem(2, "Animated Sprite", "Learn how to create an animated Sprite with a SpriteSheet"));
             items.Add(new MenuItem(3, "Simple Tiled Map", "Create a tilemap and a camera"));
             items.Add(new MenuItem(4, "Isometric Tiled Map", "Create an isometric tilemap and a camera"));
-            items.Add(new MenuItem(9, "Exit"));
+            items.Add(new MenuItem(5, "Exit"));
 
             foreach (MenuItem item in items)
             {
@@ -141,11 +141,11 @@ namespace Yna.Samples.States
         {
             switch (index)
             {
-                case 0: YnG.SwitchState(new BasicSprites());      break;
-                case 1: YnG.SwitchState(new AnimatedSprites());   break;
-                case 2: YnG.SwitchState(new TiledMap2DSample());  break;
-                case 3: YnG.SwitchState(new IsoTiledMapSample()); break;
-                case 8: YnG.Exit();                               break;
+                case 0: YnG.StateManager.SetScreenActive("basic_sample"); break;
+                case 1: YnG.StateManager.SetScreenActive("animated_sample"); break;
+                case 2: YnG.StateManager.SetScreenActive("tilemap_sample"); break;
+                case 3: YnG.StateManager.SetScreenActive("iso_sample"); break; 
+                case 4: YnG.Exit();                               break;
                 default:                                          break;
             }
         }

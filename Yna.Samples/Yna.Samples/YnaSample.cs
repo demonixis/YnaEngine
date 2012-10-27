@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna;
@@ -16,8 +17,8 @@ namespace Yna.Samples
 
         }
 #else
-        public YnaSample () 
-		    : base(640, 480, "YNA Framework : Samples 2D") 
+        public YnaSample()
+            : base(1280, 800, "YNA Framework : Samples 2D")
         {
 
         }
@@ -27,14 +28,18 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            YnState menu = new Menu();
-            menu.Name = "menu";
-            YnState sample1 = new AnimatedSprites();
-            YnState sample2 = new BasicSprites();
-            YnState sample3 = new TiledMap2DSample();
-            YnState sample4 = new IsoTiledMapSample();
+            YnState menu = new Menu("menu");
 
-            YnG.SwitchState(new Menu());
+            YnState[] screens = new YnState[]
+            {
+                new AnimatedSprites("animated_sample"),
+                new BasicSprites("basic_sample"),
+                new TiledMap2DSample("tilemap_sample"),
+                new IsoTiledMapSample("iso_sample")
+            };
+
+            screenManager.Add(menu, true);
+            screenManager.Add(screens, false);
         }
 
         protected override void Update(GameTime gameTime)

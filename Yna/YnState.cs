@@ -109,6 +109,13 @@ namespace Yna
             _name = name;
         }
 
+        public YnState(string name, bool active)
+            : this(name, 1500, 0)
+        {
+            Active = active;
+        }
+
+        // @Depreacted
         /// <summary>
         /// Create a new state that represent a game layer
         /// </summary>

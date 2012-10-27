@@ -122,7 +122,7 @@ namespace Yna.State
             _screens = new List<Screen>();
             _safeScreens = new List<Screen>();
             _namedScreens = new Dictionary<string, int>();
-            
+
             _initialized = false;
         }
 
@@ -188,7 +188,7 @@ namespace Yna.State
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(_clearColor);
-
+            
             // We make a copy of all screens to provide any error
             // if a screen is removed during the update opreation
             int nbScreens = _safeScreens.Count;
@@ -197,7 +197,7 @@ namespace Yna.State
             {
                 for (int i = 0; i < nbScreens; i++)
                 {
-                    if (_safeScreens[i].Visible)
+                    if (_safeScreens[i].Active)
                         _safeScreens[i].Draw(gameTime);
                 }
             }
@@ -267,14 +267,40 @@ namespace Yna.State
 
             _screens[index].Active = true;
 
+            if (!_screens[index].Initialized)
+                _screens[index].Initialize();
+
             if (desactiveOtherScreens)
             {
                 for (int i = 0; i < size; i++)
                 {
                     if (i != index)
-                        _screens[i].Hide();
+                        _screens[i].Active = false; // TODO : Replace by hide when it's ok
                 }
             }
+        }
+
+        public void SetScreenActive(string name, bool desactiveOtherScreens = true)
+        {
+            if (_namedScreens.ContainsKey(name))
+            {
+                Screen activableScreen = _screens[_namedScreens[name]];
+                activableScreen.Active = true;
+                
+                if (!activableScreen.Initialized)
+                    activableScreen.Initialize(); 
+
+                if (desactiveOtherScreens)
+                {
+                    foreach (Screen screen in _screens)
+                    {
+                        if (activableScreen != screen)
+                            screen.Hide();  // TODO : Replace by hide when it's ok
+                    }
+                }
+            }
+            else
+                throw new Exception("[ScreenManager] This screen name doesn't exists");
         }
 
         /// <summary>
@@ -339,6 +365,27 @@ namespace Yna.State
                 return -1;
         }
 
+        public Screen GetScreenByName(string name)
+        {
+            if (_namedScreens.ContainsKey(name))
+                return _screens[_namedScreens[name]];
+
+            return null;
+        }
+
+        protected void UpdateScreenNamedScreens()
+        {
+            _namedScreens.Clear();
+
+            foreach (Screen screen in _screens)
+            {
+                if (_namedScreens.ContainsKey(screen.Name))
+                    throw new Exception("[ScreenManager] Two screens can't have the same name, it's forbiden and it's bad :(");
+
+                _namedScreens.Add(screen.Name, _screens.IndexOf(screen));
+            }
+        }
+
         #endregion
 
         #region Collection methods
@@ -356,7 +403,9 @@ namespace Yna.State
             if (_initialized)
             {
                 screen.LoadContent();
-                screen.Initialize();
+
+                if (screen.Active)
+                    screen.Initialize();
             }
 
             _screens.Add(screen);
@@ -379,6 +428,15 @@ namespace Yna.State
         {
             foreach (Screen screen in screens)
                 Add(screen);
+        }
+
+        public void Add(Screen[] screens, bool active)
+        {
+            foreach (Screen screen in screens)
+            {
+                screen.Active = active;
+                Add(screen);
+            }
         }
 
         /// <summary>
