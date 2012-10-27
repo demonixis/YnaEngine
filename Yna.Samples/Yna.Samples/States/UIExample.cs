@@ -14,6 +14,9 @@ namespace Yna.Samples.States
 		private Gui Gui{ get; set;}
 		
 		private Texture2D Background { get; set; }
+
+        private YnProgressBar progress;
+        private YnLabel progressLabel;
 		
 		public UIExample()
 		{
@@ -22,7 +25,7 @@ namespace Yna.Samples.States
             Gui = new Gui(YnG.Game);
 
             // Buttons in a toolbar
-            int tileSize = 150;
+            int tileSize = 100;
             int padding = 10;
             int tileCount = 5;
 
@@ -38,6 +41,15 @@ namespace Yna.Samples.States
             toolbar.Add(new YnTextButton() { Text = "Options", Width = tileSize, Height = tileSize });
             toolbar.Add(new YnTextButton() { Text = "Store", Width = tileSize, Height = tileSize });
             toolbar.Add(new YnTextButton() { Text = "Exit", Width = tileSize, Height = tileSize });
+
+            progress = Gui.Add(new YnProgressBar());
+            progress.Width = 400;
+            progress.MaxValue = 400;
+            progress.Height = 5;
+            progress.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 100);
+
+            progressLabel = Gui.Add(new YnLabel() { Text = "Fake loading..."});
+            progressLabel.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 75);
 
             /*
             // Simple Label example
@@ -110,6 +122,14 @@ namespace Yna.Samples.States
 		public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            // Update the progress bar
+            progress.Value++;
+
+            if(progress.Value == progress.MaxValue)
+            {
+                progress.Value = 0;
+            }
             
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape))

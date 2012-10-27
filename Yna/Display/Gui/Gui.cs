@@ -51,7 +51,7 @@ namespace Yna.Display.Gui
             {
                 // No skin, use the default one
                 // Skin = YnSkinGenerator.Generate(new Color(250, 100, 50)); // Orange
-                // Skin = YnSkinGenerator.Generate(Color.Coral);
+                //Skin = YnSkinGenerator.Generate(Color.Coral);
                 // Skin = YnSkinGenerator.Generate(Color.DeepPink);
                 Skin = YnSkinGenerator.Generate(Color.DodgerBlue);
             }
