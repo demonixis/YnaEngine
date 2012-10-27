@@ -15,6 +15,7 @@ namespace Yna.State
         #region Private declarations
 
         private List<Screen> _screens;
+        private Dictionary<string, int> _namedScreens;
         private List<Screen> _safeScreens;
         private bool _initialized;
 

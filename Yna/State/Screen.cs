@@ -23,10 +23,16 @@ namespace Yna.State
 
     public abstract class Screen
     {
+        #region Private declarations
+
+        private static int ScreenCounter = 0;
+
         private bool _active;
         private bool _exiting;
         private bool _visible;
         private bool _isPopup;
+
+        private string _name;
 
         private ScreenState _screenState;
         private float _timeTransitionOn;
@@ -37,36 +43,67 @@ namespace Yna.State
         protected SpriteBatch spriteBatch;
         protected ScreenManager screenManager;
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Get or set a name for this screen state
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        /// <summary>
+        /// Active or desactive this screen
+        /// </summary>
         public bool Active
         {
             get { return _active; }
             set { _active = value; }
         }
 
+        /// <summary>
+        /// Get the exiting state
+        /// </summary>
         public bool Exiting
         {
             get { return _exiting; }
-            set { _exiting = value; }
+            protected set { _exiting = value; }
         }
 
+        /// <summary>
+        /// Get or set the visibility value
+        /// </summary>
         public bool Visible
         {
             get { return _visible; }
             set { _visible = value; }
         }
 
+        /// <summary>
+        /// Get the type of screen (PopUp or GameState)
+        /// </summary>
         public bool IsPopup
         {
             get { return _isPopup; }
-            set { _isPopup = value; }
+            protected set { _isPopup = value; }
         }
 
+        /// <summary>
+        /// Get or set the "time transition on" value
+        /// </summary>
         public float TransitionOn
         {
             get { return _timeTransitionOn; }
-            protected set { _timeTransitionOn = value; }
+            set { _timeTransitionOn = value; }
         }
 
+        /// <summary>
+        /// Get or set the "time transition off" value
+        /// </summary>
         public float TransitionOff
         {
             get
@@ -76,13 +113,16 @@ namespace Yna.State
 
                 return _timeTransitionOff;
             }
-            protected set { _timeTransitionOff = value; }
+            set { _timeTransitionOff = value; }
         }
 
+        /// <summary>
+        /// Get or set the "transition alpha" value
+        /// </summary>
         public float TransitionAlpha
         {
             get { return _transitionAlpha; }
-            protected set { _transitionAlpha = value; }
+            set { _transitionAlpha = value; }
         }
 
         /// <summary>
@@ -99,7 +139,7 @@ namespace Yna.State
         }
 
         /// <summary>
-        /// Get or Set the screen state
+        /// Get or Set the state of the screen
         /// </summary>
         public ScreenState ScreenState
         {
@@ -108,7 +148,7 @@ namespace Yna.State
         }
 
         /// <summary>
-        /// Get or Set the clear color
+        /// Define the clear color before each draw calls
         /// </summary>
         public Color ClearColor
         {
@@ -116,7 +156,15 @@ namespace Yna.State
             set { screenManager.ClearColor = value; }
         }
 
-        public Screen(ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0f)
+        #endregion
+
+        public Screen(string name, ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0.0f)
+            : this(type, timeTransitionOn, timeTransitionOff)
+        {
+            _name = name;
+        }
+
+        public Screen(ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0.0f)
         {
             _active = true;
             _exiting = false;
@@ -128,6 +176,8 @@ namespace Yna.State
             _timeTransitionOff = timeTransitionOff;
             _timeTransitionCounter = _timeTransitionOn;
             _transitionAlpha = 1.0f;
+
+            _name = "Screen_" + (ScreenCounter++);
         }
 
         public virtual void Initialize()
@@ -217,9 +267,7 @@ namespace Yna.State
         public void Hide()
         {
             if (_timeTransitionOff <= 0)
-            {
                 Active = false;
-            }
             else
             {
                 _timeTransitionCounter = _timeTransitionOff;
@@ -232,10 +280,8 @@ namespace Yna.State
         /// </summary>
         public void Show()
         {
-            if (_timeTransitionOn <= 0)
-            {
+            if (_timeTransitionOn <= 0) 
                 Active = true;
-            }
             else
             {
                 _timeTransitionCounter = _timeTransitionOn;
