@@ -1,5 +1,7 @@
 ﻿using System;
+#if !NETFX_CORE
 using System.IO;
+#endif
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
@@ -8,8 +10,15 @@ using Yna.Content;
 
 namespace Yna.Audio
 {
+    /// <summary>
+    /// An audio manager who allow you to play musics and sounds from XNA's Content Manager, or
+    /// from a custom Content Manager who doen't required XNB, but wave file or wma files.
+    /// Warning : For now the custom content manager isn't working on Windows 8 Metro.
+    /// </summary>
     public class AudioManager
     {
+        #region Private declarations
+
         public static readonly object _object = new object();
         public static AudioManager _instance = null;
 
@@ -17,26 +26,40 @@ namespace Yna.Audio
         private float _soundVolume;
         private bool _musicEnabled;
 
+        #endregion
+
         #region Properties
 
+        /// <summary>
+        /// Active or desactive sounds
+        /// </summary>
         public bool SoundEnabled
         {
             get { return _soundEnabled; }
             set { _soundEnabled = value; }
         }
 
+        /// <summary>
+        /// Get or set the sound volume
+        /// </summary>
         public float SoundVolume
         {
             get { return _soundVolume; }
             set { _soundVolume = value; }
         }
 
+        /// <summary>
+        /// Active or desactive music
+        /// </summary>
         public bool MusicEnabled
         {
             get { return _musicEnabled; }
             set { _musicEnabled = value; }
         }
 
+        /// <summary>
+        /// Get or Set the music volume
+        /// </summary>
         public float MusicVolume
         {
             get { return MediaPlayer.Volume; }
@@ -44,6 +67,8 @@ namespace Yna.Audio
         }
 
         #endregion
+
+        #region Singleton instance & constructor
 
         public static AudioManager Instance
         {
@@ -70,19 +95,48 @@ namespace Yna.Audio
             MusicVolume = 0.6f;
         }
 
+        #endregion
+
+#if !NETFX_CORE
         private void CheckYnContent()
         {
             if (YnG.YnContent == null)
                 YnG.YnContent = new YnContent();
         }
 
-        public void PlaySound(string assetName, float volume, float pitch = 0.0f, float pan = 0.0f)
+        #region Playing music from custom Content Manager
+
+        private Song LoadMusicFromStream(string name, string path)
         {
-            if (_soundEnabled)
+            CheckYnContent();
+            return YnG.YnContent.Load<Song>(path);
+        }
+
+        public void PlayMusicFromStream(string path, bool repeat)
+        {
+            if (_musicEnabled)
             {
-                SoundEffect sound = YnG.Content.Load<SoundEffect>(assetName);
-                PlaySound(sound, pitch, pan);
+                Song music = YnG.YnContent.Load<Song>(path);
+
+                if (music != null)
+                    PlayMusic(music, repeat);
             }
+        }
+
+        #endregion
+
+        #region Playing sound from custom Content Manager
+
+        /// <summary>
+        /// Load a sound from a stream and stored automatically it in a custom content manager
+        /// see : YnContent
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public SoundEffect LoadSoundFromStream(string path)
+        {
+            CheckYnContent();
+            return YnG.YnContent.Load<SoundEffect>(path);
         }
 
         public void PlaySoundFromStream(string path, float volume, float pitch = 0.0f, float pan = 0.0f)
@@ -96,44 +150,31 @@ namespace Yna.Audio
             }
         }
 
+        #endregion
+#endif
+
+        #region Playing sound from XNA's Content Manager
+
         private void PlaySound(SoundEffect sound, float volume, float pitch = 0.0f, float pan = 0.0f)
         {
             if (volume > _soundVolume)
-                    volume = _soundVolume;
+                volume = _soundVolume;
 
             sound.Play(volume, pitch, pan);
         }
 
-        // TODO : Add a custom content, remove the name parameter (determine it)
-        private Song LoadMusicFromStream(string name, string path)
+        public void PlaySound(string assetName, float volume, float pitch = 0.0f, float pan = 0.0f)
         {
-            CheckYnContent();
-            return YnG.YnContent.Load<Song>(path);
-        }
-
-        /// <summary>
-        /// Load a sound from a stream and stored automatically it in a custom content manager
-        /// see : YnContent
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        private SoundEffect LoadSoundFromStream(string path)
-        {
-            CheckYnContent();
-            return YnG.YnContent.Load<SoundEffect>(path);
-        }
-
-        // TODO : Add a custom content, remove the name parameter (determine it)
-        public void PlayMusicFromStream(string name, string path, bool repeat)
-        {
-            if (_musicEnabled)
+            if (_soundEnabled)
             {
-                Song music = LoadMusicFromStream(name, path);
-
-                if (music != null)
-                    PlayMusic(music, repeat);
+                SoundEffect sound = YnG.Content.Load<SoundEffect>(assetName);
+                PlaySound(sound, pitch, pan);
             }
         }
+
+        #endregion
+
+        #region Playing music from XNA's Content Manager
 
         /// <summary>
         /// Play a music from the XNA's content manager
@@ -162,6 +203,10 @@ namespace Yna.Audio
             MediaPlayer.Play(music);
         }
 
+        #endregion
+
+        #region Music controls
+
         /// <summary>
         /// Stop the current music
         /// </summary>
@@ -185,6 +230,8 @@ namespace Yna.Audio
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
         }
+
+        #endregion
 
         public void Dispose()
         {

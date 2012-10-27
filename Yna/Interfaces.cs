@@ -4,22 +4,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna
 {
-    public interface YnUpdateable
+    public interface IYnUpdateable
     {
         void Update(GameTime gameTime);
     }
 
-    public interface YnDrawable2D
+    public interface IYnDrawable2D
     {
         void Draw(GameTime gameTime, SpriteBatch spriteBatch);
     }
 
-    public interface YnDrawable3D
+    public interface IYnDrawable3D
     {
         void Draw(GameTime gameTime, GraphicsDevice device);
     }
 
-    public interface IManager
+    public interface IYnManager
     {
         void Next();
         void Previous();

@@ -193,7 +193,7 @@ namespace Yna.State
         }
 
         /// <summary>
-        /// Quit the screen
+        /// Quit the screen and remove it from the ScreenManager
         /// </summary>
         public void Exit()
         {
@@ -207,6 +207,39 @@ namespace Yna.State
                 _timeTransitionCounter = _timeTransitionOff;
                 _screenState = ScreenState.TransitionOff;
                 _exiting = true;
+            }
+        }
+
+        /// <summary>
+        /// Start fadeout effect and desactive it. It's not removed from the ScreenManager so you can
+        /// reactive it with Active property of with Show method.
+        /// </summary>
+        public void Hide()
+        {
+            if (_timeTransitionOff <= 0)
+            {
+                Active = false;
+            }
+            else
+            {
+                _timeTransitionCounter = _timeTransitionOff;
+                _screenState = ScreenState.TransitionOff;
+            }
+        }
+
+        /// <summary>
+        /// Start the Fadin effect and reactive it. You can hide it with Hide method.
+        /// </summary>
+        public void Show()
+        {
+            if (_timeTransitionOn <= 0)
+            {
+                Active = true;
+            }
+            else
+            {
+                _timeTransitionCounter = _timeTransitionOn;
+                _screenState = ScreenState.TransitionOn;
             }
         }
     }

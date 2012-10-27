@@ -1,5 +1,7 @@
 ﻿using System;
+#if !NETFX_CORE
 using System.IO;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +45,7 @@ namespace Yna.Content
         public string ContentDirectory
         {
             get { return _contentDirectory; }
-            set 
+            set
             {
                 if (value != String.Empty)
                 {
@@ -66,18 +68,45 @@ namespace Yna.Content
             _disposableAssets = new List<IDisposable>();
 
             _contentDirectory = folder;
-            
+#if !NETFX_CORE
             CheckDirectoryStructure();
+#endif
         }
 
+#if !NETFX_CORE
         protected void CheckDirectoryStructure()
         {
             _gameDirectory = Directory.GetCurrentDirectory();
 
             if (!Directory.Exists(Path.Combine(_gameDirectory, _contentDirectory)))
                 Directory.CreateDirectory(Path.Combine(_gameDirectory, _contentDirectory));
-
         }
+
+        protected virtual string GetAssetPath(string assetName)
+        {
+            return System.IO.Path.Combine(_contentDirectory, assetName);
+        }
+
+        protected SoundEffect LoadSoundEffect(string path)
+        {
+            SoundEffect sound = null;
+            byte[] buffer;
+
+            if (File.Exists(path))
+            {
+                using (BinaryReader b = new BinaryReader(File.Open(path, FileMode.Open)))
+                {
+                    int length = (int)b.BaseStream.Length;
+                    buffer = new byte[length];
+                    buffer = b.ReadBytes(length);
+
+                    sound = new SoundEffect(buffer, 1, AudioChannels.Stereo);
+                }
+            }
+
+            return sound;
+        }
+#endif
 
         /// <summary>
         /// Get the name of the asset
@@ -87,18 +116,9 @@ namespace Yna.Content
         protected string ExtractNameFromPath(string path)
         {
             string temp = path.Replace("\\\\", "\\");
-            string[] tArray = temp.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+            string [] tArray = temp.Split(new string [] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
 
-            return tArray[temp.Length - 1];
-        }
-
-        protected virtual string GetAssetPath(string assetName)
-        {
-#if !NETFX_CORE
-            return System.IO.Path.Combine(_contentDirectory, assetName);
-#else
-            return String.Empty;
-#endif
+            return tArray [temp.Length - 1];
         }
 
         /// <summary>
@@ -111,6 +131,9 @@ namespace Yna.Content
         /// <returns>Loaded asset</returns>
         public T Load<T>(string assetName, bool relativePath = true)
         {
+#if NETFX_CORE
+            return default(T); // No Custom content for Windows 8 yet !
+#endif
             if (typeof(T) != typeof(Texture2D) || typeof(T) != typeof(Song) || typeof(T) != typeof(SoundEffect))
                 return default(T);
 
@@ -125,6 +148,7 @@ namespace Yna.Content
 
             if (!_loadedAssets.ContainsKey(name))
             {
+
                 if (typeof(T) == typeof(Texture2D))
                 {
                     Texture2D texture = Texture2D.FromStream(GraphicsDevice, new StreamReader(path).BaseStream);
@@ -132,7 +156,6 @@ namespace Yna.Content
                     _loadedAssets.Add(name, texture);
                     _disposableAssets.Add(texture);
                 }
-				// TODO : construct a song/SoundEffect with stream on Linux or use OpenAL directly...
 #if !MONOGAME
                 else if (typeof(T) == typeof(Song))
                 {
@@ -140,16 +163,26 @@ namespace Yna.Content
                     _loadedAssets.Add(name, song);
                     _disposableAssets.Add(song);
                 }
-
+#endif
                 else if (typeof(T) == typeof(SoundEffect))
                 {
+#if !MONOGAME
                     SoundEffect sound = SoundEffect.FromStream(new StreamReader(path).BaseStream);
                     _loadedAssets.Add(name, sound);
                     _disposableAssets.Add(sound);
-                }
-#endif
-            }
+#else
+                    SoundEffect sound = LoadSoundEffect(path);
 
+                    if (sound == null)
+                        return default(T);
+                    else
+                    {
+                        _loadedAssets.Add(name, sound);
+                        _disposableAssets.Add(sound);
+                    }
+#endif
+                }
+            }
             return (T)_loadedAssets[name];
         }
 

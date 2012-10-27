@@ -70,19 +70,19 @@ namespace Yna.Display3D
 
         #region events
 
-        public event EventHandler<ContentLoadStartedEventArgs> ContentLoadStarted = null;
-        public event EventHandler<ContentLoadDoneEventArgs> ContentLoadDone = null;
+        public event EventHandler<ContentLoadStartedEventArgs> LoadContentStarted = null;
+        public event EventHandler<ContentLoadDoneEventArgs> LoadContentDone = null;
 
         protected void OnContentLoadStarted(ContentLoadStartedEventArgs e)
         {
-            if (ContentLoadStarted != null)
-                ContentLoadStarted(this, e);
+            if (LoadContentStarted != null)
+                LoadContentStarted(this, e);
         }
 
         protected void OnContentLoadDone(ContentLoadDoneEventArgs e)
         {
-            if (ContentLoadDone != null)
-                ContentLoadDone(this, e);
+            if (LoadContentDone != null)
+                LoadContentDone(this, e);
         }
 
         #endregion

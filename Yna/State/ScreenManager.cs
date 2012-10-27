@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Content;
 using Yna.Helpers;
 
 namespace Yna.State
@@ -16,15 +17,24 @@ namespace Yna.State
         private List<Screen> _screens;
         private List<Screen> _safeScreens;
         private bool _initialized;
+        private List<int> _activedScreens;
 
         private Texture2D _transitionTexture;
         private SpriteBatch _spriteBatch;
+        private Color _clearColor;
 
         #endregion
 
         #region Properties
 
-        public Color ClearColor { get; set; }
+        /// <summary>
+        /// Get or Set the color used to clear the screen before each frame
+        /// </summary>
+        public Color ClearColor
+        {
+            get { return _clearColor; }
+            set { _clearColor = value; }
+        }
 
         /// <summary>
         /// Get the SpriteBatch
@@ -57,24 +67,56 @@ namespace Yna.State
             }
         }
 
+        /// <summary>
+        /// Get index of actived screens
+        /// </summary>
+        public int[] ActiveScreensIndex
+        {
+            get { return _activedScreens.ToArray(); }
+        }
+
         #endregion
 
-        #region GameState pattern
+        #region events
+
+        public event EventHandler<ContentLoadStartedEventArgs> LoadContentStarted = null;
+        public event EventHandler<ContentLoadDoneEventArgs> LoadContentDone = null;
+
+        protected void OnContentLoadStarted(ContentLoadStartedEventArgs e)
+        {
+            if (LoadContentStarted != null)
+                LoadContentStarted(this, e);
+        }
+
+        protected void OnContentLoadDone(ContentLoadDoneEventArgs e)
+        {
+            if (LoadContentDone != null)
+                LoadContentDone(this, e);
+        }
+
+        #endregion
 
         public ScreenManager(Game game)
             : base(game)
         {
-            ClearColor = Color.Black;
+            _clearColor = Color.Black;
 
             _screens = new List<Screen>();
             _safeScreens = new List<Screen>();
             _initialized = false;
         }
 
+        #region GameState pattern
+
         protected override void LoadContent()
         {
             if (!_initialized)
             {
+                int nbScreens = _screens.Count;
+                TimeSpan start = new TimeSpan();
+
+                OnContentLoadStarted(new ContentLoadStartedEventArgs(nbScreens));
+
                 _spriteBatch = new SpriteBatch(GraphicsDevice);
                 // La texture sera étirée
                 _transitionTexture = GraphicsHelper.CreateTexture(Color.White, 16, 16);
@@ -84,6 +126,8 @@ namespace Yna.State
                     screen.LoadContent();
                     screen.Initialize();
                 }
+
+                OnContentLoadDone(new ContentLoadDoneEventArgs(new TimeSpan() - start, nbScreens));
 
                 _initialized = true;
             }
@@ -121,7 +165,7 @@ namespace Yna.State
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(ClearColor);
+            GraphicsDevice.Clear(_clearColor);
 
             // We make a copy of all screens to provide any error
             // if a screen is removed during the update opreation
@@ -138,6 +182,25 @@ namespace Yna.State
         }
 
         #endregion
+
+        /// <summary>
+        /// Get desactivated screens
+        /// </summary>
+        /// <returns></returns>
+        public int[] GetDesactivedScreenIndex()
+        {
+            List<int> indexs = new List<int>();
+
+            int size = _screens.Count;
+
+            for (int i = 0; i < size; i++)
+            {
+                if (!_screens[i].Active)
+                    indexs.Add(i);
+            }
+
+            return indexs.ToArray();
+        }
 
         #region Helpers for fadein/out the screen
 
@@ -163,7 +226,7 @@ namespace Yna.State
         #region Collection methods
 
         /// <summary>
-        /// Add a new screen to the Manager
+        /// Add a new screen to the Manager. The screen is not activate or desactivate, you must manage this yourself
         /// </summary>
         /// <param name="screen">Screen to add</param>
         public void Add(Screen screen)
@@ -179,6 +242,17 @@ namespace Yna.State
             }
 
             _screens.Add(screen);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="screen"></param>
+        /// <param name="active"></param>
+        public void Add(Screen screen, bool active)
+        {
+            screen.Active = active;
+            Add(screen);
         }
 
         /// <summary>
@@ -213,6 +287,29 @@ namespace Yna.State
         public Screen GetScreenAt(int index)
         {
             return _screens[index];
+        }
+
+        /// <summary>
+        /// Active a screen and desactive others
+        /// </summary>
+        /// <param name="index">Index of the screen in the collection</param>
+        public void ActiveScreen(int index, bool desactiveOtherScreens = true)
+        {
+            int size = _screens.Count;
+
+            if (index < 0 || index > size - 1)
+                throw new IndexOutOfRangeException("[ScreenManager] The screen doesn't exist at this index");
+
+            _screens[index].Active = true;
+
+            if (desactiveOtherScreens)
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    if (i != index)
+                        _screens[i].Hide();
+                }
+            }
         }
 
         /// <summary>
