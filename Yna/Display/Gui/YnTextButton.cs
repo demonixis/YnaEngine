@@ -39,13 +39,33 @@ namespace Yna.Display.Gui
             Vector2 pos = Vector2.Zero;
             switch (_align)
             {
-                case YnTextAlign.Center:
-                    pos = new Vector2(
-                        Width/2 - width/2,
-                        Height/2 - height/2
-                    );
+                case YnTextAlign.TopLeft:
+                    pos = Vector2.Zero;
                     break;
-                // TODO
+                case YnTextAlign.Top:
+                    pos = new Vector2(Width / 2 - width / 2, 0);
+                    break;
+                case YnTextAlign.TopRight:
+                    pos = new Vector2(Width - width, 0);
+                    break;
+                case YnTextAlign.Left:
+                    pos = new Vector2(0, Height / 2 - height / 2);
+                    break;
+                case YnTextAlign.Center:
+                    pos = new Vector2(Width/2 - width/2, Height/2 - height/2);
+                    break;
+                case YnTextAlign.Right:
+                    pos = new Vector2(Width - width, Height / 2 - height / 2);
+                    break;
+                case YnTextAlign.BottomLeft:
+                    pos = new Vector2(0, Height - height);
+                    break;
+                case YnTextAlign.Bottom:
+                    pos = new Vector2(Width / 2 - width / 2, Height - height);
+                    break;
+                case YnTextAlign.BottomRight:
+                    pos = new Vector2(Width - width, Height - height);
+                    break;
             }
             label.Position = pos;
         }
