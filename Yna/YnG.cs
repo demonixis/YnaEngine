@@ -138,7 +138,12 @@ namespace Yna
         /// The default UI skin
         /// </summary>
         public static YnSkin DefaultSkin { get; set; }
-        
+
+        /// <summary>
+        /// The GUI manager
+        /// </summary>
+        public static YnGui Gui { get; set; }
+
         /// <summary>
         /// Change the screen resolution
         /// </summary>

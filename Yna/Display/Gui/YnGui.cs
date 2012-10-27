@@ -11,7 +11,7 @@ namespace Yna.Display.Gui
     /// <summary>
     /// The GUI manager as a Game Component
     /// </summary>
-    public class Gui : DrawableGameComponent
+    public class YnGui : DrawableGameComponent
     {
         /// <summary>
         /// Specific GUI sprite batch
@@ -33,7 +33,7 @@ namespace Yna.Display.Gui
         /// </summary>
         public List<YnWidget> Widgets{ get; set; }
 
-        public Gui(Game game)
+        public YnGui(Game game)
             : base(game)
         {
             // Add the GUI Manager to the game components
@@ -60,19 +60,6 @@ namespace Yna.Display.Gui
                 // TODO Load the skin
                 //Skin = Game.Content.Load<YnSkin>(SkinName);
             }
-
-            // Initializes the skin for all added widgets
-            foreach(YnWidget widget in Widgets)
-            {
-                widget.InitSkin(Skin);
-            }
-
-
-            // Do the layout for all widgets
-            foreach (YnWidget widget in Widgets)
-            {
-                widget.Layout();
-            }
         }
 
         /// <summary>
@@ -83,7 +70,8 @@ namespace Yna.Display.Gui
         {
             GuiSpriteBatch.Begin();
 
-            foreach(YnWidget widget in Widgets)
+            List<YnWidget> safeList = new List<YnWidget>(Widgets);
+            foreach (YnWidget widget in safeList)
             {
                 widget.Draw(gameTime, GuiSpriteBatch, Skin);
             }
@@ -95,7 +83,8 @@ namespace Yna.Display.Gui
         {
             base.Update(gameTime);
 
-            foreach (YnWidget widget in Widgets)
+            List<YnWidget> safeList = new List<YnWidget>(Widgets);
+            foreach (YnWidget widget in safeList)
             {
                 widget.Update(gameTime);
             }
@@ -116,6 +105,26 @@ namespace Yna.Display.Gui
                 widget.Skin = Skin;
             }
             return widget;
+        }
+
+        public void Clear()
+        {
+            Widgets.Clear();
+        }
+
+        public void PrepareWidgets()
+        {
+            // Initializes the skin for all added widgets
+            foreach (YnWidget widget in Widgets)
+            {
+                widget.InitSkin(Skin);
+            }
+
+            // Do the layout for all widgets
+            foreach (YnWidget widget in Widgets)
+            {
+                widget.Layout();
+            }
         }
     }
 

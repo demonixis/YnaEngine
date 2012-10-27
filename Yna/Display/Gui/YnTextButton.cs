@@ -12,6 +12,12 @@ namespace Yna.Display.Gui
     public class YnTextButton : YnButton
     {
         private YnLabel label;
+
+        public YnTextAlign TextAlign
+        {
+            get { return _align; }
+            set { _align = value; }
+        }
         private YnTextAlign _align;
 
         public string Text

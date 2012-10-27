@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna.Display.Gui;
+using Yna.Display.Event;
 
 namespace Yna.Samples.States
 {
@@ -11,8 +12,6 @@ namespace Yna.Samples.States
 	/// </summary>
 	public class UIExample : YnState
 	{
-		private Gui Gui{ get; set;}
-		
 		private Texture2D Background { get; set; }
 
         private YnProgressBar progress;
@@ -22,14 +21,12 @@ namespace Yna.Samples.States
 		{
             YnG.ShowMouse = true;
 
-            Gui = new Gui(YnG.Game);
-
             // Buttons in a toolbar
             int tileSize = 100;
             int padding = 10;
             int tileCount = 5;
 
-            YnPanel toolbar = Gui.Add(new YnPanel());
+            YnPanel toolbar = YnG.Gui.Add(new YnPanel());
             toolbar.WithBackground = false;
             toolbar.Orientation = YnOrientation.Horizontal;
             toolbar.Padding = padding;
@@ -40,15 +37,21 @@ namespace Yna.Samples.States
             toolbar.Add(new YnTextButton() { Text = "Load", Width = tileSize, Height = tileSize });
             toolbar.Add(new YnTextButton() { Text = "Options", Width = tileSize, Height = tileSize });
             toolbar.Add(new YnTextButton() { Text = "Store", Width = tileSize, Height = tileSize });
-            toolbar.Add(new YnTextButton() { Text = "Exit", Width = tileSize, Height = tileSize });
+            YnTextButton button = toolbar.Add(new YnTextButton() { Text = "Exit", Width = tileSize, Height = tileSize });
+            button.MouseClick += delegate(object w, MouseClickSpriteEventArgs evt)
+            {
+                if (!evt.JustClicked) return;
+                YnG.Gui.Clear();
+                YnG.SwitchState(new UIExample());
+            };
 
-            progress = Gui.Add(new YnProgressBar());
+            progress = YnG.Gui.Add(new YnProgressBar());
             progress.Width = 400;
             progress.MaxValue = 400;
             progress.Height = 5;
             progress.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 100);
 
-            progressLabel = Gui.Add(new YnLabel() { Text = "Fake loading..."});
+            progressLabel = YnG.Gui.Add(new YnLabel() { Text = "Fake loading..." });
             progressLabel.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 75);
 
             /*
@@ -117,6 +120,8 @@ namespace Yna.Samples.States
             toolbar.Add(new YnTextButton() { Text = "Options" });
             toolbar.Add(new YnTextButton() { Text = "Exit" });
              */
+
+            YnG.Gui.PrepareWidgets();
 		}
 		
 		public override void Update(GameTime gameTime)
@@ -139,7 +144,6 @@ namespace Yna.Samples.States
 		public override void Initialize()
 		{
 			base.Initialize();
-            Gui.Initialize();
 		}
 		
 		public override void LoadContent()
