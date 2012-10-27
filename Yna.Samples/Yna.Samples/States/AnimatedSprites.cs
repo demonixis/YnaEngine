@@ -26,8 +26,8 @@ namespace Yna.Samples.States
         private YnImage wood2Object;
         private YnImage houseObject;
 
-        public AnimatedSprites()
-            : base (1500, 0)
+        public AnimatedSprites(string name)
+            : base (name, 1500, 0)
         {
             background = new YnImage("Backgrounds/greenground1");
             Add(background);

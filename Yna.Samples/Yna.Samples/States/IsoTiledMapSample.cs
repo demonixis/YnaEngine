@@ -33,7 +33,8 @@ namespace Yna.Samples.States
         /// </summary>
         private Texture2D _dummyTexture;
 
-        public IsoTiledMapSample()
+        public IsoTiledMapSample(string name)
+            : base (name)
         {
             int[,] groundData = {
 				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

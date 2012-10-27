@@ -103,6 +103,12 @@ namespace Yna
 
         #endregion
 
+        public YnState(string name, float timeTransitionOn = 1500.0f, float timeTransitionOff = 0.0f)
+            : this(timeTransitionOn, timeTransitionOff)
+        {
+            _name = name;
+        }
+
         /// <summary>
         /// Create a new state that represent a game layer
         /// </summary>

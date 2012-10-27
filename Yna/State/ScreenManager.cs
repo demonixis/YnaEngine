@@ -121,6 +121,8 @@ namespace Yna.State
 
             _screens = new List<Screen>();
             _safeScreens = new List<Screen>();
+            _namedScreens = new Dictionary<string, int>();
+            
             _initialized = false;
         }
 
@@ -358,6 +360,8 @@ namespace Yna.State
             }
 
             _screens.Add(screen);
+
+            _namedScreens.Add(screen.Name, _screens.IndexOf(screen));
         }
 
         /// <summary>
@@ -369,6 +373,12 @@ namespace Yna.State
         {
             screen.Active = active;
             Add(screen);
+        }
+
+        public void Add(Screen[] screens)
+        {
+            foreach (Screen screen in screens)
+                Add(screen);
         }
 
         /// <summary>

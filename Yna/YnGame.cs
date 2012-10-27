@@ -20,21 +20,21 @@ namespace Yna
     {
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
-        protected ScreenManager stateManager;
+        protected ScreenManager screenManager;
 
         public YnGame()
             : base()
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
-            this.stateManager = new ScreenManager(this);
+            this.screenManager = new ScreenManager(this);
 
             // Setup services
             ServiceHelper.Game = this;
             Components.Add(new KeyboardService(this));
             Components.Add(new MouseService(this));
             Components.Add(new GamepadService(this));
-            Components.Add(stateManager);
+            Components.Add(screenManager);
 
             // Registry globals objects
             YnG.Game = this;
@@ -45,7 +45,7 @@ namespace Yna
             YnG.Mouse = new YnMouse();
             YnG.Gamepad = new YnGamepad();
             YnG.MonoGameContext = YnG.GetPlateformContext();
-            YnG.StateManager = stateManager;
+            YnG.StateManager = screenManager;
             YnG.AudioManager = AudioManager.Instance;
 
             this.Window.Title = "YNA Game";

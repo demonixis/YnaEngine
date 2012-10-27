@@ -33,7 +33,8 @@ namespace Yna.Samples.States
         /// </summary>
         private Texture2D _dummyTexture;
 
-        public TiledMap2DSample()
+        public TiledMap2DSample(string name)
+            : base (name)
         {
             // A TiledMap contains layers which contains the tiles definitions.
             // Each layer is rendered on top of the previous one. There is no

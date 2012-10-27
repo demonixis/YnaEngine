@@ -32,7 +32,7 @@ namespace Yna.State
         private bool _visible;
         private bool _isPopup;
 
-        private string _name;
+        protected string _name;
 
         private ScreenState _screenState;
         private float _timeTransitionOn;

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna;
 using Yna.Display;
+using Yna.State;
 using Yna.Samples.States;
 
 namespace Yna.Samples
@@ -25,6 +26,14 @@ namespace Yna.Samples
         protected override void Initialize()
         {
             base.Initialize();
+
+            YnState menu = new Menu();
+            menu.Name = "menu";
+            YnState sample1 = new AnimatedSprites();
+            YnState sample2 = new BasicSprites();
+            YnState sample3 = new TiledMap2DSample();
+            YnState sample4 = new IsoTiledMapSample();
+
             YnG.SwitchState(new Menu());
         }
 

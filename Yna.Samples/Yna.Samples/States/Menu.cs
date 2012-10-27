@@ -26,8 +26,8 @@ namespace Yna.Samples.States
             get { return items.Count; }
         }
 
-        public Menu() 
-            : base (1000f, 0)
+        public Menu(string name) 
+            : base (name, 1000f, 0)
         {
             background = new YnSprite("Backgrounds/gradient");
             Add(background);

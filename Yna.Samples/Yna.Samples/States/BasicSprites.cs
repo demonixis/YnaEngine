@@ -21,8 +21,8 @@ namespace Yna.Samples.States
         private Color[] colors;
         private Song music;
 
-        public BasicSprites()
-            : base(500f, 50f)
+        public BasicSprites(string name)
+            : base(name, 500f, 50f)
         {
             background = new YnImage("Backgrounds/Sky3");
             Add(background);
