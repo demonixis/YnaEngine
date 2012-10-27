@@ -17,7 +17,6 @@ namespace Yna.State
         private List<Screen> _screens;
         private List<Screen> _safeScreens;
         private bool _initialized;
-        private List<int> _activedScreens;
 
         private Texture2D _transitionTexture;
         private SpriteBatch _spriteBatch;
@@ -68,11 +67,27 @@ namespace Yna.State
         }
 
         /// <summary>
-        /// Get index of actived screens
+        /// Get the first active screen
         /// </summary>
-        public int[] ActiveScreensIndex
+        public Screen FirstActiveScreen
         {
-            get { return _activedScreens.ToArray(); }
+            get
+            {
+                int firstIndex = GetFirstActiveScreenIndex();
+                return firstIndex > -1 ? _screens[firstIndex] : null;
+            }
+        }
+
+        /// <summary>
+        /// Get the last active screen
+        /// </summary>
+        public Screen LastActiveScreen
+        {
+            get
+            {
+                int lastIndex = GetLastActiveScreenIndex();
+                return lastIndex > -1 ? _screens[lastIndex] : null;
+            }
         }
 
         #endregion
@@ -96,6 +111,8 @@ namespace Yna.State
 
         #endregion
 
+        #region Constructor
+
         public ScreenManager(Game game)
             : base(game)
         {
@@ -105,6 +122,8 @@ namespace Yna.State
             _safeScreens = new List<Screen>();
             _initialized = false;
         }
+
+        #endregion
 
         #region GameState pattern
 
@@ -183,6 +202,90 @@ namespace Yna.State
 
         #endregion
 
+        #region Helpers for fadein/out the screen
+
+        public void FadeBackBufferToBlack(float alpha)
+        {
+            FadeBackBuffer(Color.Black, alpha);
+        }
+
+        /// <summary>
+        /// Fade the screen to the specified color
+        /// </summary>
+        /// <param name="color">Transition color</param>
+        /// <param name="alpha">Alpha color</param>
+        public void FadeBackBuffer(Color color, float alpha)
+        {
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(_transitionTexture, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), color * alpha);
+            _spriteBatch.End();
+        }
+
+        #endregion
+
+        #region Screens methods
+
+        /// <summary>
+        /// Get index of actived screens
+        /// </summary>
+        public int[] GetActiveScreensIndex()
+        {
+            int size = _screens.Count;
+
+            if (size == 0)
+            {
+                int[] index = new int[0];
+                index[0] = -1;
+                return index;
+            }
+
+            List<int> indexs = new List<int>();
+
+            for (int i = 0; i < size; i++)
+            {
+                if (_screens[i].Active)
+                    indexs.Add(i);
+            }
+
+            return indexs.ToArray();
+        }
+
+        /// <summary>
+        /// Active a screen and desactive other screens on demand
+        /// </summary>
+        /// <param name="index">Index of the screen in the collection</param>
+        /// <param name="desactiveOtherScreens">Desactive or not others screens</param>
+        public void SetScreenActive(int index, bool desactiveOtherScreens = true)
+        {
+            int size = _screens.Count;
+
+            if (index < 0 || index > size - 1)
+                throw new IndexOutOfRangeException("[ScreenManager] The screen doesn't exist at this index");
+
+            _screens[index].Active = true;
+
+            if (desactiveOtherScreens)
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    if (i != index)
+                        _screens[i].Hide();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Hide all popup
+        /// </summary>
+        public void HideAllPopup()
+        {
+            foreach (Screen screen in _screens)
+            {
+                if (screen.IsPopup)
+                    screen.Hide();
+            }
+        }
+
         /// <summary>
         /// Get desactivated screens
         /// </summary>
@@ -202,23 +305,35 @@ namespace Yna.State
             return indexs.ToArray();
         }
 
-        #region Helpers for fadein/out the screen
-
-        public void FadeBackBufferToBlack(float alpha)
+        /// <summary>
+        /// Get index of the first activated screen
+        /// </summary>
+        /// <returns>Index of the first activated screen, -1 if no screen is actived</returns>
+        public int GetFirstActiveScreenIndex()
         {
-            FadeBackBuffer(Color.Black, alpha);
+            int[] activeIndex = GetActiveScreensIndex();
+
+            if (activeIndex.Length > 0)
+                return GetActiveScreensIndex()[0];
+            else
+                return -1;
         }
 
         /// <summary>
-        /// Fade the screen to the specified color
+        /// Get index of the last activated screen
         /// </summary>
-        /// <param name="color">Transition color</param>
-        /// <param name="alpha">Alpha color</param>
-        public void FadeBackBuffer(Color color, float alpha)
+        /// <returns>Index of the last activated screen, -1 if no screen actived</returns>
+        public int GetLastActiveScreenIndex()
         {
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(_transitionTexture, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), color * alpha);
-            _spriteBatch.End();
+            int[] activeIndex = GetActiveScreensIndex();
+            int size = activeIndex.Length;
+
+            if (size > 0 && size < 1)
+                return activeIndex[size - 1];
+            else if (size > 0)
+                return activeIndex[0];
+            else
+                return -1;
         }
 
         #endregion
@@ -287,29 +402,6 @@ namespace Yna.State
         public Screen GetScreenAt(int index)
         {
             return _screens[index];
-        }
-
-        /// <summary>
-        /// Active a screen and desactive others
-        /// </summary>
-        /// <param name="index">Index of the screen in the collection</param>
-        public void ActiveScreen(int index, bool desactiveOtherScreens = true)
-        {
-            int size = _screens.Count;
-
-            if (index < 0 || index > size - 1)
-                throw new IndexOutOfRangeException("[ScreenManager] The screen doesn't exist at this index");
-
-            _screens[index].Active = true;
-
-            if (desactiveOtherScreens)
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    if (i != index)
-                        _screens[i].Hide();
-                }
-            }
         }
 
         /// <summary>

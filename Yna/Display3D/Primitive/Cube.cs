@@ -147,7 +147,7 @@ namespace Yna.Display3D.Primitive
                 pass.Apply();
                 device.SetVertexBuffer(_vertexBuffer);
                 device.DrawPrimitives(PrimitiveType.TriangleList, 0, 12);
-                device.SetVertexBuffer(null);
+          
             }
         }
     }

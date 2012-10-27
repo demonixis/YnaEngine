@@ -68,25 +68,6 @@ namespace Yna.Display3D
 
         #endregion
 
-        #region events
-
-        public event EventHandler<ContentLoadStartedEventArgs> LoadContentStarted = null;
-        public event EventHandler<ContentLoadDoneEventArgs> LoadContentDone = null;
-
-        protected void OnContentLoadStarted(ContentLoadStartedEventArgs e)
-        {
-            if (LoadContentStarted != null)
-                LoadContentStarted(this, e);
-        }
-
-        protected void OnContentLoadDone(ContentLoadDoneEventArgs e)
-        {
-            if (LoadContentDone != null)
-                LoadContentDone(this, e);
-        }
-
-        #endregion
-
         #region Constructors
 
         public YnGroup3D(BaseCamera camera, YnObject3D parent)
@@ -168,9 +149,6 @@ namespace Yna.Display3D
         {
             if (!_initialized)
             {
-                TimeSpan startLoading = new TimeSpan();
-                OnContentLoadStarted(new ContentLoadStartedEventArgs(_members.Count));
-
                 if (_members.Count > 0)
                 {
                     foreach (YnObject3D sceneObject in _members)
@@ -179,9 +157,6 @@ namespace Yna.Display3D
                         sceneObject.LoadContent(); 
                     }
                 }
-
-                TimeSpan stopLoading = new TimeSpan() - startLoading;
-                OnContentLoadDone(new ContentLoadDoneEventArgs(stopLoading, _members.Count));
 
                 _initialized = true;
             }
