@@ -133,7 +133,7 @@ namespace Yna.Content
                     _disposableAssets.Add(texture);
                 }
 				// TODO : construct a song/SoundEffect with stream on Linux or use OpenAL directly...
-#if !LINUX
+#if !MONOGAME
                 else if (typeof(T) == typeof(Song))
                 {
                     Song song = Song.FromUri(name, new Uri(path));

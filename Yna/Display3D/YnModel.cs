@@ -88,8 +88,13 @@ namespace Yna.Display3D
 
         #endregion
 		
-#if LINUX
-		public override void UpdateBoundingVolumes() { }	
+#if MONOGAME
+        // FIX : VertexBuffer.GetData crash with current MonoGame revision :/
+        public override void UpdateBoundingVolumes()
+        {
+            _boundingBox.Min = new Vector3(X - 5, Y - 5, Z - 5);
+            _boundingBox.Max = new Vector3(X + 5, Y + 5, Z + 5);
+        }
 #else	
         public override void UpdateBoundingVolumes()
         {

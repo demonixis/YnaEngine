@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;MONOGAME;WINDOWS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
@@ -29,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>MONOGAME;WINDOWS;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -47,11 +48,12 @@
       <HintPath>..\Externals\MonoGame\Windows\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
     <Reference Include="Tao.Sdl">
       <HintPath>..\Externals\MonoGame\Windows\Tao.Sdl.dll</HintPath>
     </Reference>
   </ItemGroup>
-<ItemGroup>
+  <ItemGroup>
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Content\ContentEventArgs.cs" />
     <Compile Include="Content\YnContent.cs" />
