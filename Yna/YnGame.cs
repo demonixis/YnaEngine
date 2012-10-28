@@ -46,13 +46,9 @@ namespace Yna
             YnG.Mouse = new YnMouse();
             YnG.Gamepad = new YnGamepad();
             YnG.MonoGameContext = YnG.GetPlateformContext();
-<<<<<<< HEAD
             YnG.StateManager = screenManager;
             YnG.AudioManager = AudioManager.Instance;
-=======
-            YnG.StateManager = stateManager;
             YnG.Gui = new YnGui(this);
->>>>>>> ui
 
             this.Window.Title = "YNA Game";
         }
@@ -115,6 +111,8 @@ namespace Yna
                 }
             }
         }
+
+        // TODO : Move that in ScreenManager.cs
 
         /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 

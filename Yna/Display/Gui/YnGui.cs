@@ -38,7 +38,6 @@ namespace Yna.Display.Gui
         {
             // Add the GUI Manager to the game components
             Game.Components.Add(this);
-
             Widgets = new List<YnWidget>();
         }
 

@@ -39,6 +39,11 @@ namespace Yna.Samples
                 new UIExample("ui_sample")
             };
 
+            // We don't show the gui 
+            // TODO : Make it more user friendly :)
+            YnG.Gui.Enabled = false;
+            YnG.Gui.Visible = false;
+
             screenManager.Add(menu, true);
             screenManager.Add(screens, false);
         }

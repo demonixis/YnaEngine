@@ -7,19 +7,19 @@ using Yna.Display.Event;
 
 namespace Yna.Samples.States
 {
-	/// <summary>
-	/// Description of UIExample.
-	/// </summary>
-	public class UIExample : YnState
-	{
-		private Texture2D Background { get; set; }
+    /// <summary>
+    /// Description of UIExample.
+    /// </summary>
+    public class UIExample : YnState
+    {
+        private Texture2D Background { get; set; }
 
         private YnProgressBar progress;
         private YnLabel progressLabel;
-		
-		public UIExample(string name)
-            : base (name)
-		{
+
+        public UIExample(string name)
+            : base(name)
+        {
             YnG.ShowMouse = true;
 
             // Buttons in a toolbar
@@ -27,12 +27,14 @@ namespace Yna.Samples.States
             int padding = 10;
             int tileCount = 5;
 
+            // TODO : Move that in initialize method
+
             YnPanel toolbar = YnG.Gui.Add(new YnPanel());
             toolbar.WithBackground = false;
             toolbar.Orientation = YnOrientation.Horizontal;
             toolbar.Padding = padding;
             toolbar.Height = tileSize;
-            toolbar.Position = new Vector2(YnG.Width / 2 - (tileSize * tileCount + padding * (tileCount+1)) / 2, YnG.Height / 2 - toolbar.Height / 2);
+            toolbar.Position = new Vector2(YnG.Width / 2 - (tileSize * tileCount + padding * (tileCount + 1)) / 2, YnG.Height / 2 - toolbar.Height / 2);
 
             toolbar.Add(new YnTextButton() { Text = "New", Width = tileSize, Height = tileSize });
             toolbar.Add(new YnTextButton() { Text = "Load", Width = tileSize, Height = tileSize });
@@ -43,7 +45,7 @@ namespace Yna.Samples.States
             {
                 if (!evt.JustClicked) return;
                 YnG.Gui.Clear();
-                YnG.StateManager.SetScreenActive("ui_sample");
+                YnG.StateManager.SetScreenActive("menu");
             };
 
             progress = YnG.Gui.Add(new YnProgressBar());
@@ -123,47 +125,60 @@ namespace Yna.Samples.States
              */
 
             YnG.Gui.PrepareWidgets();
-		}
-		
-		public override void Update(GameTime gameTime)
+        }
+
+        public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
             // Update the progress bar
             progress.Value++;
 
-            if(progress.Value == progress.MaxValue)
+            if (progress.Value == progress.MaxValue)
             {
                 progress.Value = 0;
             }
-            
+
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape))
+            {
+                // Stop the gui
+                YnG.Gui.Enabled = false;
+                YnG.Gui.Visible = false;
+
                 YnG.StateManager.SetScreenActive("menu");
+            }
         }
-		
-		public override void Initialize()
-		{
-			base.Initialize();
-		}
-		
-		public override void LoadContent()
-		{
-			
-			base.LoadContent();
-		}
-		
-		public override void Draw(GameTime gameTime)
-		{
-			base.Draw(gameTime);
-			
-			spriteBatch.Begin();
-			// Nothing!
-			spriteBatch.End();
-			
-			
-			// Draw the HUD
-			//UiManager.Draw(gameTime, spriteBatch);
-		}
-	}
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            // Initialized is call when a screen is re/enabled
+            YnG.Gui.Enabled = true;
+            YnG.Gui.Visible = true;
+            _initialized = false;
+   
+            // TODO : We must add events like OnStart / OnStop / OnPause / etc...
+        }
+
+        public override void LoadContent()
+        {
+
+            base.LoadContent();
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+
+            spriteBatch.Begin();
+            // Nothing!
+            spriteBatch.End();
+
+
+            // Draw the HUD
+            //UiManager.Draw(gameTime, spriteBatch);
+        }
+    }
 }

@@ -14,13 +14,14 @@ namespace Yna.Display.Gui
         /// Generates a Windows 8 like skin base on the color
         /// </summary>
         /// <param name="baseColor">The base color</param>
+        /// <param name="fontName">Font name</param>
         /// <returns></returns>
-        public static YnSkin Generate(Color baseColor)
+        public static YnSkin Generate(Color baseColor, string fontName = "Fonts/DefaultFont")
         {
             Color tempColor;
             YnSkin skin = new YnSkin();
 
-            skin.FontName = "Fonts/DefaultFont";
+            skin.FontName = fontName; 
             skin.Font = YnG.Game.Content.Load<SpriteFont>(skin.FontName);
             skin.DefaultTextColor = Color.White;
 
