@@ -24,8 +24,8 @@ namespace Yna.Samples3D.States
             get { return items.Count; }
         }
 
-        public GameMenu()
-            : base(1000f, 0)
+        public GameMenu(string name)
+            : base(name, 1000f, 0)
         {
             background = new YnSprite("Backgrounds/gradient");
             Add(background);
@@ -93,12 +93,12 @@ namespace Yna.Samples3D.States
             {
                 switch (index)
                 {
-                    case 0: YnG.SwitchState(new SpaceGame()); break;
-                    case 1: YnG.SwitchState(new NasaSample()); break;
-                    case 2: YnG.SwitchState(new SimpleTerrainSample()); break;
-                    case 3: YnG.SwitchState(new HeightmapSample()); break;
-                    case 4: YnG.SwitchState(new ThirdPersonSample()); break;
-                    case 5: YnG.SwitchState(new ThirdPersonHeightmapSample()); break;
+                    case 0: screenManager.SetScreenActive("spacegame_sample", true); break;
+                    case 1: screenManager.SetScreenActive("nasa_sample", true); break;
+                    case 2: screenManager.SetScreenActive("simpleterrain_sample", true); break;
+                    case 3: screenManager.SetScreenActive("heightmap_sample", true); break;
+                    case 4: screenManager.SetScreenActive("thirdperson_sample", true); break;
+                    case 5: screenManager.SetScreenActive("tp_heightmap_sample", true); break;
                     default: YnG.Exit(); break;
                 }
             }

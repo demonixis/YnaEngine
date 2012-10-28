@@ -24,8 +24,8 @@ namespace Yna.Samples3D.States
 
         RasterizerState rasterizerState;
 
-        public SimpleTerrainSample()
-            : base()
+        public SimpleTerrainSample(string name)
+            : base(name)
         {
             // 1 - Create an FPSCamera
             _camera = new FirstPersonCamera();
@@ -74,7 +74,7 @@ namespace Yna.Samples3D.States
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.SwitchState(new GameMenu());
+                YnG.StateManager.SetScreenActive("menu", true);
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))

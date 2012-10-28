@@ -22,8 +22,8 @@ namespace Yna.Samples3D.States
         FirstPersonCamera camera;
         FirstPersonControl control;
 
-        public NasaSample()
-            : base()
+        public NasaSample(string name)
+            : base(name)
         {
             background = new YnImage("Backgrounds/earth");
 
@@ -55,7 +55,7 @@ namespace Yna.Samples3D.States
         public override void Update(GameTime gameTime)
         {
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.SwitchState(new GameMenu());
+                YnG.StateManager.SetScreenActive("menu", true);
             
             base.Update(gameTime);
         }

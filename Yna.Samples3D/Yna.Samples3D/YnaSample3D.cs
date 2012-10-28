@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Yna;
+using Yna.State;
 using Yna.Samples3D.States;
 
 namespace Yna.Samples3D
@@ -28,7 +29,21 @@ namespace Yna.Samples3D
         protected override void Initialize()
         {
             base.Initialize();
-            SwitchState(new GameMenu());
+
+            YnState menu = new GameMenu("menu");
+
+            Screen[] states = new Screen[]
+            {
+                new SpaceGame("spacegame_sample"),
+                new NasaSample("nasa_sample"),
+                new SimpleTerrainSample("simpleterrain_sample"),
+                new HeightmapSample("heightmap_sample"),
+                new ThirdPersonSample("thirdperson_sample"),
+                new ThirdPersonHeightmapSample("tp_heightmap_sample")
+            };
+
+            screenManager.Add(menu, true);
+            screenManager.Add(states, false);
         }
 
         public static void Main(string[] args)

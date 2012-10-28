@@ -23,8 +23,8 @@ namespace Yna.Samples3D.States
 
         Rectangle rectangle = Rectangle.Empty;
 
-        public SpaceGame()
-            : base()
+        public SpaceGame(string name)
+            : base(name)
         {
             modelPosition = Vector3.Zero;
             modelRotation = Vector3.Zero;
@@ -116,7 +116,7 @@ namespace Yna.Samples3D.States
                 }
 
                 if (YnG.Keys.JustPressed(Keys.Escape))
-                    YnG.SwitchState(new GameMenu());
+                    YnG.StateManager.SetScreenActive("menu", true);
                 
             }
         }
@@ -124,7 +124,7 @@ namespace Yna.Samples3D.States
         public override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                YnG.SwitchState(new GameMenu());
+                YnG.StateManager.SetScreenActive("menu", true);
 
             UpdateInput();
 

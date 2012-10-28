@@ -44,6 +44,18 @@ namespace Yna.Display3D
             _scene = new YnScene(_camera);
         }
 
+        public YnState3D(string name, BaseCamera camera)
+            : this(camera)
+        {
+            _name = name;
+        }
+
+        public YnState3D(string name)
+            : this(name, null)
+        {
+
+        }
+
         public override void LoadContent()
         {
             if (!_initialized)

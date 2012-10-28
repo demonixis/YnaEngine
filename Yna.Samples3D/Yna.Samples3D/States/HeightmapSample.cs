@@ -25,8 +25,8 @@ namespace Yna.Samples3D.States
 
         RasterizerState rasterizerState;
 
-        public HeightmapSample()
-            : base()
+        public HeightmapSample(string name)
+            : base(name)
         {
             // 1 - Creating an FPSCamera
             camera = new FirstPersonCamera();
@@ -75,7 +75,7 @@ namespace Yna.Samples3D.States
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.SwitchState(new GameMenu());
+                YnG.StateManager.SetScreenActive("menu", true);
 
             camera.Y = heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 2;
 
