@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if !NETFX_CORE
 using System.IO;
+#endif
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
@@ -10,6 +12,7 @@ namespace Yna.Manager
 {
     public class StorageManager
     {
+#if !NETFX_CORE
         private StorageDevice _storageDevice;
 
         public StorageManager()
@@ -75,5 +78,6 @@ namespace Yna.Manager
 
             return container;
         }
+#endif
     }
 }

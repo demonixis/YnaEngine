@@ -39,7 +39,8 @@ namespace Yna.Samples3D
                 new SimpleTerrainSample("simpleterrain_sample"),
                 new HeightmapSample("heightmap_sample"),
                 new ThirdPersonSample("thirdperson_sample"),
-                new ThirdPersonHeightmapSample("tp_heightmap_sample")
+                new ThirdPersonHeightmapSample("tp_heightmap_sample"),
+                new DungeonSample("dungeon_sample")
             };
 
             screenManager.Add(menu, true);

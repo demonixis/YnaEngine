@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="States\DungeonSample.cs" />
     <Compile Include="States\GameMenu.cs" />
     <Compile Include="States\HeightmapSample.cs" />
     <Compile Include="States\NasaSample.cs" />

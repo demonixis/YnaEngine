@@ -73,15 +73,17 @@ namespace Yna.Content
 #endif
         }
 
-#if !NETFX_CORE
         protected void CheckDirectoryStructure()
         {
+#if !NETFX_CORE
             _gameDirectory = Directory.GetCurrentDirectory();
 
             if (!Directory.Exists(Path.Combine(_gameDirectory, _contentDirectory)))
                 Directory.CreateDirectory(Path.Combine(_gameDirectory, _contentDirectory));
+#endif
         }
 
+#if !NETFX_CORE
         protected virtual string GetAssetPath(string assetName)
         {
             return System.IO.Path.Combine(_contentDirectory, assetName);
@@ -133,7 +135,7 @@ namespace Yna.Content
         {
 #if NETFX_CORE
             return default(T); // No Custom content for Windows 8 yet !
-#endif
+#else
             if (typeof(T) != typeof(Texture2D) || typeof(T) != typeof(Song) || typeof(T) != typeof(SoundEffect))
                 return default(T);
 
@@ -184,6 +186,7 @@ namespace Yna.Content
                 }
             }
             return (T)_loadedAssets[name];
+#endif
         }
 
         /// <summary>

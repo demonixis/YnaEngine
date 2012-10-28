@@ -4,9 +4,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna;
+using Yna.Display3D;
 using Yna.Input;
 using Yna.State;
 
+// TODO : Hey ! I wan't a cool refactoring 'cause i'm too dirty
 namespace Yna.Samples3D.States
 {
     public class SpaceGame : YnState

@@ -56,6 +56,7 @@ namespace Yna.Samples3D.States
             items.Add(new MenuItem(4, "Heightmap", "Create a heightmap with 2 images file. The \nfirst for the geometry and the second\nfor the texture."));
             items.Add(new MenuItem(5, "Third Person", "Loading an object and setting up a third person camera who follow\nthe model and can rotate arround it."));
             items.Add(new MenuItem(6, "3rd with heightmap", "Using a ThirdPersonCamera for follow an object on a heightmap\nwith basic ground collide."));
+            items.Add(new MenuItem(7, "Dungeon with light", "We loading a model and use a BasicLight for its rendering"));
             items.Add(new MenuItem(8, "Exit"));
         }
 
@@ -93,13 +94,14 @@ namespace Yna.Samples3D.States
             {
                 switch (index)
                 {
-                    case 0: screenManager.SetScreenActive("spacegame_sample", true); break;
-                    case 1: screenManager.SetScreenActive("nasa_sample", true); break;
+                    case 0: screenManager.SetScreenActive("spacegame_sample", true);     break;
+                    case 1: screenManager.SetScreenActive("nasa_sample", true);          break;
                     case 2: screenManager.SetScreenActive("simpleterrain_sample", true); break;
-                    case 3: screenManager.SetScreenActive("heightmap_sample", true); break;
-                    case 4: screenManager.SetScreenActive("thirdperson_sample", true); break;
-                    case 5: screenManager.SetScreenActive("tp_heightmap_sample", true); break;
-                    default: YnG.Exit(); break;
+                    case 3: screenManager.SetScreenActive("heightmap_sample", true);     break;
+                    case 4: screenManager.SetScreenActive("thirdperson_sample", true);   break;
+                    case 5: screenManager.SetScreenActive("tp_heightmap_sample", true);  break;
+                    case 6: screenManager.SetScreenActive("dungeon_sample", true);       break;
+                    default: YnG.Exit();                                                 break;
                 }
             }
         }
