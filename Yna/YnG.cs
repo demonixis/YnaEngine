@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Yna.Audio;
 using Yna.Content;
 using Yna.Display;
+using Yna.Display.Gui;
 using Yna.Display3D;
 using Yna.Helpers;
 using Yna.State;
@@ -170,6 +171,15 @@ namespace Yna
         {
             get { return Game.Window.ClientBounds.Height / 2; }
         }
+
+        /// The default UI skin
+        /// </summary>
+        public static YnSkin DefaultSkin { get; set; }
+
+        /// <summary>
+        /// The GUI manager
+        /// </summary>
+        public static YnGui Gui { get; set; }
 
         /// <summary>
         /// Change the screen resolution

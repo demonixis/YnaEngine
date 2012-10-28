@@ -82,6 +82,7 @@
     <Compile Include="States\MenuItem.cs" />
     <Compile Include="States\BasicSprites.cs" />
     <Compile Include="States\TiledMap2DSample.cs" />
+    <Compile Include="States\UIExample.cs" />
     <Compile Include="YnaSample.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -30,7 +30,7 @@ namespace Yna.Samples3D.States
             camera = new FirstPersonCamera();
             Add(camera);
 
-            stationModel = new YnModel("Models/ISSComplete1");
+            stationModel = new YnModel("CommandCenter");
             Add(stationModel);
 
             control = new FirstPersonControl(camera);

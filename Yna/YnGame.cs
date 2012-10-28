@@ -10,6 +10,7 @@ using Yna.Input;
 using Yna.Input.Service;
 using Yna.Display;
 using Yna.Display3D;
+using Yna.Display.Gui;
 
 namespace Yna
 {
@@ -45,8 +46,13 @@ namespace Yna
             YnG.Mouse = new YnMouse();
             YnG.Gamepad = new YnGamepad();
             YnG.MonoGameContext = YnG.GetPlateformContext();
+<<<<<<< HEAD
             YnG.StateManager = screenManager;
             YnG.AudioManager = AudioManager.Instance;
+=======
+            YnG.StateManager = stateManager;
+            YnG.Gui = new YnGui(this);
+>>>>>>> ui
 
             this.Window.Title = "YNA Game";
         }

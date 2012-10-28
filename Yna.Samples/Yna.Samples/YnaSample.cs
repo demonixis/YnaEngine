@@ -35,7 +35,8 @@ namespace Yna.Samples
                 new AnimatedSprites("animated_sample"),
                 new BasicSprites("basic_sample"),
                 new TiledMap2DSample("tilemap_sample"),
-                new IsoTiledMapSample("iso_sample")
+                new IsoTiledMapSample("iso_sample"),
+                new UIExample("ui_sample")
             };
 
             screenManager.Add(menu, true);
