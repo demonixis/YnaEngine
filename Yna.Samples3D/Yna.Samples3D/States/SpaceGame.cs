@@ -38,7 +38,9 @@ namespace Yna.Samples3D.States
         public override void LoadContent()
         {
             base.LoadContent();
-
+#if LINUX
+			return;			
+#endif
             background = YnG.Content.Load<Texture2D>("Backgrounds/space");
             modelShip = YnG.Content.Load<Model>("Models/p1_wedge");
             aspectRatio = YnG.GraphicsDevice.Viewport.AspectRatio;

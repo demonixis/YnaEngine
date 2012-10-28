@@ -30,7 +30,7 @@ namespace Yna.Samples3D.States
             background = new YnSprite("Backgrounds/gradient");
             Add(background);
 
-            title = new YnText("Fonts/MenuFont", "YNA Samples");
+            title = new YnText("Fonts/DefaultFont", "YNA Samples");
             title.Color = Color.DarkSlateBlue;
             Add(title);
 
