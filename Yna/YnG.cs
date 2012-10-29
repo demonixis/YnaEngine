@@ -246,8 +246,8 @@ namespace Yna
             {
                 if (sceneObject.Rectangle.Intersects(group[i].Rectangle))
                     collide = true;
-                else
-                    i++; 
+                
+				i++; 
             }
 
             return collide;
@@ -267,7 +267,10 @@ namespace Yna
                 {
                     if (groupA[i].Rectangle.Intersects(groupB[j].Rectangle))
                         collide = true;
+					
+					j++;
                 }
+				i++;
             }
 
             return collide;
