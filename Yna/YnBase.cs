@@ -14,7 +14,7 @@ namespace Yna
         private uint _id;
         private string _name;
         protected bool _dirty;
-        protected bool _paused;
+        protected bool _enabled;
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace Yna
         /// <summary>
         /// Get the unique identification code of this object
         /// </summary>
-        public uint Id 
+        public uint Id
         {
             get { return _id; }
             set { _id = value; }
@@ -32,7 +32,7 @@ namespace Yna
         /// <summary>
         /// Get or Set the name of this object
         /// </summary>
-        public string Name 
+        public string Name
         {
             get { return _name; }
             set { _name = value; }
@@ -43,29 +43,21 @@ namespace Yna
         /// </summary>
         public bool Active
         {
-            get { return !_paused && !_dirty; }
+            get { return _enabled && !_dirty; }
             set
             {
-                if (value)
-                {
-                    _paused = false;
-                    _dirty = false;
-                }
-                else
-                {
-                    _paused = true;
-                    _dirty = false;
-                }
+                _enabled = value;
+                _dirty = !value;
             }
         }
 
         /// <summary>
         /// Pause or resume updates
         /// </summary>
-        public bool Pause
+        public bool Enabled
         {
-            get { return _paused; }
-            set { _paused = value; }
+            get { return _enabled; }
+            set { _enabled = value; }
         }
 
         /// <summary>
@@ -77,15 +69,7 @@ namespace Yna
             set
             {
                 _dirty = value;
-
-                if (value)
-                {
-                    _paused = true;
-                }
-                else
-                {
-                    _paused = false;
-                }
+                _enabled = !value;
             }
         }
 
@@ -95,7 +79,7 @@ namespace Yna
         {
             _id = counterId++;
             _name = Id.ToString();
-            _paused = false;
+            _enabled = true;
             _dirty = false;
         }
 

@@ -138,15 +138,20 @@ namespace Yna.Samples.States
                 YnG.Exit();
         }
 
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+        }
+
         private void LaunchDemo()
         {
             switch (index)
             {
-                case 0: YnG.StateManager.SetScreenActive("basic_sample");    break;
-                case 1: YnG.StateManager.SetScreenActive("animated_sample"); break;
-                case 2: YnG.StateManager.SetScreenActive("tilemap_sample");  break;
-                case 3: YnG.StateManager.SetScreenActive("iso_sample");      break;
-                case 4: YnG.StateManager.SetScreenActive("ui_sample");       break;
+                case 0: YnG.ScreenManager.SetScreenActive("basic_sample");    break;
+                case 1: YnG.ScreenManager.SetScreenActive("animated_sample"); break;
+                case 2: YnG.ScreenManager.SetScreenActive("tilemap_sample");  break;
+                case 3: YnG.ScreenManager.SetScreenActive("iso_sample");      break;
+                case 4: YnG.ScreenManager.SetScreenActive("ui_sample");       break;
                 case 5: YnG.Exit();                                          break;
                 default:                                                     break;
             }

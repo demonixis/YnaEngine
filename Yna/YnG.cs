@@ -59,7 +59,7 @@ namespace Yna
         /// <summary>
         /// Get or Set the State Manager
         /// </summary>
-        public static ScreenManager StateManager { get; set; }
+        public static ScreenManager ScreenManager { get; set; }
 
         /// <summary>
         /// Get or Set the audio manager
@@ -88,10 +88,21 @@ namespace Yna
         /// </summary>
         public static YnMouse Mouse { get; set; }
 
+        /// The default UI skin
+        /// </summary>
+        public static YnSkin DefaultSkin { get; set; }
+
+        /// <summary>
+        /// The GUI manager
+        /// </summary>
+        public static YnGui Gui { get; set; }
+
         /// <summary>
         /// Get or Set the version of XNA or MonoGame you are using
         /// </summary>
         public static MonoGameContext MonoGameContext { get; set; }
+
+        #region Properties for sizes
 
         /// <summary>
         /// Get the width of the current viewport
@@ -148,6 +159,10 @@ namespace Yna
             set { Game.IsMouseVisible = value; }
         }
 
+        #endregion
+
+        #region Properties for Screen managment
+
         /// <summary>
         /// Get the rectangle that represent the screen size
         /// </summary>
@@ -172,15 +187,6 @@ namespace Yna
             get { return Game.Window.ClientBounds.Height / 2; }
         }
 
-        /// The default UI skin
-        /// </summary>
-        public static YnSkin DefaultSkin { get; set; }
-
-        /// <summary>
-        /// The GUI manager
-        /// </summary>
-        public static YnGui Gui { get; set; }
-
         /// <summary>
         /// Change the screen resolution
         /// </summary>
@@ -200,20 +206,119 @@ namespace Yna
             (Game as YnGame).SetScreenResolutionToMax(true);
         }
 
+        #endregion
+
+        #region Properties for ScreenManager
+
         /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
         /// the StateManager will clear all other state and use your new state
         /// </summary>
         /// <param name="state">New state</param>
-        public static void SwitchState(YnState state)
+        public static void SwitchState(Screen state)
         {
-            (Game as YnGame).SwitchState(state);
+            if (ScreenManager != null)
+                ScreenManager.SwitchState(state);
         }
 
-        public static void SwitchState(YnState3D state)
+        #endregion
+
+        #region Collide detection
+
+        /// <summary>
+        /// Simple test collision with rectangles
+        /// </summary>
+        /// <param name="sceneObjectA">Sprite 1</param>
+        /// <param name="sceneObjectB">Sprite 2</param>
+        /// <returns></returns>
+        public static bool Collide(YnObject sceneObjectA, YnObject sceneObjectB)
         {
-            (Game as YnGame).SwitchState(state);
+            return sceneObjectA.Rectangle.Intersects(sceneObjectB.Rectangle);
         }
+
+        public static bool CollideOneWithGroup(YnObject sceneObject, YnGroup group)
+        {
+            bool collide = false;
+            int size = group.Count;
+            int i = 0;
+
+            while (i < size && !collide)
+            {
+                if (sceneObject.Rectangle.Intersects(group[i].Rectangle))
+                    collide = true;
+                else
+                    i++; 
+            }
+
+            return collide;
+        }
+
+        public static bool CollideGroupWithGroup(YnGroup groupA, YnGroup groupB)
+        {
+            bool collide = false;
+            int i = 0;
+            int j = 0;
+            int groupASize = groupA.Count;
+            int groupBSize = groupB.Count;
+
+            while (i < groupASize && !collide)
+            {
+                while (j < groupBSize && !collide)
+                {
+                    if (groupA[i].Rectangle.Intersects(groupB[j].Rectangle))
+                        collide = true;
+                }
+            }
+
+            return collide;
+        }
+
+        /// <summary>
+        /// Perfect pixel test collision
+        /// </summary>
+        /// <param name="sceneObjectA">Sprite 1</param>
+        /// <param name="sceneObjectB">Sprite 2</param>
+        /// <returns></returns>
+        public static bool PerfectPixelCollide(YnObject sceneObjectA, YnObject sceneObjectB)
+        {
+            int top = Math.Max(sceneObjectA.Rectangle.Top, sceneObjectB.Rectangle.Top);
+            int bottom = Math.Min(sceneObjectA.Rectangle.Bottom, sceneObjectB.Rectangle.Bottom);
+            int left = Math.Max(sceneObjectA.Rectangle.Left, sceneObjectB.Rectangle.Left);
+            int right = Math.Min(sceneObjectA.Rectangle.Right, sceneObjectB.Rectangle.Right);
+
+            for (int y = top; y < bottom; y++)  // De haut en bas
+            {
+                for (int x = left; x < right; x++)  // de gauche à droite
+                {
+                    int index_A = (x - sceneObjectA.Rectangle.Left) + (y - sceneObjectA.Rectangle.Top) * sceneObjectA.Rectangle.Width;
+                    int index_B = (x - sceneObjectB.Rectangle.Left) + (y - sceneObjectB.Rectangle.Top) * sceneObjectB.Rectangle.Width;
+
+                    Color[] colorsSpriteA = GraphicsHelper.GetTextureData(sceneObjectA);
+                    Color[] colorsSpriteB = GraphicsHelper.GetTextureData(sceneObjectB);
+
+                    Color colorSpriteA = colorsSpriteA[index_A];
+                    Color colorSpriteB = colorsSpriteB[index_B];
+
+                    if (colorSpriteA.A != 0 && colorSpriteB.A != 0)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Optimised perfect collide test
+        /// </summary>
+        /// <param name="sceneObjectA">Sprite 1</param>
+        /// <param name="sceneObjectB">Sprite 2</param>
+        /// <returns></returns>
+        public static bool PerfectCollide(YnObject sceneObjectA, YnObject sceneObjectB)
+        {
+            return Collide(sceneObjectA, sceneObjectB) && PerfectPixelCollide(sceneObjectA, sceneObjectB);
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Close the game
@@ -224,9 +329,9 @@ namespace Yna
         }
 
         /// <summary>
-        /// Get the platform context 
+        /// Get the current platform context 
         /// </summary>
-        /// <returns>MonoGame platform used</returns>
+        /// <returns>MonoGame/XNA platform used</returns>
         public static MonoGameContext GetPlateformContext()
         {
 #if NETFX_CORE

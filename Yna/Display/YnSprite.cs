@@ -387,7 +387,7 @@ namespace Yna.Display
         {
             base.Update(gameTime);
 
-            if (!Pause)
+            if (Enabled)
             {
                 // Sauvegarde de la dernière position
                 LastPosition = Position;
@@ -469,66 +469,11 @@ namespace Yna.Display
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (!Pause)
+            if (Enabled)
                 PostUpdate(gameTime);
            
             if (Visible)
                 spriteBatch.Draw(_texture, Position, SourceRectangle, Color * Alpha, Rotation, Origin, Scale, _effects, LayerDepth);
-        }
-
-        /// <summary>
-        /// Simple test collision with rectangles
-        /// </summary>
-        /// <param name="spriteA">Sprite 1</param>
-        /// <param name="spriteB">Sprite 2</param>
-        /// <returns></returns>
-        public static bool RectCollide(YnSprite spriteA, YnSprite spriteB)
-        {
-            return spriteA.Rectangle.Intersects(spriteB.Rectangle);
-        }
-
-        /// <summary>
-        /// Perfect pixel test collision
-        /// </summary>
-        /// <param name="spriteA">Sprite 1</param>
-        /// <param name="spriteB">Sprite 2</param>
-        /// <returns></returns>
-        public static bool PerfectPixelCollide(YnSprite spriteA, YnSprite spriteB)
-        {
-            int top = Math.Max(spriteA.Rectangle.Top, spriteB.Rectangle.Top);
-            int bottom = Math.Min(spriteA.Rectangle.Bottom, spriteB.Rectangle.Bottom);
-            int left = Math.Max(spriteA.Rectangle.Left, spriteB.Rectangle.Left);
-            int right = Math.Min(spriteA.Rectangle.Right, spriteB.Rectangle.Right);
-
-            for (int y = top; y < bottom; y++)  // De haut en bas
-            {
-                for (int x = left; x < right; x++)  // de gauche à droite
-                {
-                    int index_A = (x - spriteA.Rectangle.Left) + (y - spriteA.Rectangle.Top) * spriteA.Rectangle.Width;
-                    int index_B = (x - spriteB.Rectangle.Left) + (y - spriteB.Rectangle.Top) * spriteB.Rectangle.Width;
-
-                    Color[] colorsSpriteA = GraphicsHelper.GetTextureData(spriteA);
-                    Color[] colorsSpriteB = GraphicsHelper.GetTextureData(spriteB);
-
-                    Color colorSpriteA = colorsSpriteA[index_A];
-                    Color colorSpriteB = colorsSpriteB[index_B];
-
-                    if (colorSpriteA.A != 0 && colorSpriteB.A != 0)
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Optimised perfect collide test
-        /// </summary>
-        /// <param name="spriteA">Sprite 1</param>
-        /// <param name="spriteB">Sprite 2</param>
-        /// <returns></returns>
-        public static bool PerfectCollide(YnSprite spriteA, YnSprite spriteB)
-        {
-            return RectCollide(spriteA, spriteB) && PerfectPixelCollide(spriteA, spriteB);
         }
     }
 }

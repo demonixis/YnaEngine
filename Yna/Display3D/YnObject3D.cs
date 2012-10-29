@@ -53,19 +53,19 @@ namespace Yna.Display3D
         /// </summary>
         public new bool Active
         {
-            get { return !_paused && _visible && !_dirty; }
+            get { return !_enabled && _visible && !_dirty; }
             set
             {
                 if (value)
                 {
                     _visible = true;
-                    _paused = false;
+                    _enabled = false;
                     _dirty = false;
                 }
                 else
                 {
                     _visible = false;
-                    _paused = true;
+                    _enabled = true;
                     _dirty = false;
                 }
             }

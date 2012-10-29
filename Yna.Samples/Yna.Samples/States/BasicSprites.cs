@@ -108,7 +108,7 @@ namespace Yna.Samples.States
                 if (MediaPlayer.State == MediaState.Playing)
                     MediaPlayer.Stop();
 #endif
-                YnG.StateManager.SetScreenActive("menu");
+                YnG.ScreenManager.SetScreenActive("menu");
             }
         }
     }

@@ -188,7 +188,7 @@ namespace Yna.State
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(_clearColor);
-            
+
             // We make a copy of all screens to provide any error
             // if a screen is removed during the update opreation
             int nbScreens = _safeScreens.Count;
@@ -286,9 +286,9 @@ namespace Yna.State
             {
                 Screen activableScreen = _screens[_namedScreens[name]];
                 activableScreen.Active = true;
-                
+
                 if (!activableScreen.Initialized)
-                    activableScreen.Initialize(); 
+                    activableScreen.Initialize();
 
                 if (desactiveOtherScreens)
                 {
@@ -384,6 +384,20 @@ namespace Yna.State
 
                 _namedScreens.Add(screen.Name, _screens.IndexOf(screen));
             }
+        }
+
+        /// <summary>
+        /// Switch to a new state, just pass a new instance of a state and 
+        /// the StateManager will clear all other states and use the new state
+        /// </summary>
+        /// <param name="state">New state</param>
+        /// <returns>True if the state manager has done the swith, false if it disabled</returns>
+        public void SwitchState(Screen nextState)
+        {
+            if (!nextState.IsPopup)
+                Clear();
+
+            Add(nextState);
         }
 
         #endregion

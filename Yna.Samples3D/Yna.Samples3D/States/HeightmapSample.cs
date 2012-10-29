@@ -75,7 +75,7 @@ namespace Yna.Samples3D.States
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.ScreenManager.SetScreenActive("menu", true);
 
             camera.Y = heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 2;
 

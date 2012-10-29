@@ -22,6 +22,9 @@ namespace Yna
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
         protected ScreenManager screenManager;
+        protected YnGui guiManager;
+
+        #region Constructors
 
         public YnGame()
             : base()
@@ -29,6 +32,7 @@ namespace Yna
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
             this.screenManager = new ScreenManager(this);
+            this.guiManager = new YnGui(this);
 
             // Setup services
             ServiceHelper.Game = this;
@@ -36,6 +40,7 @@ namespace Yna
             Components.Add(new MouseService(this));
             Components.Add(new GamepadService(this));
             Components.Add(screenManager);
+            Components.Add(guiManager);
 
             // Registry globals objects
             YnG.Game = this;
@@ -46,9 +51,9 @@ namespace Yna
             YnG.Mouse = new YnMouse();
             YnG.Gamepad = new YnGamepad();
             YnG.MonoGameContext = YnG.GetPlateformContext();
-            YnG.StateManager = screenManager;
+            YnG.ScreenManager = screenManager;
             YnG.AudioManager = AudioManager.Instance;
-            YnG.Gui = new YnGui(this);
+            YnG.Gui = guiManager;
 
             this.Window.Title = "YNA Game";
         }
@@ -60,11 +65,15 @@ namespace Yna
             this.Window.Title = title;
         }
 
-        protected override void Initialize()
+        public YnGame(int width, int height, string title, bool useScreenManager)
+            : this(width, height, title)
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            base.Initialize();
+            UseScreenManager(useScreenManager);
         }
+
+        #endregion
+
+        #region GameState pattern
 
         protected override void LoadContent()
         {
@@ -72,82 +81,58 @@ namespace Yna
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
+        #endregion
+
+        #region Resolution setup
+
         /// <summary>
         /// Change the screen resolution
         /// </summary>
         /// <param name="width">Screen width</param>
         /// <param name="height">Screen height</param>
-        public void SetScreenResolution(int width, int height)
+        public virtual void SetScreenResolution(int width, int height)
         {
             this.graphics.PreferredBackBufferWidth = width;
             this.graphics.PreferredBackBufferHeight = height;
             this.graphics.ApplyChanges();
         }
 
-        public void SetScreenResolutionToMax(bool fullscreen)
+        /// <summary>
+        /// Set maximum resolution supported by the device, It use the desktop resolution
+        /// </summary>
+        /// <param name="fullscreen">Toggle in fullscreen mode</param>
+        public virtual void SetScreenResolutionToMax(bool fullscreen)
         {
             SetScreenResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
 
-            if (fullscreen)
+            if (!graphics.IsFullScreen && fullscreen)
                 graphics.ToggleFullScreen();
         }
 
-        public void ActiveStateManager(bool active)
+        #endregion
+
+        /// <summary>
+        /// Active or desactive the Screen Manager
+        /// </summary>
+        /// <param name="active">True for activing, false for desactivating</param>
+        public void UseScreenManager(bool active)
         {
             if (active)
-            {
-                if (YnG.StateManager == null)
+            { 
+                if (YnG.ScreenManager == null)
                 {
-                    YnG.StateManager = new ScreenManager(this);
-                    this.Components.Add(YnG.StateManager);
+                    YnG.ScreenManager = new ScreenManager(this);
+                    this.Components.Add(YnG.ScreenManager);
                 }
             }
             else
             {
-                if (YnG.StateManager != null)
+                if (YnG.ScreenManager != null)
                 {
-                    this.Components.Remove(YnG.StateManager);
-                    YnG.StateManager = null;
+                    this.Components.Remove(YnG.ScreenManager);
+                    YnG.ScreenManager = null;
                 }
             }
-        }
-
-        // TODO : Move that in ScreenManager.cs
-
-        /// <summary>
-        /// Switch to a new state, just pass a new instance of a state and 
-        /// the StateManager will clear all other states and use the new state
-        /// </summary>
-        /// <param name="state">New state</param>
-        /// <returns>True if the state manager has done the swith, false if it disabled</returns>
-        public bool SwitchState(YnState nextState)
-        {
-            if (YnG.StateManager != null)
-            {
-                if (!nextState.IsPopup)
-                    YnG.StateManager.Clear();
-
-                YnG.StateManager.Add(nextState);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool SwitchState(YnState3D nextState)
-        {
-            if (YnG.StateManager != null)
-            {
-                if (!nextState.IsPopup)
-                    YnG.StateManager.Clear();
-
-                YnG.StateManager.Add(nextState);
-
-                return true;
-            }
-
-            return false;
         }
 
         /// <summary>

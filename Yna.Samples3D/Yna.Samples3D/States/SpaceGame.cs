@@ -120,7 +120,7 @@ namespace Yna.Samples3D.States
                 }
 
                 if (YnG.Keys.JustPressed(Keys.Escape))
-                    YnG.StateManager.SetScreenActive("menu", true);
+                    YnG.ScreenManager.SetScreenActive("menu", true);
                 
             }
         }
@@ -128,7 +128,7 @@ namespace Yna.Samples3D.States
         public override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.ScreenManager.SetScreenActive("menu", true);
 
             UpdateInput();
 

@@ -167,6 +167,13 @@ namespace Yna.State
 
         #endregion
 
+        #region Events
+
+        public event EventHandler<EventArgs> Started = null;
+        public event EventHandler<EventArgs> Stopped = null;
+
+        #endregion
+
         public Screen(string name, ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0.0f)
             : this(type, timeTransitionOn, timeTransitionOff)
         {

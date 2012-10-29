@@ -76,7 +76,7 @@ namespace Yna.Samples3D.States
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.ScreenManager.SetScreenActive("menu", true);
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))

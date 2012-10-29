@@ -73,7 +73,7 @@ namespace Yna.Samples3D.States
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.ScreenManager.SetScreenActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

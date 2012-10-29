@@ -104,6 +104,7 @@
     <Compile Include="Display\Gui\YnSkinGenerator.cs" />
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
+    <Compile Include="Display\YnCamera.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TileMap\AbstractLayer.cs" />

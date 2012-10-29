@@ -21,7 +21,10 @@ namespace Yna.Samples.States
             : base(name)
         {
             YnG.ShowMouse = true;
+        }
 
+        public void InitializeGUI()
+        {
             // Buttons in a toolbar
             int tileSize = 100;
             int padding = 10;
@@ -45,7 +48,7 @@ namespace Yna.Samples.States
             {
                 if (!evt.JustClicked) return;
                 YnG.Gui.Clear();
-                YnG.StateManager.SetScreenActive("menu");
+                YnG.ScreenManager.SetScreenActive("menu");
             };
 
             progress = YnG.Gui.Add(new YnProgressBar());
@@ -143,10 +146,9 @@ namespace Yna.Samples.States
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
                 // Stop the gui
-                YnG.Gui.Enabled = false;
-                YnG.Gui.Visible = false;
+                YnG.Gui.Active = false;
 
-                YnG.StateManager.SetScreenActive("menu");
+                YnG.ScreenManager.SetScreenActive("menu");
             }
         }
 
@@ -154,9 +156,10 @@ namespace Yna.Samples.States
         {
             base.Initialize();
 
+            InitializeGUI();
+
             // Initialized is call when a screen is re/enabled
-            YnG.Gui.Enabled = true;
-            YnG.Gui.Visible = true;
+            YnG.Gui.Active = true;
             _initialized = false;
    
             // TODO : We must add events like OnStart / OnStop / OnPause / etc...

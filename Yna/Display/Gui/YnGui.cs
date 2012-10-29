@@ -13,6 +13,16 @@ namespace Yna.Display.Gui
     /// </summary>
     public class YnGui : DrawableGameComponent
     {
+        public bool Active
+        {
+            get { return Enabled && Visible; }
+            set
+            {
+                Enabled = value;
+                Visible = value;
+            }
+        }
+
         /// <summary>
         /// Specific GUI sprite batch
         /// </summary>
@@ -36,8 +46,6 @@ namespace Yna.Display.Gui
         public YnGui(Game game)
             : base(game)
         {
-            // Add the GUI Manager to the game components
-            Game.Components.Add(this);
             Widgets = new List<YnWidget>();
         }
 

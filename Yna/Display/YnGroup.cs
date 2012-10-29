@@ -138,7 +138,7 @@ namespace Yna.Display
 
                 for (int i = 0; i < nbMembers; i++)
                 {
-                    if (!_safeMembers[i].Pause)
+                    if (_safeMembers[i].Enabled)
                         _safeMembers[i].Update(gameTime);
                 }
             }

@@ -103,6 +103,8 @@ namespace Yna
 
         #endregion
 
+        #region Constructors
+
         public YnState(string name, float timeTransitionOn = 1500.0f, float timeTransitionOff = 0.0f)
             : this(timeTransitionOn, timeTransitionOff)
         {
@@ -142,6 +144,8 @@ namespace Yna
             _rotation = 0.0f;
             _zoom = 1.0f;
         }
+
+        #endregion
 
         #region Collection methods
 
@@ -247,7 +251,7 @@ namespace Yna
 
                 for (int i = 0; i < nbMembers; i++)
                 {
-                    if (!_safeMembers[i].Pause)
+                    if (_safeMembers[i].Enabled)
                         _safeMembers[i].Update(gameTime);
                 }
             }

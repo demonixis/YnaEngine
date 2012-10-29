@@ -41,21 +41,12 @@ namespace Yna.Display
         /// </summary>
         public new bool Active
         {
-            get { return !_paused && _visible && !_dirty; }
+            get { return _enabled && _visible && !_dirty; }
             set
             {
-                if (value)
-                {
-                    _visible = true;
-                    _paused = false;
-                    _dirty = false;
-                }
-                else
-                {
-                    _visible = false;
-                    _paused = true;
-                    _dirty = false;
-                }
+                _visible = value;
+                _enabled = value;
+                _dirty = !value;
             }
         }
 
@@ -78,17 +69,8 @@ namespace Yna.Display
             set
             {
                 _dirty = value;
-
-                if (value)
-                {
-                    _paused = true;
-                    _visible = false;
-                }
-                else
-                {
-                    _paused = false;
-                    _visible = true;
-                }
+                _enabled = !value;
+                _visible = !value;
             }
         }
 
@@ -410,7 +392,7 @@ namespace Yna.Display
         public override void Update(GameTime gameTime)
         {
             // Check mouse events
-            if (!Pause)
+            if (Enabled)
             {
                 Rectangle = new Rectangle(X, Y, Width, Height);
 
@@ -465,7 +447,7 @@ namespace Yna.Display
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (Visible)
-                spriteBatch.Draw(Texture, Rectangle, null, Color * Alpha, Rotation, Origin, Effects, LayerDepth);
+                spriteBatch.Draw(_texture, _rectangle, null, _color * _alpha, _rotation, _origin, _effects, _layerDepth);
         }
 
         /// <summary>
@@ -492,7 +474,6 @@ namespace Yna.Display
         public virtual void Kill()
         {
             Active = false;
-            Visible = false;
 
             KillSprite(EventArgs.Empty);
         }
@@ -504,7 +485,6 @@ namespace Yna.Display
         public virtual void Revive()
         {
             Active = true;
-            Visible = true;
 
             ReviveSprite(EventArgs.Empty);
         }
@@ -517,15 +497,15 @@ namespace Yna.Display
         {
             switch (spriteOrigin)
             {
-                case ObjectOrigin.TopLeft: _origin = Vector2.Zero; break;
-                case ObjectOrigin.Top: _origin = new Vector2(Width / 2, 0); break;
-                case ObjectOrigin.TopRight: _origin = new Vector2(Width, 0); break;
-                case ObjectOrigin.Left: _origin = new Vector2(0, Height / 2); break;
-                case ObjectOrigin.Center: _origin = new Vector2(Width / 2, Height / 2); break;
-                case ObjectOrigin.Right: _origin = new Vector2(Width, Height / 2); break;
-                case ObjectOrigin.BottomLeft: _origin = new Vector2(0, Height); break;
-                case ObjectOrigin.Bottom: _origin = new Vector2(Width / 2, Height); break;
-                case ObjectOrigin.BottomRight: _origin = new Vector2(Width, Height); break;
+                case ObjectOrigin.TopLeft:     _origin = Vector2.Zero;                        break;
+                case ObjectOrigin.Top:         _origin = new Vector2(Width / 2, 0);           break;
+                case ObjectOrigin.TopRight:    _origin = new Vector2(Width, 0);               break;
+                case ObjectOrigin.Left:        _origin = new Vector2(0, Height / 2);          break;
+                case ObjectOrigin.Center:      _origin = new Vector2(Width / 2, Height / 2);  break;
+                case ObjectOrigin.Right:       _origin = new Vector2(Width, Height / 2);      break;
+                case ObjectOrigin.BottomLeft:  _origin = new Vector2(0, Height);              break;
+                case ObjectOrigin.Bottom:      _origin = new Vector2(Width / 2, Height);      break;
+                case ObjectOrigin.BottomRight: _origin = new Vector2(Width, Height);          break;
             }
         }
     }

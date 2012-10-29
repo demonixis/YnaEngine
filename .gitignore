@@ -4,11 +4,8 @@ Thumbs.db
 *.user
 *.pidb
 *.userprefs
-*/bin/*
-*/obj/*
-Yna.Samples/Yna.Samples/AppPackages
-Yna.Samples/Yna.Samples/bin
-Yna.Samples/Yna.Samples/obj
-Yna.Samples3D/Yna.Samples3D/AppPackages
-Yna.Samples3D/Yna.Samples3D/bin
-Yna.Samples3D/Yna.Samples3D/obj
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/

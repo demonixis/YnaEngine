@@ -78,7 +78,7 @@ namespace Yna.Samples3D.States
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.ScreenManager.SetScreenActive("menu", true);
 
             // Basic collide detection with the ground
             alien.Y = terrain.GetTerrainHeight(alien.X, alien.Y, alien.Z);

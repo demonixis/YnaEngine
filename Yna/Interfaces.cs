@@ -18,12 +18,4 @@ namespace Yna
     {
         void Draw(GameTime gameTime, GraphicsDevice device);
     }
-
-    public interface IYnManager
-    {
-        void Next();
-        void Previous();
-        void First();
-        void Last();
-    }
 }
