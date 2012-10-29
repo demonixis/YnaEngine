@@ -60,6 +60,12 @@ namespace Yna.Samples.States
             progressLabel = YnG.Gui.Add(new YnLabel() { Text = "Fake loading..." });
             progressLabel.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 75);
 
+            YnLabel modeLabel = YnG.Gui.Add(new YnLabel());
+            modeLabel.Text = "Hard Mode ";
+            modeLabel.Position = new Vector2(10, 10);
+            YnCheckbox check = YnG.Gui.Add(new YnCheckbox());
+            check.Position = new Vector2(100, 10);
+
             /*
             // Simple Label example
             YnLabel simpleLabel = Gui.Add(new YnLabel());

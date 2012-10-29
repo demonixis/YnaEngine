@@ -94,6 +94,7 @@
     <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
+    <Compile Include="Display\Gui\YnCheckbox.cs" />
     <Compile Include="Display\Gui\YnGui.cs" />
     <Compile Include="Display\Gui\YnBorder.cs" />
     <Compile Include="Display\Gui\YnButton.cs" />
