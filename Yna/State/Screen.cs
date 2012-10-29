@@ -310,5 +310,14 @@ namespace Yna.State
                 _screenState = ScreenState.TransitionOn;
             }
         }
+
+        /// <summary>
+        /// This method loads the Graphic User Interface (GUI). All GUI initializations must be done in
+        /// this method (to override in subclasses).
+        /// </summary>
+        public virtual void BuildGui()
+        {
+            // No Gui by default. Override this method to load custom one
+        }
     }
 }

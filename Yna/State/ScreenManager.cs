@@ -290,6 +290,9 @@ namespace Yna.State
                 if (!activableScreen.Initialized)
                     activableScreen.Initialize();
 
+                // Rebuild the screen GUI
+                activableScreen.BuildGui();
+
                 if (desactiveOtherScreens)
                 {
                     foreach (Screen screen in _screens)

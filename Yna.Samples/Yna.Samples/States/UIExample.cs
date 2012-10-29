@@ -23,7 +23,7 @@ namespace Yna.Samples.States
             YnG.ShowMouse = true;
         }
 
-        public void InitializeGUI()
+        public override void BuildGui()
         {
             // Buttons in a toolbar
             int tileSize = 100;
@@ -155,8 +155,6 @@ namespace Yna.Samples.States
         public override void Initialize()
         {
             base.Initialize();
-
-            InitializeGUI();
 
             // Initialized is call when a screen is re/enabled
             YnG.Gui.Active = true;
