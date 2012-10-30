@@ -133,6 +133,28 @@ namespace Yna.Display.Gui
                 widget.Layout();
             }
         }
+
+        public void SetSkin(YnSkin skin)
+        {
+            // Hide all components to stop rendering
+            foreach (YnWidget widget in Widgets)
+            {
+                widget.Show(false);
+            }
+
+            // Set the new skin for all components
+            Skin = skin;
+
+            // Redo all widgets initializations
+            PrepareWidgets();
+
+
+            // Show all components back
+            foreach (YnWidget widget in Widgets)
+            {
+                widget.Show(true);
+            }
+        }
     }
 
     /// <summary>

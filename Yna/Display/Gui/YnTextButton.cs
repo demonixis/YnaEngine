@@ -31,6 +31,7 @@ namespace Yna.Display.Gui
         {
             label = Add(new YnLabel());
             _align = YnTextAlign.Center;
+            Pack = true;
         }
 
         public override void Layout()

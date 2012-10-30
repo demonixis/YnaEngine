@@ -39,11 +39,12 @@ namespace Yna.Samples.States
             toolbar.Height = tileSize;
             toolbar.Position = new Vector2(YnG.Width / 2 - (tileSize * tileCount + padding * (tileCount + 1)) / 2, YnG.Height / 2 - toolbar.Height / 2);
 
-            toolbar.Add(new YnTextButton() { Text = "New", Width = tileSize, Height = tileSize });
-            toolbar.Add(new YnTextButton() { Text = "Load", Width = tileSize, Height = tileSize });
-            toolbar.Add(new YnTextButton() { Text = "Options", Width = tileSize, Height = tileSize });
-            toolbar.Add(new YnTextButton() { Text = "Store", Width = tileSize, Height = tileSize });
-            YnTextButton button = toolbar.Add(new YnTextButton() { Text = "Exit", Width = tileSize, Height = tileSize });
+            toolbar.Add(new YnTextButton() { Text = "New", Width = tileSize, Height = tileSize, Pack = false });
+            toolbar.Add(new YnTextButton() { Text = "Load", Width = tileSize, Height = tileSize, Pack = false });
+            toolbar.Add(new YnTextButton() { Text = "Options", Width = tileSize, Height = tileSize, Pack = false });
+
+            toolbar.Add(new YnTextButton() { Text = "Store", Width = tileSize, Height = tileSize, Pack = false });
+            YnTextButton button = toolbar.Add(new YnTextButton() { Text = "Exit", Width = tileSize, Height = tileSize, Pack = false });
             button.MouseClick += delegate(object w, MouseClickSpriteEventArgs evt)
             {
                 if (!evt.JustClicked) return;
@@ -60,18 +61,32 @@ namespace Yna.Samples.States
             progressLabel = YnG.Gui.Add(new YnLabel() { Text = "Fake loading..." });
             progressLabel.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 75);
 
-            YnLabel modeLabel = YnG.Gui.Add(new YnLabel());
+            YnPanel container = YnG.Gui.Add(new YnPanel());
+            container.Orientation = YnOrientation.Horizontal;
+            container.WithBackground = false;
+            container.Position = new Vector2(20, 20);
+            YnLabel modeLabel = container.Add(new YnLabel());
             modeLabel.Text = "Hard Mode ";
-            modeLabel.Position = new Vector2(10, 10);
-            YnCheckbox check = YnG.Gui.Add(new YnCheckbox());
-            check.Position = new Vector2(100, 10);
+            YnCheckbox check = container.Add(new YnCheckbox());
 
             // Slider
             YnSlider slider = YnG.Gui.Add(new YnSlider());
             slider.Width = 200;
             slider.Height = 20;
             slider.Position = new Vector2(20, 200);
-            slider.MaxValue = 500;
+            slider.MaxValue = 10;
+
+            // Skin switcher button
+            YnTextButton skinSwitcherButton = YnG.Gui.Add(new YnTextButton());
+            skinSwitcherButton.Text = "Random color base";
+            skinSwitcherButton.Position = new Vector2(20, 500);
+            skinSwitcherButton.MouseClick += delegate(object w, MouseClickSpriteEventArgs evt)
+            {
+                if (!evt.JustClicked) return;
+                Random rnd = new Random();
+                rnd.Next(255);
+                YnG.Gui.SetSkin(YnSkinGenerator.Generate(new Color(rnd.Next(255), rnd.Next(255), rnd.Next(255))));
+            };
 
             /*
             // Simple Label example

@@ -149,6 +149,7 @@ namespace Yna.Display.Gui
             get { return bounds.Height; }
             set { bounds.Height = value; UpdateBounds(); }
         }
+        
         #endregion
 
         #region Constructors
@@ -345,6 +346,22 @@ namespace Yna.Display.Gui
         }
 
         /// <summary>
+        /// Show or hide the widget and all it's children
+        /// </summary>
+        /// <param name="show"></param>
+        public void Show(bool show)
+        {
+            // Hide / show the widget
+            IsVisible = show;
+
+            // Hide / show children
+            foreach (YnWidget child in Children)
+            {
+                child.Show(show);
+            }
+        }
+
+        /// <summary>
         /// Resize the widget according to it's children / orientation
         /// </summary>
         public virtual void Layout()
@@ -355,6 +372,7 @@ namespace Yna.Display.Gui
             foreach (YnWidget child in Children)
             {
                 child.Layout();
+                child.Position = Vector2.Zero;
 
                 // Handle positions
                 switch (Orientation)
