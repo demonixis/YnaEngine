@@ -66,6 +66,13 @@ namespace Yna.Samples.States
             YnCheckbox check = YnG.Gui.Add(new YnCheckbox());
             check.Position = new Vector2(100, 10);
 
+            // Slider
+            YnSlider slider = YnG.Gui.Add(new YnSlider());
+            slider.Width = 200;
+            slider.Height = 20;
+            slider.Position = new Vector2(20, 200);
+            slider.MaxValue = 500;
+
             /*
             // Simple Label example
             YnLabel simpleLabel = Gui.Add(new YnLabel());

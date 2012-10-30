@@ -103,6 +103,7 @@
     <Compile Include="Display\Gui\YnProgressBar.cs" />
     <Compile Include="Display\Gui\YnSkin.cs" />
     <Compile Include="Display\Gui\YnSkinGenerator.cs" />
+    <Compile Include="Display\Gui\YnSlider.cs" />
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\YnCamera.cs" />

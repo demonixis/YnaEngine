@@ -488,11 +488,23 @@ namespace Yna.Display.Gui
                         // A mouse button is down
                         DoMouseClick(leftDown, middleDown, rightDown, false);
                     }
+
+                    // Mouse release
+                    if (YnG.Mouse.JustReleased(MouseButton.Left) && YnG.Mouse.LastMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        if (MouseReleasedInside != null) MouseReleasedInside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false));
+                    }
                 }
                 else
                 {
                     // The mouse left the widget
                     DoMouseLeave();
+
+                    // Mouse release
+                    if (YnG.Mouse.JustReleased(MouseButton.Left) && YnG.Mouse.LastMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        if (MouseReleasedOutside != null) MouseReleasedOutside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false));
+                    }
                 }
             }
         }
@@ -606,6 +618,16 @@ namespace Yna.Display.Gui
         /// Triggered when click are detected over the object
         /// </summary>
         public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
+
+        /// <summary>
+        /// Triggered when a mouse button is released with the mouse on the widget
+        /// </summary>
+        public event EventHandler<MouseClickSpriteEventArgs> MouseReleasedInside = null;
+
+        /// <summary>
+        /// Triggered when a mouse button is released with the mouse out of the widget
+        /// </summary>
+        public event EventHandler<MouseClickSpriteEventArgs> MouseReleasedOutside = null;
 
         /// <summary>
         /// Performs the mouse over actions and send proper the event
