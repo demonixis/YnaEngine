@@ -127,7 +127,7 @@ namespace Yna
         /// <summary>
         /// Pause the timer 
         /// </summary>
-        public new void Pause()
+        public void Pause()
         {
             Active = false;
             TimerPaused(EventArgs.Empty);

@@ -21,8 +21,10 @@ namespace Yna
     {
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
-        protected ScreenManager screenManager;
-        protected YnGui guiManager;
+        protected ScreenManager screenManager = null;
+        protected YnGui guiManager = null;
+        protected string gameTitle = "Yna Game";
+        protected string gameVersion = "0.1";
 
         #region Constructors
 
@@ -55,20 +57,28 @@ namespace Yna
             YnG.AudioManager = AudioManager.Instance;
             YnG.Gui = guiManager;
 
-            this.Window.Title = "YNA Game";
+            this.Window.Title = String.Format("{0} - v{1}", gameTitle, gameVersion);
+
+            ScreenHelper.ScreenWidthReference = graphics.PreferredBackBufferWidth;
+            ScreenHelper.ScreenHeightReference = graphics.PreferredBackBufferHeight;
         }
 
         public YnGame(int width, int height, string title)
             : this()
         {
             SetScreenResolution(width, height);
+
             this.Window.Title = title;
+
+            ScreenHelper.ScreenWidthReference = width;
+            ScreenHelper.ScreenHeightReference = height;
         }
 
-        public YnGame(int width, int height, string title, bool useScreenManager)
+        public YnGame(int width, int height, string title, bool useScreenManager = true, bool useGuiManager = true)
             : this(width, height, title)
         {
             UseScreenManager(useScreenManager);
+            UseGuiManager(useGuiManager);
         }
 
         #endregion
@@ -119,20 +129,48 @@ namespace Yna
         {
             if (active)
             { 
-                if (YnG.ScreenManager == null)
+                if (this.screenManager == null)
                 {
-                    YnG.ScreenManager = new ScreenManager(this);
-                    this.Components.Add(YnG.ScreenManager);
+                    this.screenManager = new ScreenManager(this);
+                    this.Components.Add(this.screenManager);
                 }
             }
             else
             {
-                if (YnG.ScreenManager != null)
+                if (this.screenManager != null)
                 {
-                    this.Components.Remove(YnG.ScreenManager);
-                    YnG.ScreenManager = null;
+                    this.Components.Remove(this.screenManager);
+                    this.screenManager = null;
                 }
             }
+
+            YnG.ScreenManager = this.screenManager;
+        }
+
+        /// <summary>
+        /// Active or desactive the Gui Manager
+        /// </summary>
+        /// <param name="active">True for activing, false for desactivating</param>
+        public void UseGuiManager(bool active)
+        {
+            if (active)
+            {
+                if (this.guiManager == null)
+                {
+                    this.guiManager = new YnGui(this);
+                    this.Components.Add(this.guiManager);
+                }
+            }
+            else
+            {
+                if (this.guiManager != null)
+                {
+                    this.Components.Remove(this.guiManager);
+                    this.guiManager = null;
+                }
+            }
+
+            YnG.Gui = this.guiManager;
         }
 
         /// <summary>

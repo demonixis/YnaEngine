@@ -178,7 +178,7 @@ namespace Yna.Display3D
 
         public override void Update(GameTime gameTime)
         {
-            if (!Enabled)
+            if (Enabled)
             {
                 int nbMembers = _members.Count;
 
@@ -189,7 +189,7 @@ namespace Yna.Display3D
 
                     for (int i = 0; i < nbMembers; i++)
                     {
-                        if (!_safeMembers[i].Enabled)
+                        if (_safeMembers[i].Enabled)
                             _safeMembers[i].Update(gameTime);
                     }
                 }
