@@ -121,6 +121,7 @@
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
+    <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
     <Compile Include="Input\Service\GamepadService.cs" />
     <Compile Include="Input\Service\IGamepadService.cs" />

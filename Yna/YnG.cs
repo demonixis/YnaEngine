@@ -221,6 +221,12 @@ namespace Yna
                 ScreenManager.SwitchState(state);
         }
 
+        public static void SetScreenActive(string name, bool desactiveOtherScreens)
+        {
+            if (ScreenManager != null)
+                ScreenManager.SetScreenActive(name, desactiveOtherScreens);
+        }
+
         #endregion
 
         #region Collide detection
@@ -322,6 +328,21 @@ namespace Yna
 
         #endregion
 
+        /// <summary>
+        /// Get the registerd service for this game
+        /// </summary>
+        public static GameServiceContainer Services
+        {
+            get { return Game.Services; }
+        }
+
+        /// <summary>
+        /// Get the components for this game
+        /// </summary>
+        public static GameComponentCollection Components
+        {
+            get { return Game.Components; }
+        }
 
         /// <summary>
         /// Close the game
