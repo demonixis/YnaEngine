@@ -85,6 +85,7 @@ namespace Yna.Display3D.Terrain
                         (float)x / (float)Width, 
                         (float)z / (float)Depth);
 
+                    // Basic colors
                     if ((int)_heightData[x, z] < 3)
                         color = new Color(30, 65, 255);
                     else if ((int)_heightData[x, z] < 6)

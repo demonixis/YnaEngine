@@ -39,8 +39,6 @@ namespace Yna.Display3D.Terrain
         {
             _vertices = new VertexPositionColorTexture[Width * Depth];
 
-            Random random = new Random(DateTime.Now.Millisecond);
-
             for (int x = 0; x < Width; x++)
             {
                 for (int z = 0; z < Depth; z++)

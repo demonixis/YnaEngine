@@ -11,11 +11,29 @@ namespace Yna.Display3D
 {
     public class YnState3D : Screen
     {
-        protected BaseCamera _camera;
-        protected YnScene _scene;
-        protected List<YnBase3D> _baseMembers;
-        protected List<YnBase3D> _safeBaseMembers;
-        protected bool _initialized;
+        private BaseCamera _camera;
+        private YnScene _scene;
+        private List<YnBase3D> _baseMembers;
+        private List<YnBase3D> _safeBaseMembers;
+        private bool _initialized;
+
+        public bool Initialized
+        {
+            get { return _initialized; }
+            protected set { _initialized = value; }
+        }
+
+        public YnScene Scene
+        {
+            get { return _scene; }
+            protected set { _scene = value; }
+        }
+
+        public List<YnBase3D> BaseMembers
+        {
+            get { return _baseMembers; }
+            protected set { _baseMembers = value; }
+        }
 
         public BaseCamera Camera
         {

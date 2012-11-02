@@ -110,7 +110,7 @@ namespace Yna.Display3D
 
         #endregion
 
-        #region Models collision
+        #region Models/Camera collision
 
         /// <summary>
         /// check if two models colliding
@@ -170,6 +170,21 @@ namespace Yna.Display3D
             return collides.ToArray();
         }
 
+        public static YnObject3D[] SphereCollide(BaseCamera camera, YnGroup3D group)
+        {
+            List<YnObject3D> collides = new List<YnObject3D>();
+
+            int groupSize = group.Count;
+
+            for (int i = 0; i < groupSize; i++)
+            {
+                if (camera.BoundingSphere.Intersects(group[i].BoundingSphere))
+                    collides.Add(group[i]);
+            }
+
+            return collides.ToArray();
+        }
+
         /// <summary>
         /// check if two models colliding with there bounding box
         /// </summary>
@@ -206,6 +221,21 @@ namespace Yna.Display3D
                     if (CubeCollide(model, group[i] as YnModel))
                         collides.Add(group[i] as YnModel);
                 }
+            }
+
+            return collides.ToArray();
+        }
+
+        public static YnObject3D[] CubeCollide(BaseCamera camera, YnGroup3D group)
+        {
+            List<YnObject3D> collides = new List<YnObject3D>();
+
+            int groupSize = group.Count;
+
+            for (int i = 0; i < groupSize; i++)
+            {
+                if (camera.BoundingBox.Intersects(group[i].BoundingBox))
+                    collides.Add(group[i]);
             }
 
             return collides.ToArray();

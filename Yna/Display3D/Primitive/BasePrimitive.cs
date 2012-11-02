@@ -147,9 +147,15 @@ namespace Yna.Display3D.Primitive
 
             _basicEffect.VertexColorEnabled = _colorEnabled;
 
-            _basicEffect.Texture = _texture;
+            if (_texture != null)
+            {
+                _basicEffect.Texture = _texture;
+                _basicEffect.TextureEnabled = true;
+            }
+            else
+                _basicEffect.TextureEnabled = false;
 
-            _basicEffect.TextureEnabled = _textureEnabled;
+            _needUpdate = true;
         }
 
         public override void UpdateMatrix()
@@ -195,6 +201,9 @@ namespace Yna.Display3D.Primitive
 
             if (_dynamic)
                 UpdateBoundingVolumes();
+
+            if (_needUpdate)
+                SetupShader();
             
             SetupLightning(_basicEffect);
             
