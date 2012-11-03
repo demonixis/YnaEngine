@@ -63,6 +63,7 @@ namespace Yna.State
         public bool Initialized
         {
             get { return _initialized; }
+            set { _initialized = value; }
         }
 
         /// <summary>

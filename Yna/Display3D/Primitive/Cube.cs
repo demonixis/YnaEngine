@@ -6,8 +6,6 @@ namespace Yna.Display3D.Primitive
 {
     public class Cube : BasePrimitive
     {
-        GraphicsDevice e_Device;
-
         VertexPositionNormalTexture[] _vertices;
         short[] _indices;
 
@@ -52,7 +50,7 @@ namespace Yna.Display3D.Primitive
             };
 
             _vertices = new VertexPositionNormalTexture[36];
-
+            
             // Calculate the position of the vertices on the top face.
             Vector3 topLeftFront = Position + new Vector3(-1.0f, 1.0f, -1.0f) * SegmentSizes;
             Vector3 topLeftBack = Position + new Vector3(-1.0f, 1.0f, 1.0f) * SegmentSizes;
@@ -140,7 +138,37 @@ namespace Yna.Display3D.Primitive
             _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
             _vertexBuffer.SetData(_vertices);
         }
+        
+        public override void UpdateBoundingVolumes()
+        {
+            UpdateMatrix();
 
+            _boundingBox = new BoundingBox(new Vector3(float.MaxValue), new Vector3(float.MinValue));
+
+            foreach (VertexPositionNormalTexture vertex in _vertices)
+            {
+                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, vertex.Position.X + X);
+                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, vertex.Position.Y + Y);
+                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, vertex.Position.Z + Z);
+
+                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, vertex.Position.X + X);
+                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, vertex.Position.Y + Y);
+                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, vertex.Position.Z + Z);
+            }
+
+            _width = _boundingBox.Max.X - _boundingBox.Min.X;
+            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+            
+            int radius = (int)Math.Max(Math.Max(_width, _height), _depth);
+
+            _boundingSphere = new BoundingSphere(
+                new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
+                radius);
+
+            _boundingFrustrum = new BoundingFrustum(_camera.Projection * (World * View));
+        }
+        
         public override void Draw(GraphicsDevice device)
         {
             base.Draw(device);

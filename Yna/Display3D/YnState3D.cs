@@ -15,13 +15,6 @@ namespace Yna.Display3D
         private YnScene _scene;
         private List<YnBase3D> _baseMembers;
         private List<YnBase3D> _safeBaseMembers;
-        private bool _initialized;
-
-        public bool Initialized
-        {
-            get { return _initialized; }
-            protected set { _initialized = value; }
-        }
 
         public YnScene Scene
         {
@@ -52,7 +45,7 @@ namespace Yna.Display3D
             _scene = new YnScene(_camera);
             _baseMembers = new List<YnBase3D>();
             _safeBaseMembers = new List<YnBase3D>();
-            _initialized = false;
+            Initialized = false;
         }
 
         public YnState3D(BaseCamera camera)
@@ -76,19 +69,19 @@ namespace Yna.Display3D
 
         public override void LoadContent()
         {
-            if (!_initialized)
+            if (!Initialized)
             {
                 base.LoadContent();
 
                 _scene.LoadContent();
 
-                _initialized = true;
+                Initialized = true;
             }
         }
 
         public override void UnloadContent()
         {
-            if (_initialized)
+            if (Initialized)
             {
                 base.UnloadContent();
 
@@ -96,7 +89,7 @@ namespace Yna.Display3D
 
                 _scene.Clear();
 
-                _initialized = false;
+                Initialized = false;
             }
         }
 

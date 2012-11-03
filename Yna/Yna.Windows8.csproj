@@ -109,7 +109,6 @@
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
-    <Compile Include="Display3D\Controls\TopControl.cs" />
     <Compile Include="Display3D\Light\BasicLight.cs" />
     <Compile Include="Display3D\Primitive\BasePrimitive.cs" />
     <Compile Include="Display3D\Primitive\Cube.cs" />
@@ -131,6 +130,7 @@
     <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
     <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
+    <Compile Include="Display\Gui\YnCheckbox.cs" />
     <Compile Include="Display\Gui\YnGui.cs" />
     <Compile Include="Display\Gui\YnBorder.cs" />
     <Compile Include="Display\Gui\YnButton.cs" />
@@ -139,8 +139,10 @@
     <Compile Include="Display\Gui\YnProgressBar.cs" />
     <Compile Include="Display\Gui\YnSkin.cs" />
     <Compile Include="Display\Gui\YnSkinGenerator.cs" />
+    <Compile Include="Display\Gui\YnSlider.cs" />
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
+    <Compile Include="Display\YnCamera.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TileMap\AbstractLayer.cs" />
@@ -155,6 +157,7 @@
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
+    <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
     <Compile Include="Input\Service\GamepadService.cs" />
     <Compile Include="Input\Service\IGamepadService.cs" />

@@ -151,7 +151,7 @@ namespace Yna.Audio
         }
 
         #endregion
-#endif
+        #endif
 
         #region Playing sound from XNA's Content Manager
 
@@ -159,7 +159,7 @@ namespace Yna.Audio
         {
             if (volume > _soundVolume)
                 volume = _soundVolume;
-
+            
             sound.Play(volume, pitch, pan);
         }
 
@@ -168,7 +168,7 @@ namespace Yna.Audio
             if (_soundEnabled)
             {
                 SoundEffect sound = YnG.Content.Load<SoundEffect>(assetName);
-                PlaySound(sound, pitch, pan);
+                PlaySound(sound, volume, pitch, pan);
             }
         }
 

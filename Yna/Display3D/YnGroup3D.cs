@@ -228,8 +228,8 @@ namespace Yna.Display3D
 
             if (_initialized)
             {
-                sceneObject.LoadContent();
                 sceneObject.Camera = _camera;
+                sceneObject.LoadContent();
             }
 
             sceneObject.Parent = this;
