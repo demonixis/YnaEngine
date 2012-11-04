@@ -90,7 +90,7 @@ namespace Yna.Input
             {
                 case MouseButton.Left: result = service.ClickLeft(state); break;
                 case MouseButton.Middle: result = service.ClickMiddle(state); break;
-                case MouseButton.Right: result = service.ClickMiddle(state); break;
+                case MouseButton.Right: result = service.ClickRight(state); break;
             }
 
             return result; 
