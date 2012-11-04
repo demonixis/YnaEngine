@@ -242,5 +242,12 @@ namespace Yna.Display3D
         }
 
         #endregion
+
+        public static void ResetGraphicsDeviceState()
+        {
+            YnG.GraphicsDevice.BlendState = BlendState.Opaque;
+            YnG.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            YnG.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+        }
     }
 }

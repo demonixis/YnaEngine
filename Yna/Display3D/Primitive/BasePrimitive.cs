@@ -161,9 +161,7 @@ namespace Yna.Display3D.Primitive
         public override void UpdateMatrix()
         {
             World = Matrix.CreateScale(Scale) *
-                Matrix.CreateRotationX(Rotation.X) *
-                Matrix.CreateRotationY(Rotation.Y) *
-                Matrix.CreateRotationZ(Rotation.Z) *
+                Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
                 Matrix.CreateTranslation(Position);
 
             View = _camera.View;

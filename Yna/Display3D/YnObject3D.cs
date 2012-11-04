@@ -35,10 +35,10 @@ namespace Yna.Display3D
         protected float _width;
         protected float _height;
         protected float _depth;
-        
+
         // Parent
         protected YnObject3D _parent;
-        
+
         // Initialization
         protected bool _initialized;
 
@@ -53,21 +53,12 @@ namespace Yna.Display3D
         /// </summary>
         public new bool Active
         {
-            get { return !_enabled && _visible && !_dirty; }
+            get { return _enabled && _visible && !_dirty; }
             set
             {
-                if (value)
-                {
-                    _visible = true;
-                    _enabled = false;
-                    _dirty = false;
-                }
-                else
-                {
-                    _visible = false;
-                    _enabled = true;
-                    _dirty = false;
-                }
+                _visible = value;
+                _enabled = value;
+                _dirty = !value;
             }
         }
 
@@ -182,7 +173,7 @@ namespace Yna.Display3D
         {
             get { return _lastDirection; }
         }
-        
+
         #endregion
 
         #region Constructors
