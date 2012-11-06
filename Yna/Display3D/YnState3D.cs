@@ -11,7 +11,7 @@ namespace Yna.Display3D
 {
     public class YnState3D : Screen
     {
-        private BaseCamera _camera;
+        protected BaseCamera _camera;
         private YnScene _scene;
         private List<YnBase3D> _baseMembers;
         private List<YnBase3D> _safeBaseMembers;
