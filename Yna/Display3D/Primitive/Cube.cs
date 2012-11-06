@@ -138,7 +138,7 @@ namespace Yna.Display3D.Primitive
             _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
             _vertexBuffer.SetData(_vertices);
 
-            _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _indices.Length, BufferUsage.WriteOnly);
+            _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
             _indexBuffer.SetData(_indices);
         }
         

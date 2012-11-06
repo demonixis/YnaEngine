@@ -88,7 +88,7 @@ namespace Yna.Display3D
 
         #endregion
 		
-#if MONOGAME
+#if LINUX
         // FIX : VertexBuffer.GetData crash with current MonoGame revision :/
         public override void UpdateBoundingVolumes()
         {
