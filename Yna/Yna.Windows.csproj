@@ -32,7 +32,8 @@
     <DefineConstants>MONOGAME;WINDOWS;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network.Windows">
@@ -138,9 +139,6 @@
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
     <Compile Include="YnTimer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Game.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

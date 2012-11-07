@@ -240,40 +240,10 @@ namespace Yna.Display3D
 
         #endregion
 
-        #region Bounding volumes
-
-        /// <summary>
-        /// Get the updated bounding box
-        /// </summary>
-        /// <returns>Updated bounding box</returns>
-        public virtual BoundingBox GetBoundingBox()
-        {
-            return new BoundingBox(Vector3.Add(_boundingBox.Min, _position), Vector3.Add(_boundingBox.Max, _position));
-        }
-
-        /// <summary>
-        /// Get the updated bounding sphere
-        /// </summary>
-        /// <returns>Updated bounding sphere</returns>
-        public virtual BoundingSphere GetBoundingSphere()
-        {
-            return new BoundingSphere(_position, _boundingSphere.Radius);
-        }
-
-        /// <summary>
-        /// Get the updated bounding frustrum
-        /// </summary>
-        /// <returns>Updated bounding frustrum</returns>
-        public virtual BoundingFrustum GetBoundingFrustrum()
-        {
-            return new BoundingFrustum(_camera.Projection * World);
-        }
 
         public abstract void UpdateMatrix();
 
         public abstract void UpdateBoundingVolumes();
-
-        #endregion
 
         #region GameState pattern
 

@@ -19,6 +19,7 @@ namespace Yna.Display3D.Primitive
         protected bool _textureEnabled;
         protected bool _constructed;
         protected bool _needUpdate;
+        protected bool _needLightUpdate;
 
         #endregion
 
@@ -111,6 +112,12 @@ namespace Yna.Display3D.Primitive
             set { _needUpdate = value; }
         }
 
+        public bool NeedLightUpdate
+        {
+            get { return _needLightUpdate; }
+            set { _needLightUpdate = value; }
+        }
+
         #endregion
 
         public BasePrimitive()
@@ -129,13 +136,14 @@ namespace Yna.Display3D.Primitive
 
             _basicLight = new BasicLight();
 
-            _lightningEnabled = false;
-            _colorEnabled = true;
+            _lightningEnabled = true;
+            _colorEnabled = false;
             _textureEnabled = false;
 
             _initialized = false;
             _constructed = false;
             _needUpdate = true;
+            _needLightUpdate = true;
         }
 
         /// <summary>
@@ -143,7 +151,10 @@ namespace Yna.Display3D.Primitive
         /// </summary>
         protected virtual void SetupShader()
         {
-            _basicEffect.LightingEnabled = _lightningEnabled;
+            if (_lightningEnabled)
+                SetupLightning();
+            else
+                _basicEffect.EnableDefaultLighting();
 
             _basicEffect.VertexColorEnabled = _colorEnabled;
 
@@ -155,7 +166,19 @@ namespace Yna.Display3D.Primitive
             else
                 _basicEffect.TextureEnabled = false;
 
-            _needUpdate = true;
+            _needUpdate = false;
+        }
+
+        protected virtual void SetupLightning()
+        {
+            _basicEffect.LightingEnabled = true;
+            _basicEffect.DirectionalLight0.Enabled = true;
+            _basicEffect.DirectionalLight0.Direction = _basicLight.Direction;
+            _basicEffect.DirectionalLight0.DiffuseColor = _basicLight.Diffuse;
+            _basicEffect.DirectionalLight0.SpecularColor = _basicLight.Specular;
+            _basicEffect.AmbientLightColor = _basicLight.Ambient;
+            _basicEffect.EmissiveColor = _basicLight.Emissive;
+            _basicEffect.Alpha = _basicLight.Alpha;
         }
 
         public override void UpdateMatrix()
@@ -180,19 +203,6 @@ namespace Yna.Display3D.Primitive
             _boundingFrustrum = new BoundingFrustum(World * _camera.Projection);
         }
 
-        public virtual void SetupLightning(BasicEffect effect)
-        {
-            if (_lightningEnabled)
-            {
-                effect.EnableDefaultLighting();
-                effect.Alpha = _basicLight.Alpha;
-                effect.AmbientLightColor = _basicLight.Ambient;
-                effect.DiffuseColor = _basicLight.Diffuse;
-                effect.SpecularColor = _basicLight.Specular;
-                effect.EmissiveColor = _basicLight.Emissive;
-            }
-        }
-
         public override void Draw(GraphicsDevice device)
         {
             UpdateMatrix();
@@ -202,8 +212,9 @@ namespace Yna.Display3D.Primitive
 
             if (_needUpdate)
                 SetupShader();
-            
-            SetupLightning(_basicEffect);
+
+            if (_needLightUpdate)
+                SetupLightning();
             
             _basicEffect.World = World;
             _basicEffect.View = View;
