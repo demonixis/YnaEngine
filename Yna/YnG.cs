@@ -201,9 +201,9 @@ namespace Yna
         /// Set the screen resolution to the same resolution used on desktop
         /// </summary>
         /// <param name="fullscreen"></param>
-        public static void SetScreenResolutionToMax(bool fullscreen)
+        public static void DetermineBestResolution(bool fullscreen)
         {
-            (Game as YnGame).SetScreenResolutionToMax(true);
+            (Game as YnGame).DetermineBestResolution(true);
         }
 
         #endregion

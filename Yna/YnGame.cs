@@ -111,7 +111,7 @@ namespace Yna
         /// Set maximum resolution supported by the device, It use the desktop resolution
         /// </summary>
         /// <param name="fullscreen">Toggle in fullscreen mode</param>
-        public virtual void SetScreenResolutionToMax(bool fullscreen)
+        public virtual void DetermineBestResolution(bool fullscreen)
         {
             SetScreenResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
 

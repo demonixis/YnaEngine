@@ -42,10 +42,10 @@ namespace Yna.Display3D.Terrain
             LoadHeightDatas();
             CreateVertices();
             CreateIndices();
+            ComputeNormals();
 
             SetupShader();
 
-            // Create BoundingBox/Sphere/Frustrum
             UpdateBoundingVolumes();
         }
 
@@ -68,7 +68,7 @@ namespace Yna.Display3D.Terrain
 
         protected override void CreateVertices()
         {
-            _vertices = new VertexPositionColorTexture[Width * Depth];
+            _vertices = new VertexPositionNormalTexture[Width * Depth];
 
             Color color = Color.White;
 
@@ -85,18 +85,7 @@ namespace Yna.Display3D.Terrain
                         (float)x / (float)Width, 
                         (float)z / (float)Depth);
 
-                    if ((int)_heightData[x, z] < 3)
-                        color = new Color(30, 65, 255);
-                    else if ((int)_heightData[x, z] < 6)
-                        color = new Color(30, 157, 255);
-                    else if ((int)_heightData[x, z] < 8)
-                        color = new Color(0, 147, 14);
-                    else if ((int)_heightData[x, z] < 15)
-                        color = new Color(38, 127, 0);
-                    else
-                        color = Color.LightGray;
-
-                    _vertices[x + z * Width].Color = color;
+                    _vertices[x + z * Width].Normal = Vector3.Zero;
                 }
             }
         }

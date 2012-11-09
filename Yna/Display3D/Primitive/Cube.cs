@@ -6,29 +6,21 @@ namespace Yna.Display3D.Primitive
 {
     public class Cube : BasePrimitive
     {
-        GraphicsDevice e_Device;
-
         VertexPositionNormalTexture[] _vertices;
+        short[] _indices;
+
         VertexBuffer _vertexBuffer;
+        IndexBuffer _indexBuffer;
 
         public Cube(string textureName, Vector3 sizes, Vector3 position)
         {
-            e_Device = YnG.GraphicsDevice;
             _segmentSizes = sizes;
             _position = position;
             _textureName = textureName;
             _textureEnabled = true;
-        }
-
-        public Cube(Texture2D texture, Vector3 sizes, Vector3 position)
-        {
-            e_Device = YnG.GraphicsDevice;
-            _segmentSizes = sizes;
-            _position = position;
-            _texture = texture;
-            _initialized = true;
-            _colorEnabled = false;
-            _textureEnabled = true;
+            _width = sizes.X;
+            _height = sizes.Y;
+            _depth = sizes.Z;
         }
 
         public override void LoadContent()
@@ -47,14 +39,18 @@ namespace Yna.Display3D.Primitive
             }
 
             CreateVertices();
-
             SetupShader();
         }
 
         private void CreateVertices()
         {
-            _vertices = new VertexPositionNormalTexture[36];
+            Color[] _colors = new Color[]
+            {
+                Color.White, Color.White, Color.White, Color.White, Color.White, Color.White
+            };
 
+            _vertices = new VertexPositionNormalTexture[36];
+            
             // Calculate the position of the vertices on the top face.
             Vector3 topLeftFront = Position + new Vector3(-1.0f, 1.0f, -1.0f) * SegmentSizes;
             Vector3 topLeftBack = Position + new Vector3(-1.0f, 1.0f, 1.0f) * SegmentSizes;
@@ -129,15 +125,53 @@ namespace Yna.Display3D.Primitive
             _vertices[34] = new VertexPositionNormalTexture(topRightFront, normalRight, textureTopLeft);
             _vertices[35] = new VertexPositionNormalTexture(btmRightBack, normalRight, textureBottomRight);
 
-            _constructed = true;
-        }
+            _indices = new short[]
+            {
+                0,  3,  2,  0,  2,  1,
+                4,  7,  6,  4,  6,  5,
+                8,  11, 10, 8,  10, 9,
+                12, 15, 14, 12, 14, 13,
+                16, 19, 18, 16, 18, 17,
+                20, 23, 22, 20, 22, 21            
+            };
 
-        private void CreateIndices()
-        {
-            _vertexBuffer = new VertexBuffer(e_Device, VertexPositionNormalTexture.VertexDeclaration, 36, BufferUsage.WriteOnly);
+            _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
             _vertexBuffer.SetData(_vertices);
-        }
 
+            _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
+            _indexBuffer.SetData(_indices);
+        }
+        
+        public override void UpdateBoundingVolumes()
+        {
+            UpdateMatrix();
+
+            _boundingBox = new BoundingBox(new Vector3(float.MaxValue), new Vector3(float.MinValue));
+
+            foreach (VertexPositionNormalTexture vertex in _vertices)
+            {
+                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, vertex.Position.X + X);
+                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, vertex.Position.Y + Y);
+                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, vertex.Position.Z + Z);
+
+                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, vertex.Position.X + X);
+                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, vertex.Position.Y + Y);
+                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, vertex.Position.Z + Z);
+            }
+
+            _width = _boundingBox.Max.X - _boundingBox.Min.X;
+            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+            
+            int radius = (int)Math.Max(Math.Max(_width, _height), _depth);
+
+            _boundingSphere = new BoundingSphere(
+                new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
+                radius);
+
+            _boundingFrustrum = new BoundingFrustum(_camera.Projection * (World * View));
+        }
+        
         public override void Draw(GraphicsDevice device)
         {
             base.Draw(device);
@@ -146,9 +180,11 @@ namespace Yna.Display3D.Primitive
             {
                 pass.Apply();
                 device.SetVertexBuffer(_vertexBuffer);
-                device.DrawPrimitives(PrimitiveType.TriangleList, 0, 12);
-          
+                device.Indices = _indexBuffer;
+                device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
             }
+            device.SetVertexBuffer(null);
+            device.Indices = null;
         }
     }
 }

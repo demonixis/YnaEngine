@@ -75,25 +75,16 @@ namespace Yna.Display3D
         }
 
         #endregion	
-
-        #region Events
-
-        public event EventHandler<AssetLoadedEventArgs> AssetLoaded = null;
-
-        protected void OnAssetLoaded(AssetLoadedEventArgs e)
-        {
-            if (AssetLoaded != null)
-                AssetLoaded(this, e);
-        }
-
-        #endregion
 		
-#if MONOGAME
+#if LINUX
         // FIX : VertexBuffer.GetData crash with current MonoGame revision :/
         public override void UpdateBoundingVolumes()
         {
             _boundingBox.Min = new Vector3(X - 5, Y - 5, Z - 5);
             _boundingBox.Max = new Vector3(X + 5, Y + 5, Z + 5);
+
+            _boundingSphere.Center = Position;
+            _boundingSphere.Radius = 5;
         }
 #else	
         public override void UpdateBoundingVolumes()
@@ -147,17 +138,6 @@ namespace Yna.Display3D
         }
 		#endif
 
-        public override void UpdateMatrix()
-        {
-            World = Matrix.CreateScale(Scale) *
-                    Matrix.CreateRotationX(Rotation.X) *
-                    Matrix.CreateRotationY(Rotation.Y) *
-                    Matrix.CreateRotationZ(Rotation.Z) *
-                    Matrix.CreateTranslation(Position);
-
-            View = _camera.View;
-        }
-
         protected virtual void SetupLightning(BasicEffect effect)
         {
             effect.LightingEnabled = true;
@@ -168,6 +148,15 @@ namespace Yna.Display3D
             effect.AmbientLightColor = _basicLight.Ambient;
             effect.EmissiveColor = _basicLight.Emissive;
             effect.Alpha = _basicLight.Alpha;
+        }
+
+        public override void UpdateMatrix()
+        {
+            World = Matrix.CreateScale(Scale) *
+                Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
+                Matrix.CreateTranslation(Position);
+
+            View = _camera.View;
         }
 
         #region GameState Pattern
@@ -185,8 +174,6 @@ namespace Yna.Display3D
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
-
-            OnAssetLoaded(new AssetLoadedEventArgs(_modelName));
         }
 
         public override void Draw(GraphicsDevice device)

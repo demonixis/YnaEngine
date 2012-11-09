@@ -176,6 +176,8 @@ namespace Yna.Display
             if (_initialized)
                 sceneObject.Initialize();
 
+            UpdateSizes();
+
             _members.Add(sceneObject);
         }
 
@@ -201,12 +203,16 @@ namespace Yna.Display
         public void Remove(YnObject sceneObject)
         {
             _members.Remove(sceneObject);
+
+            UpdateSizes();
         }
 
         public void Clear()
         {
             _members.Clear();
             _safeMembers.Clear();
+
+            UpdateSizes();
         }
 
         public IEnumerator GetEnumerator()
@@ -216,5 +222,17 @@ namespace Yna.Display
         }
 
         #endregion
+
+        public void UpdateSizes()
+        {
+            Width = 0;
+            Height = 0;
+
+            foreach (YnObject sceneObject in this)
+            {
+                Width = Math.Max(Width, sceneObject.Width);
+                Width = Math.Max(Height, sceneObject.Height);
+            }
+        }
     }
 }

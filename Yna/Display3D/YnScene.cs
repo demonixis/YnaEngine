@@ -26,6 +26,13 @@ namespace Yna.Display3D
 
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            Camera.Update(gameTime);
+        }
+
         #endregion
     }
 }

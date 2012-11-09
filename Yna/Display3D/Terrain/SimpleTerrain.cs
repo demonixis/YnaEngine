@@ -30,6 +30,8 @@ namespace Yna.Display3D.Terrain
 
             CreateVertices();
             CreateIndices();
+            ComputeNormals();
+
             SetupShader();
 
             UpdateBoundingVolumes();
@@ -37,9 +39,7 @@ namespace Yna.Display3D.Terrain
 
         protected override void CreateVertices()
         {
-            _vertices = new VertexPositionColorTexture[Width * Depth];
-
-            Random random = new Random(DateTime.Now.Millisecond);
+            _vertices = new VertexPositionNormalTexture[Width * Depth];
 
             for (int x = 0; x < Width; x++)
             {
@@ -54,7 +54,7 @@ namespace Yna.Display3D.Terrain
                         ((float)x / (float)Width) * _textureRepeat.X, 
                         ((float)z / (float)Depth) * _textureRepeat.Y);
 
-                    _vertices[x + z * Width].Color = new Color(0, 147, 14);
+                    _vertices[x + z * Width].Normal = Vector3.Zero;
                 }
             }
         }

@@ -64,14 +64,14 @@ namespace Yna.Display3D.Controls
 
             // Rotate the camera arround the followed object
             if (YnG.Keys.Pressed(Keys.W))
-                _camera.RotateY(-_rotateSpeed);
+                Camera.RotateY(-_rotateSpeed);
             else if (YnG.Keys.Pressed(Keys.X))
-                _camera.RotateY(_rotateSpeed);
+                Camera.RotateY(_rotateSpeed);
 
             // Add or reduce the distance between camera and object
             if (YnG.Keys.Pressed(Keys.PageUp) || YnG.Keys.Pressed(Keys.PageDown))
             {
-                ThirdPersonCamera camera = (_camera as ThirdPersonCamera);
+                ThirdPersonCamera camera = (Camera as ThirdPersonCamera);
 
                 if (YnG.Keys.Pressed(Keys.PageUp))
                 {

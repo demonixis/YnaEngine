@@ -7,7 +7,7 @@ namespace Yna.Display3D.Controls
 {
     public abstract class BaseControl : YnBase3D
     {
-        protected BaseCamera _camera;
+        private BaseCamera _camera;
 
         protected PlayerIndex _playerIndex;
 
@@ -22,6 +22,12 @@ namespace Yna.Display3D.Controls
         protected bool _useMouse;
 
         #region Properties
+
+        public BaseCamera Camera
+        {
+            get { return _camera; }
+            protected set { _camera = value; }
+        }
 
         /// <summary>
         /// Get or Set the move speed
