@@ -346,7 +346,9 @@ namespace Yna.Display
         }
 
         #endregion
-        
+
+        #region GameState patterns
+
         public override void Initialize() { }
 
         public override void LoadContent()
@@ -475,5 +477,7 @@ namespace Yna.Display
             if (Visible)
                 spriteBatch.Draw(_texture, Position, SourceRectangle, Color * Alpha, Rotation, Origin, Scale, _effects, LayerDepth);
         }
+
+        #endregion
     }
 }

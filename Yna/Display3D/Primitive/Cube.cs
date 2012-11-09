@@ -137,6 +137,9 @@ namespace Yna.Display3D.Primitive
 
             _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
             _vertexBuffer.SetData(_vertices);
+
+            _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
+            _indexBuffer.SetData(_indices);
         }
         
         public override void UpdateBoundingVolumes()
@@ -177,9 +180,11 @@ namespace Yna.Display3D.Primitive
             {
                 pass.Apply();
                 device.SetVertexBuffer(_vertexBuffer);
+                device.Indices = _indexBuffer;
                 device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
             }
             device.SetVertexBuffer(null);
+            device.Indices = null;
         }
     }
 }

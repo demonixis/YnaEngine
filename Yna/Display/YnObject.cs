@@ -17,6 +17,8 @@ namespace Yna.Display
 
     public abstract class YnObject : YnBase
     {
+        #region Private declarations
+
         protected bool _visible;
         protected YnObject _parent;
         protected Vector2 _position;
@@ -31,6 +33,8 @@ namespace Yna.Display
         protected SpriteEffects _effects;
         protected float _layerDepth;
         protected float _alpha;
+
+        #endregion
 
         #region Properties
 

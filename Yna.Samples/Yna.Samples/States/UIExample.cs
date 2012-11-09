@@ -76,18 +76,6 @@ namespace Yna.Samples.States
             slider.Position = new Vector2(20, 200);
             slider.MaxValue = 10;
 
-            // Skin switcher button
-            YnTextButton skinSwitcherButton = YnG.Gui.Add(new YnTextButton());
-            skinSwitcherButton.Text = "Random color base";
-            skinSwitcherButton.Position = new Vector2(20, 500);
-            skinSwitcherButton.MouseClick += delegate(object w, MouseClickSpriteEventArgs evt)
-            {
-                if (!evt.JustClicked) return;
-                Random rnd = new Random();
-                rnd.Next(255);
-                YnG.Gui.SetSkin(YnSkinGenerator.Generate(new Color(rnd.Next(255), rnd.Next(255), rnd.Next(255))));
-            };
-
             /*
             // Simple Label example
             YnLabel simpleLabel = Gui.Add(new YnLabel());

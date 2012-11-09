@@ -16,6 +16,8 @@ namespace Yna.Display.Effect
         private float _timeTransitionOff;
         private float _timeTransitionCounter;
         private float _transitionAlpha;
+        private float _alphaMin;
+        private float _alphaMax;
 
         /// <summary>
         /// Get alpha value (0.0f .. 1.0f)
@@ -31,6 +33,18 @@ namespace Yna.Display.Effect
         public TransitionState TransitionState
         {
             get { return _transitionState; }
+        }
+
+        public float AlphaMax
+        {
+            get { return _alphaMax; }
+            set { _alphaMax = value; }
+        }
+
+        public float AlphaMin
+        {
+            get { return _alphaMin; }
+            set { _alphaMin = value; }
         }
 
 
@@ -103,13 +117,14 @@ namespace Yna.Display.Effect
             _transitionState = TransitionState.Off;
             _timeTransitionOn = fadeInTime;
             _timeTransitionOff = fadeOutTime;
+            _alphaMin = 0.0f;
+            _alphaMax = 1.0f;
         }
 
         public YnTransition(float fadeTime = 250.0f)
+            : this(fadeTime, fadeTime)
         {
-            _transitionState = TransitionState.Off;
-            _timeTransitionOn = fadeTime;
-            _timeTransitionOff = fadeTime;
+
         }
 
         /// <summary>

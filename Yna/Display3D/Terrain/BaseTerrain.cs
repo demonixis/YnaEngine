@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Yna.Display3D;
 using Yna.Display3D.Camera;
 using Yna.Display3D.Primitive;
+using Yna.Display3D.Light;
 
 namespace Yna.Display3D.Terrain
 {
@@ -14,8 +15,10 @@ namespace Yna.Display3D.Terrain
     {
         #region Private declarations
 
-        protected VertexPositionColorTexture[] _vertices;
+        protected VertexPositionNormalTexture[] _vertices;
+        protected VertexBuffer _vertexBuffer;
         protected short[] _indices;
+        protected IndexBuffer _indexBuffer;
 
         #endregion
 
@@ -24,7 +27,7 @@ namespace Yna.Display3D.Terrain
         /// <summary>
         /// Vertices that compose the terrain
         /// </summary>
-        public VertexPositionColorTexture[] Vertices
+        public VertexPositionNormalTexture[] Vertices
         {
             get { return _vertices; }
             set { _vertices = value; }
@@ -38,7 +41,6 @@ namespace Yna.Display3D.Terrain
         public BaseTerrain()
             : base(new Vector3(0, 0, 0))
         {
-            _lightningEnabled = false;
             _colorEnabled = true;
             _textureEnabled = false;
             _initialized = false;
@@ -99,54 +101,65 @@ namespace Yna.Display3D.Terrain
                     _indices[counter++] = topRight;
                 }
             }
+
+            _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
+            _vertexBuffer.SetData(_vertices);
+
+            _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
+            _indexBuffer.SetData(_indices);
+        }
+
+        public virtual void ComputeNormals()
+        {
+            for (int i = 0; i < _vertices.Length; i++)
+                _vertices[i].Normal = Vector3.Zero;
+
+            for (int i = 0; i < _indices.Length / 3; i++)
+            {
+                int index1 = _indices[i * 3];
+                int index2 = _indices[i * 3 + 1];
+                int index3 = _indices[i * 3 + 2];
+
+                // Select the face
+                Vector3 side1 = _vertices[index1].Position - _vertices[index3].Position;
+                Vector3 side2 = _vertices[index1].Position - _vertices[index2].Position;
+                Vector3 normal = Vector3.Cross(side1, side2);
+
+                _vertices[index1].Normal += normal;
+                _vertices[index2].Normal += normal;
+                _vertices[index3].Normal += normal;
+            }
+
+            for (int i = 0; i < _vertices.Length; i++)
+                _vertices[i].Normal.Normalize();
         }
 
         #endregion
 
         #region Bounding volumes
 
-        /// <summary>
-        /// Create the bounding box of the object
-        /// </summary>
-        protected void CreateBoundingBox()
+        public override void UpdateBoundingVolumes()
         {
-            _boundingBox = new BoundingBox();
+            UpdateMatrix();
+
+            _boundingBox = new BoundingBox(new Vector3(float.MaxValue), new Vector3(float.MinValue));
 
             for (int i = 0; i < _vertices.Length; i++)
             {
-                _boundingBox.Min.X = _boundingBox.Min.X < _vertices[i].Position.X ? _boundingBox.Min.X : _vertices[i].Position.X;
-                _boundingBox.Min.Y = _boundingBox.Min.Y < _vertices[i].Position.Y ? _boundingBox.Min.Y : _vertices[i].Position.Y;
-                _boundingBox.Min.Z = _boundingBox.Min.Z < _vertices[i].Position.Z ? _boundingBox.Min.Z : _vertices[i].Position.Z;
-
-                _boundingBox.Max.X = _boundingBox.Max.X > _vertices[i].Position.X ? _boundingBox.Max.X : _vertices[i].Position.X;
-                _boundingBox.Max.Y = _boundingBox.Max.X > _vertices[i].Position.Y ? _boundingBox.Max.Y : _vertices[i].Position.Y;
-                _boundingBox.Max.Z = _boundingBox.Max.X > _vertices[i].Position.Z ? _boundingBox.Max.Z : _vertices[i].Position.Z;
+                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, _vertices[i].Position.X);
+                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, _vertices[i].Position.Y);
+                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, _vertices[i].Position.Z);
+                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, _vertices[i].Position.X);
+                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, _vertices[i].Position.Y);
+                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _vertices[i].Position.Z);
             }
 
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
-        }
-
-        /// <summary>
-        /// Create the bounding sphere of the object
-        /// </summary>
-        protected void CreateBoundingSphere()
-        {
-            if (_boundingBox.Min.X == _boundingBox.Max.X && _boundingBox.Min.Y == _boundingBox.Max.Y && _boundingBox.Min.Z == _boundingBox.Max.Z)
-                CreateBoundingBox();
 
             _boundingSphere.Center = new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2);
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
-        }
-
-        public override void UpdateBoundingVolumes()
-        {
-            UpdateMatrix();
-
-            CreateBoundingBox();
-
-            CreateBoundingSphere();
 
             _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
         }
@@ -161,11 +174,18 @@ namespace Yna.Display3D.Terrain
         {
             base.Draw(device);
 
+            //device.SetVertexBuffer(_vertexBuffer);
+            //device.Indices = _indexBuffer;
+
             foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
+                //device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
             }
+
+            //device.SetVertexBuffer(null);
+            //device.Indices = null;
         }
     }
 }
