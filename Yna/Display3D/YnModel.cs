@@ -94,6 +94,8 @@ namespace Yna.Display3D
         {
             _boundingBox.Min = new Vector3(X - 5, Y - 5, Z - 5);
             _boundingBox.Max = new Vector3(X + 5, Y + 5, Z + 5);
+            _boundingSphere.Center = Position;
+            _boundingSphere.Radius = 5;
         }
 #else	
         public override void UpdateBoundingVolumes()
