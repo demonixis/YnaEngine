@@ -34,7 +34,11 @@ namespace Yna.Display.Gui
         public Color TextColor
         {
             get { return _textColor; }
-            set { _textColor = value; }
+            set 
+            { 
+                _textColor = value;
+                _useCustomColor = true;
+            }
         }
 
         /// <summary>
