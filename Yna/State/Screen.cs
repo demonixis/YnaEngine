@@ -72,7 +72,14 @@ namespace Yna.State
         public bool Active
         {
             get { return _active; }
-            set { _active = value; }
+            set
+            {
+                _active = value;
+                if (_active)
+                    OnReActivated(EventArgs.Empty);
+                else
+                    OnSuspended(EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -170,8 +177,38 @@ namespace Yna.State
 
         #region Events
 
-        public event EventHandler<EventArgs> Started = null;
-        public event EventHandler<EventArgs> Stopped = null;
+        /// <summary>
+        /// Triggered when the the screen state is active
+        /// </summary>
+        public event EventHandler<EventArgs> ReActivated = null;
+
+        /// <summary>
+        /// Triggered when the screen state is not active
+        /// </summary>
+        public event EventHandler<EventArgs> Suspended = null;
+
+        /// <summary>
+        /// Triggered when the screen will be removed
+        /// </summary>
+        public event EventHandler<EventArgs> Removed = null;
+
+        private void OnReActivated(EventArgs e)
+        {
+            if (ReActivated != null)
+                ReActivated(this, e);
+        }
+
+        private void OnSuspended(EventArgs e)
+        {
+            if (Suspended != null)
+                Suspended(this, e);
+        }
+
+        private void OnRemoved(EventArgs e)
+        {
+            if (Removed != null)
+                Removed(this, e);
+        }
 
         #endregion
 
@@ -181,6 +218,7 @@ namespace Yna.State
             _name = name;
         }
 
+        // @Depreacted
         public Screen(ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0.0f)
         {
             _active = true;
@@ -209,7 +247,7 @@ namespace Yna.State
 
         public virtual void UnloadContent()
         {
-
+            OnRemoved(EventArgs.Empty);
         }
 
         public virtual void Update(GameTime gameTime)
@@ -303,7 +341,7 @@ namespace Yna.State
         /// </summary>
         public void Show()
         {
-            if (_timeTransitionOn <= 0) 
+            if (_timeTransitionOn <= 0)
                 Active = true;
             else
             {

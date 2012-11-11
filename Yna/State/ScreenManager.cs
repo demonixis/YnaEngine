@@ -464,6 +464,8 @@ namespace Yna.State
         {
             _screens.Remove(screen);
 
+            _namedScreens.Remove(screen.Name);
+
             if (_initialized)
                 screen.UnloadContent();
         }

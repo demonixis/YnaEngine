@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Content;
 using Yna.Display3D.Camera;
+using Yna.Display3D.Primitive;
+using Yna.Display3D.Light;
 
 namespace Yna.Display3D
 {
@@ -37,6 +39,24 @@ namespace Yna.Display3D
 
                 foreach (YnObject3D sceneObject in _members)
                     sceneObject.Camera = _camera;
+            }
+        }
+
+        public new Matrix World
+        {
+            get
+            {
+                _world = Matrix.Identity;
+
+                foreach (YnObject3D members in _members)
+                    _world *= members.World;
+
+                return _world;
+            }
+            set
+            {
+                foreach (YnObject3D members in _members)
+                    members.World *= value;
             }
         }
 
@@ -141,6 +161,15 @@ namespace Yna.Display3D
                 World *= members.World;
 
             View = _camera.View;
+        }
+
+        public void SetLight(BasicLight light)
+        {
+            foreach (YnObject3D sceneObject in _members)
+            {
+                if (sceneObject is IYnLightable)
+                    (sceneObject as IYnLightable).SetLight(light);
+            }
         }
 
         #region GameState Pattern

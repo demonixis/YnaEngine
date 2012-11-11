@@ -90,6 +90,13 @@ namespace Yna.Display
             _assetsLoaded = false;
         }
 
+        public YnGroup (int capacity, int x, int y)
+            : this(capacity)
+        {
+            _position.X = x;
+            _position.Y = y;
+        }
+
         #region GameState pattern
 
         public override void Initialize()
@@ -231,7 +238,7 @@ namespace Yna.Display
             foreach (YnObject sceneObject in this)
             {
                 Width = Math.Max(Width, sceneObject.Width);
-                Width = Math.Max(Height, sceneObject.Height);
+                Height = Math.Max(Height, sceneObject.Height);
             }
         }
     }

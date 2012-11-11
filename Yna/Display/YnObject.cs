@@ -15,6 +15,11 @@ namespace Yna.Display
         BottomLeft, Bottom, BottomRight
     }
 
+    public enum PositionType
+    {
+        Absolute = 0, Relative
+    }
+
     public abstract class YnObject : YnBase
     {
         #region Private declarations
@@ -52,6 +57,16 @@ namespace Yna.Display
                 _enabled = value;
                 _dirty = !value;
             }
+        }
+
+        /// <summary>
+        /// Get or Set the positionment type for this object
+        /// Relative to its parent or absolute
+        /// </summary>
+        public PositionType PositionType
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -378,6 +393,8 @@ namespace Yna.Display
             _alpha = 1.0f;
             _effects = SpriteEffects.None;
             _layerDepth = 1.0f;
+
+            PositionType = PositionType.Absolute;
         }
 
         public abstract void Initialize();

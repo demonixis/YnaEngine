@@ -5,7 +5,7 @@ using Yna.Display3D.Light;
 
 namespace Yna.Display3D.Primitive
 {
-    public class BasePrimitive : YnObject3D
+    public class BasePrimitive : YnObject3D, IYnLightable
     {
         #region Private declarations
 
@@ -220,5 +220,19 @@ namespace Yna.Display3D.Primitive
             _basicEffect.View = View;
             _basicEffect.Projection = _camera.Projection;
         }
+
+        #region IYnLightable implementation
+
+        void IYnLightable.SetLight(BasicLight light)
+        {
+            _basicLight = light;
+        }
+
+        BasicLight IYnLightable.GetLight(BasicLight light)
+        {
+            return _basicLight;
+        }
+
+        #endregion
     }
 }

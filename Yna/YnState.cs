@@ -112,7 +112,7 @@ namespace Yna
         }
 
         public YnState(string name, bool active)
-            : this(name, 1500, 0)
+            : this(name, 0, 0)
         {
             Active = active;
         }
