@@ -1,5 +1,5 @@
 ﻿using System;
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
 using System.IO;
 #endif
 using System.Collections;
@@ -68,14 +68,14 @@ namespace Yna.Content
             _disposableAssets = new List<IDisposable>();
 
             _contentDirectory = folder;
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
             CheckDirectoryStructure();
 #endif
         }
 
         protected void CheckDirectoryStructure()
         {
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
             _gameDirectory = Directory.GetCurrentDirectory();
 
             if (!Directory.Exists(Path.Combine(_gameDirectory, _contentDirectory)))
@@ -83,7 +83,7 @@ namespace Yna.Content
 #endif
         }
 
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
         protected virtual string GetAssetPath(string assetName)
         {
             return System.IO.Path.Combine(_contentDirectory, assetName);
@@ -133,7 +133,7 @@ namespace Yna.Content
         /// <returns>Loaded asset</returns>
         public T Load<T>(string assetName, bool relativePath = true)
         {
-#if NETFX_CORE
+#if NETFX_CORE || WINDOWS_PHONE
             return default(T); // No Custom content for Windows 8 yet !
 #else
             if (typeof(T) != typeof(Texture2D) || typeof(T) != typeof(Song) || typeof(T) != typeof(SoundEffect))

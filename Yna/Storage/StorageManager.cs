@@ -12,7 +12,7 @@ namespace Yna.Manager
 {
     public class StorageManager
     {
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
         private StorageDevice _storageDevice;
 
         public StorageManager()
