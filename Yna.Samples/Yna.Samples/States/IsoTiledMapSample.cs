@@ -34,7 +34,7 @@ namespace Yna.Samples.States
         private Texture2D _dummyTexture;
 
         public IsoTiledMapSample(string name)
-            : base (name)
+            : base (name, 0, 0)
         {
             int[,] groundData = {
 				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -128,7 +128,7 @@ namespace Yna.Samples.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
-                YnG.ScreenManager.SetScreenActive("menu");
+                YnG.ScreenManager.SetScreenActive("menu", true);
             }
         }
 

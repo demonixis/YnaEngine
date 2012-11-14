@@ -258,7 +258,7 @@ namespace Yna.State
         /// </summary>
         /// <param name="index">Index of the screen in the collection</param>
         /// <param name="desactiveOtherScreens">Desactive or not others screens</param>
-        public void SetScreenActive(int index, bool desactiveOtherScreens = true)
+        public void SetScreenActive(int index, bool desactiveOtherScreens)
         {
             int size = _screens.Count;
 
@@ -280,7 +280,7 @@ namespace Yna.State
             }
         }
 
-        public void SetScreenActive(string name, bool desactiveOtherScreens = true)
+        public void SetScreenActive(string name, bool desactiveOtherScreens)
         {
             if (_namedScreens.ContainsKey(name))
             {

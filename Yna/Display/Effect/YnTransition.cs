@@ -112,7 +112,7 @@ namespace Yna.Display.Effect
         /// </summary>
         /// <param name="fadeInTime">Duration of the start transition</param>
         /// <param name="fadeOutTime">Duration of the end transition</param>
-        public YnTransition(float fadeInTime = 250.0f, float fadeOutTime = 0.0f)
+        public YnTransition(float fadeInTime, float fadeOutTime)
         {
             _transitionState = TransitionState.Off;
             _timeTransitionOn = fadeInTime;
@@ -121,7 +121,7 @@ namespace Yna.Display.Effect
             _alphaMax = 1.0f;
         }
 
-        public YnTransition(float fadeTime = 250.0f)
+        public YnTransition(float fadeTime)
             : this(fadeTime, fadeTime)
         {
 

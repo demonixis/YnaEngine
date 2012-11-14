@@ -60,7 +60,7 @@ namespace Yna.Display.Gui
                 // Skin = YnSkinGenerator.Generate(new Color(250, 100, 50)); // Orange
                 //Skin = YnSkinGenerator.Generate(Color.Coral);
                 // Skin = YnSkinGenerator.Generate(Color.DeepPink);
-                Skin = YnSkinGenerator.Generate(Color.DodgerBlue);
+                Skin = YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/DefaultFont");
             }
             else
             {

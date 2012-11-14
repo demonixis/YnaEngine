@@ -95,13 +95,19 @@ namespace Yna
 
         #endregion
 
-        public YnTimer(int interval, int repeat = -1)
+        public YnTimer(int interval)
         {
             Interval = interval;
-            Repeat = repeat;
+            Repeat = -1;
             _elapsedTime = 0;
             _counter = Repeat;
             Active = false;
+        }
+
+        public YnTimer(int interval, int repeat)
+            : this (interval)
+        {
+            Repeat = repeat;
         }
 
         /// <summary>

@@ -74,7 +74,7 @@ namespace Yna
             ScreenHelper.ScreenHeightReference = height;
         }
 
-        public YnGame(int width, int height, string title, bool useScreenManager = true, bool useGuiManager = true)
+        public YnGame(int width, int height, string title, bool useScreenManager, bool useGuiManager)
             : this(width, height, title)
         {
             UseScreenManager(useScreenManager);

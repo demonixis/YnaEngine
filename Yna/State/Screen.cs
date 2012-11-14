@@ -212,14 +212,14 @@ namespace Yna.State
 
         #endregion
 
-        public Screen(string name, ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0.0f)
+        public Screen(string name, ScreenType type, float timeTransitionOn, float timeTransitionOff)
             : this(type, timeTransitionOn, timeTransitionOff)
         {
             _name = name;
         }
 
         // @Depreacted
-        public Screen(ScreenType type, float timeTransitionOn = 1500f, float timeTransitionOff = 0.0f)
+        public Screen(ScreenType type, float timeTransitionOn, float timeTransitionOff)
         {
             _active = true;
             _exiting = false;

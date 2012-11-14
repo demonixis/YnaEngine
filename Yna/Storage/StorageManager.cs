@@ -6,7 +6,9 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
+#if !WP7
 using Microsoft.Xna.Framework.Storage;
+#endif
 
 namespace Yna.Manager
 {

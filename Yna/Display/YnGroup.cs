@@ -82,7 +82,13 @@ namespace Yna.Display
 
         #endregion
 
-        public YnGroup(int capacity = 0)
+        public YnGroup()
+            : this(0)
+        {
+
+        }
+
+        public YnGroup(int capacity)
         {
             _members = new List<YnObject>(capacity);
             _safeMembers = new List<YnObject>();

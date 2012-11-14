@@ -62,7 +62,7 @@ namespace Yna.Content
         /// You can load Texture2D, Song and SoundEffect
         /// </summary>
         /// <param name="folder"></param>
-        public YnContent(string folder = "Datas")
+        public YnContent(string folder)
         {
             _loadedAssets = new Dictionary<string, object>();
             _disposableAssets = new List<IDisposable>();
@@ -131,7 +131,7 @@ namespace Yna.Content
         /// <param name="assetName"></param>
         /// <param name="assetPath">Define if the path is absolute or from custom content</param>
         /// <returns>Loaded asset</returns>
-        public T Load<T>(string assetName, bool relativePath = true)
+        public T Load<T>(string assetName, bool relativePath)
         {
 #if NETFX_CORE || WINDOWS_PHONE
             return default(T); // No Custom content for Windows 8 yet !

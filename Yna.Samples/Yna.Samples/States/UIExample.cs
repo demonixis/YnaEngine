@@ -18,7 +18,7 @@ namespace Yna.Samples.States
         private YnLabel progressLabel;
 
         public UIExample(string name)
-            : base(name)
+            : base(name, 0, 0)
         {
             YnG.ShowMouse = true;
         }
@@ -49,7 +49,7 @@ namespace Yna.Samples.States
             {
                 if (!evt.JustClicked) return;
                 YnG.Gui.Clear();
-                YnG.ScreenManager.SetScreenActive("menu");
+                YnG.ScreenManager.SetScreenActive("menu", true);
             };
 
             progress = YnG.Gui.Add(new YnProgressBar());
@@ -164,7 +164,7 @@ namespace Yna.Samples.States
                 // Stop the gui
                 YnG.Gui.Active = false;
 
-                YnG.ScreenManager.SetScreenActive("menu");
+                YnG.ScreenManager.SetScreenActive("menu", true);
             }
         }
 

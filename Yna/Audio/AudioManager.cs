@@ -101,7 +101,7 @@ namespace Yna.Audio
         private void CheckYnContent()
         {
             if (YnG.YnContent == null)
-                YnG.YnContent = new YnContent();
+                YnG.YnContent = new YnContent("Datas");
         }
 
         #region Playing music from custom Content Manager
@@ -109,14 +109,14 @@ namespace Yna.Audio
         private Song LoadMusicFromStream(string name, string path)
         {
             CheckYnContent();
-            return YnG.YnContent.Load<Song>(path);
+            return YnG.YnContent.Load<Song>(path, true);
         }
 
         public void PlayMusicFromStream(string path, bool repeat)
         {
             if (_musicEnabled)
             {
-                Song music = YnG.YnContent.Load<Song>(path);
+                Song music = YnG.YnContent.Load<Song>(path, true);
 
                 if (music != null)
                     PlayMusic(music, repeat);
@@ -136,10 +136,10 @@ namespace Yna.Audio
         public SoundEffect LoadSoundFromStream(string path)
         {
             CheckYnContent();
-            return YnG.YnContent.Load<SoundEffect>(path);
+            return YnG.YnContent.Load<SoundEffect>(path, true);
         }
 
-        public void PlaySoundFromStream(string path, float volume, float pitch = 0.0f, float pan = 0.0f)
+        public void PlaySoundFromStream(string path, float volume, float pitch, float pan)
         {
             if (_soundEnabled)
             {
@@ -155,7 +155,7 @@ namespace Yna.Audio
 
         #region Playing sound from XNA's Content Manager
 
-        private void PlaySound(SoundEffect sound, float volume, float pitch = 0.0f, float pan = 0.0f)
+        private void PlaySound(SoundEffect sound, float volume, float pitch, float pan)
         {
             if (volume > _soundVolume)
                 volume = _soundVolume;
@@ -163,7 +163,7 @@ namespace Yna.Audio
             sound.Play(volume, pitch, pan);
         }
 
-        public void PlaySound(string assetName, float volume, float pitch = 0.0f, float pan = 0.0f)
+        public void PlaySound(string assetName, float volume, float pitch, float pan)
         {
             if (_soundEnabled)
             {
@@ -181,7 +181,7 @@ namespace Yna.Audio
         /// </summary>
         /// <param name="assetName"></param>
         /// <param name="repeat"></param>
-        public void PlayMusic(string assetName, bool repeat = true)
+        public void PlayMusic(string assetName, bool repeat)
         {
             if (_musicEnabled)
             {
