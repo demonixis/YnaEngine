@@ -25,6 +25,16 @@ namespace Yna.Display.Gui
         public bool UseCustomColor { get; set; }
 
         /// <summary>
+        /// A custom font may be used to display text
+        /// </summary>
+        public SpriteFont CustomFont
+        {
+            get { return _customFont; }
+            set { _customFont = value; }
+        }
+        protected SpriteFont _customFont;
+
+        /// <summary>
         /// Default constructor
         /// </summary>
         public YnLabel() : base() {
@@ -35,15 +45,18 @@ namespace Yna.Display.Gui
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
             Color color = (UseCustomColor) ? TextColor : skin.DefaultTextColor;
+            SpriteFont font = (_customFont == null) ? skin.Font : _customFont;
 
-            spriteBatch.DrawString(skin.Font, Text, AbsolutePosition, color);
+            spriteBatch.DrawString(font, Text, AbsolutePosition, color);
         }
 
         public override void Layout()
         {
             base.Layout();
 
-            Vector2 size = Skin.Font.MeasureString(Text);
+            SpriteFont font = (_customFont == null) ? Skin.Font : _customFont;
+
+            Vector2 size = font.MeasureString(Text);
             bounds.Width = (int) size.X;
             bounds.Height = (int) size.Y;
         }
