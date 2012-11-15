@@ -14,11 +14,12 @@ namespace Yna.Display.Gui
         protected string _text;
         protected Color _textColor;
         protected bool _useCustomColor;
+        protected SpriteFont _customFont;
 
         #endregion
 
         #region Properties
-
+        
         /// <summary>
         /// The displayed text
         /// </summary>
@@ -34,8 +35,8 @@ namespace Yna.Display.Gui
         public Color TextColor
         {
             get { return _textColor; }
-            set 
-            { 
+            set
+            {
                 _textColor = value;
                 _useCustomColor = true;
             }
@@ -44,55 +45,48 @@ namespace Yna.Display.Gui
         /// <summary>
         /// Set to true to use a custom color
         /// </summary>
-        public bool UseCustomColor 
+        public bool UseCustomColor
         {
             get { return _useCustomColor; }
             set { _useCustomColor = value; }
         }
 
-        #endregion
+        /// <summary>
+        /// A custom font may be used to display text
+        /// </summary>
+        public SpriteFont CustomFont
+        {
+            get { return _customFont; }
+            set { _customFont = value; }
+        }
 
-        #region Constructors
+        #endregion
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public YnLabel()
-            : base()
-        {
-            _text = "";
+        public YnLabel() : base() {
+            Text = "";
             _useCustomColor = false;
         }
-
-        public YnLabel(string text)
-        {
-            _text = text;
-            _useCustomColor = false;
-        }
-
-        public YnLabel(string text, Color textColor)
-        {
-            _text = text;
-            _textColor = textColor;
-            _useCustomColor = true;
-        }
-
-        #endregion
 
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
             Color color = (_useCustomColor) ? _textColor : skin.DefaultTextColor;
+            SpriteFont font = (_customFont == null) ? skin.Font : _customFont;
 
-            spriteBatch.DrawString(skin.Font, _text, AbsolutePosition, color);
+            spriteBatch.DrawString(font, _text, AbsolutePosition, color);
         }
 
         public override void Layout()
         {
             base.Layout();
 
-            Vector2 size = Skin.Font.MeasureString(Text);
-            bounds.Width = (int)size.X;
-            bounds.Height = (int)size.Y;
+            SpriteFont font = (_customFont == null) ? Skin.Font : _customFont;
+
+            Vector2 size = font.MeasureString(Text);
+            bounds.Width = (int) size.X;
+            bounds.Height = (int) size.Y;
         }
     }
 }
