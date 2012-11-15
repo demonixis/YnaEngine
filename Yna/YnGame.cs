@@ -51,7 +51,9 @@ namespace Yna
             YnG.DeviceHeight = this.graphics.PreferredBackBufferHeight;
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
+
             YnG.Gamepad = new YnGamepad();
+
             YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.ScreenManager = screenManager;
             YnG.AudioManager = AudioManager.Instance;
@@ -61,13 +63,21 @@ namespace Yna
 
             ScreenHelper.ScreenWidthReference = graphics.PreferredBackBufferWidth;
             ScreenHelper.ScreenHeightReference = graphics.PreferredBackBufferHeight;
+
+#if WINDOWS_PHONE
+            // La fréquence d’image est de 30 i/s pour le Windows Phone.
+            TargetElapsedTime = TimeSpan.FromTicks(333333);
+
+            // Augmenter la durée de la batterie sous verrouillage.
+            InactiveSleepTime = TimeSpan.FromSeconds(1);
+#endif
         }
 
         public YnGame(int width, int height, string title)
             : this()
         {
             SetScreenResolution(width, height);
-
+          
             this.Window.Title = title;
 
             ScreenHelper.ScreenWidthReference = width;

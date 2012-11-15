@@ -118,13 +118,19 @@
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
-    <Compile Include="Input\Service\GamepadService.cs" />
-    <Compile Include="Input\Service\IGamepadService.cs" />
+    <Compile Include="Input\Service\GamepadService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Input\Service\IGamepadService.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Input\Service\IKeyboardService.cs" />
     <Compile Include="Input\Service\IMouseService.cs" />
     <Compile Include="Input\Service\KeyboardService.cs" />
     <Compile Include="Input\Service\MouseService.cs" />
-    <Compile Include="Input\YnGamepad.cs" />
+    <Compile Include="Input\YnGamepad.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Input\YnKeyboard.cs" />
     <Compile Include="Input\YnMouse.cs" />
     <Compile Include="Interfaces.cs" />
