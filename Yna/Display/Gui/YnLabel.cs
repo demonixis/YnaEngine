@@ -60,6 +60,8 @@ namespace Yna.Display.Gui
             set { _customFont = value; }
         }
 
+        #endregion
+
         /// <summary>
         /// Default constructor
         /// </summary>
