@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
 using Yna;
 using Yna.Helpers;
 
@@ -9,6 +8,7 @@ namespace Yna.Input.Service
 {
     public class GamepadService : GameComponent, IGamepadService
     {
+#if !WINDOWS_PHONE
         GamePadState [] state;
         GamePadState [] lastState;
 
@@ -80,6 +80,48 @@ namespace Yna.Input.Service
                 return state[(int)index].ThumbSticks.Right;
         }
 
-		#endregion
+    #endregion
+#else
+        public GamepadService(Game game)
+            : base(game)
+        {
+
+        }
+
+        bool IGamepadService.Connected(PlayerIndex index)
+        {
+            return false;
+        }
+
+        bool IGamepadService.Pressed(PlayerIndex index, Buttons button)
+        {
+            return false;
+        }
+
+        bool IGamepadService.Released(PlayerIndex index, Buttons button)
+        {
+            return false;
+        }
+
+        bool IGamepadService.JustPressed(PlayerIndex index, Buttons button)
+        {
+            return false;
+        }
+
+        bool IGamepadService.JustReleased(PlayerIndex index, Buttons button)
+        {
+            return false;
+        }
+
+        float IGamepadService.Triggers(PlayerIndex index, bool left)
+        {
+            return 0.0f;
+        }
+
+        Vector2 IGamepadService.ThumbSticks(PlayerIndex index, bool left)
+        {
+            return Vector2.Zero;
+        }
+#endif
     }
 }

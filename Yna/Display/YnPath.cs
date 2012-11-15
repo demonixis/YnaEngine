@@ -84,7 +84,7 @@ namespace Yna.Display
         /// <param name="x">X coordinate</param>
         /// <param name="y">Y coordinate</param>
         /// <param name="speed">Velocity speed for this path</param>
-        public void Add(int x, int y, float speed = 2)
+        public void Add(int x, int y, float speed)
         {
             _destinations.Add(new Destination(x, y, speed));
         }

@@ -16,7 +16,7 @@ namespace Yna.Display.Gui
         /// <param name="baseColor">The base color</param>
         /// <param name="fontName">Font name</param>
         /// <returns></returns>
-        public static YnSkin Generate(Color baseColor, string fontName = "Fonts/DefaultFont")
+        public static YnSkin Generate(Color baseColor, string fontName)
         {
             Color tempColor;
             YnSkin skin = new YnSkin();

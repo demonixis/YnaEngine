@@ -1,5 +1,5 @@
 ﻿using System;
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
 using System.IO;
 #endif
 using System.Collections;
@@ -62,20 +62,20 @@ namespace Yna.Content
         /// You can load Texture2D, Song and SoundEffect
         /// </summary>
         /// <param name="folder"></param>
-        public YnContent(string folder = "Datas")
+        public YnContent(string folder)
         {
             _loadedAssets = new Dictionary<string, object>();
             _disposableAssets = new List<IDisposable>();
 
             _contentDirectory = folder;
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
             CheckDirectoryStructure();
 #endif
         }
 
         protected void CheckDirectoryStructure()
         {
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
             _gameDirectory = Directory.GetCurrentDirectory();
 
             if (!Directory.Exists(Path.Combine(_gameDirectory, _contentDirectory)))
@@ -83,7 +83,7 @@ namespace Yna.Content
 #endif
         }
 
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
         protected virtual string GetAssetPath(string assetName)
         {
             return System.IO.Path.Combine(_contentDirectory, assetName);
@@ -131,9 +131,9 @@ namespace Yna.Content
         /// <param name="assetName"></param>
         /// <param name="assetPath">Define if the path is absolute or from custom content</param>
         /// <returns>Loaded asset</returns>
-        public T Load<T>(string assetName, bool relativePath = true)
+        public T Load<T>(string assetName, bool relativePath)
         {
-#if NETFX_CORE
+#if NETFX_CORE || WINDOWS_PHONE
             return default(T); // No Custom content for Windows 8 yet !
 #else
             if (typeof(T) != typeof(Texture2D) || typeof(T) != typeof(Song) || typeof(T) != typeof(SoundEffect))

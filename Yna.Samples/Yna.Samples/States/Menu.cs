@@ -147,13 +147,13 @@ namespace Yna.Samples.States
         {
             switch (index)
             {
-                case 0: YnG.ScreenManager.SetScreenActive("basic_sample");    break;
-                case 1: YnG.ScreenManager.SetScreenActive("animated_sample"); break;
-                case 2: YnG.ScreenManager.SetScreenActive("tilemap_sample");  break;
-                case 3: YnG.ScreenManager.SetScreenActive("iso_sample");      break;
-                case 4: YnG.ScreenManager.SetScreenActive("ui_sample");       break;
-                case 5: YnG.Exit();                                          break;
-                default:                                                     break;
+                case 0: YnG.ScreenManager.SetScreenActive("basic_sample", true);    break;
+                case 1: YnG.ScreenManager.SetScreenActive("animated_sample", true); break;
+                case 2: YnG.ScreenManager.SetScreenActive("tilemap_sample", true);  break;
+                case 3: YnG.ScreenManager.SetScreenActive("iso_sample", true);      break;
+                case 4: YnG.ScreenManager.SetScreenActive("ui_sample", true);       break;
+                case 5: YnG.Exit();                                                 break;
+                default:                                                            break;
             }
         }
     }

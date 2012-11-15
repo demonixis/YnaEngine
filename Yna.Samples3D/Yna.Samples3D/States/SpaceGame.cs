@@ -26,7 +26,7 @@ namespace Yna.Samples3D.States
         Rectangle rectangle = Rectangle.Empty;
 
         public SpaceGame(string name)
-            : base(name)
+            : base(name, 0, 0)
         {
             modelPosition = Vector3.Zero;
             modelRotation = Vector3.Zero;

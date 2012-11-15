@@ -8,7 +8,7 @@ using Yna.Display3D.Light;
 
 namespace Yna.Display3D
 {
-    public class YnModel : YnObject3D
+    public class YnModel : YnObject3D, IYnLightable
     {
         protected Model _model;
         protected string _modelName;
@@ -28,7 +28,7 @@ namespace Yna.Display3D
         /// <summary>
         /// Get all meshes off the model
         /// </summary>
-        public ModelMesh [] Meshes
+        public ModelMesh[] Meshes
         {
             get
             {
@@ -74,9 +74,11 @@ namespace Yna.Display3D
 
         }
 
-        #endregion	
-		
-#if LINUX
+        #endregion
+
+        #region Bounding volumes and light
+
+#if MONOGAME
         // FIX : VertexBuffer.GetData crash with current MonoGame revision :/
         public override void UpdateBoundingVolumes()
         {
@@ -86,7 +88,7 @@ namespace Yna.Display3D
             _boundingSphere.Center = Position;
             _boundingSphere.Radius = 5;
         }
-#else	
+#else
         public override void UpdateBoundingVolumes()
         {
             // 1 - Global Bounding box
@@ -97,7 +99,7 @@ namespace Yna.Display3D
 
             // Update matrix world
             UpdateMatrix();
-          
+
             // For each mesh of the model
             foreach (ModelMesh mesh in _model.Meshes)
             {
@@ -132,11 +134,11 @@ namespace Yna.Display3D
 
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
             _boundingSphere.Center = _position;
-           
+
             // 3 - Update frustrum
             _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
         }
-		#endif
+#endif
 
         protected virtual void SetupLightning(BasicEffect effect)
         {
@@ -159,6 +161,8 @@ namespace Yna.Display3D
             View = _camera.View;
         }
 
+        #endregion
+
         #region GameState Pattern
 
         public override void LoadContent()
@@ -179,7 +183,7 @@ namespace Yna.Display3D
         public override void Draw(GraphicsDevice device)
         {
             UpdateMatrix();
-            
+
             _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 
             foreach (ModelMesh mesh in _model.Meshes)
@@ -204,5 +208,19 @@ namespace Yna.Display3D
         {
             return String.Format("[YnModel] {0}", _modelName);
         }
+
+        #region IYnLightable implementation
+
+        void IYnLightable.SetLight(BasicLight light)
+        {
+            _basicLight = light;
+        }
+
+        BasicLight IYnLightable.GetLight(BasicLight light)
+        {
+            return _basicLight;
+        }
+
+        #endregion
     }
 }

@@ -105,14 +105,14 @@ namespace Yna
 
         #region Constructors
 
-        public YnState(string name, float timeTransitionOn = 1500.0f, float timeTransitionOff = 0.0f)
+        public YnState(string name, float timeTransitionOn, float timeTransitionOff)
             : this(timeTransitionOn, timeTransitionOff)
         {
             _name = name;
         }
 
         public YnState(string name, bool active)
-            : this(name, 1500, 0)
+            : this(name, 0, 0)
         {
             Active = active;
         }
@@ -123,7 +123,7 @@ namespace Yna
         /// </summary>
         /// <param name="timeTransitionOn">Transition time on start</param>
         /// <param name="timeTransitionOff">Transition time on end</param>
-        public YnState(float timeTransitionOn = 1500f, float timeTransitionOff = 0f)
+        public YnState(float timeTransitionOn, float timeTransitionOff)
             : base(ScreenType.GameState, timeTransitionOn, timeTransitionOff)
         {
             _members = new List<YnObject>();

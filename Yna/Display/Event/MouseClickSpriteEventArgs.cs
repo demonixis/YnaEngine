@@ -12,7 +12,7 @@ namespace Yna.Display.Event
         public bool JustClicked;
         public bool DoubleClicked;
 
-        public MouseClickSpriteEventArgs(int x, int y, MouseButton mouseButton, bool justClicked = false, bool doubleClicked = false)
+        public MouseClickSpriteEventArgs(int x, int y, MouseButton mouseButton, bool justClicked, bool doubleClicked)
         {
             X = x;
             Y = y;

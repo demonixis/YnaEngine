@@ -34,7 +34,7 @@ namespace Yna.Samples.States
         private Texture2D _dummyTexture;
 
         public TiledMap2DSample(string name)
-            : base (name)
+            : base (name, 0, 0)
         {
             // A TiledMap contains layers which contains the tiles definitions.
             // Each layer is rendered on top of the previous one. There is no
@@ -141,7 +141,7 @@ namespace Yna.Samples.States
 
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
-                YnG.ScreenManager.SetScreenActive("menu");
+                YnG.ScreenManager.SetScreenActive("menu", true);
             }
         }
 

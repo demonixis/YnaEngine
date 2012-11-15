@@ -82,12 +82,25 @@ namespace Yna.Display
 
         #endregion
 
-        public YnGroup(int capacity = 0)
+        public YnGroup()
+            : this(0)
+        {
+
+        }
+
+        public YnGroup(int capacity)
         {
             _members = new List<YnObject>(capacity);
             _safeMembers = new List<YnObject>();
             _initialized = false;
             _assetsLoaded = false;
+        }
+
+        public YnGroup (int capacity, int x, int y)
+            : this(capacity)
+        {
+            _position.X = x;
+            _position.Y = y;
         }
 
         #region GameState pattern
@@ -231,7 +244,7 @@ namespace Yna.Display
             foreach (YnObject sceneObject in this)
             {
                 Width = Math.Max(Width, sceneObject.Width);
-                Width = Math.Max(Height, sceneObject.Height);
+                Height = Math.Max(Height, sceneObject.Height);
             }
         }
     }
