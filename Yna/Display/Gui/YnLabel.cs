@@ -65,9 +65,16 @@ namespace Yna.Display.Gui
         /// <summary>
         /// Default constructor
         /// </summary>
-        public YnLabel() : base() {
-            Text = "";
+        public YnLabel() 
+            : base() 
+        {
+            _text = "";
             _useCustomColor = false;
+        }
+
+        public YnLabel(string text)
+        {
+            _text = text;
         }
 
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
