@@ -58,7 +58,7 @@ namespace Yna
             ScreenHelper.ScreenWidthReference = graphics.PreferredBackBufferWidth;
             ScreenHelper.ScreenHeightReference = graphics.PreferredBackBufferHeight;
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE_7
             // La fréquence d’image est de 30 i/s pour le Windows Phone.
             TargetElapsedTime = TimeSpan.FromTicks(333333);
 
@@ -66,6 +66,8 @@ namespace Yna
             InactiveSleepTime = TimeSpan.FromSeconds(1);
 #endif
         }
+
+#if !WINDOWS8 && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
 
         public YnGame(int width, int height, string title)
             : this()
@@ -83,6 +85,8 @@ namespace Yna
         {
             UseScreenManager(useScreenManager);
         }
+
+#endif
 
         #endregion
 

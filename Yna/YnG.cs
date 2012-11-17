@@ -17,9 +17,9 @@ namespace Yna
     /// <summary>
     /// Determine the MonoGame platform
     /// </summary>
-    public enum MonoGameContext
+    public enum PlateformRuntime
     {
-        Unknow = 0, XNA, Windows, Windows8, Linux, Mac 
+        Unknow = 0, XNA_PC, XNA_Xbox, XNA_WindowsPhone7, Windows, Windows8, WindowsPhone8, Linux, Mac 
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ namespace Yna
         /// <summary>
         /// Get or Set the version of XNA or MonoGame you are using
         /// </summary>
-        public static MonoGameContext MonoGameContext { get; set; }
+        public static PlateformRuntime MonoGameContext { get; set; }
 
         #region Properties for sizes
 
@@ -346,10 +346,16 @@ namespace Yna
         /// Get the current platform context 
         /// </summary>
         /// <returns>MonoGame/XNA platform used</returns>
-        public static MonoGameContext GetPlateformContext()
+        public static PlateformRuntime GetPlateformContext()
         {
-#if NETFX_CORE
+#if WINDOWS8
             return MonoGameContext.Windows8;
+#elif WINDOWS_PHONE_8
+            return PlateformRuntime.WindowsPhone8;
+#elif WINDOWS_PHONE_7
+            return PlateformRuntime.XNA_WindowsPhone7;
+#elif XBOX 
+            return PlateformRutime.XNA_Xbox; 
 #else
             MonoGameContext context = MonoGameContext.Unknow; // Default
 

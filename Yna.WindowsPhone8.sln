@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Phone
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsPhone", "Yna\Yna.WindowsPhone.csproj", "{72FCF5BE-3E09-4428-9552-CFA4913F3670}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsPhone", "Yna\Yna.WindowsPhone8.csproj", "{72FCF5BE-3E09-4428-9552-CFA4913F3670}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

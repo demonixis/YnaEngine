@@ -7,7 +7,7 @@ set flags=/nologo /p:Configuration=Release /p:Optimize=true /p:DebugSymbols=fals
 
 pushd ..
 
-call %msbuild% %flags% Yna.WindowsPhone8.sln
+call %msbuild% %flags% Yna.Windows8.sln
 
 popd
 
