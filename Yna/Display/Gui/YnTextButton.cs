@@ -11,37 +11,60 @@ namespace Yna.Display.Gui
 
     public class YnTextButton : YnButton
     {
-        private YnLabel label;
+        private YnLabel _label;
+        private YnTextAlign _align;
 
         public YnTextAlign TextAlign
         {
             get { return _align; }
             set { _align = value; }
         }
-        private YnTextAlign _align;
 
         public string Text
         {
-            get { return label.Text; }
-            set { label.Text = value;}
+            get { return _label.Text; }
+            set { _label.Text = value;}
         }
+
+        #region Constructors
 
         public YnTextButton()
             : base()
         {
-            label = Add(new YnLabel());
+            _label = Add(new YnLabel());
             _align = YnTextAlign.Center;
             Pack = true;
         }
 
+        public YnTextButton(string text)
+            : this()
+        {
+            _label.Text = text;
+        }
+
+        public YnTextButton(string text, int width, int height)
+            : this(text)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        public YnTextButton(string text, int width, int height, bool pack)
+            : this(text, width, height)
+        {
+            Pack = pack;
+        }
+
+        #endregion
+
         public override void Layout()
         {
             base.Layout();
-            label.TextColor = Skin.ClickedButtonTextColor;
+            _label.TextColor = Skin.ClickedButtonTextColor;
 
             // Align the text in the widget
-            int width = label.Width;
-            int height = label.Height;
+            int width = _label.Width;
+            int height = _label.Height;
 
             Vector2 pos = Vector2.Zero;
             switch (_align)
@@ -74,13 +97,13 @@ namespace Yna.Display.Gui
                     pos = new Vector2(Width - width, Height - height);
                     break;
             }
-            label.Position = pos;
+            _label.Position = pos;
         }
 
         protected override void DoCustomUpdate(GameTime gameTime)
         {
-            if(_buttonDown) label.UseCustomColor = true;
-            else label.UseCustomColor = false;
+            if(_buttonDown) _label.UseCustomColor = true;
+            else _label.UseCustomColor = false;
 
             base.DoCustomUpdate(gameTime);
         }

@@ -92,8 +92,8 @@ namespace Yna.Display.Gui
             SpriteFont font = (_customFont == null) ? Skin.Font : _customFont;
 
             Vector2 size = font.MeasureString(Text);
-            bounds.Width = (int) size.X;
-            bounds.Height = (int) size.Y;
+            _bounds.Width = (int) size.X;
+            _bounds.Height = (int) size.Y;
         }
     }
 }

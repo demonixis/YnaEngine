@@ -28,6 +28,7 @@ namespace Yna.Display.Gui
         private static int WidgetCounter = 0;
 
         protected string _name;
+        protected Rectangle _bounds;
 
         #region Properties
 
@@ -40,16 +41,28 @@ namespace Yna.Display.Gui
             set { _name = value; }
         }
 
+        public int X
+        {
+            get { return _bounds.X; }
+            set { _bounds.X = value; }
+        }
+
+        public int Y
+        {
+            get { return _bounds.Y; }
+            set { _bounds.Y = value; }
+        }
+        
         /// <summary>
         /// The widget relative position within it's parent if it has one, absolute otherwise (relative to the screen).
         /// </summary>
         public Vector2 Position
         {
-            get { return new Vector2(Bounds.X, Bounds.Y); }
+            get { return new Vector2(_bounds.X, _bounds.Y); }
             set
             {
-                bounds.X = (int)value.X;
-                bounds.Y = (int)value.Y;
+                _bounds.X = (int)value.X;
+                _bounds.Y = (int)value.Y;
             }
         }
 
@@ -106,10 +119,9 @@ namespace Yna.Display.Gui
         /// </summary>
         public Rectangle Bounds
         {
-            get { return bounds; }
-            set { bounds = value; }
+            get { return _bounds; }
+            set { _bounds = value; }
         }
-        protected Rectangle bounds;
 
         /// <summary>
         /// The widget inner bounds : space left for children.
@@ -158,14 +170,14 @@ namespace Yna.Display.Gui
 
         public int Width
         {
-            get { return bounds.Width; }
-            set { bounds.Width = value; UpdateBounds(); }
+            get { return _bounds.Width; }
+            set { _bounds.Width = value; UpdateBounds(); }
         }
 
         public int Height
         {
-            get { return bounds.Height; }
-            set { bounds.Height = value; UpdateBounds(); }
+            get { return _bounds.Height; }
+            set { _bounds.Height = value; UpdateBounds(); }
         }
 
         #endregion
@@ -423,15 +435,15 @@ namespace Yna.Display.Gui
                     else
                     {
                         // Resize the widget if needed
-                        if (bounds.Width < totalWidth || Pack)
+                        if (_bounds.Width < totalWidth || Pack)
                         {
-                            bounds.Width = totalWidth;
+                            _bounds.Width = totalWidth;
                         }
 
                         if (Pack)
                         {
                             // Pack the height as well
-                            bounds.Height = GetMaxChildHeight() + Padding * 2;
+                            _bounds.Height = GetMaxChildHeight() + Padding * 2;
                         }
                         UpdateBounds();
                     }
@@ -446,15 +458,15 @@ namespace Yna.Display.Gui
                     else
                     {
                         // Resize the widget if needed
-                        if (bounds.Height < totalHeight || Pack)
+                        if (_bounds.Height < totalHeight || Pack)
                         {
-                            bounds.Height = totalHeight;
+                            _bounds.Height = totalHeight;
                         }
 
                         if (Pack)
                         {
                             // Pack the width as well
-                            bounds.Width = GetMaxChildWidth() + Padding * 2;
+                            _bounds.Width = GetMaxChildWidth() + Padding * 2;
                         }
                         UpdateBounds();
                     }
@@ -493,7 +505,7 @@ namespace Yna.Display.Gui
             // No event handling if not visible nor active
             if (IsVisible && IsActive)
             {
-                Rectangle absoluteBounds = bounds;
+                Rectangle absoluteBounds = _bounds;
                 Vector2 absolutePosition = AbsolutePosition;
                 absoluteBounds.X = (int)absolutePosition.X;
                 absoluteBounds.Y = (int)absolutePosition.Y;
@@ -584,8 +596,8 @@ namespace Yna.Display.Gui
         /// <param name="dy">Y delta</param>
         public void Move(int dx, int dy)
         {
-            bounds.X += dx;
-            bounds.Y += dy;
+            _bounds.X += dx;
+            _bounds.Y += dy;
         }
 
         /// <summary>
@@ -627,7 +639,7 @@ namespace Yna.Display.Gui
         /// <returns>The max height used</returns>
         protected virtual int GetMaxChildWidth()
         {
-            int maxWidth = bounds.Width;
+            int maxWidth = _bounds.Width;
 
             foreach (YnWidget widget in Children)
             {

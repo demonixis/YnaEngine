@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Input;
 using Yna.Audio;
 using Yna.Content;
 using Yna.Display;
-using Yna.Display.Gui;
 using Yna.Display3D;
 using Yna.Helpers;
 using Yna.State;
@@ -87,15 +86,6 @@ namespace Yna
         /// Get or Set the mouse states
         /// </summary>
         public static YnMouse Mouse { get; set; }
-
-        /// The default UI skin
-        /// </summary>
-        public static YnSkin DefaultSkin { get; set; }
-
-        /// <summary>
-        /// The GUI manager
-        /// </summary>
-        public static YnGui Gui { get; set; }
 
         /// <summary>
         /// Get or Set the version of XNA or MonoGame you are using

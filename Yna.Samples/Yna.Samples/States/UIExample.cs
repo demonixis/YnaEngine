@@ -12,8 +12,8 @@ namespace Yna.Samples.States
     /// </summary>
     public class UIExample : YnState
     {
-        private Texture2D Background { get; set; }
-
+        private YnGui gui;
+        private Texture2D background;
         private YnProgressBar progress;
         private YnLabel progressLabel;
 
@@ -21,6 +21,7 @@ namespace Yna.Samples.States
             : base(name, 0, 0)
         {
             YnG.ShowMouse = true;
+            gui = new YnGui();
         }
 
         public override void BuildGui()
@@ -30,47 +31,57 @@ namespace Yna.Samples.States
             int padding = 10;
             int tileCount = 5;
 
-            // TODO : Move that in initialize method
+            YnPanel toolbar = new YnPanel();
+            gui.Add(toolbar); // Add toolbar to Gui
 
-            YnPanel toolbar = YnG.Gui.Add(new YnPanel());
             toolbar.WithBackground = false;
             toolbar.Orientation = YnOrientation.Horizontal;
             toolbar.Padding = padding;
             toolbar.Height = tileSize;
             toolbar.Position = new Vector2(YnG.Width / 2 - (tileSize * tileCount + padding * (tileCount + 1)) / 2, YnG.Height / 2 - toolbar.Height / 2);
 
-            toolbar.Add(new YnTextButton() { Text = "New", Width = tileSize, Height = tileSize, Pack = false });
-            toolbar.Add(new YnTextButton() { Text = "Load", Width = tileSize, Height = tileSize, Pack = false });
-            toolbar.Add(new YnTextButton() { Text = "Options", Width = tileSize, Height = tileSize, Pack = false });
+            toolbar.Add(new YnTextButton("New", tileSize, tileSize, false));
+            toolbar.Add(new YnTextButton("Load", tileSize, tileSize, false));
+            toolbar.Add(new YnTextButton("Options", tileSize, tileSize, false));
+            toolbar.Add(new YnTextButton("Store", tileSize, tileSize, false));
 
-            toolbar.Add(new YnTextButton() { Text = "Store", Width = tileSize, Height = tileSize, Pack = false });
             YnTextButton button = toolbar.Add(new YnTextButton() { Text = "Exit", Width = tileSize, Height = tileSize, Pack = false });
-            button.MouseClick += delegate(object w, MouseClickSpriteEventArgs evt)
+            button.MouseClick += (s, e) =>
             {
-                if (!evt.JustClicked) return;
-                YnG.Gui.Clear();
+                if (!e.JustClicked) 
+                    return;
+
+                gui.Clear();
+
                 YnG.ScreenManager.SetScreenActive("menu", true);
             };
 
-            progress = YnG.Gui.Add(new YnProgressBar());
+            progress = new YnProgressBar();
+            gui.Add(progress);
+
             progress.Width = 400;
             progress.MaxValue = 400;
             progress.Height = 5;
             progress.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 100);
 
-            progressLabel = YnG.Gui.Add(new YnLabel() { Text = "Fake loading..." });
+            progressLabel = new YnLabel("Fake loading...");
+            gui.Add(progressLabel);
+
             progressLabel.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 75);
 
-            YnPanel container = YnG.Gui.Add(new YnPanel());
+            YnPanel container = new YnPanel();
+            gui.Add(container);
+
             container.Orientation = YnOrientation.Horizontal;
             container.WithBackground = false;
             container.Position = new Vector2(20, 20);
-            YnLabel modeLabel = container.Add(new YnLabel());
-            modeLabel.Text = "Hard Mode ";
+            
+            YnLabel modeLabel = container.Add(new YnLabel("Hard Mode "));
             YnCheckbox check = container.Add(new YnCheckbox());
 
             // Slider
-            YnSlider slider = YnG.Gui.Add(new YnSlider());
+            YnSlider slider = new YnSlider();
+            gui.Add(slider);
             slider.Width = 200;
             slider.Height = 20;
             slider.Position = new Vector2(20, 200);
@@ -143,12 +154,21 @@ namespace Yna.Samples.States
             toolbar.Add(new YnTextButton() { Text = "Exit" });
              */
 
-            YnG.Gui.PrepareWidgets();
+            gui.PrepareWidgets();
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            gui.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            gui.Update(gameTime);
 
             // Update the progress bar
             progress.Value++;
@@ -162,7 +182,7 @@ namespace Yna.Samples.States
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
                 // Stop the gui
-                YnG.Gui.Active = false;
+                gui.Active = false;
 
                 YnG.ScreenManager.SetScreenActive("menu", true);
             }
@@ -173,16 +193,10 @@ namespace Yna.Samples.States
             base.Initialize();
 
             // Initialized is call when a screen is re/enabled
-            YnG.Gui.Active = true;
+            gui.Active = true;
             _initialized = false;
    
             // TODO : We must add events like OnStart / OnStop / OnPause / etc...
-        }
-
-        public override void LoadContent()
-        {
-
-            base.LoadContent();
         }
 
         public override void Draw(GameTime gameTime)
@@ -190,9 +204,11 @@ namespace Yna.Samples.States
             base.Draw(gameTime);
 
             spriteBatch.Begin();
-            // Nothing!
+            gui.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 
+            // Or if you wan't to draw it on another batch
+            // gui.DrawGui(gameTime, spriteBatch);
 
             // Draw the HUD
             //UiManager.Draw(gameTime, spriteBatch);

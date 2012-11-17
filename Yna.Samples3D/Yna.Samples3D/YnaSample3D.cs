@@ -12,17 +12,17 @@ namespace Yna.Samples3D
     /// </summary>
     public class YnaSample3D : YnGame
     {
-#if NETFX_CORE
+#if NETFX_CORE || WINDOWS_PHONE
         public YnaSample3D()
+            : base()
         {
 
         }
 #else
         public YnaSample3D()
-            : base()
+            : base(1024, 600, "YNA Framework : 3D samples", true)
         {
-            this.SetScreenResolution(1024, 600);
-            this.Window.Title = "YNA 3D Samples";  
+
         }
 #endif
 

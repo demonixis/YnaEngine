@@ -32,8 +32,8 @@ namespace Yna.Display.Gui
 
             if (Pack)
             {
-                bounds.Width = GetMaxChildWidth();
-                bounds.Height = GetMaxChildHeight();
+                _bounds.Width = GetMaxChildWidth();
+                _bounds.Height = GetMaxChildHeight();
             }
         }
 

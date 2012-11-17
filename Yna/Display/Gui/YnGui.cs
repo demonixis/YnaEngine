@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Helpers;
@@ -11,50 +12,72 @@ namespace Yna.Display.Gui
     /// <summary>
     /// The GUI manager as a Game Component
     /// </summary>
-    public class YnGui : DrawableGameComponent
+    public class YnGui : YnObject
     {
-        public bool Active
-        {
-            get { return Enabled && Visible; }
-            set
-            {
-                Enabled = value;
-                Visible = value;
-            }
-        }
+        #region Protected declarations
 
-        /// <summary>
-        /// Specific GUI sprite batch
-        /// </summary>
-        private SpriteBatch GuiSpriteBatch { get; set; }
+        protected YnSkin _skin;
+        protected string _skinName;
+        protected List<YnWidget> _widgets;
+        private List<YnWidget> _safeWidgets;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// The Gui current skin
         /// </summary>
-        private YnSkin Skin { get; set; }
+        private YnSkin Skin 
+        {
+            get { return _skin; }
+            set { _skin = value; }
+        }
 
         /// <summary>
         /// The skin name
         /// </summary>
-        public string SkinName { get; set; }
+        public string SkinName
+        {
+            get { return _skinName; }
+            set { _skinName = value; }
+        }
 
         /// <summary>
         /// The widgets to handle
         /// </summary>
-        public List<YnWidget> Widgets{ get; set; }
-
-        public YnGui(Game game)
-            : base(game)
+        public List<YnWidget> Widgets
         {
-            Widgets = new List<YnWidget>();
+            get { return _widgets; }
+            set { _widgets = value; }
         }
 
-        protected override void LoadContent()
-        {
-            // Create the specific Sprite Batch
-            GuiSpriteBatch = new SpriteBatch(Game.GraphicsDevice);
+        #endregion
 
-            if (SkinName == null)
+        public YnGui()
+        {
+            _widgets = new List<YnWidget>();
+            _safeWidgets = new List<YnWidget>();
+            _skin = null;
+            _skinName = String.Empty;
+        }
+
+        public YnGui(YnSkin skin)
+            : base()
+        {
+            _skin = skin;
+        }
+
+        #region GameState pattern
+
+        public override void Initialize()
+        {
+            
+        }
+
+        public override  void LoadContent()
+        {
+            if (_skinName == String.Empty)
             {
                 // No skin, use the default one
                 // Skin = YnSkinGenerator.Generate(new Color(250, 100, 50)); // Orange
@@ -65,7 +88,23 @@ namespace Yna.Display.Gui
             else
             {
                 // TODO Load the skin
+                // We must make a serializable class for a skin for an XML import with content manager
+                // Or writing a custom pipeline importer (must be better)
                 //Skin = Game.Content.Load<YnSkin>(SkinName);
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            if (_widgets.Count > 0)
+            {
+                _safeWidgets.Clear();
+                _safeWidgets.AddRange(_widgets);
+
+                foreach (YnWidget widget in _safeWidgets)
+                    widget.Update(gameTime);
             }
         }
 
@@ -73,29 +112,30 @@ namespace Yna.Display.Gui
         /// Draw the GUI
         /// </summary>
         /// <param name="gameTime">Time since last update</param>
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            GuiSpriteBatch.Begin();
-
-            List<YnWidget> safeList = new List<YnWidget>(Widgets);
-            foreach (YnWidget widget in safeList)
+            if (_safeWidgets.Count > 0)
             {
-                widget.Draw(gameTime, GuiSpriteBatch, Skin);
-            }
-
-            GuiSpriteBatch.End();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            List<YnWidget> safeList = new List<YnWidget>(Widgets);
-            foreach (YnWidget widget in safeList)
-            {
-                widget.Update(gameTime);
+                foreach (YnWidget widget in _safeWidgets)
+                    widget.Draw(gameTime, spriteBatch, Skin);
             }
         }
+
+        /// <summary>
+        /// Draw the GUI with another batch
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
+        public void DrawGui(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            Draw(gameTime, spriteBatch);
+            spriteBatch.End();
+        }
+
+        #endregion
+
+        #region Collection methods
 
         /// <summary>
         /// Add a widget to the UI
@@ -103,32 +143,49 @@ namespace Yna.Display.Gui
         /// <typeparam name="W">The widget type</typeparam>
         /// <param name="widget">The widget</param>
         /// <returns>The widget added for ease</returns>
-        public W Add<W>(W widget) where W : YnWidget
+        public YnWidget Add(YnWidget widget)
         {
-            Widgets.Add(widget);
+            _widgets.Add(widget);
+            
             // If the skin is already loaded, link it directly
-            if(Skin != null)
-            {
-                widget.Skin = Skin;
-            }
+            if(_skin != null)
+                widget.Skin = _skin;
+
             return widget;
         }
 
+        /// <summary>
+        /// Remove all widgets
+        /// </summary>
         public void Clear()
         {
-            Widgets.Clear();
+            _widgets.Clear();
         }
+
+        public void Remove(YnWidget widget)
+        {
+            if (_widgets.Count > 0)
+                _widgets.Remove(widget);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            foreach (YnWidget widget in Widgets)
+                yield return widget;
+        }
+
+        #endregion
 
         public void PrepareWidgets()
         {
             // Initializes the skin for all added widgets
-            foreach (YnWidget widget in Widgets)
+            foreach (YnWidget widget in _widgets)
             {
-                widget.InitSkin(Skin);
+                widget.InitSkin(_skin);
             }
 
             // Do the layout for all widgets
-            foreach (YnWidget widget in Widgets)
+            foreach (YnWidget widget in _widgets)
             {
                 widget.Layout();
             }
@@ -137,20 +194,20 @@ namespace Yna.Display.Gui
         public void SetSkin(YnSkin skin)
         {
             // Hide all components to stop rendering
-            foreach (YnWidget widget in Widgets)
+            foreach (YnWidget widget in _widgets)
             {
                 widget.Show(false);
             }
 
             // Set the new skin for all components
-            Skin = skin;
+            _skin = skin;
 
             // Redo all widgets initializations
             PrepareWidgets();
 
 
             // Show all components back
-            foreach (YnWidget widget in Widgets)
+            foreach (YnWidget widget in _widgets)
             {
                 widget.Show(true);
             }
@@ -160,7 +217,7 @@ namespace Yna.Display.Gui
     /// <summary>
     /// Default skin with basic rendering
     /// </summary>
-    class DefaultSkin : YnSkin
+    internal class DefaultSkin : YnSkin
     {
         /// <summary>
         /// The constructor of the default skin builds all textures from scratch.

@@ -22,7 +22,6 @@ namespace Yna
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
         protected ScreenManager screenManager = null;
-        protected YnGui guiManager = null;
         protected string gameTitle = "Yna Game";
         protected string gameVersion = "0.1";
 
@@ -34,7 +33,6 @@ namespace Yna
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
             this.screenManager = new ScreenManager(this);
-            this.guiManager = new YnGui(this);
 
             // Setup services
             ServiceHelper.Game = this;
@@ -42,7 +40,6 @@ namespace Yna
             Components.Add(new MouseService(this));
             Components.Add(new GamepadService(this));
             Components.Add(screenManager);
-            Components.Add(guiManager);
 
             // Registry globals objects
             YnG.Game = this;
@@ -51,13 +48,10 @@ namespace Yna
             YnG.DeviceHeight = this.graphics.PreferredBackBufferHeight;
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
-
             YnG.Gamepad = new YnGamepad();
-
             YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.ScreenManager = screenManager;
             YnG.AudioManager = AudioManager.Instance;
-            YnG.Gui = guiManager;
 
             this.Window.Title = String.Format("{0} - v{1}", gameTitle, gameVersion);
 
@@ -84,11 +78,10 @@ namespace Yna
             ScreenHelper.ScreenHeightReference = height;
         }
 
-        public YnGame(int width, int height, string title, bool useScreenManager, bool useGuiManager)
+        public YnGame(int width, int height, string title, bool useScreenManager)
             : this(width, height, title)
         {
             UseScreenManager(useScreenManager);
-            UseGuiManager(useGuiManager);
         }
 
         #endregion
@@ -155,32 +148,6 @@ namespace Yna
             }
 
             YnG.ScreenManager = this.screenManager;
-        }
-
-        /// <summary>
-        /// Active or desactive the Gui Manager
-        /// </summary>
-        /// <param name="active">True for activing, false for desactivating</param>
-        public void UseGuiManager(bool active)
-        {
-            if (active)
-            {
-                if (this.guiManager == null)
-                {
-                    this.guiManager = new YnGui(this);
-                    this.Components.Add(this.guiManager);
-                }
-            }
-            else
-            {
-                if (this.guiManager != null)
-                {
-                    this.Components.Remove(this.guiManager);
-                    this.guiManager = null;
-                }
-            }
-
-            YnG.Gui = this.guiManager;
         }
 
         /// <summary>

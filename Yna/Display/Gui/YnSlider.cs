@@ -14,6 +14,14 @@ namespace Yna.Display.Gui
     /// </summary>
     public class YnSlider : YnWidget
     {
+        protected int _minValue;
+        protected int _maxValue;
+        protected int _currentValue;
+        private bool _dragging;
+        private YnButton _cursor;
+        private YnLabel _labelValue;
+
+        #region Properties
 
         /// <summary>
         /// The minimum possible value
@@ -23,8 +31,7 @@ namespace Yna.Display.Gui
             get { return _minValue; }
             set { _minValue = value; }
         }
-        protected int _minValue;
-
+        
         /// <summary>
         /// The maximum possible value
         /// </summary>
@@ -33,8 +40,7 @@ namespace Yna.Display.Gui
             get { return _maxValue; }
             set { _maxValue = value; }
         }
-        protected int _maxValue;
-
+        
         /// <summary>
         /// The current progress value
         /// </summary>
@@ -43,22 +49,8 @@ namespace Yna.Display.Gui
             get { return _currentValue; }
             set { _currentValue = (int)MathHelper.Clamp(value, _minValue, _maxValue); }
         }
-        protected int _currentValue;
-
-        /// <summary>
-        /// The cursor button
-        /// </summary>
-        private YnButton _cursor;
-
-        /// <summary>
-        /// Flag indicating that the cursor is currently beeing dragged by the user
-        /// </summary>
-        private bool _dragging;
-
-        /// <summary>
-        /// Intern label to display the value (if wanted)
-        /// </summary>
-        private YnLabel _labelValue;
+        
+#endregion
 
         public YnSlider()
             : base()
@@ -67,14 +59,9 @@ namespace Yna.Display.Gui
             _maxValue = 100;
             _dragging = false;
             _cursor = Add(new YnTextButton());
-            _cursor.MouseClick += delegate(object w, MouseClickSpriteEventArgs evt)
-            {
-                _dragging = true;
-            };
-
-            _cursor.MouseReleasedInside += delegate(object w, MouseClickSpriteEventArgs evt) { _dragging = false; };
-            _cursor.MouseReleasedOutside += delegate(object w, MouseClickSpriteEventArgs evt) { _dragging = false; };
-
+            _cursor.MouseClick += (s, e) => _dragging = true;
+            _cursor.MouseReleasedInside += (s, e) => _dragging = false;
+            _cursor.MouseReleasedOutside += (s, e) => _dragging = false;
             _labelValue = Add(new YnLabel());
         }
 
