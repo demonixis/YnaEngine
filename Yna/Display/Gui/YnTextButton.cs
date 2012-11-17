@@ -26,6 +26,10 @@ namespace Yna.Display.Gui
             set { _label.Text = value;}
         }
 
+        public SpriteFont CustomFont
+        {
+            set { _label.CustomFont = value; }
+        }
         #region Constructors
 
         public YnTextButton()

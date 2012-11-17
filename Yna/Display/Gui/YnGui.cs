@@ -58,12 +58,11 @@ namespace Yna.Display.Gui
         {
             _widgets = new List<YnWidget>();
             _safeWidgets = new List<YnWidget>();
-            _skin = null;
             _skinName = String.Empty;
         }
 
         public YnGui(YnSkin skin)
-            : base()
+            : this()
         {
             _skin = skin;
         }
@@ -77,7 +76,7 @@ namespace Yna.Display.Gui
 
         public override  void LoadContent()
         {
-            if (_skinName == String.Empty)
+            if (_skinName == String.Empty && _skin == null)
             {
                 // No skin, use the default one
                 // Skin = YnSkinGenerator.Generate(new Color(250, 100, 50)); // Orange
