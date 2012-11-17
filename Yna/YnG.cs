@@ -354,26 +354,16 @@ namespace Yna
             return PlateformRuntime.WindowsPhone8;
 #elif WINDOWS_PHONE_7
             return PlateformRuntime.XNA_WindowsPhone7;
-#elif XBOX 
-            return PlateformRutime.XNA_Xbox; 
+#elif XNA && XBOX 
+            return PlateformRutime.XNA_Xbox;
+#elif XNA && WINDOWS
+            return PlateformRuntime.XNA_PC;
+#elif LINUX
+            return PlateformRuntime.Linux;
+#elif WINDOWS
+            PlateformRuntime.Windows;
 #else
-            MonoGameContext context = MonoGameContext.Unknow; // Default
-
-            Assembly[] AssembliesLoaded = AppDomain.CurrentDomain.GetAssemblies();
-
-            foreach (Assembly assembly in AssembliesLoaded)
-            {
-                if (assembly.FullName.Contains("MonoGame.Framework.Windows"))
-                    context = MonoGameContext.Windows;
-                else if (assembly.FullName.Contains("MonoGame.Framework.Windows8"))
-                    context = MonoGameContext.Windows8;
-                else if (assembly.FullName.Contains("MonoGame.Framework.Linux"))
-                    context = MonoGameContext.Linux;
-                else if (assembly.FullName.Contains("Microsoft.XNA.Framework"))
-                    context = MonoGameContext.XNA;
-            }
-
-            return context;
+            return PlateformRuntime.Unknow;
 #endif
         }
     }
