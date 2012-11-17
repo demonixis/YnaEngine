@@ -349,7 +349,7 @@ namespace Yna
         public static PlateformRuntime GetPlateformContext()
         {
 #if WINDOWS8
-            return MonoGameContext.Windows8;
+            return PlateformRuntime.Windows8;
 #elif WINDOWS_PHONE_8
             return PlateformRuntime.WindowsPhone8;
 #elif WINDOWS_PHONE_7
