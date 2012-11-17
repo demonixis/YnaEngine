@@ -97,62 +97,6 @@ namespace Yna.Audio
 
         #endregion
 
-#if !NETFX_CORE
-        private void CheckYnContent()
-        {
-            if (YnG.YnContent == null)
-                YnG.YnContent = new YnContent("Datas");
-        }
-
-        #region Playing music from custom Content Manager
-
-        private Song LoadMusicFromStream(string name, string path)
-        {
-            CheckYnContent();
-            return YnG.YnContent.Load<Song>(path, true);
-        }
-
-        public void PlayMusicFromStream(string path, bool repeat)
-        {
-            if (_musicEnabled)
-            {
-                Song music = YnG.YnContent.Load<Song>(path, true);
-
-                if (music != null)
-                    PlayMusic(music, repeat);
-            }
-        }
-
-        #endregion
-
-        #region Playing sound from custom Content Manager
-
-        /// <summary>
-        /// Load a sound from a stream and stored automatically it in a custom content manager
-        /// see : YnContent
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public SoundEffect LoadSoundFromStream(string path)
-        {
-            CheckYnContent();
-            return YnG.YnContent.Load<SoundEffect>(path, true);
-        }
-
-        public void PlaySoundFromStream(string path, float volume, float pitch, float pan)
-        {
-            if (_soundEnabled)
-            {
-                SoundEffect sound = LoadSoundFromStream(path);
-
-                if (sound != null)
-                    PlaySound(sound, volume, pitch, pan);
-            }
-        }
-
-        #endregion
-        #endif
-
         #region Playing sound from XNA's Content Manager
 
         private void PlaySound(SoundEffect sound, float volume, float pitch, float pan)
