@@ -361,7 +361,7 @@ namespace Yna
 #elif LINUX
             return PlateformRuntime.Linux;
 #elif WINDOWS
-            PlateformRuntime.Windows;
+            return PlateformRuntime.Windows;
 #else
             return PlateformRuntime.Unknow;
 #endif
