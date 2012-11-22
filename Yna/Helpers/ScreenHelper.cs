@@ -10,19 +10,19 @@ namespace Yna.Helpers
 
         public static float GetScaleX(float value)
         {
-            return (((float)YnG.Width * value) / (float)ScreenWidthReference);
+            return (((float)YnG.DeviceWidth * value) / (float)ScreenWidthReference);
         }
 
         public static float GetScaleY(float value)
         {
-            return (((float)YnG.Height * value) / (float)ScreenHeightReference);
+            return (((float)YnG.DeviceHeight * value) / (float)ScreenHeightReference);
         }
 
         public static Vector2 GetScale()
         {
             return new Vector2(
-                (float)((float)YnG.Width / (float)ScreenWidthReference),
-                (float)((float)YnG.Height / (float)ScreenHeightReference));
+                (float)((float)YnG.DeviceWidth / (float)ScreenWidthReference),
+                (float)((float)YnG.DeviceHeight / (float)ScreenHeightReference));
         }
     }
 }
