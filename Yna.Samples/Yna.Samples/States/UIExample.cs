@@ -21,7 +21,7 @@ namespace Yna.Samples.States
             : base(name, 0, 0)
         {
             YnG.ShowMouse = true;
-            gui = new YnGui();
+            gui = new YnGui(YnSkinGenerator.Generate(Color.DarkSlateGray, "Fonts/DefaultFont"));
         }
 
         public override void BuildGui()

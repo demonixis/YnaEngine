@@ -279,6 +279,22 @@ namespace Yna
             }
         }
 
+        // TODO : better algo
+        public YnObject GetChildByName(string name)
+        {
+            YnObject result = null;
+            int i = 0;
+            while(i < _members.Count && result == null)
+            {
+                if (_members[i].Name == name)
+                    result = _members[i];
+
+                i++;
+            }
+
+            Console.WriteLine("out : " + _members.Count);
+            return result;
+        }
         #endregion
 
         /// <summary>
