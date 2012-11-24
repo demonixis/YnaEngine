@@ -53,5 +53,10 @@ namespace Yna.Display
 
             _view = rotationTransforms * transltationTransforms * Matrix.CreateScale(_zoom);
         }
+
+        public Matrix GetMatrix()
+        {
+            return _view;
+        }
     }
 }

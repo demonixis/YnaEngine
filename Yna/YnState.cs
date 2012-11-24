@@ -28,6 +28,9 @@ namespace Yna
         protected Matrix _transformMatrix;
         protected float _rotation;
         protected float _zoom;
+        protected Vector3 _position;
+
+        private YnCamera _camera;
 
         #endregion
 
@@ -101,6 +104,12 @@ namespace Yna
             }
         }
 
+        public Vector3 Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -143,6 +152,7 @@ namespace Yna
 
             _rotation = 0.0f;
             _zoom = 1.0f;
+            _position = Vector3.Zero;
         }
 
         #endregion
@@ -287,10 +297,10 @@ namespace Yna
         /// <returns></returns>
         protected Matrix GetTransformMatrix()
         {
-            Matrix translateToOrigin = Matrix.CreateTranslation(-YnG.Width / 2, -YnG.Height / 2, 0);
+            Matrix translateToOrigin = Matrix.CreateTranslation(_position.X + (-YnG.Width / 2), _position.Y + (-YnG.Height / 2), _position.Z);
             Matrix rotation = Matrix.CreateRotationZ(MathHelper.ToRadians(_rotation));
             Matrix zoom = Matrix.CreateScale(_zoom);
-            Matrix translateBackToPosition = Matrix.CreateTranslation(YnG.Width / 2, YnG.Height / 2, 0);
+            Matrix translateBackToPosition = Matrix.CreateTranslation(_position.X + (YnG.Width / 2), _position.Y + (YnG.Height / 2), _position.Z);
             Matrix composition = translateToOrigin * rotation * zoom * translateBackToPosition;
 
             return composition;

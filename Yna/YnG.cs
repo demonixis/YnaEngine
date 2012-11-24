@@ -101,6 +101,9 @@ namespace Yna
         {
             get 
             {
+#if MONOGAME
+                return DeviceWidth;
+#endif
                 if (GraphicsDevice != null)
                     return GraphicsDevice.Viewport.Width;
                 else
@@ -115,6 +118,9 @@ namespace Yna
         {
             get 
             {
+#if MONOGAME
+                return DeviceHeight;
+#endif
                 if (GraphicsDevice != null)
                     return GraphicsDevice.Viewport.Height;
                 else
