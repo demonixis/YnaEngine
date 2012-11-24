@@ -30,6 +30,7 @@ namespace Yna.Display.Gui
         {
             set { _label.CustomFont = value; }
         }
+
         #region Constructors
 
         public YnTextButton()

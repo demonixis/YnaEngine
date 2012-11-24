@@ -25,6 +25,21 @@ namespace Yna
         protected string gameTitle = "Yna Game";
         protected string gameVersion = "0.1";
 
+        #region Events 
+
+        /// <summary>
+        /// Triggered when the screen resolution changed
+        /// </summary>
+        public event EventHandler<ScreenChangedEventArgs> ScreenResolutionChanged = null;
+
+        private void OnScreenResolutionChanged(ScreenChangedEventArgs e)
+        {
+            if (ScreenResolutionChanged != null)
+                ScreenResolutionChanged(this, e);
+        }
+
+        #endregion
+
         #region Constructors
 
         public YnGame()
@@ -112,6 +127,8 @@ namespace Yna
             this.graphics.PreferredBackBufferWidth = width;
             this.graphics.PreferredBackBufferHeight = height;
             this.graphics.ApplyChanges();
+
+            OnScreenResolutionChanged(new ScreenChangedEventArgs(width, height, this.graphics.IsFullScreen));
         }
 
         /// <summary>
