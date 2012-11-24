@@ -118,6 +118,7 @@
     <Compile Include="Display\TileMap\Iso\LayerIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
+	<Compile Include="Events.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
