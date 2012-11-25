@@ -31,6 +31,12 @@ namespace Yna.Display.Gui
             set { _label.CustomFont = value; }
         }
 
+        public Color TextColor
+        {
+            get { return _label.TextColor; }
+            set { _label.TextColor = value; }
+        }
+
         #region Constructors
 
         public YnTextButton()
