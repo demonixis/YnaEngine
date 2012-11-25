@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.MacOS", "Yna\Yna.MacOS.csproj", "{EDC8FA64-8D97-4363-9F9A-8544E59CF661}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDC8FA64-8D97-4363-9F9A-8544E59CF661}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EDC8FA64-8D97-4363-9F9A-8544E59CF661}.Debug|x86.Build.0 = Debug|Any CPU
+		{EDC8FA64-8D97-4363-9F9A-8544E59CF661}.Release|x86.ActiveCfg = Release|Any CPU
+		{EDC8FA64-8D97-4363-9F9A-8544E59CF661}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Yna\Yna.MacOS.csproj
+	EndGlobalSection
+EndGlobal
