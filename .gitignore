@@ -4,6 +4,7 @@ Thumbs.db
 *.user
 *.pidb
 *.userprefs
+*.DS_Store
 ipch/
 obj/
 [Bb]in
