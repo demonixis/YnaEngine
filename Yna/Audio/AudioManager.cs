@@ -129,9 +129,11 @@ namespace Yna.Audio
         {
             if (_musicEnabled)
             {
-#if !MONOGAME && !WINDOWS
+#if !MONOGAME
                 Song music = YnG.Content.Load<Song>(assetName);
                 PlayMusic(music, repeat);
+#elif MONOGAME && WINDOWS
+
 #endif
             }
         }
