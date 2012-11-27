@@ -57,6 +57,14 @@ namespace Yna.Display3D
             set { _basicLight = value; }
         }
 
+        /// <summary>
+        /// The model's asset name
+        /// </summary>
+        public string ModelName
+        {
+            get { return _modelName; }
+        }
+
         #endregion
 
         #region Constructor
