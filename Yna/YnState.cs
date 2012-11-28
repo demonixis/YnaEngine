@@ -302,7 +302,7 @@ namespace Yna
                 i++;
             }
 
-            Console.WriteLine("out : " + _members.Count);
+            //Console.WriteLine("out : " + _members.Count);
             return result;
         }
         #endregion
