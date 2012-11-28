@@ -63,7 +63,7 @@ namespace Yna.Audio
         public float MusicVolume
         {
             get { return MediaPlayer.Volume; }
-            set { MediaPlayer.Volume = value; }
+            set { MediaPlayer.Volume = Math.Abs(value); }
         }
 
         #endregion
@@ -129,11 +129,11 @@ namespace Yna.Audio
         {
             if (_musicEnabled)
             {
-#if !MONOGAME
+#if XNA || NETFX_CORE
                 Song music = YnG.Content.Load<Song>(assetName);
                 PlayMusic(music, repeat);
-#elif MONOGAME && WINDOWS
-
+#elif MONOGAME
+                
 #endif
             }
         }
