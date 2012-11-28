@@ -45,6 +45,12 @@
     <Reference Include="MonoGame.Framework.Windows">
       <HintPath>..\Externals\MonoGame\Windows\MonoGame.Framework.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\Externals\NAudio\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WindowsMediaFormat">
+      <HintPath>..\Externals\NAudio\NAudio.WindowsMediaFormat.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\Externals\MonoGame\Windows\OpenTK.dll</HintPath>
     </Reference>
@@ -56,6 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Audio\DefaultAdapter.cs" />
+    <Compile Include="Audio\IAudioAdapter.cs" />
+    <Compile Include="Audio\NAudioAdapter.cs" />
+    <Compile Include="Audio\NAudioLoopStream.cs" />
     <Compile Include="Content\ContentEventArgs.cs" />
     <Compile Include="Content\YnContent.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />

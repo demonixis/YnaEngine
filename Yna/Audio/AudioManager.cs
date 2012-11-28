@@ -134,6 +134,14 @@ namespace Yna.Audio
                 PlayMusic(music, repeat);
 #elif MONOGAME
                 
+                System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart((e) =>
+                    {
+                        IAudioAdapter audio = new NAudioAdapter();
+                        (audio as NAudioAdapter).Repeat = true;
+                        audio.PlayMusic("Content/" + assetName + ".mp3");
+                    }));
+                t.Start();
+                
 #endif
             }
         }
