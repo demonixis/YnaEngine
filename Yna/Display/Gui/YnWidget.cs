@@ -27,8 +27,23 @@ namespace Yna.Display.Gui
         // Number of widget created, used for set the default name
         private static int WidgetCounter = 0;
 
+        #region Attributes
+
         protected string _name;
         protected Rectangle _bounds;
+        protected bool _withBackground;
+        protected bool _withBorders;
+        protected bool _visible;
+        protected bool _active;
+        protected YnWidget _parent;
+        protected List<YnWidget> _children;
+        protected YnOrientation _orientation;
+        protected YnSkin _skin;
+        protected int _padding;
+        protected bool _pack;
+        protected bool _hovered;
+
+        #endregion
 
         #region Properties
 
@@ -86,33 +101,57 @@ namespace Yna.Display.Gui
         /// <summary>
         /// Set to true to render the default background image as background of this widget
         /// </summary>
-        public bool WithBackground { get; set; }
+        public bool WithBackground
+        {
+            get { return _withBackground; }
+            set { _withBackground = value; }
+        }
 
         /// <summary>
         /// Set to true to render the default border images
         /// </summary>
-        public bool WithBorder { get; set; }
+        public bool WithBorder
+        {
+            get { return _withBorders; }
+            set { _withBorders = value; }
+        }
 
         /// <summary>
         /// Set to false to stop rendering
         /// </summary>
-        public bool IsVisible { get; set; }
+        public bool IsVisible
+        {
+            get { return _visible; }
+            set { _visible = value; }
+        }
 
         /// <summary>
         /// Set to false to stop updating
         /// </summary>
-        public bool IsActive { get; set; }
+        public bool IsActive
+        {
+            get { return _active; }
+            set { _active = value; }
+        }
 
         /// <summary>
         /// The parent widget. If left empty, position will be considered as absolute. otherwise, 
         /// they will be considered as relative to the parent's bounds
         /// </summary>
-        public YnWidget Parent { get; set; }
+        public YnWidget Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
 
         /// <summary>
         /// This list contains all children contained in the widget
         /// </summary>
-        public List<YnWidget> Children { get; set; }
+        public List<YnWidget> Children
+        {
+            get { return _children; }
+            set { _children = value; }
+        }
 
         /// <summary>
         /// The widget bounds
@@ -131,7 +170,11 @@ namespace Yna.Display.Gui
         /// <summary>
         /// The children rendering orientation
         /// </summary>
-        public YnOrientation Orientation { get; set; }
+        public YnOrientation Orientation
+        {
+            get { return _orientation; }
+            set { _orientation = value; }
+        }
 
         /// <summary>
         /// Sets the vertical overflow
@@ -146,22 +189,38 @@ namespace Yna.Display.Gui
         /// <summary>
         /// The associated skin
         /// </summary>
-        public YnSkin Skin { get; set; }
+        public YnSkin Skin
+        {
+            get { return _skin; }
+            set { _skin = value; }
+        }
 
         /// <summary>
         /// The padding between borders and inner widgets
         /// </summary>
-        public int Padding { get; set; }
+        public int Padding
+        {
+            get { return _padding; }
+            set { _padding = value; }
+        }
 
         /// <summary>
         /// Pack the component to be the smallest possible according to it's children sizes
         /// </summary>
-        public bool Pack { get; set; }
+        public bool Pack
+        {
+            get { return _pack; }
+            set { _pack = value; }
+        }
 
         /// <summary>
         /// True if the widget is currently hovered by the mouse
         /// </summary>
-        public bool IsHovered { get; set; }
+        public bool IsHovered
+        {
+            get { return _hovered; }
+            set { _hovered = value; }
+        }
 
         /// <summary>
         /// Set to true to adjust children sizes to fit in the container
@@ -189,16 +248,16 @@ namespace Yna.Display.Gui
         /// </summary>
         protected YnWidget()
         {
+            _withBackground = false;
+            _withBorders = false;
+            _visible = true;
+            _active = true;
+            _parent = null;
+            _hovered = false;
+            _children = new List<YnWidget>();
+            _orientation = YnOrientation.Vertical;
+            _bounds = Rectangle.Empty;
             Position = Vector2.Zero;
-            WithBackground = false;
-            WithBorder = false;
-            IsVisible = true;
-            IsActive = true;
-            Parent = null;
-            IsHovered = false;
-            Children = new List<YnWidget>();
-            Orientation = YnOrientation.Vertical;
-            Bounds = Rectangle.Empty;
 
             _name = String.Format("YnWidget_{0}", YnWidget.WidgetCounter++);
         }
@@ -216,14 +275,14 @@ namespace Yna.Display.Gui
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
             // If the widget is invisible, don't render it nor it's children
-            if (IsVisible)
+            if (_visible)
             {
                 // Draw the borders
-                if (WithBorder)
+                if (_withBorders)
                     DrawBorders(gameTime, spriteBatch, skin.PanelBorder);
 
                 // Draw the background
-                if (WithBackground)
+                if (_withBackground)
                     DrawBackground(gameTime, spriteBatch, skin.PanelBackground);
 
                 // Draw the component itself
@@ -248,15 +307,15 @@ namespace Yna.Display.Gui
             if (Skin.PanelBorder != null)
             {
                 dest = new Rectangle(
-                    (int)AbsolutePosition.X + Skin.PanelBorder.TopLeft.Width,
-                    (int)AbsolutePosition.Y + Skin.PanelBorder.TopLeft.Height,
-                    Bounds.Width - Skin.PanelBorder.TopLeft.Width - Skin.PanelBorder.TopRight.Width,
-                    Bounds.Height - Skin.PanelBorder.BottomLeft.Height - Skin.PanelBorder.BottomRight.Height
+                    (int)AbsolutePosition.X + _skin.PanelBorder.TopLeft.Width,
+                    (int)AbsolutePosition.Y + _skin.PanelBorder.TopLeft.Height,
+                    _bounds.Width - _skin.PanelBorder.TopLeft.Width - _skin.PanelBorder.TopRight.Width,
+                    _bounds.Height - _skin.PanelBorder.BottomLeft.Height - _skin.PanelBorder.BottomRight.Height
                 );
             }
             else
             {
-                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, Bounds.Width, Bounds.Height);
+                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, _bounds.Width, _bounds.Height);
             }
 
             spriteBatch.Draw(background, dest, source, Color.White);
@@ -282,18 +341,18 @@ namespace Yna.Display.Gui
             spriteBatch.Draw(border.TopLeft, pos, Color.White);
 
             // top right
-            pos.X = AbsolutePosition.X + Bounds.Width - border.TopRight.Width;
+            pos.X = AbsolutePosition.X + _bounds.Width - border.TopRight.Width;
             pos.Y = AbsolutePosition.Y;
             spriteBatch.Draw(border.TopRight, pos, Color.White);
 
             // Bottom right
-            pos.X = AbsolutePosition.X + Bounds.Width - border.TopRight.Width;
-            pos.Y = AbsolutePosition.Y + Bounds.Height - border.BottomRight.Height;
+            pos.X = AbsolutePosition.X + _bounds.Width - border.TopRight.Width;
+            pos.Y = AbsolutePosition.Y + _bounds.Height - border.BottomRight.Height;
             spriteBatch.Draw(border.TopRight, pos, Color.White);
 
             // Bottom left
             pos.X = AbsolutePosition.X;
-            pos.Y = AbsolutePosition.Y + Bounds.Height - border.BottomLeft.Height;
+            pos.Y = AbsolutePosition.Y + _bounds.Height - border.BottomLeft.Height;
             spriteBatch.Draw(border.BottomLeft, pos, Color.White);
 
 
@@ -303,7 +362,7 @@ namespace Yna.Display.Gui
             dest = new Rectangle(
                 (int)AbsolutePosition.X + border.TopLeft.Width,
                 (int)AbsolutePosition.Y,
-                Bounds.Width - border.TopLeft.Width - border.TopRight.Width,
+                _bounds.Width - border.TopLeft.Width - border.TopRight.Width,
                 border.Top.Height
             );
             spriteBatch.Draw(border.Top, dest, source, Color.White);
@@ -311,10 +370,10 @@ namespace Yna.Display.Gui
             // Right
             source = border.Right.Bounds;
             dest = new Rectangle(
-                (int)AbsolutePosition.X + Bounds.Width - border.TopRight.Width,
+                (int)AbsolutePosition.X + _bounds.Width - border.TopRight.Width,
                 (int)AbsolutePosition.Y + border.TopRight.Height,
                 border.Right.Width,
-                Bounds.Height - border.TopRight.Height - border.BottomRight.Height
+                _bounds.Height - border.TopRight.Height - border.BottomRight.Height
             );
             spriteBatch.Draw(border.Right, dest, source, Color.White);
 
@@ -322,8 +381,8 @@ namespace Yna.Display.Gui
             source = border.Bottom.Bounds;
             dest = new Rectangle(
                 (int)AbsolutePosition.X + border.BottomLeft.Width,
-                (int)AbsolutePosition.Y + Bounds.Height - border.Bottom.Height,
-                Bounds.Width - border.BottomLeft.Width - border.BottomRight.Width,
+                (int)AbsolutePosition.Y + _bounds.Height - border.Bottom.Height,
+                _bounds.Width - border.BottomLeft.Width - border.BottomRight.Width,
                 border.Top.Height
             );
             spriteBatch.Draw(border.Top, dest, source, Color.White);
@@ -334,7 +393,7 @@ namespace Yna.Display.Gui
                 (int)AbsolutePosition.X,
                 (int)AbsolutePosition.Y + border.TopLeft.Height,
                 border.Left.Width,
-                Bounds.Height - border.TopLeft.Height - border.BottomLeft.Height
+                _bounds.Height - border.TopLeft.Height - border.BottomLeft.Height
             );
             spriteBatch.Draw(border.Right, dest, source, Color.White);
         }
@@ -348,9 +407,9 @@ namespace Yna.Display.Gui
         /// <param name="skin">The rendering skin used</param>
         protected virtual void DrawChildren(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-            if (Children.Count > 0)
+            if (_children.Count > 0)
             {
-                foreach (YnWidget child in Children)
+                foreach (YnWidget child in _children)
                 {
                     child.Draw(gameTime, spriteBatch, skin);
                 }
@@ -373,7 +432,7 @@ namespace Yna.Display.Gui
         protected virtual void UpdateBounds()
         {
             // TODO Handle padding settings here
-            InnerBounds = Bounds;
+            InnerBounds = _bounds;
         }
 
         /// <summary>
@@ -383,10 +442,10 @@ namespace Yna.Display.Gui
         public void Show(bool show)
         {
             // Hide / show the widget
-            IsVisible = show;
+            _visible = show;
 
             // Hide / show children
-            foreach (YnWidget child in Children)
+            foreach (YnWidget child in _children)
             {
                 child.Show(show);
             }
@@ -400,21 +459,21 @@ namespace Yna.Display.Gui
             // Resize children first and store total width / height
             int totalWidth = 0;
             int totalHeight = 0;
-            foreach (YnWidget child in Children)
+            foreach (YnWidget child in _children)
             {
                 child.Layout();
                 child.Position = Vector2.Zero;
 
                 // Handle positions
-                switch (Orientation)
+                switch (_orientation)
                 {
                     case YnOrientation.Horizontal:
-                        child.Move(totalWidth + Padding, Padding);
-                        totalWidth += child.Bounds.Width + Padding;
+                        child.Move(totalWidth + _padding, _padding);
+                        totalWidth += child.Bounds.Width + _padding;
                         break;
                     case YnOrientation.Vertical:
-                        child.Move(Padding, totalHeight + Padding);
-                        totalHeight += child.Bounds.Height + Padding;
+                        child.Move(Padding, totalHeight + _padding);
+                        totalHeight += child.Bounds.Height + _padding;
                         break;
                 }
 
@@ -423,7 +482,7 @@ namespace Yna.Display.Gui
             totalHeight += Padding;
 
             // The resize is done according to the children sizes
-            switch (Orientation)
+            switch (_orientation)
             {
                 case YnOrientation.Horizontal:
                     // Horizontal layout : left to right
@@ -443,7 +502,7 @@ namespace Yna.Display.Gui
                         if (Pack)
                         {
                             // Pack the height as well
-                            _bounds.Height = GetMaxChildHeight() + Padding * 2;
+                            _bounds.Height = GetMaxChildHeight() + _padding * 2;
                         }
                         UpdateBounds();
                     }
@@ -466,7 +525,7 @@ namespace Yna.Display.Gui
                         if (Pack)
                         {
                             // Pack the width as well
-                            _bounds.Width = GetMaxChildWidth() + Padding * 2;
+                            _bounds.Width = GetMaxChildWidth() + _padding * 2;
                         }
                         UpdateBounds();
                     }
@@ -480,13 +539,13 @@ namespace Yna.Display.Gui
                 int maxWidth = GetMaxChildWidth();
                 foreach (YnWidget child in Children)
                 {
-                    switch (Orientation)
+                    switch (_orientation)
                     {
                         case YnOrientation.Horizontal:
-                            child.Height = maxHeight - Padding * 2;
+                            child.Height = maxHeight - _padding * 2;
                             break;
                         case YnOrientation.Vertical:
-                            child.Width = maxWidth - Padding * 2;
+                            child.Width = maxWidth - _padding * 2;
                             break;
                     }
                 }
@@ -497,13 +556,13 @@ namespace Yna.Display.Gui
         {
             DoCustomUpdate(gameTime);
 
-            foreach (YnWidget child in Children)
+            foreach (YnWidget child in _children)
             {
                 child.Update(gameTime);
             }
 
             // No event handling if not visible nor active
-            if (IsVisible && IsActive)
+            if (_visible && _active)
             {
                 Rectangle absoluteBounds = _bounds;
                 Vector2 absolutePosition = AbsolutePosition;
@@ -584,7 +643,7 @@ namespace Yna.Display.Gui
         /// <returns>The widget added for ease</returns>
         public W Add<W>(W widget) where W : YnWidget
         {
-            Children.Add(widget);
+            _children.Add(widget);
             widget.Parent = this;
             return widget;
         }
@@ -606,8 +665,8 @@ namespace Yna.Display.Gui
         /// <param name="skin">The skin to use</param>
         public void InitSkin(YnSkin skin)
         {
-            Skin = skin;
-            foreach (YnWidget widget in Children)
+            _skin = skin;
+            foreach (YnWidget widget in _children)
             {
                 widget.InitSkin(skin);
             }
@@ -621,7 +680,7 @@ namespace Yna.Display.Gui
         {
             int maxHeight = Bounds.Height;
 
-            foreach (YnWidget widget in Children)
+            foreach (YnWidget widget in _children)
             {
                 int currentHeight = widget.GetMaxChildHeight();
                 if (maxHeight < currentHeight)
@@ -641,7 +700,7 @@ namespace Yna.Display.Gui
         {
             int maxWidth = _bounds.Width;
 
-            foreach (YnWidget widget in Children)
+            foreach (YnWidget widget in _children)
             {
                 int currentWidth = widget.GetMaxChildWidth();
                 if (maxWidth < currentWidth)
@@ -692,7 +751,7 @@ namespace Yna.Display.Gui
         /// </summary>
         protected virtual void DoMouseOver()
         {
-            IsHovered = true;
+            _hovered = true;
             if (MouseOver != null) MouseOver(this, new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
         }
 
@@ -701,7 +760,7 @@ namespace Yna.Display.Gui
         /// </summary>
         protected virtual void DoMouseLeave()
         {
-            IsHovered = false;
+            _hovered = false;
             if (MouseLeave != null) MouseLeave(this, new MouseLeaveSpriteEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
         }
 
