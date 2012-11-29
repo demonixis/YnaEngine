@@ -4,25 +4,41 @@ using NAudio.Wave;
 
 namespace Yna.Audio
 {
-    public class NAudioAdapter : IAudioAdapter
+    public class NAudioAdapter : AudioAdapter, IAudioAdapter
     {
         private IWavePlayer _wavePlayer;
         private WaveStream _mainOutputStream;
         private WaveStream _volumeSytream;
-        private bool _repeat;
 
-        public bool Repeat
+        public new AudioState AudioState
         {
-            get { return _repeat; }
-            set { _repeat = value; }
+            get
+            {
+                if (_wavePlayer == null)
+                {
+                    _audioState = AudioState.Stopped;
+                }
+                else
+                {
+                    switch (_wavePlayer.PlaybackState)
+                    {
+                        case PlaybackState.Paused: _audioState = Audio.AudioState.Paused; break;
+                        case PlaybackState.Playing: _audioState = Audio.AudioState.Playing; break;
+                        case PlaybackState.Stopped: _audioState = Audio.AudioState.Stopped; break;
+                    }
+                }
+
+                return _audioState;
+            }
+            protected set { _audioState = value; }
         }
 
         public NAudioAdapter()
+            : base()
         {
             _wavePlayer = new WaveOut();
             _mainOutputStream = null;
             _volumeSytream = null;
-            _repeat = false;
         }
 
         private WaveStream CreateInputStream(string filename)
@@ -33,7 +49,7 @@ namespace Yna.Audio
             {
                 WaveStream mp3Reader = new Mp3FileReader(filename);
 
-                if (_repeat)
+                if (_repeatMusic)
                     inputStream = new NAudioLoopStream(mp3Reader);
                 else
                     inputStream = new WaveChannel32(mp3Reader);
@@ -115,6 +131,11 @@ namespace Yna.Audio
         }
 
         void IAudioAdapter.PlaySound(string path)
+        {
+            Play(path);
+        }
+
+        void IAudioAdapter.PlaySound(string path, float volume, float pitch, float pan)
         {
             Play(path);
         }

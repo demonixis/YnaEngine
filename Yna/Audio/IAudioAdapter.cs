@@ -9,5 +9,6 @@ namespace Yna.Audio
         void PauseMusic();
         void ResumeMusic();
         void PlaySound(string path);
+        void PlaySound(string path, float volume, float pitch, float pan);
     }
 }

@@ -61,8 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\AudioAdapter.cs" />
+    <Compile Include="Audio\AudioEngine.cs" />
     <Compile Include="Audio\AudioManager.cs" />
-    <Compile Include="Audio\DefaultAdapter.cs" />
+    <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Audio\IAudioAdapter.cs" />
     <Compile Include="Audio\NAudioAdapter.cs" />
     <Compile Include="Audio\NAudioLoopStream.cs" />

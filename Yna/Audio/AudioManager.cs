@@ -136,8 +136,8 @@ namespace Yna.Audio
                 
                 System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart((e) =>
                     {
-                        IAudioAdapter audio = new NAudioAdapter();
-                        (audio as NAudioAdapter).Repeat = true;
+                        IAudioAdapter audio = new NAudioAdapter(); 
+                       // (audio as NAudioAdapter).Repeat = true;
                         audio.PlayMusic("Content/" + assetName + ".mp3");
                     }));
                 t.Start();
