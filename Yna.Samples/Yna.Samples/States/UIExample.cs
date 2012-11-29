@@ -154,7 +154,40 @@ namespace Yna.Samples.States
             toolbar.Add(new YnTextButton() { Text = "Exit" });
              */
 
+            YnProgressBar verticalGauge = new YnProgressBar();
+            verticalGauge.Orientation = YnOrientation.Vertical;
+            gui.Add(verticalGauge);
+
+            YnTextButton plusButton = new YnTextButton();
+            plusButton.Text = "+";
+            plusButton.Width = 30;
+            plusButton.Height = 30;
+            plusButton.MouseClick += (o, e) =>
+            {
+                verticalGauge.Value++;
+                Console.WriteLine(verticalGauge.Value);
+            };
+            gui.Add(plusButton);
+
+            YnTextButton minusButton = new YnTextButton();
+            minusButton.Text = "-";
+            minusButton.Width = 30;
+            minusButton.Height = 30;
+            minusButton.MouseClick += (o, e) =>
+            {
+                verticalGauge.Value--;
+                Console.WriteLine(verticalGauge.Value);
+            };
+            gui.Add(minusButton);
+
             gui.PrepareWidgets();
+
+            plusButton.Position = new Vector2(YnG.Width - plusButton.Width, 0);
+            minusButton.Position = new Vector2(YnG.Width - minusButton.Width, YnG.Height - minusButton.Height);
+
+            verticalGauge.Width = plusButton.Width;
+            verticalGauge.Height = YnG.Height - plusButton.Height - minusButton.Height;
+            verticalGauge.Position = new Vector2(YnG.Width - plusButton.Width, plusButton.Height);
         }
 
         public override void LoadContent()

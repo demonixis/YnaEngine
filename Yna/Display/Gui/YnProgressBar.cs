@@ -50,7 +50,8 @@ namespace Yna.Display.Gui
             _minValue = 0;
             _maxValue = 100;
             _currentValue = 0;
-            WithBackground = true;
+            _withBackground = true;
+            _orientation = YnOrientation.Horizontal;    
         }
 
         protected override void DoCustomUpdate(GameTime gameTime)
@@ -60,12 +61,24 @@ namespace Yna.Display.Gui
 
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-            int width = Width / _maxValue * _currentValue;
-
             Texture2D fg = Skin.ButtonBackground;
+            Rectangle source;
+            Rectangle dest;
+            if(_orientation == YnOrientation.Vertical)
+            {
+                int height = Height * _currentValue  / _maxValue;
 
-            Rectangle source = new Rectangle(0, 0, fg.Width, fg.Height);
-            Rectangle dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, width, Bounds.Height);
+                source = new Rectangle(0, 0, fg.Width, fg.Height);
+                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y + Height - height, Width, height);
+            }
+            else
+            {
+                int width = Width * _currentValue  / _maxValue;
+
+                source = new Rectangle(0, 0, fg.Width, fg.Height);
+                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, width, Bounds.Height);
+            }
+
             spriteBatch.Draw(fg, dest, source, Color.White);
         }
 
