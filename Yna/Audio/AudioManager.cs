@@ -129,7 +129,7 @@ namespace Yna.Audio
         {
             if (_musicEnabled)
             {
-#if XNA || NETFX_CORE
+#if XNA || NETFX_CORE || WINDOWS_PHONE_7
                 Song music = YnG.Content.Load<Song>(assetName);
                 PlayMusic(music, repeat);
 #elif MONOGAME
