@@ -96,7 +96,7 @@ namespace Yna.Display.Gui
             _cursor.Position = new Vector2(-_cursor.Width / 2, 0);
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
             // Background

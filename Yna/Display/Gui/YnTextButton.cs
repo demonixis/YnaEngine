@@ -119,9 +119,9 @@ namespace Yna.Display.Gui
             base.DoCustomUpdate(gameTime);
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            base.DrawWidget(gameTime, spriteBatch, skin);
+            base.DrawWidget(gameTime, spriteBatch);
         }
     }
 }

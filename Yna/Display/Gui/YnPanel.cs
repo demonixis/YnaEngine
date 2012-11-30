@@ -16,7 +16,7 @@ namespace Yna.Display.Gui
             WithBackground = true;
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Nothing here, just draw the children in super class
         }

@@ -77,10 +77,10 @@ namespace Yna.Display.Gui
             _text = text;
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Color color = (_useCustomColor) ? _textColor : skin.DefaultTextColor;
-            SpriteFont font = (_customFont == null) ? skin.Font : _customFont;
+            Color color = (_useCustomColor) ? _textColor : _skin.DefaultTextColor;
+            SpriteFont font = (_customFont == null) ? _skin.Font : _customFont;
 
             spriteBatch.DrawString(font, _text, AbsolutePosition, color);
         }

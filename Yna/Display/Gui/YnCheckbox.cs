@@ -41,7 +41,7 @@ namespace Yna.Display.Gui
             }
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (_checked)
             {

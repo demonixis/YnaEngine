@@ -271,25 +271,24 @@ namespace Yna.Display.Gui
         /// </summary>
         /// <param name="gameTime">Elasped time since last draw</param>
         /// <param name="spriteBatch">The sprite batch</param>
-        /// <param name="skin">The rendering skin used</param>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // If the widget is invisible, don't render it nor it's children
             if (_visible)
             {
                 // Draw the borders
                 if (_withBorders)
-                    DrawBorders(gameTime, spriteBatch, skin.PanelBorder);
+                    DrawBorders(gameTime, spriteBatch, _skin.PanelBorder);
 
                 // Draw the background
                 if (_withBackground)
-                    DrawBackground(gameTime, spriteBatch, skin.PanelBackground);
+                    DrawBackground(gameTime, spriteBatch, _skin.PanelBackground);
 
                 // Draw the component itself
-                DrawWidget(gameTime, spriteBatch, skin);
+                DrawWidget(gameTime, spriteBatch);
 
                 // Draw the child components
-                DrawChildren(gameTime, spriteBatch, skin);
+                DrawChildren(gameTime, spriteBatch);
             }
         }
 
@@ -405,13 +404,13 @@ namespace Yna.Display.Gui
         /// <param name="gameTime">Elasped time since last draw</param>
         /// <param name="spriteBatch">The sprite batch</param>
         /// <param name="skin">The rendering skin used</param>
-        protected virtual void DrawChildren(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected virtual void DrawChildren(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (_children.Count > 0)
             {
                 foreach (YnWidget child in _children)
                 {
-                    child.Draw(gameTime, spriteBatch, skin);
+                    child.Draw(gameTime, spriteBatch);
                 }
             }
         }
@@ -422,8 +421,7 @@ namespace Yna.Display.Gui
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="spriteBatch"></param>
-        /// <param name="skin"></param>
-        protected abstract void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin);
+        protected abstract void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch);
 
         #endregion
 
@@ -660,15 +658,29 @@ namespace Yna.Display.Gui
         }
 
         /// <summary>
+        /// Initializes skin
+        /// </summary>
+        public void InitSkin()
+        {
+            foreach (YnWidget widget in _children)
+            {
+                if (widget.Skin == null)
+                    widget.SetSkin(_skin);
+
+                widget.InitSkin();
+            }
+        }
+
+        /// <summary>
         /// Sets the used skin by the widget
         /// </summary>
         /// <param name="skin">The skin to use</param>
-        public void InitSkin(YnSkin skin)
+        public void SetSkin(YnSkin skin)
         {
             _skin = skin;
             foreach (YnWidget widget in _children)
             {
-                widget.InitSkin(skin);
+                widget.SetSkin(skin);
             }
         }
 

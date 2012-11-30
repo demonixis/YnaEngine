@@ -45,7 +45,7 @@ namespace Yna.Samples.States
             toolbar.Add(new YnTextButton("Options", tileSize, tileSize, false));
             toolbar.Add(new YnTextButton("Store", tileSize, tileSize, false));
 
-            YnTextButton button = toolbar.Add(new YnTextButton() { Text = "Exit", Width = tileSize, Height = tileSize, Pack = false });
+            YnTextButton button = toolbar.Add(new YnTextButton("Exit", tileSize, tileSize, false));
             button.MouseClick += (s, e) =>
             {
                 if (!e.JustClicked) 
@@ -87,73 +87,6 @@ namespace Yna.Samples.States
             slider.Position = new Vector2(20, 200);
             slider.MaxValue = 10;
 
-            /*
-            // Simple Label example
-            YnLabel simpleLabel = Gui.Add(new YnLabel());
-            simpleLabel.Text = "Simple Label";
-            simpleLabel.Position = new Vector2(10, 10);
-            
-
-            // Simple vertical panel
-            YnLabel simpleTitle = Gui.Add(new YnLabel());
-            simpleTitle.Text = "Automatic resize of panels :";
-            simpleTitle.Position = new Vector2(10, 30);
-
-            YnPanel panel = Gui.Add(new YnPanel());
-            panel.Orientation = YnOrientation.Vertical;
-            panel.Bounds = new Rectangle(10, 50, 50, 50);
-            panel.Padding = 5;
-
-            panel.Add(new YnLabel() { Text = "Short" });
-            panel.Add(new YnLabel() { Text = "Some basic text" });
-            panel.Add(new YnLabel() { Text = "Some extreme and dangerously long label" });
-            
-
-            // Complex panel
-            YnLabel complexTitle = Gui.Add(new YnLabel());
-            complexTitle.Text = "Complex panel management :";
-            complexTitle.Position = new Vector2(350, 80);
-
-            YnPanel complexPanel = Gui.Add(new YnPanel());
-            complexPanel.Orientation = YnOrientation.Horizontal;
-            complexPanel.Position = new Vector2(350, 100);
-            complexPanel.Padding = 3;
-
-            YnPanel leftPanel = complexPanel.Add(new YnPanel());
-            leftPanel.Padding = 3;
-            leftPanel.Orientation = YnOrientation.Vertical;
-            leftPanel.Add(new YnLabel() { Text = "Left label A with long text" });
-            leftPanel.Add(new YnLabel() { Text = "Left label B" });
-
-            YnPanel RightPanel = complexPanel.Add(new YnPanel());
-            RightPanel.Padding = 3;
-            RightPanel.Orientation = YnOrientation.Vertical;
-            RightPanel.Add(new YnLabel() { Text = "Right label A" });
-            RightPanel.Add(new YnLabel() { Text = "Right label B withe loooooong text" });
-        
-            // Panel without padding
-            YnPanel noPaddingPanel = Gui.Add(new YnPanel());
-            noPaddingPanel.Position = new Vector2(10, 180);
-            noPaddingPanel.Add(new YnLabel() { Text = "Panel without padding" });
-
-            // Panel with padding
-            YnPanel paddedPanel = Gui.Add(new YnPanel());
-            paddedPanel.Position = new Vector2(10, 210);
-            paddedPanel.Padding = 20;
-            paddedPanel.Add(new YnLabel() { Text = "Panel without big padding" });
-            
-            // Buttons in a toolbar
-            YnPanel toolbar = Gui.Add(new YnPanel());
-            toolbar.Orientation = YnOrientation.Horizontal;
-            toolbar.Position = new Vector2(300, 300);
-            toolbar.Padding = 5;
-
-            toolbar.Add(new YnTextButton() { Text = "Load" });
-            toolbar.Add(new YnTextButton() { Text = "Save" });
-            toolbar.Add(new YnTextButton() { Text = "Options" });
-            toolbar.Add(new YnTextButton() { Text = "Exit" });
-             */
-
             YnProgressBar verticalGauge = new YnProgressBar();
             verticalGauge.Orientation = YnOrientation.Vertical;
             gui.Add(verticalGauge);
@@ -180,7 +113,19 @@ namespace Yna.Samples.States
             };
             gui.Add(minusButton);
 
+
+            // Button with custom skin
+            YnTextButton customButton = new YnTextButton("Custom skin button");
+            customButton.Position = new Vector2(toolbar.Position.X + padding, toolbar.Position.Y + tileSize + padding * 2);
+            customButton.Skin = YnSkinGenerator.Generate(Color.Chocolate, "Fonts/MenuFont");
+            gui.Add(customButton);
+
             gui.PrepareWidgets();
+
+            customButton.Width = toolbar.Width - 2* padding;
+            customButton.Height = 50;
+            customButton.Pack = false;
+            customButton.Layout();
 
             plusButton.Position = new Vector2(YnG.Width - plusButton.Width, 0);
             minusButton.Position = new Vector2(YnG.Width - minusButton.Width, YnG.Height - minusButton.Height);

@@ -10,7 +10,7 @@ using Yna.Helpers;
 namespace Yna.Display.Gui
 {
     /// <summary>
-    /// The GUI manager as a Game Component
+    /// The GUI manager
     /// </summary>
     public class YnGui : YnObject
     {
@@ -69,30 +69,37 @@ namespace Yna.Display.Gui
 
         #region GameState pattern
 
+        /// <summary>
+        /// Gamestate pattern : initialize
+        /// </summary>
         public override void Initialize()
         {
-            
+            // Nothing!
         }
 
+        /// <summary>
+        /// Gamestate pattern : load content
+        /// </summary>
         public override  void LoadContent()
         {
             if (_skinName == String.Empty && _skin == null)
             {
-                // No skin, use the default one
-                // Skin = YnSkinGenerator.Generate(new Color(250, 100, 50)); // Orange
-                //Skin = YnSkinGenerator.Generate(Color.Coral);
-                // Skin = YnSkinGenerator.Generate(Color.DeepPink);
+                // No skin, generate the default one
                 Skin = YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/DefaultFont");
             }
             else
             {
-                // TODO Load the skin
+                // TODO Load the skin for XML file
                 // We must make a serializable class for a skin for an XML import with content manager
                 // Or writing a custom pipeline importer (must be better)
-                //Skin = Game.Content.Load<YnSkin>(SkinName);
+                //_skin = Game.Content.Load<YnSkin>(_skinName);
             }
         }
 
+        /// <summary>
+        /// Gamestate pattern : update
+        /// </summary>
+        /// <param name="gameTime">The game time</param>
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -108,23 +115,23 @@ namespace Yna.Display.Gui
         }
 
         /// <summary>
-        /// Draw the GUI
+        /// Gamestate pattern : Draw the GUI
         /// </summary>
-        /// <param name="gameTime">Time since last update</param>
+        /// <param name="gameTime">The game time</param>
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (_safeWidgets.Count > 0)
             {
                 foreach (YnWidget widget in _safeWidgets)
-                    widget.Draw(gameTime, spriteBatch, Skin);
+                    widget.Draw(gameTime, spriteBatch);
             }
         }
 
         /// <summary>
         /// Draw the GUI with another batch
         /// </summary>
-        /// <param name="gameTime"></param>
-        /// <param name="spriteBatch"></param>
+        /// <param name="gameTime">The game time</param>
+        /// <param name="spriteBatch">The sprite batch to use</param>
         public void DrawGui(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -147,7 +154,7 @@ namespace Yna.Display.Gui
             _widgets.Add(widget);
             
             // If the skin is already loaded, link it directly
-            if(_skin != null)
+            if (widget.Skin == null && _skin != null)
                 widget.Skin = _skin;
 
             return widget;
@@ -177,10 +184,13 @@ namespace Yna.Display.Gui
 
         public void PrepareWidgets()
         {
-            // Initializes the skin for all added widgets
+            // Initializes the skin for all added widgets if not done yet
             foreach (YnWidget widget in _widgets)
             {
-                widget.InitSkin(_skin);
+                if (widget.Skin == null)
+                    widget.SetSkin(_skin);
+
+                widget.InitSkin();
             }
 
             // Do the layout for all widgets
@@ -198,7 +208,7 @@ namespace Yna.Display.Gui
                 widget.Show(false);
             }
 
-            // Set the new skin for all components
+            // Set the new skin
             _skin = skin;
 
             // Redo all widgets initializations
@@ -210,59 +220,6 @@ namespace Yna.Display.Gui
             {
                 widget.Show(true);
             }
-        }
-    }
-
-    /// <summary>
-    /// Default skin with basic rendering
-    /// </summary>
-    internal class DefaultSkin : YnSkin
-    {
-        /// <summary>
-        /// The constructor of the default skin builds all textures from scratch.
-        /// Must be used after Content Manager has been started
-        /// </summary>
-        public DefaultSkin()
-            : base()
-        {
-            // Default font
-            FontName = "Fonts/DefaultFont";
-            Font = YnG.Game.Content.Load<SpriteFont>(FontName);
-            DefaultTextColor = Color.White;
-
-            // Default borders
-            Color transparentColor = new Color(0, 0, 0, 0);
-            const int borderSize = 1;
-            Color borderColor = Color.Gray;
-            PanelBorder = new YnBorder();
-            PanelBorder.TopLeft     = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            PanelBorder.Top         = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
-            PanelBorder.TopRight    = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            PanelBorder.Right       = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
-            PanelBorder.BottomRight = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            PanelBorder.Bottom      = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
-            PanelBorder.BottomLeft  = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            PanelBorder.Left        = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
-
-            // Default background
-            /*
-            BoxBackground = GraphicsHelper.CreateTexture(Color.DarkGray, 1, 1);
-
-            // Hovered borders
-            borderColor = Color.White;
-            HoveredBoxBorder = new YnBorder();
-            HoveredBoxBorder.TopLeft     = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            HoveredBoxBorder.Top         = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
-            HoveredBoxBorder.TopRight    = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            HoveredBoxBorder.Right       = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
-            HoveredBoxBorder.BottomRight = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            HoveredBoxBorder.Bottom      = GraphicsHelper.CreateTexture(borderColor, 1, borderSize);
-            HoveredBoxBorder.BottomLeft  = GraphicsHelper.CreateTexture(transparentColor, borderSize, borderSize);
-            HoveredBoxBorder.Left        = GraphicsHelper.CreateTexture(borderColor, borderSize, 1);
-
-            // Hovered background
-            HoveredBackground = GraphicsHelper.CreateTexture(new Color(100, 100, 100), 1, 1);
-             * */
         }
     }
 }
