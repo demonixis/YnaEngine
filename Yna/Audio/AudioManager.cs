@@ -132,8 +132,8 @@ namespace Yna.Audio
 #if XNA || NETFX_CORE || WINDOWS_PHONE_7
                 Song music = YnG.Content.Load<Song>(assetName);
                 PlayMusic(music, repeat);
-#elif MONOGAME
-                
+#elif MONOGAME && !LINUX
+                /*
                 System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart((e) =>
                     {
                         IAudioAdapter audio = new NAudioAdapter(); 
@@ -141,7 +141,12 @@ namespace Yna.Audio
                         audio.PlayMusic("Content/" + assetName + ".mp3");
                     }));
                 t.Start();
-                
+                */
+                /*
+                var player = new WMPLib.WindowsMediaPlayer();
+                player.URL = YnG.Content.RootDirectory + "/" + assetName + ".mp3";
+                player.controls.play();
+                 * */
 #endif
             }
         }
