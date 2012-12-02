@@ -76,9 +76,9 @@ namespace Yna.State
             {
                 _active = value;
                 if (_active)
-                    OnReActivated(EventArgs.Empty);
+                    OnActivated(EventArgs.Empty);
                 else
-                    OnSuspended(EventArgs.Empty);
+                    OnDesactivated(EventArgs.Empty);
             }
         }
 
@@ -178,36 +178,25 @@ namespace Yna.State
         #region Events
 
         /// <summary>
-        /// Triggered when the the screen state is active
+        /// Triggerd when the Active property is set to true
         /// </summary>
-        public event EventHandler<EventArgs> ReActivated = null;
+        public event EventHandler<EventArgs> Activated = null;
 
         /// <summary>
-        /// Triggered when the screen state is not active
+        /// Triggered when the Active property is set to false
         /// </summary>
-        public event EventHandler<EventArgs> Suspended = null;
+        public event EventHandler<EventArgs> Desactivated = null;
 
-        /// <summary>
-        /// Triggered when the screen will be removed
-        /// </summary>
-        public event EventHandler<EventArgs> Removed = null;
-
-        private void OnReActivated(EventArgs e)
+        protected virtual void OnActivated(EventArgs e)
         {
-            if (ReActivated != null)
-                ReActivated(this, e);
+            if (Activated != null)
+                Activated(this, e);
         }
 
-        private void OnSuspended(EventArgs e)
+        protected virtual void OnDesactivated(EventArgs e)
         {
-            if (Suspended != null)
-                Suspended(this, e);
-        }
-
-        private void OnRemoved(EventArgs e)
-        {
-            if (Removed != null)
-                Removed(this, e);
+            if (Desactivated != null)
+                Desactivated(this, e);
         }
 
         #endregion
@@ -247,7 +236,7 @@ namespace Yna.State
 
         public virtual void UnloadContent()
         {
-            OnRemoved(EventArgs.Empty);
+
         }
 
         public virtual void Update(GameTime gameTime)
