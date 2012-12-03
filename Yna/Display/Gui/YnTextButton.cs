@@ -7,35 +7,61 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Display.Gui
 {
+    /// <summary>
+    /// All possible text alignments for a YnTextButon
+    /// </summary>
     public enum YnTextAlign { TopLeft, Top, TopRight, Left, Center, Right,BottomLeft, Bottom, BottomRight}
 
+    /// <summary>
+    /// Text button widget
+    /// </summary>
     public class YnTextButton : YnButton
     {
+        #region Attributes
+        
         private YnLabel _label;
         private YnTextAlign _align;
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// The text alignment inside the button
+        /// </summary>
         public YnTextAlign TextAlign
         {
             get { return _align; }
             set { _align = value; }
         }
 
+        /// <summary>
+        /// The text displayed in the button
+        /// </summary>
         public string Text
         {
             get { return _label.Text; }
             set { _label.Text = value;}
         }
 
+        /// <summary>
+        /// Overrides the skin font and use this one instead
+        /// </summary>
         public SpriteFont CustomFont
         {
             set { _label.CustomFont = value; }
         }
 
+        /// <summary>
+        /// Overrides the default text color defined in the skin and use this one instead
+        /// </summary>
         public Color TextColor
         {
             get { return _label.TextColor; }
             set { _label.TextColor = value; }
         }
+
+        #endregion
 
         #region Constructors
 
@@ -63,7 +89,7 @@ namespace Yna.Display.Gui
         public YnTextButton(string text, int width, int height, bool pack)
             : this(text, width, height)
         {
-            Pack = pack;
+            _pack = pack;
         }
 
         #endregion

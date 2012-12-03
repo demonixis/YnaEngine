@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Yna.Display.Gui
 {
     /// <summary>
-    /// Text label widget
+    /// Simple text label widget
     /// </summary>
     public class YnLabel : YnWidget
     {
@@ -56,7 +56,9 @@ namespace Yna.Display.Gui
 
         /// <summary>
         /// A custom font may be used to display text
+        /// 
         /// </summary>
+        /// 
         public SpriteFont CustomFont
         {
             get { return _customFont; }

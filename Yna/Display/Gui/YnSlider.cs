@@ -14,12 +14,16 @@ namespace Yna.Display.Gui
     /// </summary>
     public class YnSlider : YnWidget
     {
+        #region Attributes
+
         protected int _minValue;
         protected int _maxValue;
         protected int _currentValue;
         private bool _dragging;
         private YnButton _cursor;
         private YnLabel _labelValue;
+
+        #endregion
 
         #region Properties
 
@@ -74,6 +78,7 @@ namespace Yna.Display.Gui
                 // Horizontal move only
                 _cursor.Move((int)-delta.X, 0);
                 
+                // TODO : handle mouse movement overflow to ease the use
                 // Ensure the cursor is still in his rail
                 _cursor.Position = new Vector2(
                     MathHelper.Clamp(_cursor.Position.X, - Height / 2, Width - Height / 2),
@@ -102,13 +107,13 @@ namespace Yna.Display.Gui
             // Background
             int bgHeight = Height / 8;
             Rectangle rect = new Rectangle(
-                (int) AbsolutePosition.X,
+                (int)AbsolutePosition.X,
                 (int)AbsolutePosition.Y + Height / 2 - bgHeight/2,
                 Width,
                 bgHeight
             );
 
-            Texture2D tex = GraphicsHelper.CreateTexture(Skin.DefaultTextColor, 1,1);
+            Texture2D tex = GraphicsHelper.CreateTexture(_skin.DefaultTextColor, 1,1);
             spriteBatch.Draw(tex, rect, Color.White);
         }
     }
