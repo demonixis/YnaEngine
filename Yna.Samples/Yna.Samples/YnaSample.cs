@@ -39,8 +39,10 @@ namespace Yna.Samples
                 new UIExample("ui_sample")
             };
 
-            screenManager.Add(menu, true);
+            screenManager.Add(menu, false);
             screenManager.Add(screens, false);
+
+            screenManager.SetScreenActive("menu", true);
         }
 
         protected override void Update(GameTime gameTime)

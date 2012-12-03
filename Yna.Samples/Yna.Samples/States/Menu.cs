@@ -9,130 +9,92 @@ using Yna;
 using Yna.Display;
 using Yna.State;
 using Yna.Samples.States;
+using Yna.Display.Gui;
 
 namespace Yna.Samples.States
 {
     public class Menu : YnState
     {
-        private YnText title;
-        private YnGroup items;
-        private int index;
-        private bool itemClicked;
+        private YnGui _gui;
+        private YnLabel _tooltip;
 
-        YnSprite background;
-
-        private int ItemsLength
+        public Menu(string name)
+            : base(name, 1000f, 0)
         {
-            get { return items.Count; }
+            YnG.ShowMouse = true;
+            _gui = new YnGui(YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/MenuFont"));
         }
 
-        public Menu(string name) 
-            : base (name, 1000f, 0)
+        public override void BuildGui()
         {
-            background = new YnSprite("Backgrounds/gradient");
-            Add(background);
+            _gui.Clear();
 
-            title = new YnText("Fonts/MenuFont", "YNA Samples");
-            title.Color = Color.DarkSlateBlue;
-            Add(title);
+            const int w = 250;
+            const int h = 50;
 
-            items = new YnGroup();
-            Add(items);
+            YnLabel titleLabel = new YnLabel("YNA Samples");
+            titleLabel.Skin = YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/TitleFont");
+            titleLabel.TextColor = Color.DodgerBlue;
+            _gui.Add(titleLabel);
 
-            itemClicked = false;
+            YnPanel menu = new YnPanel();
+            menu.Padding = 10;
+            menu.WithBackground = false;
+            menu.X = 500;
+            _gui.Add(menu);
 
-            YnG.ShowMouse = true;
+            menu.Add(CreateButton("Basic Sprites", "basic_sample", "This sample shows you how to create a collection of sprite\nwithout texture."));
+            menu.Add(CreateButton("Animated Sprites", "animated_sample", "Learn how to create an animated Sprite with a SpriteSheet"));
+            menu.Add(CreateButton("Simple Tiled Map", "tilemap_sample", "Create a tilemap and a camera"));
+            menu.Add(CreateButton("Isometric Tiled Map", "iso_sample", "Create an isometric tilemap and a camera"));
+            menu.Add(CreateButton("UI Example", "ui_sample", "Integrated UI examples"));
 
-            index = 0;
+            YnTextButton exitButton = new YnTextButton("Exit", w, h, false);
+            exitButton.MouseJustClicked += (o, e) => YnG.Exit();
+            exitButton.MouseOver += (o, e) => ShowTooltip("Wanna leave? :(");
+            menu.Add(exitButton);
+
+            _tooltip = new YnLabel();
+            _tooltip.Position = new Vector2(270, 150);
+            _gui.Add(_tooltip);
+
+            _gui.PrepareWidgets();
+
+            menu.Position = new Vector2(YnG.Width / 2 - menu.Width / 2, 250);
+            titleLabel.Position = new Vector2(YnG.Width / 2 - titleLabel.Width / 2, 50);
+        }
+
+        private YnButton CreateButton(string label, string stateName, string tooltip)
+        {
+            const int w = 250;
+            const int h = 50;
+
+            YnTextButton button = new YnTextButton(label, w, h, false);
+            button.MouseJustClicked += (o, e) => YnG.ScreenManager.SetScreenActive(stateName, true);
+            button.MouseOver += (o, e) => ShowTooltip(tooltip);
+
+            return button;
         }
 
         public override void Initialize()
         {
             base.Initialize();
 
-            title.Scale = new Vector2(2.0f, 2.0f);
-            title.CenterRelativeTo(YnG.Width, 100);
-
-            background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
-            background.SourceRectangle = background.Rectangle;
-
-            items.Add(new MenuItem(1, "Basic Sprites", "This sample shows you how to create a collection of sprite\nwithout texture.", true));
-            items.Add(new MenuItem(2, "Animated Sprite", "Learn how to create an animated Sprite with a SpriteSheet"));
-            items.Add(new MenuItem(3, "Simple Tiled Map", "Create a tilemap and a camera"));
-            items.Add(new MenuItem(4, "Isometric Tiled Map", "Create an isometric tilemap and a camera"));
-            items.Add(new MenuItem(5, "UI Example", "Integrated UI examples"));
-            items.Add(new MenuItem(6, "Exit"));
-
-            foreach (MenuItem item in items)
-            {
-                item.Label.MouseOver += new EventHandler<Display.Event.MouseOverSpriteEventArgs>(Label_MouseOver);
-                item.Label.MouseJustClicked += new EventHandler<Display.Event.MouseClickSpriteEventArgs>(Label_MouseJustClicked);
-            }
+            _gui.Initialize();
         }
 
-        void Label_MouseJustClicked(object sender, Display.Event.MouseClickSpriteEventArgs e)
+        public override void LoadContent()
         {
-            // We are on an event callback
-            // We can't switch to another state here because the update method of YnState is maybe updating
-            // an object, so we can't break that
-            itemClicked = true;
-        }
+            base.LoadContent();
 
-        void Label_MouseOver(object sender, Display.Event.MouseOverSpriteEventArgs e)
-        {
-            YnText ynText = (sender as YnText);
-
-            if (ynText != null)
-            {
-                MenuItem group = ynText.Parent as MenuItem;
-
-                if (group != null)
-                {
-                    if (index != group.ItemPosition - 2)
-                    {
-                        for (int i = 0; i < ItemsLength; i++)
-                            (items[i] as MenuItem).Selected = false;
-
-                        group.Selected = true;
-
-                        index = group.ItemPosition - 2;
-                    }
-                }
-            }
+            _gui.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            if (YnG.Keys.JustPressed(Keys.Up) || YnG.Keys.JustPressed(Keys.Down) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.DPadUp) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.DPadDown))
-            {
-                if (YnG.Keys.JustPressed(Keys.Up) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.DPadUp))
-                {
-                    index--;
-
-                    if (index < 0)
-                        index = ItemsLength - 1;
-                }
-                else if (YnG.Keys.JustPressed(Keys.Down) || YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.DPadDown))
-                {
-                    index++;
-
-                    if (index >= ItemsLength)
-                        index = 0;
-                }
-
-                for (int i = 0; i < ItemsLength; i++)
-                    (items[i] as MenuItem).Selected = false;
-
-                (items[index] as MenuItem).Selected = true;
-            }
-
-            if (YnG.Keys.JustPressed(Keys.Enter) || itemClicked)
-            {
-                itemClicked = false;
-                LaunchDemo();
-            }
+            _gui.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.Exit();
@@ -141,20 +103,17 @@ namespace Yna.Samples.States
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+
+            spriteBatch.Begin();
+            _gui.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
 
-        private void LaunchDemo()
+        private void ShowTooltip(string tooltip)
         {
-            switch (index)
-            {
-                case 0: YnG.ScreenManager.SetScreenActive("basic_sample", true);    break;
-                case 1: YnG.ScreenManager.SetScreenActive("animated_sample", true); break;
-                case 2: YnG.ScreenManager.SetScreenActive("tilemap_sample", true);  break;
-                case 3: YnG.ScreenManager.SetScreenActive("iso_sample", true);      break;
-                case 4: YnG.ScreenManager.SetScreenActive("ui_sample", true);       break;
-                case 5: YnG.Exit();                                                 break;
-                default:                                                            break;
-            }
+            _tooltip.Text = tooltip;
+            Vector2 size = _tooltip.Skin.Font.MeasureString(tooltip);
+            _tooltip.X = (int)YnG.Width / 2 - (int)size.X / 2;
         }
     }
 }
