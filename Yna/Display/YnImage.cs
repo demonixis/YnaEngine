@@ -51,6 +51,7 @@ namespace Yna.Display
                 {
                     _texture = YnG.Content.Load<Texture2D>(_textureName);
                     Rectangle = new Rectangle(X, Y, (int)(_texture.Width * _scale.X), (int)(_texture.Height * _scale.Y));
+                    _textureLoaded = true;
                 }
                 else
                     throw new Exception("[YnImage] The texture name is empty");
