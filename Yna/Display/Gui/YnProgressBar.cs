@@ -9,10 +9,18 @@ using Yna.Helpers;
 namespace Yna.Display.Gui
 {
     /// <summary>
-    /// Progress bar widget
+    /// Progress bar widget. Can be used horizontally (left to right) or vertically (bottom to top)
     /// </summary>
     public class YnProgressBar : YnWidget
     {
+        #region Attributes
+
+        protected int _minValue;
+        protected int _maxValue;
+        protected int _currentValue;
+
+        #endregion
+
         /// <summary>
         /// The minimum possible value
         /// </summary>
@@ -21,7 +29,6 @@ namespace Yna.Display.Gui
             get { return _minValue; }
             set { _minValue = value; }
         }
-        protected int _minValue;
 
         /// <summary>
         /// The maximum possible value
@@ -31,7 +38,6 @@ namespace Yna.Display.Gui
             get { return _maxValue; }
             set { _maxValue = value; }
         }
-        protected int _maxValue;
 
         /// <summary>
         /// The current progress value
@@ -41,7 +47,6 @@ namespace Yna.Display.Gui
             get { return _currentValue; }
             set { _currentValue = (int) MathHelper.Clamp(value, _minValue, _maxValue); }
         }
-        protected int _currentValue;
 
         public YnProgressBar()
             : base()
@@ -61,7 +66,7 @@ namespace Yna.Display.Gui
 
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Texture2D fg = Skin.ButtonBackground;
+            Texture2D fg = _skin.ButtonBackground;
             Rectangle source;
             Rectangle dest;
             if(_orientation == YnOrientation.Vertical)
@@ -76,8 +81,8 @@ namespace Yna.Display.Gui
                 int width = Width * _currentValue  / _maxValue;
 
                 source = new Rectangle(0, 0, fg.Width, fg.Height);
-                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, width, Bounds.Height);
-            }
+                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, width, _bounds.Height);
+            } 
 
             spriteBatch.Draw(fg, dest, source, Color.White);
         }

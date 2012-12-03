@@ -7,15 +7,23 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Display.Gui
 {
+    /// <summary>
+    /// Container widget. Useful for multiple widget placement
+    /// </summary>
     public class YnPanel : YnWidget
     {
         public YnPanel()
             : base()
         {
-            Pack = true;
-            WithBackground = true;
+            _pack = true;
+            _withBackground = true;
         }
 
+        /// <summary>
+        /// Does nothing. YnPanels are juste containers
+        /// </summary>
+        /// <param name="gameTime">The game time</param>
+        /// <param name="spriteBatch">The sprite batch</param>
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Nothing here, just draw the children in super class

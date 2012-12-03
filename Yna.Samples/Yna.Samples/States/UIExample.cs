@@ -46,11 +46,8 @@ namespace Yna.Samples.States
             toolbar.Add(new YnTextButton("Store", tileSize, tileSize, false));
 
             YnTextButton button = toolbar.Add(new YnTextButton("Exit", tileSize, tileSize, false));
-            button.MouseClick += (s, e) =>
+            button.MouseJustClicked += (s, e) =>
             {
-                if (!e.JustClicked) 
-                    return;
-
                 gui.Clear();
 
                 YnG.ScreenManager.SetScreenActive("menu", true);

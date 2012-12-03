@@ -9,7 +9,7 @@ using Yna.Display.Effect;
 namespace Yna.Display.Gui
 {
     /// <summary>
-    /// Base class for buttons
+    /// Base class for all kinds of buttons
     /// </summary>
     public abstract class YnButton : YnPanel
     {
@@ -21,16 +21,16 @@ namespace Yna.Display.Gui
         public YnButton()
             : base()
         {
-            Padding = 10;
-            WithBackground = true;
-            Pack = false;
+            _padding = 10;
+            _withBackground = true;
+            _pack = false;
         }
 
         public override void Layout()
         {
             base.Layout();
 
-            if (Pack)
+            if (_pack)
             {
                 _bounds.Width = GetMaxChildWidth();
                 _bounds.Height = GetMaxChildHeight();
@@ -62,10 +62,10 @@ namespace Yna.Display.Gui
         /// <param name="border">THe border definition to use</param>
         protected override void DrawBorders(GameTime gameTime, SpriteBatch spriteBatch, YnBorder border)
         {
-            if (IsHovered)
-                base.DrawBorders(gameTime, spriteBatch, Skin.HoveredButtonBorder);
+            if (_hovered)
+                base.DrawBorders(gameTime, spriteBatch, _skin.HoveredButtonBorder);
             else
-                base.DrawBorders(gameTime, spriteBatch, Skin.PanelBorder);
+                base.DrawBorders(gameTime, spriteBatch, _skin.PanelBorder);
         }
 
         /// <summary>
@@ -77,11 +77,11 @@ namespace Yna.Display.Gui
         protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
         {
             if (_buttonDown)
-                base.DrawBackground(gameTime, spriteBatch, Skin.ClickedButtonBackground);
+                base.DrawBackground(gameTime, spriteBatch, _skin.ClickedButtonBackground);
             else if (IsHovered)
-                base.DrawBackground(gameTime, spriteBatch, Skin.HoveredButtonBackground);
+                base.DrawBackground(gameTime, spriteBatch, _skin.HoveredButtonBackground);
             else
-                base.DrawBackground(gameTime, spriteBatch, Skin.ButtonBackground);
+                base.DrawBackground(gameTime, spriteBatch, _skin.ButtonBackground);
         }
     }
 }

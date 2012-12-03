@@ -7,9 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Display.Gui
 {
+    /// <summary>
+    /// Text label widget
+    /// </summary>
     public class YnLabel : YnWidget
     {
-        #region Protected declarations
+        #region Attributes
 
         protected string _text;
         protected Color _textColor;
@@ -89,7 +92,7 @@ namespace Yna.Display.Gui
         {
             base.Layout();
 
-            SpriteFont font = (_customFont == null) ? Skin.Font : _customFont;
+            SpriteFont font = (_customFont == null) ? _skin.Font : _customFont;
 
             Vector2 size = font.MeasureString(Text);
             _bounds.Width = (int) size.X;

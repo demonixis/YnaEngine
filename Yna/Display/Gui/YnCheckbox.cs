@@ -13,6 +13,8 @@ namespace Yna.Display.Gui
     /// </summary>
     public class YnCheckbox : YnWidget
     {
+        protected bool _checked;
+
         /// <summary>
         /// The current check state
         /// </summary>
@@ -21,16 +23,22 @@ namespace Yna.Display.Gui
             get { return _checked; }
             set { _checked = value; }
         }
-        private bool _checked;
 
         public YnCheckbox()
             : base()
         {
-            // TODO Handle size according to default text size
-            Width = 20;
-            Height = 20;
-            WithBackground = true;
+            _withBackground = true;
             _checked = false;
+        }
+
+        public override void Layout()
+        {
+            base.Layout();
+
+            // The checkbox size is initialized with current font size
+            int size = (int)_skin.Font.MeasureString("#").Y;
+            Width = size;
+            Height = size;
         }
 
         protected override void DoMouseClick(bool leftClick, bool middleClick, bool rightClick, bool justClicked)
@@ -47,9 +55,9 @@ namespace Yna.Display.Gui
             {
                 // Draw a square with padding (Width /5)
                 int padding = Width / 5;
-                Texture2D fg = Skin.ButtonBackground;
+                Texture2D fg = _skin.ButtonBackground;
                 Rectangle source = new Rectangle(0, 0, fg.Width, fg.Height);
-                Rectangle dest = new Rectangle((int)AbsolutePosition.X + padding, (int)AbsolutePosition.Y + padding, Bounds.Width - padding * 2, Bounds.Height - padding * 2);
+                Rectangle dest = new Rectangle((int)AbsolutePosition.X + padding, (int)AbsolutePosition.Y + padding, _bounds.Width - padding * 2, _bounds.Height - padding * 2);
 
                 spriteBatch.Draw(fg, dest, source, Color.White);
             }
@@ -58,7 +66,7 @@ namespace Yna.Display.Gui
 
         protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
         {
-            Texture2D bg = GraphicsHelper.CreateTexture(Skin.DefaultTextColor, Width, Height);
+            Texture2D bg = GraphicsHelper.CreateTexture(_skin.DefaultTextColor, Width, Height);
             base.DrawBackground(gameTime, spriteBatch, bg);
         }
     }

@@ -483,50 +483,34 @@ namespace Yna.Display.Gui
             switch (_orientation)
             {
                 case YnOrientation.Horizontal:
-                    // Horizontal layout : left to right
-                    if (HorizontalOverflow)
+                    // Resize the widget if needed
+                    if (_bounds.Width < totalWidth || Pack)
                     {
-                        // Don't modify the widget size but add scroll bars id needed
-                        // TODO
+                        _bounds.Width = totalWidth;
                     }
-                    else
-                    {
-                        // Resize the widget if needed
-                        if (_bounds.Width < totalWidth || Pack)
-                        {
-                            _bounds.Width = totalWidth;
-                        }
 
-                        if (Pack)
-                        {
-                            // Pack the height as well
-                            _bounds.Height = GetMaxChildHeight() + _padding * 2;
-                        }
-                        UpdateBounds();
+                    if (_pack)
+                    {
+                        // Pack the height as well
+                        _bounds.Height = GetMaxChildHeight() + _padding * 2;
                     }
+                    UpdateBounds();
+                    
                     break;
                 case YnOrientation.Vertical:
-                    // Vertical layout : top to bottom
-                    if (VerticalOverflow)
+                    // Resize the widget if needed
+                    if (_bounds.Height < totalHeight || Pack)
                     {
-                        // Don't modify the widget size but add scroll bars id needed
-                        // TODO
+                        _bounds.Height = totalHeight;
                     }
-                    else
-                    {
-                        // Resize the widget if needed
-                        if (_bounds.Height < totalHeight || Pack)
-                        {
-                            _bounds.Height = totalHeight;
-                        }
 
-                        if (Pack)
-                        {
-                            // Pack the width as well
-                            _bounds.Width = GetMaxChildWidth() + _padding * 2;
-                        }
-                        UpdateBounds();
+                    if (_pack)
+                    {
+                        // Pack the width as well
+                        _bounds.Width = GetMaxChildWidth() + _padding * 2;
                     }
+                    UpdateBounds();
+                    
                     break;
             }
 
