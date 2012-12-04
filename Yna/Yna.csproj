@@ -68,6 +68,7 @@
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
+    <Compile Include="Display3D\Camera\TopCamera.cs" />
     <Compile Include="Display3D\Controls\BaseControl.cs" />
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
