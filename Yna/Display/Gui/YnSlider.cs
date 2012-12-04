@@ -53,7 +53,7 @@ namespace Yna.Display.Gui
             get { return _currentValue; }
             set { _currentValue = (int)MathHelper.Clamp(value, _minValue, _maxValue); }
         }
-        
+
 #endregion
 
         public YnSlider()
@@ -77,19 +77,26 @@ namespace Yna.Display.Gui
                 Vector2 delta = YnG.Mouse.Delta;
                 // Horizontal move only
                 _cursor.Move((int)-delta.X, 0);
-                
+
                 // TODO : handle mouse movement overflow to ease the use
                 // Ensure the cursor is still in his rail
                 _cursor.Position = new Vector2(
-                    MathHelper.Clamp(_cursor.Position.X, - Height / 2, Width - Height / 2),
+                    MathHelper.Clamp(_cursor.Position.X, -Height / 2, Width - Height / 2),
                     _cursor.Position.Y
                 );
 
                 // Compute the slider new value
-                _currentValue = (int)(_cursor.Position.X + _cursor.Width/2) * _maxValue / Width;
+                int oldValue = _currentValue;
+                _currentValue = (int)(_cursor.Position.X + _cursor.Width / 2) * _maxValue / Width;
+
+                if (oldValue != _currentValue && Changed != null)
+                    Changed(this, new IntEventArgs(_currentValue));
 
                 // Update the label value
                 _labelValue.Text = _currentValue.ToString() + "/" + _maxValue;
+            }
+            else
+            {
             }
         }
 
@@ -116,5 +123,10 @@ namespace Yna.Display.Gui
             Texture2D tex = GraphicsHelper.CreateTexture(_skin.DefaultTextColor, 1,1);
             spriteBatch.Draw(tex, rect, Color.White);
         }
+
+        /// <summary>
+        /// Triggered when the value is changed
+        /// </summary>
+        public event EventHandler<IntEventArgs> Changed = null;
     }
 }

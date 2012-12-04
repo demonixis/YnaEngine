@@ -90,6 +90,7 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Effect\YnTransition.cs" />
+    <Compile Include="Display\Event\IntEventArgs.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
