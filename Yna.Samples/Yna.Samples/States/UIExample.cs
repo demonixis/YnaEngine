@@ -117,8 +117,31 @@ namespace Yna.Samples.States
             customButton.Skin = YnSkinGenerator.Generate(Color.Chocolate, "Fonts/MenuFont");
             gui.Add(customButton);
 
+
+            // Textbox
+            string wrappedText = "Example of default character wrapping textbox";
+            YnTextBox textBox = new YnTextBox(wrappedText, 150, true);
+            textBox.Padding = 15;
+            textBox.Position = new Vector2(0, 550);
+            gui.Add(textBox);
+
+            string text = "Example of word wrapping textbox";
+            YnTextBox textBoxW = new YnTextBox(text, 150, true);
+            textBoxW.Padding = 15;
+            textBoxW.Position = new Vector2(200, 550);
+            textBoxW.WordWrap = true;
+            gui.Add(textBoxW);
+
+            string elipsisText = "Elispsis textbox with long text";
+            YnTextBox elipsisTextbox = new YnTextBox(elipsisText, 150, true);
+            elipsisTextbox.Padding = 15;
+            elipsisTextbox.Position = new Vector2(400, 550);
+            elipsisTextbox.Wrap = false;
+            gui.Add(elipsisTextbox);
+
             gui.PrepareWidgets();
 
+            // Widget positionning after layout
             customButton.Width = toolbar.Width - 2* padding;
             customButton.Height = 50;
             customButton.Pack = false;
@@ -130,6 +153,7 @@ namespace Yna.Samples.States
             verticalGauge.Width = plusButton.Width;
             verticalGauge.Height = YnG.Height - plusButton.Height - minusButton.Height;
             verticalGauge.Position = new Vector2(YnG.Width - plusButton.Width, plusButton.Height);
+
         }
 
         public override void LoadContent()
