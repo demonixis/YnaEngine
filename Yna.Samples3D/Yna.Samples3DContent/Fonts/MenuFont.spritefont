@@ -53,7 +53,7 @@ de la police dans le jeu et changer les caractères disponibles.
     <CharacterRegions>
       <CharacterRegion>
         <Start>&#32;</Start>
-        <End>&#126;</End>
+        <End>&#255;</End>
       </CharacterRegion>
     </CharacterRegions>
   </Asset>
