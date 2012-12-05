@@ -26,7 +26,7 @@ namespace Yna.Display.Gui
             Orientation = YnOrientation.Vertical;
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // TODO
         }

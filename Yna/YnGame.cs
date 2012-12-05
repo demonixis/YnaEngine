@@ -66,7 +66,7 @@ namespace Yna
             YnG.Gamepad = new YnGamepad();
             YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.ScreenManager = screenManager;
-            YnG.AudioManager = AudioManager.Instance;
+            YnG.AudioManager = new AudioManager();
 
             this.Window.Title = String.Format("{0} - v{1}", gameTitle, gameVersion);
 

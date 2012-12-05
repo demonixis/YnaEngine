@@ -167,7 +167,11 @@ namespace Yna.Display
         public string TextureName
         {
             get { return _textureName; }
-            set { _textureName = value; }
+            set 
+            {
+                _textureLoaded = false;
+                _textureName = value; 
+            }
         }
 
         /// <summary>

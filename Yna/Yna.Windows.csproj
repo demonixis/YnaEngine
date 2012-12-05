@@ -45,12 +45,6 @@
     <Reference Include="MonoGame.Framework.Windows">
       <HintPath>..\Externals\MonoGame\Windows\MonoGame.Framework.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\Externals\NAudio\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.WindowsMediaFormat">
-      <HintPath>..\Externals\NAudio\NAudio.WindowsMediaFormat.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\Externals\MonoGame\Windows\OpenTK.dll</HintPath>
     </Reference>
@@ -61,18 +55,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\AudioAdapter.cs" />
-    <Compile Include="Audio\AudioEngine.cs" />
     <Compile Include="Audio\AudioManager.cs" />
-    <Compile Include="Audio\XnaAudioAdapter.cs" />
-    <Compile Include="Audio\IAudioAdapter.cs" />
-    <Compile Include="Audio\NAudioAdapter.cs" />
-    <Compile Include="Audio\NAudioLoopStream.cs" />
     <Compile Include="Content\ContentEventArgs.cs" />
     <Compile Include="Content\YnContent.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
+    <Compile Include="Display3D\Camera\TopCamera.cs" />
     <Compile Include="Display3D\Controls\BaseControl.cs" />
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
@@ -95,6 +84,7 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Effect\YnTransition.cs" />
+    <Compile Include="Display\Event\IntEventArgs.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
@@ -104,13 +94,16 @@
     <Compile Include="Display\Gui\YnBorder.cs" />
     <Compile Include="Display\Gui\YnButton.cs" />
     <Compile Include="Display\Gui\YnLabel.cs" />
+    <Compile Include="Display\Gui\YnMessageBox.cs" />
     <Compile Include="Display\Gui\YnPanel.cs" />
     <Compile Include="Display\Gui\YnProgressBar.cs" />
     <Compile Include="Display\Gui\YnSkin.cs" />
     <Compile Include="Display\Gui\YnSkinGenerator.cs" />
     <Compile Include="Display\Gui\YnSlider.cs" />
+    <Compile Include="Display\Gui\YnTextBox.cs" />
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
+    <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCamera.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
@@ -156,6 +149,26 @@
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
     <Compile Include="YnTimer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

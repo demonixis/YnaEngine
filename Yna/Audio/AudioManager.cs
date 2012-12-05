@@ -19,12 +19,13 @@ namespace Yna.Audio
     {
         #region Private declarations
 
-        public static readonly object _object = new object();
-        public static AudioManager _instance = null;
-
         private bool _soundEnabled;
         private float _soundVolume;
         private bool _musicEnabled;
+
+#if MONOGAME && WINDOWS
+        private WMPLib.WindowsMediaPlayer _windowMediaPlayer;
+#endif
 
         #endregion
 
@@ -70,29 +71,16 @@ namespace Yna.Audio
 
         #region Singleton instance & constructor
 
-        public static AudioManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    lock (_object)
-                    {
-                        if (_instance == null)
-                            _instance = new AudioManager();
-                    }
-                }
-
-                return _instance;
-            }
-        }
-
-        private AudioManager()
+        public AudioManager()
         {
             MusicEnabled = true;
             SoundEnabled = true;
             SoundVolume = 0.4f;
             MusicVolume = 0.6f;
+
+#if MONOGAME && WINDOWS
+            _windowMediaPlayer = new WMPLib.WindowsMediaPlayer();
+#endif
         }
 
         #endregion
@@ -132,21 +120,15 @@ namespace Yna.Audio
 #if XNA || NETFX_CORE || WINDOWS_PHONE_7
                 Song music = YnG.Content.Load<Song>(assetName);
                 PlayMusic(music, repeat);
-#elif MONOGAME && !LINUX
-                /*
-                System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart((e) =>
+#elif MONOGAME && WINDOWS
+                if (_windowMediaPlayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
+                    _windowMediaPlayer.controls.stop();
+
+                System.Threading.Thread playThread = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart((e) =>
                     {
-                        IAudioAdapter audio = new NAudioAdapter(); 
-                       // (audio as NAudioAdapter).Repeat = true;
-                        audio.PlayMusic("Content/" + assetName + ".mp3");
+                        _windowMediaPlayer.URL = YnG.Content.RootDirectory + "/" + assetName + ".mp3";
+                        _windowMediaPlayer.controls.play();
                     }));
-                t.Start();
-                */
-                /*
-                var player = new WMPLib.WindowsMediaPlayer();
-                player.URL = YnG.Content.RootDirectory + "/" + assetName + ".mp3";
-                player.controls.play();
-                 * */
 #endif
             }
         }

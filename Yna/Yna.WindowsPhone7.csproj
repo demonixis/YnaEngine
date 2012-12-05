@@ -86,6 +86,7 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Effect\YnTransition.cs" />
+    <Compile Include="Display\Event\IntEventArgs.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
@@ -95,13 +96,16 @@
     <Compile Include="Display\Gui\YnBorder.cs" />
     <Compile Include="Display\Gui\YnButton.cs" />
     <Compile Include="Display\Gui\YnLabel.cs" />
+    <Compile Include="Display\Gui\YnMessageBox.cs" />
     <Compile Include="Display\Gui\YnPanel.cs" />
     <Compile Include="Display\Gui\YnProgressBar.cs" />
     <Compile Include="Display\Gui\YnSkin.cs" />
     <Compile Include="Display\Gui\YnSkinGenerator.cs" />
     <Compile Include="Display\Gui\YnSlider.cs" />
+    <Compile Include="Display\Gui\YnTextBox.cs" />
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
+    <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCamera.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnSprite.cs" />
