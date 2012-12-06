@@ -41,6 +41,7 @@ namespace Yna.Samples3D.States
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
             heightmap = new Heightmap("Backgrounds/heightfield", "Backgrounds/textureMap");
+            heightmap.Scale = new Vector3(2);
             //heightmap.SegmentSizes = new Vector3(5.0f); // vertex between each vertex
             Add(heightmap);
 

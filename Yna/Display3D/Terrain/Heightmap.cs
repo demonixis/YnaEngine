@@ -90,16 +90,18 @@ namespace Yna.Display3D.Terrain
             }
         }
 
+        #endregion
+
         public float GetTerrainHeight(float positionX, float positionY, float positionZ)
         {
             float terrainHeigth = 0.0f;
 
-            float sizedPosX = positionX / _segmentSizes.X;
-            float sizedPosY = positionY / _segmentSizes.Y;
-            float sizedPosZ = positionZ / _segmentSizes.Z;
+            float sizedPosX = (positionX / _segmentSizes.X) / _scale.X;
+            float sizedPosY = (positionY / _segmentSizes.Y) / _scale.Y;
+            float sizedPosZ = (positionZ / _segmentSizes.Z) / _scale.Z;
 
-            int x = (int)(positionX / _segmentSizes.X);
-            int z = (int)(positionZ / _segmentSizes.Z);
+            int x = (int)((positionX / _segmentSizes.X) / _scale.X);
+            int z = (int)((positionZ / _segmentSizes.Z) / _scale.Z);
 
             if (x < 0 || x >= _width - 1 || z < 0 || z >= _depth - 1)
                 terrainHeigth = positionY;
@@ -129,9 +131,7 @@ namespace Yna.Display3D.Terrain
                 }
             }
 
-            return (terrainHeigth * _segmentSizes.Y);
+            return (terrainHeigth * _segmentSizes.Y * _scale.Y);
         }
-
-        #endregion
     }
 }

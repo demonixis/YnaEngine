@@ -126,9 +126,12 @@ namespace Yna.Audio
 
                 System.Threading.Thread playThread = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart((e) =>
                     {
-                        _windowMediaPlayer.URL = YnG.Content.RootDirectory + "/" + assetName + ".mp3";
-                        _windowMediaPlayer.controls.play();
+                        _windowMediaPlayer.URL = YnG.Content.RootDirectory + "/" + assetName + ".wma";
                     }));
+                
+                playThread.Start();
+
+                _windowMediaPlayer.controls.play();
 #endif
             }
         }
@@ -180,6 +183,11 @@ namespace Yna.Audio
         {
             if (MediaPlayer.State == MediaState.Playing)
                 MediaPlayer.Stop();
+
+#if MONOGAME && WINDOWS
+            if (_windowMediaPlayer.playState != WMPLib.WMPPlayState.wmppsStopped)
+                _windowMediaPlayer.controls.stop();
+#endif
         }
     }
 }

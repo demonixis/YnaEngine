@@ -38,7 +38,7 @@ namespace Yna.Samples3D.States
         public override void LoadContent()
         {
             base.LoadContent();
-#if LINUX
+#if MONOGAME
 			return;			
 #endif
             background = YnG.Content.Load<Texture2D>("Backgrounds/space");

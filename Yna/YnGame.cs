@@ -113,6 +113,13 @@ namespace Yna
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
+        protected override void UnloadContent()
+        {
+            base.UnloadContent();
+
+            YnG.AudioManager.Dispose();
+        }
+
         #endregion
 
         #region Resolution setup
