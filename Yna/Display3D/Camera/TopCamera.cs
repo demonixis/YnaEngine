@@ -46,12 +46,15 @@ namespace Yna.Display3D.Camera
             //SetupCamera(new Vector3(0, _height, 0), Vector3.Zero, 1.0f, 3500.0f);
             _yaw = 0.0f;
             _pitch = 0.0f;
+            _roll = 0.0f;
             _nearClip = 1f;
             _farClip = 3500f;
 
-            _view = Matrix.CreateLookAt(_position, Target, Vector3.Up);
-            _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
+            _view = Matrix.CreateLookAt(_position, Target, _vectorUp);
+
             _world = Matrix.Identity;
+
+            UpdateProjection();
         }
 
         public override void Update(GameTime gameTime)
@@ -64,8 +67,8 @@ namespace Yna.Display3D.Camera
                 _position = new Vector3(Target.X, _height, Target.Z-0.0001f); // FIXME : Why vertical is impossible?
             }
 
-            _view = Matrix.CreateLookAt(_position, Target, Vector3.Up);
-            _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
+            _view = Matrix.CreateLookAt(_position, Target, _vectorUp);
+
             _world = Matrix.Identity;
         }
     }

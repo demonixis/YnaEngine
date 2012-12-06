@@ -50,7 +50,7 @@ namespace Yna.Display3D.Primitive
             };
 
             _vertices = new VertexPositionNormalTexture[36];
-            
+
             // Calculate the position of the vertices on the top face.
             Vector3 topLeftFront = Position + new Vector3(-1.0f, 1.0f, -1.0f) * SegmentSizes;
             Vector3 topLeftBack = Position + new Vector3(-1.0f, 1.0f, 1.0f) * SegmentSizes;
@@ -141,7 +141,7 @@ namespace Yna.Display3D.Primitive
             _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
             _indexBuffer.SetData(_indices);
         }
-        
+
         public override void UpdateBoundingVolumes()
         {
             UpdateMatrix();
@@ -162,16 +162,14 @@ namespace Yna.Display3D.Primitive
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
-            
+
             int radius = (int)Math.Max(Math.Max(_width, _height), _depth);
 
             _boundingSphere = new BoundingSphere(
                 new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
                 radius);
-
-            _boundingFrustrum = new BoundingFrustum(_camera.Projection * (World * View));
         }
-        
+
         public override void Draw(GraphicsDevice device)
         {
             base.Draw(device);
@@ -185,6 +183,8 @@ namespace Yna.Display3D.Primitive
             }
             device.SetVertexBuffer(null);
             device.Indices = null;
+
+            //Renderer.BoundingBoxRenderer.Draw(_boundingBox, YnG.GraphicsDevice, Camera.View, Camera.Projection, Color.Red);
         }
     }
 }

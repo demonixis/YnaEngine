@@ -147,8 +147,6 @@ namespace Yna.Display3D
 
             foreach (YnObject3D members in _members)
                 World *= members.World;
-
-            _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
         }
 
         #endregion
@@ -235,8 +233,11 @@ namespace Yna.Display3D
                 {
                     for (int i = 0; i < nbMembers; i++)
                     {
-                        if (_safeMembers[i].Visible)
-                            _safeMembers[i].Draw(device);
+                        //if (Camera.BoundingFrustrum.Contains(_safeMembers[i].BoundingSphere) != ContainmentType.Disjoint)
+                        {
+                            if (_safeMembers[i].Visible)
+                                _safeMembers[i].Draw(device);
+                        }
                     }
                 }
             }

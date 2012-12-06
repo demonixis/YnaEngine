@@ -23,7 +23,6 @@ namespace Yna.Display3D
         protected BasicEffect _basicEffect;
         protected BoundingBox _boundingBox;
         protected BoundingSphere _boundingSphere;
-        protected BoundingFrustum _boundingFrustrum;
 
         // Visibility
         protected bool _visible;
@@ -139,14 +138,6 @@ namespace Yna.Display3D
         }
 
         /// <summary>
-        /// Get the bounding frustrum of the model
-        /// </summary>
-        public BoundingFrustum BoundingFrustrum
-        {
-            get { return _boundingFrustrum; }
-        }
-
-        /// <summary>
         /// Shader effect
         /// </summary>
         public BasicEffect BasicEffect
@@ -197,7 +188,6 @@ namespace Yna.Display3D
 
             _boundingBox = new BoundingBox();
             _boundingSphere = new BoundingSphere();
-            _boundingFrustrum = new BoundingFrustum(Matrix.Identity);
         }
 
         public YnObject3D()

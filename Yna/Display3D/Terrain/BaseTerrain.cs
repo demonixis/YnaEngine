@@ -160,8 +160,6 @@ namespace Yna.Display3D.Terrain
 
             _boundingSphere.Center = new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2);
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
-
-            _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
         }
 
         #endregion

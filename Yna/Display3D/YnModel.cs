@@ -142,9 +142,6 @@ namespace Yna.Display3D
 
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
             _boundingSphere.Center = _position;
-
-            // 3 - Update frustrum
-            _boundingFrustrum = new BoundingFrustum(_camera.Projection * World);
         }
 #endif
 

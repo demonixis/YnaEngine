@@ -10,6 +10,7 @@ namespace Yna.Display3D.Camera
         protected Vector3 _lastPosition;
         protected Vector3 _direction;
         protected Vector3 _lastDirection;
+        private bool _dynamic;
 
         protected Matrix _projection;
 
@@ -23,13 +24,16 @@ namespace Yna.Display3D.Camera
         protected float _pitch;
         protected float _roll;
 
-        // Paramètrage de la caméra
+        // View parameters
+        protected float _fieldOfView;
+        protected float _aspectRatio;
         protected float _nearClip;
         protected float _farClip;
 
         // target, placement
         protected Vector3 _reference;
         protected Vector3 _target;
+        protected Vector3 _vectorUp;
 
         #region Properties
 
@@ -50,6 +54,12 @@ namespace Yna.Display3D.Camera
         public Vector3 LastDirection
         {
             get { return _lastDirection; }
+        }
+
+        public bool Dynamic
+        {
+            get { return _dynamic; }
+            set { _dynamic = value; }
         }
 
         public Matrix Projection
@@ -82,6 +92,12 @@ namespace Yna.Display3D.Camera
             set { _reference = value; }
         }
 
+        public Vector3 VectorUp
+        {
+            get { return _vectorUp; }
+            set { _vectorUp = value; }
+        }
+
         public Vector3 Target
         {
             get { return _target; }
@@ -90,7 +106,8 @@ namespace Yna.Display3D.Camera
 
         public float AspectRatio
         {
-            get { return YnG.Width / YnG.Height; }
+            get { return _aspectRatio; }
+            set { _aspectRatio = value; }
         }
 
         public float FieldOfView
@@ -126,8 +143,22 @@ namespace Yna.Display3D.Camera
 
         public BaseCamera()
         {
+            _aspectRatio = (float)((float)YnG.Width / (float)YnG.Height);
+            _fieldOfView = MathHelper.PiOver4;
+            _nearClip = 1.0f;
+            _farClip = 3500.0f;
+
+            _yaw = 0.0f;
+            _pitch = 0.0f;
+            _roll = 0.0f;
+
+            _position = Vector3.Zero;
+            _lastDirection = Vector3.Zero;
+            _target = Vector3.Zero;
+            _reference = Vector3.Zero;
+            _vectorUp = Vector3.Up;
+
             _boundingRadius = 5;
-            
             _boundingSphere = new BoundingSphere(Vector3.Zero, _boundingRadius);
 
             _boundingBox = new BoundingBox(
@@ -142,6 +173,14 @@ namespace Yna.Display3D.Camera
         }
 
         /// <summary>
+        /// Initialize camera with default parameters
+        /// </summary>
+        public virtual void SetupCamera()
+        {
+            SetupCamera(new Vector3(0.0f, 0.0f, 5.0f), Vector3.Zero, 1.0f, 3500.0f);
+        }
+
+        /// <summary>
         /// Initialize camera
         /// </summary>
         /// <param name="position">World position</param>
@@ -151,30 +190,27 @@ namespace Yna.Display3D.Camera
         public virtual void SetupCamera(Vector3 position, Vector3 target, float nearClip, float farClip)
         {
             _position = position;
-
             _reference = new Vector3(0.0f, 0.0f, 10.0f); // fix that
-
             _target = target;
 
             _yaw = 0.0f;
             _pitch = 0.0f;
+            _roll = 0.0f;
 
             _nearClip = nearClip;
             _farClip = farClip;
 
-            _view = Matrix.CreateLookAt(_position, target, Vector3.Up);
-
-            _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
+            _view = Matrix.CreateLookAt(_position, _target, _vectorUp);
             
             _world = Matrix.Identity;
+
+            UpdateProjection();
         }
 
-        /// <summary>
-        /// Initialize camera with default parameters
-        /// </summary>
-        public virtual void SetupCamera()
+        public void UpdateProjection()
         {
-            SetupCamera(new Vector3(0.0f, 0.0f, 5.0f), Vector3.Zero, 1.0f, 3500.0f);
+            _projection = Matrix.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, _nearClip, _farClip);
+            _boundingFrustrum = new BoundingFrustum(_view * _projection);
         }
 
         /// <summary>
@@ -219,13 +255,20 @@ namespace Yna.Display3D.Camera
 
         public virtual void UpdateBoundingVolumes()
         {
+            // Update BoudingSphere
             _boundingSphere.Center = _position;
             _boundingSphere.Radius = _boundingRadius;
 
-            _boundingBox.Min = new Vector3(X - _boundingRadius, Y - _boundingRadius, Z - _boundingRadius);
-            _boundingBox.Max = new Vector3(X + _boundingRadius, Y + _boundingRadius, Z + _boundingRadius);
+            // Update BoundingBox
+            _boundingBox.Min.X = X - _boundingRadius;
+            _boundingBox.Min.Y = Y - _boundingRadius;
+            _boundingBox.Min.Z = Z - _boundingRadius;
+            _boundingBox.Min.X = X + _boundingRadius;
+            _boundingBox.Min.Y = Y + _boundingRadius;
+            _boundingBox.Min.Z = Z + _boundingRadius;
 
-            _boundingFrustrum = new BoundingFrustum(View * Projection);
+            // Update Frustrum
+            _boundingFrustrum.Matrix = View * Projection;
         }
 
         public override void Update(GameTime gameTime)

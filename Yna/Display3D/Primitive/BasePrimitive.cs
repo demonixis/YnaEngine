@@ -199,8 +199,6 @@ namespace Yna.Display3D.Primitive
             _boundingSphere = new BoundingSphere(
                 new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
                 Math.Max(Math.Max(Width, Height), Depth));
-
-            _boundingFrustrum = new BoundingFrustum(World * _camera.Projection);
         }
 
         public override void Draw(GraphicsDevice device)
