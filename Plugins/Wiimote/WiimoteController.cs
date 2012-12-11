@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using WiimoteLib;
 
-namespace Yna.Input.Wii
+namespace Yna.Input.Wiimote
 {
     public class WiimoteController
     {

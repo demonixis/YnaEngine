@@ -1,13 +1,13 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Les informations générales sur l’assembly sont contrôlées par 
 // les attributs suivants. Modifiez la valeur de ces attributs pour modifier les informations
 // associées à l’assembly.
-[assembly: AssemblyTitle("Yna.Input.Plugins")]
-[assembly: AssemblyProduct("Yna.Input.Plugins")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Yna.Input.Kinect")]
+[assembly: AssemblyProduct("Yna.Input.Kinect")]
+[assembly: AssemblyDescription("Kinect plugin for Yna Framework")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]

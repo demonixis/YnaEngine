@@ -8,19 +8,13 @@ rm -Rf *.cachefile
 rm -Rf *.pidb
 rm -Rf *.DS_Store
 
-rm -Rf Yna/bin
-rm -Rf Yna/obj
+rm -Rf Framework/bin
+rm -Rf Framework/obj
 
-rm -Rf Yna.Samples/Yna.Samples/bin
-rm -Rf Yna.Samples/Yna.Samples/obj
+rm -Rf Plugins/Wiimote/bin
+rm -Rf Plugins/Wiimote/debug
 
-rm -Rf Yna.Samples/Yna.SamplesContent/bin
-rm -Rf Yna.Samples/Yna.SamplesContent/obj
-
-rm -Rf Yna.Samples3D/Yna.Samples3D/bin
-rm -Rf Yna.Samples3D/Yna.Samples3D/obj
-
-rm -Rf Yna.Samples3D/Yna.Samples3DContent/bin
-rm -Rf Yna.Samples3D/Yna.Samples3DContent/obj
+rm -Rf Plugins/Kinect/bin
+rm -Rf Plugins/Kinect/debug
 
 echo "Cleaning done"

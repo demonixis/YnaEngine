@@ -96,7 +96,7 @@
     <Compile Include="Display3D\Light\BasicLight.cs" />
     <Compile Include="Display3D\Primitive\BasePrimitive.cs" />
     <Compile Include="Display3D\Primitive\Cube.cs" />
-	<Compile Include="Display3D\Renderer\BoundingBoxRenderer.cs" />
+    <Compile Include="Display3D\Renderer\BoundingBoxRenderer.cs" />
     <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnGroup3D.cs" />
     <Compile Include="Display3D\YnModel.cs" />
@@ -111,6 +111,7 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Effect\YnTransition.cs" />
+    <Compile Include="Display\Event\IntEventArgs.cs" />
     <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
     <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Display\TileMap\Iso\TileIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
@@ -168,6 +170,11 @@
     <Compile Include="Display\YnObject.cs" />
     <Compile Include="Display\YnPath.cs" />
     <Compile Include="YnTimer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework.WindowsPhone">
+      <HintPath>..\ThirdParty\MonoGame\WP8\MonoGame.Framework.WindowsPhone.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

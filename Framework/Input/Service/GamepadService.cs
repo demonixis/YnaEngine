@@ -8,7 +8,7 @@ namespace Yna.Input.Service
 {
     public class GamepadService : GameComponent, IGamepadService
     {
-#if !UNSUPPORTED
+#if !WINDOWS_PHONE_8
         GamePadState [] state;
         GamePadState [] lastState;
 
