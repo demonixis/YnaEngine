@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using WiimoteLib;
 
-namespace Yna.Input.Wiimote
+namespace Yna.Input
 {
     public class WiimoteController
     {

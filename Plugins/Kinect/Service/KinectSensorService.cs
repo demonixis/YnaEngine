@@ -9,10 +9,10 @@ namespace Yna.Input.Service
     {
         private KinectSensorController kinect;
 
-        public KinectSensorService()
+        public KinectSensorService(Game game)
         {
             kinect = KinectSensorController.Instance;
-            ServiceHelper.Add<IKinectSensorService>(this);
+            game.Services.AddService(typeof(IKinectSensorService), this);
         }
 
         bool IKinectSensorService.IsAvailable()

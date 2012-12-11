@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna;
+using System.Collections.Generic;
 using Yna.Display;
+using Yna.Display.Gui;
 using Yna.State;
 
 namespace Yna
@@ -14,6 +13,7 @@ namespace Yna
 
         protected List<YnObject> _members;
         private List<YnObject> _safeMembers;
+        protected YnGui _gui;
 
         protected bool _assetsLoaded;
         protected bool _initialized;

@@ -7,7 +7,7 @@
     <ProjectGuid>{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yna.Input.Wiimote</RootNamespace>
+    <RootNamespace>Yna.Input</RootNamespace>
     <AssemblyName>Yna.Input.Wiimote</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IWiimoteService.cs" />
+    <Compile Include="Service\WiimoteService.cs" />
     <Compile Include="WiimoteController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
