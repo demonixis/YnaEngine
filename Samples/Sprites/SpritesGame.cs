@@ -15,7 +15,8 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            screenManager.Add(new BasicSprites("sample_1"), true);
+            screenManager.Add(new BasicSprites("sample_1"), false);
+            screenManager.Add(new AnimatedSprites("sample_2"), true);
         }
 
         public static void Main(string[] args)

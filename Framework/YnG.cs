@@ -1,16 +1,14 @@
-﻿using System;
-using System.Reflection;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 using Yna.Audio;
 using Yna.Content;
 using Yna.Display;
-using Yna.Display3D;
 using Yna.Helpers;
-using Yna.State;
 using Yna.Input;
+using Yna.State;
 
 namespace Yna
 {
@@ -238,12 +236,12 @@ namespace Yna
             return sceneObjectA.Rectangle.Intersects(sceneObjectB.Rectangle);
         }
 
-        public static bool CollideOneWithGroup(YnObject sceneObject, YnGroup group)
+        public static bool CollideOneWithGroup(YnObject sceneObject, List<YnObject> group)
         {
             bool collide = false;
             int size = group.Count;
             int i = 0;
-
+            
             while (i < size && !collide)
             {
                 if (sceneObject.Rectangle.Intersects(group[i].Rectangle))
