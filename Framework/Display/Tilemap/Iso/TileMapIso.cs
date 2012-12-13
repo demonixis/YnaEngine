@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Helpers;
 
-namespace Yna.Display.TiledMap.Isometric
+namespace Yna.Display.TileMap.Isometric
 {
 	/// <summary>
 	/// Description of IsometricTiledMap.

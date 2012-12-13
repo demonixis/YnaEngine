@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display.TiledMap.Basic
+namespace Yna.Display.TileMap.Basic
 {
 	/// <summary>
 	/// Description of TiledMap2D.
@@ -17,16 +17,7 @@ namespace Yna.Display.TiledMap.Basic
 		#endregion
 		
 		#region Constructors
-		/// <summary>
-		/// Constructor for tiled maps with square tiles (same width and height)
-		/// </summary>
-		/// <param name="tilesetName">The tileset name</param>
-		/// <param name="layers">The map layers</param>
-		/// <param name="tileSize">The tile width</param>
-		public TileMap2D(string tilesetName, Layer2D[] layers, int tileSize) : this(tilesetName, layers, tileSize, tileSize)
-		{
-		}
-		
+
 		/// <summary>
 		/// Basically, the TiledMap is initialized with default values
 		/// </summary>
@@ -36,7 +27,6 @@ namespace Yna.Display.TiledMap.Basic
 		/// <param name="tileHeight">The tile height</param>
 		public TileMap2D(string tilesetName, Layer2D[] layers, int tileWidth, int tileHeight) 
 		{
-			
 			_layers = layers;
 			_tilesetName = tilesetName;
 			
@@ -47,6 +37,25 @@ namespace Yna.Display.TiledMap.Basic
 			_tileWidth = tileWidth;
 			_tileHeight = tileHeight;
 		}
+
+        /// <summary>
+        /// Constructor for tiled maps with square tiles (same width and height)
+        /// </summary>
+        /// <param name="tilesetName">The tileset name</param>
+        /// <param name="layers">The map layers</param>
+        /// <param name="tileSize">The tile width</param>
+        public TileMap2D(string tilesetName, Layer2D[] layers, int tileSize)
+            : this(tilesetName, layers, tileSize, tileSize)
+        {
+
+        }
+
+        public TileMap2D(string tilesetName, Layer2D layer, int tileSize)
+            : this(tilesetName, new Layer2D[] { layer }, tileSize)
+        {
+
+        }
+
 		#endregion
 		
 		/// <summary>
@@ -120,6 +129,7 @@ namespace Yna.Display.TiledMap.Basic
 						position.Y = _tileHeight * tile.Y + camera.Y;
 						
 						// Draw tiles only if they're in the draw zone
+                        // TODO : Check this with rectangle ?
 						if(position.X > drawZone.X - _tileWidth
 						   && position.X < drawZone.X + drawZone.Width
 						   && position.Y > drawZone.Y - _tileHeight

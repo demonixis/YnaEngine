@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yna.Display.TiledMap.Basic
+namespace Yna.Display.TileMap.Basic
 {
 	/// <summary>
 	/// A Tile is a section of a TileMap.

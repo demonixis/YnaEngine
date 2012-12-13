@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Yna.Display.TiledMap.Isometric;
+using Yna.Display.TileMap.Isometric;
 
 namespace Yna.Helpers
 {

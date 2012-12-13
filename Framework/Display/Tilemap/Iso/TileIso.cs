@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yna.Display.TiledMap.Isometric
+namespace Yna.Display.TileMap.Isometric
 {
 	/// <summary>
 	/// A 3DTile stores x and y coordinates and heights for each vertices
