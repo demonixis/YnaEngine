@@ -8,7 +8,7 @@ namespace Yna.Display.TileMap.Isometric
 	/// <summary>
 	/// Description of IsometricTiledMap.
 	/// </summary>
-	public class TiledMapIso : AbstractTileMap<LayerIso>
+	public class TileMapIso : AbstractTileMap<LayerIso>
 	{
 		#region Attributes
 		/// <summary>
@@ -54,7 +54,7 @@ namespace Yna.Display.TileMap.Isometric
 		/// <param name="groundTileWidth">The ground tile width</param>
 		/// <param name="groundTileHeight">The ground tile height</param>
 		/// <param name="decoTileHeight">The decoration tile height</param>
-		public TiledMapIso(string groundTilesetName, string decoTilesetName, LayerIso groundLayer, LayerIso[] layers, int groundTileWidth, int groundTileHeight, int decoTileHeight)
+		public TileMapIso(string groundTilesetName, string decoTilesetName, LayerIso groundLayer, LayerIso[] layers, int groundTileWidth, int groundTileHeight, int decoTileHeight)
 		{
 			_tilesetName = groundTilesetName;
 			_decoTilesetName = decoTilesetName;
@@ -75,7 +75,7 @@ namespace Yna.Display.TileMap.Isometric
 		/// <param name="layers">The deco layers</param>
 		/// <param name="tileWidth">The tile width</param>
 		/// <param name="tileHeight">The tile height</param>
-		public TiledMapIso(string groundTilesetName, LayerIso groundLayer, LayerIso[] layers, int tileWidth, int tileHeight)
+		public TileMapIso(string groundTilesetName, LayerIso groundLayer, LayerIso[] layers, int tileWidth, int tileHeight)
 			: this(groundTilesetName, null, groundLayer, layers, tileWidth, tileHeight, 0)
 		{
 		}

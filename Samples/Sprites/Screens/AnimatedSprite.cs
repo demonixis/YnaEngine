@@ -106,7 +106,7 @@ namespace Yna.Samples.Screens
             UpdateAnimations(manSprite);
             UpdateAnimations(gunnerSprite);
 
-            if (YnG.CollideOneWithGroup(manSprite, spriteToCollide))
+            if (YnCollide.CollideOneWithGroup(manSprite, spriteToCollide))
                 manSprite.Position = manSprite.LastPosition;
 
             // return to the menu if escape key is just pressed

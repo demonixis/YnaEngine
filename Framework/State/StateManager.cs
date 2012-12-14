@@ -10,13 +10,13 @@ using Yna.Helpers;
 
 namespace Yna.State
 {
-    public class ScreenManager : DrawableGameComponent
+    public class StateManager : DrawableGameComponent
     {
         #region Private declarations
 
-        private List<Screen> _screens;
+        private List<BaseState> _screens;
         private Dictionary<string, int> _namedScreens;
-        private List<Screen> _safeScreens;
+        private List<BaseState> _safeScreens;
         private bool _initialized;
 
         private Texture2D _transitionTexture;
@@ -49,7 +49,7 @@ namespace Yna.State
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public Screen this[int index]
+        public BaseState this[int index]
         {
             get
             {
@@ -70,7 +70,7 @@ namespace Yna.State
         /// <summary>
         /// Get the first active screen
         /// </summary>
-        public Screen FirstActiveScreen
+        public BaseState FirstActiveScreen
         {
             get
             {
@@ -82,7 +82,7 @@ namespace Yna.State
         /// <summary>
         /// Get the last active screen
         /// </summary>
-        public Screen LastActiveScreen
+        public BaseState LastActiveScreen
         {
             get
             {
@@ -114,13 +114,13 @@ namespace Yna.State
 
         #region Constructor
 
-        public ScreenManager(Game game)
+        public StateManager(Game game)
             : base(game)
         {
             _clearColor = Color.Black;
 
-            _screens = new List<Screen>();
-            _safeScreens = new List<Screen>();
+            _screens = new List<BaseState>();
+            _safeScreens = new List<BaseState>();
             _namedScreens = new Dictionary<string, int>();
 
             _initialized = false;
@@ -143,7 +143,7 @@ namespace Yna.State
                 // La texture sera étirée
                 _transitionTexture = GraphicsHelper.CreateTexture(Color.White, 16, 16);
 
-                foreach (Screen screen in _screens)
+                foreach (BaseState screen in _screens)
                 {
                     screen.LoadContent();
                     screen.Initialize();
@@ -159,7 +159,7 @@ namespace Yna.State
         {
             if (_initialized && _screens.Count > 0)
             {
-                foreach (Screen screen in _screens)
+                foreach (BaseState screen in _screens)
                     screen.UnloadContent();
             }
         }
@@ -284,7 +284,7 @@ namespace Yna.State
         {
             if (_namedScreens.ContainsKey(name))
             {
-                Screen activableScreen = _screens[_namedScreens[name]];
+                BaseState activableScreen = _screens[_namedScreens[name]];
                 activableScreen.Active = true;
 
                 if (!activableScreen.Initialized)
@@ -295,7 +295,7 @@ namespace Yna.State
 
                 if (desactiveOtherScreens)
                 {
-                    foreach (Screen screen in _screens)
+                    foreach (BaseState screen in _screens)
                     {
                         if (activableScreen != screen)
                             screen.Hide();  // TODO : Replace by hide when it's ok
@@ -311,7 +311,7 @@ namespace Yna.State
         /// </summary>
         public void HideAllPopup()
         {
-            foreach (Screen screen in _screens)
+            foreach (BaseState screen in _screens)
             {
                 if (screen.IsPopup)
                     screen.Hide();
@@ -368,7 +368,7 @@ namespace Yna.State
                 return -1;
         }
 
-        public Screen GetScreenByName(string name)
+        public BaseState GetScreenByName(string name)
         {
             if (_namedScreens.ContainsKey(name))
                 return _screens[_namedScreens[name]];
@@ -380,7 +380,7 @@ namespace Yna.State
         {
             _namedScreens.Clear();
 
-            foreach (Screen screen in _screens)
+            foreach (BaseState screen in _screens)
             {
                 if (_namedScreens.ContainsKey(screen.Name))
                     throw new Exception("[ScreenManager] Two screens can't have the same name, it's forbiden and it's bad :(");
@@ -395,7 +395,7 @@ namespace Yna.State
         /// </summary>
         /// <param name="state">New state</param>
         /// <returns>True if the state manager has done the swith, false if it disabled</returns>
-        public void SwitchState(Screen nextState)
+        public void SwitchState(BaseState nextState)
         {
             if (!nextState.IsPopup)
                 Clear();
@@ -411,7 +411,7 @@ namespace Yna.State
         /// Add a new screen to the Manager. The screen is not activate or desactivate, you must manage this yourself
         /// </summary>
         /// <param name="screen">Screen to add</param>
-        public void Add(Screen screen)
+        public void Add(BaseState screen)
         {
             screen.ScreenManager = this;
 
@@ -435,21 +435,21 @@ namespace Yna.State
         /// </summary>
         /// <param name="screen"></param>
         /// <param name="active"></param>
-        public void Add(Screen screen, bool active)
+        public void Add(BaseState screen, bool active)
         {
             screen.Active = active;
             Add(screen);
         }
 
-        public void Add(Screen[] screens)
+        public void Add(BaseState[] screens)
         {
-            foreach (Screen screen in screens)
+            foreach (BaseState screen in screens)
                 Add(screen);
         }
 
-        public void Add(Screen[] screens, bool active)
+        public void Add(BaseState[] screens, bool active)
         {
-            foreach (Screen screen in screens)
+            foreach (BaseState screen in screens)
             {
                 screen.Active = active;
                 Add(screen);
@@ -460,7 +460,7 @@ namespace Yna.State
         /// Remove a screen to the Manager
         /// </summary>
         /// <param name="screen">Screen to remove</param>
-        public void Remove(Screen screen)
+        public void Remove(BaseState screen)
         {
             _screens.Remove(screen);
 
@@ -487,7 +487,7 @@ namespace Yna.State
         /// </summary>
         /// <param name="index">position</param>
         /// <returns>The screen at the position</returns>
-        public Screen GetScreenAt(int index)
+        public BaseState GetScreenAt(int index)
         {
             return _screens[index];
         }
@@ -496,14 +496,14 @@ namespace Yna.State
         /// Get alls screens
         /// </summary>
         /// <returns></returns>
-        public Screen[] GetScreens()
+        public BaseState[] GetScreens()
         {
             return _screens.ToArray();
         }
 
         public IEnumerator GetEnumerator()
         {
-            foreach (Screen screen in _screens)
+            foreach (BaseState screen in _screens)
                 yield return screen;
         }
 

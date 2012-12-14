@@ -21,7 +21,7 @@ namespace Yna.State
         GameState, Popup
     }
 
-    public abstract class Screen
+    public abstract class BaseState
     {
         #region Private declarations
 
@@ -42,7 +42,7 @@ namespace Yna.State
         private float _transitionAlpha;
 
         protected SpriteBatch spriteBatch;
-        protected ScreenManager screenManager;
+        protected StateManager screenManager;
 
         #endregion
 
@@ -145,7 +145,7 @@ namespace Yna.State
         /// <summary>
         /// Get or Set the Screen Manager
         /// </summary>
-        public ScreenManager ScreenManager
+        public StateManager ScreenManager
         {
             get { return screenManager; }
             set
@@ -201,14 +201,14 @@ namespace Yna.State
 
         #endregion
 
-        public Screen(string name, ScreenType type, float timeTransitionOn, float timeTransitionOff)
+        public BaseState(string name, ScreenType type, float timeTransitionOn, float timeTransitionOff)
             : this(type, timeTransitionOn, timeTransitionOff)
         {
             _name = name;
         }
 
         // @Depreacted
-        public Screen(ScreenType type, float timeTransitionOn, float timeTransitionOff)
+        public BaseState(ScreenType type, float timeTransitionOn, float timeTransitionOff)
         {
             _active = true;
             _exiting = false;
@@ -254,11 +254,11 @@ namespace Yna.State
                 if (_timeTransitionCounter <= 0 && _exiting)
                     screenManager.Remove(this);
                 else if (_timeTransitionCounter <= 0 && !_exiting)
-                    _screenState = State.ScreenState.Hidden;
+                    _screenState = ScreenState.Hidden;
                 else
                     UpdateTransition(gameTime, _timeTransitionOff, 1);
             }
-            else if (_screenState == State.ScreenState.Hidden)
+            else if (_screenState == ScreenState.Hidden)
             {
                 Active = false;
             }

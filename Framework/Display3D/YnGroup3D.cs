@@ -164,10 +164,8 @@ namespace Yna.Display3D
         public void SetLight(BasicLight light)
         {
             foreach (YnObject3D sceneObject in _members)
-            {
-                if (sceneObject is IYnLightable)
-                    (sceneObject as IYnLightable).SetLight(light);
-            }
+                sceneObject.Light = light;
+            
         }
 
         #region GameState Pattern

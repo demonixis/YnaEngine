@@ -46,6 +46,7 @@
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\IsometricMap.cs" />
     <Compile Include="Data\MapBasic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\IsometricMapSample.cs" />

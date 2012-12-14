@@ -7,7 +7,7 @@ using Yna.State;
 
 namespace Yna
 {
-    public class YnState : Screen
+    public class YnState : BaseState
     {
         #region Private declarations
 

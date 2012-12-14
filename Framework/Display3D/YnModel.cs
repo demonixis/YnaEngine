@@ -8,12 +8,11 @@ using Yna.Display3D.Light;
 
 namespace Yna.Display3D
 {
-    public class YnModel : YnObject3D, IYnLightable
+    public class YnModel : YnObject3D
     {
         protected Model _model;
         protected string _modelName;
         protected Matrix[] _bonesTransforms;
-        protected BasicLight _basicLight;
 
         #region Properties
 
@@ -51,12 +50,6 @@ namespace Yna.Display3D
             }
         }
 
-        public BasicLight Light
-        {
-            get { return _basicLight; }
-            set { _basicLight = value; }
-        }
-
         /// <summary>
         /// The model's asset name
         /// </summary>
@@ -73,7 +66,7 @@ namespace Yna.Display3D
             : base(position)
         {
             _modelName = modelName;
-            _basicLight = new BasicLight();
+            _light = new BasicLight();
         }
 
         public YnModel(string modelName)
@@ -149,12 +142,12 @@ namespace Yna.Display3D
         {
             effect.LightingEnabled = true;
             effect.DirectionalLight0.Enabled = true;
-            effect.DirectionalLight0.DiffuseColor = _basicLight.Diffuse;
-            effect.DirectionalLight0.Direction = _basicLight.Direction;
-            effect.DirectionalLight0.SpecularColor = _basicLight.Specular;
-            effect.AmbientLightColor = _basicLight.Ambient;
-            effect.EmissiveColor = _basicLight.Emissive;
-            effect.Alpha = _basicLight.Alpha;
+            effect.DirectionalLight0.DiffuseColor = _light.Diffuse;
+            effect.DirectionalLight0.Direction = _light.Direction;
+            effect.DirectionalLight0.SpecularColor = _light.Specular;
+            effect.AmbientLightColor = _light.Ambient;
+            effect.EmissiveColor = _light.Emissive;
+            effect.Alpha = _light.Alpha;
         }
 
         public override void UpdateMatrix()
@@ -213,19 +206,5 @@ namespace Yna.Display3D
         {
             return String.Format("[YnModel] {0}", _modelName);
         }
-
-        #region IYnLightable implementation
-
-        void IYnLightable.SetLight(BasicLight light)
-        {
-            _basicLight = light;
-        }
-
-        BasicLight IYnLightable.GetLight(BasicLight light)
-        {
-            return _basicLight;
-        }
-
-        #endregion
     }
 }

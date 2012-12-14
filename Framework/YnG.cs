@@ -56,19 +56,12 @@ namespace Yna
         /// <summary>
         /// Get or Set the State Manager
         /// </summary>
-        public static ScreenManager ScreenManager { get; set; }
+        public static StateManager ScreenManager { get; set; }
 
         /// <summary>
         /// Get or Set the audio manager
         /// </summary>
         public static AudioManager AudioManager { get; set; }
-
-        /// <summary>
-        /// Get or set a custom content manager, who allow you to don't use XNA's ContentManager for loading
-        /// Texture2D, Song & SoundEffect. It is disabled by defaut but it can be automatically activated if you load
-        /// an asset from stream in a YnManager*
-        /// </summary>
-        public static YnContent YnContent { get; set; }
 
         /// <summary>
         /// Get or Set the keyboard states
@@ -84,11 +77,6 @@ namespace Yna
         /// Get or Set the mouse states
         /// </summary>
         public static YnMouse Mouse { get; set; }
-
-        /// <summary>
-        /// Get or Set the version of XNA or MonoGame you are using
-        /// </summary>
-        public static PlateformRuntime MonoGameContext { get; set; }
 
         #region Properties for sizes
 
@@ -209,7 +197,7 @@ namespace Yna
         /// the StateManager will clear all other state and use your new state
         /// </summary>
         /// <param name="state">New state</param>
-        public static void SwitchState(Screen state)
+        public static void SwitchState(BaseState state)
         {
             if (ScreenManager != null)
                 ScreenManager.SwitchState(state);
@@ -219,105 +207,6 @@ namespace Yna
         {
             if (ScreenManager != null)
                 ScreenManager.SetScreenActive(name, desactiveOtherScreens);
-        }
-
-        #endregion
-
-        #region Collide detection
-
-        /// <summary>
-        /// Simple test collision with rectangles
-        /// </summary>
-        /// <param name="sceneObjectA">Sprite 1</param>
-        /// <param name="sceneObjectB">Sprite 2</param>
-        /// <returns></returns>
-        public static bool Collide(YnObject sceneObjectA, YnObject sceneObjectB)
-        {
-            return sceneObjectA.Rectangle.Intersects(sceneObjectB.Rectangle);
-        }
-
-        public static bool CollideOneWithGroup(YnObject sceneObject, List<YnObject> group)
-        {
-            bool collide = false;
-            int size = group.Count;
-            int i = 0;
-            
-            while (i < size && !collide)
-            {
-                if (sceneObject.Rectangle.Intersects(group[i].Rectangle))
-                    collide = true;
-                
-				i++; 
-            }
-
-            return collide;
-        }
-
-        public static bool CollideGroupWithGroup(YnGroup groupA, YnGroup groupB)
-        {
-            bool collide = false;
-            int i = 0;
-            int j = 0;
-            int groupASize = groupA.Count;
-            int groupBSize = groupB.Count;
-
-            while (i < groupASize && !collide)
-            {
-                while (j < groupBSize && !collide)
-                {
-                    if (groupA[i].Rectangle.Intersects(groupB[j].Rectangle))
-                        collide = true;
-					
-					j++;
-                }
-				i++;
-            }
-
-            return collide;
-        }
-
-        /// <summary>
-        /// Perfect pixel test collision
-        /// </summary>
-        /// <param name="sceneObjectA">Sprite 1</param>
-        /// <param name="sceneObjectB">Sprite 2</param>
-        /// <returns></returns>
-        public static bool PerfectPixelCollide(YnObject sceneObjectA, YnObject sceneObjectB)
-        {
-            int top = Math.Max(sceneObjectA.Rectangle.Top, sceneObjectB.Rectangle.Top);
-            int bottom = Math.Min(sceneObjectA.Rectangle.Bottom, sceneObjectB.Rectangle.Bottom);
-            int left = Math.Max(sceneObjectA.Rectangle.Left, sceneObjectB.Rectangle.Left);
-            int right = Math.Min(sceneObjectA.Rectangle.Right, sceneObjectB.Rectangle.Right);
-
-            for (int y = top; y < bottom; y++)  // De haut en bas
-            {
-                for (int x = left; x < right; x++)  // de gauche à droite
-                {
-                    int index_A = (x - sceneObjectA.Rectangle.Left) + (y - sceneObjectA.Rectangle.Top) * sceneObjectA.Rectangle.Width;
-                    int index_B = (x - sceneObjectB.Rectangle.Left) + (y - sceneObjectB.Rectangle.Top) * sceneObjectB.Rectangle.Width;
-
-                    Color[] colorsSpriteA = GraphicsHelper.GetTextureData(sceneObjectA);
-                    Color[] colorsSpriteB = GraphicsHelper.GetTextureData(sceneObjectB);
-
-                    Color colorSpriteA = colorsSpriteA[index_A];
-                    Color colorSpriteB = colorsSpriteB[index_B];
-
-                    if (colorSpriteA.A != 0 && colorSpriteB.A != 0)
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Optimised perfect collide test
-        /// </summary>
-        /// <param name="sceneObjectA">Sprite 1</param>
-        /// <param name="sceneObjectB">Sprite 2</param>
-        /// <returns></returns>
-        public static bool PerfectCollide(YnObject sceneObjectA, YnObject sceneObjectB)
-        {
-            return Collide(sceneObjectA, sceneObjectB) && PerfectPixelCollide(sceneObjectA, sceneObjectB);
         }
 
         #endregion

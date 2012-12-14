@@ -21,7 +21,7 @@ namespace Yna
     {
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
-        protected ScreenManager screenManager = null;
+        protected StateManager screenManager = null;
         protected string gameTitle = "Yna Game";
         protected string gameVersion = "0.1";
 
@@ -47,7 +47,7 @@ namespace Yna
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
-            this.screenManager = new ScreenManager(this);
+            this.screenManager = new StateManager(this);
 
             // Setup services
             ServiceHelper.Game = this;
@@ -64,7 +64,6 @@ namespace Yna
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
             YnG.Gamepad = new YnGamepad();
-            YnG.MonoGameContext = YnG.GetPlateformContext();
             YnG.ScreenManager = screenManager;
             YnG.AudioManager = new AudioManager();
 
@@ -162,7 +161,7 @@ namespace Yna
             { 
                 if (this.screenManager == null)
                 {
-                    this.screenManager = new ScreenManager(this);
+                    this.screenManager = new StateManager(this);
                     this.Components.Add(this.screenManager);
                 }
             }

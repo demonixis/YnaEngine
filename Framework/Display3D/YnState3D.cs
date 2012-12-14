@@ -9,7 +9,7 @@ using Yna.Display3D.Camera;
 
 namespace Yna.Display3D
 {
-    public class YnState3D : Screen
+    public class YnState3D : BaseState
     {
         protected BaseCamera _camera;
         private YnScene _scene;

@@ -5,7 +5,7 @@ using Yna.Display3D.Light;
 
 namespace Yna.Display3D.Primitive
 {
-    public class BasePrimitive : YnObject3D, IYnLightable
+    public class BasePrimitive : YnObject3D
     {
         #region Private declarations
 
@@ -13,7 +13,6 @@ namespace Yna.Display3D.Primitive
         protected string _textureName;
         protected Vector2 _textureRepeat;
         protected Vector3 _segmentSizes;
-        protected BasicLight _basicLight;
         protected bool _lightningEnabled;
         protected bool _colorEnabled;
         protected bool _textureEnabled;
@@ -59,12 +58,6 @@ namespace Yna.Display3D.Primitive
         {
             get { return _initialized; }
             set { _initialized = value; }
-        }
-
-        public BasicLight Light
-        {
-            get { return _basicLight; }
-            set { _basicLight = value; }
         }
 
         public bool LightningEnabled
@@ -134,7 +127,7 @@ namespace Yna.Display3D.Primitive
             _textureRepeat = Vector2.One;
             _segmentSizes = Vector3.One;
 
-            _basicLight = new BasicLight();
+            _light = new BasicLight();
 
             _lightningEnabled = true;
             _colorEnabled = false;
@@ -173,12 +166,12 @@ namespace Yna.Display3D.Primitive
         {
             _basicEffect.LightingEnabled = true;
             _basicEffect.DirectionalLight0.Enabled = true;
-            _basicEffect.DirectionalLight0.Direction = _basicLight.Direction;
-            _basicEffect.DirectionalLight0.DiffuseColor = _basicLight.Diffuse;
-            _basicEffect.DirectionalLight0.SpecularColor = _basicLight.Specular;
-            _basicEffect.AmbientLightColor = _basicLight.Ambient;
-            _basicEffect.EmissiveColor = _basicLight.Emissive;
-            _basicEffect.Alpha = _basicLight.Alpha;
+            _basicEffect.DirectionalLight0.Direction = _light.Direction;
+            _basicEffect.DirectionalLight0.DiffuseColor = _light.Diffuse;
+            _basicEffect.DirectionalLight0.SpecularColor = _light.Specular;
+            _basicEffect.AmbientLightColor = _light.Ambient;
+            _basicEffect.EmissiveColor = _light.Emissive;
+            _basicEffect.Alpha = _light.Alpha;
         }
 
         public override void UpdateMatrix()
@@ -218,19 +211,5 @@ namespace Yna.Display3D.Primitive
             _basicEffect.View = View;
             _basicEffect.Projection = _camera.Projection;
         }
-
-        #region IYnLightable implementation
-
-        void IYnLightable.SetLight(BasicLight light)
-        {
-            _basicLight = light;
-        }
-
-        BasicLight IYnLightable.GetLight(BasicLight light)
-        {
-            return _basicLight;
-        }
-
-        #endregion
     }
 }

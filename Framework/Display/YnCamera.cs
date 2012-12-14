@@ -8,8 +8,9 @@ namespace Yna.Display
         protected Vector2 _position;
         protected Vector2 _rotation;
         protected float _zoom;
-
         protected Vector2 _centerScreen;
+        protected bool _needUpdate;
+        protected bool _dynamic;
 
         #region Properties
 
@@ -43,7 +44,7 @@ namespace Yna.Display
             _centerScreen = new Vector2(YnG.Width / 2, YnG.Height / 2);
         }
 
-        public void Update(GameTime gameTime)
+        public void GetView(GameTime gameTime)
         {
             Matrix rotationTransforms = Matrix.CreateRotationX(_rotation.X) * Matrix.CreateRotationY(_rotation.Y);
 
@@ -52,11 +53,6 @@ namespace Yna.Display
                 Matrix.CreateTranslation(new Vector3(_centerScreen, 0.0f));
 
             _view = rotationTransforms * transltationTransforms * Matrix.CreateScale(_zoom);
-        }
-
-        public Matrix GetMatrix()
-        {
-            return _view;
         }
     }
 }
