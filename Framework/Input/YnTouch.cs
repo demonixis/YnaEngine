@@ -8,7 +8,7 @@ namespace Yna.Input
 {
     public class YnTouch
     {
-        private ITouchService service;
+        private TouchService service;
 
         public bool Moved;
         public bool Pressed;
@@ -17,7 +17,7 @@ namespace Yna.Input
 
         public YnTouch()
         {
-            service = ServiceHelper.Get<ITouchService>();
+            service = ServiceHelper.Get<ITouchService>() as TouchService;
         }
     }
 }
