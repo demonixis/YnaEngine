@@ -5,7 +5,7 @@ using Yna.Framework.Display;
 
 namespace Yna.Framework.Display
 {
-    class YnGraphics
+    public class YnGraphics
     {
         public static Color[] CreateColor(Color desiredColor, int width, int height)
         {

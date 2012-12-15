@@ -29,7 +29,7 @@ namespace Yna.Samples.Screens
             // want to use all tiles in a layer, fill it with transparent texture
             // ID.
             Layer2D layer = new Layer2D(MapBasic.data);
-            layer.TilesetName = "tileset01";
+            layer.TilesetName = "tilesets/tileset01";
 
             // Here we go, hello TiledMap!
             // - First there is the tileset texture containing all tiles
@@ -37,7 +37,7 @@ namespace Yna.Samples.Screens
             // - And to finish, the tile size. Note that in this example, tiles are
             // squares but you can use rectangle tiles too. Just use another constructor
             // to define tile width and tile height.
-            map = new TileMap2D("tileset01", layer, 32);
+            map = new TileMap2D("tilesets/tileset01", layer, 32);
 
             // The map can be moved with a simple Vector2. The camera position
             // is screen relative. The top left tile will be drawn at this position
@@ -59,7 +59,7 @@ namespace Yna.Samples.Screens
 
             // For this example we need an empty texture for drawing the rectangle
             // around the map (ensuring that no pixel gets out of the zone! :-) )
-            texture = GraphicsHelper.CreateTexture(Color.White, 1, 1);
+            texture = YnGraphics.CreateTexture(Color.White, 1, 1);
         }
 
         public override void Update(GameTime gameTime)
@@ -89,7 +89,7 @@ namespace Yna.Samples.Screens
             map.Draw(spriteBatch, camera, viewport);
 
             // A rectangle is drawn to represent the map's drawing zone
-            GraphicsHelper.DrawRectangle(spriteBatch, texture, viewport, Color.Green, 1);
+            YnGraphics.DrawRectangle(spriteBatch, texture, viewport, Color.Green, 1);
 
             spriteBatch.End();
         }

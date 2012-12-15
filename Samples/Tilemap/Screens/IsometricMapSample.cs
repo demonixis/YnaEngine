@@ -25,7 +25,7 @@ namespace Yna.Samples.Screens
 
             LayerIso[] layers = new LayerIso[] { decoLayer };
 
-            _map = new TileMapIso("iso_ground_tileset", "iso_deco_tileset", groundLayer, layers, 96, 96, 192);
+            _map = new TileMapIso("tilesets/iso_ground_tileset", "tilesets/iso_deco_tileset", groundLayer, layers, 96, 96, 192);
 
             camera = new Vector2(YnG.Width / 2 - 96 / 2, 128);
 
@@ -43,7 +43,7 @@ namespace Yna.Samples.Screens
 
             // For this example we need an empty texture for drawing the rectangle
             // around the map (ensuring that no pixel gets out of the zone! :-) )
-            texture = GraphicsHelper.CreateTexture(Color.White, 1, 1);
+            texture = YnGraphics.CreateTexture(Color.White, 1, 1);
         }
 
         public override void Update(GameTime gameTime)

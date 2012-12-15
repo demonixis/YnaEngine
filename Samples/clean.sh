@@ -6,6 +6,7 @@ rm -Rf *.suo
 rm -Rf *.cachefile
 rm -Rf *.pidb
 rm -Rf *.DS_Store
+rm -Rf *.cachefile
 
 rm -Rf Common/bin
 rm -Rf Common/obj

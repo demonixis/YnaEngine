@@ -15,7 +15,6 @@ namespace Yna.Framework.Input.Service
         protected bool [] _pressed;
         protected bool [] _moved;
         protected bool [] _released;
-        protected float [] _pressure;
 
         public Vector2 [] Position;
         public Vector2 [] LastPosition;
@@ -43,7 +42,6 @@ namespace Yna.Framework.Input.Service
             _pressed = new bool [MaxFingerPoints];
             _moved = new bool [MaxFingerPoints];
             _released = new bool [MaxFingerPoints];
-            _pressure = new float [MaxFingerPoints];
         }
 
         public override void Initialize()
@@ -80,7 +78,6 @@ namespace Yna.Framework.Input.Service
                     _pressed[i] = touchCollection[i].State == TouchLocationState.Pressed;
                     _moved [i] = touchCollection [i].State == TouchLocationState.Moved;
                     _released [i] = touchCollection [i].State == TouchLocationState.Released;
-                    _pressure [i] = touchCollection [i].Pressure;
                 }
             }
         }
@@ -109,14 +106,6 @@ namespace Yna.Framework.Input.Service
                 return false;
 
             return _moved [id];
-        }
-
-        float ITouchService.GetPressure(int id)
-        {
-            if (id >= MaxFingerPoints)
-                return 0.0f;
-
-            return _pressure [id];
         }
 
         #endregion

@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">Windows Phone</Platform>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yna</RootNamespace>
-    <AssemblyName>Yna.WP7</AssemblyName>
+    <RootNamespace>Yna.Framework</RootNamespace>
+    <AssemblyName>Yna.Framework.WP7</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <XnaRefreshLevel>1</XnaRefreshLevel>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
@@ -59,11 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioManager.cs" />
-    <Compile Include="Content\ContentEventArgs.cs" />
-    <Compile Include="Content\YnContent.cs" />
+    <Compile Include="Display\Event\TouchSpriteEvents.cs" />
+    <Compile Include="Display\YnGraphics.cs" />
+    <Compile Include="Event\ContentEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
+    <Compile Include="Display3D\Camera\TopCamera.cs" />
     <Compile Include="Display3D\Controls\BaseControl.cs" />
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Display3D\Primitive\BasePrimitive.cs" />
     <Compile Include="Display3D\Primitive\Cube.cs" />
     <Compile Include="Display3D\Renderer\BoundingBoxRenderer.cs" />
+    <Compile Include="Display3D\Renderer\RayRenderer.cs" />
     <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnGroup3D.cs" />
     <Compile Include="Display3D\YnModel.cs" />
@@ -85,12 +88,10 @@
     <Compile Include="Display3D\YnState3D.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
-    <Compile Include="Display\Effect\YnTransition.cs" />
-    <Compile Include="Display\Event\IntEventArgs.cs" />
-    <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
+    <Compile Include="Display\Animation\YnTransition.cs" />
+    <Compile Include="Display\Event\GlobalEventArgs.cs" />
+    <Compile Include="Display\Event\MouseSpriteEvents.cs" />
+    <Compile Include="Display\Event\SpriteCollideEventArgs.cs" />
     <Compile Include="Display\Gui\YnCheckbox.cs" />
     <Compile Include="Display\Gui\YnGui.cs" />
     <Compile Include="Display\Gui\YnBorder.cs" />
@@ -107,11 +108,13 @@
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCamera.cs" />
+    <Compile Include="Display\YnCollide.cs" />
     <Compile Include="Display\YnImage.cs" />
+    <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
-    <Compile Include="Display\TileMap\AbstractLayer.cs" />
-    <Compile Include="Display\TileMap\AbstractTile.cs" />
-    <Compile Include="Display\TileMap\AbstractTileMap.cs" />
+    <Compile Include="Display\TileMap\BaseLayer.cs" />
+    <Compile Include="Display\TileMap\BaseTile.cs" />
+    <Compile Include="Display\TileMap\BaseTileMap.cs" />
     <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
     <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
     <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />
@@ -119,40 +122,33 @@
     <Compile Include="Display\TileMap\Iso\TileIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="Helpers\GraphicsHelper.cs" />
+    <Compile Include="Display\Event\ScreenEvents.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
-    <Compile Include="Input\Service\GamepadService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Input\Service\IGamepadService.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Input\Service\GamepadService.cs" />
+    <Compile Include="Input\Service\IGamepadService.cs" />
     <Compile Include="Input\Service\IKeyboardService.cs" />
     <Compile Include="Input\Service\IMouseService.cs" />
+    <Compile Include="Input\Service\ITouchService.cs" />
     <Compile Include="Input\Service\KeyboardService.cs" />
     <Compile Include="Input\Service\MouseService.cs" />
-    <Compile Include="Input\YnGamepad.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Input\Service\TouchService.cs" />
+    <Compile Include="Input\YnGamepad.cs" />
     <Compile Include="Input\YnKeyboard.cs" />
     <Compile Include="Input\YnMouse.cs" />
-    <Compile Include="Interfaces.cs" />
+    <Compile Include="Input\YnTouch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="State\Screen.cs" />
-    <Compile Include="State\ScreenManager.cs" />
+    <Compile Include="State\BaseState.cs" />
+    <Compile Include="State\StateManager.cs" />
     <Compile Include="Storage\StorageManager.cs" />
-    <Compile Include="YnState.cs" />
-    <Compile Include="Utils\ListStack.cs" />
-    <Compile Include="Utils\ListQueue.cs" />
+    <Compile Include="Display\YnState.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
-    <Compile Include="Display\YnPath.cs" />
+    <Compile Include="YnPath.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

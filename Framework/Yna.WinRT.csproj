@@ -9,8 +9,8 @@
     <ProjectGuid>{FCC2DB0F-C241-400C-AFDB-DC153DF4C433}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yna</RootNamespace>
-    <AssemblyName>Yna.WinRT</AssemblyName>
+    <RootNamespace>Yna.Framework</RootNamespace>
+    <AssemblyName>Yna.Framework.WinRT</AssemblyName>
     <DefaultLanguage>fr-FR</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,7 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;MONOGAME;WINDOWS_STORE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;MONOGAME;WINRT</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -45,7 +45,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;MONOGAME;WINDOWS_STORE</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;MONOGAME;WINRT</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;MONOGAME;WINDOWS_STORE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;MONOGAME;WINRT</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -67,7 +67,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;MONOGAME;WINDOWS_STORE</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;MONOGAME;WINRT</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -79,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;MONOGAME;WINDOWS_STORE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;MONOGAME;WINRT</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -89,7 +89,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;MONOGAME;WINDOWS_STORE</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;MONOGAME;WINRT</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -100,19 +100,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioManager.cs" />
-    <Compile Include="Content\ContentEventArgs.cs" />
-    <Compile Include="Content\YnContent.cs" />
+    <Compile Include="Display\Event\TouchSpriteEvents.cs" />
+    <Compile Include="Display\YnGraphics.cs" />
+    <Compile Include="Event\ContentEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
+    <Compile Include="Display3D\Camera\TopCamera.cs" />
     <Compile Include="Display3D\Controls\BaseControl.cs" />
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Light\BasicLight.cs" />
     <Compile Include="Display3D\Primitive\BasePrimitive.cs" />
-    <Compile Include="Display3D\Renderer\BoundingBoxRenderer.cs" />
     <Compile Include="Display3D\Primitive\Cube.cs" />
+    <Compile Include="Display3D\Renderer\BoundingBoxRenderer.cs" />
+    <Compile Include="Display3D\Renderer\RayRenderer.cs" />
     <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnGroup3D.cs" />
     <Compile Include="Display3D\YnModel.cs" />
@@ -126,32 +129,33 @@
     <Compile Include="Display3D\YnState3D.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
-    <Compile Include="Display\Effect\YnTransition.cs" />
-    <Compile Include="Display\Event\IntEventArgs.cs" />
-    <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
+    <Compile Include="Display\Animation\YnTransition.cs" />
+    <Compile Include="Display\Event\GlobalEventArgs.cs" />
+    <Compile Include="Display\Event\MouseSpriteEvents.cs" />
+    <Compile Include="Display\Event\SpriteCollideEventArgs.cs" />
     <Compile Include="Display\Gui\YnCheckbox.cs" />
     <Compile Include="Display\Gui\YnGui.cs" />
     <Compile Include="Display\Gui\YnBorder.cs" />
     <Compile Include="Display\Gui\YnButton.cs" />
     <Compile Include="Display\Gui\YnLabel.cs" />
+    <Compile Include="Display\Gui\YnMessageBox.cs" />
     <Compile Include="Display\Gui\YnPanel.cs" />
     <Compile Include="Display\Gui\YnProgressBar.cs" />
     <Compile Include="Display\Gui\YnSkin.cs" />
     <Compile Include="Display\Gui\YnSkinGenerator.cs" />
     <Compile Include="Display\Gui\YnSlider.cs" />
+    <Compile Include="Display\Gui\YnTextBox.cs" />
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
+    <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCamera.cs" />
     <Compile Include="Display\YnCollide.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
-    <Compile Include="Display\TileMap\AbstractLayer.cs" />
-    <Compile Include="Display\TileMap\AbstractTile.cs" />
-    <Compile Include="Display\TileMap\AbstractTileMap.cs" />
+    <Compile Include="Display\TileMap\BaseLayer.cs" />
+    <Compile Include="Display\TileMap\BaseTile.cs" />
+    <Compile Include="Display\TileMap\BaseTileMap.cs" />
     <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
     <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
     <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />
@@ -159,8 +163,7 @@
     <Compile Include="Display\TileMap\Iso\TileIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="Helpers\GraphicsHelper.cs" />
+    <Compile Include="Display\Event\ScreenEvents.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
@@ -180,12 +183,13 @@
     <Compile Include="State\BaseState.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="Storage\StorageManager.cs" />
+    <Compile Include="Display\YnState.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
-    <Compile Include="Display\YnPath.cs" />
+    <Compile Include="YnPath.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>

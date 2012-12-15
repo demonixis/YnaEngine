@@ -10,6 +10,5 @@ namespace Yna.Framework.Input.Service
         bool Pressed(int id);
         bool Released(int id);
         bool Moved(int id);
-        float GetPressure(int id);
     }
 }

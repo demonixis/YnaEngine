@@ -42,7 +42,7 @@ namespace Yna.Samples.Screens
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
-            heightmap = new Heightmap("heightfield", "heightmapTexture");
+            heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture");
             Add(heightmap);
 
             // Sky & debug info

@@ -36,7 +36,7 @@ namespace Yna.Samples.Screens
             Add(control);
 
             // 3 - Create a simple terrain with a size of 100x100 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("heightmapTexture", 50, 50, 1, 1);
+            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50, 1, 1);
             Add(terrain);
 
             // Sky & debug text ;)

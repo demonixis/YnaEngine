@@ -67,7 +67,9 @@ namespace Yna.Framework
             YnG.Gamepad = new YnGamepad();
             YnG.Touch = new YnTouch();
             YnG.StateManager = stateManager;
+#if !WINDOWS_PHONE_8
             YnG.AudioManager = new AudioManager();
+#endif
             YnG.StorageManager = new StorageManager();
 
             this.Window.Title = String.Format("{0} - v{1}", gameTitle, gameVersion);
