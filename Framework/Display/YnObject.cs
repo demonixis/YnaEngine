@@ -29,8 +29,8 @@ namespace Yna.Framework.Display
         protected Vector2 _position;
         protected Rectangle _rectangle;
         protected Texture2D _texture;
-        protected string _textureName;
-        protected bool _textureLoaded;
+        protected string _assetName;
+        protected bool _assetLoaded;
         protected Color _color;
         protected float _rotation;
         protected Vector2 _origin;
@@ -38,6 +38,7 @@ namespace Yna.Framework.Display
         protected SpriteEffects _effects;
         protected float _layerDepth;
         protected float _alpha;
+        protected PositionType _positionType;
 
         #endregion
 
@@ -65,8 +66,8 @@ namespace Yna.Framework.Display
         /// </summary>
         public PositionType PositionType
         {
-            get;
-            set;
+            get { return _positionType; }
+            set { _positionType = value; }
         }
 
         /// <summary>
@@ -155,7 +156,7 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Get or Set the Texture2D used by the object
         /// </summary>
-        public Texture2D Texture
+        public Texture2D Asset
         {
             get { return _texture; }
             set { _texture = value; }
@@ -164,13 +165,13 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Get or Set the texture name used when the content is loaded
         /// </summary>
-        public string TextureName
+        public string AssetName
         {
-            get { return _textureName; }
+            get { return _assetName; }
             set 
             {
-                _textureLoaded = false;
-                _textureName = value; 
+                _assetLoaded = false;
+                _assetName = value; 
             }
         }
 
@@ -300,9 +301,9 @@ namespace Yna.Framework.Display
         /// Get the status of the texture2D
         /// True if loaded
         /// </summary>
-        public bool TextureLoaded
+        public bool AssetLoaded
         {
-            get { return _textureLoaded; }
+            get { return _assetLoaded; }
         }
         #endregion
 
@@ -388,8 +389,8 @@ namespace Yna.Framework.Display
             _position = Vector2.Zero;
             _rectangle = Rectangle.Empty;
             _texture = null;
-            _textureName = String.Empty;
-            _textureLoaded = false;
+            _assetName = String.Empty;
+            _assetLoaded = false;
             _color = Color.White;
             _rotation = 0.0f;
             _origin = Vector2.Zero;

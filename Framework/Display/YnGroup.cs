@@ -234,6 +234,20 @@ namespace Yna.Framework.Display
                 yield return member;
         }
 
+        public YnObject GetChildByName(string name)
+        {
+            YnObject result = null;
+            int i = 0;
+            while (i < Count && result == null)
+            {
+                if (Members[i].Name == name)
+                    result = Members[i];
+
+                i++;
+            }
+            return result;
+        }
+
         #endregion
 
         public void UpdateSizes()

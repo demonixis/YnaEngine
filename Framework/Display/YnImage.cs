@@ -16,15 +16,15 @@ namespace Yna.Framework.Display
             {
                 _scale = value;
 
-                if (_textureLoaded)
+                if (_assetLoaded)
                     Rectangle = new Rectangle(X, Y, (int)(_texture.Width * _scale.X), (int)(_texture.Height * _scale.Y));
             }
         }
 
         public YnImage(string imageAsset)
         {
-            _textureName = imageAsset;
-            _textureLoaded = false;
+            _assetName = imageAsset;
+            _assetLoaded = false;
         }
 
         public YnImage(string imageAsset, int x, int y)
@@ -35,23 +35,18 @@ namespace Yna.Framework.Display
 
         public override void Initialize()
         {
-            
-        }
-
-        public override void UnloadContent()
-        {
 
         }
 
         public override void LoadContent()
         {
-            if (!_textureLoaded)
+            if (!_assetLoaded)
             {
-                if (_textureName != String.Empty)
+                if (_assetName != String.Empty)
                 {
-                    _texture = YnG.Content.Load<Texture2D>(_textureName);
+                    _texture = YnG.Content.Load<Texture2D>(_assetName);
                     Rectangle = new Rectangle(X, Y, (int)(_texture.Width * _scale.X), (int)(_texture.Height * _scale.Y));
-                    _textureLoaded = true;
+                    _assetLoaded = true;
                 }
                 else
                     throw new Exception("[YnImage] The texture name is empty");

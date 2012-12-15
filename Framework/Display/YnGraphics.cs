@@ -3,19 +3,26 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display;
 
-namespace Yna.Framework.Helpers
+namespace Yna.Framework.Display
 {
-    public class GraphicsHelper
+    class YnGraphics
     {
-        public static Color[] CreateColor (Color textureColor, int width, int height)
+        public static Color[] CreateColor(Color desiredColor, int width, int height)
         {
             Color[] color = new Color[width * height];
             for (int i = 0; i < color.Length; i++)
-                color[i] = textureColor;
+                color[i] = desiredColor;
             return color;
         }
 
-        public static Texture2D CreateTexture (Color color, int width, int height)
+        /// <summary>
+        /// Create a texture with a color and a size specified in parameter
+        /// </summary>
+        /// <param name="color">Color of the texture</param>
+        /// <param name="width">Width of the texture</param>
+        /// <param name="height">Height of the texture</param>
+        /// <returns></returns>
+        public static Texture2D CreateTexture(Color color, int width, int height)
         {
             Texture2D texture2D = new Texture2D(YnG.GraphicsDeviceManager.GraphicsDevice, width, height);
             texture2D.SetData(CreateColor(color, width, height));
@@ -23,10 +30,15 @@ namespace Yna.Framework.Helpers
             return texture2D;
         }
 
-        public static Color[] GetTextureData (YnObject sceneObject)
+        /// <summary>
+        /// Get color for each pixel from a texture
+        /// </summary>
+        /// <param name="texture">A texture</param>
+        /// <returns>Array of color</returns>
+        public static Color[] GetTextureData(Texture2D texture)
         {
-            Color[] textureData = new Color[sceneObject.Asset.Width * sceneObject.Asset.Height];
-            sceneObject.Asset.GetData(textureData);
+            Color[] textureData = new Color[texture.Width * texture.Height];
+            texture.GetData(textureData);
             return textureData;
         }
 
@@ -58,6 +70,12 @@ namespace Yna.Framework.Helpers
             batch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, borderSize), color);
             batch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, borderSize, rectangle.Height), color);
             batch.Draw(texture, new Rectangle(rectangle.Right, rectangle.Top, borderSize, rectangle.Height + 1), color);
+        }
+
+        public static void DrawRectangle(SpriteBatch batch, Rectangle rectangle, Color color)
+        {
+            Texture2D texture = CreateTexture(Color.White, 1, 1);
+            DrawRectangle(batch, texture, rectangle, color, 1);
         }
     }
 }

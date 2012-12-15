@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Framework.Content;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Light;
 

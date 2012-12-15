@@ -6,8 +6,6 @@ namespace Yna.Framework.Display
 {
     public class YnCollide
     {
-        #region Collide detection
-
         /// <summary>
         /// Simple test collision with rectangles
         /// </summary>
@@ -102,7 +100,5 @@ namespace Yna.Framework.Display
         {
             return Collide(sceneObjectA, sceneObjectB) && PerfectPixelCollide(sceneObjectA, sceneObjectB);
         }
-
-        #endregion
     }
 }

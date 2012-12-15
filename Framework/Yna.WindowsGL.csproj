@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Yna.Framework.Framework</RootNamespace>
+    <RootNamespace>Yna.Framework</RootNamespace>
     <AssemblyName>Yna.WindowGL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -39,8 +39,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioManager.cs" />
-    <Compile Include="Content\ContentEventArgs.cs" />
-    <Compile Include="Content\YnContent.cs" />
+    <Compile Include="Display\Event\TouchSpriteEvents.cs" />
+    <Compile Include="Display\YnGraphics.cs" />
+    <Compile Include="Event\ContentEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
@@ -128,7 +129,7 @@
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
-    <Compile Include="Display\YnPath.cs" />
+    <Compile Include="YnPath.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>

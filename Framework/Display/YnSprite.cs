@@ -224,7 +224,7 @@ namespace Yna.Framework.Display
         public YnSprite(string assetName)
             : this(Vector2.Zero)
         {
-            _textureName = assetName;
+            _assetName = assetName;
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace Yna.Framework.Display
         public YnSprite(Vector2 position, string assetName) 
             : this(position)
         {
-            _textureName = assetName;
+            _assetName = assetName;
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Yna.Framework.Display
         {
             Rectangle = rectangle;
             _texture = GraphicsHelper.CreateTexture(color, rectangle.Width, rectangle.Height);
-            _textureLoaded = true;
+            _assetLoaded = true;
             _position = new Vector2(rectangle.X, rectangle.Y);
             _rectangle = rectangle;
         }
@@ -353,12 +353,12 @@ namespace Yna.Framework.Display
 
         public override void LoadContent()
         {
-            if (!_textureLoaded)
+            if (!_assetLoaded)
             {
                 if (_texture == null)
                 {
-                    if (_textureName != string.Empty)
-                        _texture = YnG.Content.Load<Texture2D>(_textureName);
+                    if (_assetName != string.Empty)
+                        _texture = YnG.Content.Load<Texture2D>(_assetName);
                     else
                         throw new Exception("[Sprite] Impossible de charger la texture");
                 }
@@ -366,7 +366,7 @@ namespace Yna.Framework.Display
                 SourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
                 Rectangle = new Rectangle((int)X, (int)Y, _texture.Width, _texture.Height);
 
-                _textureLoaded = true;
+                _assetLoaded = true;
             }
         }
 
@@ -377,8 +377,8 @@ namespace Yna.Framework.Display
         /// <param name="textureName">Texture name</param>
         public virtual void LoadContent(string textureName)
         {
-            _textureName = textureName;
-            _textureLoaded = false;
+            _assetName = textureName;
+            _assetLoaded = false;
             
             _texture = null;
             

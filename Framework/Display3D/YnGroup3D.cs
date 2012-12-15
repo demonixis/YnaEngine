@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Framework.Content;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Primitive;
 using Yna.Framework.Display3D.Light;

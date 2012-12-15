@@ -62,21 +62,6 @@ namespace Yna.Samples.Screens
             texture = GraphicsHelper.CreateTexture(Color.White, 1, 1);
         }
 
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-
-            spriteBatch.Begin();
-
-            // Here we simply draw the map with the camera position and the draw zone
-            map.Draw(spriteBatch, camera, viewport);
-
-            // A rectangle is drawn to represent the map's drawing zone
-            DrawRectangle(viewport, Color.Red);
-
-            spriteBatch.End();
-        }
-
         public override void Update(GameTime gameTime)
         {
             // Simple handling of the camera position
@@ -92,20 +77,21 @@ namespace Yna.Samples.Screens
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.StateManager.SetScreenActive("menu", true);
-            
         }
 
-        /// <summary>
-        /// Draw a rectangle
-        /// </summary>
-        /// <param name="rectangle"></param>
-        /// <param name="color"></param>
-        private void DrawRectangle(Rectangle rectangle, Color color)
+        public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, 1), color);
-            spriteBatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, 1), color);
-            spriteBatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, 1, rectangle.Height), color);
-            spriteBatch.Draw(texture, new Rectangle(rectangle.Right, rectangle.Top, 1, rectangle.Height + 1), color);
+            base.Draw(gameTime);
+
+            spriteBatch.Begin();
+
+            // Here we simply draw the map with the camera position and the draw zone
+            map.Draw(spriteBatch, camera, viewport);
+
+            // A rectangle is drawn to represent the map's drawing zone
+            GraphicsHelper.DrawRectangle(spriteBatch, texture, viewport, Color.Green, 1);
+
+            spriteBatch.End();
         }
     }
 }

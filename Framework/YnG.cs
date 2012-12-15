@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Yna.Framework.Audio;
-using Yna.Framework.Content;
 using Yna.Framework.Display;
 using Yna.Framework.Helpers;
 using Yna.Framework.Input;
@@ -12,14 +11,6 @@ using Yna.Framework.State;
 
 namespace Yna.Framework
 {
-    /// <summary>
-    /// Determine the MonoGame platform
-    /// </summary>
-    public enum PlateformRuntime
-    {
-        Unknow = 0, XNA_PC, XNA_Xbox, XNA_WindowsPhone7, Windows, Windows8, WindowsPhone8, Linux, Mac 
-    }
-
     /// <summary>
     /// Static class that expose important object relative to the current context like
     /// Game, GraphicsDevice, Input, etc...
@@ -87,9 +78,6 @@ namespace Yna.Framework
         {
             get 
             {
-#if MONOGAME
-                return DeviceWidth;
-#endif
                 if (GraphicsDevice != null)
                     return GraphicsDevice.Viewport.Width;
                 else
@@ -104,9 +92,6 @@ namespace Yna.Framework
         {
             get 
             {
-#if MONOGAME
-                return DeviceHeight;
-#endif
                 if (GraphicsDevice != null)
                     return GraphicsDevice.Viewport.Height;
                 else
@@ -188,7 +173,7 @@ namespace Yna.Framework
 
         #endregion
 
-        #region Properties for ScreenManager
+        #region Properties for StateManager
 
         /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
@@ -231,31 +216,6 @@ namespace Yna.Framework
         public static void Exit()
         {
             Game.Exit();
-        }
-
-        /// <summary>
-        /// Get the current platform context 
-        /// </summary>
-        /// <returns>MonoGame/XNA platform used</returns>
-        public static PlateformRuntime GetPlateformContext()
-        {
-#if WINDOWS8
-            return PlateformRuntime.Windows8;
-#elif WINDOWS_PHONE_8
-            return PlateformRuntime.WindowsPhone8;
-#elif WINDOWS_PHONE_7
-            return PlateformRuntime.XNA_WindowsPhone7;
-#elif XNA && XBOX 
-            return PlateformRutime.XNA_Xbox;
-#elif XNA && WINDOWS
-            return PlateformRuntime.XNA_PC;
-#elif LINUX
-            return PlateformRuntime.Linux;
-#elif WINDOWS
-            return PlateformRuntime.Windows;
-#else
-            return PlateformRuntime.Unknow;
-#endif
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Yna.Framework.Content;
+using Yna.Framework.Event;
 using Yna.Framework.Helpers;
 
 namespace Yna.Framework.State

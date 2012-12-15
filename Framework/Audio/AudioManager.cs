@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using Yna.Framework;
-using Yna.Framework.Content;
 
 namespace Yna.Framework.Audio
 {

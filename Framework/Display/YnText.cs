@@ -59,18 +59,13 @@ namespace Yna.Framework.Display
 
         #region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="position">The text position on screen</param>
-        /// <param name="text">The text to display</param>
-        private YnText(Vector2 position, string text)
+        public YnText()
             : base()
         {
-            _text = text;
-            _position = position;
-            _textureLoaded = false;
+            _text = String.Empty;
+            _assetLoaded = false;
             _color = Color.Black;
+            _position = Vector2.Zero;
         }
 
         /// <summary>
@@ -79,38 +74,10 @@ namespace Yna.Framework.Display
         /// <param name="fontName">The font name</param>
         /// <param name="text">The text</param>
         public YnText(string fontName, string text)
-            : this(Vector2.Zero, text)
         {
-            _textureName = fontName;
-            _textureLoaded = false;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="font">The font</param>
-        /// <param name="x">X coordinate on screen</param>
-        /// <param name="y">Y coordinate on screen</param>
-        /// <param name="text">The text</param>
-        public YnText(SpriteFont font, int x, int y, string text)
-            : this(new Vector2(x, y), text)
-        {
-            _font = font;
-            _textureLoaded = true;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="fontName">The font name</param>
-        /// <param name="x">X coordinate on screen</param>
-        /// <param name="y">Y coordinate on screen</param>
-        /// <param name="text">The text</param>
-        public YnText(string fontName, int x, int y, string text)
-            : this(new Vector2(x, y), text)
-        {
-            _textureName = fontName;
-            _textureLoaded = false;
+            _assetName = fontName;
+            _assetLoaded = false;
+            _text = text;
         }
 
         #endregion
@@ -122,7 +89,7 @@ namespace Yna.Framework.Display
         /// <param name="y">Y coordinate</param>
         public void CenterRelativeTo(int x, int y)
         {
-            if (_textureLoaded)
+            if (_assetLoaded)
             {
                 Position = new Vector2(
                     (float)(x / 2 - Width / 2),
@@ -142,10 +109,10 @@ namespace Yna.Framework.Display
 
         public override void LoadContent()
         {
-            if (!_textureLoaded && _textureName != String.Empty)
+            if (!_assetLoaded && _assetName != String.Empty)
             {
-                _font = YnG.Content.Load<SpriteFont>(_textureName);
-                _textureLoaded = true;
+                _font = YnG.Content.Load<SpriteFont>(_assetName);
+                _assetLoaded = true;
 
                 Vector2 size = _font.MeasureString(Text);
                 Width = (int)size.X;

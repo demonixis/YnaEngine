@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Yna.Framework.Display;
 
-namespace Yna.Framework.Display
+namespace Yna.Framework
 {
     internal class Destination
     {
