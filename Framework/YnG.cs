@@ -151,13 +151,17 @@ namespace Yna.Framework
         {
             get { return new Rectangle(0, 0, Width, Height); }
         }
-
+		
         /// <summary>
         /// Get the center of the screen on X axis
         /// </summary>
         public static int ScreenCenterX
         {
+#if !ANDROID && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
             get { return Game.Window.ClientBounds.Width / 2; }
+#else
+			get { return YnG.Width / 2; }
+#endif
         }
 
         /// <summary>
@@ -165,8 +169,13 @@ namespace Yna.Framework
         /// </summary>
         public static int ScreenCenterY
         {
+#if !ANDROID && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
             get { return Game.Window.ClientBounds.Height / 2; }
+#else
+			get { return YnG.Height / 2; }
+#endif
         }
+
 
         /// <summary>
         /// Change the screen resolution

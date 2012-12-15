@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\MonoGame\MonoGame.ContentPipeline.targets" />
+  <Import Project="..\..\..\MonoGame\MonoGame.ContentPipeline.targets" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">ARM</Platform>
@@ -78,10 +78,10 @@
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\..\Sprites\Screens\AnimatedSprite.cs">
+    <Compile Include="..\..\..\Sprites\Screens\AnimatedSprite.cs">
       <Link>Screens\AnimatedSprite.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sprites\Screens\BasicSprite.cs">
+    <Compile Include="..\..\..\Sprites\Screens\BasicSprite.cs">
       <Link>Screens\BasicSprite.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -140,7 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.WindowsPhone">
-      <HintPath>..\..\..\ThirdParty\MonoGame\WP8\MonoGame.Framework.WindowsPhone.dll</HintPath>
+      <HintPath>..\..\..\..\ThirdParty\MonoGame\WP8\MonoGame.Framework.WindowsPhone.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

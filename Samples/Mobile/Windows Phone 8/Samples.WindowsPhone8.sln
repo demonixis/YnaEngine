@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Phone
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprites", "Sprites\Sprites.csproj", "{F13744CE-A3B0-426B-8A4A-CF6F482B80CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsPhone8", "..\..\Framework\Yna.WindowsPhone8.csproj", "{72FCF5BE-3E09-4428-9552-CFA4913F3670}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsPhone8", "..\..\..\Framework\Yna.WindowsPhone8.csproj", "{72FCF5BE-3E09-4428-9552-CFA4913F3670}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{A13400A8-8E08-418D-AD62-BCA9FAE7C3AE}"
 EndProject

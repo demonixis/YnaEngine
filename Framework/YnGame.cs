@@ -71,9 +71,9 @@ namespace Yna.Framework
             YnG.AudioManager = new AudioManager();
 #endif
             YnG.StorageManager = new StorageManager();
-
+#if !ANDROID
             this.Window.Title = String.Format("{0} - v{1}", gameTitle, gameVersion);
-
+#endif
             ScreenHelper.ScreenWidthReference = graphics.PreferredBackBufferWidth;
             ScreenHelper.ScreenHeightReference = graphics.PreferredBackBufferHeight;
 
@@ -86,7 +86,7 @@ namespace Yna.Framework
 #endif
         }
 
-#if !WINDOWS8 && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
+#if !WINDOWS8 && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8 && !ANDROID
 
         public YnGame(int width, int height, string title)
             : this()
