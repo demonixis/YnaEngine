@@ -7,7 +7,7 @@ namespace Yna.Framework.Display.TileMap.Basic
 	/// <summary>
 	/// Description of TiledMap2D.
 	/// </summary>
-	public class TileMap2D : AbstractTileMap<Layer2D>
+	public class TileMap2D : BaseTileMap<Layer2D>
 	{
 		#region Properties
 		/// <summary>

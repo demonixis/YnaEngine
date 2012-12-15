@@ -5,7 +5,7 @@ namespace Yna.Framework.Display.TileMap
     /// <summary>
     /// This class represents a tile on a tiled map
     /// </summary>
-    public abstract class AbstractTile
+    public abstract class BaseTile
     {
         protected int _x;
         protected int _y;
@@ -44,7 +44,7 @@ namespace Yna.Framework.Display.TileMap
         /// <param name="x">X position in the map</param>
         /// <param name="y">Y position in the map</param>
         /// <param name="textureID">Texture ID fore rendering</param>
-        public AbstractTile(int x, int y, int textureID)
+        public BaseTile(int x, int y, int textureID)
             : base()
         {
             _x = x;

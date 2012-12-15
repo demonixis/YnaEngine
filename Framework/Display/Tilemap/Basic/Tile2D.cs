@@ -5,7 +5,7 @@ namespace Yna.Framework.Display.TileMap.Basic
 	/// <summary>
 	/// A Tile is a section of a TileMap.
 	/// </summary>
-	public class Tile2D : AbstractTile
+	public class Tile2D : BaseTile
 	{
 		/// <summary>
 		/// Constructor

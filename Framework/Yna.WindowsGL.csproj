@@ -92,9 +92,9 @@
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
-    <Compile Include="Display\TileMap\AbstractLayer.cs" />
-    <Compile Include="Display\TileMap\AbstractTile.cs" />
-    <Compile Include="Display\TileMap\AbstractTileMap.cs" />
+    <Compile Include="Display\TileMap\BaseLayer.cs" />
+    <Compile Include="Display\TileMap\BaseTile.cs" />
+    <Compile Include="Display\TileMap\BaseTileMap.cs" />
     <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
     <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
     <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />

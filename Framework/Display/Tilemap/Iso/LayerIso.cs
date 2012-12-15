@@ -5,7 +5,7 @@ namespace Yna.Framework.Display.TileMap.Isometric
 	/// <summary>
 	/// Tilemap layer for isometric maps
 	/// </summary>
-	public class LayerIso : AbstractLayer<TileIso>
+	public class LayerIso : BaseLayer<TileIso>
 	{
 		/// <summary>
 		/// Constructor with size. Tiles are not initialized

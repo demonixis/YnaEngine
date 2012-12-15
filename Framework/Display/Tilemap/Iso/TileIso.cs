@@ -5,7 +5,7 @@ namespace Yna.Framework.Display.TileMap.Isometric
 	/// <summary>
 	/// A 3DTile stores x and y coordinates and heights for each vertices
 	/// </summary>
-	public class TileIso : AbstractTile
+	public class TileIso : BaseTile
 	{
 		const int TOP_LEFT = 0;
 		const int TOP_RIGHT = 1;

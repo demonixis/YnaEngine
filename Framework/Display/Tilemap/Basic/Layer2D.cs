@@ -5,7 +5,7 @@ namespace Yna.Framework.Display.TileMap.Basic
 	/// <summary>
 	/// A 2 dimension layer
 	/// </summary>
-	public class Layer2D : AbstractLayer<Tile2D>
+	public class Layer2D : BaseLayer<Tile2D>
 	{
 		/// <summary>
 		/// Constructor with layer size. Tiles are not initialized.
