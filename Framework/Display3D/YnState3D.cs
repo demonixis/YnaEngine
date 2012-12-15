@@ -39,7 +39,7 @@ namespace Yna.Framework.Display3D
         }
 
         public YnState3D()
-            : base(ScreenType.GameState, 0, 0)
+            : base()
         {
             _camera = new FixedCamera();
             _scene = new YnScene(_camera);

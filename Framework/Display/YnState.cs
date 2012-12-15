@@ -86,10 +86,17 @@ namespace Yna.Framework.Display
 
         #region Constructors
 
-        public YnState(string name, float timeTransitionOn, float timeTransitionOff)
-            : this(timeTransitionOn, timeTransitionOff)
+        private YnState()
+           : base()
+        {
+            InitializeDefaultState();
+        }
+
+        public YnState(string name, float timeOn, float timeOff)
+            : base (name, timeOn, timeOff)
         {
             _name = name;
+            InitializeDefaultState();
         }
 
         public YnState(string name, bool active)
@@ -98,14 +105,9 @@ namespace Yna.Framework.Display
             Active = active;
         }
 
-        // @Depreacted
-        /// <summary>
-        /// Create a new state that represent a game layer
-        /// </summary>
-        /// <param name="timeTransitionOn">Transition time on start</param>
-        /// <param name="timeTransitionOff">Transition time on end</param>
-        public YnState(float timeTransitionOn, float timeTransitionOff)
-            : base(ScreenType.GameState, timeTransitionOn, timeTransitionOff)
+        #endregion
+
+        private void InitializeDefaultState()
         {
             _members = new List<YnObject>();
             _safeMembers = new List<YnObject>();
@@ -122,8 +124,6 @@ namespace Yna.Framework.Display
             _effect = null;
             _camera = new YnCamera();
         }
-
-        #endregion
 
         #region Collection methods
 

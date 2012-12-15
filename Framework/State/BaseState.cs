@@ -201,28 +201,41 @@ namespace Yna.Framework.State
 
         #endregion
 
-        public BaseState(string name, ScreenType type, float timeTransitionOn, float timeTransitionOff)
-            : this(type, timeTransitionOn, timeTransitionOff)
+        #region Constructors
+
+        public BaseState()
+        {
+            _name = "Screen_" + (ScreenCounter++);
+            _active = true;
+            _exiting = false;
+            _visible = true;
+            _isPopup = false;
+            _screenState = ScreenState.Active;
+            _timeTransitionOn = 0.0f;
+            _timeTransitionOff = 0.0f;
+            _transitionAlpha = 1.0f;
+        }
+
+        public BaseState(string name)
+            : this()
         {
             _name = name;
         }
 
-        // @Depreacted
-        public BaseState(ScreenType type, float timeTransitionOn, float timeTransitionOff)
+        public BaseState(string name, float timeOn, float timeOff)
+            : this(name)
         {
-            _active = true;
-            _exiting = false;
-            _visible = true;
-            _isPopup = (type == ScreenType.Popup) ? true : false;
-            _screenState = ScreenState.TransitionOn;
-
-            _timeTransitionOn = timeTransitionOn;
-            _timeTransitionOff = timeTransitionOff;
-            _timeTransitionCounter = _timeTransitionOn;
-            _transitionAlpha = 1.0f;
-
-            _name = "Screen_" + (ScreenCounter++);
+            _timeTransitionOn = timeOn;
+            _timeTransitionOff = timeOff;
         }
+
+        public BaseState(string name, float timeOn, float timeOff, ScreenType type)
+            : this(name, timeOn, timeOff)
+        {
+            _isPopup = (type == ScreenType.Popup);
+        }
+
+        #endregion
 
         public virtual void Initialize()
         {
