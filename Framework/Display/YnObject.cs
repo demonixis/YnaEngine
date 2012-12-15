@@ -156,7 +156,7 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Get or Set the Texture2D used by the object
         /// </summary>
-        public Texture2D Asset
+        public Texture2D Texture
         {
             get { return _texture; }
             set { _texture = value; }

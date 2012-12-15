@@ -90,7 +90,7 @@ namespace Yna.Framework.Display.Gui
         protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
         {
             // TODO : store this texture instead of generating it each time
-            Texture2D bg = GraphicsHelper.CreateTexture(Skin.DefaultTextColor, 1, 1);
+            Texture2D bg = YnGraphics.CreateTexture(Skin.DefaultTextColor, 1, 1);
             Rectangle source = new Rectangle(0, 0, bg.Width, bg.Height);
             Rectangle dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, Bounds.Width, Bounds.Height);
 

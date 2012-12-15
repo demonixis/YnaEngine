@@ -77,8 +77,8 @@ namespace Yna.Framework.Display
                     int index_A = (x - sceneObjectA.Rectangle.Left) + (y - sceneObjectA.Rectangle.Top) * sceneObjectA.Rectangle.Width;
                     int index_B = (x - sceneObjectB.Rectangle.Left) + (y - sceneObjectB.Rectangle.Top) * sceneObjectB.Rectangle.Width;
 
-                    Color[] colorsSpriteA = Yna.Framework.Helpers.GraphicsHelper.GetTextureData(sceneObjectA);
-                    Color[] colorsSpriteB = Yna.Framework.Helpers.GraphicsHelper.GetTextureData(sceneObjectB);
+                    Color[] colorsSpriteA = YnGraphics.GetTextureData(sceneObjectA.Texture);
+                    Color[] colorsSpriteB = YnGraphics.GetTextureData(sceneObjectB.Texture);
 
                     Color colorSpriteA = colorsSpriteA[index_A];
                     Color colorSpriteB = colorsSpriteB[index_B];

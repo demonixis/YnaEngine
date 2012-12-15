@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Text;
 
 namespace Yna.Framework.Display
 {
@@ -21,8 +22,8 @@ namespace Yna.Framework.Display
         /// <summary>
         /// The Sprite_font which will be used to draw the text
         /// </summary>
-        protected SpriteFont Font 
-        { 
+        protected SpriteFont Font
+        {
             get { return _font; }
             set { _font = value; }
         }
@@ -62,6 +63,7 @@ namespace Yna.Framework.Display
         public YnText()
             : base()
         {
+            _assetName = String.Empty;
             _text = String.Empty;
             _assetLoaded = false;
             _color = Color.Black;
@@ -74,10 +76,18 @@ namespace Yna.Framework.Display
         /// <param name="fontName">The font name</param>
         /// <param name="text">The text</param>
         public YnText(string fontName, string text)
+            : this()
         {
             _assetName = fontName;
             _assetLoaded = false;
             _text = text;
+        }
+
+        public YnText(string fontName, string text, Vector2 position, Color color)
+            : this(fontName, text)
+        {
+            _position = position;
+            _color = color;
         }
 
         #endregion
@@ -98,14 +108,59 @@ namespace Yna.Framework.Display
             }
         }
 
+        /// <summary>
+        /// Get a Wrapped text with the specified line width
+        /// </summary>
+        /// <param name="text">The text</param>
+        /// <param name="maxLineWidth">Max line width</param>
+        /// <returns>Wrapped text</returns>
+        public string GetWrappedText(string text, float maxLineWidth)
+        {
+            if (_font == null)
+                return text;
+
+            return WrapText(_font, text, maxLineWidth);
+        }
+
+        /// <summary>
+        /// Get a wrapped text with the specified line width
+        /// </summary>
+        /// <param name="spriteFont">SpriteFont object</param>
+        /// <param name="text">The text</param>
+        /// <param name="maxLineWidth">Max line width</param>
+        /// <returns>Wrapped text</returns>
+        public static string WrapText(SpriteFont spriteFont, string text, float maxLineWidth)
+        {
+            string[] words = text.Split(' ');
+
+            StringBuilder sb = new StringBuilder();
+
+            float lineWidth = 0.0f;
+            float spaceWidth = spriteFont.MeasureString(" ").X;
+            Vector2 wordSize = Vector2.Zero;
+
+            foreach (string word in words)
+            {
+                wordSize = spriteFont.MeasureString(word);
+
+                if (lineWidth + wordSize.X < maxLineWidth)
+                {
+                    sb.Append(word + " ");
+                    lineWidth += wordSize.X + spaceWidth;
+                }
+                else
+                {
+                    sb.Append("\n" + word + " ");
+                    lineWidth = wordSize.X + spaceWidth;
+                }
+            }
+
+            return sb.ToString();
+        }
+
         #region GameState pattern
 
-        public override void Initialize()
-        {
-            LoadContent();
-            Vector2 size = _font.MeasureString(Text);
-            Rectangle = new Rectangle(X, Y, (int)size.X, (int)size.Y);
-        }
+        public override void Initialize() { }
 
         public override void LoadContent()
         {
@@ -115,8 +170,11 @@ namespace Yna.Framework.Display
                 _assetLoaded = true;
 
                 Vector2 size = _font.MeasureString(Text);
+
                 Width = (int)size.X;
                 Height = (int)size.Y;
+
+                Rectangle = new Rectangle(X, Y, (int)size.X, (int)size.Y);
             }
         }
 

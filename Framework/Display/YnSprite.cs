@@ -247,7 +247,7 @@ namespace Yna.Framework.Display
             : this()
         {
             Rectangle = rectangle;
-            _texture = GraphicsHelper.CreateTexture(color, rectangle.Width, rectangle.Height);
+            _texture = YnGraphics.CreateTexture(color, rectangle.Width, rectangle.Height);
             _assetLoaded = true;
             _position = new Vector2(rectangle.X, rectangle.Y);
             _rectangle = rectangle;

@@ -66,7 +66,7 @@ namespace Yna.Framework.Display.Gui
 
         protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
         {
-            Texture2D bg = GraphicsHelper.CreateTexture(_skin.DefaultTextColor, Width, Height);
+            Texture2D bg = YnGraphics.CreateTexture(_skin.DefaultTextColor, Width, Height);
             base.DrawBackground(gameTime, spriteBatch, bg);
         }
     }

@@ -120,7 +120,7 @@ namespace Yna.Framework.Display.Gui
                 bgHeight
             );
 
-            Texture2D tex = GraphicsHelper.CreateTexture(_skin.DefaultTextColor, 1,1);
+            Texture2D tex = YnGraphics.CreateTexture(_skin.DefaultTextColor, 1,1);
             spriteBatch.Draw(tex, rect, Color.White);
         }
 

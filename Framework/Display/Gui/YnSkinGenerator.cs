@@ -26,19 +26,19 @@ namespace Yna.Framework.Display.Gui
             skin.DefaultTextColor = Color.White;
 
             // The base color will be used for buttons
-            skin.ButtonBackground = GraphicsHelper.CreateTexture(baseColor, 1, 1);
+            skin.ButtonBackground = YnGraphics.CreateTexture(baseColor, 1, 1);
 
             // A darker color will be used for hovered buttons
             tempColor = Add(baseColor, 50, 50, 50);
-            skin.HoveredButtonBackground = GraphicsHelper.CreateTexture(tempColor, 1, 1);
+            skin.HoveredButtonBackground = YnGraphics.CreateTexture(tempColor, 1, 1);
 
             // Invert text / background color for clicked buttons
             skin.ClickedButtonTextColor = baseColor;
-            skin.ClickedButtonBackground = GraphicsHelper.CreateTexture(Color.White, 1, 1);
+            skin.ClickedButtonBackground = YnGraphics.CreateTexture(Color.White, 1, 1);
 
             // Panels background will be 
             tempColor = Sub(baseColor, 150, 150, 150);
-            skin.PanelBackground = GraphicsHelper.CreateTexture(tempColor, 1, 1);
+            skin.PanelBackground = YnGraphics.CreateTexture(tempColor, 1, 1);
 
             return skin;
         }

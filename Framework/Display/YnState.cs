@@ -30,8 +30,6 @@ namespace Yna.Framework.Display
         protected float _zoom;
         protected Vector3 _position;
 
-        private YnCamera _camera;
-
         #endregion
 
         #region Properties

@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Yna.Framework.Event;
-using Yna.Framework.Helpers;
+using Yna.Framework.Display;
 
 namespace Yna.Framework.State
 {
@@ -139,7 +139,7 @@ namespace Yna.Framework.State
 
                 _spriteBatch = new SpriteBatch(GraphicsDevice);
                 // La texture sera étirée
-                _transitionTexture = GraphicsHelper.CreateTexture(Color.White, 16, 16);
+                _transitionTexture = YnGraphics.CreateTexture(Color.White, 16, 16);
 
                 foreach (BaseState screen in _screens)
                 {
