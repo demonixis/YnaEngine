@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.State
+namespace Yna.Framework.State
 {
     /// <summary>
     /// Define the state of a state

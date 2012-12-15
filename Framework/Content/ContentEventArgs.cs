@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Yna.Content
+namespace Yna.Framework.Content
 {
     public class ContentLoadStartedEventArgs : EventArgs
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Input;
 
-namespace Yna.Input.Service
+namespace Yna.Framework.Input.Service
 {
     public interface IKeyboardService
     {

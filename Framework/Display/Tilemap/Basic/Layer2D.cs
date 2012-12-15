@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yna.Display.TileMap.Basic
+namespace Yna.Framework.Display.TileMap.Basic
 {
 	/// <summary>
 	/// A 2 dimension layer

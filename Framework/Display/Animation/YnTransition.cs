@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Yna;
+using Yna.Framework;
 
-namespace Yna.Display.Effect
+namespace Yna.Framework.Display.Animation
 {
     public enum TransitionState
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display3D.Light;
+using Yna.Framework.Display3D.Light;
 
-namespace Yna.Display3D.Primitive
+namespace Yna.Framework.Display3D.Primitive
 {
     public class BasePrimitive : YnObject3D
     {

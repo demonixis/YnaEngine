@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace Yna.Display.Gui
+namespace Yna.Framework.Display.Gui
 {
     /// <summary>
     /// Container of all definitions for a given GUI theme

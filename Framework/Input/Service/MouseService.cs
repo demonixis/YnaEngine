@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Helpers;
+using Yna.Framework.Helpers;
 
-namespace Yna.Input.Service
+namespace Yna.Framework.Input.Service
 {
     public class MouseService : GameComponent, IMouseService
     {

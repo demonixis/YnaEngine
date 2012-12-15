@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna;
-using Yna.Helpers;
-using Yna.State;
-using Yna.Display;
-using Yna.Display.TileMap.Basic;
+using Yna.Framework;
+using Yna.Framework.Display;
+using Yna.Framework.Display.TileMap.Basic;
+using Yna.Framework.Helpers;
 using Yna.Samples.Data;
 
 namespace Yna.Samples.Screens
@@ -93,7 +91,7 @@ namespace Yna.Samples.Screens
                 camera.Y--;
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.ScreenManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetScreenActive("menu", true);
             
         }
 

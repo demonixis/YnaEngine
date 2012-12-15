@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Yna.Helpers;
+using Yna.Framework.Helpers;
 
-namespace Yna.Display.Gui
+namespace Yna.Framework.Display.Gui
 {
     /// <summary>
     /// Progress bar widget. Can be used horizontally (left to right) or vertically (bottom to top)

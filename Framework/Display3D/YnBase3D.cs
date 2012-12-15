@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display3D
+namespace Yna.Framework.Display3D
 {
     public abstract class YnBase3D : YnBase
     {

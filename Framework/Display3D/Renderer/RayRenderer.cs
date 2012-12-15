@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display3D.Camera;
+using Yna.Framework.Display3D.Camera;
 
-namespace Yna.Display3D.Renderer
+namespace Yna.Framework.Display3D.Renderer
 {
     /// <summary>
     /// Ray renderer adapted from http://www.xnawiki.com/index.php/Rendering_Rays

@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display;
-using Yna.Display3D;
-using Yna.Display3D.Camera;
-using Yna.Display3D.Terrain;
-using Yna.Display3D.Controls;
+using Yna.Framework;
+using Yna.Framework.Display;
+using Yna.Framework.Display3D;
+using Yna.Framework.Display3D.Camera;
+using Yna.Framework.Display3D.Terrain;
+using Yna.Framework.Display3D.Controls;
 
 
 namespace Yna.Samples.Screens
@@ -76,7 +77,7 @@ namespace Yna.Samples.Screens
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.ScreenManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetScreenActive("menu", true);
 
             // Naive Collide detection with ground
             // This method get the current segment height on the terrain and set the Y position of the camera at this value

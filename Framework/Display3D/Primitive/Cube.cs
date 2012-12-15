@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display3D.Primitive
+namespace Yna.Framework.Display3D.Primitive
 {
     public class Cube : BasePrimitive
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display3D;
-using Yna.Display3D.Camera;
-using Yna.Display3D.Primitive;
-using Yna.Display3D.Light;
+using Yna.Framework.Display3D;
+using Yna.Framework.Display3D.Camera;
+using Yna.Framework.Display3D.Primitive;
+using Yna.Framework.Display3D.Light;
 
-namespace Yna.Display3D.Terrain
+namespace Yna.Framework.Display3D.Terrain
 {
     /// <summary>
     /// Abstract class that represent a basic Terrain

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display.Gui
+namespace Yna.Framework.Display.Gui
 {
     /// <summary>
     /// Text box widget. Provies wrapping and elipsis processing

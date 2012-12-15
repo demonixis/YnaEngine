@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna;
-using Yna.Display;
-using Yna.State;
-using Yna.Display3D.Camera;
+using Yna.Framework;
+using Yna.Framework.Display;
+using Yna.Framework.State;
+using Yna.Framework.Display3D.Camera;
 
-namespace Yna.Display3D
+namespace Yna.Framework.Display3D
 {
     public class YnState3D : BaseState
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yna.Display.TileMap
+namespace Yna.Framework.Display.TileMap
 {
     /// <summary>
     /// This class represents a tile on a tiled map

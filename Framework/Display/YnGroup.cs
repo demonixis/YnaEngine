@@ -6,7 +6,7 @@ using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display
+namespace Yna.Framework.Display
 {
     public class YnGroup : YnObject
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display3D.Camera;
+using Yna.Framework.Display3D.Camera;
 
-namespace Yna.Display3D.Terrain
+namespace Yna.Framework.Display3D.Terrain
 {
     public class SimpleTerrain : BaseTerrain
     {

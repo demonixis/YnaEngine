@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Yna.Helpers;
-using Yna.Display.Event;
+using Yna.Framework.Helpers;
+using Yna.Framework.Display.Event;
 
-namespace Yna.Display.Gui
+namespace Yna.Framework.Display.Gui
 {
     /// <summary>
     /// Horizontal slider widget
@@ -90,7 +90,7 @@ namespace Yna.Display.Gui
                 _currentValue = (int)(_cursor.Position.X + _cursor.Width / 2) * _maxValue / Width;
 
                 if (oldValue != _currentValue && Changed != null)
-                    Changed(this, new IntEventArgs(_currentValue));
+                    Changed(this, new ValueChangedEventArgs<int>(_currentValue));
 
                 // Update the label value
                 _labelValue.Text = _currentValue.ToString() + "/" + _maxValue;
@@ -127,6 +127,6 @@ namespace Yna.Display.Gui
         /// <summary>
         /// Triggered when the value is changed
         /// </summary>
-        public event EventHandler<IntEventArgs> Changed = null;
+        public event EventHandler<ValueChangedEventArgs<int>> Changed = null;
     }
 }

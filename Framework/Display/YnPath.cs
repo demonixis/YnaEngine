@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Yna.Display;
+using Yna.Framework.Display;
 
-namespace Yna.Display
+namespace Yna.Framework.Display
 {
     internal class Destination
     {

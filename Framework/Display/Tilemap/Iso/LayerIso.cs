@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yna.Display.TileMap.Isometric
+namespace Yna.Framework.Display.TileMap.Isometric
 {
 	/// <summary>
 	/// Tilemap layer for isometric maps

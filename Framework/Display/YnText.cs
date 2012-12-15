@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display
+namespace Yna.Framework.Display
 {
     /// <summary>
     /// Simple text component

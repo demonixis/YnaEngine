@@ -5,10 +5,10 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Content;
-using Yna.Helpers;
+using Yna.Framework.Content;
+using Yna.Framework.Helpers;
 
-namespace Yna.State
+namespace Yna.Framework.State
 {
     public class StateManager : DrawableGameComponent
     {

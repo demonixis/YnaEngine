@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Helpers;
-using Yna.Input;
-using Yna.Input.Service;
+using Yna.Framework.Helpers;
+using Yna.Framework.Input;
+using Yna.Framework.Input.Service;
 
-namespace Yna.Input
+namespace Yna.Framework.Input
 {
     public class YnGamepad
     {

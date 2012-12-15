@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna;
-using Yna.Helpers;
+using Yna.Framework;
+using Yna.Framework.Helpers;
 
-namespace Yna.Input.Service
+namespace Yna.Framework.Input.Service
 {
     public class GamepadService : GameComponent, IGamepadService
     {

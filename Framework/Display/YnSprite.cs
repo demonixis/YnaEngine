@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Helpers;
-using Yna.Input;
-using Yna.Display.Animation;
-using Yna.Display.Event;
+using Yna.Framework.Helpers;
+using Yna.Framework.Input;
+using Yna.Framework.Display.Animation;
+using Yna.Framework.Display.Event;
 
-namespace Yna.Display
+namespace Yna.Framework.Display
 {
     public class YnSprite : YnObject
     {
@@ -175,9 +175,9 @@ namespace Yna.Display
         /// Triggered when the sprite is colliding with it's registered viewport
         /// @see Viewport property
         /// </summary>
-        public event EventHandler<ScreenCollideSpriteEventArgs> ScreenCollide = null;
+        public event EventHandler<SpriteCollideEventArgs> ScreenCollide = null;
         
-        private void CollideScreenSprite(ScreenCollideSpriteEventArgs arg)
+        private void CollideScreenSprite(SpriteCollideEventArgs arg)
         {
         	if (ScreenCollide != null)
         		ScreenCollide(this, arg);
@@ -404,14 +404,14 @@ namespace Yna.Display
 
                 // Screen
                 if (X < Viewport.X)
-                    CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Left));
+                    CollideScreenSprite(new SpriteCollideEventArgs(SpriteScreenCollide.Left));
                 else if (X + Width > Viewport.Width)
-                    CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Right));
+                    CollideScreenSprite(new SpriteCollideEventArgs(SpriteScreenCollide.Right));
 
                 if (Y < Viewport.Y)
-                    CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Top));
+                    CollideScreenSprite(new SpriteCollideEventArgs(SpriteScreenCollide.Top));
                 else if (Y + Height > Viewport.Height)
-                    CollideScreenSprite(new ScreenCollideSpriteEventArgs(SpriteScreenCollide.Bottom));
+                    CollideScreenSprite(new SpriteCollideEventArgs(SpriteScreenCollide.Bottom));
 
                 #endregion
 

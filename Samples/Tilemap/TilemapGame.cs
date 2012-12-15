@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yna;
+using Yna.Framework;
+using Yna.Samples;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
@@ -17,8 +18,8 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            screenManager.Add(new TilemapSample("sample_1"), true);
-            screenManager.Add(new IsometricMapSample("sample_2"), false);
+            stateManager.Add(new TilemapSample("sample_1"), true);
+            stateManager.Add(new IsometricMapSample("sample_2"), false);
         }
 
         public static void Main(string[] args)

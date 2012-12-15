@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display.Effect;
+using Yna.Framework.Display.Animation;
 
-namespace Yna.Display.Gui
+namespace Yna.Framework.Display.Gui
 {
     /// <summary>
     /// Base class for all kinds of buttons

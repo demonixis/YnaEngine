@@ -5,12 +5,12 @@ using System.Text;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Content;
-using Yna.Display3D.Camera;
-using Yna.Display3D.Primitive;
-using Yna.Display3D.Light;
+using Yna.Framework.Content;
+using Yna.Framework.Display3D.Camera;
+using Yna.Framework.Display3D.Primitive;
+using Yna.Framework.Display3D.Light;
 
-namespace Yna.Display3D
+namespace Yna.Framework.Display3D
 {
     public class YnGroup3D : YnObject3D
     {

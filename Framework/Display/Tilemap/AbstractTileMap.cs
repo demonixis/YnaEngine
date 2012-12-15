@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display.TileMap
+namespace Yna.Framework.Display.TileMap
 {
 	/// <summary>
 	/// Tile based map renderer

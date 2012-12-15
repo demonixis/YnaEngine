@@ -1,6 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Yna.Display.Gui;
+﻿using Yna.Framework.Display;
+using Yna.Framework.Display.Gui;
 
 namespace Yna.Samples
 {

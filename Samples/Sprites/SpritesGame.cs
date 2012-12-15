@@ -1,4 +1,4 @@
-﻿using Yna;
+﻿using Yna.Framework;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
@@ -15,8 +15,8 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            screenManager.Add(new BasicSprites("sample_1"), false);
-            screenManager.Add(new AnimatedSprites("sample_2"), true);
+            stateManager.Add(new BasicSprites("sample_1"), false);
+            stateManager.Add(new AnimatedSprites("sample_2"), true);
         }
 
         public static void Main(string[] args)

@@ -4,7 +4,7 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 
-namespace Yna.Helpers
+namespace Yna.Framework.Helpers
 {
     public static class ServiceHelper
     {

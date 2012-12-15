@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Helpers;
+using Yna.Framework.Helpers;
 
-namespace Yna.Display.TileMap.Isometric
+namespace Yna.Framework.Display.TileMap.Isometric
 {
 	/// <summary>
 	/// Description of IsometricTiledMap.

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Les informations générales sur l’assembly sont contrôlées par 
 // les attributs suivants. Modifiez la valeur de ces attributs pour modifier les informations
 // associées à l’assembly.
-[assembly: AssemblyTitle("Yna")]
-[assembly: AssemblyProduct("Yna")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyTitle("Yna Framework")]
+[assembly: AssemblyProduct("Yna The Prototype Game Framework")]
+[assembly: AssemblyDescription("Yna The Prototype Game Framework")]
+[assembly: AssemblyCompany("Demonixis Games")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Demonixis Games")]
 [assembly: AssemblyCulture("")]
 
 // Si vous définissez ComVisible sur False, les types de cet assembly ne sont plus visibles 

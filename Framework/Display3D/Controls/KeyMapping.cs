@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
 
-namespace Yna.Display3D.Controls
+namespace Yna.Framework.Display3D.Controls
 {
 
     public class KeysMapping

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display3D.Camera
+namespace Yna.Framework.Display3D.Camera
 {
     public class ThirdPersonCamera : BaseCamera
     {

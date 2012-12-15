@@ -5,9 +5,9 @@ using System.Text;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Helpers;
+using Yna.Framework.Helpers;
 
-namespace Yna.Display.Gui
+namespace Yna.Framework.Display.Gui
 {
     /// <summary>
     /// The GUI manager

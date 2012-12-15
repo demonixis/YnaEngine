@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Yna.Display3D.Camera
+namespace Yna.Framework.Display3D.Camera
 {
     /// <summary>
     /// This camera shows an view on Y axis

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display.TileMap
+namespace Yna.Framework.Display.TileMap
 {
 	/// <summary>
 	/// This class describes an abstract layer which takes place

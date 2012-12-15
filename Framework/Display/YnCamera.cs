@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-namespace Yna.Display
+namespace Yna.Framework.Display
 {
     public class YnCamera
     {

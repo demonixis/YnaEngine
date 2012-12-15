@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Display;
+using Yna.Framework;
+using Yna.Framework.Display;
 
 namespace Yna.Samples.Screens
 {
@@ -111,7 +112,7 @@ namespace Yna.Samples.Screens
 
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.ScreenManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetScreenActive("menu", true);
         }
 
         private void CreateSpriteAnimations(YnSprite sprite)

@@ -3,14 +3,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using Yna.Audio;
-using Yna.Content;
-using Yna.Display;
-using Yna.Helpers;
-using Yna.Input;
-using Yna.State;
+using Yna.Framework.Audio;
+using Yna.Framework.Content;
+using Yna.Framework.Display;
+using Yna.Framework.Helpers;
+using Yna.Framework.Input;
+using Yna.Framework.State;
 
-namespace Yna
+namespace Yna.Framework
 {
     /// <summary>
     /// Determine the MonoGame platform
@@ -56,7 +56,7 @@ namespace Yna
         /// <summary>
         /// Get or Set the State Manager
         /// </summary>
-        public static StateManager ScreenManager { get; set; }
+        public static StateManager StateManager { get; set; }
 
         /// <summary>
         /// Get or Set the audio manager
@@ -120,7 +120,6 @@ namespace Yna
 		public static int DeviceWidth 
         {
             get { return GraphicsDeviceManager.PreferredBackBufferWidth; }
-            set { GraphicsDeviceManager.PreferredBackBufferWidth = value; }
         }
 
 		/// <summary>
@@ -129,7 +128,6 @@ namespace Yna
 		public static int DeviceHeight
         {
             get { return GraphicsDeviceManager.PreferredBackBufferHeight; }
-            set { GraphicsDeviceManager.PreferredBackBufferHeight = value; }
         }
 
 		/// <summary>
@@ -199,14 +197,14 @@ namespace Yna
         /// <param name="state">New state</param>
         public static void SwitchState(BaseState state)
         {
-            if (ScreenManager != null)
-                ScreenManager.SwitchState(state);
+            if (StateManager != null)
+                StateManager.SwitchState(state);
         }
 
-        public static void SetScreenActive(string name, bool desactiveOtherScreens)
+        public static void SetStateActive(string name, bool desactiveOtherScreens)
         {
-            if (ScreenManager != null)
-                ScreenManager.SetScreenActive(name, desactiveOtherScreens);
+            if (StateManager != null)
+                StateManager.SetScreenActive(name, desactiveOtherScreens);
         }
 
         #endregion

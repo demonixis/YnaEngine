@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yna.Input.Service;
-using Yna.Helpers;
+using Yna.Framework.Input.Service;
+using Yna.Framework.Helpers;
 
-namespace Yna.Input
+namespace Yna.Framework.Input
 {
     public class YnTouch
     {

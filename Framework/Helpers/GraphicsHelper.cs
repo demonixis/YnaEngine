@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display;
+using Yna.Framework.Display;
 
-namespace Yna.Helpers
+namespace Yna.Framework.Helpers
 {
     public class GraphicsHelper
     {

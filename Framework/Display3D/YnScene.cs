@@ -5,9 +5,9 @@ using System.Text;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display3D.Camera;
+using Yna.Framework.Display3D.Camera;
 
-namespace Yna.Display3D
+namespace Yna.Framework.Display3D
 {
     public class YnScene : YnGroup3D
     {

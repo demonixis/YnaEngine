@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display
+namespace Yna.Framework.Display
 {
     /// <summary>
     /// Represent a basic image

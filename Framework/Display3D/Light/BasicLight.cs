@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Yna.Display3D.Light
+namespace Yna.Framework.Display3D.Light
 {
     public class BasicLight
     {

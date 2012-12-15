@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Yna.Input.Service
+namespace Yna.Framework.Input.Service
 {
     public class TouchService : GameComponent, ITouchService
     {

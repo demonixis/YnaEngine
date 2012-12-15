@@ -2,11 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Helpers;
-using Yna.Input;
-using Yna.Display.Event;
+using Yna.Framework.Helpers;
+using Yna.Framework.Input;
+using Yna.Framework.Display.Event;
 
-namespace Yna.Display
+namespace Yna.Framework.Display
 {
     public enum ObjectOrigin
     {

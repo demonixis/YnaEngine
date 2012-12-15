@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Yna.Display.Gui
+namespace Yna.Framework.Display.Gui
 {
     public class YnMessageBox : YnWindow
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Yna.Display;
-using Yna.Display.Gui;
-using Yna.State;
+using Yna.Framework.Display;
+using Yna.Framework.Display.Gui;
+using Yna.Framework.State;
 
-namespace Yna
+namespace Yna.Framework.Display
 {
     public class YnState : BaseState
     {

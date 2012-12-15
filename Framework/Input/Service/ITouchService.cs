@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Yna.Input.Service
+namespace Yna.Framework.Input.Service
 {
     public interface ITouchService
     {

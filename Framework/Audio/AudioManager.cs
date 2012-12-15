@@ -5,10 +5,10 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
-using Yna;
-using Yna.Content;
+using Yna.Framework;
+using Yna.Framework.Content;
 
-namespace Yna.Audio
+namespace Yna.Framework.Audio
 {
     /// <summary>
     /// An audio manager who allow you to play musics and sounds from XNA's Content Manager, or

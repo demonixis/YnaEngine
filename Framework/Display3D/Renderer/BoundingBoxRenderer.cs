@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Display3D.Renderer
+namespace Yna.Framework.Display3D.Renderer
 {
     /// <summary>
     /// Class adapted from XNA Wiki http://www.xnawiki.com/index.php/Main_Page

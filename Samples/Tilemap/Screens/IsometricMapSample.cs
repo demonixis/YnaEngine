@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Display.TileMap.Isometric;
-using Yna;
-using Yna.State;
-using Yna.Helpers;
+using Yna.Framework;
+using Yna.Framework.Display;
+using Yna.Framework.Display.TileMap.Isometric;
+using Yna.Framework.Helpers;
 using Yna.Samples.Data;
 
 namespace Yna.Samples.Screens
@@ -76,7 +75,7 @@ namespace Yna.Samples.Screens
 
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.ScreenManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetScreenActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

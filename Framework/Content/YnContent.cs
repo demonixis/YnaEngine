@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Content
+namespace Yna.Framework.Content
 {
     public class YnContent : IDisposable
     {

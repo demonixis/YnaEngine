@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Yna.Helpers
+namespace Yna.Framework.Helpers
 {
     public class ScreenHelper
     {

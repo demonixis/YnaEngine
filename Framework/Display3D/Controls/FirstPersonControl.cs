@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Display3D.Camera;
+using Yna.Framework.Display3D.Camera;
 
-namespace Yna.Display3D.Controls
+namespace Yna.Framework.Display3D.Controls
 {
     public class FirstPersonControl : BaseControl
     {

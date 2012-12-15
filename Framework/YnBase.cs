@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-namespace Yna
+
+namespace Yna.Framework
 {
     /// <summary>
     /// Base class for all object on the Framework

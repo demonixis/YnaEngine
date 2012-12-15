@@ -1,5 +1,5 @@
 ﻿using System;
-using Yna;
+using Yna.Framework;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
@@ -16,8 +16,8 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            screenManager.Add(new BasicTerrain("sample_1"), false);
-            screenManager.Add(new HeighmapTerrain("sample_2"), true);
+            stateManager.Add(new BasicTerrain("sample_1"), false);
+            stateManager.Add(new HeighmapTerrain("sample_2"), true);
         }
 
         public static void Main(string[] args)

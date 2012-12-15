@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Yna</RootNamespace>
+    <RootNamespace>Yna.Framework.Framework</RootNamespace>
     <AssemblyName>Yna.WindowGL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -67,12 +67,10 @@
     <Compile Include="Display3D\YnState3D.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
-    <Compile Include="Display\Effect\YnTransition.cs" />
-    <Compile Include="Display\Event\IntEventArgs.cs" />
-    <Compile Include="Display\Event\MouseClickSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\MouseLeaveSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\MouseOverSpriteEventArgs.cs" />
-    <Compile Include="Display\Event\ScreenCollideSpriteEventArgs.cs" />
+    <Compile Include="Display\Animation\YnTransition.cs" />
+    <Compile Include="Display\Event\GlobalEventArgs.cs" />
+    <Compile Include="Display\Event\MouseSpriteEvents.cs" />
+    <Compile Include="Display\Event\SpriteCollideEventArgs.cs" />
     <Compile Include="Display\Gui\YnCheckbox.cs" />
     <Compile Include="Display\Gui\YnGui.cs" />
     <Compile Include="Display\Gui\YnBorder.cs" />
@@ -103,7 +101,7 @@
     <Compile Include="Display\TileMap\Iso\TileIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
-    <Compile Include="Events.cs" />
+    <Compile Include="Display\Event\ScreenEvents.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />

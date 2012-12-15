@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Display.Event;
-using Yna.Input;
+using Yna.Framework.Display.Event;
+using Yna.Framework.Input;
 using Microsoft.Xna.Framework.Input;
 
-namespace Yna.Display.Gui
+namespace Yna.Framework.Display.Gui
 {
     /// <summary>
     /// This enum represents widget children orientation in their parent (Horizontal : from left to right; 

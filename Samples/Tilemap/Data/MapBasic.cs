@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Yna.Samples.Data
+﻿namespace Yna.Samples.Data
 {
     /// For prototyping, you can use the array declaration of a layer.
     /// It's quite easy to understand and quick.

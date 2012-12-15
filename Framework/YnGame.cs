@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Audio;
-using Yna.State;
-using Yna.Helpers;
-using Yna.Input;
-using Yna.Input.Service;
-using Yna.Display;
-using Yna.Display3D;
-using Yna.Display.Gui;
+using Yna.Framework.Audio;
+using Yna.Framework.State;
+using Yna.Framework.Helpers;
+using Yna.Framework.Input;
+using Yna.Framework.Input.Service;
+using Yna.Framework.Display;
+using Yna.Framework.Display.Event;
+using Yna.Framework.Display3D;
+using Yna.Framework.Display.Gui;
 
-namespace Yna
+namespace Yna.Framework
 {
     /// <summary>
     /// Global Game container
@@ -21,7 +22,7 @@ namespace Yna
     {
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
-        protected StateManager screenManager = null;
+        protected StateManager stateManager = null;
         protected string gameTitle = "Yna Game";
         protected string gameVersion = "0.1";
 
@@ -47,24 +48,22 @@ namespace Yna
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
-            this.screenManager = new StateManager(this);
+            this.stateManager = new StateManager(this);
 
             // Setup services
             ServiceHelper.Game = this;
             Components.Add(new KeyboardService(this));
             Components.Add(new MouseService(this));
             Components.Add(new GamepadService(this));
-            Components.Add(screenManager);
+            Components.Add(stateManager);
 
             // Registry globals objects
             YnG.Game = this;
             YnG.GraphicsDeviceManager = this.graphics;
-            YnG.DeviceWidth = this.graphics.PreferredBackBufferWidth;
-            YnG.DeviceHeight = this.graphics.PreferredBackBufferHeight;
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
             YnG.Gamepad = new YnGamepad();
-            YnG.ScreenManager = screenManager;
+            YnG.StateManager = stateManager;
             YnG.AudioManager = new AudioManager();
 
             this.Window.Title = String.Format("{0} - v{1}", gameTitle, gameVersion);
@@ -97,7 +96,7 @@ namespace Yna
         public YnGame(int width, int height, string title, bool useScreenManager)
             : this(width, height, title)
         {
-            UseScreenManager(useScreenManager);
+            SetStateManagerActive(useScreenManager);
         }
 
 #endif
@@ -155,26 +154,26 @@ namespace Yna
         /// Active or desactive the Screen Manager
         /// </summary>
         /// <param name="active">True for activing, false for desactivating</param>
-        public void UseScreenManager(bool active)
+        public void SetStateManagerActive(bool active)
         {
             if (active)
             { 
-                if (this.screenManager == null)
+                if (this.stateManager == null)
                 {
-                    this.screenManager = new StateManager(this);
-                    this.Components.Add(this.screenManager);
+                    this.stateManager = new StateManager(this);
+                    this.Components.Add(this.stateManager);
                 }
             }
             else
             {
-                if (this.screenManager != null)
+                if (this.stateManager != null)
                 {
-                    this.Components.Remove(this.screenManager);
-                    this.screenManager = null;
+                    this.Components.Remove(this.stateManager);
+                    this.stateManager = null;
                 }
             }
 
-            YnG.ScreenManager = this.screenManager;
+            YnG.StateManager = this.stateManager;
         }
 
         /// <summary>

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Yna
+namespace Yna.Framework.Display.Event
 {
     public class ScreenChangedEventArgs : EventArgs
     {
