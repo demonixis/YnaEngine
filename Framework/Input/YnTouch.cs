@@ -17,7 +17,7 @@ namespace Yna.Framework.Input
 
         public YnTouch()
         {
-            service = ServiceHelper.Get<ITouchService>() as TouchService;
+            var service = ServiceHelper.Get<ITouchService>();
         }
     }
 }

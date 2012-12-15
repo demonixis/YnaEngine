@@ -12,6 +12,7 @@ using Yna.Framework.Display;
 using Yna.Framework.Display.Event;
 using Yna.Framework.Display3D;
 using Yna.Framework.Display.Gui;
+using Yna.Framework.Storage;
 
 namespace Yna.Framework
 {
@@ -24,7 +25,7 @@ namespace Yna.Framework
         protected SpriteBatch spriteBatch;
         protected StateManager stateManager = null;
         protected string gameTitle = "Yna Game";
-        protected string gameVersion = "0.1";
+        protected string gameVersion = "1.0.0.0";
 
         #region Events 
 
@@ -55,6 +56,7 @@ namespace Yna.Framework
             Components.Add(new KeyboardService(this));
             Components.Add(new MouseService(this));
             Components.Add(new GamepadService(this));
+            Components.Add(new TouchService(this));
             Components.Add(stateManager);
 
             // Registry globals objects
@@ -63,8 +65,10 @@ namespace Yna.Framework
             YnG.Keys = new YnKeyboard();
             YnG.Mouse = new YnMouse();
             YnG.Gamepad = new YnGamepad();
+            YnG.Touch = new YnTouch();
             YnG.StateManager = stateManager;
             YnG.AudioManager = new AudioManager();
+            YnG.StorageManager = new StorageManager();
 
             this.Window.Title = String.Format("{0} - v{1}", gameTitle, gameVersion);
 
@@ -72,10 +76,10 @@ namespace Yna.Framework
             ScreenHelper.ScreenHeightReference = graphics.PreferredBackBufferHeight;
 
 #if WINDOWS_PHONE_7
-            // La fréquence d’image est de 30 i/s pour le Windows Phone.
+            // 30 FPS for Windows Phone 7
             TargetElapsedTime = TimeSpan.FromTicks(333333);
 
-            // Augmenter la durée de la batterie sous verrouillage.
+            // Battery save when screen suspend
             InactiveSleepTime = TimeSpan.FromSeconds(1);
 #endif
         }

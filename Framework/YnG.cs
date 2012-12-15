@@ -8,6 +8,7 @@ using Yna.Framework.Display;
 using Yna.Framework.Helpers;
 using Yna.Framework.Input;
 using Yna.Framework.State;
+using Yna.Framework.Storage;
 
 namespace Yna.Framework
 {
@@ -30,6 +31,8 @@ namespace Yna.Framework
         { 
             get { return Game.GraphicsDevice; } 
         }
+
+        #region Properties for Managers
 
         /// <summary>
         /// Get the GraphicsDeviceManager relative to the Game object
@@ -54,6 +57,12 @@ namespace Yna.Framework
         /// </summary>
         public static AudioManager AudioManager { get; set; }
 
+        public static StorageManager StorageManager { get; set; }
+
+        #endregion
+
+        #region Properties for input
+
         /// <summary>
         /// Get or Set the keyboard states
         /// </summary>
@@ -68,6 +77,13 @@ namespace Yna.Framework
         /// Get or Set the mouse states
         /// </summary>
         public static YnMouse Mouse { get; set; }
+
+        /// <summary>
+        /// Get or Set the Touch states
+        /// </summary>
+        public static YnTouch Touch { get; set; }
+
+        #endregion
 
         #region Properties for sizes
 

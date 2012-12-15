@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Storage;
 #endif
 
-namespace Yna.Framework.Manager
+namespace Yna.Framework.Storage
 {
     public class StorageManager
     {

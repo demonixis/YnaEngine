@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
+using Yna.Framework.Helpers;
 
 namespace Yna.Framework.Input.Service
 {
@@ -24,10 +25,16 @@ namespace Yna.Framework.Input.Service
             get { return TouchPanel.GetCapabilities().MaximumTouchCount; }
         }
 
+        public bool Available
+        {
+            get { return TouchPanel.IsGestureAvailable; }
+        }
 
         public TouchService(Game game)
             : base(game)
         {
+            ServiceHelper.Add<ITouchService>(this);
+
             touchCollection = TouchPanel.GetState();
             lastTouchCollection = touchCollection;
 
