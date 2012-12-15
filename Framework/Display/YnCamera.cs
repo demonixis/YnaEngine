@@ -5,22 +5,27 @@ namespace Yna.Framework.Display
     public class YnCamera
     {
         protected Matrix _view;
-        protected Vector2 _position;
-        protected Vector2 _rotation;
+        protected int _x;
+        protected int _y;
+        protected float _rotation;
         protected float _zoom;
         protected Vector2 _centerScreen;
-        protected bool _needUpdate;
-        protected bool _dynamic;
 
         #region Properties
 
-        public Vector2 Position
+        public int X
         {
-            get { return _position; }
-            set { _position = value; }
+            get { return _x; }
+            set { _x = value; }
         }
 
-        public Vector2 Rotation
+        public int Y
+        {
+            get { return _y; }
+            set { _y = value; }
+        }
+
+        public float Rotation
         {
             get { return _rotation; }
             set { _rotation = value; }
@@ -37,22 +42,24 @@ namespace Yna.Framework.Display
         public YnCamera()
         {
             _view = Matrix.Identity;
-            _position = Vector2.Zero;
-            _rotation = Vector2.Zero;
+            _x = 0;
+            _y = 0;
+            _rotation = 0.0f;
             _zoom = 1.0f;
 
             _centerScreen = new Vector2(YnG.Width / 2, YnG.Height / 2);
         }
 
-        public void GetView(GameTime gameTime)
+
+        public Matrix GetTransformMatrix()
         {
-            Matrix rotationTransforms = Matrix.CreateRotationX(_rotation.X) * Matrix.CreateRotationY(_rotation.Y);
+            Matrix translateToOrigin = Matrix.CreateTranslation(_x + (-YnG.Width / 2), _y + (-YnG.Height / 2), 0);
+            Matrix rotation = Matrix.CreateRotationZ(MathHelper.ToRadians(_rotation));
+            Matrix zoom = Matrix.CreateScale(_zoom);
+            Matrix translateBackToPosition = Matrix.CreateTranslation(_x + (YnG.Width / 2), _y + (YnG.Height / 2), 0);
+            Matrix composition = zoom * translateToOrigin * rotation * translateBackToPosition;
 
-            Matrix transltationTransforms = 
-                Matrix.CreateTranslation(new Vector3(_position - _centerScreen, 0.0f)) *
-                Matrix.CreateTranslation(new Vector3(_centerScreen, 0.0f));
-
-            _view = rotationTransforms * transltationTransforms * Matrix.CreateScale(_zoom);
+            return composition;
         }
     }
 }

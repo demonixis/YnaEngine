@@ -25,10 +25,8 @@ namespace Yna.Framework.Display
         protected DepthStencilState _depthStencilState;
         protected RasterizerState _rasterizerState;
         protected Effect _effect;
-        protected Matrix _transformMatrix;
-        protected float _rotation;
-        protected float _zoom;
-        protected Vector3 _position;
+
+        protected YnCamera _camera;
 
         #endregion
 
@@ -78,34 +76,10 @@ namespace Yna.Framework.Display
             set { _depthStencilState = value; }
         }
 
-        /// <summary>
-        /// Get or Set the rotation used on the screen
-        /// </summary>
-        public float ScreenRotation
+        public YnCamera Camera
         {
-            get { return _rotation; }
-            set { _rotation = value; }
-        }
-
-        /// <summary>
-        /// Get or Set the zoom factor used on the screen
-        /// </summary>
-        public float ScreenZoom
-        {
-            get { return _zoom; }
-            set
-            {
-                _zoom = value;
-
-                if (_zoom < 0)
-                    _zoom = 0;
-            }
-        }
-
-        public Vector3 Position
-        {
-            get { return _position; }
-            set { _position = value; }
+            get { return _camera; }
+            set { _camera = value; }
         }
 
         #endregion
@@ -146,11 +120,7 @@ namespace Yna.Framework.Display
             _depthStencilState = DepthStencilState.None;
             _rasterizerState = RasterizerState.CullNone;
             _effect = null;
-            _transformMatrix = Matrix.Identity;
-
-            _rotation = 0.0f;
-            _zoom = 1.0f;
-            _position = Vector3.Zero;
+            _camera = new YnCamera();
         }
 
         #endregion
@@ -269,13 +239,11 @@ namespace Yna.Framework.Display
         {
             base.Draw(gameTime);
 
-            _transformMatrix = GetTransformMatrix();
-
             int nbMembers = _safeMembers.Count;
 
             if (nbMembers > 0)
             {
-                spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _transformMatrix);
+                spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _camera.GetTransformMatrix());
 
                 for (int i = 0; i < nbMembers; i++)
                 {
@@ -302,21 +270,5 @@ namespace Yna.Framework.Display
             return result;
         }
         #endregion
-
-        /// <summary>
-        /// Get the transformed matrix who can be used for translate, rotate or zoom the state
-        /// </summary>
-        /// <returns></returns>
-        protected Matrix GetTransformMatrix()
-        {
-            Matrix translateToOrigin = Matrix.CreateTranslation(_position.X + (-YnG.Width / 2), _position.Y + (-YnG.Height / 2), _position.Z);
-            Matrix rotation = Matrix.CreateRotationZ(MathHelper.ToRadians(_rotation));
-            Matrix zoom = Matrix.CreateScale(_zoom);
-            Matrix translateBackToPosition = Matrix.CreateTranslation(_position.X + (YnG.Width / 2), _position.Y + (YnG.Height / 2), _position.Z);
-            Matrix composition = translateToOrigin * rotation * zoom * translateBackToPosition;
-
-            return composition;
-        }
-
     }
 }

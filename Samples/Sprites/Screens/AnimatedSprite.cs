@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Framework;
 using Yna.Framework.Display;
+using Yna.Framework.Input;
 
 namespace Yna.Samples.Screens
 {
@@ -20,6 +21,8 @@ namespace Yna.Samples.Screens
         private YnImage woodObject;
         private YnImage wood2Object;
         private YnImage houseObject;
+
+        private YnPath simplePath;
 
         private List<YnObject> spriteToCollide;
 
@@ -58,6 +61,10 @@ namespace Yna.Samples.Screens
             spriteToCollide.Add(woodObject);
             spriteToCollide.Add(wood2Object);
             spriteToCollide.Add(houseObject);
+
+            simplePath = new YnPath(womanSprite, true);
+            simplePath.Add(10, 10, 1);
+            simplePath.Add(50, -10, 1);
         }
 
         public override void Initialize()
@@ -91,6 +98,8 @@ namespace Yna.Samples.Screens
         {
             base.Update(gameTime);
 
+            simplePath.Update(gameTime);
+
             // Move the sprite of the man
             if (YnG.Keys.Up)
                 manSprite.Y -= 2;
@@ -101,6 +110,26 @@ namespace Yna.Samples.Screens
                 manSprite.X -= 2;
             else if (YnG.Keys.Right)
                 manSprite.X += 2;
+
+            // A state can be transformed with translation, rotation and zoom
+            // Move the screen
+            if (YnG.Mouse.Drag(MouseButton.Left))
+            {
+                Camera.X +=  (int)YnG.Mouse.Delta.X;
+                Camera.Y += (int)YnG.Mouse.Delta.Y;
+            }
+            // Rotate the screen
+            if (YnG.Mouse.Drag(MouseButton.Middle))
+                Camera.Rotation += YnG.Mouse.Delta.X;
+            
+            // Reset to default
+            // Click on Right button to reset the position
+            if (YnG.Mouse.JustClicked(MouseButton.Right))
+            {
+                Camera.X = 0;
+                Camera.Y = 0;
+                Camera.Rotation = 0.0f;
+            }
 
             // Update sprites' animations
             UpdateAnimations(womanSprite);
