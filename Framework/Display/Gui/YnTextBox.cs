@@ -103,17 +103,17 @@ namespace Yna.Framework.Display.Gui
             string buffer = "";
             for (int i = 0; i < _text.Length; i++)
             {
-                if (font.MeasureString(buffer + _text.ElementAt(i)).X > Width)
+                if (font.MeasureString(buffer + _text[i]).X > Width)
                 {
                     // Too long : wrap line
                     Add(new YnLabel(buffer));
                     buffer = "";
-                    buffer += _text.ElementAt(i);
+                    buffer += _text[i];
                 }
                 else
                 {
                     // Length is ok
-                    buffer += _text.ElementAt(i);
+                    buffer += _text[i];
                 }
             }
 
@@ -149,7 +149,7 @@ namespace Yna.Framework.Display.Gui
             int i = 0;
             while (font.MeasureString(buffer + "...").X <= Width && i < _text.Length)
             {
-                buffer += _text.ElementAt(i);
+                buffer += _text[i];
                 i++;
             }
 

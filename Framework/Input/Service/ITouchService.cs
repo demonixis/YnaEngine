@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Yna.Framework.Input.Service
 {
@@ -10,5 +8,6 @@ namespace Yna.Framework.Input.Service
         bool Pressed(int id);
         bool Released(int id);
         bool Moved(int id);
+        Vector2 GetPosition(int id);
     }
 }
