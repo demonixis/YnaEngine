@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Framework.Display
 {
+    /// <summary>
+    /// A container of scene object who work as a collection
+    /// </summary>
     public class YnGroup : YnObject
     {
         #region Private declarations

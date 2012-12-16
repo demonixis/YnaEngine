@@ -17,7 +17,7 @@ using Yna.Framework.Storage;
 namespace Yna.Framework
 {
     /// <summary>
-    /// Global Game container
+    /// The game class
     /// </summary>
     public class YnGame : Game
     {
@@ -44,6 +44,10 @@ namespace Yna.Framework
 
         #region Constructors
 
+        /// <summary>
+        /// Create and setup the game engine
+        /// Graphics, Services and helpers are initialized
+        /// </summary>
         public YnGame()
             : base()
         {
@@ -111,12 +115,18 @@ namespace Yna.Framework
 
         #region GameState pattern
 
+        /// <summary>
+        /// Load assets from content manager
+        /// </summary>
         protected override void LoadContent()
         {
             base.LoadContent();
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
+        /// <summary>
+        /// Unload assets off content manager and suspend managers
+        /// </summary>
         protected override void UnloadContent()
         {
             base.UnloadContent();

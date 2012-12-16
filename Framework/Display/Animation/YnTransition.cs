@@ -9,6 +9,9 @@ namespace Yna.Framework.Display.Animation
         On = 0, Off = 1, FadeIn, FadeOut
     }
 
+    /// <summary>
+    /// Simple transition effect
+    /// </summary>
     public class YnTransition : YnBase
     {
         private TransitionState _transitionState;

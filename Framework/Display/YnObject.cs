@@ -8,6 +8,9 @@ using Yna.Framework.Display.Event;
 
 namespace Yna.Framework.Display
 {
+    /// <summary>
+    /// Define the origin of an object
+    /// </summary>
     public enum ObjectOrigin
     {
         TopLeft = 0, Top, TopRight,
@@ -15,11 +18,17 @@ namespace Yna.Framework.Display
         BottomLeft, Bottom, BottomRight
     }
 
+    /// <summary>
+    /// Define the type of position used by an object
+    /// </summary>
     public enum PositionType
     {
         Absolute = 0, Relative
     }
 
+    /// <summary>
+    /// A basic drawable object
+    /// </summary>
     public abstract class YnObject : YnBase
     {
         #region Private declarations

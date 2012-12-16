@@ -8,6 +8,11 @@ using Yna.Framework.Display;
 
 namespace Yna.Framework.State
 {
+    /// <summary>
+    /// The StateManager is responsible off managing the various screens that composes the game.
+    /// A state represents a game screen as a menu, a scene or a score screen. 
+    /// The state manager can add, delete, and work with registered states.
+    /// </summary>
     public class StateManager : DrawableGameComponent
     {
         #region Private declarations

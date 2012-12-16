@@ -21,12 +21,22 @@ namespace Yna.Framework.Display
             }
         }
 
+        /// <summary>
+        /// Create an image with an asset
+        /// </summary>
+        /// <param name="imageAsset">Asset's name</param>
         public YnImage(string imageAsset)
         {
             _assetName = imageAsset;
             _assetLoaded = false;
         }
 
+        /// <summary>
+        /// Create an image with an asset and place it to the position specified
+        /// </summary>
+        /// <param name="imageAsset">Asset's name</param>
+        /// <param name="x">Position on X axis</param>
+        /// <param name="y">Position on Y axis</param>
         public YnImage(string imageAsset, int x, int y)
             : this (imageAsset)
         {

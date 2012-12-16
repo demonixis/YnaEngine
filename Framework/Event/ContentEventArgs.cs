@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Yna.Framework.Event
 {
+    /// <summary>
+    /// Event used when content manager start loading resources
+    /// </summary>
     public class ContentLoadStartedEventArgs : EventArgs
     {
         public int Count { get; protected set; }
@@ -26,6 +29,9 @@ namespace Yna.Framework.Event
         }
     }
 
+    /// <summary>
+    /// Event used when content manager has finished loading resources
+    /// </summary>
     public class ContentLoadDoneEventArgs : EventArgs
     {
         public TimeSpan LoadingTime { get; protected set; }

@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Framework.Display
 {
+    /// <summary>
+    /// Helper for collide detection
+    /// </summary>
     public class YnCollide
     {
         /// <summary>

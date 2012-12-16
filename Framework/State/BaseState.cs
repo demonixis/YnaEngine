@@ -21,6 +21,10 @@ namespace Yna.Framework.State
         GameState, Popup
     }
 
+    /// <summary>
+    /// A basic state used with the state manager
+    /// A state represents a game screen as a menu, a scene or a score screen.
+    /// </summary>
     public abstract class BaseState
     {
         #region Private declarations

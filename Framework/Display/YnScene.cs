@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Framework.Display
 {
+    /// <summary>
+    /// The scene of a state
+    /// </summary>
     public class YnScene : YnBase
     {
         // Basic object (juste an Update() method)
@@ -15,8 +18,7 @@ namespace Yna.Framework.Display
         private List<YnBase> _baseObjectsToRemove;
 
         // Graphic objects (Update() and Draw() methods)
-        private List<YnObject> _safeSceneObjects;
-        private List<YnObject> _sceneObjectsToRemove;
+        private YnGroup _sceneObjects;
 
         // Screen gui
         private YnGui _gui;

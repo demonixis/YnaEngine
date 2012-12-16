@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Framework.Display.Animation
 {
+    /// <summary>
+    /// Define a sprite animation
+    /// </summary>
     public class SpriteAnimation
     {
         private int index;

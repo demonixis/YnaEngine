@@ -10,9 +10,7 @@ using Yna.Framework;
 namespace Yna.Framework.Audio
 {
     /// <summary>
-    /// An audio manager who allow you to play musics and sounds from XNA's Content Manager, or
-    /// from a custom Content Manager who doen't required XNB, but wave file or wma files.
-    /// Warning : For now the custom content manager isn't working on Windows 8 Metro.
+    /// An audio manager for playing musics and sounds
     /// </summary>
     public class AudioManager
     {

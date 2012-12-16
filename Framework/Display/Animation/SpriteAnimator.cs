@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Framework.Display.Animation
 {
+    /// <summary>
+    /// Sprite animator class used in Sprite class for animating a sprite with a spritesheet
+    /// </summary>
     public class SpriteAnimator
     {
         public Dictionary<string, SpriteAnimation> Animations { get; set; }

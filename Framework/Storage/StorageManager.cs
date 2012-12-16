@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Yna.Framework.Storage
 {
+    /// <summary>
+    /// The storage manager is an object that can be used for store and load information like score, achievments, etc..
+    /// </summary>
     public class StorageManager
     {
 #if !NETFX_CORE && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8

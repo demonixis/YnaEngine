@@ -62,16 +62,27 @@ namespace Yna.Framework.Input
             protected set { _delta = value; }
         }
 
+        /// <summary>
+        /// Get the wheel value
+        /// </summary>
         public int Wheel
         {
             get { return service.Wheel(); }
         }
 
+        /// <summary>
+        /// Get the position state
+        /// </summary>
         public bool Moving
         {
             get { return service.Moving(); }
         }
 
+        /// <summary>
+        /// Specifies whether the mouse is draggin
+        /// </summary>
+        /// <param name="button">The button to test</param>
+        /// <returns>True if draggin then false</returns>
         public bool Drag(MouseButton button)
         {
             return Click(button) && Moving;

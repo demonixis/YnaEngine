@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Framework
 {
+    /// <summary>
+    /// A timer class
+    /// </summary>
     public class YnTimer : YnBase
     {
         #region Private declarations
@@ -96,6 +99,10 @@ namespace Yna.Framework
 
         #endregion
 
+        /// <summary>
+        /// Create a new Timer with an interval
+        /// </summary>
+        /// <param name="interval">Time (ms) interval between each trigger</param>
         public YnTimer(int interval)
         {
             Interval = interval;
@@ -105,6 +112,11 @@ namespace Yna.Framework
             Active = false;
         }
 
+        /// <summary>
+        /// Create a new Timer with an interval value and repeat factor
+        /// </summary>
+        /// <param name="interval">Time (ms) interval between each trigger</param>
+        /// <param name="repeat">Repeat count</param>
         public YnTimer(int interval, int repeat)
             : this (interval)
         {
@@ -217,6 +229,10 @@ namespace Yna.Framework
 
         #endregion
 
+        /// <summary>
+        /// Updating the timer
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             if (Active)

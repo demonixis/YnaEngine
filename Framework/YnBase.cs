@@ -84,6 +84,10 @@ namespace Yna.Framework
             _dirty = false;
         }
 
+        /// <summary>
+        /// Update method called on each engine update
+        /// </summary>
+        /// <param name="gameTime"></param>
         public abstract void Update(GameTime gameTime);
     }
 }
