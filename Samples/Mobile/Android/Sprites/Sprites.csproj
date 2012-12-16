@@ -43,11 +43,23 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="Lidgren.Network.Android">
+      <HintPath>..\..\..\..\ThirdParty\MonoGame\Android\Lidgren.Network.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Android">
+      <HintPath>..\..\..\..\ThirdParty\MonoGame\Android\MonoGame.Framework.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\..\ThirdParty\MonoGame\Android\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.Sdl">
+      <HintPath>..\..\..\..\ThirdParty\MonoGame\Android\Tao.Sdl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activity1.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MainActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -59,4 +71,10 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Framework\Yna.Android.csproj">
+      <Project>{BD9BB2A6-5772-4709-8CE6-94A0E4D7C64A}</Project>
+      <Name>Yna.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

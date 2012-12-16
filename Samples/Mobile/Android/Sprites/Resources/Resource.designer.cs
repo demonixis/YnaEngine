@@ -1,4 +1,4 @@
-namespace Sprites
+namespace Yna.Samples
 {
 	public partial class Resource
 	{

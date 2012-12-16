@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprites", "Sprites\Sprites.csproj", "{2BDC8485-41CA-42D4-8FE2-17F48D9ACD4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Android", "Yna.Android\Yna.Android.csproj", "{BD9BB2A6-5772-4709-8CE6-94A0E4D7C64A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Android", "..\..\..\Framework\Yna.Android.csproj", "{BD9BB2A6-5772-4709-8CE6-94A0E4D7C64A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

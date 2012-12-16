@@ -11,6 +11,9 @@ rm -Rf *.cachefile
 rm -Rf Common/bin
 rm -Rf Common/obj
 
+rm -Rf SamplesContent/bin
+rm -Rf SamplesContent/obj
+
 rm -Rf Terrains/bin
 rm -Rf Terrains/obj
 
