@@ -116,6 +116,14 @@ namespace Yna.Framework.Input.Service
             return _position [id];
         }
 
+        Vector2 ITouchService.GetLastPosition(int id)
+        {
+            if (id >= MaxFingerPoints)
+                return Vector2.Zero;
+
+            return _lastPosition [id];
+        }
+
         #endregion
     }
 }

@@ -31,6 +31,19 @@ namespace Yna.Framework.Input
             get { return service.GetPosition(0); }
         }
 
+        public Vector2 LastPosition
+        {
+            get { return service.GetLastPosition(0); }
+        }
+
+        public Vector2 Delta
+        {
+            get
+            {
+                return Vector2.Zero; // Fixme
+            }
+        }
+
         public bool Invalid;
 
         public YnTouch()

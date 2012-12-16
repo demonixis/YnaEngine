@@ -9,5 +9,6 @@ namespace Yna.Framework.Input.Service
         bool Released(int id);
         bool Moved(int id);
         Vector2 GetPosition(int id);
+        Vector2 GetLastPosition(int id);
     }
 }
