@@ -142,7 +142,9 @@ namespace Yna.Framework.Display3D.Terrain
         {
             UpdateMatrix();
 
-            _boundingBox = new BoundingBox(new Vector3(float.MaxValue), new Vector3(float.MinValue));
+            // Reset bounding box to min/max values
+            _boundingBox.Min = new Vector3(float.MaxValue);
+            _boundingBox.Max = new Vector3(float.MinValue);
 
             for (int i = 0; i < _vertices.Length; i++)
             {
@@ -154,18 +156,19 @@ namespace Yna.Framework.Display3D.Terrain
                 _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _vertices[i].Position.Z);
             }
 
-            _boundingBox.Min.X *= _scale.X;
-            _boundingBox.Min.Y *= _scale.Y;
-            _boundingBox.Min.Z *= _scale.Z;
-            _boundingBox.Max.X *= _scale.X;
-            _boundingBox.Max.Y *= _scale.Y;
-            _boundingBox.Max.Z *= _scale.Z;
+            // Apply scale on the object
+            _boundingBox.Min *= _scale;
+            _boundingBox.Max *= _scale;
 
-            _width = (_boundingBox.Max.X - _boundingBox.Min.X) * _scale.X;
-            _height = (_boundingBox.Max.Y - _boundingBox.Min.Y) * _scale.Y;
-            _depth = (_boundingBox.Max.Z - _boundingBox.Min.Z) * _scale.Z;
+            // Update size of the object
+            _width = _boundingBox.Max.X - _boundingBox.Min.X;
+            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
 
-            _boundingSphere.Center = new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2);
+            // Update bouding sphere
+            _boundingSphere.Center.X = X + (_width / 2);
+            _boundingSphere.Center.Y = Y + (_height / 2);
+            _boundingSphere.Center.Z = Z + (_depth / 2);
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
         }
 
@@ -195,22 +198,14 @@ namespace Yna.Framework.Display3D.Terrain
 
         public virtual void MoveVertex(int x, int z, float deltaY)
         {
-
-            VertexPositionNormalTexture vpmt = _vertices[x + z * Width];
-
-            vpmt.Position = new Vector3(
-                vpmt.Position.X,
-                vpmt.Position.Y + deltaY,
-                vpmt.Position.Z
-                );
-            _vertices[x + z * Width] = vpmt;
-
+            _vertices[x + z * Width].Position.Y += deltaY;
+            
+            // TODO : compute vertex normal only for this vertex
             ComputeNormals();
 
             SetupShader();
 
             UpdateBoundingVolumes();
-            UpdateMatrix();
         }
     }
 }
