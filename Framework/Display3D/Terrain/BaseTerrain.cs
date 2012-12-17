@@ -154,9 +154,16 @@ namespace Yna.Framework.Display3D.Terrain
                 _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _vertices[i].Position.Z);
             }
 
-            _width = _boundingBox.Max.X - _boundingBox.Min.X ;
-            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
-            _depth = _boundingBox.Max.Z- _boundingBox.Min.Z;
+            _boundingBox.Min.X *= _scale.X;
+            _boundingBox.Min.Y *= _scale.Y;
+            _boundingBox.Min.Z *= _scale.Z;
+            _boundingBox.Max.X *= _scale.X;
+            _boundingBox.Max.Y *= _scale.Y;
+            _boundingBox.Max.Z *= _scale.Z;
+
+            _width = (_boundingBox.Max.X - _boundingBox.Min.X) * _scale.X;
+            _height = (_boundingBox.Max.Y - _boundingBox.Min.Y) * _scale.Y;
+            _depth = (_boundingBox.Max.Z - _boundingBox.Min.Z) * _scale.Z;
 
             _boundingSphere.Center = new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2);
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
