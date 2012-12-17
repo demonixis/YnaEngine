@@ -5,9 +5,9 @@ setlocal
 set msbuild=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 set flags=/nologo /p:Configuration=Release /p:Optimize=true /p:DebugSymbols=false
 
-pushd ..
+pushd ..\Framework
 
-call %msbuild% %flags% Yna.Windows8.sln
+call %msbuild% %flags% Yna.WindowsPhone8.csproj
 
 popd
 
