@@ -20,6 +20,7 @@ namespace Yna.Framework.Display.Gui
         protected string _skinName;
         protected List<YnWidget> _widgets;
         private List<YnWidget> _safeWidgets;
+        protected bool _hovered;
 
         #endregion
 
@@ -28,7 +29,7 @@ namespace Yna.Framework.Display.Gui
         /// <summary>
         /// The Gui current skin
         /// </summary>
-        private YnSkin Skin 
+        private YnSkin Skin
         {
             get { return _skin; }
             set { _skin = value; }
@@ -52,6 +53,15 @@ namespace Yna.Framework.Display.Gui
             set { _widgets = value; }
         }
 
+        /// <summary>
+        /// Flag indicating if a gui component is currently hovered. Usefull to prevent other actions
+        /// out of the UI
+        /// </summary>
+        public bool Hovered
+        {
+            get { return _hovered; }
+            set { _hovered = value; }
+        }
         #endregion
 
         public YnGui()
@@ -80,7 +90,7 @@ namespace Yna.Framework.Display.Gui
         /// <summary>
         /// Gamestate pattern : load content
         /// </summary>
-        public override  void LoadContent()
+        public override void LoadContent()
         {
             if (_skinName == String.Empty && _skin == null)
             {
@@ -110,7 +120,10 @@ namespace Yna.Framework.Display.Gui
                 _safeWidgets.AddRange(_widgets);
 
                 foreach (YnWidget widget in _safeWidgets)
+                {
                     widget.Update(gameTime);
+                    _hovered |= widget.IsHovered;
+                }
             }
         }
 
@@ -152,7 +165,7 @@ namespace Yna.Framework.Display.Gui
         public YnWidget Add(YnWidget widget)
         {
             _widgets.Add(widget);
-            
+
             // If the skin is already loaded, link it directly
             if (widget.Skin == null && _skin != null)
                 widget.Skin = _skin;
