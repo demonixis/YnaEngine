@@ -197,6 +197,9 @@
     <Reference Include="MonoGame.Framework.Windows8">
       <HintPath>..\ThirdParty\MonoGame\WinRT\MonoGame.Framework.Windows8.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.IsolatedStorage">
+      <HintPath>..\ThirdParty\MonoGame\WinRT\System.IO.IsolatedStorage.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

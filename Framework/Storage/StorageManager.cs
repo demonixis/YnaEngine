@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-#if !NETFX_CORE
 using System.IO;
-#endif
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
@@ -17,7 +15,7 @@ namespace Yna.Framework.Storage
     /// </summary>
     public class StorageManager
     {
-#if !NETFX_CORE && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
+#if !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
         private StorageDevice _storageDevice;
 
         public StorageManager()
@@ -46,7 +44,7 @@ namespace Yna.Framework.Storage
 
             serializer.Serialize(stream, obj);
 
-            stream.Close();
+            stream.Dispose();
 
             container.Dispose();
         }
@@ -65,7 +63,7 @@ namespace Yna.Framework.Storage
 
                 datas = (T)serializer.Deserialize(stream);
 
-                stream.Close();
+                stream.Dispose();
             }
 
             container.Dispose();
@@ -79,7 +77,7 @@ namespace Yna.Framework.Storage
             result.AsyncWaitHandle.WaitOne();
 
             StorageContainer container = _storageDevice.EndOpenContainer(result);
-            result.AsyncWaitHandle.Close();
+            result.AsyncWaitHandle.Dispose();
 
             return container;
         }
