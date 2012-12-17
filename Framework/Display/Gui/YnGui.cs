@@ -113,6 +113,7 @@ namespace Yna.Framework.Display.Gui
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            _hovered = false;
 
             if (_widgets.Count > 0)
             {
