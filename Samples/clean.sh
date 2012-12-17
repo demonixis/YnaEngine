@@ -20,6 +20,9 @@ rm -Rf Terrains/obj
 rm -Rf Sprites/bin
 rm -Rf Sprites/obj
 
+rm -Rf Storage/bin
+rm -Rf Storage/obj
+
 rm -Rf Tilemap/bin
 rm -Rf Tilemap/obj
 
