@@ -4,9 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
-#if !WINDOWS_PHONE_7
-using Microsoft.Xna.Framework.Storage;
-#endif
+
 
 namespace Yna.Framework.Storage
 {
@@ -15,72 +13,41 @@ namespace Yna.Framework.Storage
     /// </summary>
     public class StorageManager
     {
-#if !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
-        private StorageDevice _storageDevice;
+        private IStorageDevice storageDevice;
 
         public StorageManager()
         {
-            IAsyncResult result = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);
-            _storageDevice = StorageDevice.EndShowSelector(result);
+#if XNA
+            storageDevice = new XnaStorageDevice();
+#elif MONOGAME && WINDOWS || LINUX || MACOSX
+            storageDevice = new BasicStorageDevice();
+#else
+            storageDevice = new DummyStorageDevice();
+#endif
         }
 
         /// <summary>
-        /// Save a serializable object in the player's storage
+        /// Save a serializable object in the user's local storage
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
-        /// <param name="containerName">Folder in the player's storage. If the folder doesn't exist, it's created</param>
-        /// <param name="fileName">The filename</param>
+        /// <param name="containerName">Folder in the user's storage. If the folder doesn't exist, it's created</param>
+        /// <param name="fileName">The file's name</param>
         /// <param name="obj">Serializable object</param>
         public virtual void SaveData<T>(string containerName, string fileName, T obj)
         {
-            StorageContainer container = GetContainer(containerName);
-
-            if (container.FileExists(fileName))
-                container.DeleteFile(fileName); // TODO : backup file
-
-            Stream stream = container.CreateFile(fileName);
-
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-
-            serializer.Serialize(stream, obj);
-
-            stream.Dispose();
-
-            container.Dispose();
+            storageDevice.SaveDatas<T>(containerName, fileName, obj);
         }
 
+        /// <summary>
+        /// Load a serialized object from the user's local storage
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="containerName">Folder in the user's storage.</param>
+        /// <param name="fileName">The file's name</param>
+        /// <returns>Instance of the object type with previous saved datas</returns>
         public virtual T LoadData<T>(string containerName, string fileName)
         {
-            T datas = default(T);
-
-            StorageContainer container = GetContainer(containerName);
-
-            if (container.FileExists(fileName))
-            {
-                Stream stream = container.OpenFile(fileName, FileMode.Open);
-
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-
-                datas = (T)serializer.Deserialize(stream);
-
-                stream.Dispose();
-            }
-
-            container.Dispose();
-
-            return datas;
+            return storageDevice.LoadDatas<T>(containerName, fileName);
         }
-
-        protected virtual StorageContainer GetContainer(string name)
-        {
-            IAsyncResult result = _storageDevice.BeginOpenContainer(name, null, null);
-            result.AsyncWaitHandle.WaitOne();
-
-            StorageContainer container = _storageDevice.EndOpenContainer(result);
-            result.AsyncWaitHandle.Dispose();
-
-            return container;
-        }
-#endif
     }
 }

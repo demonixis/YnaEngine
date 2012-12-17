@@ -24,8 +24,8 @@ namespace Yna.Framework
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
         protected StateManager stateManager = null;
-        protected string gameTitle = "Yna Game";
-        protected string gameVersion = "1.0.0.0";
+        public static string GameTitle = "Yna Game";
+        public static string GameVersion = "1.0.0.0";
 
         #region Events 
 
@@ -76,7 +76,7 @@ namespace Yna.Framework
 #endif
             YnG.StorageManager = new StorageManager();
 #if !ANDROID
-            this.Window.Title = String.Format("{0} - v{1}", gameTitle, gameVersion);
+            this.Window.Title = String.Format("{0} - v{1}", GameTitle, GameVersion);
 #endif
             ScreenHelper.ScreenWidthReference = graphics.PreferredBackBufferWidth;
             ScreenHelper.ScreenHeightReference = graphics.PreferredBackBufferHeight;
