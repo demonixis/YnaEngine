@@ -17,10 +17,12 @@ namespace Yna.Framework.Storage
 
         public StorageManager()
         {
-#if XNA || WINRT
+#if XNA
             storageDevice = new XnaStorageDevice();
 #elif MONOGAME && WINDOWS || LINUX || MACOSX
             storageDevice = new BasicStorageDevice();
+#elif NETFX_CORE
+            storageDevice = new WinRTStorageDevice();
 #else
             storageDevice = new DummyStorageDevice();
 #endif

@@ -46,7 +46,7 @@ namespace Yna.Samples
             // Load and initialize the debut text 
             playerDebugText.LoadContent();
             playerDebugText.Scale = new Vector2(1.5f);
-            playerDebugText.Position = new Vector2(YnG.Width / 2 - playerDebugText.Width / 2, YnG.Height / 2 - playerDebugText.Height / 2);
+            playerDebugText.Position = new Vector2(YnG.Width / 2 - playerDebugText.ScaledWidth / 2, YnG.Height / 2 - playerDebugText.ScaledHeight / 2);
             playerDebugText.Color = Color.BlanchedAlmond;
         }
 
@@ -90,21 +90,18 @@ namespace Yna.Samples
             spriteBatch.End();
         }
 
+#if !NETFX_CORE
         /// <summary>
         /// Main function
         /// </summary>
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-#if NETFX_CORE
-            var factory = new MonoGame.Framework.GameFrameworkViewSource<StorageGame>();
-            Windows.ApplicationModel.Core.CoreApplication.Run(factory);
-#else
             using (StorageGame game = new StorageGame())
             {
                 game.Run();
             }
-#endif
         }
+#endif
     }
 }
