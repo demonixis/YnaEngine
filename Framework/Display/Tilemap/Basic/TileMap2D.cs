@@ -7,33 +7,24 @@ namespace Yna.Framework.Display.TileMap.Basic
 	/// <summary>
 	/// Description of TiledMap2D.
 	/// </summary>
-	public class TileMap2D : BaseTileMap<Layer2D>
+	public class TileMap2D : BaseTileMap
 	{
-		#region Properties
-		/// <summary>
-		/// 
-		/// </summary>
-		private Rectangle[] Mapping{get; set;}
-		#endregion
-		
+	
 		#region Constructors
 
 		/// <summary>
 		/// Basically, the TiledMap is initialized with default values
 		/// </summary>
-		/// <param name="tilesetName">The tileset name</param>
 		/// <param name="layers">The map layers</param>
 		/// <param name="tileWidth">The tile width</param>
 		/// <param name="tileHeight">The tile height</param>
-		public TileMap2D(string tilesetName, Layer2D[] layers, int tileWidth, int tileHeight) 
+		public TileMap2D(Layer2D[] layers, int tileWidth, int tileHeight) 
 		{
 			_layers = layers;
-			_tilesetName = tilesetName;
 			
 			_mapWidth = layers[0].LayerWidth;
 			_mapHeight = layers[0].LayerHeight;
 			
-			// Default Tile width/height : 32px
 			_tileWidth = tileWidth;
 			_tileHeight = tileHeight;
 		}
@@ -41,19 +32,16 @@ namespace Yna.Framework.Display.TileMap.Basic
         /// <summary>
         /// Constructor for tiled maps with square tiles (same width and height)
         /// </summary>
-        /// <param name="tilesetName">The tileset name</param>
         /// <param name="layers">The map layers</param>
         /// <param name="tileSize">The tile width</param>
-        public TileMap2D(string tilesetName, Layer2D[] layers, int tileSize)
-            : this(tilesetName, layers, tileSize, tileSize)
+        public TileMap2D(Layer2D[] layers, int tileSize)
+            : this(layers, tileSize, tileSize)
         {
-
         }
 
-        public TileMap2D(string tilesetName, Layer2D layer, int tileSize)
-            : this(tilesetName, new Layer2D[] { layer }, tileSize)
+        public TileMap2D(Layer2D layer, int tileSize)
+            : this(new Layer2D[] { layer }, tileSize)
         {
-
         }
 
 		#endregion
@@ -64,27 +52,16 @@ namespace Yna.Framework.Display.TileMap.Basic
 		public void LoadContent()
 		{
 			int layerCount = _layers.GetUpperBound(0) + 1;
-			int index;
-			int tilesPerColumn;
-			int tilesPerRow;
 			
-			// First, we load the tileset
-			_tileset = YnG.Content.Load<Texture2D>(_tilesetName);
-			
-			tilesPerRow = _tileset.Width / _tileWidth;
-			tilesPerColumn = _tileset.Height / _tileHeight;
-			
-			index = 0;
-			Mapping = new Rectangle[tilesPerRow * tilesPerColumn];
-			for(int y = 0; y < tilesPerColumn;y++)
-			{
-				for(int x = 0; x < tilesPerRow;x++)
-				{
-					// Each tile texture is zoned and stored in mapping array
-					Mapping[index] = new Rectangle(_tileWidth*x, _tileHeight*y, _tileWidth, _tileHeight);
-					index++;
-				}
-			}
+			// Load each layer's tileset
+            foreach (Layer2D layer in _layers)
+            {
+                // Initialize tile size
+                layer.TileWidth = _tileWidth;
+                layer.TileHeight = _tileHeight;
+
+                layer.LoadContent();
+            }
 		}
 		
 		/// <summary>
@@ -106,7 +83,7 @@ namespace Yna.Framework.Display.TileMap.Basic
 		public void Draw(SpriteBatch spriteBatch, Vector2 camera, Rectangle drawZone)
 		{
 			Layer2D layer;
-			Tile2D tile;
+			BaseTile tile;
 			int layerCount = _layers.GetUpperBound(0) +1;
 			Rectangle rec;
 			Vector2 position = Vector2.Zero;
@@ -122,7 +99,7 @@ namespace Yna.Framework.Display.TileMap.Basic
 						tile = layer[x, y];
 						
 						// Getting the texture position in the tileset
-						rec = Mapping[tile.TextureID];
+						rec = layer.Mapping[tile.TextureID];
 						
 						// Getting tile's real position on screen
 						position.X = _tileWidth * tile.X + camera.X;
@@ -170,7 +147,7 @@ namespace Yna.Framework.Display.TileMap.Basic
 							}
 							
 							// The tile is totally on the screen
-							spriteBatch.Draw(_tileset, position, rec, Color.White);
+							spriteBatch.Draw(layer.Tileset, position, rec, Color.White);
 						}
 					}
 				}

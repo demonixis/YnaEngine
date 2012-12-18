@@ -1,19 +1,21 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace Yna.Framework.Display.TileMap.Isometric
 {
 	/// <summary>
 	/// Tilemap layer for isometric maps
 	/// </summary>
-	public class LayerIso : BaseLayer<TileIso>
+	public class LayerIso : BaseLayer
 	{
 		/// <summary>
 		/// Constructor with size. Tiles are not initialized
 		/// </summary>
 		/// <param name="width">The layer width</param>
 		/// <param name="height">The layer height</param>
-		public LayerIso(int width, int height)
+		public LayerIso(string tilesetName, int width, int height)
 		{
+            _tilesetName = tilesetName;
 			_tiles = new TileIso[width,height];
 			_layerWidth = width;
 			_layerHeight = height;
@@ -24,8 +26,9 @@ namespace Yna.Framework.Display.TileMap.Isometric
 		/// Heights are set to 0.
 		/// </summary>
 		/// <param name="data">the raw data</param>
-		public LayerIso(int[,] data)
-		{
+        public LayerIso(string tilesetName, int[,] data)
+        {
+            _tilesetName = tilesetName;
 			_layerHeight = data.GetUpperBound(0) +1;
 			_layerWidth = data.GetUpperBound(1) +1;
 			_tiles = new TileIso[_layerWidth,_layerHeight];
@@ -38,6 +41,25 @@ namespace Yna.Framework.Display.TileMap.Isometric
 				}
 			}
 		}
-		
+
+        public override void CreateMapping()
+        {
+            int tilesPerRow = _tileset.Width / _tileWidth;
+            int tilesNumber = _tileset.Height / _tileHeight;
+
+            _mapping = new Rectangle[tilesNumber * 23];
+            int index = 0;
+            int type = 0;
+            for (int y = 0; y < tilesNumber; y++)
+            {
+                for (int x = 0; x < tilesPerRow; x++)
+                {
+                    _mapping[x + index * 23] = new Rectangle(_tileWidth * x, _tileHeight * y, _tileWidth, _tileHeight);
+                    type++;
+                }
+                type = 0;
+                index++;
+            }
+        }
 	}
 }

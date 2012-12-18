@@ -9,7 +9,7 @@ namespace Yna.Framework.Display.TileMap
     /// <summary>
     /// Tile based map renderer
     /// </summary>
-    public abstract class BaseTileMap<LayerType>
+    public abstract class BaseTileMap
     {
         /// <summary>
         /// Tile width
@@ -34,19 +34,6 @@ namespace Yna.Framework.Display.TileMap
         /// <summary>
         /// Layers definition.
         /// </summary>
-        protected LayerType[] _layers;
-
-        /// <summary>
-        /// All map tiles are stored in one texture, one after the other.
-        /// From top left to bottom right, each tile has an id. The first
-        /// texture (top left) has the id 0. The cutting is defined by the
-        /// tiles size. The tileset must fist a multiple of the tile size!
-        /// </summary>
-        protected Texture2D _tileset;
-
-        /// <summary>
-        /// The tileset file name
-        /// </summary>
-        protected String _tilesetName;
+        protected BaseLayer[] _layers;
     }
 }

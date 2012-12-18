@@ -19,13 +19,13 @@ namespace Yna.Samples.Screens
         public IsometricMapSample(string name)
             : base(name, 0, 0)
         {
-            LayerIso groundLayer = new LayerIso(IsometricMap.GroundData);
+            LayerIso groundLayer = new LayerIso("tilesets/iso_ground_tileset", IsometricMap.GroundData);
 
-            LayerIso decoLayer = new LayerIso(IsometricMap.DecorationData);
+            LayerIso decoLayer = new LayerIso("tilesets/iso_deco_tileset", IsometricMap.DecorationData);
 
             LayerIso[] layers = new LayerIso[] { decoLayer };
 
-            _map = new TileMapIso("tilesets/iso_ground_tileset", "tilesets/iso_deco_tileset", groundLayer, layers, 96, 96, 192);
+            _map = new TileMapIso(groundLayer, layers, 96, 96, 192);
 
             camera = new Vector2(YnG.Width / 2 - 96 / 2, 128);
 
