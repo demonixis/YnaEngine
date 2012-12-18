@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace Yna.Samples
 {
+#if !NETFX_CORE
     [Serializable]
+#endif
     public class PlayerScore
     {
         public string Pseudonyme { get; set; }

@@ -17,7 +17,7 @@ namespace Yna.Framework.Storage
 
         public StorageManager()
         {
-#if XNA
+#if XNA || WINRT
             storageDevice = new XnaStorageDevice();
 #elif MONOGAME && WINDOWS || LINUX || MACOSX
             storageDevice = new BasicStorageDevice();

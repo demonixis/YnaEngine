@@ -13,9 +13,13 @@ namespace Yna.Samples
 
         private PlayerScore playerScore;
         private YnText playerDebugText;
-
+#if !NETFX_CORE
         public StorageGame()
             : base (640, 480, "Storage sample", false)
+#else
+        public StorageGame()
+            : base()
+#endif
         {
             // We define a name for the game who's used by the storage manager for read/write in the good folder
             GameTitle = "Storage Sample";
@@ -92,10 +96,15 @@ namespace Yna.Samples
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+#if NETFX_CORE
+            var factory = new MonoGame.Framework.GameFrameworkViewSource<StorageGame>();
+            Windows.ApplicationModel.Core.CoreApplication.Run(factory);
+#else
             using (StorageGame game = new StorageGame())
             {
                 game.Run();
             }
+#endif
         }
     }
 }

@@ -187,6 +187,7 @@
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
     <Compile Include="Display\YnState.cs" />
+    <Compile Include="Storage\XnaStorageDevice.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
