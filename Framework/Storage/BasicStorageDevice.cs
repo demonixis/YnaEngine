@@ -16,11 +16,18 @@ namespace Yna.Framework.Storage
 
         public BasicStorageDevice()
         {
-            _saveFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "my games" + Path.DirectorySeparatorChar + YnGame.GameTitle + Path.DirectorySeparatorChar;
+            _saveFolder = GetSaveContainer();
+        }
+
+        private string GetSaveContainer()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "my games" + Path.DirectorySeparatorChar + YnGame.GameTitle + Path.DirectorySeparatorChar;
         }
 
         private string GetContainer(string containerName)
         {
+            _saveFolder = GetSaveContainer();
+
             return (string)(this as IStorageDevice).GetContainer(containerName);
         }
 
@@ -66,7 +73,7 @@ namespace Yna.Framework.Storage
 
             if (File.Exists(filePath))
             {
-                Stream stream = File.Open(fileName, FileMode.Open);
+                Stream stream = File.Open(filePath, FileMode.Open);
 
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
 
