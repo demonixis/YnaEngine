@@ -195,15 +195,15 @@ namespace Yna.Framework.Display3D.Terrain
 
         public virtual void MoveVertex(int x, int z, float deltaY)
         {
-
-            VertexPositionNormalTexture vpmt = _vertices[x + z * Width];
+            int index = x + z * (int)(Width +1);
+            VertexPositionNormalTexture vpmt = _vertices[index];
 
             vpmt.Position = new Vector3(
                 vpmt.Position.X,
                 vpmt.Position.Y + deltaY,
                 vpmt.Position.Z
                 );
-            _vertices[x + z * Width] = vpmt;
+            _vertices[index] = vpmt;
 
             ComputeNormals();
 
