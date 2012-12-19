@@ -28,16 +28,14 @@ namespace Yna.Samples.Screens
             // use multiple layers, they MUST have the same size. If you don't
             // want to use all tiles in a layer, fill it with transparent texture
             // ID.
-            Layer2D layer = new Layer2D(MapBasic.data);
-            layer.TilesetName = "tilesets/tileset01";
+            Layer2D layer = new Layer2D("tilesets/tileset01", MapBasic.data);
 
             // Here we go, hello TiledMap!
-            // - First there is the tileset texture containing all tiles
-            // - Then the array of layers (for this example there's just one layer)
-            // - And to finish, the tile size. Note that in this example, tiles are
+            // - The array of layers (for this example there's just one layer)
+            // - And the tile size. Note that in this example, tiles are
             // squares but you can use rectangle tiles too. Just use another constructor
             // to define tile width and tile height.
-            map = new TileMap2D("tilesets/tileset01", layer, 32);
+            map = new TileMap2D(layer, 32);
 
             // The map can be moved with a simple Vector2. The camera position
             // is screen relative. The top left tile will be drawn at this position

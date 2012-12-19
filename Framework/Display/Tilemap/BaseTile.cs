@@ -3,13 +3,19 @@
 namespace Yna.Framework.Display.TileMap
 {
     /// <summary>
-    /// This class represents a tile on a tiled map
+    /// This class represents a base tile on a tiled map
     /// </summary>
     public abstract class BaseTile
     {
+        #region Attributes
+
         protected int _x;
         protected int _y;
         protected int _textureID;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// X tile position in the map
@@ -37,6 +43,8 @@ namespace Yna.Framework.Display.TileMap
             get { return _textureID; }
             set { _textureID = value; }
         }
+
+        #endregion
 
         /// <summary>
         /// Constructor
