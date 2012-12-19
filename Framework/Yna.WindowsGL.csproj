@@ -103,6 +103,7 @@
     <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Display\Event\ScreenEvents.cs" />
+    <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="Storage\DummyStorageDevice.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
-	<Compile Include="Storage\XnaStorageDevice.cs" />
+    <Compile Include="Storage\XnaStorageDevice.cs" />
     <Compile Include="Display\YnState.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />

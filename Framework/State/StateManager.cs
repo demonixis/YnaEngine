@@ -257,6 +257,40 @@ namespace Yna.Framework.State
         }
 
         /// <summary>
+        /// Get the index of the screen
+        /// </summary>
+        /// <param name="name">State name</param>
+        /// <returns>An index</returns>
+        public int GetScreenIndex(string name)
+        {
+            BaseState state = GetScreenByName(name);
+
+            if (state != null)
+                return _screens.IndexOf(state);
+
+            return -1;
+        }
+
+        public int GetScreenIndex(BaseState state)
+        {
+            return _screens.IndexOf(state);
+        }
+
+        public bool Replace(BaseState oldState, BaseState newState)
+        {
+            int index = _screens.IndexOf(oldState);
+
+            if (index > -1)
+            {
+                newState.ScreenManager = this;
+                _screens[index] = newState;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Active a screen and desactive other screens on demand
         /// </summary>
         /// <param name="index">Index of the screen in the collection</param>
