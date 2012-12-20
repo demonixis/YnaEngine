@@ -117,7 +117,7 @@ namespace Yna.Framework.Audio
 #if XNA || NETFX_CORE || WINDOWS_PHONE_7
                 Song music = YnG.Content.Load<Song>(assetName);
                 PlayMusic(music, repeat);
-#elif MONOGAME && WINDOWS
+#elif MONOGAME && mWINDOWS
                 if (_windowMediaPlayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
                     _windowMediaPlayer.controls.stop();
                 

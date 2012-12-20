@@ -27,7 +27,7 @@ namespace Yna.Framework.Display
         /// <returns></returns>
         public static Texture2D CreateTexture(Color color, int width, int height)
         {
-            Texture2D texture2D = new Texture2D(YnG.GraphicsDeviceManager.GraphicsDevice, width, height);
+            Texture2D texture2D = new Texture2D(YnG.GraphicsDevice, width, height);
             texture2D.SetData(CreateColor(color, width, height));
 
             return texture2D;

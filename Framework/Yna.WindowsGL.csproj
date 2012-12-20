@@ -38,7 +38,11 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Audio\NAudioAdapter.cs" />
+    <Compile Include="Audio\NAudioLoopStream.cs" />
+    <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
     <Compile Include="Display\YnGraphics.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
@@ -150,6 +154,9 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Windows">
       <HintPath>..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\ThirdParty\NAudio\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />
