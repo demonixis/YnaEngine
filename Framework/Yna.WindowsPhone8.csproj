@@ -169,13 +169,16 @@
     <Compile Include="Storage\DummyStorageDevice.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
+	<Compile Include="Script\MoveScript.cs" />
+    <Compile Include="Script\BaseScriptNode.cs" />
+    <Compile Include="Script\ScriptAnimator.cs" />
+    <Compile Include="Script\WaitScript.cs" />
     <Compile Include="Display\YnState.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
-    <Compile Include="YnPath.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>

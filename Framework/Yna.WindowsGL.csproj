@@ -45,6 +45,8 @@
     <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
     <Compile Include="Display\YnGraphics.cs" />
+    <Compile Include="Display\YnText.cs" />
+    <Compile Include="Display\YnTransformer.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
@@ -91,7 +93,6 @@
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
-    <Compile Include="Display\YnCamera.cs" />
     <Compile Include="Display\YnCollide.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnScene.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="Display\TileMap\Iso\LayerIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
-    <Compile Include="Display\YnText.cs" />
     <Compile Include="Display\Event\ScreenEvents.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
@@ -131,13 +131,16 @@
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
     <Compile Include="Storage\XnaStorageDevice.cs" />
+    <Compile Include="Script\MoveScript.cs" />
+    <Compile Include="Script\BaseScriptNode.cs" />
+    <Compile Include="Script\ScriptAnimator.cs" />
+    <Compile Include="Script\WaitScript.cs" />
     <Compile Include="Display\YnState.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnObject.cs" />
-    <Compile Include="YnPath.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
