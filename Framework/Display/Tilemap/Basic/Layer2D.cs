@@ -28,11 +28,8 @@ namespace Yna.Framework.Display.TileMap.Basic
         /// <param name="tilesetName">The layer's tileset name</param>
 		/// <param name="data">the raw data</param>
         public Layer2D(string tilesetName, int[,] data)
+            : this(tilesetName, data.GetUpperBound(1), data.GetUpperBound(0))
 		{
-			_layerHeight = data.GetUpperBound(0) +1;
-			_layerWidth = data.GetUpperBound(1) +1;
-			_tiles = new Tile2D[_layerWidth,_layerHeight];
-			
 			for(int x = 0; x < _layerWidth; x++)
 			{	
 				for(int y = 0; y < _layerHeight; y++)

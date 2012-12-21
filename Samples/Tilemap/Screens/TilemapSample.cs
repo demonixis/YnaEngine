@@ -63,15 +63,16 @@ namespace Yna.Samples.Screens
         public override void Update(GameTime gameTime)
         {
             // Simple handling of the camera position
+            int delta = (int) (0.4f * gameTime.ElapsedGameTime.Milliseconds);
             if (YnG.Keys.Left)
-                camera.X++;
+                camera.X += delta;
             else if (YnG.Keys.Right)
-                camera.X--;
+                camera.X -= delta;
 
             if (YnG.Keys.Up)
-                camera.Y++;
+                camera.Y += delta;
             else if (YnG.Keys.Down)
-                camera.Y--;
+                camera.Y -= delta;
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.StateManager.SetScreenActive("menu", true);
