@@ -7,7 +7,7 @@ namespace Yna.Framework.Display
     /// A simple camera used on the scene to make different type of effects.
     /// Position, Rotation and Zoom can be applied on the scene.
     /// </summary>
-    public class YnCamera
+    public class YnTransformer
     {
         protected Matrix _view;
         protected int _x;
@@ -56,12 +56,12 @@ namespace Yna.Framework.Display
 
         #endregion
 
-#region Constructors
+        #region Constructors
 
         /// <summary>
         /// Create a camera for the scene
         /// </summary>
-        public YnCamera()
+        public YnTransformer()
         {
             _view = Matrix.Identity;
             _x = 0;
@@ -72,7 +72,7 @@ namespace Yna.Framework.Display
             _centerScreen = new Vector2(YnG.Width / 2, YnG.Height / 2);
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Get the transformed matrix

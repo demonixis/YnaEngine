@@ -26,7 +26,7 @@ namespace Yna.Framework.Display
         protected RasterizerState _rasterizerState;
         protected Effect _effect;
 
-        protected YnCamera _camera;
+        protected YnTransformer _camera;
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace Yna.Framework.Display
             set { _depthStencilState = value; }
         }
 
-        public YnCamera Camera
+        public YnTransformer Camera
         {
             get { return _camera; }
             set { _camera = value; }
@@ -122,7 +122,7 @@ namespace Yna.Framework.Display
             _depthStencilState = DepthStencilState.None;
             _rasterizerState = RasterizerState.CullNone;
             _effect = null;
-            _camera = new YnCamera();
+            _camera = new YnTransformer();
         }
 
         #region Collection methods
