@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Yna.Framework;
 using Yna.Framework.Display;
 using Yna.Framework.Input;
+using Yna.Framework.Script;
 
 namespace Yna.Samples.Screens
 {
@@ -22,7 +23,7 @@ namespace Yna.Samples.Screens
         private YnImage wood2Object;
         private YnImage houseObject;
 
-        private YnPath simplePath;
+        private ScriptAnimator womanAnimator;
 
         private List<YnObject> spriteToCollide;
 
@@ -62,9 +63,6 @@ namespace Yna.Samples.Screens
             spriteToCollide.Add(wood2Object);
             spriteToCollide.Add(houseObject);
 
-            simplePath = new YnPath(womanSprite, true);
-            simplePath.Add(10, 10, 1);
-            simplePath.Add(50, -10, 1);
         }
 
         public override void Initialize()
@@ -92,13 +90,21 @@ namespace Yna.Samples.Screens
             woodObject.Position = new Vector2(50, YnG.Height - (1.5f * (woodObject.Height)));
             wood2Object.Position = new Vector2((YnG.Width - 50) - wood2Object.Width, YnG.Height - (1.5f * (wood2Object.Height)));
             houseObject.Position = new Vector2((YnG.Width / 2) - (houseObject.Width / 2), 10);
+
+            womanAnimator = new ScriptAnimator(womanSprite);
+            womanAnimator.RepeatAnimation = true;
+            womanAnimator.Add(new WaitScript(2000));
+            womanAnimator.Add(new MoveScript(250, 50, 1));
+            womanAnimator.Add(new WaitScript(2000));
+            womanAnimator.Add(new MoveScript(50, 50, 1));
+            womanAnimator.Start();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            simplePath.Update(gameTime);
+            womanAnimator.Update(gameTime);
 
             // Move the sprite of the man
             if (YnG.Keys.Up)
