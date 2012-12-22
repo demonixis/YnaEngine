@@ -45,7 +45,7 @@ namespace Yna.Framework.Display.Gui
         public int Value
         {
             get { return _currentValue; }
-            set { _currentValue = (int) MathHelper.Clamp(value, _minValue, _maxValue); }
+            set { _currentValue = (int)MathHelper.Clamp(value, _minValue, _maxValue); }
         }
 
         public YnProgressBar()
@@ -56,7 +56,7 @@ namespace Yna.Framework.Display.Gui
             _maxValue = 100;
             _currentValue = 0;
             _withBackground = true;
-            _orientation = YnOrientation.Horizontal;    
+            _orientation = YnOrientation.Horizontal;
         }
 
         protected override void DoCustomUpdate(GameTime gameTime)
@@ -69,22 +69,25 @@ namespace Yna.Framework.Display.Gui
             Texture2D fg = _skin.ButtonBackground;
             Rectangle source;
             Rectangle dest;
-            if(_orientation == YnOrientation.Vertical)
+            if (_maxValue != 0)
             {
-                int height = Height * _currentValue  / _maxValue;
+                if (_orientation == YnOrientation.Vertical)
+                {
+                    int height = Height * _currentValue / _maxValue;
 
-                source = new Rectangle(0, 0, fg.Width, fg.Height);
-                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y + Height - height, Width, height);
+                    source = new Rectangle(0, 0, fg.Width, fg.Height);
+                    dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y + Height - height, Width, height);
+                }
+                else
+                {
+                    int width = Width * _currentValue / _maxValue;
+
+                    source = new Rectangle(0, 0, fg.Width, fg.Height);
+                    dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, width, _bounds.Height);
+                }
+                spriteBatch.Draw(fg, dest, source, Color.White);
             }
-            else
-            {
-                int width = Width * _currentValue  / _maxValue;
 
-                source = new Rectangle(0, 0, fg.Width, fg.Height);
-                dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, width, _bounds.Height);
-            } 
-
-            spriteBatch.Draw(fg, dest, source, Color.White);
         }
 
         protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
