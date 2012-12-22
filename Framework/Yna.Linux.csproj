@@ -81,7 +81,6 @@
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
-    <Compile Include="Display\YnCamera.cs" />
     <Compile Include="Display\YnCollide.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnScene.cs" />
@@ -107,10 +106,10 @@
     <Compile Include="State\BaseState.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="Storage\BasicStorageDevice.cs" />
-	<Compile Include="Storage\DummyStorageDevice.cs" />
+    <Compile Include="Storage\DummyStorageDevice.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
-	<Compile Include="Script\MoveScript.cs" />
+    <Compile Include="Script\MoveScript.cs" />
     <Compile Include="Script\BaseScriptNode.cs" />
     <Compile Include="Script\ScriptAnimator.cs" />
     <Compile Include="Script\WaitScript.cs" />
@@ -130,6 +129,8 @@
     <Compile Include="Display\Tilemap\Iso\LayerIso.cs" />
     <Compile Include="Display\Tilemap\Iso\TileIso.cs" />
     <Compile Include="Display\Tilemap\Iso\TileMapIso.cs" />
+    <Compile Include="Helpers\ContentHelper.cs" />
+    <Compile Include="Display\YnTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
