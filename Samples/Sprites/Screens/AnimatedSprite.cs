@@ -97,6 +97,7 @@ namespace Yna.Samples.Screens
             womanAnimator.Add(new MoveScript(250, 50, 1));
             womanAnimator.Add(new WaitScript(2000));
             womanAnimator.Add(new MoveScript(50, 50, 1));
+            womanAnimator.Add(new MoveScript(50, 250, 1));
             womanAnimator.Start();
         }
 

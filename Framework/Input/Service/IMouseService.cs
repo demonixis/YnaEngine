@@ -30,6 +30,12 @@ namespace Yna.Framework.Input.Service
         bool Moving { get; }
 
         /// <summary>
+        /// Get the delta of displacement
+        /// </summary>
+        /// <returns>Delta of displacement</returns>
+        Vector2 Delta { get; }
+
+        /// <summary>
         /// Gets the state of the left button
         /// </summary>
         /// <param name="state">Pressed or released</param>
@@ -63,11 +69,5 @@ namespace Yna.Framework.Input.Service
         /// <param name="state">Pressed or released</param>
         /// <returns>True if the current state is equal to the button state then false</returns>
         bool JustReleased(MouseButton button);
-
-        /// <summary>
-        /// Get the delta of displacement
-        /// </summary>
-        /// <returns>Delta of displacement</returns>
-        Vector2 GetDelta();
     }
 }

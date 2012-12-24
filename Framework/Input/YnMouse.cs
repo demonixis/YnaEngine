@@ -18,27 +18,19 @@ namespace Yna.Framework.Input
     {
         private IMouseService service;
 
-        private Vector2 _delta;
-
         public YnMouse() 
         {
             service = ServiceHelper.Get<IMouseService>();
         }
 
-        /// <summary>
-        /// Get the X coordinate of the mouse on the screen
-        /// </summary>
-        public int X 
-        { 
-            get { return service.X(); } 
+        public int X
+        {
+            get { return service.X; }
         }
 
-        /// <summary>
-        /// Get the Y coordinate of the mouse on the screen
-        /// </summary>
         public int Y
         {
-            get { return service.Y(); }
+            get { return service.Y; }
         }
 
         /// <summary>
@@ -46,20 +38,17 @@ namespace Yna.Framework.Input
         /// </summary>
         public Vector2 Position
         {
-            get { return new Vector2(X, Y); }
+            get { return new Vector2(service.X, service.Y); }
+        }
+
+        public Vector2 LastPosition
+        {
+            get { return new Vector2(LastMouseState.X, LastMouseState.Y); }
         }
 
         public Vector2 Delta
         {
-            get 
-            {
-                _delta = new Vector2(
-                    (X == LastMouseState.X) ? 0 : (LastMouseState.X - X),
-                    (Y == LastMouseState.Y) ? 0 : (LastMouseState.Y - Y));
-
-                return _delta; 
-            }
-            protected set { _delta = value; }
+            get { return service.Delta; }
         }
 
         /// <summary>
@@ -67,7 +56,7 @@ namespace Yna.Framework.Input
         /// </summary>
         public int Wheel
         {
-            get { return service.Wheel(); }
+            get { return service.Wheel; }
         }
 
         /// <summary>
@@ -75,7 +64,7 @@ namespace Yna.Framework.Input
         /// </summary>
         public bool Moving
         {
-            get { return service.Moving(); }
+            get { return service.Moving; }
         }
 
         /// <summary>
@@ -150,7 +139,7 @@ namespace Yna.Framework.Input
 
         public void ResetDelta()
         {
-            Delta = Vector2.Zero;
+            
         }
     }
 }

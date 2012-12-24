@@ -17,8 +17,8 @@ namespace Yna.Framework.State
     {
         #region Private declarations
 
-        private List<BaseState> _screens;
-        private Dictionary<string, int> _namedScreens;
+        private List<BaseState> _states;
+        private Dictionary<string, int> _statesDictionary;
         private List<BaseState> _safeScreens;
         private bool _initialized;
 
@@ -56,17 +56,17 @@ namespace Yna.Framework.State
         {
             get
             {
-                if (index < 0 || index > _screens.Count - 1)
+                if (index < 0 || index > _states.Count - 1)
                     return null;
                 else
-                    return _screens[index];
+                    return _states[index];
             }
             set
             {
-                if (index < 0 || index > _screens.Count - 1)
+                if (index < 0 || index > _states.Count - 1)
                     throw new IndexOutOfRangeException();
                 else
-                    _screens[index] = value;
+                    _states[index] = value;
             }
         }
 
@@ -77,8 +77,8 @@ namespace Yna.Framework.State
         {
             get
             {
-                int firstIndex = GetFirstActiveScreenIndex();
-                return firstIndex > -1 ? _screens[firstIndex] : null;
+                int firstIndex = GetFirstActiveStatesIndex();
+                return firstIndex > -1 ? _states[firstIndex] : null;
             }
         }
 
@@ -89,8 +89,8 @@ namespace Yna.Framework.State
         {
             get
             {
-                int lastIndex = GetLastActiveScreenIndex();
-                return lastIndex > -1 ? _screens[lastIndex] : null;
+                int lastIndex = GetLastActiveStateIndex();
+                return lastIndex > -1 ? _states[lastIndex] : null;
             }
         }
 
@@ -122,9 +122,9 @@ namespace Yna.Framework.State
         {
             _clearColor = Color.Black;
 
-            _screens = new List<BaseState>();
+            _states = new List<BaseState>();
             _safeScreens = new List<BaseState>();
-            _namedScreens = new Dictionary<string, int>();
+            _statesDictionary = new Dictionary<string, int>();
 
             _initialized = false;
         }
@@ -137,7 +137,7 @@ namespace Yna.Framework.State
         {
             if (!_initialized)
             {
-                int nbScreens = _screens.Count;
+                int nbScreens = _states.Count;
                 TimeSpan start = new TimeSpan();
 
                 OnContentLoadStarted(new ContentLoadStartedEventArgs(nbScreens));
@@ -146,13 +146,13 @@ namespace Yna.Framework.State
                 // La texture sera étirée
                 _transitionTexture = YnGraphics.CreateTexture(Color.White, 16, 16);
 
-                foreach (BaseState screen in _screens)
+                foreach (BaseState screen in _states)
                 {
                     screen.LoadContent();
                     screen.Initialize();
                 }
 
-                OnContentLoadDone(new ContentLoadFinishedEventArgs(new TimeSpan() - start, nbScreens));
+                OnContentLoadDone(new ContentLoadFinishedEventArgs((new TimeSpan() - start).Ticks, nbScreens));
 
                 _initialized = true;
             }
@@ -160,9 +160,9 @@ namespace Yna.Framework.State
 
         protected override void UnloadContent()
         {
-            if (_initialized && _screens.Count > 0)
+            if (_initialized && _states.Count > 0)
             {
-                foreach (BaseState screen in _screens)
+                foreach (BaseState screen in _states)
                     screen.UnloadContent();
             }
         }
@@ -171,12 +171,12 @@ namespace Yna.Framework.State
         {
             // We make a copy of all screens to provide any error
             // if a screen is removed during the update opreation
-            int nbScreens = _screens.Count;
+            int nbScreens = _states.Count;
 
             if (nbScreens > 0)
             {
                 _safeScreens.Clear();
-                _safeScreens.AddRange(_screens);
+                _safeScreens.AddRange(_states);
 
                 int nbSafeScreen = _safeScreens.Count;
 
@@ -234,9 +234,9 @@ namespace Yna.Framework.State
         /// <summary>
         /// Get index of actived screens
         /// </summary>
-        public int[] GetActiveScreensIndex()
+        public int[] GetActiveStatesIndex()
         {
-            int size = _screens.Count;
+            int size = _states.Count;
 
             if (size == 0)
             {
@@ -249,7 +249,7 @@ namespace Yna.Framework.State
 
             for (int i = 0; i < size; i++)
             {
-                if (_screens[i].Active)
+                if (_states[i].Active)
                     indexs.Add(i);
             }
 
@@ -260,30 +260,41 @@ namespace Yna.Framework.State
         /// Get the index of the screen
         /// </summary>
         /// <param name="name">State name</param>
-        /// <returns>An index</returns>
-        public int GetScreenIndex(string name)
+        /// <returns>State index</returns>
+        public int GetStateIndex(string name)
         {
-            BaseState state = GetScreenByName(name);
+            BaseState state = GetStateByName(name);
 
             if (state != null)
-                return _screens.IndexOf(state);
+                return _states.IndexOf(state);
 
             return -1;
         }
 
-        public int GetScreenIndex(BaseState state)
+        /// <summary>
+        /// Get the index of the screen
+        /// </summary>
+        /// <param name="name">State</param>
+        /// <returns>State index</returns>
+        public int GetStateIndex(BaseState state)
         {
-            return _screens.IndexOf(state);
+            return _states.IndexOf(state);
         }
 
-        public bool Replace(BaseState oldState, BaseState newState)
+        /// <summary>
+        /// Replace a state by another state
+        /// </summary>
+        /// <param name="oldState">Old state in the collection</param>
+        /// <param name="newState">New state</param>
+        /// <returns>True if for success then false</returns>
+        public bool ReplaceState(BaseState oldState, BaseState newState)
         {
-            int index = _screens.IndexOf(oldState);
+            int index = _states.IndexOf(oldState);
 
             if (index > -1)
             {
                 newState.ScreenManager = this;
-                _screens[index] = newState;
+                _states[index] = newState;
                 return true;
             }
 
@@ -295,46 +306,46 @@ namespace Yna.Framework.State
         /// </summary>
         /// <param name="index">Index of the screen in the collection</param>
         /// <param name="desactiveOtherScreens">Desactive or not others screens</param>
-        public void SetScreenActive(int index, bool desactiveOtherScreens)
+        public void SetStateActive(int index, bool desactiveOtherScreens)
         {
-            int size = _screens.Count;
+            int size = _states.Count;
 
             if (index < 0 || index > size - 1)
                 throw new IndexOutOfRangeException("[ScreenManager] The screen doesn't exist at this index");
 
-            _screens[index].Active = true;
+            _states[index].Active = true;
 
-            if (!_screens[index].Initialized)
-                _screens[index].Initialize();
+            if (!_states[index].Initialized)
+                _states[index].Initialize();
 
             if (desactiveOtherScreens)
             {
                 for (int i = 0; i < size; i++)
                 {
                     if (i != index)
-                        _screens[i].Active = false; // TODO : Replace by hide when it's ok
+                        _states[i].Active = false; // TODO : Replace by hide when it's ok
                 }
             }
         }
 
         public void SetScreenActive(string name, bool desactiveOtherScreens)
         {
-            if (_namedScreens.ContainsKey(name))
+            if (_statesDictionary.ContainsKey(name))
             {
-                BaseState activableScreen = _screens[_namedScreens[name]];
-                activableScreen.Active = true;
+                BaseState activableState = _states[_statesDictionary[name]];
+                activableState.Active = true;
 
-                if (!activableScreen.Initialized)
-                    activableScreen.Initialize();
+                if (!activableState.Initialized)
+                    activableState.Initialize();
 
                 // Rebuild the screen GUI
-                activableScreen.BuildGui();
+                activableState.BuildGui();
 
                 if (desactiveOtherScreens)
                 {
-                    foreach (BaseState screen in _screens)
+                    foreach (BaseState screen in _states)
                     {
-                        if (activableScreen != screen)
+                        if (activableState != screen)
                             screen.Hide();  // TODO : Replace by hide when it's ok
                     }
                 }
@@ -348,26 +359,26 @@ namespace Yna.Framework.State
         /// </summary>
         public void HideAllPopup()
         {
-            foreach (BaseState screen in _screens)
+            foreach (BaseState state in _states)
             {
-                if (screen.IsPopup)
-                    screen.Hide();
+                if (state.IsPopup)
+                    state.Hide();
             }
         }
 
         /// <summary>
-        /// Get desactivated screens
+        /// Get desactivated states
         /// </summary>
         /// <returns></returns>
-        public int[] GetDesactivedScreenIndex()
+        public int[] GetDesactivedStatesIndex()
         {
             List<int> indexs = new List<int>();
 
-            int size = _screens.Count;
+            int size = _states.Count;
 
             for (int i = 0; i < size; i++)
             {
-                if (!_screens[i].Active)
+                if (!_states[i].Active)
                     indexs.Add(i);
             }
 
@@ -378,12 +389,12 @@ namespace Yna.Framework.State
         /// Get index of the first activated screen
         /// </summary>
         /// <returns>Index of the first activated screen, -1 if no screen is actived</returns>
-        public int GetFirstActiveScreenIndex()
+        public int GetFirstActiveStatesIndex()
         {
-            int[] activeIndex = GetActiveScreensIndex();
+            int[] activeIndex = GetActiveStatesIndex();
 
             if (activeIndex.Length > 0)
-                return GetActiveScreensIndex()[0];
+                return GetActiveStatesIndex()[0];
             else
                 return -1;
         }
@@ -392,9 +403,9 @@ namespace Yna.Framework.State
         /// Get index of the last activated screen
         /// </summary>
         /// <returns>Index of the last activated screen, -1 if no screen actived</returns>
-        public int GetLastActiveScreenIndex()
+        public int GetLastActiveStateIndex()
         {
-            int[] activeIndex = GetActiveScreensIndex();
+            int[] activeIndex = GetActiveStatesIndex();
             int size = activeIndex.Length;
 
             if (size > 0 && size < 1)
@@ -405,24 +416,24 @@ namespace Yna.Framework.State
                 return -1;
         }
 
-        public BaseState GetScreenByName(string name)
+        public BaseState GetStateByName(string name)
         {
-            if (_namedScreens.ContainsKey(name))
-                return _screens[_namedScreens[name]];
+            if (_statesDictionary.ContainsKey(name))
+                return _states[_statesDictionary[name]];
 
             return null;
         }
 
-        protected void UpdateScreenNamedScreens()
+        protected void UpdateDictionaryStates()
         {
-            _namedScreens.Clear();
+            _statesDictionary.Clear();
 
-            foreach (BaseState screen in _screens)
+            foreach (BaseState screen in _states)
             {
-                if (_namedScreens.ContainsKey(screen.Name))
+                if (_statesDictionary.ContainsKey(screen.Name))
                     throw new Exception("[ScreenManager] Two screens can't have the same name, it's forbiden and it's bad :(");
 
-                _namedScreens.Add(screen.Name, _screens.IndexOf(screen));
+                _statesDictionary.Add(screen.Name, _states.IndexOf(screen));
             }
         }
 
@@ -462,9 +473,9 @@ namespace Yna.Framework.State
                     screen.Initialize();
             }
 
-            _screens.Add(screen);
+            _states.Add(screen);
 
-            _namedScreens.Add(screen.Name, _screens.IndexOf(screen));
+            _statesDictionary.Add(screen.Name, _states.IndexOf(screen));
         }
 
         /// <summary>
@@ -499,9 +510,9 @@ namespace Yna.Framework.State
         /// <param name="screen">Screen to remove</param>
         public void Remove(BaseState screen)
         {
-            _screens.Remove(screen);
+            _states.Remove(screen);
 
-            _namedScreens.Remove(screen.Name);
+            _statesDictionary.Remove(screen.Name);
 
             if (_initialized)
                 screen.UnloadContent();
@@ -512,19 +523,19 @@ namespace Yna.Framework.State
         /// </summary>
         public void Clear()
         {
-            if (_screens.Count > 0)
+            if (_states.Count > 0)
             {
-                for (int i = 0; i < _screens.Count; i++)
-                    _screens[i].Exit();
+                for (int i = 0; i < _states.Count; i++)
+                    _states[i].Exit();
             }
         }
 
         public void Clear(bool force)
         {
             Clear();
-            _screens.Clear();
+            _states.Clear();
             _safeScreens.Clear();
-            _namedScreens.Clear();
+            _statesDictionary.Clear();
         }
 
         /// <summary>
@@ -534,7 +545,7 @@ namespace Yna.Framework.State
         /// <returns>The screen at the position</returns>
         public BaseState GetScreenAt(int index)
         {
-            return _screens[index];
+            return _states[index];
         }
 
         /// <summary>
@@ -543,12 +554,12 @@ namespace Yna.Framework.State
         /// <returns></returns>
         public BaseState[] GetScreens()
         {
-            return _screens.ToArray();
+            return _states.ToArray();
         }
 
         public IEnumerator GetEnumerator()
         {
-            foreach (BaseState screen in _screens)
+            foreach (BaseState screen in _states)
                 yield return screen;
         }
 

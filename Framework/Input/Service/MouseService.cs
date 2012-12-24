@@ -7,77 +7,96 @@ namespace Yna.Framework.Input.Service
 {
     public class MouseService : GameComponent, IMouseService
     {
-        private MouseState mouseState;
-        private MouseState lastMouseState;
+        private MouseState _mouseState;
+        private MouseState _lastMouseState;
+        private Vector2 _delta;
 
+        #region IMouseService properties
+
+        int IMouseService.X
+        {
+            get { return _mouseState.X; }
+        }
+
+        int IMouseService.Y
+        {
+            get { return _mouseState.Y; }
+        }
+
+        int IMouseService.Wheel
+        {
+            get { return _mouseState.ScrollWheelValue; }
+        }
+
+        bool IMouseService.Moving
+        {
+            get { return (_mouseState.X != _lastMouseState.X) || (_mouseState.Y != _lastMouseState.Y); }
+        }
+
+        Vector2 IMouseService.Delta
+        {
+            get { return _delta; }
+        }
+
+        #endregion
+
+        #region Service properties
+
+        /// <summary>
+        /// Gets the current mouse state
+        /// </summary>
         public MouseState MouseState
         {
-            get { return mouseState; }
+            get { return _mouseState; }
         }
 
+        /// <summary>
+        /// Get the last mouse state
+        /// </summary>
         public MouseState LastMouseState
         {
-            get { return lastMouseState; }
+            get { return _lastMouseState; }
         }
 
-        public Vector2 Delta
-        {
-            get 
-            { 
-                return new Vector2(
-                    mouseState.X - lastMouseState.X, 
-                    mouseState.Y - lastMouseState.Y); 
-            }
-        }
+        #endregion
 
         public MouseService(Game game)
             : base(game)
         {
             ServiceHelper.Add<IMouseService>(this);
-            mouseState = Mouse.GetState();
-            lastMouseState = mouseState;
+            _mouseState = Mouse.GetState();
+            _lastMouseState = _mouseState;
+            _delta = new Vector2();
         }
 
         public override void Update(GameTime gameTime)
         {
-            lastMouseState = mouseState;
-            mouseState = Mouse.GetState();
-            base.Update(gameTime); 
+            // Update states
+            _lastMouseState = _mouseState;
+            _mouseState = Mouse.GetState();
+
+            // Calculate the delta
+            _delta.X = _mouseState.X - _lastMouseState.X;
+            _delta.Y = _mouseState.Y - _lastMouseState.Y;
+
+            base.Update(gameTime);
         }
 
-        bool IMouseService.Moving()
-        {
-            return (mouseState.X != lastMouseState.X) || (mouseState.Y != lastMouseState.Y);
-        }
-
-        int IMouseService.X()
-        {
-            return mouseState.X;
-        }
-
-        int IMouseService.Y()
-        {
-            return mouseState.Y;
-        }
-
-        int IMouseService.Wheel()
-        {
-            return mouseState.ScrollWheelValue;
-        }
+        #region Mouse click
 
         bool IMouseService.ClickLeft(ButtonState state)
         {
-            return mouseState.LeftButton == state;
+            return _mouseState.LeftButton == state;
         }
 
         bool IMouseService.ClickRight(ButtonState state)
         {
-            return mouseState.RightButton == state;
+            return _mouseState.RightButton == state;
         }
 
         bool IMouseService.ClickMiddle(ButtonState state)
         {
-            return mouseState.MiddleButton == state;
+            return _mouseState.MiddleButton == state;
         }
 
         bool IMouseService.JustClicked(MouseButton button)
@@ -85,11 +104,11 @@ namespace Yna.Framework.Input.Service
             bool justClicked = false;
 
             if (button == MouseButton.Left)
-                justClicked = mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released;
+                justClicked = _mouseState.LeftButton == ButtonState.Pressed && _lastMouseState.LeftButton == ButtonState.Released;
             else if (button == MouseButton.Middle)
-                justClicked = mouseState.MiddleButton == ButtonState.Pressed && lastMouseState.MiddleButton == ButtonState.Released;
+                justClicked = _mouseState.MiddleButton == ButtonState.Pressed && _lastMouseState.MiddleButton == ButtonState.Released;
             else if (button == MouseButton.Right)
-                justClicked = mouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released;
+                justClicked = _mouseState.RightButton == ButtonState.Pressed && _lastMouseState.RightButton == ButtonState.Released;
 
             return justClicked;
         }
@@ -99,13 +118,15 @@ namespace Yna.Framework.Input.Service
             bool justReleased = false;
 
             if (button == MouseButton.Left)
-                justReleased = mouseState.LeftButton == ButtonState.Released && lastMouseState.LeftButton == ButtonState.Pressed;
+                justReleased = _mouseState.LeftButton == ButtonState.Released && _lastMouseState.LeftButton == ButtonState.Pressed;
             else if (button == MouseButton.Middle)
-                justReleased = mouseState.MiddleButton == ButtonState.Released && lastMouseState.MiddleButton == ButtonState.Pressed;
+                justReleased = _mouseState.MiddleButton == ButtonState.Released && _lastMouseState.MiddleButton == ButtonState.Pressed;
             else if (button == MouseButton.Right)
-                justReleased = mouseState.RightButton == ButtonState.Released && lastMouseState.RightButton == ButtonState.Pressed;
+                justReleased = _mouseState.RightButton == ButtonState.Released && _lastMouseState.RightButton == ButtonState.Pressed;
 
             return justReleased;
         }
+
+        #endregion
     }
 }

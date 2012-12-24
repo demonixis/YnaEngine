@@ -17,11 +17,6 @@ namespace Yna.Framework.Content
     /// </summary>
     public class YnaContentManager : IContentManager
     {
-        // Define files formats support
-        private const string [] ImageFormats = { "jpg", "bmp", "png" };
-        private const string [] MusicFormats = { "wma", "mp3" };
-        private const string [] SoundFormats = { "wav" };
-
         // Define paths
         private string _rootDirectory;
         private string _gameDirectory;

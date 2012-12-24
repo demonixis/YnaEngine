@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework;
+using Yna.Framework.Input;
 using Yna.Framework.Display;
 using Yna.Framework.Display3D;
 using Yna.Framework.Display3D.Camera;
@@ -83,6 +84,25 @@ namespace Yna.Samples.Screens
             // This method get the current segment height on the terrain and set the Y position of the camera at this value
             // We add 2 units because the camera is a bit higher than the ground
             camera.Y = heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 2;
+
+            // Move the camera with a click
+            if (YnG.Mouse.Click(MouseButton.Left))
+            {
+                Camera.Translate(0.0f, 0.0f, 0.4f);
+            }
+
+            // Rotate the camera with a click
+            if (YnG.Mouse.Click(MouseButton.Right) || YnG.Mouse.Click(MouseButton.Left))
+            {
+                Camera.RotateY(-YnG.Mouse.Delta.X * 0.1f);
+                Camera.SetPitch(YnG.Mouse.Delta.Y * 0.1f);
+            }
+            // Restore default value
+            else if (YnG.Mouse.Click(MouseButton.Middle))
+            {
+                Camera.Yaw = 0.0f;
+                Camera.Pitch = 0.0f;
+            }
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))

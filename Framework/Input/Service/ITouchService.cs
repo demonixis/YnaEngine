@@ -55,7 +55,7 @@ namespace Yna.Framework.Input.Service
         /// </summary>
         /// <param name="id">Finger id</param>
         /// <returns>Value between 0.0f and 1.0f</returns>
-        float Pressure(int id);
+        float GetPressureLevel(int id);
         
         /// <summary>
         /// Get the position of a finger
