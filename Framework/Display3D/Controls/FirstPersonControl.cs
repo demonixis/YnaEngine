@@ -49,9 +49,9 @@ namespace Yna.Framework.Display3D.Controls
 
             // Look Up/Down
             if (YnG.Keys.Pressed(Keys.PageUp))
-                Camera.Pitch(-_pitchSpeed);
+                Camera.SetPitch(-_pitchSpeed);
             else if (YnG.Keys.Pressed(Keys.PageDown))
-                Camera.Pitch(_pitchSpeed);
+                Camera.SetPitch(_pitchSpeed);
 
             // Translation Left/Right
             if (YnG.Keys.Pressed(Keys.Q))
@@ -66,9 +66,9 @@ namespace Yna.Framework.Display3D.Controls
                 Camera.RotateY(-_rotateSpeed);
 
             if (YnG.Keys.Pressed(Keys.W))
-                Camera.Roll(_rotateSpeed);
+                Camera.SetRoll(_rotateSpeed);
             else if (YnG.Keys.Pressed(Keys.X))
-                Camera.Roll(-_rotateSpeed);
+                Camera.SetRoll(-_rotateSpeed);
         }
 
         protected override void UpdateGamepadInput(GameTime gameTime)
@@ -79,7 +79,7 @@ namespace Yna.Framework.Display3D.Controls
             // Translate/Rotate/Picth
             Camera.Translate(-leftStickValue.X * _moveSpeed, 0, leftStickValue.Y * _moveSpeed);
             Camera.RotateY(-rightStickValue.X * _rotateSpeed);
-            Camera.Pitch(-rightStickValue.Y * _pitchSpeed);
+            Camera.SetPitch(-rightStickValue.Y * _pitchSpeed);
 
             // Move Up
             if (YnG.Gamepad.LeftShoulder(_playerIndex))
@@ -91,7 +91,7 @@ namespace Yna.Framework.Display3D.Controls
         protected override void UpdateMouseInput(GameTime gameTime)
         {
             Camera.RotateY(YnG.Mouse.Delta.X * 0.2f);
-            Camera.Pitch(-YnG.Mouse.Delta.Y * 0.2f);
+            Camera.SetPitch(-YnG.Mouse.Delta.Y * 0.2f);
         }
     }
 }

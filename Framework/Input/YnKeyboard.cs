@@ -5,6 +5,9 @@ using Yna.Framework.Input.Service;
 
 namespace Yna.Framework.Input
 {
+    /// <summary>
+    /// The keyboard manager
+    /// </summary>
     public class YnKeyboard
     {
         private IKeyboardService service;

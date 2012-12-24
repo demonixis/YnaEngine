@@ -43,6 +43,10 @@
     <Compile Include="Audio\NAudioAdapter.cs" />
     <Compile Include="Audio\NAudioLoopStream.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
+    <Compile Include="Content\AdvancedContentAdapter.cs" />
+    <Compile Include="Content\ContentManager.cs" />
+    <Compile Include="Content\IContentManager.cs" />
+    <Compile Include="Content\XnaContentAdapter.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
     <Compile Include="Display\YnGraphics.cs" />
     <Compile Include="Display\YnText.cs" />

@@ -99,7 +99,7 @@ namespace Yna.Framework.State
         #region events
 
         public event EventHandler<ContentLoadStartedEventArgs> LoadContentStarted = null;
-        public event EventHandler<ContentLoadDoneEventArgs> LoadContentDone = null;
+        public event EventHandler<ContentLoadFinishedEventArgs> LoadContentDone = null;
 
         protected void OnContentLoadStarted(ContentLoadStartedEventArgs e)
         {
@@ -107,7 +107,7 @@ namespace Yna.Framework.State
                 LoadContentStarted(this, e);
         }
 
-        protected void OnContentLoadDone(ContentLoadDoneEventArgs e)
+        protected void OnContentLoadDone(ContentLoadFinishedEventArgs e)
         {
             if (LoadContentDone != null)
                 LoadContentDone(this, e);
@@ -152,7 +152,7 @@ namespace Yna.Framework.State
                     screen.Initialize();
                 }
 
-                OnContentLoadDone(new ContentLoadDoneEventArgs(new TimeSpan() - start, nbScreens));
+                OnContentLoadDone(new ContentLoadFinishedEventArgs(new TimeSpan() - start, nbScreens));
 
                 _initialized = true;
             }
@@ -517,6 +517,14 @@ namespace Yna.Framework.State
                 for (int i = 0; i < _screens.Count; i++)
                     _screens[i].Exit();
             }
+        }
+
+        public void Clear(bool force)
+        {
+            Clear();
+            _screens.Clear();
+            _safeScreens.Clear();
+            _namedScreens.Clear();
         }
 
         /// <summary>

@@ -104,6 +104,7 @@
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
     <Compile Include="Display\YnGraphics.cs" />
+    <Compile Include="Display\YnTransformer.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
@@ -150,7 +151,6 @@
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
-    <Compile Include="Display\YnCamera.cs" />
     <Compile Include="Display\YnCollide.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnScene.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="Display\YnState.cs" />
     <Compile Include="Storage\WinRTStorageDevice.cs" />
     <Compile Include="Storage\XnaStorageDevice.cs" />
-	<Compile Include="Script\MoveScript.cs" />
+    <Compile Include="Script\MoveScript.cs" />
     <Compile Include="Script\BaseScriptNode.cs" />
     <Compile Include="Script\ScriptAnimator.cs" />
     <Compile Include="Script\WaitScript.cs" />

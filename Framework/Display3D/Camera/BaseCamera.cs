@@ -45,94 +45,161 @@ namespace Yna.Framework.Display3D.Camera
             get { return _lastPosition; }
         }
 
+        /// <summary>
+        /// Get the direction of the camera
+        /// </summary>
         public Vector3 Direction
         {
             get { return _direction; }
             set { _direction = value; }
         }
 
+        /// <summary>
+        /// Get the last direction
+        /// </summary>
         public Vector3 LastDirection
         {
             get { return _lastDirection; }
         }
 
+        /// <summary>
+        /// Define if the camera is dynamic or not, if dynamic it will be updated on each frame
+        /// </summary>
         public bool Dynamic
         {
             get { return _dynamic; }
             set { _dynamic = value; }
         }
 
+        /// <summary>
+        /// Get or set the projection matrix
+        /// </summary>
         public Matrix Projection
         {
             get { return _projection; }
             set { _projection = value; }
         }
 
+        /// <summary>
+        /// Get or set the yaw value that is used to rotate the camera arround Y axis
+        /// </summary>
         public float Yaw
         {
             get { return _yaw; }
             set { _yaw = value; }
         }
 
+        /// <summary>
+        /// Get or set the pitch value that is used to rotate the camera arround X axis
+        /// </summary>
+        public float Pitch
+        {
+            get { return _pitch; }
+            set { _pitch = value; }
+        }
+
+        /// <summary>
+        /// Get or set the roll value that is used to rotate the camera arround Z axis
+        /// </summary>
+        public float Roll
+        {
+            get { return _roll; }
+            set { _roll = value; }
+        }
+
+        /// <summary>
+        /// Get or set the nearest value that the camera can look
+        /// </summary>
         public float Near
         {
             get { return _nearClip; }
             set { _nearClip = value; }
         }
 
+        /// <summary>
+        /// Get or set the value closest to the camera can see
+        /// </summary>
         public float Far
         {
             get { return _farClip; }
             set { _farClip = value; }
         }
 
+        /// <summary>
+        /// Get or set the reference point of the camera
+        /// </summary>
         public Vector3 Reference
         {
             get { return _reference; }
             set { _reference = value; }
         }
 
+        /// <summary>
+        /// Get or set the up vector
+        /// </summary>
         public Vector3 VectorUp
         {
             get { return _vectorUp; }
             set { _vectorUp = value; }
         }
 
+        /// <summary>
+        /// Get or set the target point of the camera
+        /// </summary>
         public Vector3 Target
         {
             get { return _target; }
             set { _target = value; }
         }
 
+        /// <summary>
+        /// Get or set the aspect ratio
+        /// </summary>
         public float AspectRatio
         {
             get { return _aspectRatio; }
             set { _aspectRatio = value; }
         }
 
+        /// <summary>
+        /// Get or set the field of view
+        /// </summary>
         public float FieldOfView
         {
-            get { return MathHelper.PiOver4; }
+            get { return _fieldOfView; }
+            set { _fieldOfView = value; }
         }
 
+        /// <summary>
+        /// Get the boundingSphere of the camera
+        /// </summary>
         public BoundingSphere BoundingSphere
         {
             get { return _boundingSphere; }
             protected set { _boundingSphere = value; }
         }
 
+        /// <summary>
+        /// Get or set the bounding raduis of the camera
+        /// </summary>
         public float BoundingRadius
         {
             get { return _boundingRadius; }
             set { _boundingRadius = value; }
         }
 
+        /// <summary>
+        /// Get the boundingBox of the camera
+        /// </summary>
         public BoundingBox BoundingBox
         {
             get { return _boundingBox; }
             protected set { _boundingBox = value; }
         }
 
+        /// <summary>
+        /// Get the bounding frustrum of the camera
+        /// </summary>
         public BoundingFrustum BoundingFrustrum
         {
             get { return _boundingFrustrum; }
@@ -201,7 +268,7 @@ namespace Yna.Framework.Display3D.Camera
             _farClip = farClip;
 
             _view = Matrix.CreateLookAt(_position, _target, _vectorUp);
-            
+
             _world = Matrix.Identity;
 
             UpdateProjection();
@@ -210,7 +277,10 @@ namespace Yna.Framework.Display3D.Camera
         public void UpdateProjection()
         {
             _projection = Matrix.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, _nearClip, _farClip);
-            _boundingFrustrum = new BoundingFrustum(_view * _projection);
+            
+            Matrix viewProject = View * Projection;
+
+            _boundingFrustrum.Matrix = World * viewProject; 
         }
 
         /// <summary>
@@ -225,13 +295,15 @@ namespace Yna.Framework.Display3D.Camera
                 _yaw = 0.0f;
         }
 
-        public virtual void Pitch(float angle)
+        public virtual void SetPitch(float angle)
         {
             _pitch += MathHelper.ToRadians(angle);
 
+            _pitch = _pitch <= -1.0f ? -1.0f : _pitch;
+            _pitch = _pitch >= 1.0f ? 1.0f : _pitch;
         }
 
-        public virtual void Roll(float angle)
+        public virtual void SetRoll(float angle)
         {
             _roll += MathHelper.ToRadians(angle);
         }
@@ -268,7 +340,7 @@ namespace Yna.Framework.Display3D.Camera
             _boundingBox.Min.Z = Z + _boundingRadius;
 
             // Update Frustrum
-            _boundingFrustrum.Matrix = View * Projection;
+            _boundingFrustrum.Matrix = World * (View * Projection);
         }
 
         public override void Update(GameTime gameTime)

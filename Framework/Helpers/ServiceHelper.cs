@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 namespace Yna.Framework.Helpers
 {
     /// <summary>
-    /// Service helper
+    /// Service helper who is used to add, get and remove services
     /// </summary>
     public static class ServiceHelper
     {

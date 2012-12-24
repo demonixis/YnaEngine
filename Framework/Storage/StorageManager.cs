@@ -19,7 +19,7 @@ namespace Yna.Framework.Storage
         {
 #if XNA
             storageDevice = new XnaStorageDevice();
-#elif MONOGAME && WINDOWS || LINUX || MACOSX
+#elif MONOGAME && WINDOWS || LINUX || MACOSX || XNA
             storageDevice = new BasicStorageDevice();
 #elif NETFX_CORE
             storageDevice = new WinRTStorageDevice();
@@ -35,7 +35,7 @@ namespace Yna.Framework.Storage
         /// <param name="containerName">Folder in the user's storage. If the folder doesn't exist, it's created</param>
         /// <param name="fileName">The file's name</param>
         /// <param name="obj">Serializable object</param>
-        public virtual void SaveData<T>(string containerName, string fileName, T obj)
+        public virtual void SaveDatas<T>(string containerName, string fileName, T obj)
         {
             storageDevice.SaveDatas<T>(containerName, fileName, obj);
         }
@@ -47,7 +47,7 @@ namespace Yna.Framework.Storage
         /// <param name="containerName">Folder in the user's storage.</param>
         /// <param name="fileName">The file's name</param>
         /// <returns>Instance of the object type with previous saved datas</returns>
-        public virtual T LoadData<T>(string containerName, string fileName)
+        public virtual T LoadDatas<T>(string containerName, string fileName)
         {
             return storageDevice.LoadDatas<T>(containerName, fileName);
         }

@@ -7,6 +7,9 @@ using Yna.Framework.Input.Service;
 
 namespace Yna.Framework.Input
 {
+    /// <summary>
+    /// The gamepad manager
+    /// </summary>
     public class YnGamepad
     {
         private IGamepadService service;

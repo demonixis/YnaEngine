@@ -7,6 +7,9 @@ using Yna.Framework.Helpers;
 
 namespace Yna.Framework.Input
 {
+    /// <summary>
+    /// The touch manager
+    /// </summary>
     public class YnTouch
     {
         private ITouchService service;
