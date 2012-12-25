@@ -19,9 +19,9 @@ namespace Yna.Framework.Display.Gui
         protected int _minValue;
         protected int _maxValue;
         protected int _currentValue;
-        private bool _dragging;
-        private YnButton _cursor;
-        private YnLabel _labelValue;
+        protected bool _dragging;
+        protected YnButton _cursor;
+        protected YnLabel _labelValue;
 
         #endregion
 
@@ -33,7 +33,10 @@ namespace Yna.Framework.Display.Gui
         public int MinValue
         {
             get { return _minValue; }
-            set { _minValue = value; }
+            set { 
+                _minValue = value;
+                UpdateCursor();
+            }
         }
         
         /// <summary>
@@ -42,7 +45,11 @@ namespace Yna.Framework.Display.Gui
         public int MaxValue
         {
             get { return _maxValue; }
-            set { _maxValue = value; }
+            set {
+                _maxValue = value;
+                UpdateCursor();
+            
+            }
         }
         
         /// <summary>
@@ -51,7 +58,19 @@ namespace Yna.Framework.Display.Gui
         public int Value
         {
             get { return _currentValue; }
-            set { _currentValue = (int)MathHelper.Clamp(value, _minValue, _maxValue); }
+            set { 
+                _currentValue = (int)MathHelper.Clamp(value, _minValue, _maxValue);
+                UpdateCursor();
+            }
+        }
+
+        /// <summary>
+        /// Show or hide the slider value
+        /// </summary>
+        public bool ShowValue 
+        {
+            get { return _labelValue.IsVisible; }
+            set { _labelValue.IsVisible = value; }
         }
 
 #endregion
@@ -100,12 +119,22 @@ namespace Yna.Framework.Display.Gui
             }
         }
 
+        /// <summary>
+        /// Update the cursor position according to the slider value
+        /// </summary>
+        private void UpdateCursor()
+        {
+            _cursor.Position = new Vector2((float)_currentValue * Width / _maxValue, _cursor.Position.Y);
+        }
+
         public override void Layout()
         {
             base.Layout();
             _cursor.Width = Height;
             _cursor.Height = Height;
             _cursor.Position = new Vector2(-_cursor.Width / 2, 0);
+
+            UpdateCursor();
         }
 
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
