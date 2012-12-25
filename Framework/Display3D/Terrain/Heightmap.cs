@@ -82,8 +82,8 @@ namespace Yna.Framework.Display3D.Terrain
                         (_position.Z + z) * _segmentSizes.Z);
 
                     _vertices[x + z * Width].TextureCoordinate = new Vector2(
-                        (float)x / (float)Width, 
-                        (float)z / (float)Depth);
+                        (float)x / (float)Width * _textureRepeat.X,
+                        (float)z / (float)Depth * _textureRepeat.Y);
 
                     _vertices[x + z * Width].Normal = Vector3.Zero;
                 }
