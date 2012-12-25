@@ -11,6 +11,12 @@ rm -Rf *.cachefile
 rm -Rf Common/bin
 rm -Rf Common/obj
 
+rm -Rf Gui/bin
+rm -Rf Gui/obj
+
+rm -Rf Models3D/bin
+rm -Rf Models3D/obj
+
 rm -Rf SamplesContent/bin
 rm -Rf SamplesContent/obj
 

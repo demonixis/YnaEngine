@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F77F7C22-E38E-4D1F-8967-345BE83FB8D2}</ProjectGuid>
+    <ProjectGuid>{EB068317-21C8-44D3-9F77-32AE7D47DB2C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yna.Framework.Samples</RootNamespace>
-    <AssemblyName>Sprites sample</AssemblyName>
+    <RootNamespace>Yna.Samples</RootNamespace>
+    <AssemblyName>Models 3D Sample</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -34,26 +34,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Yna.Samples.SpritesGame</StartupObject>
+    <StartupObject>Yna.Samples.Models3DGame</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Game.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.WindowsGL.csproj">
-      <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
-      <Name>Yna.WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{17c7c5b6-0d21-4f23-aa17-e62f357f7d6d}</Project>
-      <Name>Common.WindowsGL</Name>
-    </ProjectReference>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models3DGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\AnimatedSprite.cs" />
-    <Compile Include="Screens\BasicSprite.cs" />
-    <Compile Include="SpritesGame.cs" />
+    <Compile Include="Screens\DungeonState.cs" />
+    <Compile Include="Screens\PickingObjectsSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Windows">
@@ -66,6 +59,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Game.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Yna.WindowsGL.csproj">
+      <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
+      <Name>Yna.WindowsGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
+      <Project>{17c7c5b6-0d21-4f23-aa17-e62f357f7d6d}</Project>
+      <Name>Common.WindowsGL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

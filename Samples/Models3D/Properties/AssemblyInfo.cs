@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de 
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("Sprite sample")]
-[assembly: AssemblyDescription("Sprite sample")]
+[assembly: AssemblyTitle("Models 3D Sample")]
+[assembly: AssemblyDescription("Models 3D Sample")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yna Game Framework")]
-[assembly: AssemblyProduct("Yna Game Framework Sprite Sample")]
+[assembly: AssemblyProduct("Yna Game Framework Models 3D Sample")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("Yna Game Framework")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Le GUID suivant est pour l'ID de la typelib si ce projet est exposé à COM
-[assembly: Guid("962abf06-0a71-4724-bc36-727b781c4e69")]
+[assembly: Guid("bc1e89f0-9a62-4bba-84b4-45b0edffa9ef")]
 
 // Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //

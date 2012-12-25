@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F77F7C22-E38E-4D1F-8967-345BE83FB8D2}</ProjectGuid>
+    <ProjectGuid>{34B95895-01B8-4BDF-9C7F-B1BE1B12552C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yna.Framework.Samples</RootNamespace>
-    <AssemblyName>Sprites sample</AssemblyName>
+    <RootNamespace>Yna.Samples</RootNamespace>
+    <AssemblyName>Gui Sample</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
-    <MonoGamePlatform>Windows</MonoGamePlatform>
+	<MonoGamePlatform>Windows</MonoGamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -34,32 +34,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Yna.Samples.SpritesGame</StartupObject>
+    <StartupObject>Yna.Samples.GuiGame</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Game.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.WindowsGL.csproj">
-      <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
-      <Name>Yna.WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{17c7c5b6-0d21-4f23-aa17-e62f357f7d6d}</Project>
-      <Name>Common.WindowsGL</Name>
-    </ProjectReference>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GuiGame.cs" />
+    <Compile Include="GuiState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\AnimatedSprite.cs" />
-    <Compile Include="Screens\BasicSprite.cs" />
-    <Compile Include="SpritesGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Windows">
       <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Yna.WindowsGL.csproj">
+      <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
+      <Name>Yna.WindowsGL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\**\*.*">
