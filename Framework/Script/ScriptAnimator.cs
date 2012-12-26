@@ -21,7 +21,7 @@ namespace Yna.Framework.Script
 
         private List<BaseScriptNode> _scriptNodes;
         protected bool _repeatAnimation;
-        protected YnObject _target;
+        protected YnEntity _target;
         protected int _nodeIndex;
         protected bool _started;
         protected bool _running;
@@ -71,7 +71,7 @@ namespace Yna.Framework.Script
         /// Create an script animator for the given YnObject
         /// </summary>
         /// <param name="target"></param>
-        public ScriptAnimator(YnObject target)
+        public ScriptAnimator(YnEntity target)
         {
             _target = target;
             _scriptNodes = new List<BaseScriptNode>();

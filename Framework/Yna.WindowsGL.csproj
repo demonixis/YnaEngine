@@ -40,8 +40,6 @@
   <ItemGroup>
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
-    <Compile Include="Audio\NAudioAdapter.cs" />
-    <Compile Include="Audio\NAudioLoopStream.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Content\YnaContentManager.cs" />
     <Compile Include="Content\IContentManager.cs" />
@@ -49,7 +47,7 @@
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
     <Compile Include="Display\YnGraphics.cs" />
     <Compile Include="Display\YnText.cs" />
-    <Compile Include="Display\StateCamera.cs" />
+    <Compile Include="Display\YnSpriteBatchCamera.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
@@ -72,7 +70,6 @@
     <Compile Include="Display3D\Terrain\BaseTerrain.cs" />
     <Compile Include="Display3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Display3D\Terrain\SimpleTerrain.cs" />
-    <Compile Include="Display3D\YnBase3D.cs" />
     <Compile Include="Display3D\YnScene.cs" />
     <Compile Include="Display3D\YnState3D.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
@@ -97,7 +94,6 @@
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCollide.cs" />
-    <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TileMap\BaseLayer.cs" />
@@ -141,29 +137,16 @@
     <Compile Include="Script\WaitScript.cs" />
     <Compile Include="Display\YnState.cs" />
     <Compile Include="YnBase.cs" />
+    <Compile Include="Display3D\YnBase3D.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
-    <Compile Include="Display\YnObject.cs" />
+    <Compile Include="Display\YnEntity.cs" />
     <Compile Include="YnTimer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="WMPLib">
-      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Windows">
       <HintPath>..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\ThirdParty\NAudio\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />

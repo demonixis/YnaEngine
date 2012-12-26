@@ -4,16 +4,26 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Framework.Display3D.Camera
 {
+    /// <summary>
+    /// Define a basic camera used to view a 3D scene
+    /// </summary>
     public abstract class BaseCamera : YnBase3D
     {
-        // Direction
+        #region Protected declarations
+
+        // Position 
         protected Vector3 _lastPosition;
+
+        // Direction
         protected Vector3 _direction;
         protected Vector3 _lastDirection;
         private bool _dynamic;
 
+        // Matrix
         protected Matrix _projection;
+        protected Matrix _view;
 
+        // Bounding volume
         protected BoundingSphere _boundingSphere;
         protected float _boundingRadius;
         protected BoundingBox _boundingBox;
@@ -35,7 +45,9 @@ namespace Yna.Framework.Display3D.Camera
         protected Vector3 _target;
         protected Vector3 _vectorUp;
 
-        #region Properties
+        #endregion
+
+        #region Porperties for position and direction
 
         /// <summary>
         /// Get the last position
@@ -63,25 +75,38 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Define if the camera is dynamic or not, if dynamic it will be updated on each frame
+        /// Gets or sets the position on X axis
         /// </summary>
-        public bool Dynamic
+        public float X
         {
-            get { return _dynamic; }
-            set { _dynamic = value; }
+            get { return _position.X; }
+            set { _position.X = value; }
         }
 
         /// <summary>
-        /// Get or set the projection matrix
+        /// Gets or sets the position on Y axis
         /// </summary>
-        public Matrix Projection
+        public float Y
         {
-            get { return _projection; }
-            set { _projection = value; }
+            get { return _position.Y; }
+            set { _position.Y = value; }
         }
 
         /// <summary>
-        /// Get or set the yaw value that is used to rotate the camera arround Y axis
+        /// Gets or sets the position on Z axis
+        /// </summary>
+        public float Z
+        {
+            get { return _position.Z; }
+            set { _position.Z = value; }
+        }
+
+        #endregion
+
+        #region Properties for rotations
+
+        /// <summary>
+        /// Gets or sets the yaw value that is used to rotate the camera arround Y axis
         /// </summary>
         public float Yaw
         {
@@ -90,7 +115,7 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Get or set the pitch value that is used to rotate the camera arround X axis
+        /// Gets or sets the pitch value that is used to rotate the camera arround X axis
         /// </summary>
         public float Pitch
         {
@@ -99,7 +124,7 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Get or set the roll value that is used to rotate the camera arround Z axis
+        /// Gets or sets the roll value that is used to rotate the camera arround Z axis
         /// </summary>
         public float Roll
         {
@@ -107,8 +132,59 @@ namespace Yna.Framework.Display3D.Camera
             set { _roll = value; }
         }
 
+        #endregion
+
+        #region Properties for Matrix
+
         /// <summary>
-        /// Get or set the nearest value that the camera can look
+        /// Gets or sets the projection matrix
+        /// </summary>
+        public Matrix Projection
+        {
+            get { return _projection; }
+            set { _projection = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the view matrix
+        /// </summary>
+        public Matrix View
+        {
+            get { return _view; }
+            set { _view = value; }
+        }
+
+        /// <summary>
+        /// Gets the view project matrix
+        /// </summary>
+        public Matrix MatrixViewProjection
+        {
+            get { return _view * _projection; }
+        }
+
+        /// <summary>
+        /// Gets the world view projection matrix
+        /// </summary>
+        public Matrix MatrixWorldViewProject
+        {
+            get { return _world * (_view * _projection); }
+        }
+
+        /// <summary>
+        /// Define if the camera is dynamic or not, if dynamic it will be updated on each frame
+        /// </summary>
+        public bool Dynamic
+        {
+            get { return _dynamic; }
+            set { _dynamic = value; }
+        }
+
+        #endregion
+
+        #region Properties for view and target
+
+        /// <summary>
+        /// Gets or sets the nearest value that the camera can look
         /// </summary>
         public float Near
         {
@@ -117,7 +193,7 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Get or set the value closest to the camera can see
+        /// Gets or sets the value closest to the camera can see
         /// </summary>
         public float Far
         {
@@ -126,7 +202,7 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Get or set the reference point of the camera
+        /// Gets or sets the reference point of the camera
         /// </summary>
         public Vector3 Reference
         {
@@ -135,7 +211,7 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Get or set the up vector
+        /// Gets or sets the up vector
         /// </summary>
         public Vector3 VectorUp
         {
@@ -144,7 +220,7 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Get or set the target point of the camera
+        /// Gets or sets the target point of the camera
         /// </summary>
         public Vector3 Target
         {
@@ -153,7 +229,7 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Get or set the aspect ratio
+        /// Gets or sets the aspect ratio
         /// </summary>
         public float AspectRatio
         {
@@ -162,7 +238,7 @@ namespace Yna.Framework.Display3D.Camera
         }
 
         /// <summary>
-        /// Get or set the field of view
+        /// Gets or sets the field of view
         /// </summary>
         public float FieldOfView
         {
@@ -170,17 +246,21 @@ namespace Yna.Framework.Display3D.Camera
             set { _fieldOfView = value; }
         }
 
+        #endregion
+
+        #region Properties bounding volume
+
         /// <summary>
         /// Get the boundingSphere of the camera
         /// </summary>
         public BoundingSphere BoundingSphere
         {
             get { return _boundingSphere; }
-            protected set { _boundingSphere = value; }
+            set { _boundingSphere = value; }
         }
 
         /// <summary>
-        /// Get or set the bounding raduis of the camera
+        /// Gets or sets the bounding raduis of the camera
         /// </summary>
         public float BoundingRadius
         {
@@ -194,7 +274,7 @@ namespace Yna.Framework.Display3D.Camera
         public BoundingBox BoundingBox
         {
             get { return _boundingBox; }
-            protected set { _boundingBox = value; }
+            set { _boundingBox = value; }
         }
 
         /// <summary>
@@ -203,28 +283,36 @@ namespace Yna.Framework.Display3D.Camera
         public BoundingFrustum BoundingFrustrum
         {
             get { return _boundingFrustrum; }
-            protected set { _boundingFrustrum = value; }
+            set { _boundingFrustrum = value; }
         }
 
         #endregion
 
         public BaseCamera()
         {
+            // Position & direction
+            _position = Vector3.Zero;
+            _lastPosition = _position;
+            _direction = Vector3.Zero;
+            _lastDirection = Vector3.Zero;
+
+            // Rotations
+            _yaw = 0.0f;
+            _pitch = 0.0f;
+            _roll = 0.0f;
+
+            // References
+            _target = Vector3.Zero;
+            _reference = Vector3.Zero;
+            _vectorUp = Vector3.Up;
+
+            // Screen view
             _aspectRatio = (float)((float)YnG.Width / (float)YnG.Height);
             _fieldOfView = MathHelper.PiOver4;
             _nearClip = 1.0f;
             _farClip = 3500.0f;
 
-            _yaw = 0.0f;
-            _pitch = 0.0f;
-            _roll = 0.0f;
-
-            _position = Vector3.Zero;
-            _lastDirection = Vector3.Zero;
-            _target = Vector3.Zero;
-            _reference = Vector3.Zero;
-            _vectorUp = Vector3.Up;
-
+            // Bounding volumes
             _boundingRadius = 5;
             _boundingSphere = new BoundingSphere(Vector3.Zero, _boundingRadius);
 
@@ -234,9 +322,10 @@ namespace Yna.Framework.Display3D.Camera
 
             _boundingFrustrum = new BoundingFrustum(Matrix.Identity);
 
-            _lastPosition = _position;
-            _direction = Vector3.Zero;
-            _lastDirection = Vector3.Zero;
+            // Basic matrix init
+            _projection = Matrix.Identity;
+            _view = Matrix.Identity;
+            _world = Matrix.Identity;
         }
 
         /// <summary>
@@ -274,13 +363,11 @@ namespace Yna.Framework.Display3D.Camera
             UpdateProjection();
         }
 
-        public void UpdateProjection()
+        public virtual void UpdateProjection()
         {
             _projection = Matrix.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, _nearClip, _farClip);
-            
-            Matrix viewProject = View * Projection;
 
-            _boundingFrustrum.Matrix = World * viewProject; 
+            _boundingFrustrum.Matrix = MatrixViewProjection; 
         }
 
         /// <summary>
@@ -340,15 +427,16 @@ namespace Yna.Framework.Display3D.Camera
             _boundingBox.Min.Z = Z + _boundingRadius;
 
             // Update Frustrum
-            _boundingFrustrum.Matrix = World * (View * Projection);
+            _boundingFrustrum.Matrix = MatrixWorldViewProject;
         }
 
         public override void Update(GameTime gameTime)
         {
             UpdateBoundingVolumes();
 
+            // Update direction and last position
             _lastDirection = (_position - _lastPosition);
-            _lastDirection.Normalize();
+           // _lastDirection.Normalize();
 
             _lastPosition = _position;
         }

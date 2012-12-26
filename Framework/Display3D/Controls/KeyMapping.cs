@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Yna.Framework.Display3D.Controls
 {
-
     public class KeysMapping
     {
         private Dictionary<string, Keys> _keysMap;

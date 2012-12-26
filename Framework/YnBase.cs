@@ -12,9 +12,8 @@ namespace Yna.Framework
 
         private static uint counterId = 0x0001;
 
-        private uint _id;
-        private string _name;
-        protected bool _dirty;
+        protected uint _id;
+        protected string _name;
         protected bool _enabled;
 
         #endregion
@@ -44,12 +43,8 @@ namespace Yna.Framework
         /// </summary>
         public bool Active
         {
-            get { return _enabled && !_dirty; }
-            set
-            {
-                _enabled = value;
-                _dirty = !value;
-            }
+            get { return _enabled; }
+            set { _enabled = value; }
         }
 
         /// <summary>
@@ -61,27 +56,13 @@ namespace Yna.Framework
             set { _enabled = value; }
         }
 
-        /// <summary>
-        /// Flags who determine if this object must be cleaned and removed
-        /// </summary>
-        public bool Dirty
-        {
-            get { return _dirty; }
-            set
-            {
-                _dirty = value;
-                _enabled = !value;
-            }
-        }
-
         #endregion
 
         public YnBase()
         {
             _id = counterId++;
-            _name = Id.ToString();
+            _name = String.Format("YnBase_{0}", Id.ToString());
             _enabled = true;
-            _dirty = false;
         }
 
         /// <summary>

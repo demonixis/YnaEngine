@@ -11,8 +11,8 @@ namespace Yna.Framework.Display
     {
         #region Private declarations
 
-        protected List<YnObject> _members;
-        private List<YnObject> _safeMembers;
+        protected List<YnEntity> _members;
+        private List<YnEntity> _safeMembers;
         protected YnGui _gui;
 
         protected bool _assetsLoaded;
@@ -35,7 +35,7 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Get members attached to the scene
         /// </summary>
-        public List<YnObject> Members
+        public List<YnEntity> Members
         {
             get { return _members; }
         }
@@ -109,8 +109,8 @@ namespace Yna.Framework.Display
 
         private void InitializeDefaultState()
         {
-            _members = new List<YnObject>();
-            _safeMembers = new List<YnObject>();
+            _members = new List<YnEntity>();
+            _safeMembers = new List<YnEntity>();
 
             _assetsLoaded = false;
             _initialized = false;
@@ -131,7 +131,7 @@ namespace Yna.Framework.Display
         /// Add object on the scene
         /// </summary>
         /// <param name="sceneObject"></param>
-        public void Add(YnObject sceneObject)
+        public void Add(YnEntity sceneObject)
         {
             sceneObject.LoadContent();
             sceneObject.Initialize();
@@ -142,9 +142,9 @@ namespace Yna.Framework.Display
         /// Add objects on the scene
         /// </summary>
         /// <param name="sceneObjects"></param>
-        public void Add(YnObject[] sceneObjects)
+        public void Add(YnEntity[] sceneObjects)
         {
-            foreach (YnObject sceneObject in sceneObjects)
+            foreach (YnEntity sceneObject in sceneObjects)
             {
                 sceneObject.LoadContent();
                 sceneObject.Initialize();
@@ -156,7 +156,7 @@ namespace Yna.Framework.Display
         /// Remove an object from the scene
         /// </summary>
         /// <param name="sceneObject"></param>
-        public void Remove(YnObject sceneObject)
+        public void Remove(YnEntity sceneObject)
         {
             sceneObject.UnloadContent();
             _members.Remove(sceneObject);
@@ -181,7 +181,7 @@ namespace Yna.Framework.Display
 
             if (!_initialized && _members.Count > 0)
             {
-                foreach (YnObject sceneObject in _members)
+                foreach (YnEntity sceneObject in _members)
                     sceneObject.Initialize();
 
                 _initialized = true;
@@ -194,7 +194,7 @@ namespace Yna.Framework.Display
 
             if (!_assetsLoaded && _members.Count > 0)
             {
-                foreach (YnObject sceneObject in _members)
+                foreach (YnEntity sceneObject in _members)
                     sceneObject.LoadContent();
 
                 _assetsLoaded = true;
@@ -207,7 +207,7 @@ namespace Yna.Framework.Display
 
             if (_members.Count > 0)
             {
-                foreach (YnObject sceneObject in _members)
+                foreach (YnEntity sceneObject in _members)
                     sceneObject.UnloadContent();
             }
 
@@ -256,9 +256,9 @@ namespace Yna.Framework.Display
         }
 
         // TODO : better algo
-        public YnObject GetChildByName(string name)
+        public YnEntity GetChildByName(string name)
         {
-            YnObject result = null;
+            YnEntity result = null;
             int i = 0;
             while(i < _members.Count && result == null)
             {

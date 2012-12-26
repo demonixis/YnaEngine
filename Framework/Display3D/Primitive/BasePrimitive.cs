@@ -174,7 +174,7 @@ namespace Yna.Framework.Display3D.Primitive
             _basicEffect.Alpha = _light.Alpha;
         }
 
-        public override void UpdateMatrix()
+        public override void UpdateMatrices()
         {
             World = Matrix.CreateScale(Scale) *
                 Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
@@ -196,7 +196,7 @@ namespace Yna.Framework.Display3D.Primitive
 
         public override void Draw(GraphicsDevice device)
         {
-            UpdateMatrix();
+            UpdateMatrices();
 
             if (_dynamic)
                 UpdateBoundingVolumes();

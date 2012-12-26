@@ -11,26 +11,8 @@ namespace Yna.Framework.Display
     /// <summary>
     /// The scene of a state
     /// </summary>
-    public class YnScene : YnBase
+    public class YnScene
     {
-        // Basic object (juste an Update() method)
-        private List<YnBase> _safeBaseObjects;
-        private List<YnBase> _baseObjectsToRemove;
 
-        // Graphic objects (Update() and Draw() methods)
-        private YnGroup _sceneObjects;
-
-        // Screen gui
-        private YnGui _gui;
-
-        public override void Update(GameTime gameTime)
-        {
-        
-        }
-
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            
-        }
     }
 }

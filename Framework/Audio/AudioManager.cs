@@ -20,10 +20,6 @@ namespace Yna.Framework.Audio
         private float _soundVolume;
         private bool _musicEnabled;
 
-#if MONOGAME && WINDOWS
-        private WMPLib.WindowsMediaPlayer _windowMediaPlayer;
-#endif
-
         #endregion
 
         #region Properties
@@ -74,10 +70,6 @@ namespace Yna.Framework.Audio
             SoundEnabled = true;
             SoundVolume = 0.4f;
             MusicVolume = 0.6f;
-
-#if MONOGAME && WINDOWS
-            _windowMediaPlayer = new WMPLib.WindowsMediaPlayer();
-#endif
         }
 
         #endregion
@@ -175,13 +167,6 @@ namespace Yna.Framework.Audio
         {
             if (MediaPlayer.State == MediaState.Playing)
                 MediaPlayer.Stop();
-
-#if MONOGAME && WINDOWS
-            if (_windowMediaPlayer.playState != WMPLib.WMPPlayState.wmppsStopped)
-                _windowMediaPlayer.controls.stop();
-
-            _windowMediaPlayer = null;
-#endif
         }
     }
 }

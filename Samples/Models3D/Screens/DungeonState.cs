@@ -13,7 +13,7 @@ namespace Yna.Samples
 {
     public class DungeonState : YnState3D
     {
-        YnImage sky;
+        YnEntity sky;
         SimpleTerrain terrain;
         YnModel dungeon;
         FirstPersonControl control;
@@ -49,7 +49,7 @@ namespace Yna.Samples
             Add(dungeon);
 
             // Sky & debug text ;)
-            sky = new YnImage("Backgrounds/sky");
+            sky = new YnEntity("Backgrounds/sky");
         }
 
         public override void LoadContent()

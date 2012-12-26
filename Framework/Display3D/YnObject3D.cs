@@ -17,6 +17,8 @@ namespace Yna.Framework.Display3D
         protected BasicLight _light;
 
         // Direction
+        protected Vector3 _rotation;
+        protected Vector3 _scale;
         protected Vector3 _lastPosition;
         protected Vector3 _direction;
         protected Vector3 _lastDirection;
@@ -28,6 +30,7 @@ namespace Yna.Framework.Display3D
 
         // Visibility
         protected bool _visible;
+        protected bool _dirty;
 
         // Static or dynamic object
         protected bool _dynamic;
@@ -43,12 +46,15 @@ namespace Yna.Framework.Display3D
         // Initialization
         protected bool _initialized;
 
+        // View matrix
+        protected Matrix _view;
+
         #endregion
 
-        #region Properties
+        #region Global properties
 
         /// <summary>
-        /// Get or Set the status of the object
+        /// Gets or sets the status of the object
         /// If true the object is not paused and is visible
         /// Else it's paused and not visible
         /// </summary>
@@ -64,7 +70,7 @@ namespace Yna.Framework.Display3D
         }
 
         /// <summary>
-        /// Get or Set the visibility status of the object
+        /// Gets or sets the visibility status of the object
         /// </summary>
         public bool Visible
         {
@@ -73,13 +79,94 @@ namespace Yna.Framework.Display3D
         }
 
         /// <summary>
-        /// Get or Set the value of dynamic, if true the bouding values will be updated on each update
+        /// Gets or sets the value of dynamic, if true the bouding values will be updated on each update
         /// </summary>
         public bool Dynamic
         {
             get { return _dynamic; }
             set { _dynamic = value; }
         }
+
+        /// <summary>
+        /// Get the parent object of the scene
+        /// </summary>
+        public YnObject3D Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
+
+        #endregion
+
+        #region Properties for position, direction, rotation
+
+        /// <summary>
+        /// Get the last position
+        /// </summary>
+        public Vector3 LastPosition
+        {
+            get { return _lastPosition; }
+        }
+
+        public Vector3 Direction
+        {
+            get { return _direction; }
+            set { _direction = value; }
+        }
+
+        public Vector3 LastDirection
+        {
+            get { return _lastDirection; }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation value
+        /// </summary>
+        public Vector3 Rotation
+        {
+            get { return _rotation; }
+            set { _rotation = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the scale value
+        /// </summary>
+        public Vector3 Scale
+        {
+            get { return _scale; }
+            set { _scale = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation value on X axis
+        /// </summary>
+        public float RotationX
+        {
+            get { return _rotation.X; }
+            set { _rotation.X = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation value on Y axis
+        /// </summary>
+        public float RotationY
+        {
+            get { return _rotation.Y; }
+            set { _rotation.Y = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation value on Z axis
+        /// </summary>
+        public float RotationZ
+        {
+            get { return _rotation.Z; }
+            set { _rotation.Z = value; }
+        }
+
+        #endregion
+
+        #region Properties for size
 
         /// <summary>
         /// Get the width of the model
@@ -105,8 +192,12 @@ namespace Yna.Framework.Display3D
             get { return _depth; }
         }
 
+        #endregion
+
+        #region Properties for camera and light
+
         /// <summary>
-        /// Get or Set the camera used for this model
+        /// Gets or sets the camera used for this model
         /// </summary>
         public BaseCamera Camera
         {
@@ -115,7 +206,7 @@ namespace Yna.Framework.Display3D
         }
 
         /// <summary>
-        /// Get or Set the light for this model
+        /// Gets or sets the light for this model
         /// </summary>
         public BasicLight Light
         {
@@ -124,13 +215,17 @@ namespace Yna.Framework.Display3D
         }
 
         /// <summary>
-        /// Get the parent object of the scene
+        /// Shader effect
         /// </summary>
-        public YnObject3D Parent
+        public BasicEffect BasicEffect
         {
-            get { return _parent; }
-            set { _parent = value; }
+            get { return _basicEffect; }
+            set { _basicEffect = value; }
         }
+
+        #endregion
+
+        #region Bounding volumes
 
         /// <summary>
         /// Get the bounding box of the object
@@ -148,32 +243,17 @@ namespace Yna.Framework.Display3D
             get { return _boundingSphere; }
         }
 
-        /// <summary>
-        /// Shader effect
-        /// </summary>
-        public BasicEffect BasicEffect
-        {
-            get { return _basicEffect; }
-            set { _basicEffect = value; }
-        }
+        #endregion
+
+        #region Properties for matrices
 
         /// <summary>
-        /// Get the last position
+        /// Gets or sets the view matrix
         /// </summary>
-        public Vector3 LastPosition
+        public Matrix View
         {
-            get { return _lastPosition; }
-        }
-
-        public Vector3 Direction
-        {
-            get { return _direction; }
-            set { _direction = value; }
-        }
-
-        public Vector3 LastDirection
-        {
-            get { return _lastDirection; }
+            get { return _view; }
+            set { _view = value; }
         }
 
         #endregion
@@ -185,6 +265,8 @@ namespace Yna.Framework.Display3D
         {
             _position = position;
             _lastPosition = position;
+            _rotation = Vector3.Zero;
+            _scale = Vector3.One;
 
             _width = 0;
             _height = 0;
@@ -194,6 +276,7 @@ namespace Yna.Framework.Display3D
             _lastDirection = Vector3.Zero;
 
             _visible = true;
+            _dirty = false;
             _initialized = false;
             _dynamic = false;
 
@@ -214,7 +297,7 @@ namespace Yna.Framework.Display3D
         /// <summary>
         /// Rotate arround Y axis
         /// </summary>
-        /// <param name="angle">Angle in degress</param>
+        /// <param name="angle">An angle in degrees</param>
         public virtual void RotateY(float angle)
         {
             _rotation.Y += MathHelper.ToRadians(angle);
@@ -232,17 +315,42 @@ namespace Yna.Framework.Display3D
         public virtual void Translate(float x, float y, float z)
         {
             Vector3 move = new Vector3(x, y, z);
+
             Matrix forwardMovement = Matrix.CreateRotationY(_rotation.Y);
+
             Vector3 v = Vector3.Transform(move, forwardMovement);
+
             _position.X += v.X;
             _position.Y += v.Y;
             _position.Z += v.Z;
         }
 
+        /// <summary>
+        /// Translate the object on X axis
+        /// </summary>
+        /// <param name="x">X value</param>
+        public virtual void TranslateX(float x)
+        {
+            Translate(x, 0.0f, 0.0f);
+        }
+
+        /// <summary>
+        /// Translate the object on Y axis
+        /// </summary>
+        /// <param name="y"></param>
+        public virtual void TranslateY(float y)
+        {
+            Translate(0.0f, y, 0.0f);
+        }
+
+        public virtual void TranslateZ(float z)
+        {
+            Translate(0.0f, 0.0f, z);
+        }
+
         #endregion
 
-
-        public abstract void UpdateMatrix();
+        public abstract void UpdateMatrices();
 
         public abstract void UpdateBoundingVolumes();
 
@@ -276,6 +384,7 @@ namespace Yna.Framework.Display3D
 
                 _lastPosition = _position;
             }
+
         }
 
         /// <summary>

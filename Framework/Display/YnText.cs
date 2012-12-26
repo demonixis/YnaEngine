@@ -8,7 +8,7 @@ namespace Yna.Framework.Display
     /// <summary>
     /// Simple text component
     /// </summary>
-    public class YnText : YnObject
+    public class YnText : YnEntity
     {
         #region private declaration
 

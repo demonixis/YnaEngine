@@ -144,7 +144,7 @@ namespace Yna.Framework.Display3D.Primitive
 
         public override void UpdateBoundingVolumes()
         {
-            UpdateMatrix();
+            UpdateMatrices();
 
             _boundingBox = new BoundingBox(new Vector3(float.MaxValue), new Vector3(float.MinValue));
 

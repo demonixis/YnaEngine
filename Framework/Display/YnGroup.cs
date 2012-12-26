@@ -11,12 +11,12 @@ namespace Yna.Framework.Display
     /// <summary>
     /// A container of scene object who work as a collection
     /// </summary>
-    public class YnGroup : YnObject
+    public class YnGroup : YnEntity
     {
         #region Private declarations
 
-        private List<YnObject> _members;
-        private List<YnObject> _safeMembers;
+        private List<YnEntity> _members;
+        private List<YnEntity> _safeMembers;
         private bool _initialized;
         private bool _assetsLoaded;
 
@@ -27,7 +27,7 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Members of the group
         /// </summary>
-        public List<YnObject> Members
+        public List<YnEntity> Members
         {
             get { return _members; }
         }
@@ -65,7 +65,7 @@ namespace Yna.Framework.Display
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public YnObject this[int index]
+        public YnEntity this[int index]
         {
             get
             {
@@ -93,8 +93,8 @@ namespace Yna.Framework.Display
 
         public YnGroup(int capacity)
         {
-            _members = new List<YnObject>(capacity);
-            _safeMembers = new List<YnObject>();
+            _members = new List<YnEntity>(capacity);
+            _safeMembers = new List<YnEntity>();
             _initialized = false;
             _assetsLoaded = false;
         }
@@ -112,7 +112,7 @@ namespace Yna.Framework.Display
         {
             if (_members.Count > 0)
             {
-                foreach (YnObject member in _members)
+                foreach (YnEntity member in _members)
                     member.Initialize();
             }
 
@@ -123,7 +123,7 @@ namespace Yna.Framework.Display
         {
             if (_members.Count > 0)
             {
-                foreach (YnObject member in _members)
+                foreach (YnEntity member in _members)
                     member.LoadContent();
             }
 
@@ -134,7 +134,7 @@ namespace Yna.Framework.Display
         {
             if (_members.Count > 0)
             {
-                foreach (YnObject member in _members)
+                foreach (YnEntity member in _members)
                     member.UnloadContent();
             }
         }
@@ -182,7 +182,7 @@ namespace Yna.Framework.Display
         /// Add a new object in the collecion
         /// </summary>
         /// <param name="sceneObject">An object or derivated from YnObject</param>
-        public void Add(YnObject sceneObject)
+        public void Add(YnEntity sceneObject)
         {
             sceneObject.Parent = this;
 
@@ -201,7 +201,7 @@ namespace Yna.Framework.Display
         /// Add a new object in the collecion
         /// </summary>
         /// <param name="sceneObject">An array of objects or derivated from YnObject</param>
-        public void Add(YnObject[] sceneObject)
+        public void Add(YnEntity[] sceneObject)
         {
             int size = sceneObject.Length;
             for (int i = 0; i < size; i++)
@@ -216,7 +216,7 @@ namespace Yna.Framework.Display
             }
         }
 
-        public void Remove(YnObject sceneObject)
+        public void Remove(YnEntity sceneObject)
         {
             _members.Remove(sceneObject);
 
@@ -233,13 +233,13 @@ namespace Yna.Framework.Display
 
         public IEnumerator GetEnumerator()
         {
-            foreach (YnObject member in _members)
+            foreach (YnEntity member in _members)
                 yield return member;
         }
 
-        public YnObject GetChildByName(string name)
+        public YnEntity GetChildByName(string name)
         {
-            YnObject result = null;
+            YnEntity result = null;
             int i = 0;
             while (i < Count && result == null)
             {
@@ -258,7 +258,7 @@ namespace Yna.Framework.Display
             Width = 0;
             Height = 0;
 
-            foreach (YnObject sceneObject in this)
+            foreach (YnEntity sceneObject in this)
             {
                 Width = Math.Max(Width, sceneObject.Width);
                 Height = Math.Max(Height, sceneObject.Height);

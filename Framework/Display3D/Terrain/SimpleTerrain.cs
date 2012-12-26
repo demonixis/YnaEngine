@@ -8,6 +8,7 @@ namespace Yna.Framework.Display3D.Terrain
     public class SimpleTerrain : BaseTerrain
     {
         public SimpleTerrain(string textureName, int width, int depth)
+            : base()
         {
             _width = width;
             _height = 0;

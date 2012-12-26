@@ -9,10 +9,11 @@ namespace Yna.Framework
     /// <summary>
     /// A timer class
     /// </summary>
-    public class YnTimer : YnBase
+    public class YnTimer
     {
         #region Private declarations
 
+        private bool _enabled;
         private int _interval;
         private int _repeat;
         private int _counter;
@@ -23,7 +24,16 @@ namespace Yna.Framework
         #region Properties
 
         /// <summary>
-        /// Get or Set the Duration of the timer
+        /// Gets or sets the status of the timer, true if enabled then false
+        /// </summary>
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set { _enabled = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Duration of the timer
         /// </summary>
         public int Interval
         {
@@ -32,7 +42,7 @@ namespace Yna.Framework
         }
 
         /// <summary>
-        /// Get or Set the number of time the timer is repeated
+        /// Gets or sets the number of time the timer is repeated
         /// </summary>
         public int Repeat
         {
@@ -109,7 +119,7 @@ namespace Yna.Framework
             Repeat = -1;
             _elapsedTime = 0;
             _counter = Repeat;
-            Active = false;
+            _enabled = false;
         }
 
         /// <summary>
@@ -128,7 +138,7 @@ namespace Yna.Framework
         /// </summary>
         public void Start()
         {
-            Active = true;
+            _enabled = true;
             TimerStarted(EventArgs.Empty);
         }
 
@@ -137,7 +147,7 @@ namespace Yna.Framework
         /// </summary>
         public void Restart()
         {
-            Active = true;
+            _enabled = true;
             _counter = 0;
             _elapsedTime = 0;
             TimerRestarted(EventArgs.Empty);
@@ -148,7 +158,7 @@ namespace Yna.Framework
         /// </summary>
         public void Pause()
         {
-            Active = false;
+            _enabled = false;
             TimerPaused(EventArgs.Empty);
         }
 
@@ -157,7 +167,7 @@ namespace Yna.Framework
         /// </summary>
         public void Resume()
         {
-            Active = true;
+            _enabled = true;
             TimerResumed(EventArgs.Empty);
         }
 
@@ -166,7 +176,7 @@ namespace Yna.Framework
         /// </summary>
         public void Stop()
         {
-            Active = false;
+            _enabled = false;
             _counter = 0;
             _elapsedTime = 0;
             TimerStopped(EventArgs.Empty);
@@ -177,7 +187,7 @@ namespace Yna.Framework
         /// </summary>
         public void Kill()
         {
-            Active = false;
+            _enabled = false;
             _counter = 0;
             _elapsedTime = 0;
           
@@ -233,9 +243,9 @@ namespace Yna.Framework
         /// Updating the timer
         /// </summary>
         /// <param name="gameTime"></param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            if (Active)
+            if (_enabled)
             {
                 _elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
 
@@ -243,7 +253,7 @@ namespace Yna.Framework
                 {
                     if (_counter == 0)
                     {
-                        Active = false;
+                        _enabled = false;
                     }
                     else
                     {

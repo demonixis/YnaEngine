@@ -149,7 +149,7 @@ namespace Yna.Framework.Display3D
             effect.Alpha = _light.Alpha;
         }
 
-        public override void UpdateMatrix()
+        public override void UpdateMatrices()
         {
             World = Matrix.CreateScale(Scale) *
                 Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
@@ -179,7 +179,7 @@ namespace Yna.Framework.Display3D
 
         public override void Draw(GraphicsDevice device)
         {
-            UpdateMatrix();
+            UpdateMatrices();
 
             _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 

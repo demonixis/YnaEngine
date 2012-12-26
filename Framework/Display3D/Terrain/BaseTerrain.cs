@@ -140,7 +140,7 @@ namespace Yna.Framework.Display3D.Terrain
 
         public override void UpdateBoundingVolumes()
         {
-            UpdateMatrix();
+            UpdateMatrices();
 
             // Reset bounding box to min/max values
             _boundingBox.Min = new Vector3(float.MaxValue);
