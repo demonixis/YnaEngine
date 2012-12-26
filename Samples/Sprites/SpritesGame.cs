@@ -19,6 +19,7 @@ namespace Yna.Samples
             stateManager.Add(new AnimatedSprites("sample_2"), true);
         }
 
+#if !WINDOWS_PHONE
         public static void Main(string[] args)
         {
             using (SpritesGame game = new SpritesGame())
@@ -26,5 +27,6 @@ namespace Yna.Samples
                 game.Run();
             }
         }
+#endif
     }
 }

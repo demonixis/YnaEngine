@@ -7,7 +7,7 @@ namespace Yna.Framework.Display
     /// A simple camera used on the scene to make different type of effects.
     /// Position, Rotation and Zoom can be applied on the scene.
     /// </summary>
-    public class StateCamera
+    public class SpriteBatchCamera
     {
         protected Matrix _view;
         protected int _x;
@@ -61,7 +61,7 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Create a camera for the scene
         /// </summary>
-        public StateCamera()
+        public SpriteBatchCamera()
         {
             _view = Matrix.Identity;
             _x = 0;

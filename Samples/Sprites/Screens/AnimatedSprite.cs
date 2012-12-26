@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Framework;
 using Yna.Framework.Display;
 using Yna.Framework.Input;
 using Yna.Framework.Script;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Samples.Screens
 {
@@ -62,7 +64,6 @@ namespace Yna.Samples.Screens
             spriteToCollide.Add(woodObject);
             spriteToCollide.Add(wood2Object);
             spriteToCollide.Add(houseObject);
-
         }
 
         public override void Initialize()

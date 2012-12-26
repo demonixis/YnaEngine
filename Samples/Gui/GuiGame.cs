@@ -20,6 +20,7 @@ namespace Yna.Samples
             YnG.StateManager.Add(guiState);
         }
 
+#if !WINDOWS_PHONE
         public static void Main(string[] args)
         {
             using (GuiGame game = new GuiGame())
@@ -27,5 +28,6 @@ namespace Yna.Samples
                 game.Run();
             }
         }
+#endif
     }
 }

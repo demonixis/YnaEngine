@@ -9,11 +9,10 @@ namespace Yna.Framework
     /// <summary>
     /// A timer class
     /// </summary>
-    public class YnTimer
+    public class YnTimer : YnBase
     {
         #region Private declarations
 
-        private bool _enabled;
         private int _interval;
         private int _repeat;
         private int _counter;
@@ -243,7 +242,7 @@ namespace Yna.Framework
         /// Updating the timer
         /// </summary>
         /// <param name="gameTime"></param>
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (_enabled)
             {

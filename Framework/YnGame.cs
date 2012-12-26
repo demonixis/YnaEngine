@@ -27,7 +27,7 @@ namespace Yna.Framework
         public static string GameTitle = "Yna Game";
         public static string GameVersion = "1.0.0.0";
 
-        #region Events 
+        #region Events
 
         /// <summary>
         /// Triggered when the screen resolution changed
@@ -90,17 +90,17 @@ namespace Yna.Framework
 #endif
         }
 
-#if !WINDOWS8 && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8 && !ANDROID
-
         public YnGame(int width, int height, string title)
             : this()
         {
+#if !WINRT && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8 && !ANDROID
             SetScreenResolution(width, height);
           
             this.Window.Title = title;
 
             ScreenHelper.ScreenWidthReference = width;
             ScreenHelper.ScreenHeightReference = height;
+#endif
         }
 
         public YnGame(int width, int height, string title, bool useScreenManager)
@@ -109,7 +109,7 @@ namespace Yna.Framework
             SetStateManagerActive(useScreenManager);
         }
 
-#endif
+
 
         #endregion
 
@@ -173,7 +173,7 @@ namespace Yna.Framework
         public void SetStateManagerActive(bool active)
         {
             if (active)
-            { 
+            {
                 if (this.stateManager == null)
                 {
                     this.stateManager = new StateManager(this);

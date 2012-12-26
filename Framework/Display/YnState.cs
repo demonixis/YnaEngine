@@ -1,39 +1,71 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using Yna.Framework.Display;
 using Yna.Framework.Display.Gui;
 using Yna.Framework.State;
 
 namespace Yna.Framework.Display
 {
+    /// <summary>
+    /// This is a State object that contains the scene.
+    /// That allows you to add different types of objects.
+    /// Timers, basic objects (which have an update method) and entities
+    /// </summary>
     public class YnState : BaseState
     {
         #region Private declarations
 
+        // Collection for the scene
+        protected List<YnTimer> _timers;
+        protected List<YnBase> _baseObjects;
         protected List<YnEntity> _members;
-        private List<YnEntity> _safeMembers;
-        protected YnGui _gui;
+        protected List<YnEntity> _safeMembers;
+        protected YnGui _guiManager;
 
+        // Initialization flags
         protected bool _assetsLoaded;
         protected bool _initialized;
-        protected bool _removeRequest;
+        
+        // Clear requests 
+        protected bool _clearRequestForTimers;
+        protected bool _clearRequestForBasics;
+        protected bool _clearRequestForEntities;
 
+        // SpriteBatch modes
         protected SpriteSortMode _spriteSortMode;
         protected BlendState _blendState;
         protected SamplerState _samplerState;
         protected DepthStencilState _depthStencilState;
         protected RasterizerState _rasterizerState;
         protected Effect _effect;
-
-        protected StateCamera _camera;
+        
+        // SpriteBatch transform camera
+        protected SpriteBatchCamera _camera;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Get members attached to the scene
+        /// Gets timers
+        /// </summary>
+        public List<YnTimer> Timers
+        {
+            get { return _timers; }
+        }
+
+        /// <summary>
+        /// Gets basic objects
+        /// </summary>
+        public List<YnBase> BasicObjects
+        {
+            get { return _baseObjects; }
+        }
+
+        /// <summary>
+        /// Gets members attached to the scene
         /// </summary>
         public List<YnEntity> Members
         {
@@ -41,7 +73,16 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set SpriteSortMode
+        /// Gets or sets the gui manager used for rendering widgets
+        /// </summary>
+        public YnGui Gui
+        {
+            get { return _guiManager; }
+            set { _guiManager = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets SpriteSortMode
         /// </summary>
         public SpriteSortMode SpriteSortMode
         {
@@ -50,7 +91,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set BlendState
+        /// Gets or sets BlendState
         /// </summary>
         public BlendState BlendState
         {
@@ -59,7 +100,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set SamplerState
+        /// Gets or sets SamplerState
         /// </summary>
         public SamplerState SamplerState
         {
@@ -68,7 +109,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set DepthStencilState
+        /// Gets or sets DepthStencilState
         /// </summary>
         public DepthStencilState DepthStencilState
         {
@@ -76,7 +117,11 @@ namespace Yna.Framework.Display
             set { _depthStencilState = value; }
         }
 
-        public StateCamera Camera
+        /// <summary>
+        /// Gets or sets the spriteBatchCamera used for add effect on the scene like 
+        /// displacement, rotation and zoom
+        /// </summary>
+        public SpriteBatchCamera Camera
         {
             get { return _camera; }
             set { _camera = value; }
@@ -87,13 +132,13 @@ namespace Yna.Framework.Display
         #region Constructors
 
         private YnState()
-           : base()
+            : base()
         {
             InitializeDefaultState();
         }
 
         public YnState(string name, float timeOn, float timeOff)
-            : base (name, timeOn, timeOff)
+            : base(name, timeOn, timeOff)
         {
             _name = name;
             InitializeDefaultState();
@@ -107,14 +152,26 @@ namespace Yna.Framework.Display
 
         #endregion
 
+        /// <summary>
+        /// Initialize defaut states
+        /// </summary>
         private void InitializeDefaultState()
         {
+            _timers = new List<YnTimer>();
+            _baseObjects = new List<YnBase>();
+
             _members = new List<YnEntity>();
             _safeMembers = new List<YnEntity>();
 
+            _guiManager = new YnGui();
+
             _assetsLoaded = false;
             _initialized = false;
-            _removeRequest = false;
+
+            // Clear requests
+            _clearRequestForTimers = false;
+            _clearRequestForBasics = false;
+            _clearRequestForEntities = false;
 
             _spriteSortMode = SpriteSortMode.Immediate;
             _blendState = BlendState.AlphaBlend;
@@ -122,13 +179,14 @@ namespace Yna.Framework.Display
             _depthStencilState = DepthStencilState.None;
             _rasterizerState = RasterizerState.CullNone;
             _effect = null;
-            _camera = new StateCamera();
+
+            _camera = new SpriteBatchCamera();
         }
 
         #region Collection methods
 
         /// <summary>
-        /// Add object on the scene
+        /// Add an entity to the scene
         /// </summary>
         /// <param name="sceneObject"></param>
         public void Add(YnEntity sceneObject)
@@ -139,7 +197,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Add objects on the scene
+        /// Add an array of entity to the scene
         /// </summary>
         /// <param name="sceneObjects"></param>
         public void Add(YnEntity[] sceneObjects)
@@ -153,22 +211,141 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Remove an object from the scene
+        /// Add a timer will be updated automatically, all timers are updated in first
         /// </summary>
-        /// <param name="sceneObject"></param>
-        public void Remove(YnEntity sceneObject)
+        /// <param name="timer">An instance of YnTimer</param>
+        public void AddTimer(YnTimer timer)
         {
-            sceneObject.UnloadContent();
-            _members.Remove(sceneObject);
+            _timers.Add(timer);
         }
 
         /// <summary>
-        /// Clear all members on the scene
+        /// Add a basic object will be updated automatically
+        /// </summary>
+        /// <param name="basicObject">an instance of YnBase</param>
+        public void AddBasicObject(YnBase basicObject)
+        {
+            _baseObjects.Add(basicObject);
+        }
+
+        /// <summary>
+        /// Remove an object from the scene
+        /// </summary>
+        /// <param name="sceneObject"></param>
+        public bool Remove(YnEntity sceneObject)
+        {
+            sceneObject.UnloadContent();
+            return _members.Remove(sceneObject);
+        }
+
+        /// <summary>
+        /// Remove a timer
+        /// </summary>
+        /// <param name="timer">The timer to remove</param>
+        public bool Remove(YnTimer timer)
+        {
+            return _timers.Remove(timer);
+        }
+
+        /// <summary>
+        /// Remove a basic object
+        /// </summary>
+        /// <param name="basicObject"></param>
+        /// <returns></returns>
+        public bool Remove(YnBase basicObject)
+        {
+            return _baseObjects.Remove(basicObject);
+        }
+
+        /// <summary>
+        /// Clear entities, timers and basic objects
         /// </summary>
         public void Clear()
         {
-            _members.Clear();
-            _safeMembers.Clear();
+            _clearRequestForTimers = true;
+            _clearRequestForBasics = true;
+            _clearRequestForEntities = true;
+        }
+
+        public void ClearEntities()
+        {
+            _clearRequestForEntities = true;
+        }
+
+        /// <summary>
+        /// Clear all timers
+        /// </summary>
+        public void ClearTimers()
+        {
+            _clearRequestForTimers = true;
+        }
+
+        /// <summary>
+        /// Clear all
+        /// </summary>
+        public void ClearBasicObjects()
+        {
+            _clearRequestForBasics = true;
+        }
+
+        /// <summary>
+        /// Get a child by its name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public YnEntity GetEntityByName(string name)
+        {
+            YnEntity result = null;
+            int i = 0;
+            int size = _members.Count;
+            while (i < size && result == null)
+            {
+                if (_members[i].Name == name)
+                    result = _members[i];
+
+                i++;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets a timer by its name
+        /// </summary>
+        /// <param name="name">The name of timer</param>
+        /// <returns>The timer if it exists then null</returns>
+        public YnTimer GetTimerByName(string name)
+        {
+            YnTimer result = null;
+            int i = 0;
+            int size = _members.Count;
+            while (i < size && result == null)
+            {
+                if (_timers[i].Name == name)
+                    result = _timers[i];
+
+                i++;
+            }
+            return result;   
+        }
+
+        /// <summary>
+        /// Gets a basic object by its name
+        /// </summary>
+        /// <param name="name">The name of the basic object</param>
+        /// <returns>The basic object if it exists then null</returns>
+        public YnBase GetBaseObjectByName(string name)
+        {
+            YnBase result = null;
+            int i = 0;
+            int size = _baseObjects.Count;
+            while (i < size && result == null)
+            {
+                if (_members[i].Name == name)
+                    result = _members[i];
+
+                i++;
+            }
+            return result;
         }
 
         #endregion
@@ -218,6 +395,44 @@ namespace Yna.Framework.Display
         {
             base.Update(gameTime);
 
+            // Check if we muse clear the timer collection
+            if (_clearRequestForTimers)
+            {
+                _timers.Clear();
+                _clearRequestForTimers = false;
+            }
+
+            if (_clearRequestForBasics)
+            {
+                _baseObjects.Clear();
+                _clearRequestForBasics = false;
+            }
+
+            // Check if we must clear the entity collection
+            if (_clearRequestForEntities)
+            {
+                _members.Clear();
+                _clearRequestForEntities = false;
+            }
+
+            // Update timers
+            int timerCount = _timers.Count;
+            
+            if (timerCount > 0)
+            {
+                for (int t = 0; t < timerCount; t++)
+                    _timers[t].Update(gameTime);
+            }
+
+            // Update base objects
+            int baseCount = _baseObjects.Count;
+
+            if (baseCount > 0)
+            {
+                for (int b = 0; b < baseCount; b++)
+                    _baseObjects[b].Update(gameTime);
+            }
+
             // We make a copy of all screens to provide any error
             // if a screen is removed during the update opreation
             int nbMembers = _members.Count;
@@ -233,6 +448,8 @@ namespace Yna.Framework.Display
                         _safeMembers[i].Update(gameTime);
                 }
             }
+
+            _guiManager.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
@@ -253,22 +470,10 @@ namespace Yna.Framework.Display
 
                 spriteBatch.End();
             }
+
+            _guiManager.Draw(gameTime, spriteBatch);
         }
 
-        // TODO : better algo
-        public YnEntity GetChildByName(string name)
-        {
-            YnEntity result = null;
-            int i = 0;
-            while(i < _members.Count && result == null)
-            {
-                if (_members[i].Name == name)
-                    result = _members[i];
-
-                i++;
-            }
-            return result;
-        }
         #endregion
     }
 }

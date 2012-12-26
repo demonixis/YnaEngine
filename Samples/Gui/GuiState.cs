@@ -23,7 +23,7 @@ namespace Yna.Samples
             : base(name, 0, 0)
         {
             YnG.ShowMouse = true;
-            gui = new YnGui(YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/DefaultFont"));
+            gui = new YnGui(YnSkinGenerator.Generate(Color.DodgerBlue, "Font"));
         }
 
         public override void BuildGui()
@@ -111,7 +111,7 @@ namespace Yna.Samples
             // Button with custom skin
             YnTextButton customButton = new YnTextButton("Custom skin button");
             customButton.Position = new Vector2(toolbar.Position.X + padding, toolbar.Position.Y + tileSize + padding * 2);
-            customButton.Skin = YnSkinGenerator.Generate(Color.Green, "Fonts/MenuFont");
+            customButton.Skin = YnSkinGenerator.Generate(Color.Green, "MenuFont");
             gui.Add(customButton);
 
 

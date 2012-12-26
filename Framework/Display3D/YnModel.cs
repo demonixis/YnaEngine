@@ -98,7 +98,7 @@ namespace Yna.Framework.Display3D
             _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 
             // Update matrix world
-            UpdateMatrix();
+            UpdateMatrices();
 
             // For each mesh of the model
             foreach (ModelMesh mesh in _model.Meshes)
