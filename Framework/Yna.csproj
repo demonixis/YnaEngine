@@ -70,6 +70,7 @@
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Content\XnaContentManager.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
+    <Compile Include="Display\StateCamera.cs" />
     <Compile Include="Display\YnGraphics.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Display\YnSpriteBatchCamera.cs" />
