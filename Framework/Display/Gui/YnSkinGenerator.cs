@@ -22,7 +22,8 @@ namespace Yna.Framework.Display.Gui
             YnSkin skin = new YnSkin();
 
             skin.FontName = fontName; 
-            skin.Font = YnG.Game.Content.Load<SpriteFont>(skin.FontName);
+            if (fontName != null)
+                skin.Font = YnG.Game.Content.Load<SpriteFont>(skin.FontName);
             skin.DefaultTextColor = Color.White;
 
             // The base color will be used for buttons

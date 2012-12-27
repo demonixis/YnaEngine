@@ -239,8 +239,7 @@ namespace Yna.Framework.Display.TileMap.Isometric
                         // Textures may not be rendered entirely if the drawZone parameter
                         // is a smaller rectangle than the game window.
                         texRect = layer.Mapping[tile.TileType() + tile.TextureID * 23];
-                        if (drawZone.Width != YnG.DeviceWidth
-                          && drawZone.Height != YnG.DeviceHeight)
+                        if (drawZone.Width != YnG.DeviceWidth && drawZone.Height != YnG.DeviceHeight)
                         {
                             // The tile must be cropped.
                             // If the tile is on the edge of the draw zone, only the portion

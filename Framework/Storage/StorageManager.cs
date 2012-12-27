@@ -19,6 +19,8 @@ namespace Yna.Framework.Storage
         {
 #if XNA
             storageDevice = new XnaStorageDevice();
+#elif WINDOWS_PHONE_7
+            storageDevice = new XnaPhoneStorageDevice();
 #elif MONOGAME && WINDOWS || LINUX || MACOSX || XNA
             storageDevice = new BasicStorageDevice();
 #elif NETFX_CORE

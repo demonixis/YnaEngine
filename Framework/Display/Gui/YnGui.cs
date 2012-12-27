@@ -95,7 +95,7 @@ namespace Yna.Framework.Display.Gui
             if (_skinName == String.Empty && _skin == null)
             {
                 // No skin, generate the default one
-                Skin = YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/DefaultFont");
+                Skin = YnSkinGenerator.Generate(Color.DodgerBlue, null);
             }
             else
             {

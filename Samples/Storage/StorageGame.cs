@@ -74,6 +74,16 @@ namespace Yna.Samples
                 playerScore.Scores.Add(random.Next(100, 3500));
             }
 
+#if WINDOWS_PHONE
+            if (YnG.Gamepad.JustPressed(PlayerIndex.One, Buttons.Back))
+            {
+                Random random = new Random();
+                playerScore.TimePlayed = random.Next(0, 1500);
+                playerScore.Scores.Add(random.Next(100, 3500));
+                YnG.StorageManager.SaveDatas<PlayerScore>(ScoreContainerName, ScoreFileName, playerScore);
+            }
+#endif
+
             // Update text
             playerDebugText.Text = playerScore.ToString();
         }

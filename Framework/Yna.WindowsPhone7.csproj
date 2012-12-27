@@ -155,6 +155,7 @@
     <Compile Include="Script\ScriptAnimator.cs" />
     <Compile Include="Script\WaitScript.cs" />
     <Compile Include="Display\YnState.cs" />
+    <Compile Include="Storage\XnaPhoneStorageDevice.cs" />
     <Compile Include="YnBase.cs" />
     <Compile Include="Display3D\YnBase3D.cs" />
     <Compile Include="YnG.cs" />
