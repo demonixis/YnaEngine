@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
+    <Compile Include="Display\StateCamera.cs" />
     <Compile Include="Display\YnGraphics.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
@@ -113,7 +114,6 @@
     <Compile Include="Display\Gui\YnTextButton.cs" />
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
-    <Compile Include="Display\YnTransformer.cs" />
     <Compile Include="Display\YnCollide.cs" />
     <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnScene.cs" />
