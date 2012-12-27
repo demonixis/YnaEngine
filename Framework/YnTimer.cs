@@ -23,15 +23,6 @@ namespace Yna.Framework
         #region Properties
 
         /// <summary>
-        /// Gets or sets the status of the timer, true if enabled then false
-        /// </summary>
-        public bool Enabled
-        {
-            get { return _enabled; }
-            set { _enabled = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the Duration of the timer
         /// </summary>
         public int Interval

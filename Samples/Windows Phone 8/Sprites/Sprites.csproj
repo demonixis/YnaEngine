@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\..\MonoGame\MonoGame.ContentPipeline.targets" />
+  <Import Project="..\..\Common\MonoGame\MonoGame.ContentPipeline.targets" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">ARM</Platform>
@@ -26,7 +26,7 @@
     <ValidateXaml>true</ValidateXaml>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-	<MonoGamePlatform>Windows8</MonoGamePlatform>
+    <MonoGamePlatform>Windows8</MonoGamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,18 +78,14 @@
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\..\..\Sprites\Screens\AnimatedSprite.cs">
-      <Link>Screens\AnimatedSprite.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Sprites\Screens\BasicSprite.cs">
-      <Link>Screens\BasicSprite.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Screens\AnimatedSprite.cs" />
+    <Compile Include="Screens\BasicSprite.cs" />
     <Compile Include="SpritesGame.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -128,7 +124,7 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-	<Content Include="Content\**\*.*">
+    <Content Include="Content\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -139,19 +135,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.WindowsPhone">
-      <HintPath>..\..\..\..\ThirdParty\MonoGame\WP8\MonoGame.Framework.WindowsPhone.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\Yna.WindowsPhone8.csproj">
       <Project>{72FCF5BE-3E09-4428-9552-CFA4913F3670}</Project>
       <Name>Yna.WindowsPhone8</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\..\Common\Common.WindowsPhone8.csproj">
       <Project>{A13400A8-8E08-418D-AD62-BCA9FAE7C3AE}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework.WindowsPhone">
+      <HintPath>..\..\..\ThirdParty\MonoGame\WP8\MonoGame.Framework.WindowsPhone.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

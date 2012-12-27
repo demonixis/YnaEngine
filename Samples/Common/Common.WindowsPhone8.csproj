@@ -83,16 +83,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Common\Menu.cs">
-      <Link>Menu.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\SamplesConfiguration.cs">
-      <Link>SamplesConfiguration.cs</Link>
-    </Compile>
+    <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SamplesConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Yna.WindowsPhone8.csproj">
+    <ProjectReference Include="..\..\Framework\Yna.WindowsPhone8.csproj">
       <Project>{72FCF5BE-3E09-4428-9552-CFA4913F3670}</Project>
       <Name>Yna.WindowsPhone8</Name>
     </ProjectReference>

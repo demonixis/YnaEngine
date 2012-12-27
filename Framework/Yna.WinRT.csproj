@@ -100,11 +100,10 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-<ItemGroup>
+  <ItemGroup>
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
-    <Compile Include="Content\YnaContentManager.cs" />
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Content\XnaContentManager.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
@@ -169,7 +168,6 @@
     <Compile Include="Display\TileMap\Iso\TileIso.cs" />
     <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\Event\ScreenEvents.cs" />
-    <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
@@ -189,10 +187,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="State\BaseState.cs" />
     <Compile Include="State\StateManager.cs" />
-    <Compile Include="Storage\BasicStorageDevice.cs" />
     <Compile Include="Storage\DummyStorageDevice.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
+    <Compile Include="Storage\WinRTStorageDevice.cs" />
+    <Compile Include="Storage\XnaPhoneStorageDevice.cs" />
     <Compile Include="Storage\XnaStorageDevice.cs" />
     <Compile Include="Script\MoveScript.cs" />
     <Compile Include="Script\BaseScriptNode.cs" />
@@ -210,9 +209,6 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Windows8">
       <HintPath>..\ThirdParty\MonoGame\WinRT\MonoGame.Framework.Windows8.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.IsolatedStorage">
-      <HintPath>..\ThirdParty\MonoGame\WinRT\System.IO.IsolatedStorage.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

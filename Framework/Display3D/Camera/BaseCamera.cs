@@ -74,33 +74,6 @@ namespace Yna.Framework.Display3D.Camera
             get { return _lastDirection; }
         }
 
-        /// <summary>
-        /// Gets or sets the position on X axis
-        /// </summary>
-        public float X
-        {
-            get { return _position.X; }
-            set { _position.X = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the position on Y axis
-        /// </summary>
-        public float Y
-        {
-            get { return _position.Y; }
-            set { _position.Y = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the position on Z axis
-        /// </summary>
-        public float Z
-        {
-            get { return _position.Z; }
-            set { _position.Z = value; }
-        }
-
         #endregion
 
         #region Properties for rotations

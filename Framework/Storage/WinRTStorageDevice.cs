@@ -26,8 +26,8 @@ namespace Yna.Framework.Storage
 
         private async Task SaveDatas<T>(string containerName, string fileName, T objectToSave)
         {
-            var storageFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync(containerName);
-
+            var storageFolder = ApplicationData.Current.LocalFolder;
+ 
             var file = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
             var fileAccess = await file.OpenAsync(FileAccessMode.ReadWrite);
             IOutputStream stream = fileAccess.GetOutputStreamAt(0);
@@ -39,7 +39,7 @@ namespace Yna.Framework.Storage
 
         private async Task LoadDatas<T>(string containerName, string fileName)
         {
-            var storageFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync(containerName);
+            var storageFolder = ApplicationData.Current.LocalFolder;
 
             var file = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
 
@@ -50,16 +50,6 @@ namespace Yna.Framework.Storage
 
             var serializer = new DataContractSerializer(typeof(T));
             this.persistedObject = serializer.ReadObject(stream.AsStreamForRead());
-        }
-
-        private async Task Save<T>(string containerName, string fileName, T objectToSave)
-        {
-            await ThreadPool.RunAsync((sender) => SaveDatas<T>(containerName, fileName, objectToSave).Wait(), WorkItemPriority.Normal);
-        }
-
-        private async Task Load<T>(string containerName, string fileName)
-        {
-            await ThreadPool.RunAsync((sender) => LoadDatas<T>(containerName, fileName).Wait(), WorkItemPriority.Normal);
         }
 
         object IStorageDevice.GetContainer(string containerName)
@@ -80,12 +70,12 @@ namespace Yna.Framework.Storage
 
         T IStorageDevice.LoadDatas<T>(string containerName, string fileName)
         {
-            Task<T>.Factory.StartNew(() => 
+            return Task<T>.Factory.StartNew(() => 
             { 
                 LoadDatas<T>(containerName, fileName);
                 return (T)persistedObject;
-            });
-            return default(T);
+            }).Result;
+            //return default(T);
         }
     }
 }
