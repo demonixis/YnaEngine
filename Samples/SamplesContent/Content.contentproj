@@ -112,7 +112,6 @@
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Compile Include="Backgrounds\sky.jpg">
       <Name>sky</Name>

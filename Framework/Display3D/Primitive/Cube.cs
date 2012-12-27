@@ -6,18 +6,18 @@ namespace Yna.Framework.Display3D.Primitive
 {
     public class Cube : BasePrimitive
     {
-        VertexPositionNormalTexture[] _vertices;
-        short[] _indices;
+        protected VertexPositionNormalTexture[] _vertices;
+        protected short[] _indices;
 
-        VertexBuffer _vertexBuffer;
-        IndexBuffer _indexBuffer;
+        protected VertexBuffer _vertexBuffer;
+        protected IndexBuffer _indexBuffer;
 
         public Cube(string textureName, Vector3 sizes, Vector3 position)
         {
             _segmentSizes = sizes;
             _position = position;
             _textureName = textureName;
-            _textureEnabled = true;
+            _useTexture = true;
             _width = sizes.X;
             _height = sizes.Y;
             _depth = sizes.Z;
@@ -32,14 +32,14 @@ namespace Yna.Framework.Display3D.Primitive
                 if (_textureName != String.Empty && _texture == null)
                 {
                     _texture = YnG.Content.Load<Texture2D>(_textureName);
-                    _textureEnabled = true;
-                    _colorEnabled = false;
+                    _useTexture = true;
+                    _useVertexColor = false;
                     _initialized = true;
                 }
             }
 
             CreateVertices();
-            SetupShader();
+            UpdateShader();
         }
 
         private void CreateVertices()

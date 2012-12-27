@@ -41,8 +41,8 @@ namespace Yna.Framework.Display3D.Terrain
         public BaseTerrain()
             : base(new Vector3(0, 0, 0))
         {
-            _colorEnabled = true;
-            _textureEnabled = false;
+            _useVertexColor = true;
+            _useTexture = false;
             _initialized = false;
         }
 
@@ -61,8 +61,8 @@ namespace Yna.Framework.Display3D.Terrain
                 if (_textureName != String.Empty && _texture == null)
                 {
                     _texture = YnG.Content.Load<Texture2D>(_textureName);
-                    _textureEnabled = true;
-                    _colorEnabled = false;
+                    _useTexture = true;
+                    _useVertexColor = false;
                     _initialized = true;
                 }
             }
@@ -203,7 +203,7 @@ namespace Yna.Framework.Display3D.Terrain
             // TODO : compute vertex normal only for this vertex
             ComputeNormals();
 
-            SetupShader();
+            UpdateShader();
 
             UpdateBoundingVolumes();
         }

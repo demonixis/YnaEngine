@@ -279,6 +279,7 @@ namespace Yna.Framework.Display3D
             _dirty = false;
             _initialized = false;
             _dynamic = false;
+            _light = new BasicLight();
 
             _boundingBox = new BoundingBox();
             _boundingSphere = new BoundingSphere();

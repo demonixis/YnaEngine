@@ -11,20 +11,20 @@ namespace Yna.Framework.Display3D.Terrain
         private Texture2D _heightmapTexture;
         private float[,] _heightData;
 
-        public Heightmap(string heightmapAsset)
+        private Heightmap(string heightmapAsset)
             : base()
         {
             _heightmapAssetName = heightmapAsset;
-            _textureEnabled = false;
-            _colorEnabled = true;
+            _useTexture = false;
+            _useVertexColor = true;
         }
 
         public Heightmap(string heightmapName, string textureName)
             : this(heightmapName)
         {
             _textureName = textureName;
-            _textureEnabled = true;
-            _colorEnabled = false;
+            _useTexture = true;
+            _useVertexColor = false;
         }
 
         public Heightmap(string heightmapName, string textureName, Vector3 segmentSizes)
@@ -33,18 +33,38 @@ namespace Yna.Framework.Display3D.Terrain
             _segmentSizes = segmentSizes;
         }
 
+        public Heightmap(Texture2D heightmapTexture, string textureName)
+        {
+            _heightmapAssetName = heightmapTexture.Name;
+            _heightmapTexture = heightmapTexture;
+            _useVertexColor = false;
+            _textureName = textureName;
+            _useTexture = true;
+            _useVertexColor = false;
+        }
+
+        public Heightmap(Texture2D heightmapTexture, string textureName, Vector3 segmentSizes)
+            : this(heightmapTexture, textureName)
+        {
+            _segmentSizes = segmentSizes;
+        }
+
         public override void LoadContent()
         {
             base.LoadContent();
 
-            _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);
+            if (_heightmapTexture == null)
+                _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);
 
             LoadHeightDatas();
+
             CreateVertices();
+
             CreateIndices();
+
             ComputeNormals();
 
-            SetupShader();
+            UpdateShader();
 
             UpdateBoundingVolumes();
         }
@@ -61,7 +81,7 @@ namespace Yna.Framework.Display3D.Terrain
 
             for (int x = 0; x < Width; x++)
                 for (int y = 0; y < Depth; y++)
-                    _heightData[x, y] = colors[x + y * Width].B / 10.0f; // Max height 25.5f
+                    _heightData[x, y] = colors[x + y * Width].R / 10.0f; // Max height 25.5f
         }
 
         #region Terrain construction
@@ -92,7 +112,14 @@ namespace Yna.Framework.Display3D.Terrain
 
         #endregion
 
-        public float GetTerrainHeight(float positionX, float positionY, float positionZ)
+        /// <summary>
+        /// Get the terrain height at the specified position
+        /// </summary>
+        /// <param name="positionX">X value</param>
+        /// <param name="positionY">Y value</param>
+        /// <param name="positionZ">Z value</param>
+        /// <returns></returns>
+        public virtual float GetTerrainHeight(float positionX, float positionY, float positionZ)
         {
             float terrainHeigth = 0.0f;
 

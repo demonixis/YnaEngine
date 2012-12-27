@@ -43,7 +43,9 @@ namespace Yna.Samples.Screens
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
-            heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture");
+            //heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture");
+            Texture2D randomTexture = YnGraphics.CreateStaticMap(16);
+            heightmap = new Heightmap(randomTexture, "terrains/heightmapTexture", new Vector3(50, 2, 50));
             Add(heightmap);
 
             // Sky & debug info
@@ -83,7 +85,7 @@ namespace Yna.Samples.Screens
             // Naive Collide detection with ground
             // This method get the current segment height on the terrain and set the Y position of the camera at this value
             // We add 2 units because the camera is a bit higher than the ground
-            camera.Y = heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 2;
+            //camera.Y = heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 2;
 
             // Move the camera with a click
             if (YnG.Mouse.Click(MouseButton.Left))
