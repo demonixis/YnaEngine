@@ -363,6 +363,8 @@ namespace Yna.Framework.Display
 
                 _initialized = true;
             }
+
+            _guiManager.Initialize();
         }
 
         public override void LoadContent()
@@ -376,6 +378,8 @@ namespace Yna.Framework.Display
 
                 _assetsLoaded = true;
             }
+
+            _guiManager.LoadContent();
         }
 
         public override void UnloadContent()
@@ -389,6 +393,8 @@ namespace Yna.Framework.Display
             }
 
             _members.Clear();
+
+            _guiManager.UnloadContent();
         }
 
         public override void Update(GameTime gameTime)
@@ -471,7 +477,9 @@ namespace Yna.Framework.Display
                 spriteBatch.End();
             }
 
+            spriteBatch.Begin();
             _guiManager.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
 
         #endregion
