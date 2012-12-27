@@ -7,6 +7,7 @@ rm -Rf *.cachefile
 rm -Rf *.pidb
 rm -Rf *.DS_Store
 rm -Rf *.cachefile
+rm -Rf *.userpref
 
 rm -Rf Common/bin
 rm -Rf Common/obj
