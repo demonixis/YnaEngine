@@ -32,7 +32,7 @@ namespace Yna.Framework.Script
         /// </summary>
         /// <param name="gameTime">The game time</param>
         /// <param name="o">The object to perform the script on</param>
-        public abstract void Update(GameTime gameTime, YnObject o);
+        public abstract void Update(GameTime gameTime, YnEntity o);
 
         /// <summary>
         /// Reset the script to it's initial state.

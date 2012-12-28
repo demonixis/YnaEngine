@@ -10,7 +10,7 @@ using Yna.Framework.Display.Event;
 
 namespace Yna.Framework.Display
 {
-    public class YnSprite : YnObject
+    public class YnSprite : YnEntity
     {
         #region Private declarations
 

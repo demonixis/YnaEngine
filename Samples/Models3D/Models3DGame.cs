@@ -23,6 +23,7 @@ namespace Yna.Samples
             stateManager.Add(pickingState, false);
         }
 
+#if !WINDOWS_PHONE
         public static void Main(string[] args)
         {
             using (Models3DGame game = new Models3DGame())
@@ -30,5 +31,6 @@ namespace Yna.Samples
                 game.Run();
             }
         }
+#endif
     }
 }

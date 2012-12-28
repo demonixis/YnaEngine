@@ -16,7 +16,7 @@ namespace Yna.Framework
     /// Static class that expose important object relative to the current context like
     /// Game, GraphicsDevice, Input, etc...
     /// </summary>
-    public static class YnG
+    public static partial class YnG
     {
         /// <summary>
         /// Get or Set the Game instance

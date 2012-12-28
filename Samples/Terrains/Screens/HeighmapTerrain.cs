@@ -15,7 +15,7 @@ namespace Yna.Samples.Screens
     public class HeighmapTerrain : YnState3D
     {
 
-        YnImage sky;
+        YnEntity sky;
         YnText textInfo;
 
         Heightmap heightmap;
@@ -47,7 +47,7 @@ namespace Yna.Samples.Screens
             Add(heightmap);
 
             // Sky & debug info
-            sky = new YnImage("Sky");
+            sky = new YnEntity("Sky");
             textInfo = new YnText("Font", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();

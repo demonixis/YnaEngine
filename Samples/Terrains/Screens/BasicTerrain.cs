@@ -12,7 +12,7 @@ namespace Yna.Samples.Screens
 {
     public class BasicTerrain : YnState3D
     {
-        YnImage sky;
+        YnEntity sky;
         YnText textInfo;
         SimpleTerrain terrain;
         FirstPersonControl control;
@@ -40,7 +40,7 @@ namespace Yna.Samples.Screens
             Add(terrain);
 
             // Sky & debug text ;)
-            sky = new YnImage("Sky");
+            sky = new YnEntity("Sky");
             textInfo = new YnText("Font", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();

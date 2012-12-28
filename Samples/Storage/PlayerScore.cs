@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Yna.Samples
 {
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
     [Serializable]
 #endif
     public class PlayerScore

@@ -15,12 +15,12 @@ namespace Yna.Framework.Display
         /// <param name="sceneObjectA">Sprite 1</param>
         /// <param name="sceneObjectB">Sprite 2</param>
         /// <returns></returns>
-        public static bool Collide(YnObject sceneObjectA, YnObject sceneObjectB)
+        public static bool Collide(YnEntity sceneObjectA, YnEntity sceneObjectB)
         {
             return sceneObjectA.Rectangle.Intersects(sceneObjectB.Rectangle);
         }
 
-        public static bool CollideOneWithGroup(YnObject sceneObject, List<YnObject> group)
+        public static bool CollideOneWithGroup(YnEntity sceneObject, List<YnEntity> group)
         {
             bool collide = false;
             int size = group.Count;
@@ -66,7 +66,7 @@ namespace Yna.Framework.Display
         /// <param name="sceneObjectA">Sprite 1</param>
         /// <param name="sceneObjectB">Sprite 2</param>
         /// <returns></returns>
-        public static bool PerfectPixelCollide(YnObject sceneObjectA, YnObject sceneObjectB)
+        public static bool PerfectPixelCollide(YnEntity sceneObjectA, YnEntity sceneObjectB)
         {
             int top = Math.Max(sceneObjectA.Rectangle.Top, sceneObjectB.Rectangle.Top);
             int bottom = Math.Min(sceneObjectA.Rectangle.Bottom, sceneObjectB.Rectangle.Bottom);
@@ -99,7 +99,7 @@ namespace Yna.Framework.Display
         /// <param name="sceneObjectA">Sprite 1</param>
         /// <param name="sceneObjectB">Sprite 2</param>
         /// <returns></returns>
-        public static bool PerfectCollide(YnObject sceneObjectA, YnObject sceneObjectB)
+        public static bool PerfectCollide(YnEntity sceneObjectA, YnEntity sceneObjectB)
         {
             return Collide(sceneObjectA, sceneObjectB) && PerfectPixelCollide(sceneObjectA, sceneObjectB);
         }

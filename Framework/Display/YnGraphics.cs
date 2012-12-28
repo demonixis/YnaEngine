@@ -46,6 +46,25 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
+        /// Create a noise texture
+        /// </summary>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public static Texture2D CreateStaticMap(int resolution)
+        {
+            Random rand = new Random();
+            Color[] noisyColors = new Color[resolution * resolution];
+            for (int x = 0; x < resolution; x++)
+                for (int y = 0; y < resolution; y++)
+                    noisyColors[x + y * resolution] = new Color(new Vector3((float)rand.Next(1000) / 1000.0f, 0, 0));
+
+            Texture2D noiseImage = new Texture2D(YnG.GraphicsDevice, resolution, resolution, false, SurfaceFormat.Color);
+
+            noiseImage.SetData(noisyColors);
+            return noiseImage;
+        }
+
+        /// <summary>
         /// Draw a 2D line with a SpriteBatch
         /// </summary>
         /// <param name="batch"></param>

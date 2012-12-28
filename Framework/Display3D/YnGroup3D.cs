@@ -150,7 +150,7 @@ namespace Yna.Framework.Display3D
 
         #endregion
 
-        public override void UpdateMatrix()
+        public override void UpdateMatrices()
         {
             World = Matrix.Identity;
 

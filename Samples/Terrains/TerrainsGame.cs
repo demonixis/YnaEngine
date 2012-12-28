@@ -19,7 +19,7 @@ namespace Yna.Samples
             stateManager.Add(new BasicTerrain("sample_1"), false);
             stateManager.Add(new HeighmapTerrain("sample_2"), true);
         }
-
+#if !WINDOWS_PHONE
         public static void Main(string[] args)
         {
             using (TerrainsGame game = new TerrainsGame())
@@ -27,5 +27,6 @@ namespace Yna.Samples
                 game.Run();
             }
         }
+#endif
     }
 }

@@ -18,10 +18,11 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            stateManager.Add(new TilemapSample("sample_1"), true);
-            stateManager.Add(new IsometricMapSample("sample_2"), false);
+            stateManager.Add(new TilemapSample("sample_1"), false);
+            stateManager.Add(new IsometricMapSample("sample_2"), true);
         }
 
+#if !WINDOWS_PHONE
         public static void Main(string[] args)
         {
             using (TilemapGame game = new TilemapGame())
@@ -29,5 +30,6 @@ namespace Yna.Samples
                 game.Run();
             }
         }
+#endif
     }
 }

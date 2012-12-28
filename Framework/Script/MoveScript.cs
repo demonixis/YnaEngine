@@ -69,7 +69,7 @@ namespace Yna.Framework.Script
         /// </summary>
         /// <param name="gameTime">The game time</param>
         /// <param name="o">The object to move</param>
-        public override void Update(GameTime gameTime, YnObject o)
+        public override void Update(GameTime gameTime, YnEntity o)
         {
             Vector2 position = o.Position;
 

@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Framework;
 using Yna.Framework.Display;
 using Yna.Framework.Input;
 using Yna.Framework.Script;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Samples.Screens
 {
     public class AnimatedSprites : YnState
     {
         // We create the background
-        private YnImage background;
+        private YnEntity background;
 
         // We create 3 sprites
         private YnSprite womanSprite;
@@ -19,18 +21,18 @@ namespace Yna.Samples.Screens
         private YnSprite gunnerSprite;
 
         // And now some objects
-        private YnImage woodObject;
-        private YnImage wood2Object;
-        private YnImage houseObject;
+        private YnEntity woodObject;
+        private YnEntity wood2Object;
+        private YnEntity houseObject;
 
         private ScriptAnimator womanAnimator;
 
-        private List<YnObject> spriteToCollide;
+        private List<YnEntity> spriteToCollide;
 
         public AnimatedSprites(string name)
             : base(name, 1500, 0)
         {
-            background = new YnImage("Scene/GreenGround");
+            background = new YnEntity("Scene/GreenGround");
             Add(background);
 
             // Create the sprites at position (0, 0) and add it on the state
@@ -47,22 +49,21 @@ namespace Yna.Samples.Screens
             Add(gunnerSprite);
 
             // Objects
-            woodObject = new YnImage("Scene/Tree");
+            woodObject = new YnEntity("Scene/Tree");
             Add(woodObject);
 
-            wood2Object = new YnImage("Scene/Tree2");
+            wood2Object = new YnEntity("Scene/Tree2");
             Add(wood2Object);
 
-            houseObject = new YnImage("Scene/House");
+            houseObject = new YnEntity("Scene/House");
             Add(houseObject);
 
-            spriteToCollide = new List<YnObject>(5);
+            spriteToCollide = new List<YnEntity>(5);
             spriteToCollide.Add(womanSprite);
             spriteToCollide.Add(gunnerSprite);
             spriteToCollide.Add(woodObject);
             spriteToCollide.Add(wood2Object);
             spriteToCollide.Add(houseObject);
-
         }
 
         public override void Initialize()

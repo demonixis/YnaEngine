@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -126,6 +126,7 @@ namespace Yna.Framework.Display3D
         /// <param name="object3D">An object3D</param>
         public void Add(YnObject3D object3D)
         {
+            object3D.Camera = Camera;
             _scene.Add(object3D);
         }
 

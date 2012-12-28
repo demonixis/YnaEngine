@@ -31,10 +31,17 @@
     <PlatformTarget>x86</PlatformTarget>
     <DefineConstants>MONOGAME;LINUX;</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
+<ItemGroup>
+    <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Audio\XnaAudioAdapter.cs" />
+    <Compile Include="Content\YnaContentManager.cs" />
+    <Compile Include="Content\IContentManager.cs" />
+    <Compile Include="Content\XnaContentManager.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
     <Compile Include="Display\YnGraphics.cs" />
+    <Compile Include="Display\YnText.cs" />
+    <Compile Include="Display\YnSpriteBatchCamera.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
@@ -57,7 +64,6 @@
     <Compile Include="Display3D\Terrain\BaseTerrain.cs" />
     <Compile Include="Display3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Display3D\Terrain\SimpleTerrain.cs" />
-    <Compile Include="Display3D\YnBase3D.cs" />
     <Compile Include="Display3D\YnScene.cs" />
     <Compile Include="Display3D\YnState3D.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
@@ -82,11 +88,20 @@
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCollide.cs" />
-    <Compile Include="Display\YnImage.cs" />
     <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
-    <Compile Include="Display\YnText.cs" />
+    <Compile Include="Display\TileMap\BaseLayer.cs" />
+    <Compile Include="Display\TileMap\BaseTile.cs" />
+    <Compile Include="Display\TileMap\BaseTileMap.cs" />
+    <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
+    <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
+    <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />
+    <Compile Include="Display\TileMap\Iso\LayerIso.cs" />
+    <Compile Include="Display\TileMap\Iso\TileIso.cs" />
+    <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\Event\ScreenEvents.cs" />
+    <Compile Include="Helpers\ContentHelper.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\ServiceHelper.cs" />
@@ -109,28 +124,19 @@
     <Compile Include="Storage\DummyStorageDevice.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
+    <Compile Include="Storage\XnaStorageDevice.cs" />
     <Compile Include="Script\MoveScript.cs" />
     <Compile Include="Script\BaseScriptNode.cs" />
     <Compile Include="Script\ScriptAnimator.cs" />
     <Compile Include="Script\WaitScript.cs" />
     <Compile Include="Display\YnState.cs" />
     <Compile Include="YnBase.cs" />
+    <Compile Include="Display3D\YnBase3D.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
-    <Compile Include="Display\YnObject.cs" />
+    <Compile Include="Display\YnEntity.cs" />
     <Compile Include="YnTimer.cs" />
-    <Compile Include="Display\Tilemap\BaseLayer.cs" />
-    <Compile Include="Display\Tilemap\BaseTile.cs" />
-    <Compile Include="Display\Tilemap\BaseTileMap.cs" />
-    <Compile Include="Display\Tilemap\Basic\Layer2D.cs" />
-    <Compile Include="Display\Tilemap\Basic\Tile2D.cs" />
-    <Compile Include="Display\Tilemap\Basic\TileMap2D.cs" />
-    <Compile Include="Display\Tilemap\Iso\LayerIso.cs" />
-    <Compile Include="Display\Tilemap\Iso\TileIso.cs" />
-    <Compile Include="Display\Tilemap\Iso\TileMapIso.cs" />
-    <Compile Include="Helpers\ContentHelper.cs" />
-    <Compile Include="Display\YnTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

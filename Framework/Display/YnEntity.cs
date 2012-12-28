@@ -8,14 +8,14 @@ using Yna.Framework.Display.Event;
 
 namespace Yna.Framework.Display
 {
+    #region Enumuration definition
+
     /// <summary>
     /// Define the origin of an object
     /// </summary>
     public enum ObjectOrigin
     {
-        TopLeft = 0, Top, TopRight,
-        Left, Center, Right,
-        BottomLeft, Bottom, BottomRight
+        TopLeft = 0, Top, TopRight, Left, Center, Right, BottomLeft, Bottom, BottomRight
     }
 
     /// <summary>
@@ -26,15 +26,21 @@ namespace Yna.Framework.Display
         Absolute = 0, Relative
     }
 
+    #endregion
+
     /// <summary>
     /// A basic drawable object
     /// </summary>
-    public abstract class YnObject : YnBase
+    public class YnEntity : YnBase
     {
-        #region Private declarations
+        #region Protected and private declarations
 
+        protected bool _dirty;
+
+        // Define if the object is updated and drawn
         protected bool _visible;
-        protected YnObject _parent;
+
+        // Sprite default values
         protected Vector2 _position;
         protected Rectangle _rectangle;
         protected Texture2D _texture;
@@ -47,14 +53,31 @@ namespace Yna.Framework.Display
         protected SpriteEffects _effects;
         protected float _layerDepth;
         protected float _alpha;
+
+        // Define the position of the sprite relative to its parent
+        protected YnEntity _parent;
         protected PositionType _positionType;
 
         #endregion
 
-        #region Properties
+        #region Base properties
 
         /// <summary>
-        /// Get or Set the status of the object
+        /// Flags who determine if this object must be cleaned and removed
+        /// </summary>
+        public bool Dirty
+        {
+            get { return _dirty; }
+            set
+            {
+                _dirty = value;
+                _enabled = !value;
+                _visible = !value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the status of the object
         /// If true the object is not paused and is visible
         /// Else it's paused and not visible
         /// </summary>
@@ -70,7 +93,20 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the positionment type for this object
+        /// Gets or sets the visibility status of the object
+        /// </summary>
+        public bool Visible
+        {
+            get { return _visible; }
+            set { _visible = value; }
+        }
+
+        #endregion
+
+        #region Properties for position/rotation/scale/etc..
+
+        /// <summary>
+        /// Gets or sets the positionment type for this object
         /// Relative to its parent or absolute
         /// </summary>
         public PositionType PositionType
@@ -80,58 +116,16 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the visibility status of the object
+        /// Gets or sets the parent object of this object (null if don't have a parent)
         /// </summary>
-        public bool Visible
-        {
-            get { return _visible; }
-            set { _visible = value; }
-        }
-
-
-        /// <summary>
-        /// Determine if the object must be purged (hard remove)
-        /// </summary>
-        public new bool Dirty
-        {
-            get { return _dirty; }
-            set
-            {
-                _dirty = value;
-                _enabled = !value;
-                _visible = !value;
-            }
-        }
-
-        /// <summary>
-        /// Get or set the parent object of this object (null if don't have a parent)
-        /// </summary>
-        public YnObject Parent
+        public YnEntity Parent
         {
             get { return _parent; }
             set { _parent = value; }
         }
 
         /// <summary>
-        /// Get or Set the color applied to the object
-        /// </summary>
-        public Color Color
-        {
-            get { return _color; }
-            set { _color = value; }
-        }
-
-        /// <summary>
-        /// Get or Set the rotation of the object (deg)
-        /// </summary>
-        public float Rotation
-        {
-            get { return _rotation; }
-            set { _rotation = value; }
-        }
-
-        /// <summary>
-        /// Get or Set the position of the object
+        /// Gets or sets the position of the object
         /// Note: The rectangle values are updated
         /// </summary>
         public Vector2 Position
@@ -147,7 +141,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the Rectangle (Bounding box) of the object
+        /// Gets or sets the Rectangle (Bounding box) of the object
         /// Note: The position values are updated
         /// </summary>
         public Rectangle Rectangle
@@ -163,29 +157,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the Texture2D used by the object
-        /// </summary>
-        public Texture2D Texture
-        {
-            get { return _texture; }
-            set { _texture = value; }
-        }
-
-        /// <summary>
-        /// Get or Set the texture name used when the content is loaded
-        /// </summary>
-        public string AssetName
-        {
-            get { return _assetName; }
-            set 
-            {
-                _assetLoaded = false;
-                _assetName = value; 
-            }
-        }
-
-        /// <summary>
-        /// Get or Set the origin of the object. Default is Vector2.Zero
+        /// Gets or sets the origin of the object. Default is Vector2.Zero
         /// </summary>
         public Vector2 Origin
         {
@@ -194,7 +166,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the scale of the object.Default is Vector2.One
+        /// Gets or sets the scale of the object.Default is Vector2.One
         /// Note: The rectangle of the object is updated
         /// </summary>
         public Vector2 Scale
@@ -203,12 +175,30 @@ namespace Yna.Framework.Display
             set
             {
                 _scale = value;
-                Rectangle = new Rectangle(X, Y, (int)(_scale.X * Width), (int)(_scale.Y * Height));
+                _rectangle = new Rectangle((int)_position.X, (int)_position.Y, (int)(_scale.X * _rectangle.Width), (int)(_scale.Y * _rectangle.Height));
             }
         }
 
         /// <summary>
-        /// Get or Set the Alpha applied to the object. Value between 0.0f and 1.0f
+        /// Gets or sets the color applied to the object
+        /// </summary>
+        public Color Color
+        {
+            get { return _color; }
+            set { _color = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation of the object (deg)
+        /// </summary>
+        public float Rotation
+        {
+            get { return _rotation; }
+            set { _rotation = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Alpha applied to the object. Value between 0.0f and 1.0f
         /// </summary>
         public float Alpha
         {
@@ -225,7 +215,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the SpriteEffect used for drawing the sprite
+        /// Gets or sets the SpriteEffect used for drawing the sprite
         /// </summary>
         public SpriteEffects Effects
         {
@@ -234,7 +224,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the layer depth
+        /// Gets or sets the layer depth
         /// </summary>
         public float LayerDepth
         {
@@ -243,7 +233,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the X position of the object.
+        /// Gets or sets the X position of the object.
         /// Note: The rectangle is updated when a value is setted
         /// </summary>
         public int X
@@ -257,7 +247,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the Y position of the object.
+        /// Gets or sets the Y position of the object.
         /// Note: The rectangle value is updated when a value is setted
         /// </summary>
         public int Y
@@ -271,7 +261,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the height of the rectangle
+        /// Gets or sets the height of the rectangle
         /// Note: who is the texture2D.Height value
         /// </summary>
         public int Height
@@ -281,7 +271,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Get or Set the width of the rectangle
+        /// Gets or sets the width of the rectangle
         /// Note: who is the texture2D.Width value
         /// </summary>
         public int Width
@@ -295,7 +285,7 @@ namespace Yna.Framework.Display
         /// </summary>
         public float ScaledWidth
         {
-            get { return Width * Scale.X; }
+            get { return _rectangle.Width * Scale.X; }
         }
 
         /// <summary>
@@ -303,7 +293,20 @@ namespace Yna.Framework.Display
         /// </summary>
         public float ScaledHeight
         {
-            get { return Height * Scale.Y; }
+            get { return _rectangle.Height * Scale.Y; }
+        }
+
+        #endregion
+
+        #region Properties for asset
+
+        /// <summary>
+        /// Gets or sets the Texture2D used by the object
+        /// </summary>
+        public Texture2D Texture
+        {
+            get { return _texture; }
+            set { _texture = value; }
         }
 
         /// <summary>
@@ -314,6 +317,20 @@ namespace Yna.Framework.Display
         {
             get { return _assetLoaded; }
         }
+
+        /// <summary>
+        /// Gets or sets the texture name used when the content is loaded
+        /// </summary>
+        public string AssetName
+        {
+            get { return _assetName; }
+            set
+            {
+                _assetLoaded = false;
+                _assetName = value;
+            }
+        }
+
         #endregion
 
         #region Events
@@ -341,12 +358,12 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Triggered when a click (and just one) is detected over the object
         /// </summary>
-        public event EventHandler<MouseClickSpriteEventArgs> MouseJustClicked = null;
+        public event EventHandler<MouseClickSpriteEventArgs> JustClicked = null;
 
         /// <summary>
         /// Triggered when click are detected over the object
         /// </summary>
-        public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
+        public event EventHandler<MouseClickSpriteEventArgs> Click = null;
 
         private void KillSprite(EventArgs e)
         {
@@ -374,14 +391,14 @@ namespace Yna.Framework.Display
 
         private void MouseJustClickedSprite(MouseClickSpriteEventArgs e)
         {
-            if (MouseJustClicked != null)
-                MouseJustClicked(this, e);
+            if (JustClicked != null)
+                JustClicked(this, e);
         }
 
         private void MouseClickSprite(MouseClickSpriteEventArgs e)
         {
-            if (MouseClick != null)
-                MouseClick(this, e);
+            if (Click != null)
+                Click(this, e);
         }
 
         #endregion
@@ -389,12 +406,12 @@ namespace Yna.Framework.Display
         /// <summary>
         /// A basic graphic object
         /// </summary>
-        public YnObject()
+        public YnEntity()
             : base()
         {
             _visible = true;
-            _parent = null;
-
+            _dirty = false;
+            
             _position = Vector2.Zero;
             _rectangle = Rectangle.Empty;
             _texture = null;
@@ -408,12 +425,39 @@ namespace Yna.Framework.Display
             _effects = SpriteEffects.None;
             _layerDepth = 1.0f;
 
-            PositionType = PositionType.Absolute;
+            _parent = null;
+            _positionType = PositionType.Absolute;
         }
 
-        public abstract void Initialize();
+        public YnEntity(string assetName)
+            : this()
+        {
+            _assetName = assetName;
+        }
 
-        public abstract void LoadContent();
+        public YnEntity(string assetName, Vector2 position)
+            : this(assetName)
+        {
+            _position = position;
+        }
+
+        #region GameState pattern
+
+        public virtual void Initialize()
+        {
+
+        }
+
+        public virtual void LoadContent()
+        {
+            if (_texture == null && _assetName != String.Empty)
+            {
+                _texture = YnG.Content.Load<Texture2D>(_assetName);
+                _rectangle.Width = _texture.Width;
+                _rectangle.Height = _texture.Height;
+                _assetLoaded = true;
+            }
+        }
 
         /// <summary>
         /// Dispose the Texture2D object if the Dirty property is set to true
@@ -427,7 +471,7 @@ namespace Yna.Framework.Display
         public override void Update(GameTime gameTime)
         {
             // Check mouse events
-            if (Enabled)
+            if (_enabled)
             {
                 Rectangle = new Rectangle(X, Y, Width, Height);
 
@@ -481,9 +525,13 @@ namespace Yna.Framework.Display
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (Visible)
+            if (_visible)
                 spriteBatch.Draw(_texture, _rectangle, null, _color * _alpha, _rotation, _origin, _effects, _layerDepth);
         }
+
+        #endregion
+
+        #region Live and die methods
 
         /// <summary>
         /// Flag the object for a purge action
@@ -494,22 +542,12 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Recycle object
-        /// </summary>
-        public virtual void Recycle()
-        {
-            Dirty = false;
-            Revive();
-        }
-
-        /// <summary>
         /// Kill the object, it's no more updated and drawed
         /// Pause is setted on true and Visible is setted to false
         /// </summary>
         public virtual void Kill()
         {
             Active = false;
-
             KillSprite(EventArgs.Empty);
         }
 
@@ -520,9 +558,12 @@ namespace Yna.Framework.Display
         public virtual void Revive()
         {
             Active = true;
-
             ReviveSprite(EventArgs.Empty);
         }
+
+        #endregion
+
+        #region Change origin
 
         /// <summary>
         /// Change the origin of the object
@@ -542,6 +583,13 @@ namespace Yna.Framework.Display
                 case ObjectOrigin.Bottom:      _origin = new Vector2(Width / 2, Height);      break;
                 case ObjectOrigin.BottomRight: _origin = new Vector2(Width, Height);          break;
             }
+        }
+
+        #endregion
+
+        public void SetFullScreen()
+        {
+            Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
         }
     }
 }

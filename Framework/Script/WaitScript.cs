@@ -38,7 +38,7 @@ namespace Yna.Framework.Script
         /// </summary>
         /// <param name="gameTime">The game time</param>
         /// <param name="o">Unused here</param>
-        public override void Update(GameTime gameTime, YnObject o)
+        public override void Update(GameTime gameTime, YnEntity o)
         {
             _elaspedTime += gameTime.ElapsedGameTime.Milliseconds;
 

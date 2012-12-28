@@ -13,24 +13,44 @@ namespace Yna.Framework.Display
     /// </summary>
     public class YnScene : YnBase
     {
-        // Basic object (juste an Update() method)
-        private List<YnBase> _safeBaseObjects;
-        private List<YnBase> _baseObjectsToRemove;
-
-        // Graphic objects (Update() and Draw() methods)
+        private List<YnTimer> _timers;
+        private List<YnBase> _baseObjects;
         private YnGroup _sceneObjects;
+        private YnGui _guiManager;
 
-        // Screen gui
-        private YnGui _gui;
+        public YnScene()
+        {
+            _timers = new List<YnTimer>();
+            _baseObjects = new List<YnBase>();
+            _sceneObjects = new YnGroup();
+            _guiManager = new YnGui();
+        }
 
         public override void Update(GameTime gameTime)
         {
-        
+            int timerCount = _timers.Count;
+            int baseCount = _baseObjects.Count;
+
+            if (timerCount > 0)
+            {
+                foreach (YnTimer timer in _timers)
+                    timer.Update(gameTime);
+            }
+
+            if (baseCount > 0)
+            {
+                foreach (YnBase baseObject in _baseObjects)
+                    baseObject.Update(gameTime);
+            }
+
+            _sceneObjects.Update(gameTime);
+            _guiManager.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            
+            _sceneObjects.Draw(gameTime, spriteBatch);
+            _guiManager.Draw(gameTime, spriteBatch);
         }
     }
 }

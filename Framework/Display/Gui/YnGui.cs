@@ -12,7 +12,7 @@ namespace Yna.Framework.Display.Gui
     /// <summary>
     /// The GUI manager
     /// </summary>
-    public class YnGui : YnObject
+    public class YnGui : YnEntity
     {
         #region Protected declarations
 
