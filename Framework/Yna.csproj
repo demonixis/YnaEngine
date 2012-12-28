@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Display3D\Primitive\IcoSphere.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
     <Compile Include="Display\StateCamera.cs" />
     <Compile Include="Display\YnGraphics.cs" />
