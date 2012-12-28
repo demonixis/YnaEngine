@@ -8,10 +8,9 @@ namespace Yna.Framework.Display3D.Primitive
     {
         protected VertexPositionNormalTexture[] _vertices;
         protected short[] _indices;
-
         protected VertexBuffer _vertexBuffer;
         protected IndexBuffer _indexBuffer;
-
+        
         public Cube(string textureName, Vector3 sizes, Vector3 position)
         {
             _segmentSizes = sizes;

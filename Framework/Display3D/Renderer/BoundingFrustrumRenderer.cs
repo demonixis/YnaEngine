@@ -9,12 +9,13 @@ namespace Yna.Framework.Display3D.Renderer
     /// Class adapted from XNA Wiki http://www.xnawiki.com/index.php/Main_Page
     /// TODO : Create an instaciable object
     /// </summary>
-    public static class BoundingBoxRenderer
+    public static class BoundingFrustumRenderer
     {
-        #region Properties
+        #region Private declarations
 
-        private static VertexPositionColor [] verts = new VertexPositionColor [8];
-        private static short [] indices = new short []
+        private static BasicEffect effect;
+        private static VertexPositionColor[] vertices = new VertexPositionColor[8];
+        private static int[] indices = new int[]
         {
             0, 1,
             1, 2,
@@ -30,11 +31,15 @@ namespace Yna.Framework.Display3D.Renderer
             7, 4,
         };
 
-        private static BasicEffect effect;
-
         #endregion
 
-        public static void Draw(BoundingBox box, BaseCamera camera, Color color)
+        /// <summary>
+        /// Draw a bounding frustrum representation
+        /// </summary>
+        /// <param name="frustum">Frustrum</param>
+        /// <param name="camera">Camera</param>
+        /// <param name="color">Color</param>
+        public static void Draw(BoundingFrustum frustum, BaseCamera camera, Color color)
         {
             if (effect == null)
             {
@@ -43,11 +48,11 @@ namespace Yna.Framework.Display3D.Renderer
                 effect.LightingEnabled = false;
             }
 
-            Vector3 [] corners = box.GetCorners();
+            Vector3[] corners = frustum.GetCorners();
             for (int i = 0; i < 8; i++)
             {
-                verts [i].Position = corners [i];
-                verts [i].Color = color;
+                vertices[i].Position = corners[i];
+                vertices[i].Color = color;
             }
 
             effect.View = camera.View;
@@ -56,7 +61,7 @@ namespace Yna.Framework.Display3D.Renderer
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                YnG.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, verts, 0, 8, indices, 0, indices.Length / 2);
+                YnG.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, vertices, 0, 8, indices, 0, indices.Length / 2);
             }
         }
     }
