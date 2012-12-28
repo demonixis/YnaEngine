@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gui.WindowsGL", "Gui\Gui.Wi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models3D.WindowsGL", "Models3D\Models3D.WindowsGL.csproj", "{EB068317-21C8-44D3-9F77-32AE7D47DB2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Input.Wiimote", "..\Plugins\Wiimote\Yna.Input.Wiimote.csproj", "{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Input.Wiimote", "..\Plugins\Input\Wiimote\Yna.Input.Wiimote.csproj", "{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiimote", "Wiimote\Wiimote.csproj", "{807DA21B-41FB-4566-85B6-220B8A2CB9B1}"
 EndProject

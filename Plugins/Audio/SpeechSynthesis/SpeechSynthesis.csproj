@@ -1,21 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\Common\MonoGame\MonoGame.ContentPipeline.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{807DA21B-41FB-4566-85B6-220B8A2CB9B1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{0B92A4E8-72AB-4C03-BEB5-DF60E6107E76}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wiimote</RootNamespace>
-    <AssemblyName>Wiimote</AssemblyName>
+    <RootNamespace>Yna.Framework.Audio</RootNamespace>
+    <AssemblyName>Yna.Framework.Audio.SpeechSynthesis</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,45 +30,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
-    <Content Include="Content\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Game.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Speech" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.WindowsGL.csproj">
-      <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
-      <Name>Yna.WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Plugins\Input\Wiimote\Yna.Input.Wiimote.csproj">
-      <Project>{fcfc0955-f7c2-4e6b-993a-6d47902c6fc1}</Project>
-      <Name>Yna.Input.Wiimote</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{17c7c5b6-0d21-4f23-aa17-e62f357f7d6d}</Project>
-      <Name>Common.WindowsGL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ArcadeGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WiimoteGame.cs" />
+    <Compile Include="SpeechSynthesis.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

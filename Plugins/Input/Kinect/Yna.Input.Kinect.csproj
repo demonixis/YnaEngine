@@ -1,21 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\Common\MonoGame\MonoGame.ContentPipeline.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{807DA21B-41FB-4566-85B6-220B8A2CB9B1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{19942425-02F9-4305-B9BD-3BB16AC83434}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wiimote</RootNamespace>
-    <AssemblyName>Wiimote</AssemblyName>
+    <RootNamespace>Yna.Input</RootNamespace>
+    <AssemblyName>Yna.Input.Kinect</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,45 +30,25 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
-    <Content Include="Content\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Game.ico" />
-  </ItemGroup>
-  <ItemGroup>
+    <Reference Include="Coding4Fun.Kinect.Wpf">
+      <HintPath>..\..\..\ThirdParty\Kinect\Coding4Fun.Kinect.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Kinect, Version=1.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\Program Files\Microsoft SDKs\Kinect\v1.6\Assemblies\Microsoft.Kinect.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.WindowsGL.csproj">
-      <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
-      <Name>Yna.WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Plugins\Input\Wiimote\Yna.Input.Wiimote.csproj">
-      <Project>{fcfc0955-f7c2-4e6b-993a-6d47902c6fc1}</Project>
-      <Name>Yna.Input.Wiimote</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{17c7c5b6-0d21-4f23-aa17-e62f357f7d6d}</Project>
-      <Name>Common.WindowsGL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ArcadeGame.cs" />
+    <Compile Include="KinectSensorController.cs" />
+    <Compile Include="KinectUserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WiimoteGame.cs" />
+    <Compile Include="Service\IKinectSensorService.cs" />
+    <Compile Include="Service\KinectSensorService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

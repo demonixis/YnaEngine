@@ -1,12 +1,11 @@
-﻿#if XNA || MONOGAME && WINDOWS || WINDOWS_PHONE_8
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Speech.Synthesis;
 using System.Globalization;
 
-namespace Yna.Audio
+namespace Yna.Framework.Audio
 {
-    public class VocalSynthetizer : IDisposable
+    public class SpeechSynthesis : IDisposable
     {
         private SpeechSynthesizer _speechSynth;
         private List<string> _voices;
@@ -31,7 +30,7 @@ namespace Yna.Audio
             set { _speechSynth.Rate = value; }
         }
 
-        public VocalSynthetizer()
+        public SpeechSynthesis()
         {
             _speechSynth = new SpeechSynthesizer();
             _speechSynth.SpeakCompleted += new EventHandler<SpeakCompletedEventArgs>(speechSynth_SpeakCompleted);
@@ -51,7 +50,7 @@ namespace Yna.Audio
                     _voices.Add(v.VoiceInfo.Name);
             }
             else
-                throw new Exception("[VocalSynthetizer] No voices founded on this computer");
+                throw new Exception("[SpeechSynthesis] No voices founded on this computer");
         }
 
         public void SpeakAsync(string message, SayAs sayAs = SayAs.Text)
@@ -134,20 +133,3 @@ namespace Yna.Audio
         }
     }
 }
-#else
-namespace Yna.Audio
-{
-    public class VocalSynthetizer : System.IDisposable
-    {
-        public bool Enabled { get; set; }
-        public int Rate { get; set; }
-        public string Culture { get; set; }
-        public VocalSynthetizer() { }
-        public void Initialize() { }
-        public void SpeakAsync(string s) { }
-        public void StopSpeak() { }
-        public void Close() { }
-        void System.IDisposable.Dispose() { }
-    }
-}
-#endif

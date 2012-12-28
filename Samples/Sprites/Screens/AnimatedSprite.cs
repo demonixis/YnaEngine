@@ -32,6 +32,7 @@ namespace Yna.Samples.Screens
         public AnimatedSprites(string name)
             : base(name, 1500, 0)
         {
+
             background = new YnEntity("Scene/GreenGround");
             Add(background);
 
