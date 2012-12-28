@@ -11,35 +11,13 @@ namespace Yna.Framework.Display3D.Terrain
     /// <summary>
     /// Abstract class that represent a basic Terrain
     /// </summary>
-    public abstract class BaseTerrain : BasePrimitive
+    public abstract class BaseTerrain : Shape<VertexPositionNormalTexture>
     {
-        #region Private declarations
-
-        protected VertexPositionNormalTexture[] _vertices;
-        protected VertexBuffer _vertexBuffer;
-        protected short[] _indices;
-        protected IndexBuffer _indexBuffer;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Vertices that compose the terrain
-        /// </summary>
-        public VertexPositionNormalTexture[] Vertices
-        {
-            get { return _vertices; }
-            set { _vertices = value; }
-        }
-
-        #endregion
-
         /// <summary>
         /// Basic initialization for an abstract terrain
         /// </summary>
         public BaseTerrain()
-            : base(new Vector3(0, 0, 0))
+            : base()
         {
             _useVertexColor = true;
             _useTexture = false;
@@ -52,33 +30,27 @@ namespace Yna.Framework.Display3D.Terrain
             _position = position;
         }
 
+        /// <summary>
+        /// Load texture if not already loaded. If you wan't to reload a new texture,
+        /// set the Initialized property to true before calling this method
+        /// </summary>
         public override void LoadContent()
         {
-            base.LoadContent();
+            _basicEffect = new BasicEffect(YnG.GraphicsDevice);
 
-            if (!_initialized)
+            if (!_initialized && _textureName != String.Empty)
             {
-                if (_textureName != String.Empty && _texture == null)
-                {
-                    _texture = YnG.Content.Load<Texture2D>(_textureName);
-                    _useTexture = true;
-                    _useVertexColor = false;
-                    _initialized = true;
-                }
+                _texture = YnG.Content.Load<Texture2D>(_textureName);
+                _useTexture = true;
+                _useVertexColor = false;
+                _initialized = true;
             }
         }
-
-        #region Vertices construction & Setup
-
-        /// <summary>
-        /// Create the vertex array
-        /// </summary>
-        protected abstract void CreateVertices();
 
         /// <summary>
         /// Create indices with vertex array
         /// </summary>
-        protected virtual void CreateIndices()
+        protected override void CreateIndices()
         {
             _indices = new short[(Width - 1) * (Depth - 1) * 6];
 
@@ -101,40 +73,19 @@ namespace Yna.Framework.Display3D.Terrain
                     _indices[counter++] = topRight;
                 }
             }
-
-            _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
-            _vertexBuffer.SetData(_vertices);
-
-            _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
-            _indexBuffer.SetData(_indices);
         }
 
-        public virtual void ComputeNormals()
+        public virtual void MoveVertex(int x, int z, float deltaY)
         {
-            for (int i = 0; i < _vertices.Length; i++)
-                _vertices[i].Normal = Vector3.Zero;
+            _vertices[x + z * Width].Position.Y += deltaY;
 
-            for (int i = 0; i < _indices.Length / 3; i++)
-            {
-                int index1 = _indices[i * 3];
-                int index2 = _indices[i * 3 + 1];
-                int index3 = _indices[i * 3 + 2];
+            // TODO : compute vertex normal only for this vertex
+            ComputeNormals(ref _vertices);
 
-                // Select the face
-                Vector3 side1 = _vertices[index1].Position - _vertices[index3].Position;
-                Vector3 side2 = _vertices[index1].Position - _vertices[index2].Position;
-                Vector3 normal = Vector3.Cross(side1, side2);
+            UpdateShader();
 
-                _vertices[index1].Normal += normal;
-                _vertices[index2].Normal += normal;
-                _vertices[index3].Normal += normal;
-            }
-
-            for (int i = 0; i < _vertices.Length; i++)
-                _vertices[i].Normal.Normalize();
+            UpdateBoundingVolumes();
         }
-
-        #endregion
 
         #region Bounding volumes
 
@@ -180,32 +131,13 @@ namespace Yna.Framework.Display3D.Terrain
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device)
         {
-            base.Draw(device);
-
-            //device.SetVertexBuffer(_vertexBuffer);
-            //device.Indices = _indexBuffer;
+            PreDraw();
 
             foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                //device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
             }
-
-            //device.SetVertexBuffer(null);
-            //device.Indices = null;
-        }
-
-        public virtual void MoveVertex(int x, int z, float deltaY)
-        {
-            _vertices[x + z * Width].Position.Y += deltaY;
-            
-            // TODO : compute vertex normal only for this vertex
-            ComputeNormals();
-
-            UpdateShader();
-
-            UpdateBoundingVolumes();
         }
     }
 }

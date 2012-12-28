@@ -16,8 +16,8 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            stateManager.Add(new BasicTerrain("sample_1"), true);
-            stateManager.Add(new HeighmapTerrain("sample_2"), false);
+            stateManager.Add(new BasicTerrain("sample_1"), false);
+            stateManager.Add(new HeighmapTerrain("sample_2"), true);
         }
 #if !WINDOWS_PHONE
         public static void Main(string[] args)

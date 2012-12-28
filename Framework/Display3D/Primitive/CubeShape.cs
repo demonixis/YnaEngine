@@ -4,14 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Framework.Display3D.Primitive
 {
-    public class Cube : BasePrimitive
+    public class CubeShape : Shape<VertexPositionNormalTexture>
     {
-        protected VertexPositionNormalTexture[] _vertices;
-        protected short[] _indices;
-        protected VertexBuffer _vertexBuffer;
-        protected IndexBuffer _indexBuffer;
-        
-        public Cube(string textureName, Vector3 sizes, Vector3 position)
+        public CubeShape(string textureName, Vector3 sizes, Vector3 position)
         {
             _segmentSizes = sizes;
             _position = position;
@@ -22,26 +17,7 @@ namespace Yna.Framework.Display3D.Primitive
             _depth = sizes.Z;
         }
 
-        public override void LoadContent()
-        {
-            base.LoadContent();
-
-            if (!_initialized)
-            {
-                if (_textureName != String.Empty && _texture == null)
-                {
-                    _texture = YnG.Content.Load<Texture2D>(_textureName);
-                    _useTexture = true;
-                    _useVertexColor = false;
-                    _initialized = true;
-                }
-            }
-
-            CreateVertices();
-            UpdateShader();
-        }
-
-        private void CreateVertices()
+        protected override void CreateVertices()
         {
             Color[] _colors = new Color[]
             {
@@ -51,16 +27,16 @@ namespace Yna.Framework.Display3D.Primitive
             _vertices = new VertexPositionNormalTexture[36];
 
             // Calculate the position of the vertices on the top face.
-            Vector3 topLeftFront = Position + new Vector3(-1.0f, 1.0f, -1.0f) * SegmentSizes;
-            Vector3 topLeftBack = Position + new Vector3(-1.0f, 1.0f, 1.0f) * SegmentSizes;
-            Vector3 topRightFront = Position + new Vector3(1.0f, 1.0f, -1.0f) * SegmentSizes;
-            Vector3 topRightBack = Position + new Vector3(1.0f, 1.0f, 1.0f) * SegmentSizes;
+            Vector3 topLeftFront = new Vector3(-1.0f, 1.0f, -1.0f) * SegmentSizes;
+            Vector3 topLeftBack = new Vector3(-1.0f, 1.0f, 1.0f) * SegmentSizes;
+            Vector3 topRightFront = new Vector3(1.0f, 1.0f, -1.0f) * SegmentSizes;
+            Vector3 topRightBack = new Vector3(1.0f, 1.0f, 1.0f) * SegmentSizes;
 
             // Calculate the position of the vertices on the bottom face.
-            Vector3 btmLeftFront = Position + new Vector3(-1.0f, -1.0f, -1.0f) * SegmentSizes;
-            Vector3 btmLeftBack = Position + new Vector3(-1.0f, -1.0f, 1.0f) * SegmentSizes;
-            Vector3 btmRightFront = Position + new Vector3(1.0f, -1.0f, -1.0f) * SegmentSizes;
-            Vector3 btmRightBack = Position + new Vector3(1.0f, -1.0f, 1.0f) * SegmentSizes;
+            Vector3 btmLeftFront = new Vector3(-1.0f, -1.0f, -1.0f) * SegmentSizes;
+            Vector3 btmLeftBack = new Vector3(-1.0f, -1.0f, 1.0f) * SegmentSizes;
+            Vector3 btmRightFront = new Vector3(1.0f, -1.0f, -1.0f) * SegmentSizes;
+            Vector3 btmRightBack = new Vector3(1.0f, -1.0f, 1.0f) * SegmentSizes;
 
             // Normal vectors for each face (needed for lighting / display)
             Vector3 normalFront = new Vector3(0.0f, 0.0f, 1.0f) * SegmentSizes;
@@ -123,7 +99,10 @@ namespace Yna.Framework.Display3D.Primitive
             _vertices[33] = new VertexPositionNormalTexture(topRightBack, normalRight, textureTopRight);
             _vertices[34] = new VertexPositionNormalTexture(topRightFront, normalRight, textureTopLeft);
             _vertices[35] = new VertexPositionNormalTexture(btmRightBack, normalRight, textureBottomRight);
+        }
 
+        protected override void CreateIndices()
+        {
             _indices = new short[]
             {
                 0,  3,  2,  0,  2,  1,
@@ -133,18 +112,10 @@ namespace Yna.Framework.Display3D.Primitive
                 16, 19, 18, 16, 18, 17,
                 20, 23, 22, 20, 22, 21            
             };
-
-            _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
-            _vertexBuffer.SetData(_vertices);
-
-            _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
-            _indexBuffer.SetData(_indices);
         }
 
         public override void UpdateBoundingVolumes()
         {
-            UpdateMatrices();
-
             _boundingBox = new BoundingBox(new Vector3(float.MaxValue), new Vector3(float.MinValue));
 
             foreach (VertexPositionNormalTexture vertex in _vertices)
@@ -167,23 +138,6 @@ namespace Yna.Framework.Display3D.Primitive
             _boundingSphere = new BoundingSphere(
                 new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
                 radius);
-        }
-
-        public override void Draw(GraphicsDevice device)
-        {
-            base.Draw(device);
-
-            foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                device.SetVertexBuffer(_vertexBuffer);
-                device.Indices = _indexBuffer;
-                device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
-            }
-            device.SetVertexBuffer(null);
-            device.Indices = null;
-
-            //Renderer.BoundingBoxRenderer.Draw(_boundingBox, YnG.GraphicsDevice, Camera.View, Camera.Projection, Color.Red);
         }
     }
 }

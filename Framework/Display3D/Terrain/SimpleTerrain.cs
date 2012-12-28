@@ -29,14 +29,8 @@ namespace Yna.Framework.Display3D.Terrain
         public override void LoadContent()
         {
             base.LoadContent();
-
-            CreateVertices();
-            CreateIndices();
-            ComputeNormals();
-
-            UpdateShader();
-
-            UpdateBoundingVolumes();
+            GenerateShape();
+            ComputeNormals(ref _vertices);
         }
 
         protected override void CreateVertices()
@@ -48,9 +42,9 @@ namespace Yna.Framework.Display3D.Terrain
                 for (int z = 0; z < Depth; z++)
                 {
                     _vertices[x + z * Width].Position = new Vector3(
-                        (_position.X + x) * _segmentSizes.X, 
-                        (_position.Y + 0) * _segmentSizes.Y, 
-                        (_position.Z + z) * _segmentSizes.Z);
+                        x * _segmentSizes.X, 
+                        0 * _segmentSizes.Y, 
+                        z * _segmentSizes.Z);
 
                     _vertices[x + z * Width].TextureCoordinate = new Vector2(
                         ((float)x / (float)Width) * _textureRepeat.X, 

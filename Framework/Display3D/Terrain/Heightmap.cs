@@ -58,13 +58,9 @@ namespace Yna.Framework.Display3D.Terrain
 
             LoadHeightDatas();
 
-            CreateVertices();
+            GenerateShape();
 
-            CreateIndices();
-
-            ComputeNormals();
-
-            UpdateShader();
+            ComputeNormals(ref _vertices);
 
             UpdateBoundingVolumes();
         }
@@ -97,9 +93,9 @@ namespace Yna.Framework.Display3D.Terrain
                 for (int z = 0; z < Depth; z++)
                 {
                     _vertices[x + z * Width].Position = new Vector3(
-                        (_position.X + x) * _segmentSizes.X,
-                        (_position.Y +  _heightData[x, z]) * _segmentSizes.Y,
-                        (_position.Z + z) * _segmentSizes.Z);
+                        x * _segmentSizes.X,
+                        _heightData[x, z] * _segmentSizes.Y,
+                        _position.Z + z * _segmentSizes.Z);
 
                     _vertices[x + z * Width].TextureCoordinate = new Vector2(
                         (float)x / (float)Width * _textureRepeat.X,
@@ -130,7 +126,7 @@ namespace Yna.Framework.Display3D.Terrain
             int x = (int)((positionX / _segmentSizes.X) / _scale.X);
             int z = (int)((positionZ / _segmentSizes.Z) / _scale.Z);
 
-            if (x < 0 || x >= _width - 1 || z < 0 || z >= _depth - 1)
+            if (x < 0 || x >= _heightData.GetLength(0) - 1 || z < 0 || z >= _heightData.GetLength(1) - 1)
                 terrainHeigth = positionY;
             else
             {

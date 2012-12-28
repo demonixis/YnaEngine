@@ -59,7 +59,7 @@
       <HintPath>..\ThirdParty\MonoGame\Android\Tao.Sdl.dll</HintPath>
     </Reference>
   </ItemGroup>
-<ItemGroup>
+  <ItemGroup>
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
@@ -80,10 +80,12 @@
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Light\BasicLight.cs" />
-    <Compile Include="Display3D\Primitive\BasePrimitive.cs" />
-    <Compile Include="Display3D\Primitive\Cube.cs" />
+    <Compile Include="Display3D\Primitive\PlaneShape.cs" />
+    <Compile Include="Display3D\Primitive\Shape.cs" />
+    <Compile Include="Display3D\Primitive\CubeShape.cs" />
     <Compile Include="Display3D\Renderer\BoundingBoxRenderer.cs" />
     <Compile Include="Display3D\Renderer\RayRenderer.cs" />
+    <Compile Include="Display3D\Renderer\BoundingFrustrumRenderer.cs" />
     <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnGroup3D.cs" />
     <Compile Include="Display3D\YnModel.cs" />

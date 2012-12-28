@@ -212,6 +212,8 @@ namespace Yna.Framework.Display3D.Primitive
 
         #endregion
 
+        #region Constructors
+
         public BasePrimitive()
             : this(new Vector3(0, 0, 0))
         {
@@ -235,6 +237,8 @@ namespace Yna.Framework.Display3D.Primitive
             _needShaderUpdate = true;
             _needLightUpdate = true;
         }
+
+        #endregion
 
         /// <summary>
         /// Setup the basic effet. Note that the flag NeedShaderUpdate must be set to
@@ -328,11 +332,7 @@ namespace Yna.Framework.Display3D.Primitive
                 Math.Max(Math.Max(Width, Height), Depth));
         }
 
-        /// <summary>
-        /// Draw the object
-        /// </summary>
-        /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device)
+        public virtual void PreDraw()
         {
             if (_needMatricesUpdate)
                 UpdateMatrices();
@@ -349,6 +349,15 @@ namespace Yna.Framework.Display3D.Primitive
             _basicEffect.World = World;
             _basicEffect.View = View;
             _basicEffect.Projection = _camera.Projection;
+        }
+
+        /// <summary>
+        /// Draw the object
+        /// </summary>
+        /// <param name="device"></param>
+        public override void Draw(GraphicsDevice device)
+        {
+            PreDraw();
         }
     }
 }
