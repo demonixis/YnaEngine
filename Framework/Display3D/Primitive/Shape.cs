@@ -6,6 +6,16 @@ namespace Yna.Framework.Display3D.Primitive
 {
     /// <summary>
     /// Basic class for create an object geometry
+    /// How does it work ?
+    /// 1 - Make your constructor
+    /// 2 - override CreateVertices()
+    /// 3 - override CreateIndices()
+    /// 4 - (optional) override GenerateShape for change the order of generation
+    /// 5 - (optional but recommanded) override UpdateBoundingVolumes
+    /// 6 - (optional) if you don't want to use vertex/indexBuffer override Draw method
+    /// 7 - (optional) override UpdateShader() if you want to use a custom Effect
+    ///     and call in first PreDraw() method. Do your stuff after that
+    /// 
     /// </summary>
     /// <typeparam name="T">Type of IVertexType</typeparam>
     public abstract class Shape<T> : YnObject3D where T : struct, IVertexType

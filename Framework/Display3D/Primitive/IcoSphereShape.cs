@@ -28,14 +28,8 @@ namespace Yna.Framework.Display3D.Primitive
         }
     }
 
-    public class IcoSphere : BasePrimitive
+    public class IcoSphereShape : Shape<VertexPositionNormalTexture>
     {
-        protected VertexPositionNormalTexture[] _vertices;
-        protected short[] _indices;
-
-        protected VertexBuffer _vertexBuffer;
-        protected IndexBuffer _indexBuffer;
-
         protected float _radius;
         protected int _lod;
         protected bool _invertFaces; // Unused for now
@@ -44,7 +38,7 @@ namespace Yna.Framework.Display3D.Primitive
         private List<TriangleData> _triangles;
         protected Dictionary<Int64, int> _cache;
 
-        public IcoSphere(string textureName, float radius, int lod, bool invertFaces)
+        public IcoSphereShape(string textureName, float radius, int lod, bool invertFaces)
             : base()
         {
             _textureName = textureName;
@@ -55,37 +49,17 @@ namespace Yna.Framework.Display3D.Primitive
             _triangles = new List<TriangleData>();
         }
 
-        public override void LoadContent()
-        {
-            base.LoadContent();
-
-            if (!_initialized)
-            {
-                if (_textureName != String.Empty && _texture == null)
-                {
-                    _texture = YnG.Content.Load<Texture2D>(_textureName);
-                    _textureEnabled = true;
-                    _colorEnabled = false;
-                    _initialized = true;
-                }
-            }
-
-            CreateVertices();
-            SetupShader();
-        }
-
-        private void CreateVertices()
+        protected override void CreateVertices()
         {
             CreateVertexData();
 
             ApplyVertexData();
-
-            _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
-            _vertexBuffer.SetData(_vertices);
-
-            _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
-            _indexBuffer.SetData(_indices);
         }
+		
+		protected override void CreateIndices()
+		{
+			// Indices are calculated in ApplyVertexData
+		}
 
         /// <summary>
         /// Compute the vertices created in CreateVertexData into usable VertexPositionNormalTexture
@@ -299,13 +273,15 @@ namespace Yna.Framework.Display3D.Primitive
 
         public override void Draw(GraphicsDevice device)
         {
-            base.Draw(device);
-
+            PreDraw();
+			
+			device.SetVertexBuffer(_vertexBuffer);
+                device.Indices = _indexBuffer;
+			
             foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                device.SetVertexBuffer(_vertexBuffer);
-                device.Indices = _indexBuffer;
+                
                 device.SamplerStates[0] = SamplerState.LinearClamp;
                 device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
             }
