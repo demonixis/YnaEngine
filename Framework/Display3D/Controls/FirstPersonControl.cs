@@ -5,14 +5,26 @@ using Yna.Framework.Display3D.Camera;
 
 namespace Yna.Framework.Display3D.Controls
 {
+    /// <summary>
+    /// A first person controller who can be used with keyboard, mouse and gamepad
+    /// </summary>
     public class FirstPersonControl : BaseControl
     {
+        
+        /// <summary>
+        /// Create a new FPS Controller for the first player
+        /// </summary>
+        /// <param name="camera">The FirstPersonCamera to use with this controller</param>
         public FirstPersonControl(FirstPersonCamera camera)
-            : base(camera)
+            : this(camera, PlayerIndex.One)
         {
-
+  
         }
 
+        /// <summary>
+        /// Create a new FPS controller for the specified player
+        /// </summary>
+        /// <param name="camera">The FirstPersonCamera to use with this controller</param>
         public FirstPersonControl(FirstPersonCamera camera, PlayerIndex index)
             : base(camera, index)
         {
@@ -21,14 +33,12 @@ namespace Yna.Framework.Display3D.Controls
 
         public override void Update(GameTime gameTime)
         {
-            if (_useKeyboard)
-                UpdateKeyboardInput(gameTime);
+            base.Update(gameTime);
 
-            if (_useMouse)
-                UpdateMouseInput(gameTime);
-
-            if (_useGamepad)
-                UpdateGamepadInput(gameTime);
+            Camera.Translate(_velocityPosition.X, _velocityPosition.Y, _velocityPosition.Z);
+            Camera.RotateY(_velocityRotation.Y);
+            Camera.SetPitch(_velocityRotation.X);
+            Camera.SetRoll(_velocityRotation.Z);
 
             Camera.Update(gameTime);
         }
@@ -37,38 +47,39 @@ namespace Yna.Framework.Display3D.Controls
         {
             // Translation Up/Down
             if (YnG.Keys.Pressed(Keys.A))
-                Camera.Translate(0, _moveSpeed, 0);
+                _velocityPosition.Y += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.E))
-                Camera.Translate(0, -_moveSpeed, 0);
+                _velocityPosition.Y -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Translation Forward/backward
-            if (YnG.Keys.Pressed(Keys.Z) || YnG.Keys.Up)
-                Camera.Translate(0, 0, _moveSpeed);
-            else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
-                Camera.Translate(0, 0, -_moveSpeed);
+            if (YnG.Keys.Pressed(_keyMapper.Up[0]) || YnG.Keys.Pressed(_keyMapper.Up[1]))
+                _velocityPosition.Z += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            else if (YnG.Keys.Pressed(_keyMapper.Down[0]) || YnG.Keys.Pressed(_keyMapper.Down[1]))
+                _velocityPosition.Z -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+
+            // Translation Left/Right
+            if (YnG.Keys.Pressed(_keyMapper.StrafeLeft[0]))
+                _velocityPosition.X += _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            else if (YnG.Keys.Pressed(_keyMapper.StrafeRight[0]))
+                _velocityPosition.X -= _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+
+            // Rotation Left/Right
+            if (YnG.Keys.Pressed(_keyMapper.Left[0]))
+                _velocityRotation.Y += _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            else if (YnG.Keys.Pressed(_keyMapper.Right[0]))
+                _velocityRotation.Y -= _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Look Up/Down
             if (YnG.Keys.Pressed(Keys.PageUp))
-                Camera.SetPitch(-_pitchSpeed);
+                _velocityRotation.X += _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.PageDown))
-                Camera.SetPitch(_pitchSpeed);
+                _velocityRotation.X -= _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
-            // Translation Left/Right
-            if (YnG.Keys.Pressed(Keys.Q))
-                Camera.Translate(_strafeSpeed, 0, 0);
-            else if (YnG.Keys.Pressed(Keys.D))
-                Camera.Translate(-_strafeSpeed, 0, 0);
-
-            // Rotation Left/Right
-            if (YnG.Keys.Left)
-                Camera.RotateY(_rotateSpeed);
-            else if (YnG.Keys.Right)
-                Camera.RotateY(-_rotateSpeed);
-
+            // Roll
             if (YnG.Keys.Pressed(Keys.W))
-                Camera.SetRoll(_rotateSpeed);
+                _velocityRotation.Z += _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.X))
-                Camera.SetRoll(-_rotateSpeed);
+                _velocityRotation.Z -= _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
         }
 
         protected override void UpdateGamepadInput(GameTime gameTime)
@@ -76,16 +87,21 @@ namespace Yna.Framework.Display3D.Controls
             Vector2 leftStickValue = YnG.Gamepad.LeftStickValue(_playerIndex);
             Vector2 rightStickValue = YnG.Gamepad.RightStickValue(_playerIndex);
 
-            // Translate/Rotate/Picth
-            Camera.Translate(-leftStickValue.X * _moveSpeed, 0, leftStickValue.Y * _moveSpeed);
-            Camera.RotateY(-rightStickValue.X * _rotateSpeed);
-            Camera.SetPitch(-rightStickValue.Y * _pitchSpeed);
+            // Translate
+            _velocityPosition.X += -leftStickValue.X * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            _velocityPosition.Z += leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+
+            // Rotate
+            _velocityRotation.Y += -rightStickValue.X * _rotateSpeed  * gameTime.ElapsedGameTime.Milliseconds * 0.01f; 
+
+            // Pitch
+            _velocityRotation.X += -rightStickValue.Y * _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f; 
 
             // Move Up
             if (YnG.Gamepad.LeftShoulder(_playerIndex))
-                Camera.Translate(0, _moveSpeed, 0);
+                _velocityPosition.Y += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Gamepad.RightShoulder(_playerIndex))
-                Camera.Translate(0, -_moveSpeed, 0);
+                _velocityPosition.Y -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
         }
 
         protected override void UpdateMouseInput(GameTime gameTime)

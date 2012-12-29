@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Yna.Framework.Display.Animation;
 
 namespace Yna.Framework.Display
 {
@@ -7,7 +8,7 @@ namespace Yna.Framework.Display
     /// A simple camera used on the scene to make different type of effects.
     /// Position, Rotation and Zoom can be applied on the scene.
     /// </summary>
-    public class SpriteBatchCamera
+    public class SpriteBatchCamera : YnBase
     {
         protected Matrix _view;
         protected int _x;
@@ -15,6 +16,8 @@ namespace Yna.Framework.Display
         protected float _rotation;
         protected float _zoom;
         protected Vector2 _centerScreen;
+        protected YnShakeEffect _shakeEffect;
+        protected YnRotateEffect _rotateEffect;
 
         #region Properties
 
@@ -70,9 +73,42 @@ namespace Yna.Framework.Display
             _zoom = 1.0f;
 
             _centerScreen = new Vector2(YnG.Width / 2, YnG.Height / 2);
+
+            _shakeEffect = new YnShakeEffect(this);
+            _rotateEffect = new YnRotateEffect(this);
         }
 
         #endregion
+
+        /// <summary>
+        /// Shake the camera
+        /// </summary>
+        /// <param name="magnitude">Desired magnitude</param>
+        /// <param name="duration">Desired duration</param>
+        public void Shake(float magnitude, long duration)
+        {
+            _shakeEffect.Shake(magnitude, duration);
+        }
+
+        /// <summary>
+        /// Rotate the camera
+        /// </summary>
+        /// <param name="direction">Desired direction</param>
+        /// <param name="duration">Desired duration</param>
+        public void Rotate(int direction, float duration)
+        {
+            _rotateEffect.Rotate(direction, duration);
+        }
+
+        /// <summary>
+        /// Update the camera
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void Update(GameTime gameTime)
+        {
+            _shakeEffect.Update(gameTime);
+            _rotateEffect.Update(gameTime);
+        }
 
         /// <summary>
         /// Get the transformed matrix

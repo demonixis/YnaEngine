@@ -15,8 +15,8 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            stateManager.Add(new BasicSprites("sample_1"), true);
-            stateManager.Add(new AnimatedSprites("sample_2"), false);
+            stateManager.Add(new BasicSprites("sample_1"), false);
+            stateManager.Add(new AnimatedSprites("sample_2"), true);
         }
 
 #if !WINDOWS_PHONE

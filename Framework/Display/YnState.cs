@@ -401,6 +401,8 @@ namespace Yna.Framework.Display
         {
             base.Update(gameTime);
 
+            _camera.Update(gameTime);
+
             // Check if we muse clear the timer collection
             if (_clearRequestForTimers)
             {

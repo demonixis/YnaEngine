@@ -49,6 +49,11 @@ namespace Yna.Framework.Display3D.Primitive
             _triangles = new List<TriangleData>();
         }
 
+        public override void LoadContent()
+        {
+            base.LoadContent();
+        }
+
         protected override void CreateVertices()
         {
             CreateVertexData();
@@ -277,7 +282,7 @@ namespace Yna.Framework.Display3D.Primitive
 			
 			device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;
-			
+
             foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();

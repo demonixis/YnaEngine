@@ -12,7 +12,7 @@ namespace Yna.Framework.Display.Animation
     /// <summary>
     /// Simple transition effect
     /// </summary>
-    public class YnTransition : YnBase
+    public class YnTransitionEffect : YnBase
     {
         private TransitionState _transitionState;
         private float _timeTransitionOn;
@@ -115,7 +115,7 @@ namespace Yna.Framework.Display.Animation
         /// </summary>
         /// <param name="fadeInTime">Duration of the start transition</param>
         /// <param name="fadeOutTime">Duration of the end transition</param>
-        public YnTransition(float fadeInTime, float fadeOutTime)
+        public YnTransitionEffect(float fadeInTime, float fadeOutTime)
         {
             _transitionState = TransitionState.Off;
             _timeTransitionOn = fadeInTime;
@@ -124,7 +124,7 @@ namespace Yna.Framework.Display.Animation
             _alphaMax = 1.0f;
         }
 
-        public YnTransition(float fadeTime)
+        public YnTransitionEffect(float fadeTime)
             : this(fadeTime, fadeTime)
         {
 

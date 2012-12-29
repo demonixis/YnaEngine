@@ -396,7 +396,7 @@ namespace Yna.Framework.Display
 
                 _elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
 
-                // Physique
+                // Physics
                 _position += _velocity * _acceleration;
                 _velocity *= _maxVelocity;
 

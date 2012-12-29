@@ -5,16 +5,26 @@ using Yna.Framework.Display3D.Camera;
 
 namespace Yna.Framework.Display3D.Controls
 {
+    /// <summary>
+    /// Define a Third Person Controller who will move an object
+    /// </summary>
     public class ThirdPersonControl : BaseControl
     {
         YnObject3D _followedObject;
 
+        /// <summary>
+        /// Object to move
+        /// </summary>
         public YnObject3D FollowedObject
         {
             get { return _followedObject; }
             set { _followedObject = value; }
         }
 
+        /// <summary>
+        /// Create a Third Person Controller with a camera. The camera must be have registered a followed object
+        /// </summary>
+        /// <param name="camera">Camera to use</param>
         public ThirdPersonControl(ThirdPersonCamera camera)
             : base(camera)
         {
@@ -24,16 +34,34 @@ namespace Yna.Framework.Display3D.Controls
             _followedObject = camera.FollowedObject;
         }
 
+        /// <summary>
+        /// Create a Third Person Controller with a camera, an object to follow
+        /// </summary>
+        /// <param name="camera">Camera to use</param>
+        /// <param name="followedObject">Object to move</param>
         public ThirdPersonControl(ThirdPersonCamera camera, YnObject3D followedObject)
             : base(camera)
         {
             _followedObject = followedObject;
         }
 
+        /// <summary>
+        /// Create a Third Person Controller with a camera, an object to follow and a player index
+        /// </summary>
+        /// <param name="camera">Camera to use</param>
+        /// <param name="followedObject">Object to move</param>
+        /// <param name="index">Player index</param>
         public ThirdPersonControl(ThirdPersonCamera camera, YnObject3D followedObject, PlayerIndex index)
             : this(camera, followedObject)
         {
             _playerIndex = index;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            Camera.Update(gameTime);
         }
 
         protected override void UpdateKeyboardInput(GameTime gameTime)

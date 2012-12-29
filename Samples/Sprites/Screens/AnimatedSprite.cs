@@ -140,6 +140,18 @@ namespace Yna.Samples.Screens
                 Camera.Rotation = 0.0f;
             }
 
+            // Shake the screen
+            if (YnG.Keys.JustPressed(Keys.S))
+            {
+                Camera.Shake(15, 2500);
+            }
+
+            if (YnG.Keys.JustPressed(Keys.R))
+            {
+                Camera.Rotate(1, 3500);
+            }
+          
+
             // Update sprites' animations
             UpdateAnimations(womanSprite);
             UpdateAnimations(manSprite);
