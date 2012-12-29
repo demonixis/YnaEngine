@@ -48,9 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework.Linux">
       <HintPath>..\..\ThirdParty\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
     </Reference>
