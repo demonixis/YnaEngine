@@ -15,7 +15,6 @@ namespace Yna.Framework.Display3D.Primitive
     /// 6 - (optional) if you don't want to use vertex/indexBuffer override Draw method
     /// 7 - (optional) override UpdateShader() if you want to use a custom Effect
     ///     and call in first PreDraw() method. Do your stuff after that
-    /// 
     /// </summary>
     /// <typeparam name="T">Type of IVertexType</typeparam>
     public abstract class Shape<T> : YnObject3D where T : struct, IVertexType

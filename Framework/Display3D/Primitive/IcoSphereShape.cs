@@ -276,7 +276,7 @@ namespace Yna.Framework.Display3D.Primitive
             PreDraw();
 			
 			device.SetVertexBuffer(_vertexBuffer);
-                device.Indices = _indexBuffer;
+            device.Indices = _indexBuffer;
 			
             foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
             {
