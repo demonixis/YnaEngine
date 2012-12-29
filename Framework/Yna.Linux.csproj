@@ -31,7 +31,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DefineConstants>MONOGAME;LINUX;</DefineConstants>
   </PropertyGroup>
-<ItemGroup>
+  <ItemGroup>
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
@@ -90,15 +90,6 @@
     <Compile Include="Display\YnCollide.cs" />
     <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
-    <Compile Include="Display\TileMap\BaseLayer.cs" />
-    <Compile Include="Display\TileMap\BaseTile.cs" />
-    <Compile Include="Display\TileMap\BaseTileMap.cs" />
-    <Compile Include="Display\TileMap\Basic\Layer2D.cs" />
-    <Compile Include="Display\TileMap\Basic\Tile2D.cs" />
-    <Compile Include="Display\TileMap\Basic\TileMap2D.cs" />
-    <Compile Include="Display\TileMap\Iso\LayerIso.cs" />
-    <Compile Include="Display\TileMap\Iso\TileIso.cs" />
-    <Compile Include="Display\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Display\Event\ScreenEvents.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
@@ -137,6 +128,15 @@
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnEntity.cs" />
     <Compile Include="YnTimer.cs" />
+    <Compile Include="Display\Tilemap\BaseLayer.cs" />
+    <Compile Include="Display\Tilemap\BaseTile.cs" />
+    <Compile Include="Display\Tilemap\BaseTileMap.cs" />
+    <Compile Include="Display\Tilemap\Basic\Layer2D.cs" />
+    <Compile Include="Display\Tilemap\Basic\Tile2D.cs" />
+    <Compile Include="Display\Tilemap\Basic\TileMap2D.cs" />
+    <Compile Include="Display\Tilemap\Iso\LayerIso.cs" />
+    <Compile Include="Display\Tilemap\Iso\TileIso.cs" />
+    <Compile Include="Display\Tilemap\Iso\TileMapIso.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
