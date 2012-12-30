@@ -16,8 +16,8 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            stateManager.Add(new CubeSample("cubeShapeSample"), true);
-            stateManager.Add(new IcosphereSample("icosphereSample"), false);
+            stateManager.Add(new CubeSample("cubeShapeSample"), false);
+            stateManager.Add(new IcosphereSample("icosphereSample"), true);
         }
 
         public static void Main(string[] args)

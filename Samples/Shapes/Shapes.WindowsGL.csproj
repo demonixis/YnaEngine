@@ -37,7 +37,8 @@
     <StartupObject>Yna.Samples.ShapesGame</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -52,7 +53,6 @@
     <Content Include="Content\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Windows">
