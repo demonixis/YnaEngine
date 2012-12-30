@@ -14,8 +14,6 @@ namespace Yna.Framework.Display3D.Material
         protected BaseCamera _camera;
         protected YnObject3D _object3D;
 
-        public abstract void SetParameters(Dictionary<string, object> parameters);
-
         public abstract void LoadContent();
 
         public abstract void Update();
