@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Light;
+using Yna.Framework.Display3D.Camera;
 
 namespace Yna.Framework.Display3D.Material
 {
@@ -12,10 +13,8 @@ namespace Yna.Framework.Display3D.Material
         protected Texture2D _texture;
         protected string _textureName;
 
-        public BasicMaterial(YnObject3D object3D, BasicLight ligth, string textureName)
+        public BasicMaterial(string textureName)
         {
-            _object3D = object3D;
-            _light = ligth;
             _textureName = textureName;
         }
 
@@ -32,21 +31,21 @@ namespace Yna.Framework.Display3D.Material
                 _useTexture = false;
         }
 
-        public override void Update()
+        public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
         {
             BasicEffect basicEffect = (BasicEffect)_effect;
 
             // Matrices
-            basicEffect.World = _object3D.World;
-            basicEffect.View = _camera.View;
-            basicEffect.Projection = _camera.Projection;
+            basicEffect.World = world;
+            basicEffect.View = view;
+            basicEffect.Projection = projection;
 
             // Texture
             basicEffect.TextureEnabled = _useTexture;
             basicEffect.Texture = _texture;
 
             // Lights
-            if (_useDefaultLightning)
+            if (_useDefaultLightning || _light == null)
             {
                 basicEffect.EnableDefaultLighting();
             }

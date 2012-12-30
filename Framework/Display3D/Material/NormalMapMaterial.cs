@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Light;
+using Yna.Framework.Display3D.Camera;
 
 namespace Yna.Framework.Display3D.Material
 {
@@ -13,16 +14,12 @@ namespace Yna.Framework.Display3D.Material
         protected string _normalMapName;
         protected string _effectName;
 
-        public NormalMapMaterial(YnObject3D object3D, BasicLight light, string diffuseMapName, string normalMapName)
+        public NormalMapMaterial(string diffuseMapName, string normalMapName)
         {
-            // TODO : do it when we add this material on the object
-            _object3D = object3D;
-            _light = light;
-
             // Textures
             _diffuseMapName = diffuseMapName;
             _normalMapName = normalMapName;
-	    _effectName = "NormalMapEffect";
+	        _effectName = "NormalMapEffect";
         }
 
         public override void LoadContent()
@@ -32,24 +29,27 @@ namespace Yna.Framework.Display3D.Material
             _effect = YnG.Content.Load<Effect>(_effectName);
         }
 
-        public override void Update()
+        public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
         {
             // Matrices
-            _effect.Parameters["World"].SetValue(_object3D.World);
-            _effect.Parameters["View"].SetValue(_camera.View);
-            _effect.Parameters["Projection"].SetValue(_camera.Projection);
+            _effect.Parameters["World"].SetValue(world);
+            _effect.Parameters["View"].SetValue(view);
+            _effect.Parameters["Projection"].SetValue(projection);
 
             // Lights
             _effect.Parameters["AmbientColor"].SetValue(_light.Ambient);
-            _effect.Parameters["AmbientIntensity"].SetValue(0.8f);
+            _effect.Parameters["AmbientIntensity"].SetValue(1.0f);
             _effect.Parameters["DiffuseColor"].SetValue(_light.Diffuse);
-            _effect.Parameters["DiffuseIntensity"].SetValue(2.7f);
+            _effect.Parameters["DiffuseIntensity"].SetValue(1.5f);
             _effect.Parameters["SpecularColor"].SetValue(_light.Specular);
             _effect.Parameters["LightDirection"].SetValue(_light.Direction);
             
             // Textures
             _effect.Parameters["ColorMapSampler"].SetValue(_diffuseMap);
             _effect.Parameters["NormalMapSampler"].SetValue(_normalMap);   
+
+            // Position
+            _effect.Parameters["EyePosition"].SetValue(position);
         }
     }
 }

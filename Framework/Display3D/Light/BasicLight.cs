@@ -90,7 +90,7 @@ namespace Yna.Framework.Display3D.Light
 
         protected Vector3 ColorToVector3(ref Color color)
         {
-            return new Vector3((color.R / 255), (color.G / 255), (color.B / 255));
+            return color.ToVector3();
         }
 
         protected Color Vector3ToColor(ref Vector3 vec3)
