@@ -17,12 +17,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models3D.Linux", "Models3D\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gui.Linux", "Gui\Gui.Linux.csproj", "{34B95895-01B8-4BDF-9C7F-B1BE1B12552C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes.Linux", "Shapes\Shapes.Linux.csproj", "{2E5F76AD-573F-4833-A2DE-4DCED2940B80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Release|x86.Build.0 = Release|Any CPU
 		{34B95895-01B8-4BDF-9C7F-B1BE1B12552C}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{34B95895-01B8-4BDF-9C7F-B1BE1B12552C}.Debug|x86.Build.0 = Debug|Any CPU
 		{34B95895-01B8-4BDF-9C7F-B1BE1B12552C}.Release|x86.ActiveCfg = Release|Any CPU
@@ -57,6 +63,6 @@ Global
 		{F8106832-F889-4082-A5F5-CB754F03E82C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Gui\Gui.Linux.csproj
+		StartupItem = Shapes\Shapes.Linux.csproj
 	EndGlobalSection
 EndGlobal

@@ -55,7 +55,7 @@
     <Compile Include="Display3D\Material\BaseMaterial.cs" />
     <Compile Include="Display3D\Material\BasicMaterial.cs" />
     <Compile Include="Display3D\Material\NormalMapMaterial.cs" />
-	<Compile Include="Display3D\Primitive\IcoSphereShape.cs" />
+    <Compile Include="Display3D\Primitive\IcoSphereShape.cs" />
     <Compile Include="Display3D\Primitive\PlaneShape.cs" />
     <Compile Include="Display3D\Primitive\Shape.cs" />
     <Compile Include="Display3D\Primitive\CubeShape.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\YnTransitionEffect.cs" />
-	<Compile Include="Display\Animation\YnRotateEffect.cs" />
+    <Compile Include="Display\Animation\YnRotateEffect.cs" />
     <Compile Include="Display\Animation\YnShakeEffect.cs" />
     <Compile Include="Display\Event\GlobalEventArgs.cs" />
     <Compile Include="Display\Event\MouseSpriteEvents.cs" />
@@ -145,7 +145,6 @@
     <Compile Include="Display\Tilemap\Iso\LayerIso.cs" />
     <Compile Include="Display\Tilemap\Iso\TileIso.cs" />
     <Compile Include="Display\Tilemap\Iso\TileMapIso.cs" />
-    <Compile Include="Display3D\Primitive\IcoSphereShape.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
