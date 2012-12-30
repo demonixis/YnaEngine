@@ -211,10 +211,15 @@ namespace Yna.Framework.Display3D.Primitive
                     int c = CreateMiddlePoint(triangle.C, triangle.A);
 
                     // TODO Handle UV Mapping curing vertex refining
-                    newTriangles.Add(new TriangleData(triangle.A, a, c, Vector2.Zero, Vector2.Zero, Vector2.Zero));
-                    newTriangles.Add(new TriangleData(triangle.B, b, a, Vector2.Zero, Vector2.Zero, Vector2.Zero));
-                    newTriangles.Add(new TriangleData(triangle.C, c, b, Vector2.Zero, Vector2.Zero, Vector2.Zero));
-                    newTriangles.Add(new TriangleData(a, b, c, Vector2.Zero, Vector2.Zero, Vector2.Zero));
+                    Vector2 uva = GetMiddle(triangle.UVA, triangle.UVB);
+                    Vector2 uvb = GetMiddle(triangle.UVB, triangle.UVC);
+                    Vector2 uvc = GetMiddle(triangle.UVC, triangle.UVA);
+
+
+                    newTriangles.Add(new TriangleData(triangle.A, a, c, triangle.UVA, uva, uvc));
+                    newTriangles.Add(new TriangleData(triangle.B, b, a, triangle.UVB, uvb, uva));
+                    newTriangles.Add(new TriangleData(triangle.C, c, b, triangle.UVC, uvc, uvb));
+                    newTriangles.Add(new TriangleData(a, b, c, uva, uvb, uvc));
                 }
 
                 // Update the base triangle list
@@ -274,6 +279,11 @@ namespace Yna.Framework.Display3D.Primitive
             }
 
             return index;
+        }
+
+        private Vector2 GetMiddle(Vector2 a, Vector2 b)
+        {
+            return (a + b) / 2;
         }
 
         public override void Draw(GraphicsDevice device)
