@@ -8,6 +8,7 @@ using Yna.Framework.Display3D.Primitive;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Terrain;
 using Yna.Framework.Display3D.Controls;
+using Yna.Framework.Display3D.Material;
 
 namespace Yna.Samples.Screens
 {
@@ -42,8 +43,25 @@ namespace Yna.Samples.Screens
             terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
 
-            icosphere = new IcoSphereShape("icosphere_map", 32, 2, false);
+            icosphere = new IcoSphereShape("icosphere_map", 32, 4, false);
             Add(icosphere);
+
+            // Use another material
+            BasicMaterial icoMaterial = new BasicMaterial("icosphere_map");
+            icoMaterial.FogColor = Color.White.ToVector3();
+            icoMaterial.FogStart = 15.0f;
+            icoMaterial.FogEnd = 65.0f;
+            icoMaterial.EnableFog = true;
+   
+            // Set the new material to the sphere
+            icosphere.Material = icoMaterial;
+
+            BasicMaterial terrainMaterial = new BasicMaterial("pattern55_diffuse");
+            terrainMaterial.FogColor = Color.White.ToVector3();
+            terrainMaterial.FogStart = 15.0f;
+            terrainMaterial.FogEnd = 65.0f;
+            terrainMaterial.EnableFog = true;
+            terrain.Material = terrainMaterial;
 
             // Sky
             sky = new YnEntity("Sky");

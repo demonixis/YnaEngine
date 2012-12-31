@@ -42,10 +42,6 @@ namespace Yna.Samples
             dungeon = new YnModel("Models/Dungeon/dungeon");
             dungeon.RotationX = -(float)Math.PI / 2;
             dungeon.Scale = new Vector3(20.0f);
-            dungeon.Light.Ambient = new Vector3(2.5f);
-            dungeon.Light.Diffuse = new Vector3(0.0f, 0.0f, 0.3f);
-            dungeon.Light.Specular = new Vector3(0.0f, 0.0f, 0.0f);
-            dungeon.Light.Emissive = new Vector3(0.0f, 0.3f, 0.3f);
             Add(dungeon);
 
             // Sky & debug text ;)
@@ -61,7 +57,6 @@ namespace Yna.Samples
             sky.SetFullScreen();
 
             dungeon.Position = new Vector3(terrain.Width / 2, 5, terrain.Depth / 2);
-
             _camera.Position = new Vector3(229, 12, 232);
             _camera.Yaw = 1.9163f;
         }

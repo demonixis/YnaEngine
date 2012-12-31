@@ -28,7 +28,7 @@ namespace Yna.Framework.Display3D.Material
         public BasicMaterial(string textureName)
             : this()
         {
-            _mainTextureName = textureName;
+            _textureName = textureName;
             _enableMainTexture = true;
         }
 
@@ -52,7 +52,7 @@ namespace Yna.Framework.Display3D.Material
 
             // Texture
             basicEffect.TextureEnabled = _enableMainTexture;
-            basicEffect.Texture = _mainTexture;
+            basicEffect.Texture = _texture;
 
             // Fog
             UpdateFog(basicEffect);

@@ -5,6 +5,7 @@ using Yna.Framework.Display3D;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Primitive;
 using Yna.Framework.Display3D.Lighting;
+using Yna.Framework.Display3D.Material;
 
 namespace Yna.Framework.Display3D.Terrain
 {
@@ -19,8 +20,6 @@ namespace Yna.Framework.Display3D.Terrain
         public BaseTerrain()
             : base()
         {
-            _useVertexColor = true;
-            _useTexture = false;
             _initialized = false;
         }
 
@@ -36,15 +35,9 @@ namespace Yna.Framework.Display3D.Terrain
         /// </summary>
         public override void LoadContent()
         {
-            _basicEffect = new BasicEffect(YnG.GraphicsDevice);
-
-            if (!_initialized && _textureName != String.Empty)
-            {
-                _texture = YnG.Content.Load<Texture2D>(_textureName);
-                _useTexture = true;
-                _useVertexColor = false;
-                _initialized = true;
-            }
+            if (_material == null)
+                _material = new BasicMaterial(_textureName);
+            _material.LoadContent();
         }
 
         /// <summary>
@@ -81,8 +74,6 @@ namespace Yna.Framework.Display3D.Terrain
 
             // TODO : compute vertex normal only for this vertex
             ComputeNormals(ref _vertices);
-
-            UpdateShader();
 
             UpdateBoundingVolumes();
         }
@@ -133,7 +124,7 @@ namespace Yna.Framework.Display3D.Terrain
         {
             PreDraw();
 
-            foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);

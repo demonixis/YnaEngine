@@ -8,7 +8,7 @@ using Yna.Framework.Display3D;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Terrain;
 using Yna.Framework.Display3D.Controls;
-
+using Yna.Framework.Display3D.Material;
 
 namespace Yna.Samples.Screens
 {
@@ -34,9 +34,11 @@ namespace Yna.Samples.Screens
 
             // 2 - Creating a controler (Keyboard + Gamepad + mouse)
             control = new FirstPersonControl(camera);
-            control.RotateSpeed = 0.75f;
-            control.MoveSpeed = 0.35f;
+            control.RotateSpeed = 0.45f;
+            control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.45f;
+            control.MaxVelocityPosition = 0.96f;
+            control.MaxVelocityRotation = 0.96f;
             Add(control);
 
             // 3 - Create an Heigmap with 2 textures
@@ -45,6 +47,12 @@ namespace Yna.Samples.Screens
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
             heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture");
             Add(heightmap);
+
+            BasicMaterial heightmapMaterial = new BasicMaterial("terrains/heightmapTexture");
+            heightmapMaterial.FogStart = 25.0f;
+            heightmapMaterial.FogEnd = 75.0f;
+            heightmapMaterial.EnableFog = true;
+            heightmap.Material = heightmapMaterial;
 
             // Sky & debug info
             sky = new YnEntity("Sky");

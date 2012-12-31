@@ -15,16 +15,12 @@ namespace Yna.Framework.Display3D.Terrain
             : base()
         {
             _heightmapAssetName = heightmapAsset;
-            _useTexture = false;
-            _useVertexColor = true;
         }
 
         public Heightmap(string heightmapName, string textureName)
             : this(heightmapName)
         {
             _textureName = textureName;
-            _useTexture = true;
-            _useVertexColor = false;
         }
 
         public Heightmap(string heightmapName, string textureName, Vector3 segmentSizes)
@@ -37,10 +33,7 @@ namespace Yna.Framework.Display3D.Terrain
         {
             _heightmapAssetName = heightmapTexture.Name;
             _heightmapTexture = heightmapTexture;
-            _useVertexColor = false;
             _textureName = textureName;
-            _useTexture = true;
-            _useVertexColor = false;
         }
 
         public Heightmap(Texture2D heightmapTexture, string textureName, Vector3 segmentSizes)

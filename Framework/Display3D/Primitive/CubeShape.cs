@@ -11,7 +11,6 @@ namespace Yna.Framework.Display3D.Primitive
             _segmentSizes = sizes;
             _position = position;
             _textureName = textureName;
-            _useTexture = true;
             _width = sizes.X;
             _height = sizes.Y;
             _depth = sizes.Z;

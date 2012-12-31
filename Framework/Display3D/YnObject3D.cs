@@ -15,7 +15,6 @@ namespace Yna.Framework.Display3D
         #region Protected & private declarations
 
         protected BaseCamera _camera;
-        protected Light _light; // @deprecated
         protected BaseMaterial _material;
 
         // Direction
@@ -25,8 +24,7 @@ namespace Yna.Framework.Display3D
         protected Vector3 _direction;
         protected Vector3 _lastDirection;
 
-        // Bounding Sphere/Box/Frustrom
-        protected BasicEffect _basicEffect; // @deprecated
+        // Bounding Sphere/Box
         protected BoundingBox _boundingBox;
         protected BoundingSphere _boundingSphere;
 
@@ -50,6 +48,7 @@ namespace Yna.Framework.Display3D
 
         // View matrix
         protected Matrix _view;
+        protected Matrix _projection;
 
         #endregion
 
@@ -216,24 +215,6 @@ namespace Yna.Framework.Display3D
             set { _material = value; }
         }
 
-        /// <summary>
-        /// @deprecated : Gets or sets the light for this model
-        /// </summary>
-        public Light Light
-        {
-            get { return _light; }
-            set { _light = value; }
-        }
-
-        /// <summary>
-        /// @Deprecated : Shader effect
-        /// </summary>
-        public BasicEffect BasicEffect
-        {
-            get { return _basicEffect; }
-            set { _basicEffect = value; }
-        }
-
         #endregion
 
         #region Bounding volumes
@@ -290,7 +271,7 @@ namespace Yna.Framework.Display3D
             _dirty = false;
             _initialized = false;
             _dynamic = false;
-            _light = new Light();
+            _material = null;
 
             _boundingBox = new BoundingBox();
             _boundingSphere = new BoundingSphere();
@@ -371,18 +352,14 @@ namespace Yna.Framework.Display3D
         /// <summary>
         /// Load Content
         /// </summary>
-        public virtual void LoadContent()
-        {
-            _basicEffect = new BasicEffect(YnG.GraphicsDevice);
-        }
+        public abstract void LoadContent();
 
         /// <summary>
         /// Unload Content
         /// </summary>
         public virtual void UnloadContent()
         {
-            if (_basicEffect != null)
-                _basicEffect.Dispose();
+            // TODO : material.Dispose();
         }
 
         public override void Update(GameTime gameTime)

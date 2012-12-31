@@ -14,9 +14,6 @@ namespace Yna.Framework.Display3D.Terrain
             _height = 0;
             _depth = depth;
             _textureName = textureName;
-            _useTexture = true;
-            _useTexture = true;
-            _useVertexColor = false;
             _segmentSizes = new Vector3(5.0f, 0.0f, 5.0f);
         }
 

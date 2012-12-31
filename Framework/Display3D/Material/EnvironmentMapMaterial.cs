@@ -31,19 +31,6 @@ namespace Yna.Framework.Display3D.Material
         }
 
         /// <summary>
-        /// Gets or sets the environment texture name
-        /// </summary>
-        public string EnvironmentTextureName
-        {
-            get { return _environmentTextureName; }
-            set
-            {
-                _environmentTextureName = value;
-                _environmentTextureLoaded = false;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the value for the environment amount. Value must be between 0 and 1
         /// </summary>
         public float EnvironmentAmount
@@ -94,7 +81,7 @@ namespace Yna.Framework.Display3D.Material
         public EnvironmentMapMaterial(string textureName, string environmentTextureName)
             : this()
         {
-            _mainTextureName = textureName;
+            _textureName = textureName;
             _environmentTextureName = environmentTextureName;
         }
 
@@ -123,7 +110,7 @@ namespace Yna.Framework.Display3D.Material
             EnvironmentMapEffect environmentMapEffect = (EnvironmentMapEffect)_effect;
             
             // Texture
-            environmentMapEffect.Texture = _mainTexture;
+            environmentMapEffect.Texture = _texture;
             environmentMapEffect.EnvironmentMap = _environmentTexture;
             environmentMapEffect.EnvironmentMapAmount = _environmentAmount;
             environmentMapEffect.EnvironmentMapSpecular = _environmentSpecular;

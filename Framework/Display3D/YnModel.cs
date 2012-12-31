@@ -12,6 +12,8 @@ namespace Yna.Framework.Display3D
         protected Model _model;
         protected string _modelName;
         protected Matrix[] _bonesTransforms;
+        protected BasicEffect _basicEffect; // Temp
+        protected Light _light; // Temp too
 
         #region Properties
 
@@ -164,7 +166,7 @@ namespace Yna.Framework.Display3D
 
         public override void LoadContent()
         {
-            base.LoadContent();
+            _basicEffect = new BasicEffect(YnG.GraphicsDevice);
 
             _model = YnG.Content.Load<Model>(_modelName);
 

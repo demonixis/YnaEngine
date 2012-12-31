@@ -160,13 +160,6 @@ namespace Yna.Framework.Display3D
             View = _camera.View;
         }
 
-        public void SetLight(Light light)
-        {
-            foreach (YnObject3D sceneObject in _members)
-                sceneObject.Light = light;
-            
-        }
-
         #region GameState Pattern
 
         public override void LoadContent()

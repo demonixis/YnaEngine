@@ -66,7 +66,7 @@ namespace Yna.Framework.Display3D.Lighting
         public Light()
         {
             Initialize();
-            _ambientLightColor = new Vector3(1.0f);
+            _ambientLightColor = new Vector3(2.5f);
             _diffuseLightColor = Vector3.Zero;
             _emissiveLightColor = Vector3.Zero;
             _specularLightColor = Vector3.Zero;

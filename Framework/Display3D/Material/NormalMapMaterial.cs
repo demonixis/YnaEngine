@@ -8,22 +8,11 @@ namespace Yna.Framework.Display3D.Material
 {
     public class NormalMapMaterial : BaseMaterial
     {
-        protected Texture2D _diffuseMap;
         protected Texture2D _normalMap;
-        protected string _diffuseMapName;
         protected string _normalMapName;
         protected Vector4 _specularColor;
         protected float _specularIntensity;
         protected Vector3 _diffuseDirection;
-        protected bool _textureLoaded;
-
-        /// <summary>
-        /// Gets the diffuse texture
-        /// </summary>
-        public Texture2D DiffuseTexture
-        {
-            get { return _diffuseMap; }
-        }
 
         /// <summary>
         /// Gets the normal texture
@@ -31,32 +20,7 @@ namespace Yna.Framework.Display3D.Material
         public Texture2D NormalTexture
         {
             get { return _normalMap; }
-        }
-
-        /// <summary>
-        /// Gets or sets the diffuse map name
-        /// </summary>
-        public string DiffuseMapName
-        {
-            get { return _diffuseMapName; }
-            set
-            {
-                _diffuseMapName = value; 
-                _textureLoaded = false;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the normal map name
-        /// </summary>
-        public string NormalMapName
-        {
-            get { return _normalMapName; }
-            set
-            {
-                _normalMapName = value;
-                _textureLoaded = false;
-            }
+            set { _normalMap = value; }
         }
 
         /// <summary>
@@ -89,7 +53,7 @@ namespace Yna.Framework.Display3D.Material
         public NormalMapMaterial(string diffuseMapName, string normalMapName)
         {
             _diffuseIntensity = 1.0f;
-            _diffuseMapName = diffuseMapName;
+            _textureName = diffuseMapName;
             _normalMapName = normalMapName;
             _effectName = "NormalMapEffect";
             _specularColor = Color.Black.ToVector4();
@@ -106,7 +70,7 @@ namespace Yna.Framework.Display3D.Material
 
         public override void LoadContent()
         {
-            _diffuseMap = YnG.Content.Load<Texture2D>(_diffuseMapName);
+            _texture = YnG.Content.Load<Texture2D>(_textureName);
             _normalMap = YnG.Content.Load<Texture2D>(_normalMapName);
             _effect = YnG.Content.Load<Effect>(_effectName);
         }
@@ -128,7 +92,7 @@ namespace Yna.Framework.Display3D.Material
             _effect.Parameters["LightDirection"].SetValue(_diffuseDirection);
 
             // Textures
-            _effect.Parameters["ColorMapSampler"].SetValue(_diffuseMap);
+            _effect.Parameters["ColorMapSampler"].SetValue(_texture);
             _effect.Parameters["NormalMapSampler"].SetValue(_normalMap);
 
             // Position

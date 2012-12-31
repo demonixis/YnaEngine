@@ -6,11 +6,15 @@ using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Camera;
+using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D
 {
     public class YnScene : YnGroup3D
     {
+        // TODO
+        // LightManager
+        // Camera Manager
 
         #region Constructors
 

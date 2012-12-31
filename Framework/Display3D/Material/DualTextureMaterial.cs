@@ -21,16 +21,6 @@ namespace Yna.Framework.Display3D.Material
             set { _secondTexture = value; }
         }
 
-        public string SecondTextureName
-        {
-            get { return _secondTextureName; }
-            set
-            {
-                _secondTextureName = value;
-                _secondTextureLoaded = false;
-            }
-        }
-
         private DualTextureMaterial()
             : base()
         {
@@ -47,7 +37,7 @@ namespace Yna.Framework.Display3D.Material
         public DualTextureMaterial(string textureName, string secondTextureName)
             : this()
         {
-            _mainTextureName = textureName;
+            _textureName = textureName;
             _secondTextureName = secondTextureName;
         }
 
@@ -75,10 +65,13 @@ namespace Yna.Framework.Display3D.Material
 
             DualTextureEffect dualTextureEffect = (DualTextureEffect)_effect;
 
-            // Textures
-            dualTextureEffect.Texture = _mainTexture;
-            dualTextureEffect.Texture2 = _secondTexture;
+            // Fog
+            UpdateFog(dualTextureEffect);
 
+            // Textures
+            dualTextureEffect.Texture = _texture;
+            dualTextureEffect.Texture2 = _secondTexture;
+            
             // Lights
             dualTextureEffect.DiffuseColor = new Vector3(_diffuseColor.X, _diffuseColor.Y, _diffuseColor.Z) * _diffuseIntensity;
             dualTextureEffect.Alpha = _alphaColor;

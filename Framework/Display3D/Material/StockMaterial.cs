@@ -19,9 +19,6 @@ namespace Yna.Framework.Display3D.Material
         protected Vector3 _emissiveColor;
         protected Vector3 _specularColor;
         protected float _specularIntensity;
-        protected Texture2D _mainTexture;
-        protected string _mainTextureName;
-        protected bool _mainTextureLoaded;
         protected bool _enableMainTexture;
         protected bool _enableFog;
         protected bool _enablePerPixelLighting;
@@ -66,28 +63,6 @@ namespace Yna.Framework.Display3D.Material
         {
             get { return _fogEnd; }
             set { _fogEnd = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the main texture name
-        /// </summary>
-        public string MainTextureName
-        {
-            get { return _mainTextureName; }
-            set
-            {
-                _mainTextureName = value;
-                _mainTextureLoaded = false;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the main texture used with this effect
-        /// </summary>
-        public Texture2D MainTexture
-        {
-            get { return _mainTexture; }
-            set { _mainTexture = value; }
         }
 
         /// <summary>
@@ -179,15 +154,12 @@ namespace Yna.Framework.Display3D.Material
             _emissiveColor = Color.Black.ToVector3();
             _specularColor = Color.Black.ToVector3();
             _specularIntensity = 1.0f;
-            _mainTexture = null;
-            _mainTextureName = String.Empty;
             _enableDefaultLighting = true;
             _enableFog = false;
             _enableMainTexture = false;
             _enablePerPixelLighting = false;
             _enableVertexColor = false;
             _effectName = "XNA Stock Effect";
-            _mainTextureLoaded = false;
         }
 
         /// <summary>
@@ -195,9 +167,9 @@ namespace Yna.Framework.Display3D.Material
         /// </summary>
         public override void LoadContent()
         {
-            if (!_mainTextureLoaded && _mainTextureName != String.Empty)
+            if (!_textureLoaded && _textureName != String.Empty)
             {
-                _mainTexture = YnG.Content.Load<Texture2D>(_mainTextureName);
+                _texture = YnG.Content.Load<Texture2D>(_textureName);
                 _enableMainTexture = true;
             }
             else

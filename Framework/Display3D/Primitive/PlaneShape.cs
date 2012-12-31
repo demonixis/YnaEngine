@@ -11,7 +11,6 @@ namespace Yna.Framework.Display3D.Primitive
             _segmentSizes = sizes;
             _position = position;
             _textureName = textureName;
-            _useTexture = true;
             _width = sizes.X;
             _height = sizes.Y;
             _depth = sizes.Z;
@@ -61,7 +60,7 @@ namespace Yna.Framework.Display3D.Primitive
         {
             PreDraw();
 
-            foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);

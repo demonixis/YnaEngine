@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Yna.Framework.Display3D.Material;
 
 namespace Yna.Framework.Display3D.Primitive
 {
@@ -162,8 +163,16 @@ namespace Yna.Framework.Display3D.Primitive
             AddVertex(-t, 0, 1); // 11
 
             // Create the base triangles of the isoahedron
-            int w = Texture.Width;
-            int h = Texture.Height;
+            // WARNING : 
+            // 1 - Use _material.Texture instead of Texture
+            // 2 - An object can don't have a texture so you MUST use a default value
+            int w = 1;
+            int h = 1;
+            if (_material.Texture != null)
+            {
+                w = _material.Texture.Width;
+                h = _material.Texture.Height;
+            }
             float triSizeW = w / 5.5f;
             float triSizeH = h / 3f;
             float halfTriSize = triSizeW / 2;
@@ -293,7 +302,7 @@ namespace Yna.Framework.Display3D.Primitive
 			device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;
 
-            foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 

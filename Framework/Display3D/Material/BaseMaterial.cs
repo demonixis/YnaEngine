@@ -17,6 +17,11 @@ namespace Yna.Framework.Display3D.Material
         protected string _effectName;
         protected bool _effectLoaded;
 
+        // A default texture
+        protected Texture2D _texture;
+        protected string _textureName;
+        protected bool _textureLoaded;
+
         // TODO must be an array
         protected Light _light;
 
@@ -38,24 +43,12 @@ namespace Yna.Framework.Display3D.Material
         }
 
         /// <summary>
-        /// Gets or sets the name of the effect
+        /// Gets or sets the main texture used with this effect
         /// </summary>
-        public string EffectName
+        public Texture2D Texture
         {
-            get { return _effectName; }
-            set 
-            { 
-                _effectName = value;
-                _effectLoaded = false;
-            }
-        }
-
-        /// <summary>
-        /// Effect is loaded
-        /// </summary>
-        public bool EffectLoaded
-        {
-            get { return _effectLoaded; }
+            get { return _texture; }
+            set { _texture = value; }
         }
 
         /// <summary>
@@ -114,6 +107,9 @@ namespace Yna.Framework.Display3D.Material
             _effect = null;
             _effectName = String.Empty;
             _effectLoaded = false;
+            _texture = null;
+            _textureName = String.Empty;
+            _textureLoaded = false;
         }
 
         public abstract void LoadContent();
