@@ -29,9 +29,11 @@ namespace Yna.Samples.Screens
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
             control = new FirstPersonControl((FirstPersonCamera)_camera);
-            control.MoveSpeed = 0.4f;
+            control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.05f;
-            control.RotateSpeed = 0.9f;
+            control.RotateSpeed = 0.45f;
+            control.MaxVelocityPosition = 0.95f;
+            control.MaxVelocityRotation = 0.96f;
             Add(control);
 
             // 3 - Create a simple terrain with a size of 50x50 with 1x1 space between each vertex
