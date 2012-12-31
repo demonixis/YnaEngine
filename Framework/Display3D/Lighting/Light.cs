@@ -1,9 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Yna.Framework.Display3D.Light
+namespace Yna.Framework.Display3D.Lighting
 {
-    public class BasicLight
+    /// <summary>
+    /// @depreacted
+    /// </summary>
+    public class Light
     {
         protected Vector3 [] _directions;
         protected float _alpha;
@@ -60,7 +63,7 @@ namespace Yna.Framework.Display3D.Light
         /// <summary>
         /// Create a basic light with just an ambient color set to white
         /// </summary>
-        public BasicLight()
+        public Light()
         {
             Initialize();
             _ambientLightColor = new Vector3(1.0f);
@@ -70,7 +73,7 @@ namespace Yna.Framework.Display3D.Light
             _alpha = 1.0f;
         }
 
-        public BasicLight(Color ambientColor, Color emissiveColor, Color diffuseColor, Color specularColor, float alpha)
+        public Light(Color ambientColor, Color emissiveColor, Color diffuseColor, Color specularColor, float alpha)
         {
             Initialize();
             _ambientLightColor = ColorToVector3(ref ambientColor);

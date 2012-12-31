@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Primitive;
-using Yna.Framework.Display3D.Light;
+using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D.Terrain
 {

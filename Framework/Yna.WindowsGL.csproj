@@ -44,6 +44,10 @@
     <Compile Include="Content\YnaContentManager.cs" />
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Content\XnaContentManager.cs" />
+    <Compile Include="Display3D\Lighting\ILightInterface.cs" />
+    <Compile Include="Display3D\Material\DualTextureMaterial.cs" />
+    <Compile Include="Display3D\Material\EnvironmentMapMaterial.cs" />
+    <Compile Include="Display3D\Material\StockMaterial.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
@@ -53,11 +57,11 @@
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
-    <Compile Include="Display3D\Light\BasicLight.cs" />
-	<Compile Include="Display3D\Material\BaseMaterial.cs" />
+    <Compile Include="Display3D\Lighting\Light.cs" />
+    <Compile Include="Display3D\Material\BaseMaterial.cs" />
     <Compile Include="Display3D\Material\BasicMaterial.cs" />
     <Compile Include="Display3D\Material\NormalMapMaterial.cs" />
-	<Compile Include="Display3D\Primitive\IcoSphereShape.cs" />
+    <Compile Include="Display3D\Primitive\IcoSphereShape.cs" />
     <Compile Include="Display3D\Primitive\PlaneShape.cs" />
     <Compile Include="Display3D\Primitive\Shape.cs" />
     <Compile Include="Display3D\Primitive\CubeShape.cs" />
@@ -81,7 +85,7 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\YnTransitionEffect.cs" />
-	<Compile Include="Display\Animation\YnRotateEffect.cs" />
+    <Compile Include="Display\Animation\YnRotateEffect.cs" />
     <Compile Include="Display\Animation\YnShakeEffect.cs" />
     <Compile Include="Display\Event\GlobalEventArgs.cs" />
     <Compile Include="Display\Event\MouseSpriteEvents.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Camera;
-using Yna.Framework.Display3D.Light;
+using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D
 {
@@ -65,7 +65,7 @@ namespace Yna.Framework.Display3D
             : base(position)
         {
             _modelName = modelName;
-            _light = new BasicLight();
+            _light = new Light();
         }
 
         public YnModel(string modelName)

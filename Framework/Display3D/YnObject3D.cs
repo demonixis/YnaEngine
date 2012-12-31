@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Camera;
-using Yna.Framework.Display3D.Light;
+using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D
 {
@@ -14,7 +14,7 @@ namespace Yna.Framework.Display3D
         #region Protected & private declarations
 
         protected BaseCamera _camera;
-        protected BasicLight _light;
+        protected Light _light;
 
         // Direction
         protected Vector3 _rotation;
@@ -208,7 +208,7 @@ namespace Yna.Framework.Display3D
         /// <summary>
         /// Gets or sets the light for this model
         /// </summary>
-        public BasicLight Light
+        public Light Light
         {
             get { return _light; }
             set { _light = value; }
@@ -279,7 +279,7 @@ namespace Yna.Framework.Display3D
             _dirty = false;
             _initialized = false;
             _dynamic = false;
-            _light = new BasicLight();
+            _light = new Light();
 
             _boundingBox = new BoundingBox();
             _boundingSphere = new BoundingSphere();

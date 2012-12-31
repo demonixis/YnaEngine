@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Primitive;
-using Yna.Framework.Display3D.Light;
+using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D
 {
@@ -160,7 +160,7 @@ namespace Yna.Framework.Display3D
             View = _camera.View;
         }
 
-        public void SetLight(BasicLight light)
+        public void SetLight(Light light)
         {
             foreach (YnObject3D sceneObject in _members)
                 sceneObject.Light = light;
