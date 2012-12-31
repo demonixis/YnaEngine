@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Lighting;
+using Yna.Framework.Display3D.Material;
 
 namespace Yna.Framework.Display3D
 {
@@ -14,7 +15,8 @@ namespace Yna.Framework.Display3D
         #region Protected & private declarations
 
         protected BaseCamera _camera;
-        protected Light _light;
+        protected Light _light; // @deprecated
+        protected BaseMaterial _material;
 
         // Direction
         protected Vector3 _rotation;
@@ -24,7 +26,7 @@ namespace Yna.Framework.Display3D
         protected Vector3 _lastDirection;
 
         // Bounding Sphere/Box/Frustrom
-        protected BasicEffect _basicEffect;
+        protected BasicEffect _basicEffect; // @deprecated
         protected BoundingBox _boundingBox;
         protected BoundingSphere _boundingSphere;
 
@@ -206,7 +208,16 @@ namespace Yna.Framework.Display3D
         }
 
         /// <summary>
-        /// Gets or sets the light for this model
+        /// Gets or sets the material for this object
+        /// </summary>
+        public BaseMaterial Material
+        {
+            get { return _material; }
+            set { _material = value; }
+        }
+
+        /// <summary>
+        /// @deprecated : Gets or sets the light for this model
         /// </summary>
         public Light Light
         {
@@ -215,7 +226,7 @@ namespace Yna.Framework.Display3D
         }
 
         /// <summary>
-        /// Shader effect
+        /// @Deprecated : Shader effect
         /// </summary>
         public BasicEffect BasicEffect
         {

@@ -301,6 +301,16 @@ namespace Yna.Framework.Display3D.Camera
             _world = Matrix.Identity;
         }
 
+        public Matrix GetProjection()
+        {
+            return _projection;
+        }
+
+        public Matrix GetView()
+        {
+            return _view;
+        }
+
         /// <summary>
         /// Initialize camera with default parameters
         /// </summary>

@@ -8,6 +8,8 @@ namespace Yna.Framework.Display3D.Material
 {
     public class EnvironmentMapMaterial : StockMaterial
     {
+        #region Protected declarations
+
         protected TextureCube _environmentTexture;
         protected string _environmentTextureName;
         protected bool _environmentTextureLoaded;
@@ -15,33 +17,92 @@ namespace Yna.Framework.Display3D.Material
         protected Vector3 _environmentSpecular;
         protected float _fresnelFactor;
 
-        public float EnvironmentAmount
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the environment texture
+        /// </summary>
+        public TextureCube EnvironmentTexture
         {
-            get { return _environmentAmount; }
+            get { return _environmentTexture; }
+            set { _environmentTexture = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the environment texture name
+        /// </summary>
+        public string EnvironmentTextureName
+        {
+            get { return _environmentTextureName; }
             set
             {
-                if (value > 1.0f)
-                    _environmentAmount = 1.0f;
-                else if (value < 0.0f)
-                    _environmentAmount = 0.0f;
-                else
-                    _environmentAmount = value;
+                _environmentTextureName = value;
+                _environmentTextureLoaded = false;
             }
         }
 
-        public EnvironmentMapMaterial()
+        /// <summary>
+        /// Gets or sets the value for the environment amount. Value must be between 0 and 1
+        /// </summary>
+        public float EnvironmentAmount
         {
+            get { return _environmentAmount; }
+            set { _environmentAmount = MathHelper.Clamp(value, 0.0f, 1.0f); }
+        }
+
+        /// <summary>
+        /// Gets or sets the specular value to use with the environment map
+        /// </summary>
+        public Vector3 EnvironmentSpecular
+        {
+            get { return _environmentSpecular; }
+            set
+            {
+                _environmentSpecular.X = MathHelper.Clamp(value.X, 0.0f, 1.0f);
+                _environmentSpecular.Y = MathHelper.Clamp(value.Y, 0.0f, 1.0f);
+                _environmentSpecular.Z = MathHelper.Clamp(value.Z, 0.0f, 1.0f);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the fresnel factor. Value must be between 0 and 1
+        /// </summary>
+        public float FresnelFactor
+        {
+            get { return _fresnelFactor; }
+            set { _fresnelFactor = MathHelper.Clamp(value, 0.0f, 1.0f); }
+        }
+
+        #endregion
+
+        private EnvironmentMapMaterial()
+        {
+            _environmentTextureName = String.Empty;
             _environmentTextureLoaded = false;
             _environmentAmount = 1.0f;
             _environmentSpecular = Color.Black.ToVector3();
             _fresnelFactor = 0.0f; // Disabled
         }
 
+        /// <summary>
+        /// Create an EnvironmentMapMaterial with two textures
+        /// </summary>
+        /// <param name="textureName"></param>
+        /// <param name="environmentTextureName"></param>
+        public EnvironmentMapMaterial(string textureName, string environmentTextureName)
+            : this()
+        {
+            _mainTextureName = textureName;
+            _environmentTextureName = environmentTextureName;
+        }
+
         public override void LoadContent()
         {
             base.LoadContent();
 
-            if (!_environmentTextureLoaded)
+            if (!_environmentTextureLoaded && _environmentTextureName != String.Empty)
             {
                 _environmentTexture = YnG.Content.Load<TextureCube>(_environmentTextureName);
                 _environmentTextureLoaded = true;
@@ -56,12 +117,10 @@ namespace Yna.Framework.Display3D.Material
 
         public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
         {
-            EnvironmentMapEffect environmentMapEffect = (EnvironmentMapEffect)_effect;
+            // Update matrices
+            base.Update(ref world, ref view, ref projection, ref position);
 
-            // Matrices
-            environmentMapEffect.World = world;
-            environmentMapEffect.View = view;
-            environmentMapEffect.Projection = projection;
+            EnvironmentMapEffect environmentMapEffect = (EnvironmentMapEffect)_effect;
             
             // Texture
             environmentMapEffect.Texture = _mainTexture;
@@ -71,37 +130,17 @@ namespace Yna.Framework.Display3D.Material
             environmentMapEffect.FresnelFactor = _fresnelFactor;
 
             // Fog
-            if (_enabledFog)
-            {
-                environmentMapEffect.FogEnabled = _enabledFog;
-                environmentMapEffect.FogColor = _fogColor;
-                environmentMapEffect.FogStart = _fogStart;
-                environmentMapEffect.FogEnd = _fogEnd;
-            }
+            UpdateFog(environmentMapEffect);
 
             // Lights
-            if (_enabledDefaultLighting)
+            if (UpdateLights(environmentMapEffect))
             {
-                environmentMapEffect.EnableDefaultLighting();
-            }
-            else
-            {
-                // TODO To bad, you must make a real and rocky lighting system ok ?
-                if (_light != null)
-                {
-                    environmentMapEffect.DirectionalLight0.Enabled = true;
-                    environmentMapEffect.DirectionalLight0.Direction = _light.Direction;
-                    environmentMapEffect.DirectionalLight0.DiffuseColor = _light.Diffuse;
-                    environmentMapEffect.DirectionalLight0.SpecularColor = _light.Specular;
-
-                    // TODO more in the next episode :D
-                }
-
-                environmentMapEffect.AmbientLightColor = new Vector3(_ambientColor.X, _ambientColor.Y, _ambientColor.Z) * _ambientIntensity;
                 environmentMapEffect.EmissiveColor = _emissiveColor;
                 environmentMapEffect.DiffuseColor = new Vector3(_diffuseColor.X, _diffuseColor.Y, _diffuseColor.Z) * _diffuseIntensity;
                 environmentMapEffect.Alpha = _alphaColor;
             }
         }
+
+        public new Vector3 SpecularColor { get { return Vector3.Zero; } }
     }
 }

@@ -10,6 +10,8 @@ namespace Yna.Framework.Display3D.Material
     /// </summary>
     public abstract class StockMaterial : BaseMaterial, ILightSpecular
     {
+        #region Protected declarations
+
         protected float _alphaColor;
         protected Vector3 _fogColor;
         protected float _fogStart;
@@ -20,11 +22,51 @@ namespace Yna.Framework.Display3D.Material
         protected Texture2D _mainTexture;
         protected string _mainTextureName;
         protected bool _mainTextureLoaded;
-        protected bool _enabledMainTexture;
-        protected bool _enabledFog;
-        protected bool _enabledPerPixelLightning;
-        protected bool _enabledVertexColor;
-        protected bool _enabledDefaultLighting;
+        protected bool _enableMainTexture;
+        protected bool _enableFog;
+        protected bool _enablePerPixelLighting;
+        protected bool _enableVertexColor;
+        protected bool _enableDefaultLighting;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets alpha value
+        /// </summary>
+        public float AlphaColor
+        {
+            get { return _alphaColor; }
+            set { _alphaColor = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets for color
+        /// </summary>
+        public Vector3 FogColor
+        {
+            get { return _fogColor; }
+            set { _fogColor = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets fog start value
+        /// </summary>
+        public float FogStart
+        {
+            get { return _fogStart; }
+            set { _fogStart = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets fog end value
+        /// </summary>
+        public float FogEnd
+        {
+            get { return _fogEnd; }
+            set { _fogEnd = value; }
+        }
 
         /// <summary>
         /// Gets or sets the main texture name
@@ -39,19 +81,13 @@ namespace Yna.Framework.Display3D.Material
             }
         }
 
+        /// <summary>
+        /// Gets or sets the main texture used with this effect
+        /// </summary>
         public Texture2D MainTexture
         {
             get { return _mainTexture; }
-            set
-            {
-                _mainTexture = value;
-                _mainTextureLoaded = false;
-            }
-        }
-
-        public bool MainTextureLoaded
-        {
-            get { return _mainTextureLoaded; }
+            set { _mainTexture = value; }
         }
 
         /// <summary>
@@ -86,6 +122,53 @@ namespace Yna.Framework.Display3D.Material
             set { _specularIntensity = value; }
         }
 
+        /// <summary>
+        /// Enable or disable fog
+        /// </summary>
+        public bool EnableFog
+        {
+            get { return _enableFog; }
+            set { _enableFog = value; }
+        }
+
+        /// <summary>
+        /// Enable or disable the default lighting
+        /// </summary>
+        public bool EnableDefaultLighting
+        {
+            get { return _enableDefaultLighting; }
+            set { _enableDefaultLighting = value; }
+        }
+
+        /// <summary>
+        /// Enable or disable the main texture
+        /// </summary>
+        public bool EnableMainTexture
+        {
+            get { return _enableMainTexture; }
+            set { _enableMainTexture = value; }
+        }
+
+        /// <summary>
+        /// Enable or disable per pixel lighting
+        /// </summary>
+        public bool EnabledPerPixelLighting
+        {
+            get { return _enablePerPixelLighting; }
+            set { _enablePerPixelLighting = value; }
+        }
+
+        /// <summary>
+        /// Enable or disable vertex color
+        /// </summary>
+        public bool EnableVertexColor
+        {
+            get { return _enableVertexColor; }
+            set { _enableVertexColor = value; }
+        }
+
+        #endregion
+
         public StockMaterial()
             : base()
         {
@@ -98,33 +181,83 @@ namespace Yna.Framework.Display3D.Material
             _specularIntensity = 1.0f;
             _mainTexture = null;
             _mainTextureName = String.Empty;
-            _enabledDefaultLighting = true;
-            _enabledFog = false;
-            _enabledMainTexture = false;
-            _enabledPerPixelLightning = false;
-            _enabledVertexColor = false;
+            _enableDefaultLighting = true;
+            _enableFog = false;
+            _enableMainTexture = false;
+            _enablePerPixelLighting = false;
+            _enableVertexColor = false;
             _effectName = "XNA Stock Effect";
             _mainTextureLoaded = false;
         }
 
         /// <summary>
-        /// Gets or sets the alpha value
+        /// Load the main texture. If you want to reload another texture, use the MainTextureName propertie and call this method
         /// </summary>
-        public float AlphaColor
-        {
-            get { return _alphaColor; }
-            set { _alphaColor = value; }
-        }
-
         public override void LoadContent()
         {
             if (!_mainTextureLoaded && _mainTextureName != String.Empty)
             {
                 _mainTexture = YnG.Content.Load<Texture2D>(_mainTextureName);
-                _enabledMainTexture = true;
+                _enableMainTexture = true;
             }
             else
-                _enabledMainTexture = false;
+                _enableMainTexture = false;
+        }
+
+        public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
+        {
+            // Matrices
+            IEffectMatrices effectMatrices = (IEffectMatrices)_effect;
+            effectMatrices.World = world;
+            effectMatrices.View = view;
+            effectMatrices.Projection = projection;
+        }
+
+        protected virtual void UpdateFog(IEffectFog effectFog)
+        {
+            // Fog
+            if (_enableFog)
+            {
+                effectFog.FogEnabled = _enableFog;
+                effectFog.FogColor = _fogColor;
+                effectFog.FogStart = _fogStart;
+                effectFog.FogEnd = _fogEnd;
+            }
+        }
+
+        /// <summary>
+        /// Update lighting on this effect
+        /// </summary>
+        /// <param name="effectLights">The light effect</param>
+        /// <returns>True if the lighting is enabled</returns>
+        protected virtual bool UpdateLights(IEffectLights effectLights)
+        {
+            // Lights
+            if (_enableDefaultLighting)
+            {
+                effectLights.EnableDefaultLighting();
+                return false;
+            }
+            else
+            {
+                effectLights.LightingEnabled = !_enableDefaultLighting;
+
+                // TODO To bad, you must make a real and rocky lighting system ok ?
+
+                if (_light != null)
+                {
+                    effectLights.DirectionalLight0.Enabled = true;
+                    effectLights.DirectionalLight0.Direction = _light.Direction;
+                    effectLights.DirectionalLight0.DiffuseColor = _light.Diffuse;
+                    effectLights.DirectionalLight0.SpecularColor = _light.Specular;
+
+                    // TODO more in the next episode :D
+                }
+
+                effectLights.AmbientLightColor = new Vector3(_ambientColor.X, _ambientColor.Y, _ambientColor.Z) * _ambientIntensity;
+                
+                return true;
+            }
         }
     }
 }

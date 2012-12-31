@@ -12,11 +12,50 @@ namespace Yna.Framework.Display3D.Material
         protected string _secondTextureName;
         protected bool _secondTextureLoaded;
 
+        /// <summary>
+        /// Gets or sets the second texture
+        /// </summary>
+        public Texture2D SecondTexture
+        {
+            get { return _secondTexture; }
+            set { _secondTexture = value; }
+        }
+
+        public string SecondTextureName
+        {
+            get { return _secondTextureName; }
+            set
+            {
+                _secondTextureName = value;
+                _secondTextureLoaded = false;
+            }
+        }
+
+        private DualTextureMaterial()
+            : base()
+        {
+            _enableDefaultLighting = false;
+            _secondTextureLoaded = false;
+            _secondTextureName = String.Empty;
+        }
+
+        /// <summary>
+        /// Create a DualTextureMaterial with two textures
+        /// </summary>
+        /// <param name="textureName">First texture name</param>
+        /// <param name="secondTextureName">Second texture name</param>
+        public DualTextureMaterial(string textureName, string secondTextureName)
+            : this()
+        {
+            _mainTextureName = textureName;
+            _secondTextureName = secondTextureName;
+        }
+
         public override void LoadContent()
         {
             base.LoadContent();
 
-            if (!_secondTextureLoaded)
+            if (!_secondTextureLoaded && _secondTextureName != String.Empty)
             {
                 _secondTexture = YnG.Content.Load<Texture2D>(_secondTextureName);
                 _secondTextureLoaded = true;
@@ -31,25 +70,14 @@ namespace Yna.Framework.Display3D.Material
 
         public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
         {
-            DualTextureEffect dualTextureEffect = (DualTextureEffect)_effect;
+            // Update matrices
+            base.Update(ref world, ref view, ref projection, ref position);
 
-            // Matrices
-            dualTextureEffect.World = world;
-            dualTextureEffect.View = view;
-            dualTextureEffect.Projection = projection;
+            DualTextureEffect dualTextureEffect = (DualTextureEffect)_effect;
 
             // Textures
             dualTextureEffect.Texture = _mainTexture;
             dualTextureEffect.Texture2 = _secondTexture;
-
-            // Fog
-            if (_enabledFog)
-            {
-                dualTextureEffect.FogEnabled = _enabledFog;
-                dualTextureEffect.FogColor = _fogColor;
-                dualTextureEffect.FogStart = _fogStart;
-                dualTextureEffect.FogEnd = _fogEnd;
-            }
 
             // Lights
             dualTextureEffect.DiffuseColor = new Vector3(_diffuseColor.X, _diffuseColor.Y, _diffuseColor.Z) * _diffuseIntensity;
