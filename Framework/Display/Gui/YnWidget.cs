@@ -555,6 +555,7 @@ namespace Yna.Framework.Display.Gui
                 if (mouseOnWidget)
                 {
                     // The mouse is hovering the widget
+                    _hovered = true;
                     DoMouseOver();
 
                     // There is a click handler : 2 kinds of events to handle :
@@ -596,15 +597,19 @@ namespace Yna.Framework.Display.Gui
                             MouseReleasedInside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
                     }
                 }
-                else if (!mouseOnWidget && mouseWasOnWidget)
+                else
                 {
-                    // The mouse left the widget
-                    DoMouseLeave();
-
-                    // Mouse release
-                    if (YnG.Mouse.JustReleased(MouseButton.Left) && YnG.Mouse.LastMouseState.LeftButton == ButtonState.Pressed)
+                    _hovered = false;
+                    if (!mouseOnWidget && mouseWasOnWidget)
                     {
-                        if (MouseReleasedOutside != null) MouseReleasedOutside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
+                        // The mouse left the widget
+                        DoMouseLeave();
+
+                        // Mouse release
+                        if (YnG.Mouse.JustReleased(MouseButton.Left) && YnG.Mouse.LastMouseState.LeftButton == ButtonState.Pressed)
+                        {
+                            if (MouseReleasedOutside != null) MouseReleasedOutside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
+                        }
                     }
                 }
             }
@@ -749,7 +754,6 @@ namespace Yna.Framework.Display.Gui
         /// </summary>
         protected virtual void DoMouseOver()
         {
-            _hovered = true;
             if (MouseOver != null) MouseOver(this, new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
         }
 
@@ -758,7 +762,6 @@ namespace Yna.Framework.Display.Gui
         /// </summary>
         protected virtual void DoMouseLeave()
         {
-            _hovered = false;
             if (MouseLeave != null) MouseLeave(this, new MouseLeaveSpriteEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
         }
 
