@@ -550,7 +550,9 @@ namespace Yna.Framework.Display.Gui
                 Vector2 absolutePosition = AbsolutePosition;
                 absoluteBounds.X = (int)absolutePosition.X;
                 absoluteBounds.Y = (int)absolutePosition.Y;
-                if (absoluteBounds.Contains(YnG.Mouse.X, YnG.Mouse.Y))
+                bool mouseOnWidget = absoluteBounds.Contains(YnG.Mouse.X, YnG.Mouse.Y);
+                bool mouseWasOnWidget = absoluteBounds.Contains(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y);
+                if (mouseOnWidget)
                 {
                     // The mouse is hovering the widget
                     DoMouseOver();
@@ -594,7 +596,7 @@ namespace Yna.Framework.Display.Gui
                             MouseReleasedInside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
                     }
                 }
-                else
+                else if (!mouseOnWidget && mouseWasOnWidget)
                 {
                     // The mouse left the widget
                     DoMouseLeave();
