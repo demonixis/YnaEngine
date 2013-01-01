@@ -43,6 +43,14 @@ namespace Yna.Framework.Display3D.Material
         }
 
         /// <summary>
+        /// Gets the status of the effect. True if loaded then false
+        /// </summary>
+        public bool Loaded
+        {
+            get { return _effectLoaded; }
+        }
+
+        /// <summary>
         /// Gets or sets the main texture used with this effect
         /// </summary>
         public Texture2D Texture

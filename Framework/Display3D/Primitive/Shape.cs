@@ -201,6 +201,7 @@ namespace Yna.Framework.Display3D.Primitive
             CreateBuffers();
             UpdateBoundingVolumes();
             _constructed = true;
+            _initialized = true;
         }
 
         /// <summary>

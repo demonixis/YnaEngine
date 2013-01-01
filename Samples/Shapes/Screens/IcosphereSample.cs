@@ -47,12 +47,17 @@ namespace Yna.Samples.Screens
             Add(icosphere);
 
             // Use another material
-            BasicMaterial icoMaterial = new BasicMaterial("icosphere_map");
+            //BasicMaterial icoMaterial = new BasicMaterial("icosphere_map");
+            EnvironmentMapMaterial icoMaterial = new EnvironmentMapMaterial("icosphere_map", new string[] { "Sky" });
+            icoMaterial.SpecularColor = new Color(5, 5, 5).ToVector3();
+            icoMaterial.AmbientColor = Color.White.ToVector4();
+            icoMaterial.Amount = 0.35f;
+            icoMaterial.FresnelFactor = 0.25f;
             icoMaterial.FogColor = Color.White.ToVector3();
             icoMaterial.FogStart = 15.0f;
             icoMaterial.FogEnd = 65.0f;
             icoMaterial.EnableFog = true;
-   
+
             // Set the new material to the sphere
             icosphere.Material = icoMaterial;
 

@@ -195,7 +195,7 @@ namespace Yna.Framework.Display3D
 
         #endregion
 
-        #region Properties for camera and light
+        #region Properties for camera and material
 
         /// <summary>
         /// Gets or sets the camera used for this model
@@ -212,7 +212,12 @@ namespace Yna.Framework.Display3D
         public BaseMaterial Material
         {
             get { return _material; }
-            set { _material = value; }
+            set 
+            { 
+                _material = value;
+                if (_initialized && !_material.Loaded)
+                    _material.LoadContent();
+            }
         }
 
         #endregion
