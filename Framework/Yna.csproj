@@ -132,7 +132,6 @@
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCollide.cs" />
-    <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TileMap\BaseLayer.cs" />
     <Compile Include="Display\TileMap\BaseTile.cs" />

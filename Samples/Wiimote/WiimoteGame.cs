@@ -6,7 +6,7 @@ namespace Yna.Samples
     public class WiimoteGame : YnGame
     {
         public WiimoteGame()
-            : base(SamplesConfiguration.Width, SamplesConfiguration.Height, "Yna Framework : Wiimote Sample")
+            : base(1280, 800, "Yna Framework : Wiimote Sample")
         {
 
         }

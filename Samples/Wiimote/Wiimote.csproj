@@ -46,8 +46,8 @@
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -59,10 +59,6 @@
     <ProjectReference Include="..\..\Plugins\Input\Wiimote\Yna.Input.Wiimote.csproj">
       <Project>{fcfc0955-f7c2-4e6b-993a-6d47902c6fc1}</Project>
       <Name>Yna.Input.Wiimote</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{17c7c5b6-0d21-4f23-aa17-e62f357f7d6d}</Project>
-      <Name>Common.WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

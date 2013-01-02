@@ -66,7 +66,7 @@ namespace Yna.Samples
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

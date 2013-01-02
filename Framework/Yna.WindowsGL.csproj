@@ -54,7 +54,7 @@
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Lighting\Light.cs" />
-	<Compile Include="Display3D\Lighting\ILightInterface.cs" />
+    <Compile Include="Display3D\Lighting\ILightInterface.cs" />
     <Compile Include="Display3D\Material\DualTextureMaterial.cs" />
     <Compile Include="Display3D\Material\EnvironmentMapMaterial.cs" />
     <Compile Include="Display3D\Material\StockMaterial.cs" />
@@ -106,7 +106,6 @@
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCollide.cs" />
-    <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TileMap\BaseLayer.cs" />
     <Compile Include="Display\TileMap\BaseTile.cs" />
@@ -157,8 +156,8 @@
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />

@@ -49,8 +49,8 @@
     <Compile Include="Screens\PickingObjectsSample.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.Windows">
-      <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.Windows.dll</HintPath>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -66,7 +66,7 @@
       <Name>Yna.WindowsGL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{17c7c5b6-0d21-4f23-aa17-e62f357f7d6d}</Project>
+      <Project>{08ec5eaa-02d9-4b51-b545-97af22836c06}</Project>
       <Name>Common.WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>

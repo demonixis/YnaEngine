@@ -56,7 +56,7 @@ namespace Yna.Samples.Screens
 
             // Sky & debug info
             sky = new YnEntity("Sky");
-            textInfo = new YnText("Font", "F1 - Wireframe mode\nF2 - Normal mode");
+            textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
         }
@@ -86,7 +86,7 @@ namespace Yna.Samples.Screens
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
 
             // Naive Collide detection with ground
             // This method get the current segment height on the terrain and set the Y position of the camera at this value

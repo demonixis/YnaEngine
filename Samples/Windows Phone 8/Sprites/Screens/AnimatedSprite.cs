@@ -149,7 +149,7 @@ namespace Yna.Samples.Screens
 
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
         }
 
         private void CreateSpriteAnimations(YnSprite sprite)

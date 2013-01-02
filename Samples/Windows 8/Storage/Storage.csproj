@@ -145,8 +145,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.Windows8">
-      <HintPath>..\..\..\ThirdParty\MonoGame\WinRT\MonoGame.Framework.Windows8.dll</HintPath>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\..\ThirdParty\MonoGame\WinRT\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

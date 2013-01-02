@@ -25,6 +25,9 @@ namespace Yna.Samples.Screens
         private YnEntity wood2Object;
         private YnEntity houseObject;
 
+        // Info text
+        private YnText textInfo;
+
         private ScriptAnimator womanAnimator;
 
         private List<YnEntity> spriteToCollide;
@@ -59,6 +62,9 @@ namespace Yna.Samples.Screens
             houseObject = new YnEntity("Scene/House");
             Add(houseObject);
 
+            textInfo = new YnText("Fonts/DefaultFont", "Press S for shake the screen\nUse Right click to move the scene\nUse Middle click to rotate the scene\nUseLeft click to reset", Vector2.Zero, Color.YellowGreen);
+            Add(textInfo);
+
             spriteToCollide = new List<YnEntity>(5);
             spriteToCollide.Add(womanSprite);
             spriteToCollide.Add(gunnerSprite);
@@ -74,10 +80,12 @@ namespace Yna.Samples.Screens
             // The background size is the window size
             background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
 
+            textInfo.Position = new Vector2(15, 15);
+
             // Place sprites on the screen
             // Here, sprites are already loaded (assets)
             womanSprite.Position = new Vector2(50, 50);
-            manSprite.Position = new Vector2((YnG.Width - manSprite.Width) - 50, (YnG.Height - manSprite.Height) - 50);
+            manSprite.Position = new Vector2(350, 350);
             gunnerSprite.Position = new Vector2((YnG.Width / 2) - (gunnerSprite.Width / 2), (YnG.Height / 2) - (gunnerSprite.Height / 2));
 
             // Force the sprite to stay on the screen
@@ -162,7 +170,7 @@ namespace Yna.Samples.Screens
 
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
         }
 
         private void CreateSpriteAnimations(YnSprite sprite)

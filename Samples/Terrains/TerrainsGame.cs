@@ -6,18 +6,27 @@ namespace Yna.Samples
 {
     public class TerrainsGame : YnGame
     {
-        public TerrainsGame()
-                : base(SamplesConfiguration.Width, SamplesConfiguration.Height, "Yna : Heightmap")
-        {
+        Menu menu;
+        MenuEntry[] menuItems;
 
+        public TerrainsGame()
+                : base(800, 600, "Yna : Heightmap")
+        {
+            menuItems = new MenuEntry[]
+            {
+                new MenuEntry("basicSample", "Simple terrain", "In this sample we create a simple terrain and add a texture on it"),
+                new MenuEntry("heightmapSample", "Heightmap terrain", "In this sample we create an heightmap terrain with two texture"),
+            };
         }
 
         protected override void Initialize()
         {
             base.Initialize();
 
-            stateManager.Add(new BasicTerrain("sample_1"), false);
-            stateManager.Add(new HeighmapTerrain("sample_2"), true);
+            menu = new Menu("menu", "Terrains", menuItems);
+            stateManager.Add(menu, true);
+            stateManager.Add(new BasicTerrain("basicSample"), false);
+            stateManager.Add(new HeighmapTerrain("heightmapSample"), false);
         }
 #if !WINDOWS_PHONE
         public static void Main(string[] args)

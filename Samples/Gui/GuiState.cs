@@ -186,7 +186,7 @@ namespace Yna.Samples
                 // Stop the gui
                 gui.Active = false;
 
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
             }
         }
 

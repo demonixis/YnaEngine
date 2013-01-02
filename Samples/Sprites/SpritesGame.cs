@@ -5,18 +5,27 @@ namespace Yna.Samples
 {
     public class SpritesGame : YnGame
     {
-        public SpritesGame()
-            : base(SamplesConfiguration.Width, SamplesConfiguration.Height, "Yna : Sprite samples")
-        {
+        Menu menu;
+        MenuEntry[] menuItems;
 
+        public SpritesGame()
+            : base(800, 600, "Yna : Sprite samples")
+        {
+            menuItems = new MenuEntry[]
+            {
+                new MenuEntry("basicSample", "Sprite generation", "In this sample we create some sprites and move/rotate it"),
+                new MenuEntry("spritesheetSample", "Animated sprites", "In this sample we create animated sprites with spritesheets"),
+            };
         }
 
         protected override void Initialize()
         {
             base.Initialize();
 
-            stateManager.Add(new BasicSprites("sample_1"), false);
-            stateManager.Add(new AnimatedSprites("sample_2"), true);
+            menu = new Menu("menu", "Tilemap", menuItems);
+            stateManager.Add(menu, true);
+            stateManager.Add(new BasicSprites("basicSample"), false);
+            stateManager.Add(new AnimatedSprites("spritesheetSample"), false);
         }
 
 #if !WINDOWS_PHONE

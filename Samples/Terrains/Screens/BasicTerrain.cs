@@ -30,9 +30,11 @@ namespace Yna.Samples.Screens
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
             control = new FirstPersonControl((FirstPersonCamera)_camera);
-            control.MoveSpeed = 0.1f;
-            control.StrafeSpeed = 0.05f;
-            control.RotateSpeed = 0.6f;
+            control.RotateSpeed = 0.45f;
+            control.MoveSpeed = 0.15f;
+            control.StrafeSpeed = 0.45f;
+            control.MaxVelocityPosition = 0.96f;
+            control.MaxVelocityRotation = 0.96f;
             Add(control);
 
             // 3 - Create a simple terrain with a size of 100x100 with 1x1 space between each vertex
@@ -41,7 +43,7 @@ namespace Yna.Samples.Screens
 
             // Sky & debug text ;)
             sky = new YnEntity("Sky");
-            textInfo = new YnText("Font", "F1 - Wireframe mode\nF2 - Normal mode");
+            textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
         }
@@ -69,7 +71,7 @@ namespace Yna.Samples.Screens
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))

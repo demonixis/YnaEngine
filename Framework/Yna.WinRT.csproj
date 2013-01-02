@@ -168,7 +168,6 @@
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCollide.cs" />
-    <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\TileMap\BaseLayer.cs" />
     <Compile Include="Display\TileMap\BaseTile.cs" />
@@ -218,8 +217,9 @@
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.Windows8">
-      <HintPath>..\ThirdParty\MonoGame\WinRT\MonoGame.Framework.Windows8.dll</HintPath>
+    <Reference Include="MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\MonoGame\WinRT\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

@@ -25,7 +25,7 @@ namespace Yna.Samples
             GameTitle = "Storage Sample";
 
             // Create a simple debug text to draw some informations
-            playerDebugText = new YnText("Font", "Player informations");
+            playerDebugText = new YnText("Fonts/DefaultFont", "Player informations");
         }
 
         protected override void Initialize()

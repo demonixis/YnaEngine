@@ -328,7 +328,7 @@ namespace Yna.Framework.State
             }
         }
 
-        public void SetScreenActive(string name, bool desactiveOtherScreens)
+        public void SetStateActive(string name, bool desactiveOtherScreens)
         {
             if (_statesDictionary.ContainsKey(name))
             {

@@ -70,7 +70,7 @@
       <Name>Yna.Linux</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.Linux.csproj">
-      <Project>{F8106832-F889-4082-A5F5-CB754F03E82C}</Project>
+      <Project>{f8106832-f889-4082-a5f5-cb754f03e82c}</Project>
       <Name>Common.Linux</Name>
     </ProjectReference>
   </ItemGroup>

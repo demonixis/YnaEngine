@@ -93,7 +93,7 @@ namespace Yna.Samples.Screens
             icosphere.RotateY(gameTime.ElapsedGameTime.Milliseconds * 0.1f);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

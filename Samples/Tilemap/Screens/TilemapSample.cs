@@ -75,7 +75,7 @@ namespace Yna.Samples.Screens
                 camera.Y -= delta;
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

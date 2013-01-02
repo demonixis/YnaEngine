@@ -6,21 +6,26 @@ namespace Yna.Samples
 {
     public class Models3DGame : YnGame
     {
+        Menu menu;
+        MenuEntry[] menuItems;
+
         public Models3DGame()
             : base(800, 600, "Yna Samples : Models 3D Sample")
         {
-
+            menuItems = new MenuEntry[]
+            {
+                new MenuEntry("dungeonSample", "Dungeon", "In this sample we load a model (fbx) and add it to the scene"),
+            };
         }
 
         protected override void Initialize()
         {
             base.Initialize();
 
-            DungeonState dungeonState = new DungeonState("dungeon");
-            PickingObjectsSample pickingState = new PickingObjectsSample("picking");
+            menu = new Menu("menu", "3D models", menuItems);
 
-            stateManager.Add(dungeonState, true);
-            stateManager.Add(pickingState, false);
+            stateManager.Add(menu, true);
+            stateManager.Add(new DungeonState("dungeonSample"), false);
         }
 
 #if !WINDOWS_PHONE
