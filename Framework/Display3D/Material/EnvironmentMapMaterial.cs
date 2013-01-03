@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Yna.Framework.Display;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Lighting;
 using Yna.Framework.Display3D.Camera;
@@ -138,11 +139,17 @@ namespace Yna.Framework.Display3D.Material
                     texture.GetData<Color>(textureData);
                     _environmentTexture.SetData<Color>((CubeMapFace)i, textureData);
                 }
-
+                
                 // Update the texture names array
                 _environmentTextureNames = tempTextureNames;
                 
                 _environmentTextureLoaded = true;
+
+                if (_texture == null)
+                {
+                    _texture = YnGraphics.CreateTexture(Color.White, _environmentTextureSize, _environmentTextureSize);
+                    _textureLoaded = true;
+                }
             }
 
             if (!_effectLoaded)
@@ -166,7 +173,6 @@ namespace Yna.Framework.Display3D.Material
             environmentMapEffect.EnvironmentMapAmount = _environmentAmount;
             environmentMapEffect.EnvironmentMapSpecular = _environmentSpecular;
             environmentMapEffect.FresnelFactor = _fresnelFactor;
-
             // Fog
             UpdateFog(environmentMapEffect);
 

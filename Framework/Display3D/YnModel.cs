@@ -59,6 +59,12 @@ namespace Yna.Framework.Display3D
             get { return _modelName; }
         }
 
+        public Light Light
+        {
+            get { return _light; }
+            set { _light = value; }
+        }
+
         #endregion
 
         #region Constructor

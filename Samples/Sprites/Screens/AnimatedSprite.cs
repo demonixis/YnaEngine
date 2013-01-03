@@ -132,13 +132,14 @@ namespace Yna.Samples.Screens
             // Move the screen
             if (YnG.Mouse.Drag(MouseButton.Left))
             {
-                Camera.X +=  (int)YnG.Mouse.Delta.X;
+                Camera.X += (int)YnG.Mouse.Delta.X;
                 Camera.Y += (int)YnG.Mouse.Delta.Y;
             }
+
             // Rotate the screen
             if (YnG.Mouse.Drag(MouseButton.Middle))
                 Camera.Rotation += YnG.Mouse.Delta.X;
-            
+
             // Reset to default
             // Click on Right button to reset the position
             if (YnG.Mouse.JustClicked(MouseButton.Right))
@@ -158,7 +159,7 @@ namespace Yna.Samples.Screens
             {
                 Camera.Rotate(1, 3500);
             }
-          
+
 
             // Update sprites' animations
             UpdateAnimations(womanSprite);
