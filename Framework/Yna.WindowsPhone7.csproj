@@ -66,7 +66,9 @@
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Content\XnaContentManager.cs" />
     <Compile Include="Display\Event\TouchSpriteEvents.cs" />
+    <Compile Include="Display\YnEntitySafeList.cs" />
     <Compile Include="Display\YnGraphics.cs" />
+    <Compile Include="Display\YnScene2D.cs" />
     <Compile Include="Display\YnText.cs" />
     <Compile Include="Display\YnSpriteBatchCamera.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
@@ -173,7 +175,10 @@
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnEntity.cs" />
+    <Compile Include="YnSafeList.cs" />
+    <Compile Include="YnScene.cs" />
     <Compile Include="YnTimer.cs" />
+	<Compile Include="Display\Animation\Interpolator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
