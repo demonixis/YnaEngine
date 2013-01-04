@@ -51,6 +51,8 @@ namespace Yna.Framework.Display
         /// </summary>
         public virtual void Initialize()
         {
+            base.Initialize();
+
             for (int i = 0; i < _listSize; i++)
                 _members[i].Initialize();
         }

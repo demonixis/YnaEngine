@@ -51,7 +51,10 @@ namespace Yna.Framework
             _assetsLoaded = false;
         }
 
-        public abstract void Initialize();
+        public virtual void Initialize()
+        {
+            _baseList.Initialize();
+        }
 
         public abstract void LoadContent();
 

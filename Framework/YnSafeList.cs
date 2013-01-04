@@ -70,6 +70,14 @@ namespace Yna.Framework
         }
 
         /// <summary>
+        /// Add items that are ready to the collection
+        /// </summary>
+        public virtual void Initialize()
+        {
+            CheckForAdd();
+        }
+
+        /// <summary>
         /// Check if objects must be added to the list
         /// </summary>
         protected virtual void CheckForAdd()
@@ -171,6 +179,15 @@ namespace Yna.Framework
         }
 
         /// <summary>
+        /// Force the collection to add the item now
+        /// </summary>
+        /// <param name="item">Item to add</param>
+        public virtual void ForceAdd(T item)
+        {
+            _members.Add(item);
+        }
+
+        /// <summary>
         /// Remove an item from the collection
         /// </summary>
         /// <param name="item">Item</param>
@@ -193,11 +210,29 @@ namespace Yna.Framework
         }
 
         /// <summary>
+        /// Force the collection to remove the item now
+        /// </summary>
+        /// <param name="item">Item to remove</param>
+        public virtual void ForceRemove(T item)
+        {
+            _members.Remove(item);
+        }
+
+        /// <summary>
         /// Clear the collection
         /// </summary>
         public virtual void Clear()
         {
             _clearRequest = true;
+        }
+
+        /// <summary>
+        /// Force the collection to clear now
+        /// </summary>
+        public virtual void ForceClear()
+        {
+            Clear();
+            CheckForClear();
         }
     }
 

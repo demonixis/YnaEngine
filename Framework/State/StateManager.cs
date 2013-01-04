@@ -514,7 +514,7 @@ namespace Yna.Framework.State
             _states.Remove(screen);
 
             _statesDictionary.Remove(screen.Name);
-
+            // TODO : Not necessary
             if (_initialized)
                 screen.UnloadContent();
         }
