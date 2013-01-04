@@ -458,24 +458,25 @@ namespace Yna.Framework.State
         /// <summary>
         /// Add a new screen to the Manager. The screen is not activate or desactivate, you must manage this yourself
         /// </summary>
-        /// <param name="screen">Screen to add</param>
-        public void Add(BaseState screen)
+        /// <param name="state">Screen to add</param>
+        public void Add(BaseState state)
         {
-            screen.ScreenManager = this;
+            state.ScreenManager = this;
 
             // If the manager is not yet ready we don't need to initialize and load its content
             // Because it's donne in the init. process
             if (_initialized)
             {
-                screen.LoadContent();
+                state.LoadContent();
+                state.Initialize();
 
-                if (screen.Active)
-                    screen.Initialize();
+                if (state.Active)
+                    state.Initialize();
             }
 
-            _states.Add(screen);
+            _states.Add(state);
 
-            _statesDictionary.Add(screen.Name, _states.IndexOf(screen));
+            _statesDictionary.Add(state.Name, _states.IndexOf(state));
         }
 
         /// <summary>

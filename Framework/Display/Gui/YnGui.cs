@@ -26,6 +26,32 @@ namespace Yna.Framework.Display.Gui
 
         #region Properties
 
+        public YnWidget this[int index]
+        {
+            get
+            {
+                if (index < 0 || index > Count)
+                    throw new IndexOutOfRangeException();
+
+                return _widgets[index];
+            }
+            set
+            {
+                if (index < 0 || index > Count)
+                    throw new IndexOutOfRangeException();
+
+                _widgets[index] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the number of widgets
+        /// </summary>
+        public int Count
+        {
+            get { return _widgets.Count; }
+        }
+
         /// <summary>
         /// The Gui current skin
         /// </summary>
@@ -192,6 +218,28 @@ namespace Yna.Framework.Display.Gui
         {
             foreach (YnWidget widget in Widgets)
                 yield return widget;
+        }
+
+        /// <summary>
+        /// Get a widget by its name
+        /// </summary>
+        /// <param name="name">The widget name</param>
+        /// <returns>A widget or null</returns>
+        public virtual YnWidget GetWidgetByName(string name)
+        {
+            YnWidget widget = null;
+
+            int size = Count;
+            int i = 0;
+
+            while (i < size && widget == null)
+            {
+                if (_widgets[i].Name == name)
+                    widget = _widgets[i];
+                i++;
+            }
+
+            return widget;
         }
 
         #endregion

@@ -22,14 +22,10 @@ namespace Yna.Framework.Display.Gui
     /// <summary>
     /// Base class for GUI widgets
     /// </summary>
-    public abstract class YnWidget
+    public abstract class YnWidget : YnBase
     {
-        // Number of widget created, used for set the default name
-        private static int WidgetCounter = 0;
-
         #region Attributes
 
-        protected string _name;
         protected Rectangle _bounds;
         protected bool _withBackground;
         protected bool _withBorders;
@@ -46,15 +42,6 @@ namespace Yna.Framework.Display.Gui
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Get or Set the name identifier of the widget
-        /// </summary>
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
 
         public int X
         {
@@ -258,8 +245,6 @@ namespace Yna.Framework.Display.Gui
             _orientation = YnOrientation.Vertical;
             _bounds = Rectangle.Empty;
             Position = Vector2.Zero;
-
-            _name = String.Format("YnWidget_{0}", YnWidget.WidgetCounter++);
         }
 
         #endregion
@@ -534,7 +519,7 @@ namespace Yna.Framework.Display.Gui
             }
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             DoCustomUpdate(gameTime);
 
