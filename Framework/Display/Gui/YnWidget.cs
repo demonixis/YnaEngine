@@ -545,6 +545,7 @@ namespace Yna.Framework.Display.Gui
             }
 
             // No event handling if not visible nor active
+            _hovered = false;
             if (_visible && _active)
             {
                 Rectangle absoluteBounds = _bounds;
