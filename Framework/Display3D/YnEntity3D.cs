@@ -10,7 +10,7 @@ namespace Yna.Framework.Display3D
     /// <summary>
     /// This is a base class for all things that can be drawn on the screen
     /// </summary>
-    public abstract class YnObject3D : YnBase3D, IDisposable
+    public abstract class YnEntity3D : YnBase3D, IDisposable
     {
         #region Protected & private declarations
 
@@ -41,7 +41,7 @@ namespace Yna.Framework.Display3D
         protected float _depth;
 
         // Parent
-        protected YnObject3D _parent;
+        protected YnEntity3D _parent;
 
         // Initialization
         protected bool _initialized;
@@ -91,7 +91,7 @@ namespace Yna.Framework.Display3D
         /// <summary>
         /// Get the parent object of the scene
         /// </summary>
-        public YnObject3D Parent
+        public YnEntity3D Parent
         {
             get { return _parent; }
             set { _parent = value; }
@@ -257,7 +257,7 @@ namespace Yna.Framework.Display3D
 
         #region Constructors
 
-        public YnObject3D(Vector3 position)
+        public YnEntity3D(Vector3 position)
             : base()
         {
             _position = position;
@@ -282,7 +282,7 @@ namespace Yna.Framework.Display3D
             _boundingSphere = new BoundingSphere();
         }
 
-        public YnObject3D()
+        public YnEntity3D()
             : this(new Vector3(0.0f, 0.0f, 0.0f))
         {
 

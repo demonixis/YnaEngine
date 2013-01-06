@@ -11,7 +11,7 @@ namespace Yna.Framework.Display3D.Lighting
 
     public interface ILightXnaDirectional
     {
-        bool LightEnabled { get; set; }
+        bool Enabled { get; set; }
         Vector3 DiffuseColor { get; set; }
         Vector3 SpecularColor { get; set; }
         Vector3 Direction { get; set; }

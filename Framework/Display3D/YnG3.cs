@@ -10,7 +10,7 @@ namespace Yna.Framework.Display3D
     public struct CollideInformation
     {
         public float Distance;
-        public YnObject3D Object3D;
+        public YnEntity3D Object3D;
     }
 
     public class YnG3
@@ -73,7 +73,7 @@ namespace Yna.Framework.Display3D
         /// <param name="camera">Camera to use</param>
         /// <param name="object3D">Object3D</param>
         /// <returns>The distance between the object and the mouse cursor, -1 if not collide</returns>
-        public static float MouseCollideWithObject(BaseCamera camera, YnObject3D object3D)
+        public static float MouseCollideWithObject(BaseCamera camera, YnEntity3D object3D)
         {
             float? distance = null;
 
@@ -170,9 +170,9 @@ namespace Yna.Framework.Display3D
             return collides.ToArray();
         }
 
-        public static YnObject3D[] SphereCollide(BaseCamera camera, YnGroup3D group)
+        public static YnEntity3D[] SphereCollide(BaseCamera camera, YnGroup3D group)
         {
-            List<YnObject3D> collides = new List<YnObject3D>();
+            List<YnEntity3D> collides = new List<YnEntity3D>();
 
             int groupSize = group.Count;
 
@@ -226,9 +226,9 @@ namespace Yna.Framework.Display3D
             return collides.ToArray();
         }
 
-        public static YnObject3D[] CubeCollide(BaseCamera camera, YnGroup3D group)
+        public static YnEntity3D[] CubeCollide(BaseCamera camera, YnGroup3D group)
         {
-            List<YnObject3D> collides = new List<YnObject3D>();
+            List<YnEntity3D> collides = new List<YnEntity3D>();
 
             int groupSize = group.Count;
 

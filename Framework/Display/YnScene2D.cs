@@ -109,8 +109,8 @@ namespace Yna.Framework.Display
                 entity.LoadContent();
                 entity.Initialize();
             }
-
-            _entities.Add(entity);
+            
+            _entities.Add(entity); 
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace Yna.Framework.Display3D.Primitive
     ///     and call in first PreDraw() method. Do your stuff after that
     /// </summary>
     /// <typeparam name="T">Type of IVertexType</typeparam>
-    public abstract class Shape<T> : YnObject3D where T : struct, IVertexType
+    public abstract class Shape<T> : YnEntity3D where T : struct, IVertexType
     {
         #region Protected declarations
     

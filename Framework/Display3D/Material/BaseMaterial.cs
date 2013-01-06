@@ -22,9 +22,6 @@ namespace Yna.Framework.Display3D.Material
         protected string _textureName;
         protected bool _textureLoaded;
 
-        // TODO must be an array
-        protected Light _light;
-
         // Base value for a material
         protected Vector4 _ambientColor;
         protected float _ambientIntensity;
@@ -57,15 +54,6 @@ namespace Yna.Framework.Display3D.Material
         {
             get { return _texture; }
             set { _texture = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the lights (will change)
-        /// </summary>
-        public Light Light
-        {
-            get { return _light; }
-            set { _light = value; }
         }
 
         /// <summary>

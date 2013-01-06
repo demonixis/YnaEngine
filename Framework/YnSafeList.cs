@@ -250,40 +250,4 @@ namespace Yna.Framework
             }
         }
     }
-
-    /// <summary>
-    /// Define a safe list for 3D objects
-    /// </summary>
-    public class YnObject3DSafeList : YnSafeList<YnObject3D>
-    {
-        /// <summary>
-        /// Update enabled objects
-        /// </summary>
-        /// <param name="gameTime"></param>
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            for (int i = 0; i < _listSize; i++)
-            {
-                if (_members[i].Enabled)
-                    _members[i].Update(gameTime);
-            }
-        }
-
-        /// <summary>
-        /// Draw the visible objects
-        /// </summary>
-        /// <param name="gameTime"></param>
-        /// <param name="spriteBatch"></param>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            if (_listSize > 0)
-            {
-                for (int i = 0; i < _listSize; i++)
-                {
-                    if (_members[i].Visible)
-                        _members[i].Draw(YnG.GraphicsDevice);
-                }
-            }
-        }
-    }
 }

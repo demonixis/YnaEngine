@@ -17,6 +17,7 @@ namespace Yna.Framework.Display
     {
         #region Private declarations
 
+        // The scene
         YnScene2D _scene;
 
         // SpriteBatch modes
@@ -112,6 +113,7 @@ namespace Yna.Framework.Display
             : base()
         {
             InitializeDefaultState();
+            _scene = new YnScene2D();
         }
 
         public YnState(string name, float timeOn, float timeOff)
@@ -119,6 +121,7 @@ namespace Yna.Framework.Display
         {
             _name = name;
             InitializeDefaultState();
+            _scene = new YnScene2D();
         }
 
         public YnState(string name, bool active)
@@ -134,8 +137,6 @@ namespace Yna.Framework.Display
         /// </summary>
         private void InitializeDefaultState()
         {
-            _scene = new YnScene2D();
-
             _spriteSortMode = SpriteSortMode.Immediate;
             _blendState = BlendState.AlphaBlend;
             _samplerState = SamplerState.LinearClamp;
@@ -148,6 +149,9 @@ namespace Yna.Framework.Display
 
         #region GameState pattern
 
+        /// <summary>
+        /// Initialize the state
+        /// </summary>
         public override void Initialize()
         {
             base.Initialize();
@@ -155,6 +159,9 @@ namespace Yna.Framework.Display
             _scene.Initialize();
         }
 
+        /// <summary>
+        /// Load content
+        /// </summary>
         public override void LoadContent()
         {
             base.LoadContent();
@@ -162,6 +169,9 @@ namespace Yna.Framework.Display
             _scene.LoadContent();
         }
 
+        /// <summary>
+        /// Unload content
+        /// </summary>
         public override void UnloadContent()
         {
             base.UnloadContent();
@@ -169,6 +179,10 @@ namespace Yna.Framework.Display
             _scene.UnloadContent();
         }
 
+        /// <summary>
+        /// Update the camera and the scene who will update BasicObjects, Entities and Gui
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -178,6 +192,10 @@ namespace Yna.Framework.Display
             _scene.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draw all entities and the gui
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);

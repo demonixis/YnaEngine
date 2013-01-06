@@ -4,16 +4,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Lighting;
+using Yna.Framework.Display3D.Material;
 
 namespace Yna.Framework.Display3D
 {
-    public class YnModel : YnObject3D
+    public class YnModel : YnEntity3D
     {
         protected Model _model;
         protected string _modelName;
         protected Matrix[] _bonesTransforms;
-        protected BasicEffect _basicEffect; // Temp
-        protected Light _light; // Temp too
+
+        protected YnBasicLight _light; // Temp too
 
         #region Properties
 
@@ -59,7 +60,7 @@ namespace Yna.Framework.Display3D
             get { return _modelName; }
         }
 
-        public Light Light
+        public YnBasicLight Light
         {
             get { return _light; }
             set { _light = value; }
@@ -73,7 +74,7 @@ namespace Yna.Framework.Display3D
             : base(position)
         {
             _modelName = modelName;
-            _light = new Light();
+            _light = new YnBasicLight();
         }
 
         public YnModel(string modelName)
@@ -145,16 +146,22 @@ namespace Yna.Framework.Display3D
         }
 #endif
 
-        protected virtual void SetupLightning(BasicEffect effect)
+        /// <summary>
+        /// OH MY GOD THIS IS HORRIBLE !! but it's here just for a some time
+        /// </summary>
+        /// <param name="effect"></param>
+        protected virtual void UpdateLights(BasicEffect effect)
         {
             effect.LightingEnabled = true;
-            effect.DirectionalLight0.Enabled = true;
-            effect.DirectionalLight0.DiffuseColor = _light.Diffuse;
-            effect.DirectionalLight0.Direction = _light.Direction;
-            effect.DirectionalLight0.SpecularColor = _light.Specular;
-            effect.AmbientLightColor = _light.Ambient;
-            effect.EmissiveColor = _light.Emissive;
-            effect.Alpha = _light.Alpha;
+
+            // Mesh color light
+            effect.AmbientLightColor = _light.AmbientColor * _light.AmbientIntensity;
+            effect.DiffuseColor = Color.White.ToVector3();
+            effect.EmissiveColor = Color.White.ToVector3() * 0.5f;
+            effect.SpecularColor = Color.Black.ToVector3();
+            effect.Alpha = 1;
+
+            StockMaterial.UpdateLights(effect, _light);
         }
 
         public override void UpdateMatrices()
@@ -172,8 +179,6 @@ namespace Yna.Framework.Display3D
 
         public override void LoadContent()
         {
-            _basicEffect = new BasicEffect(YnG.GraphicsDevice);
-
             _model = YnG.Content.Load<Model>(_modelName);
 
             _bonesTransforms = new Matrix[_model.Bones.Count];
@@ -195,7 +200,7 @@ namespace Yna.Framework.Display3D
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    SetupLightning(effect);
+                    UpdateLights(effect);
 
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
 

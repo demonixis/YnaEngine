@@ -86,9 +86,10 @@ namespace Yna.Framework.Display3D.Material
             _environmentTextureLoaded = false;
             _environmentAmount = 1.0f;
             _environmentSpecular = Color.Black.ToVector3();
-            _fresnelFactor = 1.0f; // Disabled
-            _environmentTextureSize = 256;
+            _fresnelFactor = 0.5f; // Disabled
+            _environmentTextureSize = 0;
             _enableTextureMipmap = false;
+            _effectName = "EnvironmentMapEffect";
         }
 
         /// <summary>
@@ -116,6 +117,13 @@ namespace Yna.Framework.Display3D.Material
             // To hacked for now
             if (!_environmentTextureLoaded && _environmentTextureNames != null)
             {
+                // Detect the texture size if it doesn't specified
+                if (_environmentTextureSize == 0)
+                {
+                    Texture2D firstTexture = YnG.Content.Load<Texture2D>(_environmentTextureNames[0]);
+                    _environmentTextureSize = firstTexture.Width;
+                }
+
                 // Create the environment texture
                 _environmentTexture = new TextureCube(YnG.GraphicsDevice, _environmentTextureSize, _enableTextureMipmap, SurfaceFormat.Color);
 
@@ -142,9 +150,9 @@ namespace Yna.Framework.Display3D.Material
                 
                 // Update the texture names array
                 _environmentTextureNames = tempTextureNames;
-                
                 _environmentTextureLoaded = true;
 
+                // If the first texture is null we create a dummy texture with the same size of environment texture
                 if (_texture == null)
                 {
                     _texture = YnGraphics.CreateTexture(Color.White, _environmentTextureSize, _environmentTextureSize);
@@ -162,6 +170,7 @@ namespace Yna.Framework.Display3D.Material
         public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
         {
             if (!_effectLoaded) return;
+
             // Update matrices
             base.Update(ref world, ref view, ref projection, ref position);
 

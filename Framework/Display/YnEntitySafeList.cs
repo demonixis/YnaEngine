@@ -73,34 +73,5 @@ namespace Yna.Framework.Display
                 }
             }
         }
-
-        #region Collection methods
-
-        public void AddEntity(YnEntity entity)
-        {
-
-        }
-
-        public void AddEntities(YnEntity[] entities)
-        {
-
-        }
-
-        public void RemoveEntity(YnEntity entity)
-        {
-
-        }
-
-        public void RemoveEntities(YnEntity[] entities)
-        {
-
-        }
-
-        public void ClearEntities()
-        {
-
-        }
-
-        #endregion
     }
 }

@@ -1,41 +1,68 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
+    <ProjectGuid>{BD9BB2A6-5772-4709-8CE6-94A0E4D7C64A}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yna.Framework</RootNamespace>
-    <AssemblyName>Yna.Framework.Linux</AssemblyName>
+    <AssemblyName>Yna.Framework.Android</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidSupportedAbis>armeabi%3barmeabi-v7a%3bx86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <DeployExternal>False</DeployExternal>
+    <AndroidApplication>True</AndroidApplication>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;MONOGAME;LINUX;</DefineConstants>
+    <DefineConstants>DEBUG;ANDROID;MONOGAME</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
-    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>False</ConsolePause>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
-    <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>MONOGAME;LINUX;</DefineConstants>
+    <ConsolePause>False</ConsolePause>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <DefineConstants>ANDROID;MONOGAME</DefineConstants>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="OpenTK">
+      <HintPath>..\ThirdParty\MonoGame\Android\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.Sdl">
+      <HintPath>..\ThirdParty\MonoGame\Android\Tao.Sdl.dll</HintPath>
+    </Reference>
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\ThirdParty\MonoGame\Android\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\ThirdParty\MonoGame\Android\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
-    <Compile Include="Content\YnaContentManager.cs" />
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Content\XnaContentManager.cs" />
     <Compile Include="Display3D\Lighting\YnDirectionalLight.cs" />
@@ -158,12 +185,5 @@
     <Compile Include="YnScene.cs" />
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\ThirdParty\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

@@ -27,6 +27,7 @@ namespace Yna.Framework.Display3D.Material
             _enableDefaultLighting = false;
             _secondTextureLoaded = false;
             _secondTextureName = String.Empty;
+            _effectName = "DualTextureEffect";
         }
 
         /// <summary>

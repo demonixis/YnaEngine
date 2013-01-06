@@ -11,10 +11,11 @@ using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D
 {
-    public class YnGroup3D : YnObject3D
+    // @Deprecated
+    public class YnGroup3D : YnEntity3D
     {
-        protected List<YnObject3D> _members;
-        private List<YnObject3D> _safeMembers;
+        protected List<YnEntity3D> _members;
+        protected List<YnEntity3D> _safeMembers;
 
         #region Properties
 
@@ -36,7 +37,7 @@ namespace Yna.Framework.Display3D
             {
                 _camera = value;
 
-                foreach (YnObject3D sceneObject in _members)
+                foreach (YnEntity3D sceneObject in _members)
                     sceneObject.Camera = _camera;
             }
         }
@@ -47,14 +48,14 @@ namespace Yna.Framework.Display3D
             {
                 _world = Matrix.Identity;
 
-                foreach (YnObject3D members in _members)
+                foreach (YnEntity3D members in _members)
                     _world *= members.World;
 
                 return _world;
             }
             set
             {
-                foreach (YnObject3D members in _members)
+                foreach (YnEntity3D members in _members)
                     members.World *= value;
             }
         }
@@ -62,12 +63,12 @@ namespace Yna.Framework.Display3D
         /// <summary>
         /// Get the YnObject3D on this scene
         /// </summary>
-        public List<YnObject3D> SceneObjects
+        public List<YnEntity3D> SceneObjects
         {
             get { return _members; }
         }
 
-        public YnObject3D this[int index]
+        public YnEntity3D this[int index]
         {
             get
             {
@@ -89,16 +90,16 @@ namespace Yna.Framework.Display3D
 
         #region Constructors
 
-        public YnGroup3D(BaseCamera camera, YnObject3D parent)
+        public YnGroup3D(BaseCamera camera, YnEntity3D parent)
         {
-            _members = new List<YnObject3D>();
-            _safeMembers = new List<YnObject3D>();
+            _members = new List<YnEntity3D>();
+            _safeMembers = new List<YnEntity3D>();
             _initialized = false;
             _camera = camera;
             _parent = parent;
         }
 
-        public YnGroup3D(YnObject3D parent)
+        public YnGroup3D(YnEntity3D parent)
             : this(new FixedCamera(), parent)
         {
         }
@@ -119,7 +120,7 @@ namespace Yna.Framework.Display3D
             {
                 if (_members.Count > 0)
                 {
-                    foreach (YnObject3D sceneObject in _members)
+                    foreach (YnEntity3D sceneObject in _members)
                     {
                         BoundingBox box = sceneObject.BoundingBox;
 
@@ -144,7 +145,7 @@ namespace Yna.Framework.Display3D
 
             World = Matrix.Identity;
 
-            foreach (YnObject3D members in _members)
+            foreach (YnEntity3D members in _members)
                 World *= members.World;
         }
 
@@ -154,7 +155,7 @@ namespace Yna.Framework.Display3D
         {
             World = Matrix.Identity;
 
-            foreach (YnObject3D members in _members)
+            foreach (YnEntity3D members in _members)
                 World *= members.World;
 
             View = _camera.View;
@@ -168,10 +169,10 @@ namespace Yna.Framework.Display3D
             {
                 if (_members.Count > 0)
                 {
-                    foreach (YnObject3D sceneObject in _members)
+                    foreach (YnEntity3D sceneObject in _members)
                     {
                         sceneObject.Camera = _camera;
-                        sceneObject.LoadContent(); 
+                        sceneObject.LoadContent();
                     }
                 }
 
@@ -185,7 +186,7 @@ namespace Yna.Framework.Display3D
             {
                 if (_members.Count > 0)
                 {
-                    foreach (YnObject3D sceneObject in _members)
+                    foreach (YnEntity3D sceneObject in _members)
                         sceneObject.UnloadContent();
                 }
 
@@ -225,11 +226,8 @@ namespace Yna.Framework.Display3D
                 {
                     for (int i = 0; i < nbMembers; i++)
                     {
-                        //if (Camera.BoundingFrustrum.Contains(_safeMembers[i].BoundingSphere) != ContainmentType.Disjoint)
-                        {
-                            if (_safeMembers[i].Visible)
-                                _safeMembers[i].Draw(device);
-                        }
+                        if (_safeMembers[i].Visible)
+                            _safeMembers[i].Draw(device);
                     }
                 }
             }
@@ -243,9 +241,9 @@ namespace Yna.Framework.Display3D
         /// Add an object to the group, the camera used for this group will be used for this object
         /// </summary>
         /// <param name="sceneObject">An object3D</param>
-        public void Add(YnObject3D sceneObject)
+        public void Add(YnEntity3D sceneObject)
         {
-            if (sceneObject is YnScene)
+            if (sceneObject is YnScene3D)
                 throw new Exception("[YnGroup3D] You can't add a scene on a group, use an YnGroup3D instead");
 
             if (_initialized)
@@ -263,7 +261,7 @@ namespace Yna.Framework.Display3D
         /// Remove an object of the group
         /// </summary>
         /// <param name="sceneObject"></param>
-        public void Remove(YnObject3D sceneObject)
+        public void Remove(YnEntity3D sceneObject)
         {
             _members.Remove(sceneObject);
         }
@@ -283,6 +281,6 @@ namespace Yna.Framework.Display3D
                 yield return member;
         }
 
-        #endregion     
+        #endregion
     }
 }

@@ -1,37 +1,35 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
+    <ProjectGuid>{EDC8FA64-8D97-4363-9F9A-8544E59CF661}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Yna.Framework</RootNamespace>
-    <AssemblyName>Yna.Framework.Linux</AssemblyName>
+    <AssemblyName>Yna.Framework.MacOSX</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;MONOGAME;LINUX;</DefineConstants>
+    <DefineConstants>DEBUG;MONOGAME;MACOSX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
-    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
-    <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>MONOGAME;LINUX;</DefineConstants>
+    <ConsolePause>False</ConsolePause>
+    <DefineConstants>MONOGAME;MACOSX</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
+<ItemGroup>
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
@@ -159,11 +157,11 @@
     <Compile Include="YnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\ThirdParty\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
+    <Reference Include="MonoGame.Framework.MacOS">
+      <HintPath>..\ThirdParty\MonoGame\MacOSX\MonoGame.Framework.MacOS.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

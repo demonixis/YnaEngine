@@ -213,23 +213,28 @@ namespace Yna.Framework.Display3D.Material
             else
             {
                 effectLights.LightingEnabled = !_enableDefaultLighting;
-
-                // TODO To bad, you must make a real and rocky lighting system ok ?
-
-                if (_light != null)
-                {
-                    effectLights.DirectionalLight0.Enabled = true;
-                    effectLights.DirectionalLight0.Direction = _light.Direction;
-                    effectLights.DirectionalLight0.DiffuseColor = _light.Diffuse;
-                    effectLights.DirectionalLight0.SpecularColor = _light.Specular;
-
-                    // TODO more in the next episode :D
-                }
-
                 effectLights.AmbientLightColor = new Vector3(_ambientColor.X, _ambientColor.Y, _ambientColor.Z) * _ambientIntensity;
-                
                 return true;
             }
+        }
+
+        public static void UpdateLights(IEffectLights effect, YnBasicLight light)
+        {
+            effect.AmbientLightColor *= light.AmbientColor * light.AmbientIntensity;
+            effect.DirectionalLight0.Enabled = light.DirectionalLights[0].Enabled;
+            effect.DirectionalLight0.Direction = light.DirectionalLights[0].Direction;
+            effect.DirectionalLight0.DiffuseColor = light.DirectionalLights[0].DiffuseColor * light.DirectionalLights[0].DiffuseIntensity;
+            effect.DirectionalLight0.SpecularColor = light.DirectionalLights[0].SpecularColor * light.DirectionalLights[0].SpecularIntensity;
+
+            effect.DirectionalLight1.Enabled = light.DirectionalLights[1].Enabled;
+            effect.DirectionalLight1.Direction = light.DirectionalLights[1].Direction;
+            effect.DirectionalLight1.DiffuseColor = light.DirectionalLights[1].DiffuseColor * light.DirectionalLights[1].DiffuseIntensity;
+            effect.DirectionalLight1.SpecularColor = light.DirectionalLights[1].SpecularColor * light.DirectionalLights[1].SpecularIntensity;
+
+            effect.DirectionalLight2.Enabled = light.DirectionalLights[2].Enabled;
+            effect.DirectionalLight2.Direction = light.DirectionalLights[2].Direction;
+            effect.DirectionalLight2.DiffuseColor = light.DirectionalLights[2].DiffuseColor * light.DirectionalLights[2].DiffuseIntensity;
+            effect.DirectionalLight2.SpecularColor = light.DirectionalLights[2].SpecularColor * light.DirectionalLights[2].SpecularIntensity;
         }
     }
 }
