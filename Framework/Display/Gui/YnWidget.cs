@@ -536,6 +536,7 @@ namespace Yna.Framework.Display.Gui
 
         public void Update(GameTime gameTime)
         {
+            _hovered = false;
             DoCustomUpdate(gameTime);
 
             foreach (YnWidget child in _children)
@@ -599,7 +600,6 @@ namespace Yna.Framework.Display.Gui
                 }
                 else
                 {
-                    _hovered = false;
                     if (!mouseOnWidget && mouseWasOnWidget)
                     {
                         // The mouse left the widget
