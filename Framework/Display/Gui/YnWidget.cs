@@ -612,6 +612,11 @@ namespace Yna.Framework.Display.Gui
         {
             _children.Add(widget);
             widget.Parent = this;
+
+            // If the skin is already loaded, link it directly
+            if (widget.Skin == null && _skin != null)
+                widget.Skin = _skin;
+
             return widget;
         }
 
