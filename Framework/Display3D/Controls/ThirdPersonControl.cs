@@ -43,6 +43,9 @@ namespace Yna.Framework.Display3D.Controls
             : base(camera)
         {
             _followedObject = followedObject;
+
+            if (camera.FollowedObject == null)
+                camera.FollowedObject = _followedObject;
         }
 
         /// <summary>

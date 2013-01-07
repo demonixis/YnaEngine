@@ -87,17 +87,6 @@ namespace Yna.Framework.Display3D
 
         #region Bounding volumes and light
 
-#if MONOGAME
-        // FIX : VertexBuffer.GetData crash with current MonoGame revision :/
-        public override void UpdateBoundingVolumes()
-        {
-            _boundingBox.Min = new Vector3(X - 5, Y - 5, Z - 5);
-            _boundingBox.Max = new Vector3(X + 5, Y + 5, Z + 5);
-
-            _boundingSphere.Center = Position;
-            _boundingSphere.Radius = 5;
-        }
-#else
         public override void UpdateBoundingVolumes()
         {
             // 1 - Global Bounding box
@@ -144,7 +133,6 @@ namespace Yna.Framework.Display3D
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
             _boundingSphere.Center = _position;
         }
-#endif
 
         /// <summary>
         /// OH MY GOD THIS IS HORRIBLE !! but it's here just for a some time
@@ -204,7 +192,7 @@ namespace Yna.Framework.Display3D
 
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
 
-                    effect.View = View;
+                    effect.View = _camera.View;
 
                     effect.Projection = _camera.Projection;
                 }
