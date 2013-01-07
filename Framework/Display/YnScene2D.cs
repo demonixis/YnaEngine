@@ -63,7 +63,7 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Unload content of entities and Gui
         /// </summary>
-        public virtual void UnloadContent()
+        public override void UnloadContent()
         {
             _entities.UnloadContent();
             _guiManager.UnloadContent();

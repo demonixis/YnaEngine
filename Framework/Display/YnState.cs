@@ -280,6 +280,11 @@ namespace Yna.Framework.Display
             _scene.Remove(widget);
         }
 
+        public YnBase GetMemberByName(string name)
+        {
+            return _scene.GetMemberByName(name);
+        }
+
         #endregion
     }
 }
