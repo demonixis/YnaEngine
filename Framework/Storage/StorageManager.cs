@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 namespace Yna.Framework.Storage
 {
     /// <summary>
-    /// The storage manager is an object that can be used for store and load information like score, achievments, etc..
+    /// The storage manager is an object that can be used for store and load information like scores, achievments, etc..
     /// </summary>
     public class StorageManager
     {
@@ -23,7 +23,7 @@ namespace Yna.Framework.Storage
             storageDevice = new XnaPhoneStorageDevice();
 #elif MONOGAME && WINDOWS || LINUX || MACOSX || XNA
             storageDevice = new BasicStorageDevice();
-#elif NETFX_CORE
+#elif WINDOWS_STOREAPP
             storageDevice = new WinRTStorageDevice();
 #else
             storageDevice = new DummyStorageDevice();

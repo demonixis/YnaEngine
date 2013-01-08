@@ -85,7 +85,7 @@ namespace Yna.Framework
             // 30 FPS for Windows Phone 7
             TargetElapsedTime = TimeSpan.FromTicks(333333);
 
-            // Battery save when screen suspend
+            // Battery saving when screen suspended
             InactiveSleepTime = TimeSpan.FromSeconds(1);
 #endif
         }
@@ -93,7 +93,7 @@ namespace Yna.Framework
         public YnGame(int width, int height, string title)
             : this()
         {
-#if !WINRT && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8 && !ANDROID
+#if !WINDOWS_STOREAPP && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8 && !ANDROID
             SetScreenResolution(width, height);
           
             this.Window.Title = title;
@@ -103,13 +103,11 @@ namespace Yna.Framework
 #endif
         }
 
-        public YnGame(int width, int height, string title, bool useScreenManager)
+        public YnGame(int width, int height, string title, bool useStateManager)
             : this(width, height, title)
         {
-            SetStateManagerActive(useScreenManager);
+            SetStateManagerActive(useStateManager);
         }
-
-
 
         #endregion
 
