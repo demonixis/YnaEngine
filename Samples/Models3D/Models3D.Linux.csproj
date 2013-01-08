@@ -46,7 +46,6 @@
     <Compile Include="Models3DGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\DungeonState.cs" />
-    <Compile Include="Screens\PickingObjectsSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -75,7 +75,6 @@
     </None>
     <Compile Include="Models3DGame.cs" />
     <Compile Include="Screens\DungeonState.cs" />
-    <Compile Include="Screens\PickingObjectsSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Background.png" />

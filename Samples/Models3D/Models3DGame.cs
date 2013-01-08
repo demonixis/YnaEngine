@@ -15,7 +15,6 @@ namespace Yna.Samples
             menuItems = new MenuEntry[]
             {
                 new MenuEntry("dungeonSample", "Dungeon", "In this sample we load a model (fbx) and add it to the scene"),
-                new MenuEntry("moveObjectSample", "3D Objects", "In this sample we load and interract with 3D objects")
             };
         }
 
@@ -27,7 +26,6 @@ namespace Yna.Samples
 
             stateManager.Add(menu, true);
             stateManager.Add(new DungeonState("dungeonSample"), false);
-            stateManager.Add(new MoveObjectSample("moveObjectSample"), false);
         }
 
 #if !WINDOWS_PHONE

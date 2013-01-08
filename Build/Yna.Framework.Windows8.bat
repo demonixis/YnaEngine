@@ -7,7 +7,7 @@ set flags=/nologo /p:Configuration=Release /p:Optimize=true /p:DebugSymbols=fals
 
 pushd ..\Framework
 
-call %msbuild% %flags% Yna.WinRT.csproj
+call %msbuild% %flags% Yna.Windows8.csproj
 
 popd
 

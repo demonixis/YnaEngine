@@ -37,7 +37,7 @@ namespace Yna.Samples.Screens
             Add(control);
 
             // 3 - Create a simple terrain with a size of 50x50 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("pattern55_diffuse", 50, 50, 1, 1);
+            terrain = new SimpleTerrain("Textures/pattern55_diffuse", 50, 50, 1, 1);
             // Repeat the ground texture 8x
             terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
@@ -51,14 +51,14 @@ namespace Yna.Samples.Screens
             {
                 cubePosition.X +=  5;             
 
-                cube = new CubeShape("pattern02_diffuse", Vector3.One, cubePosition);
+                cube = new CubeShape("Textures/pattern02_diffuse", Vector3.One, cubePosition);
                 groupCube.Add(cube);
             }
 
             Add(groupCube);
 
             // Sky
-            sky = new YnEntity("Sky");
+            sky = new YnEntity("Textures/Sky");
         }
 
         public override void LoadContent()
@@ -84,7 +84,7 @@ namespace Yna.Samples.Screens
             {
                 Vector2 mousePosition = YnG.Mouse.Position;
                 Vector3 position = YnG3.GetScreenToWorldPosition(Camera, ref mousePosition);
-                Add(new CubeShape("pattern02_diffuse", Vector3.One, position));
+                Add(new CubeShape("Textures/pattern02_diffuse", Vector3.One, position));
             }
 
             if (YnG.Keys.JustPressed(Keys.Escape))

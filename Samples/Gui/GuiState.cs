@@ -23,7 +23,7 @@ namespace Yna.Samples
             : base(name, 0, 0)
         {
             YnG.ShowMouse = true;
-            gui = new YnGui(YnSkinGenerator.Generate(Color.DodgerBlue, "Font"));
+            gui = new YnGui(YnSkinGenerator.Generate(Color.DodgerBlue, "/Fonts/Font"));
         }
 
         public override void BuildGui()

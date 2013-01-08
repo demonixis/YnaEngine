@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>Storage_TemporaryKey.pfx</PackageCertificateKeyFile>
-	<MonoGamePlatform>Windows8</MonoGamePlatform>
+    <MonoGamePlatform>Windows8</MonoGamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -140,20 +140,20 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-	<Content Include="Content\**\*.*">
+    <Content Include="Content\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\..\..\ThirdParty\MonoGame\WinRT\MonoGame.Framework.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\..\Framework\Yna.Windows8.csproj">
+      <Project>{fcc2db0f-c241-400c-afdb-dc153df4c433}</Project>
+      <Name>Yna.Windows8</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Yna.WinRT.csproj">
-      <Project>{fcc2db0f-c241-400c-afdb-dc153df4c433}</Project>
-      <Name>Yna.WinRT</Name>
-    </ProjectReference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\..\ThirdParty\MonoGame\Windows8\MonoGame.Framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

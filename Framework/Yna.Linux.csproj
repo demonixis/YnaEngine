@@ -8,13 +8,13 @@
     <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Yna.Framework</RootNamespace>
-    <AssemblyName>Yna.Framework.Linux</AssemblyName>
+    <AssemblyName>Yna.Framework</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>bin\Linux\Debug</OutputPath>
     <DefineConstants>DEBUG;MONOGAME;LINUX;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin\Linux\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>

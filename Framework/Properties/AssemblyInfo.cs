@@ -6,11 +6,29 @@ using System.Runtime.InteropServices;
 // les attributs suivants. Modifiez la valeur de ces attributs pour modifier les informations
 // associées à l’assembly.
 [assembly: AssemblyTitle("Yna Framework")]
-[assembly: AssemblyProduct("Yna The Prototype Game Framework")]
-[assembly: AssemblyDescription("Yna The Prototype Game Framework")]
-[assembly: AssemblyCompany("Demonixis Games")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
-[assembly: AssemblyTrademark("Demonixis Games")]
+#if ANDROID 
+[assembly: AssemblyProduct("Yna Framework for Android")]
+#elif LINUX
+[assembly: AssemblyProduct("Yna Framework for Linux")]
+#elif MACOSX
+[assembly: AssemblyProduct("Yna Framework for Mac OSX")]
+#elif MONOGAME && WINDOWS && OPENGL
+[assembly: AssemblyProduct("Yna Framework for Windows (OpenGL)")]
+#elif WINDOWS_PHONE_7
+[assembly: AssemblyProduct("Yna Framework for Windows Phone 7")]
+#elif WINDOWS_PHONE_8
+[assembly: AssemblyProduct("Yna Framework for Windows Phone 8")]
+#elif WINDOWS_STOREAPP
+[assembly: AssemblyProduct("Yna Framework for Windows 8 & Windows RT")]
+#elif XNA
+[assembly: AssemblyProduct("Yna Framework for PC/XNA")]
+#else
+[assembly: AssemblyProduct("Yna Framework")]
+#endif
+[assembly: AssemblyDescription("Yna Game Framework")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyCopyright("Copyright ©  2012-2013")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Si vous définissez ComVisible sur False, les types de cet assembly ne sont plus visibles 
@@ -31,4 +49,4 @@ using System.Runtime.InteropServices;
 //      Numéro de version
 //      Révision
 //
-[assembly: AssemblyVersion("1.0.0.4")]
+[assembly: AssemblyVersion("1.0.0.5")]

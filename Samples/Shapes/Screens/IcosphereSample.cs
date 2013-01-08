@@ -38,17 +38,18 @@ namespace Yna.Samples.Screens
             Add(control);
 
             // 3 - Create a simple terrain with a size of 50x50 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("pattern55_diffuse", 50, 50, 1, 1);
+            terrain = new SimpleTerrain("Textures/pattern55_diffuse", 50, 50, 1, 1);
             // Repeat the ground texture 8x
             terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
 
-            icosphere = new IcoSphereShape("icosphere_map", 32, 4, false);
+            icosphere = new IcoSphereShape("Textures/icosphere_map", 32, 4, false);
+            icosphere.Scale = new Vector3(3.5f);
             Add(icosphere);
 
             // Use another material
             //BasicMaterial icoMaterial = new BasicMaterial("icosphere_map");
-            EnvironmentMapMaterial icoMaterial = new EnvironmentMapMaterial("icosphere_map", new string[] { "Sky" });
+            EnvironmentMapMaterial icoMaterial = new EnvironmentMapMaterial("Textures/icosphere_map", new string[] { "Textures/Sky" });
             icoMaterial.SpecularColor = new Color(5, 5, 5).ToVector3();
             icoMaterial.AmbientColor = Color.White.ToVector4();
             icoMaterial.Amount = 0.35f;
@@ -61,7 +62,7 @@ namespace Yna.Samples.Screens
             // Set the new material to the sphere
             icosphere.Material = icoMaterial;
 
-            BasicMaterial terrainMaterial = new BasicMaterial("pattern55_diffuse");
+            BasicMaterial terrainMaterial = new BasicMaterial("Textures/pattern55_diffuse");
             terrainMaterial.FogColor = Color.White.ToVector3();
             terrainMaterial.FogStart = 15.0f;
             terrainMaterial.FogEnd = 65.0f;
@@ -69,7 +70,7 @@ namespace Yna.Samples.Screens
             terrain.Material = terrainMaterial;
 
             // Sky
-            sky = new YnEntity("Sky");
+            sky = new YnEntity("Textures/Sky");
         }
 
         public override void LoadContent()
@@ -81,7 +82,7 @@ namespace Yna.Samples.Screens
             sky.SetFullScreen();
 
             // Set the camera position at the middle of the terrain
-            icosphere.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 2);
+            icosphere.Position = new Vector3(terrain.Width / 2, icosphere.Scale.Y, terrain.Depth / 2);
 
             _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
         }

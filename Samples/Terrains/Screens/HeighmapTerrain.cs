@@ -55,7 +55,7 @@ namespace Yna.Samples.Screens
             heightmap.Material = heightmapMaterial;
 
             // Sky & debug info
-            sky = new YnEntity("Sky");
+            sky = new YnEntity("Textures/Sky");
             textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();

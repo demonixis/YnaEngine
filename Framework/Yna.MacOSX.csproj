@@ -8,13 +8,13 @@
     <ProjectGuid>{EDC8FA64-8D97-4363-9F9A-8544E59CF661}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Yna.Framework</RootNamespace>
-    <AssemblyName>Yna.Framework.MacOSX</AssemblyName>
+    <AssemblyName>Yna.Framework</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>bin\MacOSX\Debug</OutputPath>
     <DefineConstants>DEBUG;MONOGAME;MACOSX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -23,7 +23,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin\MacOSX\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>

@@ -142,7 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\..\..\ThirdParty\MonoGame\WP8\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\MonoGame\WindowsPhone8\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

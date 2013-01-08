@@ -17,4 +17,7 @@ rm -Rf Plugins/Wiimote/debug
 rm -Rf Plugins/Kinect/bin
 rm -Rf Plugins/Kinect/debug
 
+cd Samples/
+clean
+
 echo "Cleaning done"

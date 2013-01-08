@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows 8
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Windows 8\Storage\Storage.csproj", "{082796E0-5468-45F3-9040-6FEA5A01043B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WinRT", "..\Framework\Yna.WinRT.csproj", "{FCC2DB0F-C241-400C-AFDB-DC153DF4C433}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Windows8", "..\Framework\Yna.Windows8.csproj", "{FCC2DB0F-C241-400C-AFDB-DC153DF4C433}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

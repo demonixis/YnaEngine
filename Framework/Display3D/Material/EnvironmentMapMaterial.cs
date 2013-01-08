@@ -121,7 +121,7 @@ namespace Yna.Framework.Display3D.Material
                 if (_environmentTextureSize == 0)
                 {
                     Texture2D firstTexture = YnG.Content.Load<Texture2D>(_environmentTextureNames[0]);
-                    _environmentTextureSize = firstTexture.Width;
+                    _environmentTextureSize = Math.Min(firstTexture.Width, firstTexture.Height);
                 }
 
                 // Create the environment texture
