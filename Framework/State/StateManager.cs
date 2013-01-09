@@ -293,7 +293,7 @@ namespace Yna.Framework.State
 
             if (index > -1)
             {
-                newState.ScreenManager = this;
+                newState.StateManager = this;
                 _states[index] = newState;
                 return true;
             }
@@ -461,7 +461,7 @@ namespace Yna.Framework.State
         /// <param name="state">Screen to add</param>
         public void Add(BaseState state)
         {
-            state.ScreenManager = this;
+            state.StateManager = this;
 
             // If the manager is not yet ready we don't need to initialize and load its content
             // Because it's donne in the init. process

@@ -31,7 +31,7 @@ namespace Yna.Framework.State
 
         private static int ScreenCounter = 0;
 
-        private bool _active;
+        private bool _enabled;
         private bool _exiting;
         private bool _visible;
         private bool _isPopup;
@@ -46,7 +46,7 @@ namespace Yna.Framework.State
         private float _transitionAlpha;
 
         protected SpriteBatch spriteBatch;
-        protected StateManager screenManager;
+        protected StateManager stateManager;
 
         #endregion
 
@@ -71,19 +71,29 @@ namespace Yna.Framework.State
         }
 
         /// <summary>
-        /// Active or desactive this screen
+        /// Active or desactive this state. Enable & Visible
         /// </summary>
         public bool Active
         {
-            get { return _active; }
+            get { return _enabled && _visible; }
             set
             {
-                _active = value;
-                if (_active)
+                _enabled = value;
+                _visible = value;
+                if (value)
                     OnActivated(EventArgs.Empty);
                 else
                     OnDesactivated(EventArgs.Empty);
             }
+        }
+
+        /// <summary>
+        /// Enabled or disable the state
+        /// </summary>
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set { _enabled = value; }
         }
 
         /// <summary>
@@ -149,12 +159,12 @@ namespace Yna.Framework.State
         /// <summary>
         /// Get or Set the Screen Manager
         /// </summary>
-        public StateManager ScreenManager
+        public StateManager StateManager
         {
-            get { return screenManager; }
+            get { return stateManager; }
             set
             {
-                screenManager = value;
+                stateManager = value;
                 spriteBatch = value.SpriteBatch;
             }
         }
@@ -173,8 +183,8 @@ namespace Yna.Framework.State
         /// </summary>
         public Color ClearColor
         {
-            get { return screenManager.ClearColor; }
-            set { screenManager.ClearColor = value; }
+            get { return stateManager.ClearColor; }
+            set { stateManager.ClearColor = value; }
         }
 
         #endregion
@@ -210,7 +220,7 @@ namespace Yna.Framework.State
         public BaseState()
         {
             _name = "Screen_" + (ScreenCounter++);
-            _active = true;
+            _enabled = true;
             _exiting = false;
             _visible = true;
             _isPopup = false;
@@ -248,7 +258,7 @@ namespace Yna.Framework.State
 
         public virtual void LoadContent()
         {
-            spriteBatch = new SpriteBatch(screenManager.Game.GraphicsDevice);
+            spriteBatch = new SpriteBatch(stateManager.Game.GraphicsDevice);
         }
 
         public virtual void UnloadContent()
@@ -269,7 +279,7 @@ namespace Yna.Framework.State
             else if (_screenState == ScreenState.TransitionOff)
             {
                 if (_timeTransitionCounter <= 0 && _exiting)
-                    screenManager.Remove(this);
+                    stateManager.Remove(this);
                 else if (_timeTransitionCounter <= 0 && !_exiting)
                     _screenState = ScreenState.Hidden;
                 else
@@ -303,10 +313,10 @@ namespace Yna.Framework.State
         public virtual void Draw(GameTime gameTime)
         {
             if (_screenState == ScreenState.TransitionOn)
-                screenManager.FadeBackBufferToBlack(TransitionAlpha);
+                stateManager.FadeBackBufferToBlack(TransitionAlpha);
 
             else if (_screenState == ScreenState.TransitionOff)
-                screenManager.FadeBackBufferToBlack(TransitionAlpha);
+                stateManager.FadeBackBufferToBlack(TransitionAlpha);
         }
 
         /// <summary>
@@ -317,7 +327,7 @@ namespace Yna.Framework.State
             if (_timeTransitionOff <= 0)
             {
                 UnloadContent();
-                screenManager.Remove(this);
+                stateManager.Remove(this);
             }
             else
             {
