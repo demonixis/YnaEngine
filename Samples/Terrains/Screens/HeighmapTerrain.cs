@@ -53,6 +53,7 @@ namespace Yna.Samples.Screens
             rasterizerState = new RasterizerState();
         }
 
+
         public override void LoadContent()
         {
             base.LoadContent();
