@@ -12,7 +12,7 @@ using Yna.Framework.Display3D.Material;
 
 namespace Yna.Samples.Screens
 {
-    public class HeighmapTerrain : YnState3D
+    public class RandomHeightmap : YnState3D
     {
 
         YnEntity sky;
@@ -24,7 +24,7 @@ namespace Yna.Samples.Screens
 
         RasterizerState rasterizerState;
 
-        public HeighmapTerrain(string name)
+        public RandomHeightmap(string name)
             : base(name)
         {
             // 1 - Creating an FPSCamera
@@ -45,15 +45,17 @@ namespace Yna.Samples.Screens
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
-            heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture");
-            heightmap.Scale = new Vector3(2.5f, 1.0f, 2.5f);
+
+            Texture2D randomTexture = YnGraphics.CreateStaticMap(128);
+
+            heightmap = new Heightmap(randomTexture, "terrains/heightmapTexture", new Vector3(25, 1, 25));
             Add(heightmap);
 
             BasicMaterial heightmapMaterial = new BasicMaterial("terrains/heightmapTexture");
             heightmapMaterial.FogStart = 25.0f;
             heightmapMaterial.FogEnd = 75.0f;
             heightmapMaterial.EnableFog = true;
-            heightmapMaterial.FogColor = Vector3.One * 0.3f;
+            heightmapMaterial.FogColor = Color.White.ToVector3() * 0.4f;
             heightmap.Material = heightmapMaterial;
 
             // Sky & debug info

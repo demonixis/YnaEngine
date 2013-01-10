@@ -15,8 +15,7 @@ namespace Yna.Samples.Screens
         YnEntity sky;
         YnText textInfo;
         SimpleTerrain terrain;
-        FirstPersonControl control;
-
+        YnModel alienModel;
         RasterizerState rasterizerState;
 
         public BasicTerrain(string name)
@@ -29,7 +28,7 @@ namespace Yna.Samples.Screens
 
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
-            control = new FirstPersonControl((FirstPersonCamera)_camera);
+            FirstPersonControl control = new FirstPersonControl((FirstPersonCamera)_camera);
             control.RotateSpeed = 0.45f;
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.45f;
@@ -38,11 +37,14 @@ namespace Yna.Samples.Screens
             Add(control);
 
             // 3 - Create a simple terrain with a size of 100x100 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50, 1, 1);
+            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50);
             Add(terrain);
 
+            alienModel = new YnModel("Models/Alien/alien1_L");
+            Add(alienModel);
+
             // Sky & debug text ;)
-            sky = new YnEntity("Sky");
+            sky = new YnEntity("Textures/Sky");
             textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
@@ -63,7 +65,12 @@ namespace Yna.Samples.Screens
             textInfo.Scale = new Vector2(1.1f);
 
             // Set the camera position at the middle of the terrain
-            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 2);
+            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
+
+            alienModel.Position = new Vector3(
+                (terrain.Width / 2) - (alienModel.Width / 2),
+                0,
+                (terrain.Depth / 2) - (alienModel.Depth / 2));
         }
 
         public override void Update(GameTime gameTime)

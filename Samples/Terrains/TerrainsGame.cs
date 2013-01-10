@@ -16,6 +16,7 @@ namespace Yna.Samples
             {
                 new MenuEntry("basicSample", "Simple terrain", "In this sample we create a simple terrain and add a texture on it"),
                 new MenuEntry("heightmapSample", "Heightmap terrain", "In this sample we create an heightmap terrain with two texture"),
+                new MenuEntry("randomHeightmapSample", "Random Heightmap", "In this sample we create a random heightmap with a generated texture"),
             };
         }
 
@@ -27,6 +28,7 @@ namespace Yna.Samples
             stateManager.Add(menu, true);
             stateManager.Add(new BasicTerrain("basicSample"), false);
             stateManager.Add(new HeighmapTerrain("heightmapSample"), false);
+            stateManager.Add(new RandomHeightmap("randomHeightmapSample"), false);
         }
 #if !WINDOWS_PHONE && !MACOSX
         public static void Main(string[] args)
