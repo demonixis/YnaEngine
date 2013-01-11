@@ -536,6 +536,7 @@ namespace Yna.Framework.Display.Gui
 
         public void Update(GameTime gameTime)
         {
+            _hovered = false;
             DoCustomUpdate(gameTime);
 
             foreach (YnWidget child in _children)
@@ -544,15 +545,19 @@ namespace Yna.Framework.Display.Gui
             }
 
             // No event handling if not visible nor active
+            _hovered = false;
             if (_visible && _active)
             {
                 Rectangle absoluteBounds = _bounds;
                 Vector2 absolutePosition = AbsolutePosition;
                 absoluteBounds.X = (int)absolutePosition.X;
                 absoluteBounds.Y = (int)absolutePosition.Y;
-                if (absoluteBounds.Contains(YnG.Mouse.X, YnG.Mouse.Y))
+                bool mouseOnWidget = absoluteBounds.Contains(YnG.Mouse.X, YnG.Mouse.Y);
+                bool mouseWasOnWidget = absoluteBounds.Contains(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y);
+                if (mouseOnWidget)
                 {
                     // The mouse is hovering the widget
+                    _hovered = true;
                     DoMouseOver();
 
                     // There is a click handler : 2 kinds of events to handle :
@@ -596,13 +601,16 @@ namespace Yna.Framework.Display.Gui
                 }
                 else
                 {
-                    // The mouse left the widget
-                    DoMouseLeave();
-
-                    // Mouse release
-                    if (YnG.Mouse.JustReleased(MouseButton.Left) && YnG.Mouse.LastMouseState.LeftButton == ButtonState.Pressed)
+                    if (!mouseOnWidget && mouseWasOnWidget)
                     {
-                        if (MouseReleasedOutside != null) MouseReleasedOutside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
+                        // The mouse left the widget
+                        DoMouseLeave();
+
+                        // Mouse release
+                        if (YnG.Mouse.JustReleased(MouseButton.Left) && YnG.Mouse.LastMouseState.LeftButton == ButtonState.Pressed)
+                        {
+                            if (MouseReleasedOutside != null) MouseReleasedOutside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
+                        }
                     }
                 }
             }
@@ -747,7 +755,6 @@ namespace Yna.Framework.Display.Gui
         /// </summary>
         protected virtual void DoMouseOver()
         {
-            _hovered = true;
             if (MouseOver != null) MouseOver(this, new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
         }
 
@@ -756,7 +763,6 @@ namespace Yna.Framework.Display.Gui
         /// </summary>
         protected virtual void DoMouseLeave()
         {
-            _hovered = false;
             if (MouseLeave != null) MouseLeave(this, new MouseLeaveSpriteEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
         }
 
