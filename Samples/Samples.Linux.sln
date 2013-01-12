@@ -1,5 +1,5 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terrains.Linux", "Terrains\Terrains.Linux.csproj", "{5767A6BF-125F-47DE-9B08-C9A50DB565EA}"
 EndProject

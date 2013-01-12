@@ -9,7 +9,7 @@ using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Terrain;
 using Yna.Framework.Display3D.Controls;
 
-namespace Yna.Samples
+namespace Yna.Samples.Screens
 {
     public class DungeonState : YnState3D
     {

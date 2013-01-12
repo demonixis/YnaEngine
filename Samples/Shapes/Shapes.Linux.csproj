@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\..\ThirdParty\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
+      <HintPath>..\..\ThirdParty\MonoGame\Linux\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
