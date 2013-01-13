@@ -80,13 +80,6 @@ namespace Yna.Samples.Screens
             for (int i = 0, l = groupCube.Count; i < l; i++)
                 groupCube[i].RotateY(0.01f * (i + 1) * gameTime.ElapsedGameTime.Milliseconds);
 
-            if (YnG.Mouse.Click(Framework.Input.MouseButton.Left))
-            {
-                Vector2 mousePosition = YnG.Mouse.Position;
-                Vector3 position = YnG3.GetScreenToWorldPosition(Camera, ref mousePosition);
-                Add(new CubeShape("Textures/pattern02_diffuse", Vector3.One, position));
-            }
-
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.StateManager.SetStateActive("menu", true);
         }

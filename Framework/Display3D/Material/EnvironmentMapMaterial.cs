@@ -17,7 +17,6 @@ namespace Yna.Framework.Display3D.Material
         protected int _environmentTextureSize;
         protected bool _enableTextureMipmap;
         protected float _environmentAmount;
-        protected Vector3 _environmentSpecular;
         protected float _fresnelFactor;
 
         #endregion
@@ -40,20 +39,6 @@ namespace Yna.Framework.Display3D.Material
         {
             get { return _environmentAmount; }
             set { _environmentAmount = MathHelper.Clamp(value, 0.0f, 1.0f); }
-        }
-
-        /// <summary>
-        /// Gets or sets the specular value to use with environment map
-        /// </summary>
-        public new Vector3 SpecularColor
-        {
-            get { return _environmentSpecular; }
-            set
-            {
-                _environmentSpecular.X = MathHelper.Clamp(value.X, 0.0f, 1.0f);
-                _environmentSpecular.Y = MathHelper.Clamp(value.Y, 0.0f, 1.0f);
-                _environmentSpecular.Z = MathHelper.Clamp(value.Z, 0.0f, 1.0f);
-            }
         }
 
         /// <summary>
@@ -85,7 +70,6 @@ namespace Yna.Framework.Display3D.Material
             _environmentTextureNames = null;
             _environmentTextureLoaded = false;
             _environmentAmount = 1.0f;
-            _environmentSpecular = Color.Black.ToVector3();
             _fresnelFactor = 0.5f; // Disabled
             _environmentTextureSize = 0;
             _enableTextureMipmap = false;
@@ -180,7 +164,7 @@ namespace Yna.Framework.Display3D.Material
             environmentMapEffect.Texture = _texture;
             environmentMapEffect.EnvironmentMap = _environmentTexture;
             environmentMapEffect.EnvironmentMapAmount = _environmentAmount;
-            environmentMapEffect.EnvironmentMapSpecular = _environmentSpecular;
+            environmentMapEffect.EnvironmentMapSpecular = _specularColor * _specularIntensity;
             environmentMapEffect.FresnelFactor = _fresnelFactor;
             // Fog
             UpdateFog(environmentMapEffect);
@@ -189,7 +173,7 @@ namespace Yna.Framework.Display3D.Material
             if (UpdateLights(environmentMapEffect))
             {
                 environmentMapEffect.EmissiveColor = _emissiveColor;
-                environmentMapEffect.DiffuseColor = new Vector3(_diffuseColor.X, _diffuseColor.Y, _diffuseColor.Z) * _diffuseIntensity;
+                environmentMapEffect.DiffuseColor = _diffuseColor *_diffuseIntensity;
                 environmentMapEffect.Alpha = _alphaColor;
             }
         }

@@ -161,6 +161,12 @@ namespace Yna.Framework.Display3D
             View = _camera.View;
         }
 
+        public override void UpdateLighting(YnBasicLight light)
+        {
+            foreach (YnEntity3D entity3D in _members)
+                entity3D.UpdateLighting(light);
+        }
+
         #region GameState Pattern
 
         public override void LoadContent()

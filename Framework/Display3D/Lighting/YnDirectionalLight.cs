@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Framework.Display3D.Lighting
 {
-    public class YnDirectionalLight : ILightXnaDirectional
+    public class YnDirectionalLight
     {
         public Vector3 DiffuseColor { get; set; }
         public float DiffuseIntensity { get; set; }

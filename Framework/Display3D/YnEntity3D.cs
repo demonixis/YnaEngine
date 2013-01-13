@@ -352,6 +352,12 @@ namespace Yna.Framework.Display3D
 
         public abstract void UpdateBoundingVolumes();
 
+        public virtual void UpdateLighting(YnBasicLight light)
+        {
+            if (_material != null)
+                _material.Light = light;
+        }
+
         #region GameState pattern
 
         /// <summary>

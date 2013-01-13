@@ -437,6 +437,12 @@ namespace Yna.Framework.State
             }
         }
 
+        public void PauseAllStates()
+        {
+            foreach (BaseState state in _states)
+                state.Active = false;
+        }
+
         /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
         /// the StateManager will clear all other states and use the new state

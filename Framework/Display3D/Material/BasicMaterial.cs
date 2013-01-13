@@ -62,8 +62,8 @@ namespace Yna.Framework.Display3D.Material
             {
                 basicEffect.PreferPerPixelLighting = _enablePerPixelLighting;
                 basicEffect.EmissiveColor = _emissiveColor;
-                basicEffect.DiffuseColor = new Vector3(_diffuseColor.X, _diffuseColor.Y, _diffuseColor.Z) * _diffuseIntensity;
-                basicEffect.SpecularColor = new Vector3(_specularColor.X, _specularColor.Y, _specularColor.Z) * _specularIntensity;
+                basicEffect.DiffuseColor = _diffuseColor * _diffuseIntensity;
+                basicEffect.SpecularColor = _specularColor * _specularIntensity;
                 basicEffect.Alpha = _alphaColor;
             }
         }

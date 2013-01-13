@@ -14,8 +14,6 @@ namespace Yna.Framework.Display3D
         protected string _modelName;
         protected Matrix[] _bonesTransforms;
 
-        protected YnBasicLight _light; // Temp too
-
         #region Properties
 
         /// <summary>
@@ -60,12 +58,6 @@ namespace Yna.Framework.Display3D
             get { return _modelName; }
         }
 
-        public YnBasicLight Light
-        {
-            get { return _light; }
-            set { _light = value; }
-        }
-
         #endregion
 
         #region Constructor
@@ -74,7 +66,7 @@ namespace Yna.Framework.Display3D
             : base(position)
         {
             _modelName = modelName;
-            _light = new YnBasicLight();
+            _material = new BasicMaterial();
         }
 
         public YnModel(string modelName)
@@ -134,22 +126,25 @@ namespace Yna.Framework.Display3D
             _boundingSphere.Center = _position;
         }
 
-        /// <summary>
-        /// OH MY GOD THIS IS HORRIBLE !! but it's here just for a some time
-        /// </summary>
-        /// <param name="effect"></param>
-        protected virtual void UpdateLights(BasicEffect effect)
+        protected virtual void UpdateEffect(BasicEffect effect)
         {
-            effect.LightingEnabled = true;
+            if (_material == null)
+            {
+                effect.LightingEnabled = true;
 
-            // Mesh color light
-            effect.AmbientLightColor = _light.AmbientColor * _light.AmbientIntensity;
-            effect.DiffuseColor = Color.White.ToVector3();
-            effect.EmissiveColor = Color.White.ToVector3() * 0.5f;
-            effect.SpecularColor = Color.Black.ToVector3();
-            effect.Alpha = 1;
+                // Mesh color light
+                effect.AmbientLightColor = Color.White.ToVector3();
+                effect.DiffuseColor = Color.White.ToVector3();
+                effect.EmissiveColor = Color.White.ToVector3() * 0.5f;
+                effect.SpecularColor = Color.Black.ToVector3();
+                effect.Alpha = 1;
+            }
+            else
+            {
+                _material.Update(ref _world, ref _view, ref _projection, ref _position);
 
-            StockMaterial.UpdateLights(effect, _light);
+                effect = (BasicEffect)_material.Effect;
+            }
         }
 
         public override void UpdateMatrices()
@@ -171,6 +166,8 @@ namespace Yna.Framework.Display3D
 
             _bonesTransforms = new Matrix[_model.Bones.Count];
 
+            _material.LoadContent();
+
             UpdateBoundingVolumes();
 
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
@@ -188,7 +185,7 @@ namespace Yna.Framework.Display3D
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    UpdateLights(effect);
+                    UpdateEffect(effect);
 
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
 

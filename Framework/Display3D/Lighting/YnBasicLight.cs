@@ -3,29 +3,23 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Framework.Display3D.Lighting
 {
-    public class YnBasicLight
+    public class YnBasicLight : YnLight
     {
-        protected bool _enabled;
+        protected Vector3 _specularColor;
+        protected float _specularIntensity;
+
         protected YnDirectionalLight[] _directionalLights;
-        protected Vector3 _ambientColor;
-        protected float _ambientIntensity;
 
-        public bool Enabled
+        public Vector3 SpecularColor
         {
-            get { return _enabled; }
-            set { _enabled = value; }
+            get { return _specularColor; }
+            set { _specularColor = value; }
         }
 
-        public Vector3 AmbientColor
+        public float SpecularIntensity
         {
-            get { return _ambientColor; }
-            set { _ambientColor = value; }
-        }
-
-        public float AmbientIntensity
-        {
-            get { return _ambientIntensity; }
-            set { _ambientIntensity = value; }
+            get { return _specularIntensity; }
+            set { _specularIntensity = value; }
         }
 
         public YnDirectionalLight[] DirectionalLights
@@ -38,16 +32,11 @@ namespace Yna.Framework.Display3D.Lighting
         /// Create a basic light with just an ambient color set to white
         /// </summary>
         public YnBasicLight()
+            : base()
         {
-            _ambientColor = Vector3.One;
-            _ambientIntensity = 1.0f;
+            _specularColor = Vector3.Zero;
+            _specularIntensity = 1.0f;
 
-            InitializeDirectionalLights();
-        }
-
-        public YnBasicLight(Color ambientColor)
-        {
-            _ambientColor = ambientColor.ToVector3();
             InitializeDirectionalLights();
         }
 
@@ -63,6 +52,6 @@ namespace Yna.Framework.Display3D.Lighting
             }
 
             _enabled = true;
-        }
+        }    
     }
 }

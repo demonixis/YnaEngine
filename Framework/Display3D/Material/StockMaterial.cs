@@ -8,7 +8,7 @@ namespace Yna.Framework.Display3D.Material
     /// <summary>
     /// Define a base class for all XNA stock effects
     /// </summary>
-    public abstract class StockMaterial : BaseMaterial, ILightSpecular
+    public abstract class StockMaterial : BaseMaterial
     {
         #region Protected declarations
 
@@ -17,6 +17,7 @@ namespace Yna.Framework.Display3D.Material
         protected float _fogStart;
         protected float _fogEnd;
         protected Vector3 _emissiveColor;
+        protected float _emissiveIntensity;
         protected Vector3 _specularColor;
         protected float _specularIntensity;
         protected bool _enableMainTexture;
@@ -24,6 +25,7 @@ namespace Yna.Framework.Display3D.Material
         protected bool _enablePerPixelLighting;
         protected bool _enableVertexColor;
         protected bool _enableDefaultLighting;
+        protected YnBasicLight _basicLight;
 
         #endregion
 
@@ -74,18 +76,19 @@ namespace Yna.Framework.Display3D.Material
             set { _emissiveColor = value; }
         }
 
+        public float EmissiveIntensity
+        {
+            get { return _emissiveIntensity; }
+            set { _emissiveIntensity = value; }
+        }
+
         /// <summary>
         /// Gets or sets the value of specular color
         /// </summary>
-        public Vector4 SpecularColor
+        public Vector3 SpecularColor
         {
-            get { return new Vector4(_specularColor.X, _specularColor.Y, _specularColor.Z, 1.0f); }
-            set
-            {
-                _specularColor.X = value.X;
-                _specularColor.Y = value.Y;
-                _specularColor.Z = value.Z;
-            }
+            get { return _specularColor; }
+            set { _specularColor = value; }
         }
 
         /// <summary>
@@ -214,13 +217,19 @@ namespace Yna.Framework.Display3D.Material
             {
                 effectLights.LightingEnabled = !_enableDefaultLighting;
                 effectLights.AmbientLightColor = new Vector3(_ambientColor.X, _ambientColor.Y, _ambientColor.Z) * _ambientIntensity;
+
+                if (_light is YnBasicLight)
+                {
+                    UpdateLighting(effectLights, (YnBasicLight)_light);
+                    effectLights.AmbientLightColor *= _light.AmbientColor * _light.AmbientIntensity;
+                }
+
                 return true;
             }
         }
 
-        public static void UpdateLights(IEffectLights effect, YnBasicLight light)
+        public static void UpdateLighting(IEffectLights effect, YnBasicLight light)
         {
-            effect.AmbientLightColor *= light.AmbientColor * light.AmbientIntensity;
             effect.DirectionalLight0.Enabled = light.DirectionalLights[0].Enabled;
             effect.DirectionalLight0.Direction = light.DirectionalLights[0].Direction;
             effect.DirectionalLight0.DiffuseColor = light.DirectionalLights[0].DiffuseColor * light.DirectionalLights[0].DiffuseIntensity;

@@ -16,8 +16,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\WindowsGL\Debug</OutputPath>
-    <DefineConstants>DEBUG;MONOGAME;WINDOWS;OPENGL;</DefineConstants>
+    <OutputPath>bin\Windows\Debug</OutputPath>
+    <DefineConstants>DEBUG;MONOGAME;WINDOWS;DIRECTX;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
@@ -26,12 +26,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\WindowsGL\Release</OutputPath>
+    <OutputPath>bin\Windows\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>MONOGAME;WINDOWS;OPENGL;</DefineConstants>
+    <DefineConstants>MONOGAME;WINDOWS;DIRECTX;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioAdapter.cs" />
@@ -163,7 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\ThirdParty\MonoGame\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />

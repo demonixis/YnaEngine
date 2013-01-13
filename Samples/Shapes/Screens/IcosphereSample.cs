@@ -51,7 +51,7 @@ namespace Yna.Samples.Screens
             //BasicMaterial icoMaterial = new BasicMaterial("icosphere_map");
             EnvironmentMapMaterial icoMaterial = new EnvironmentMapMaterial("Textures/icosphere_map", new string[] { "Textures/Sky" });
             icoMaterial.SpecularColor = new Color(5, 5, 5).ToVector3();
-            icoMaterial.AmbientColor = Color.White.ToVector4();
+            icoMaterial.AmbientColor = Color.White.ToVector3();
             icoMaterial.Amount = 0.35f;
             icoMaterial.FresnelFactor = 0.25f;
             icoMaterial.FogColor = Color.White.ToVector3();

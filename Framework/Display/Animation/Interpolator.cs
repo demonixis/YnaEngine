@@ -51,6 +51,45 @@ namespace Yna.Framework.Display.Animation
         protected T _startValue;
         protected T _endValue;
         protected T _interpolatedValue;
+        protected bool _repeat;
+
+        #region Properties
+
+        /// <summary>
+        /// Enable or disable looped interpolation
+        /// </summary>
+        public bool Repeat
+        {
+            get { return _repeat; }
+            set { _repeat = value; }
+        }
+
+        public bool Active
+        {
+            get { return _active; }
+            set { _active = value; }
+        }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Triggered when started
+        /// </summary>
+        public event EventHandler<EventArgs> Started = null;
+
+        /// <summary>
+        /// Triggered when finished
+        /// </summary>
+        public event EventHandler<EventArgs> Finished = null;
+
+        /// <summary>
+        /// Triggered when restarted
+        /// </summary>
+        public event EventHandler<EventArgs> Restarted = null;
+
+        #endregion
 
         public BaseInterpolator()
         {
@@ -60,6 +99,7 @@ namespace Yna.Framework.Display.Animation
             _startValue = default(T);
             _endValue = default(T);
             _interpolatedValue = default(T);
+            _repeat = false;
         }
 
         public void StartInterpolation(T startValue, T endValue, float desiredDuration)
@@ -82,8 +122,16 @@ namespace Yna.Framework.Display.Animation
 
                 if (_elapsedTime >= _desiredDuration)
                 {
-                    _active = false;
-                    _elapsedTime = _desiredDuration;
+                    if (_repeat)
+                    {
+                        _active = true;
+                        _elapsedTime = 0;
+                    }
+                    else
+                    {
+                        _active = false;
+                        _elapsedTime = _desiredDuration;
+                    }
                 }
 
                 float step = (float)(_elapsedTime / _desiredDuration);

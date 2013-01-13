@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Material;
+using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D.Primitive
 {
