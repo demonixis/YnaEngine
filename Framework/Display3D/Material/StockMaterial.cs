@@ -155,6 +155,7 @@ namespace Yna.Framework.Display3D.Material
             _fogStart = 0.0f;
             _fogEnd = 0.0f;
             _emissiveColor = Color.Black.ToVector3();
+            _emissiveIntensity = 0.0f;
             _specularColor = Color.Black.ToVector3();
             _specularIntensity = 1.0f;
             _enableDefaultLighting = true;

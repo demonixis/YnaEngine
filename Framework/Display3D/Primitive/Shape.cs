@@ -310,6 +310,7 @@ namespace Yna.Framework.Display3D.Primitive
 
             foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
             {
+                BasicEffect e = (BasicEffect)_material.Effect;
                 pass.Apply();
                 device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
             }

@@ -5,37 +5,15 @@ using System.Threading;
 
 namespace Yna.Framework.Audio
 {
-    public class NAudioAdapter : AudioAdapter
+    public class NAudioPlayer
     {
         private IWavePlayer _wavePlayer;
         private WaveStream _mainOutputStream;
         private WaveStream _volumeSytream;
         private Thread _playThread;
+        private bool _repeatMusic;
 
-        public new AudioState AudioState
-        {
-            get
-            {
-                if (_wavePlayer == null)
-                {
-                    _audioState = AudioState.Stopped;
-                }
-                else
-                {
-                    switch (_wavePlayer.PlaybackState)
-                    {
-                        case PlaybackState.Paused: _audioState = Audio.AudioState.Paused; break;
-                        case PlaybackState.Playing: _audioState = Audio.AudioState.Playing; break;
-                        case PlaybackState.Stopped: _audioState = Audio.AudioState.Stopped; break;
-                    }
-                }
-
-                return _audioState;
-            }
-            protected set { _audioState = value; }
-        }
-
-        public NAudioAdapter()
+        public NAudioPlayer()
             : base()
         {
             _wavePlayer = new WaveOut();
@@ -117,44 +95,32 @@ namespace Yna.Framework.Audio
             _wavePlayer.Play();
         }
 
-        public override void PlayMusic(string path)
+        public void PlayMusic(string path)
         {
             Play(path, "mp3");
         }
 
-        public override void StopMusic()
+        public void StopMusic()
         {
             if (_wavePlayer.PlaybackState != PlaybackState.Stopped)
                 _wavePlayer.Stop();
         }
 
-        public override void PauseMusic()
+        public void PauseMusic()
         {
             if (_wavePlayer.PlaybackState == PlaybackState.Playing)
                 _wavePlayer.Pause();
         }
 
-        public override void ResumeMusic()
+        public void ResumeMusic()
         {
             if (_wavePlayer.PlaybackState == PlaybackState.Paused)
                 _wavePlayer.Play();
         }
 
-        public override void PlaySound(string path)
+        public void PlaySound(string path)
         {
             Play(path, "wav");
-        }
-
-        public override void PlaySound(string path, float volume)
-        {
-            _soundVolume = volume;
-
-            Play(path, "wav");
-        }
-
-        public override void PlaySound(string path, float volume, float pitch, float pan)
-        {
-            PlaySound(path, volume);
         }
     }
 }

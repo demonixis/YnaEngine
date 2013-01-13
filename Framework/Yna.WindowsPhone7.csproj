@@ -65,6 +65,7 @@
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Content\XnaContentManager.cs" />
     <Compile Include="Display3D\Lighting\YnDirectionalLight.cs" />
+    <Compile Include="Display3D\Lighting\YnLight.cs" />
     <Compile Include="Display3D\Renderer\QuadRenderer.cs" />
     <Compile Include="Display3D\Renderer\Renderer.cs" />
     <Compile Include="Display3D\YnEntity3DSafeList.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
     <Compile Include="Display3D\Lighting\YnBasicLight.cs" />
-    <Compile Include="Display3D\Lighting\ILightInterface.cs" />
     <Compile Include="Display3D\Material\DualTextureMaterial.cs" />
     <Compile Include="Display3D\Material\EnvironmentMapMaterial.cs" />
     <Compile Include="Display3D\Material\StockMaterial.cs" />

@@ -59,6 +59,11 @@ namespace Yna.Samples.Screens
 
             // Sky
             sky = new YnEntity("Textures/Sky");
+
+            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
+            Scene.BasicLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
+            Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
+            Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
         }
 
         public override void LoadContent()

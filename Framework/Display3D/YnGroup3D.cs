@@ -204,8 +204,6 @@ namespace Yna.Framework.Display3D
         {
             if (Enabled)
             {
-                _world = Matrix.CreateRotationY(_rotation.Y);
-
                 int nbMembers = _members.Count;
 
                 if (nbMembers > 0)

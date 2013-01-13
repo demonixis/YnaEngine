@@ -26,13 +26,20 @@ namespace Yna.Framework.Display3D
             : base(camera, null)
         {
             _light = new YnBasicLight();
-            _light.AmbientIntensity = 3f;
+            _light.AmbientIntensity = 1f;
         }
 
         public YnScene3D()
             : this(null)
         {
 
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            Camera.Update(gameTime);
         }
 
         public override void Draw(GraphicsDevice device)

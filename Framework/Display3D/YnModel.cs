@@ -143,7 +143,36 @@ namespace Yna.Framework.Display3D
             {
                 _material.Update(ref _world, ref _view, ref _projection, ref _position);
 
-                effect = (BasicEffect)_material.Effect;
+                BasicMaterial material = (BasicMaterial)_material;
+
+                if (material != null)
+                {
+                    effect.Alpha = material.AlphaColor;
+                    effect.AmbientLightColor = material.AmbientColor * material.AmbientIntensity;
+                    effect.DiffuseColor = material.DiffuseColor * material.DiffuseIntensity;
+                    effect.EmissiveColor = material.EmissiveColor * material.EmissiveIntensity;
+                    effect.FogColor = material.FogColor;
+                    effect.FogEnabled = material.EnableFog;
+                    effect.FogStart = material.FogStart;
+                    effect.FogEnd = material.FogEnd;
+                    effect.LightingEnabled = true;
+
+                    if (material.EnableDefaultLighting)
+                        effect.EnableDefaultLighting();
+
+                    effect.PreferPerPixelLighting = material.EnabledPerPixelLighting;
+                    effect.SpecularColor = material.SpecularColor * material.SpecularIntensity;
+                    effect.VertexColorEnabled = material.EnableVertexColor;
+
+
+                    YnBasicLight light = (YnBasicLight)material.Light;
+
+                    if (light != null)
+                    {
+                        StockMaterial.UpdateLighting(effect, light);
+                        effect.AmbientLightColor *= light.AmbientColor * light.AmbientIntensity;
+                    }
+                }
             }
         }
 

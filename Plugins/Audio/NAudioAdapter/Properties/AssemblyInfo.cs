@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de 
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("NAudioAdapter")]
-[assembly: AssemblyDescription("NAudioAdapter plugin for Yna Game Framework")]
+[assembly: AssemblyTitle("NAudioPlayer")]
+[assembly: AssemblyDescription("NAudioPlayer plugin for Yna Game Framework")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yna Game Framework")]
-[assembly: AssemblyProduct("NAudioAdapter")]
+[assembly: AssemblyProduct("NAudioPlayer")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("Yna Game Framework")]
 [assembly: AssemblyCulture("")]

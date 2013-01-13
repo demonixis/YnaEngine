@@ -169,4 +169,17 @@ namespace Yna.Framework.Audio
                 MediaPlayer.Stop();
         }
     }
+
+#if WINDOWS && DIRECTX
+    public class MediaPlayer
+    {
+        public static MediaState State { get; set; }
+        public static float Volume { get; set; }
+        public static bool IsRepeating { get; set; }
+        public static void Play(Song music) { }
+        public static void Pause() { }
+        public static void Resume() { }
+        public static void Stop() { }
+    }
+#endif
 }
