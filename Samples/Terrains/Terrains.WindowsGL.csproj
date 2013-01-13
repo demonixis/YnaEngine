@@ -61,9 +61,9 @@
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\BasicTerrain.cs" />
-    <Compile Include="Screens\HeighmapTerrain.cs" />
-    <Compile Include="Screens\RandomHeightmap.cs" />
+    <Compile Include="Content\Screens\BasicTerrain.cs" />
+    <Compile Include="Content\Screens\HeighmapTerrain.cs" />
+    <Compile Include="Content\Screens\RandomHeightmap.cs" />
     <Compile Include="TerrainsGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
