@@ -475,9 +475,6 @@ namespace Yna.Framework.State
             {
                 state.LoadContent();
                 state.Initialize();
-
-                if (state.Active)
-                    state.Initialize();
             }
 
             _states.Add(state);
