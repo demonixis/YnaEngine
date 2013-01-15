@@ -105,6 +105,7 @@ namespace Yna.Samples
         /// Main function
         /// </summary>
         /// <param name="args"></param>
+        [STAThread]
         public static void Main(string[] args)
         {
             using (StorageGame game = new StorageGame())

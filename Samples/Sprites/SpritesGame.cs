@@ -1,4 +1,5 @@
-﻿using Yna.Framework;
+﻿using System;
+using Yna.Framework;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
@@ -29,6 +30,7 @@ namespace Yna.Samples
         }
 
 #if !WINDOWS_PHONE
+        [STAThread]
         public static void Main(string[] args)
         {
             using (SpritesGame game = new SpritesGame())

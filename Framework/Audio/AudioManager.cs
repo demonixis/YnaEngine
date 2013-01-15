@@ -170,7 +170,7 @@ namespace Yna.Framework.Audio
         }
     }
 
-#if WINDOWS && DIRECTX
+#if WINDOWS && DIRECTX1
     public class MediaPlayer
     {
         public static MediaState State { get; set; }
