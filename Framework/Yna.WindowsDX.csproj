@@ -48,7 +48,9 @@
     <Compile Include="Display3D\YnEntity3DSafeList.cs" />
     <Compile Include="Display\YnEntitySafeList.cs" />
     <Compile Include="Display\YnScene2D.cs" />
+	<Compile Include="Display\Component\YnVirtualPad.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
+	<Compile Include="Display\Event\VirtualPadEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
@@ -88,7 +90,6 @@
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\YnTransitionEffect.cs" />
-    <Compile Include="Display\Animation\YnRotateEffect.cs" />
     <Compile Include="Display\Animation\YnShakeEffect.cs" />
     <Compile Include="Display\Event\GlobalEventArgs.cs" />
     <Compile Include="Display\Event\MouseSpriteEvents.cs" />
@@ -156,7 +157,7 @@
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnEntity.cs" />
-    <Compile Include="Display\Animation\Interpolator.cs" />
+    <Compile Include="Display\Animation\YnInterpolator.cs" />
     <Compile Include="YnSafeList.cs" />
     <Compile Include="YnScene.cs" />
     <Compile Include="YnTimer.cs" />
