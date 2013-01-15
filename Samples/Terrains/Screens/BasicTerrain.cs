@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework;
 using Yna.Framework.Display;
+using Yna.Framework.Display.Component;
 using Yna.Framework.Display3D;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Terrain;
@@ -17,6 +18,8 @@ namespace Yna.Samples.Screens
         SimpleTerrain terrain;
         YnModel alienModel;
         RasterizerState rasterizerState;
+        YnVirtualPad virtualPad;
+
 
         public BasicTerrain(string name)
             : base(name)
@@ -48,6 +51,8 @@ namespace Yna.Samples.Screens
             textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
+
+            virtualPad = new YnVirtualPad();
         }
 
         public override void LoadContent()
@@ -64,6 +69,9 @@ namespace Yna.Samples.Screens
             textInfo.Color = Color.Wheat;
             textInfo.Scale = new Vector2(1.1f);
 
+            virtualPad.LoadContent();
+            virtualPad.Initialize();
+
             // Set the camera position at the middle of the terrain
             _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
 
@@ -76,6 +84,8 @@ namespace Yna.Samples.Screens
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            virtualPad.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.StateManager.SetStateActive("menu", true);
@@ -108,6 +118,10 @@ namespace Yna.Samples.Screens
             YnG.GraphicsDevice.RasterizerState = rasterizerState;
 
             base.Draw(gameTime);
+
+            spriteBatch.Begin();
+            virtualPad.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
     }
 }

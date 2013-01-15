@@ -16,7 +16,7 @@ namespace Yna.Framework.Display.Component
 
     public enum ControlDirection
     {
-        Up = 0, Down, Left, Right, StrafeLeft, StrafeRight, None
+        Up = 0, Down, Left, Right, StrafeLeft, StrafeRight, ButtonA, ButtonB, Pause, None
     }
 
 
@@ -29,6 +29,9 @@ namespace Yna.Framework.Display.Component
         private YnSprite _rightPad;
         private YnSprite _strafeLeftPad;
         private YnSprite _strafeRightPad;
+        private YnSprite _buttonActionA;
+        private YnSprite _buttonActionB;
+        private YnSprite _buttonPause;
         private Rectangle _rectangle;
    
         #region Events
@@ -53,7 +56,7 @@ namespace Yna.Framework.Display.Component
 
         public YnVirtualPad()
         {
-            _margin = new Vector2(3, 2);
+            _margin = new Vector2(3, 3);
             _rectangle = new Rectangle(0, 0, 65, 65);
 
             InitializeWithoutTextures();
@@ -75,19 +78,24 @@ namespace Yna.Framework.Display.Component
         {
             Color normal = new Color(15, 21, 25);
             Color strafe = new Color(68, 89, 100);
+            Color pause = new Color(1, 11, 111);
 
             _upPad = new YnSprite(_rectangle, normal);
             _downPad = new YnSprite(_rectangle, normal);
-            _leftPad = new YnSprite(_rectangle, normal);
-            _rightPad = new YnSprite(_rectangle, normal);
+            _leftPad = new YnSprite(_rectangle, strafe);
+            _rightPad = new YnSprite(_rectangle, strafe);
 
-            _strafeLeftPad = new YnSprite(_rectangle, strafe);
-            _strafeRightPad = new YnSprite(_rectangle, strafe);
+            _strafeLeftPad = new YnSprite(_rectangle, normal);
+            _strafeRightPad = new YnSprite(_rectangle, normal);
+
+            _buttonActionA = new YnSprite(_rectangle, Color.Red);
+            _buttonActionB = new YnSprite(_rectangle, Color.Blue);
+            _buttonPause = new YnSprite(_rectangle, new Color(22, 110, 130));
         }
 
         private void InitializeWithTextures(string[] textures)
         {
-            if (textures.Length < 6)
+            if (textures.Length < 9)
             {
                 InitializeDefault();
             }
@@ -100,6 +108,10 @@ namespace Yna.Framework.Display.Component
 
                 _strafeLeftPad = new YnSprite(textures[4]);
                 _strafeRightPad = new YnSprite(textures[5]);
+
+                _buttonActionA = new YnSprite(textures[6]);
+                _buttonActionB = new YnSprite(textures[7]);
+                _buttonPause = new YnSprite(textures[8]);
             }
         }
 
@@ -122,6 +134,18 @@ namespace Yna.Framework.Display.Component
 
             _rightPad.Name = "Button_" + ((int)ControlDirection.Right).ToString();
             Add(_rightPad);
+
+            _buttonActionA.Name = "Button_" + ((int)ControlDirection.ButtonA).ToString();
+            Add(_buttonActionA);
+
+            _buttonActionB.Name = "Button_" + ((int)ControlDirection.ButtonB).ToString();
+            Add(_buttonActionB);
+
+            _buttonPause.Name = "Button_" + ((int)ControlDirection.Pause).ToString();
+            Add(_buttonPause);
+
+            X = (int)(10 + _margin.X);
+            Y = (int)(YnG.DeviceHeight - (2 * _downPad.Height) - (2 * _margin.Y));
 
             _alpha = 0.75f;
 
@@ -152,6 +176,10 @@ namespace Yna.Framework.Display.Component
             _strafeLeftPad.Position = new Vector2(X, Y + _leftPad.Height + _margin.Y);
             _downPad.Position = new Vector2(_strafeLeftPad.X + _strafeLeftPad.Width + _margin.X, _strafeLeftPad.Y);
             _strafeRightPad.Position = new Vector2(_downPad.X + _downPad.Width + _margin.X, _strafeLeftPad.Y);
+
+            _buttonActionA.Position = new Vector2(YnG.DeviceWidth - (3 * _rectangle.Width), YnG.DeviceHeight - _rectangle.Height);
+            _buttonActionB.Position = new Vector2(_buttonActionA.X + (15 * _margin.X) + _buttonActionA.Width, _buttonActionA.Y);
+            _buttonPause.Position = new Vector2(10 + _margin.X, 10 + _margin.Y);
         }
 
         public void UpdateScale(float scale)

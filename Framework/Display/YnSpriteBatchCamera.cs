@@ -17,7 +17,6 @@ namespace Yna.Framework.Display
         protected float _zoom;
         protected Vector2 _centerScreen;
         protected YnShakeEffect _shakeEffect;
-        protected YnRotateEffect _rotateEffect;
 
         #region Properties
 
@@ -75,7 +74,6 @@ namespace Yna.Framework.Display
             _centerScreen = new Vector2(YnG.Width / 2, YnG.Height / 2);
 
             _shakeEffect = new YnShakeEffect(this);
-            _rotateEffect = new YnRotateEffect(this);
         }
 
         #endregion
@@ -91,23 +89,12 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Rotate the camera
-        /// </summary>
-        /// <param name="direction">Desired direction</param>
-        /// <param name="duration">Desired duration</param>
-        public void Rotate(int direction, float duration)
-        {
-            _rotateEffect.Rotate(direction, duration);
-        }
-
-        /// <summary>
         /// Update the camera
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             _shakeEffect.Update(gameTime);
-            _rotateEffect.Update(gameTime);
         }
 
         /// <summary>
