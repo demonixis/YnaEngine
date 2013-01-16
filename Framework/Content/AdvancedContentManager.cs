@@ -15,7 +15,7 @@ namespace Yna.Framework.Content
     /// <summary>
     /// Yna extented content manager who work with asset that is not in xnb format.
     /// </summary>
-    public class YnaContentManager : IContentManager
+    public class AdvancedContentManager
     {
         // Define paths
         private string _rootDirectory;
@@ -41,7 +41,7 @@ namespace Yna.Framework.Content
         /// <summary>
         /// Create a new content manager
         /// </summary>
-        public YnaContentManager()
+        public AdvancedContentManager()
         {
             _loadedAssets = new Dictionary<string, object>();
             _disposableAssets = new List<IDisposable>();

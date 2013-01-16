@@ -155,12 +155,6 @@ namespace Yna.Samples.Screens
                 Camera.Shake(15, 2500);
             }
 
-            if (YnG.Keys.JustPressed(Keys.R))
-            {
-                Camera.Rotate(1, 3500);
-            }
-
-
             // Update sprites' animations
             UpdateAnimations(womanSprite);
             UpdateAnimations(manSprite);
