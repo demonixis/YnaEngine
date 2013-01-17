@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Yna.Framework;
 using Yna.Framework.Display;
 using Yna.Framework.Display.Event;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using Yna.Framework.Input;
 
@@ -38,6 +39,7 @@ namespace Yna.Framework.Display.Component
         private Vector2 _margin;
         private Vector2 _padding;
         private Rectangle _inputRectangle;
+        private int _buttonSpace;
 
         // Enable or disable buttons
         private bool _enableStrafeButtons;
@@ -87,6 +89,21 @@ namespace Yna.Framework.Display.Component
             set
             {
                 _margin = value;
+
+                if (_assetLoaded)
+                    UpdateLayout();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the space between the action buttons
+        /// </summary>
+        public int ButtonSpace
+        {
+            get { return _buttonSpace; }
+            set
+            {
+                _buttonSpace = value;
 
                 if (_assetLoaded)
                     UpdateLayout();
@@ -186,18 +203,10 @@ namespace Yna.Framework.Display.Component
             InitializeButtons();
         }
 
-        public YnVirtualPad(string[] textures)
-        {
-            InitializeDefault();
-            InitializeWithTextures(textures);
-            InitializeButtons();
-        }
-
         private void InitializeWithoutTextures()
         {
-            Color normal = new Color(15, 21, 25);
-            Color strafe = new Color(68, 89, 100);
-            Color pause = new Color(1, 11, 111);
+            Color normal = Color.LightSteelBlue;
+            Color strafe = Color.LightSlateGray;
 
             _upPad = new YnSprite(_inputRectangle, normal);
             _downPad = new YnSprite(_inputRectangle, normal);
@@ -207,9 +216,9 @@ namespace Yna.Framework.Display.Component
             _strafeLeftPad = new YnSprite(_inputRectangle, normal);
             _strafeRightPad = new YnSprite(_inputRectangle, normal);
 
-            _buttonActionA = new YnSprite(_inputRectangle, Color.Red);
-            _buttonActionB = new YnSprite(_inputRectangle, Color.Blue);
-            _buttonPause = new YnSprite(_inputRectangle, new Color(22, 110, 130));
+            _buttonActionA = new YnSprite(_inputRectangle, Color.Crimson);
+            _buttonActionB = new YnSprite(_inputRectangle, Color.SpringGreen);
+            _buttonPause = new YnSprite(_inputRectangle, Color.SlateBlue);
         }
 
         private void InitializeDefault()
@@ -218,27 +227,29 @@ namespace Yna.Framework.Display.Component
             _padding = new Vector2(5, 5);
             _inputRectangle = new Rectangle(0, 0, 65, 65);
             _inverseDirectionStrafe = false;
+            _buttonSpace = 45;
         }
 
-        private void InitializeWithTextures(string[] textures)
+        /// <summary>
+        /// Sets textures for the digital pad
+        /// The array of Texture2D must contains 6 textures
+        /// Order : up, down, left, right, strafeLeft, strafeRight
+        /// </summary>
+        /// <param name="textures"></param>
+        private void SetDPadTextures(Texture2D[] textures)
         {
-            if (textures.Length < 9)
+            if (textures.Length == 6)
             {
-                InitializeButtons();
-            }
-            else
-            {
-                _upPad = new YnSprite(textures[0]);
-                _downPad = new YnSprite(textures[1]);
-                _leftPad = new YnSprite(textures[2]);
-                _rightPad = new YnSprite(textures[3]);
+                _upPad.Texture = textures[0];
+                _downPad.Texture = textures[1];
+                _leftPad.Texture = textures[2];
+                _rightPad.Texture = textures[3];
 
-                _strafeLeftPad = new YnSprite(textures[4]);
-                _strafeRightPad = new YnSprite(textures[5]);
+                _strafeLeftPad.Texture = textures[4];
+                _strafeRightPad.Texture = textures[5];
 
-                _buttonActionA = new YnSprite(textures[6]);
-                _buttonActionB = new YnSprite(textures[7]);
-                _buttonPause = new YnSprite(textures[8]);
+                if (_assetLoaded)
+                    UpdateLayout();
             }
         }
 
@@ -278,8 +289,8 @@ namespace Yna.Framework.Display.Component
 
             foreach (YnSprite sprite in this)
             {
-                sprite.Click += new EventHandler<MouseClickSpriteEventArgs>(Pad_Click);
-                sprite.JustClicked += new EventHandler<MouseClickSpriteEventArgs>(Pad_Click);
+                sprite.Click += Pad_Click;
+                sprite.JustClicked += Pad_Click;
                 sprite.Alpha = _alpha;
             }
         }
@@ -302,15 +313,39 @@ namespace Yna.Framework.Display.Component
             _upPad.Position = new Vector2(_leftPad.X + _leftPad.Width + _margin.X, _leftPad.Y);
             _rightPad.Position = new Vector2(_upPad.X + _upPad.Width + _margin.X, _leftPad.Y);
 
-            _strafeLeftPad.Position = new Vector2(X + _padding.X, Y + _leftPad.Height + _margin.Y);
+            _strafeLeftPad.Position = new Vector2(X + _padding.X, (_upPad.Y + _upPad.Height) + _margin.Y);
             _downPad.Position = new Vector2(_strafeLeftPad.X + _strafeLeftPad.Width + _margin.X, _strafeLeftPad.Y);
             _strafeRightPad.Position = new Vector2(_downPad.X + _downPad.Width + _margin.X, _strafeLeftPad.Y);
 
-            _buttonActionA.Position = new Vector2(YnG.DeviceWidth - (3 * _inputRectangle.Width), YnG.DeviceHeight - _inputRectangle.Height);
-            _buttonActionB.Position = new Vector2(_buttonActionA.X + 10 + _buttonActionA.Width, _buttonActionA.Y);
-            _buttonPause.Position = new Vector2(10 + _margin.X, 10 + _margin.Y);
+            _buttonActionA.Position = new Vector2(YnG.DeviceWidth - ((2 * _inputRectangle.Width) + _padding.X + _margin.X + _buttonSpace), _downPad.Y);
+            _buttonActionB.Position = new Vector2(_buttonActionA.X + _buttonActionA.Width + _margin.X + _buttonSpace, _downPad.Y);
+            _buttonPause.Position = new Vector2(_padding.X, _padding.Y);
         }
 
+        private ControlDirection GetDirection(string buttonName)
+        {
+            string[] temp = buttonName.Split(new char[] { '_' });
+
+            // The real index of the button
+            int index = int.Parse(temp[1].ToString());
+
+            // Define used index
+            int usedIndex = index;
+
+            // If strafe and direction are inversed we change the index
+            if (_inverseDirectionStrafe && (index == 2 || index == 3 || index == 4 || index == 5))
+            {
+                switch (index)
+                {
+                    case 2: usedIndex = 4; break;
+                    case 3: usedIndex = 5; break;
+                    case 4: usedIndex = 2; break;
+                    case 5: usedIndex = 3; break;
+                }
+            }
+
+            return (ControlDirection)usedIndex;
+        }
 
         protected virtual void Pad_Click(object sender, MouseClickSpriteEventArgs e)
         {
@@ -318,27 +353,7 @@ namespace Yna.Framework.Display.Component
 
             if (button != null)
             {
-                string[] temp = button.Name.Split(new char[] { '_' });
-
-                // The real index of the button
-                int index = int.Parse(temp[1].ToString());
-                
-                // Define used index
-                int usedIndex = index;
-
-                // If strafe and direction are inversed we change the index
-                if (_inverseDirectionStrafe && (index == 2 || index == 3 || index == 4 || index == 5))
-                {
-                    switch (index)
-                    {
-                        case 2: usedIndex = 4; break;
-                        case 3: usedIndex = 5; break;
-                        case 4: usedIndex = 2; break;
-                        case 5: usedIndex = 3; break;
-                    }
-                }
-
-                ControlDirection direction = (ControlDirection)usedIndex;
+                ControlDirection direction = GetDirection(button.Name);
                 VirtualPadPressedEventArgs vpEvent = new VirtualPadPressedEventArgs(direction);
 
                 if (e.JustClicked)
@@ -346,6 +361,72 @@ namespace Yna.Framework.Display.Component
                 else
                     OnPressed(vpEvent);
             }
+        }
+    }
+
+
+    public class YnVirtualPadController
+    {
+        public bool Up { get; internal set; }
+        public bool Down { get; internal set; }
+        public bool Left { get; internal set; }
+        public bool Right { get; internal set; }
+        public bool StrafeLeft { get; internal set; }
+        public bool StrafeRight { get; internal set; }
+        public bool ButtonA { get; internal set; }
+        public bool ButtonB { get; internal set; }
+        public bool ButtonPause { get; internal set; }
+
+        private YnVirtualPad _virtualPad;
+
+        public YnVirtualPad VirtualPad
+        {
+            get { return _virtualPad; }
+            set { _virtualPad = value; }
+        }
+
+        public YnVirtualPadController()
+        {
+            _virtualPad = new YnVirtualPad();
+            _virtualPad.Pressed += _virtualPad_Pressed;
+            _virtualPad.JustPressed += _virtualPad_Pressed;
+        }
+
+
+        void _virtualPad_Pressed(object sender, VirtualPadPressedEventArgs e)
+        {
+            Up = e.Direction == ControlDirection.Up;
+            Down = e.Direction == ControlDirection.Down;
+            Left = e.Direction == ControlDirection.Left;
+            Right = e.Direction == ControlDirection.Right;
+            StrafeLeft = e.Direction == ControlDirection.StrafeLeft;
+            StrafeRight = e.Direction == ControlDirection.StrafeRight;
+            ButtonA = e.Direction == ControlDirection.ButtonA;
+            ButtonB = e.Direction == ControlDirection.ButtonB;
+            ButtonPause = e.Direction == ControlDirection.Pause;
+        }
+
+        public void LoadContent()
+        {
+            _virtualPad.LoadContent();
+            _virtualPad.Initialize();
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            _virtualPad.Update(gameTime);
+        }
+
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            _virtualPad.Draw(gameTime, spriteBatch);
+        }
+
+        public void DrawOnSingleBatch(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            _virtualPad.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
     }
 }

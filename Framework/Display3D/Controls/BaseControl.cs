@@ -272,6 +272,18 @@ namespace Yna.Framework.Display3D.Controls
         }
 
         /// <summary>
+        /// Update velocity speed and acceleration
+        /// </summary>
+        /// <param name="gameTime">GameTime</param>
+        public virtual void UpdatePhysics(GameTime gameTime)
+        {
+            Camera.Translate(_velocityPosition.X, _velocityPosition.Y, _velocityPosition.Z);
+            Camera.RotateY(_velocityRotation.Y);
+            Camera.SetPitch(_velocityRotation.X);
+            Camera.SetRoll(_velocityRotation.Z);
+        }
+
+        /// <summary>
         /// Update keyboard input
         /// </summary>
         /// <param name="gameTime">GameTime</param>
