@@ -35,9 +35,7 @@
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
-    <Compile Include="Content\YnaContentManager.cs" />
-    <Compile Include="Content\IContentManager.cs" />
-    <Compile Include="Content\XnaContentManager.cs" />
+    <Compile Include="Content\YnContentManager.cs" />
     <Compile Include="Display3D\Lighting\YnDirectionalLight.cs" />
     <Compile Include="Display3D\Lighting\YnLight.cs" />
     <Compile Include="Display3D\Renderer\QuadRenderer.cs" />

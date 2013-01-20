@@ -14,6 +14,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Yna Framework for Mac OSX")]
 #elif MONOGAME && WINDOWS && OPENGL
 [assembly: AssemblyProduct("Yna Framework for Windows (OpenGL)")]
+#elif MONOGAME && WINDOWS && DIRECTX
+[assembly: AssemblyProduct("Yna Framework for Windows (DirectX)")]
 #elif WINDOWS_PHONE_7
 [assembly: AssemblyProduct("Yna Framework for Windows Phone 7")]
 #elif WINDOWS_PHONE_8
