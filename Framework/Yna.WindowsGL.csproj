@@ -44,6 +44,7 @@
     <Compile Include="Display3D\Renderer\Renderer.cs" />
     <Compile Include="Display3D\Terrain\Skybox.cs" />
     <Compile Include="Display3D\YnEntity3DSafeList.cs" />
+    <Compile Include="Display\Animation\IAnimationEffect.cs" />
     <Compile Include="Display\Animation\YnInterpolator.cs" />
     <Compile Include="Display\YnEntitySafeList.cs" />
     <Compile Include="Display\YnScene2D.cs" />
