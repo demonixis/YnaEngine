@@ -21,8 +21,24 @@ namespace Yna.Framework.Display.Animation
         private int nbSpriteY;
         private int spritesheetLenght;
 
-        public SpriteAnimator(int animationWidth, int animationHeight, int textureWidth, int textureHeight)
+        public SpriteAnimator()
         {
+            SpriteWidth = 0;
+            SpriteHeight = 0;
+            TextureWidth = 0;
+            TextureHeight = 0;
+
+            nbSpriteX = 0;
+            nbSpriteY = 0;
+            spritesheetLenght = 0;
+
+            Animations = new Dictionary<string, SpriteAnimation>();
+        }
+
+        public void Initialize(int animationWidth, int animationHeight, int textureWidth, int textureHeight)
+        {
+            Animations.Clear();
+
             SpriteWidth = animationWidth;
             SpriteHeight = animationHeight;
             TextureWidth = textureWidth;
@@ -31,8 +47,6 @@ namespace Yna.Framework.Display.Animation
             nbSpriteX = TextureWidth / SpriteWidth;
             nbSpriteY = TextureHeight / SpriteHeight;
             spritesheetLenght = nbSpriteX * nbSpriteY;
-
-            Animations = new Dictionary<string, SpriteAnimation>();
         }
 
         public void Add(string name, int[] indexes, int frameRate, bool reversed)
