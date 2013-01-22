@@ -22,14 +22,13 @@ namespace Yna.Framework.Display3D.Material
         protected string _textureName;
         protected bool _textureLoaded;
 
-        // TODO must be an array
-        protected Light _light;
-
         // Base value for a material
-        protected Vector4 _ambientColor;
+        protected Vector3 _ambientColor;
         protected float _ambientIntensity;
-        protected Vector4 _diffuseColor;
+        protected Vector3 _diffuseColor;
         protected float _diffuseIntensity;
+
+        protected YnLight _light;
 
         #region Properties
 
@@ -40,6 +39,12 @@ namespace Yna.Framework.Display3D.Material
         {
             get { return _effect; }
             set { _effect = value; }
+        }
+
+        public YnLight Light
+        {
+            get { return _light; }
+            set { _light = value; }
         }
 
         /// <summary>
@@ -60,18 +65,9 @@ namespace Yna.Framework.Display3D.Material
         }
 
         /// <summary>
-        /// Gets or sets the lights (will change)
-        /// </summary>
-        public Light Light
-        {
-            get { return _light; }
-            set { _light = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the ambient color
         /// </summary>
-        public Vector4 AmbientColor
+        public Vector3 AmbientColor
         {
             get { return _ambientColor; }
             set { _ambientColor = value; }
@@ -89,7 +85,7 @@ namespace Yna.Framework.Display3D.Material
         /// <summary>
         /// Gets or sets the default diffuse color
         /// </summary>
-        public Vector4 DiffuseColor
+        public Vector3 DiffuseColor
         {
             get { return _diffuseColor; }
             set { _diffuseColor = value; }
@@ -108,9 +104,9 @@ namespace Yna.Framework.Display3D.Material
 
         public BaseMaterial()
         {
-            _ambientColor = Color.White.ToVector4();
+            _ambientColor = Color.White.ToVector3();
             _ambientIntensity = 1.0f;
-            _diffuseColor = Color.White.ToVector4();
+            _diffuseColor = Color.White.ToVector3();
             _diffuseIntensity = 1.0f;
             _effect = null;
             _effectName = String.Empty;
@@ -118,6 +114,7 @@ namespace Yna.Framework.Display3D.Material
             _texture = null;
             _textureName = String.Empty;
             _textureLoaded = false;
+            _light = null;
         }
 
         public abstract void LoadContent();

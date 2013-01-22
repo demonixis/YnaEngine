@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terrains.XNA", "Terrains\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content", "SamplesContent\Content.contentproj", "{F19FA861-79F3-47BB-946F-F2620EFAA70F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna", "..\Framework\Yna.csproj", "{DE4D83AF-5F2D-465A-8682-52692A8DCE7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna", "..\Framework\Yna.XNA.csproj", "{DE4D83AF-5F2D-465A-8682-52692A8DCE7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

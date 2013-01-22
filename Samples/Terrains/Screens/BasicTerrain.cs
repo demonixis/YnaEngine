@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework;
 using Yna.Framework.Display;
+using Yna.Framework.Display.Component;
 using Yna.Framework.Display3D;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Terrain;
@@ -12,12 +13,14 @@ namespace Yna.Samples.Screens
 {
     public class BasicTerrain : YnState3D
     {
+        FirstPersonControl control;
         YnEntity sky;
         YnText textInfo;
         SimpleTerrain terrain;
-        FirstPersonControl control;
-
+        YnModel alienModel;
         RasterizerState rasterizerState;
+        YnVirtualPadController virtualPad;
+
 
         public BasicTerrain(string name)
             : base(name)
@@ -30,20 +33,27 @@ namespace Yna.Samples.Screens
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
             control = new FirstPersonControl((FirstPersonCamera)_camera);
-            control.MoveSpeed = 0.1f;
-            control.StrafeSpeed = 0.05f;
-            control.RotateSpeed = 0.6f;
+            control.RotateSpeed = 0.45f;
+            control.MoveSpeed = 0.15f;
+            control.StrafeSpeed = 0.45f;
+            control.MaxVelocityPosition = 0.96f;
+            control.MaxVelocityRotation = 0.96f;
             Add(control);
 
             // 3 - Create a simple terrain with a size of 100x100 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50, 1, 1);
+            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50);
             Add(terrain);
 
+            alienModel = new YnModel("Models/Alien/alien1_L");
+            Add(alienModel);
+
             // Sky & debug text ;)
-            sky = new YnEntity("Sky");
-            textInfo = new YnText("Font", "F1 - Wireframe mode\nF2 - Normal mode");
+            sky = new YnEntity("Textures/Sky");
+            textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
+
+            virtualPad = new YnVirtualPadController();
         }
 
         public override void LoadContent()
@@ -60,16 +70,39 @@ namespace Yna.Samples.Screens
             textInfo.Color = Color.Wheat;
             textInfo.Scale = new Vector2(1.1f);
 
+            virtualPad.LoadContent();
+
             // Set the camera position at the middle of the terrain
-            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 2);
+            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
+
+            alienModel.Position = new Vector3(
+                (terrain.Width / 2) - (alienModel.Width / 2),
+                0,
+                (terrain.Depth / 2) - (alienModel.Depth / 2));
         }
+
+        Vector3 virtalPadMovement = Vector3.Zero;
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+            virtualPad.Update(gameTime);
+
+            virtalPadMovement = Vector3.Zero;
+
+            if (virtualPad.Up)
+                virtalPadMovement.Z = control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.001f;
+
+            if (virtualPad.Down)
+                virtalPadMovement.Z = -control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.001f;
+
+            control.VelocityPosition += virtalPadMovement;
+            control.UpdatePhysics(gameTime);
+            Camera.Update(gameTime);
+
+            if (YnG.Keys.JustPressed(Keys.Escape) || virtualPad.ButtonPause)
+                YnG.StateManager.SetStateActive("menu", true);
 
             // Choose if you wan't wireframe or solid rendering
             if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))
@@ -99,6 +132,8 @@ namespace Yna.Samples.Screens
             YnG.GraphicsDevice.RasterizerState = rasterizerState;
 
             base.Draw(gameTime);
+
+            virtualPad.DrawOnSingleBatch(gameTime, spriteBatch);
         }
     }
 }

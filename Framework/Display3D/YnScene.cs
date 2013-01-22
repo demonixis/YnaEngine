@@ -10,22 +10,27 @@ using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D
 {
-    public class YnScene : YnGroup3D
+    public class YnScene3D : YnGroup3D
     {
-        // TODO
-        // LightManager
-        // Camera Manager
-
         #region Constructors
 
-        public YnScene(BaseCamera camera)
-            : base(camera, null)
-        {
+        protected YnBasicLight _light;
 
+        public YnBasicLight BasicLight
+        {
+            get { return _light; }
+            set { _light = value; }
         }
 
-        public YnScene()
-            : this(new FixedCamera())
+        public YnScene3D(BaseCamera camera)
+            : base(camera, null)
+        {
+            _light = new YnBasicLight();
+            _light.AmbientIntensity = 1f;
+        }
+
+        public YnScene3D()
+            : this(null)
         {
 
         }
@@ -35,6 +40,26 @@ namespace Yna.Framework.Display3D
             base.Update(gameTime);
 
             Camera.Update(gameTime);
+        }
+
+        public override void Draw(GraphicsDevice device)
+        {
+            if (Visible)
+            {
+                int nbMembers = _safeMembers.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_safeMembers[i].Visible)
+                        {
+                            _safeMembers[i].UpdateLighting(_light);
+                            _safeMembers[i].Draw(device);
+                        }
+                    }
+                }
+            }
         }
 
         #endregion

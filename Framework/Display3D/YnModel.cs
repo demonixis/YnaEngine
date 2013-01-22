@@ -4,16 +4,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Lighting;
+using Yna.Framework.Display3D.Material;
 
 namespace Yna.Framework.Display3D
 {
-    public class YnModel : YnObject3D
+    public class YnModel : YnEntity3D
     {
         protected Model _model;
         protected string _modelName;
         protected Matrix[] _bonesTransforms;
-        protected BasicEffect _basicEffect; // Temp
-        protected Light _light; // Temp too
 
         #region Properties
 
@@ -67,7 +66,7 @@ namespace Yna.Framework.Display3D
             : base(position)
         {
             _modelName = modelName;
-            _light = new Light();
+            _material = new BasicMaterial();
         }
 
         public YnModel(string modelName)
@@ -80,17 +79,6 @@ namespace Yna.Framework.Display3D
 
         #region Bounding volumes and light
 
-#if MONOGAME
-        // FIX : VertexBuffer.GetData crash with current MonoGame revision :/
-        public override void UpdateBoundingVolumes()
-        {
-            _boundingBox.Min = new Vector3(X - 5, Y - 5, Z - 5);
-            _boundingBox.Max = new Vector3(X + 5, Y + 5, Z + 5);
-
-            _boundingSphere.Center = Position;
-            _boundingSphere.Radius = 5;
-        }
-#else
         public override void UpdateBoundingVolumes()
         {
             // 1 - Global Bounding box
@@ -137,18 +125,55 @@ namespace Yna.Framework.Display3D
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
             _boundingSphere.Center = _position;
         }
-#endif
 
-        protected virtual void SetupLightning(BasicEffect effect)
+        protected virtual void UpdateEffect(BasicEffect effect)
         {
-            effect.LightingEnabled = true;
-            effect.DirectionalLight0.Enabled = true;
-            effect.DirectionalLight0.DiffuseColor = _light.Diffuse;
-            effect.DirectionalLight0.Direction = _light.Direction;
-            effect.DirectionalLight0.SpecularColor = _light.Specular;
-            effect.AmbientLightColor = _light.Ambient;
-            effect.EmissiveColor = _light.Emissive;
-            effect.Alpha = _light.Alpha;
+            if (_material == null)
+            {
+                effect.LightingEnabled = true;
+
+                // Mesh color light
+                effect.AmbientLightColor = Color.White.ToVector3();
+                effect.DiffuseColor = Color.White.ToVector3();
+                effect.EmissiveColor = Color.White.ToVector3() * 0.5f;
+                effect.SpecularColor = Color.Black.ToVector3();
+                effect.Alpha = 1;
+            }
+            else
+            {
+                _material.Update(ref _world, ref _view, ref _projection, ref _position);
+
+                BasicMaterial material = (BasicMaterial)_material;
+
+                if (material != null)
+                {
+                    effect.Alpha = material.AlphaColor;
+                    effect.AmbientLightColor = material.AmbientColor * material.AmbientIntensity;
+                    effect.DiffuseColor = material.DiffuseColor * material.DiffuseIntensity;
+                    effect.EmissiveColor = material.EmissiveColor * material.EmissiveIntensity;
+                    effect.FogColor = material.FogColor;
+                    effect.FogEnabled = material.EnableFog;
+                    effect.FogStart = material.FogStart;
+                    effect.FogEnd = material.FogEnd;
+                    effect.LightingEnabled = true;
+
+                    if (material.EnableDefaultLighting)
+                        effect.EnableDefaultLighting();
+
+                    effect.PreferPerPixelLighting = material.EnabledPerPixelLighting;
+                    effect.SpecularColor = material.SpecularColor * material.SpecularIntensity;
+                    effect.VertexColorEnabled = material.EnableVertexColor;
+
+
+                    YnBasicLight light = (YnBasicLight)material.Light;
+
+                    if (light != null)
+                    {
+                        StockMaterial.UpdateLighting(effect, light);
+                        effect.AmbientLightColor *= light.AmbientColor * light.AmbientIntensity;
+                    }
+                }
+            }
         }
 
         public override void UpdateMatrices()
@@ -166,11 +191,11 @@ namespace Yna.Framework.Display3D
 
         public override void LoadContent()
         {
-            _basicEffect = new BasicEffect(YnG.GraphicsDevice);
-
             _model = YnG.Content.Load<Model>(_modelName);
 
             _bonesTransforms = new Matrix[_model.Bones.Count];
+
+            _material.LoadContent();
 
             UpdateBoundingVolumes();
 
@@ -189,11 +214,11 @@ namespace Yna.Framework.Display3D
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    SetupLightning(effect);
+                    UpdateEffect(effect);
 
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
 
-                    effect.View = View;
+                    effect.View = _camera.View;
 
                     effect.Projection = _camera.Projection;
                 }

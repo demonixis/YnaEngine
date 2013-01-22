@@ -98,5 +98,10 @@ namespace Yna.Framework.Display3D.Material
             // Position
             _effect.Parameters["EyePosition"].SetValue(position);
         }
+
+        public static Vector4 ToVector4(Vector3 vector3)
+        {
+            return new Vector4(vector3.X, vector3.Y, vector3.Z, 1.0f);
+        }
     }
 }

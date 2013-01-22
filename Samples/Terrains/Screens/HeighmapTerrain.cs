@@ -46,20 +46,23 @@ namespace Yna.Samples.Screens
             // -- 2. map texture applied on the terrain
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
             heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture");
+            heightmap.Scale = new Vector3(2.5f, 2.5f, 2.5f);
             Add(heightmap);
 
             BasicMaterial heightmapMaterial = new BasicMaterial("terrains/heightmapTexture");
             heightmapMaterial.FogStart = 25.0f;
             heightmapMaterial.FogEnd = 75.0f;
             heightmapMaterial.EnableFog = true;
+            heightmapMaterial.FogColor = Vector3.One * 0.3f;
             heightmap.Material = heightmapMaterial;
 
             // Sky & debug info
-            sky = new YnEntity("Sky");
-            textInfo = new YnText("Font", "F1 - Wireframe mode\nF2 - Normal mode");
+            sky = new YnEntity("Textures/Sky");
+            textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
         }
+
 
         public override void LoadContent()
         {
@@ -78,7 +81,7 @@ namespace Yna.Samples.Screens
 
             // Set the camera position at the middle of the terrain
             camera.Position = new Vector3(heightmap.Width / 2, 0, heightmap.Depth / 2);
-            camera.Y = heightmap.GetTerrainHeight(camera.X, camera.Y, camera.Z) + 2;
+            camera.Y = heightmap.GetTerrainHeight(camera.X, camera.Y, camera.Z) + 5;
         }
 
         public override void Update(GameTime gameTime)
@@ -86,12 +89,12 @@ namespace Yna.Samples.Screens
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
 
             // Naive Collide detection with ground
             // This method get the current segment height on the terrain and set the Y position of the camera at this value
             // We add 2 units because the camera is a bit higher than the ground
-            camera.Y = heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 2;
+            camera.Y += (heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 5 - camera.Y) * 0.2f;
 
             // Move the camera with a click
             if (YnG.Mouse.Click(MouseButton.Left))

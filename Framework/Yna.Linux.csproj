@@ -8,13 +8,13 @@
     <ProjectGuid>{BF58CAF2-143A-420C-8C0E-11D438522C35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Yna.Framework</RootNamespace>
-    <AssemblyName>Yna.Framework.Linux</AssemblyName>
+    <AssemblyName>Yna.Framework</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>bin\Linux\Debug</OutputPath>
     <DefineConstants>DEBUG;MONOGAME;LINUX;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin\Linux\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
@@ -35,14 +35,15 @@
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
-    <Compile Include="Content\YnaContentManager.cs" />
-    <Compile Include="Content\IContentManager.cs" />
-    <Compile Include="Content\XnaContentManager.cs" />
-    <Compile Include="Display\Event\TouchSpriteEvents.cs" />
-    <Compile Include="Display\YnGraphics.cs" />
-    <Compile Include="Display\YnText.cs" />
-    <Compile Include="Display\YnSpriteBatchCamera.cs" />
-    <Compile Include="Event\ContentEventArgs.cs" />
+    <Compile Include="Content\YnContentManager.cs" />
+    <Compile Include="Display3D\Lighting\YnDirectionalLight.cs" />
+    <Compile Include="Display3D\Lighting\YnLight.cs" />
+    <Compile Include="Display3D\Renderer\QuadRenderer.cs" />
+    <Compile Include="Display3D\Renderer\Renderer.cs" />
+    <Compile Include="Display3D\YnEntity3DSafeList.cs" />
+    <Compile Include="Display\YnEntitySafeList.cs" />
+    <Compile Include="Display\YnScene2D.cs" />
+    <Compile Include="Display\Event\VirtualPadEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
@@ -51,8 +52,7 @@
     <Compile Include="Display3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Display3D\Controls\KeyMapping.cs" />
     <Compile Include="Display3D\Controls\ThirdPersonControl.cs" />
-    <Compile Include="Display3D\Lighting\Light.cs" />
-	<Compile Include="Display3D\Lighting\ILightInterface.cs" />
+    <Compile Include="Display3D\Lighting\YnBasicLight.cs" />
     <Compile Include="Display3D\Material\DualTextureMaterial.cs" />
     <Compile Include="Display3D\Material\EnvironmentMapMaterial.cs" />
     <Compile Include="Display3D\Material\StockMaterial.cs" />
@@ -69,17 +69,20 @@
     <Compile Include="Display3D\YnG3.cs" />
     <Compile Include="Display3D\YnGroup3D.cs" />
     <Compile Include="Display3D\YnModel.cs" />
-    <Compile Include="Display3D\YnObject3D.cs" />
+    <Compile Include="Display3D\YnEntity3D.cs" />
     <Compile Include="Display3D\Terrain\Heightmap.cs" />
     <Compile Include="Display3D\Terrain\BaseTerrain.cs" />
-    <Compile Include="Display3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Display3D\Terrain\SimpleTerrain.cs" />
+    <Compile Include="Display3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Display3D\YnScene.cs" />
     <Compile Include="Display3D\YnState3D.cs" />
+    <Compile Include="Display\Event\TouchSpriteEvents.cs" />
+    <Compile Include="Display\YnGraphics.cs" />
+    <Compile Include="Display\YnText.cs" />
+    <Compile Include="Display\YnSpriteBatchCamera.cs" />
     <Compile Include="Display\Animation\SpriteAnimation.cs" />
     <Compile Include="Display\Animation\SpriteAnimator.cs" />
     <Compile Include="Display\Animation\YnTransitionEffect.cs" />
-    <Compile Include="Display\Animation\YnRotateEffect.cs" />
     <Compile Include="Display\Animation\YnShakeEffect.cs" />
     <Compile Include="Display\Event\GlobalEventArgs.cs" />
     <Compile Include="Display\Event\MouseSpriteEvents.cs" />
@@ -100,7 +103,6 @@
     <Compile Include="Display\Gui\YnWidget.cs" />
     <Compile Include="Display\Gui\YnWindow.cs" />
     <Compile Include="Display\YnCollide.cs" />
-    <Compile Include="Display\YnScene.cs" />
     <Compile Include="Display\YnSprite.cs" />
     <Compile Include="Display\Event\ScreenEvents.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
@@ -139,6 +141,9 @@
     <Compile Include="YnGame.cs" />
     <Compile Include="Display\YnGroup.cs" />
     <Compile Include="Display\YnEntity.cs" />
+    <Compile Include="Display\Animation\YnInterpolator.cs" />
+    <Compile Include="YnSafeList.cs" />
+    <Compile Include="YnScene.cs" />
     <Compile Include="YnTimer.cs" />
     <Compile Include="Display\Tilemap\BaseLayer.cs" />
     <Compile Include="Display\Tilemap\BaseTile.cs" />
@@ -149,12 +154,14 @@
     <Compile Include="Display\Tilemap\Iso\LayerIso.cs" />
     <Compile Include="Display\Tilemap\Iso\TileIso.cs" />
     <Compile Include="Display\Tilemap\Iso\TileMapIso.cs" />
+    <Compile Include="Display\Component\YnVirtualPad.cs" />
+    <Compile Include="Event\ContentEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\ThirdParty\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\ThirdParty\MonoGame\Linux\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

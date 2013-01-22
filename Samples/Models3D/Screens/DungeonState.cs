@@ -9,7 +9,7 @@ using Yna.Framework.Display3D.Camera;
 using Yna.Framework.Display3D.Terrain;
 using Yna.Framework.Display3D.Controls;
 
-namespace Yna.Samples
+namespace Yna.Samples.Screens
 {
     public class DungeonState : YnState3D
     {
@@ -44,6 +44,11 @@ namespace Yna.Samples
             dungeon.Scale = new Vector3(20.0f);
             Add(dungeon);
 
+            Scene.BasicLight.AmbientIntensity = 2;
+            Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, -1, 0.5f);
+            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.Blue.ToVector3();
+            Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Red.ToVector3();
+
             // Sky & debug text ;)
             sky = new YnEntity("Backgrounds/sky");
         }
@@ -66,7 +71,7 @@ namespace Yna.Samples
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

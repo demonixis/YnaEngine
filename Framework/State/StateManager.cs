@@ -293,7 +293,7 @@ namespace Yna.Framework.State
 
             if (index > -1)
             {
-                newState.ScreenManager = this;
+                newState.StateManager = this;
                 _states[index] = newState;
                 return true;
             }
@@ -328,7 +328,7 @@ namespace Yna.Framework.State
             }
         }
 
-        public void SetScreenActive(string name, bool desactiveOtherScreens)
+        public void SetStateActive(string name, bool desactiveOtherScreens)
         {
             if (_statesDictionary.ContainsKey(name))
             {
@@ -437,6 +437,12 @@ namespace Yna.Framework.State
             }
         }
 
+        public void PauseAllStates()
+        {
+            foreach (BaseState state in _states)
+                state.Active = false;
+        }
+
         /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
         /// the StateManager will clear all other states and use the new state
@@ -458,24 +464,22 @@ namespace Yna.Framework.State
         /// <summary>
         /// Add a new screen to the Manager. The screen is not activate or desactivate, you must manage this yourself
         /// </summary>
-        /// <param name="screen">Screen to add</param>
-        public void Add(BaseState screen)
+        /// <param name="state">Screen to add</param>
+        public void Add(BaseState state)
         {
-            screen.ScreenManager = this;
+            state.StateManager = this;
 
             // If the manager is not yet ready we don't need to initialize and load its content
             // Because it's donne in the init. process
             if (_initialized)
             {
-                screen.LoadContent();
-
-                if (screen.Active)
-                    screen.Initialize();
+                state.LoadContent();
+                state.Initialize();
             }
 
-            _states.Add(screen);
+            _states.Add(state);
 
-            _statesDictionary.Add(screen.Name, _states.IndexOf(screen));
+            _statesDictionary.Add(state.Name, _states.IndexOf(state));
         }
 
         /// <summary>
@@ -513,7 +517,7 @@ namespace Yna.Framework.State
             _states.Remove(screen);
 
             _statesDictionary.Remove(screen.Name);
-
+            // TODO : Not necessary
             if (_initialized)
                 screen.UnloadContent();
         }

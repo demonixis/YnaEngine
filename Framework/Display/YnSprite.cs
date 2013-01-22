@@ -168,22 +168,6 @@ namespace Yna.Framework.Display
             get { return _hasAnimation; }
         }
         #endregion
-        
-        #region Evenements
-
-        /// <summary>
-        /// Triggered when the sprite is colliding with it's registered viewport
-        /// @see Viewport property
-        /// </summary>
-        public event EventHandler<SpriteCollideEventArgs> ScreenCollide = null;
-        
-        private void CollideScreenSprite(SpriteCollideEventArgs arg)
-        {
-        	if (ScreenCollide != null)
-        		ScreenCollide(this, arg);
-        }
-        
-        #endregion
 
         #region constructors
 
@@ -201,7 +185,7 @@ namespace Yna.Framework.Display
             _acrossScreen = false;
 
             _hasAnimation = false;
-            _animator = null;
+            _animator = new SpriteAnimator();
             _elapsedTime = 0;
 
             _acceleration = Vector2.One;
@@ -264,11 +248,12 @@ namespace Yna.Framework.Display
         /// <param name="height">height of a sprite on the spritesheet</param>
         public void PrepareAnimation(int width, int height)
         {
-            _hasAnimation = true;
-            _animator = new SpriteAnimator(width, height, _texture.Width, _texture.Height);
+            _animator.Initialize(width, height, _texture.Width, _texture.Height);
             
             // The sprite size is now the size of a sprite on the spritesheet
             Rectangle = new Rectangle(X, Y, width, height);
+
+            _hasAnimation = true;
         }
 
         /// <summary>
@@ -399,21 +384,6 @@ namespace Yna.Framework.Display
                 // Physics
                 _position += _velocity * _acceleration;
                 _velocity *= _maxVelocity;
-
-                #region Events handlers
-
-                // Screen
-                if (X < Viewport.X)
-                    CollideScreenSprite(new SpriteCollideEventArgs(SpriteScreenCollide.Left));
-                else if (X + Width > Viewport.Width)
-                    CollideScreenSprite(new SpriteCollideEventArgs(SpriteScreenCollide.Right));
-
-                if (Y < Viewport.Y)
-                    CollideScreenSprite(new SpriteCollideEventArgs(SpriteScreenCollide.Top));
-                else if (Y + Height > Viewport.Height)
-                    CollideScreenSprite(new SpriteCollideEventArgs(SpriteScreenCollide.Bottom));
-
-                #endregion
 
                 if (_hasAnimation)
                     _animator.Update(gameTime, LastDistance);

@@ -439,6 +439,8 @@ namespace Yna.Framework.Display
             : this(assetName)
         {
             _position = position;
+            _rectangle.X = (int)position.X;
+            _rectangle.Y = (int)position.Y;
         }
 
         #region GameState pattern
@@ -450,13 +452,19 @@ namespace Yna.Framework.Display
 
         public virtual void LoadContent()
         {
-            if (_texture == null && _assetName != String.Empty)
+            if (!_assetLoaded && _assetName != String.Empty)
             {
                 _texture = YnG.Content.Load<Texture2D>(_assetName);
                 _rectangle.Width = _texture.Width;
                 _rectangle.Height = _texture.Height;
                 _assetLoaded = true;
             }
+        }
+
+        public virtual void LoadContent(bool forceReload)
+        {
+            _assetLoaded = forceReload ? false : _assetLoaded;
+            LoadContent();
         }
 
         /// <summary>

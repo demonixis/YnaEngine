@@ -139,14 +139,10 @@
       <Project>{72FCF5BE-3E09-4428-9552-CFA4913F3670}</Project>
       <Name>Yna.WindowsPhone8</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Common.WindowsPhone8.csproj">
-      <Project>{A13400A8-8E08-418D-AD62-BCA9FAE7C3AE}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework.WindowsPhone">
-      <HintPath>..\..\..\ThirdParty\MonoGame\WP8\MonoGame.Framework.WindowsPhone.dll</HintPath>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\..\ThirdParty\MonoGame\WindowsPhone8\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

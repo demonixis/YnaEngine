@@ -10,12 +10,12 @@ namespace Yna.Framework.Display3D.Controls
     /// </summary>
     public class ThirdPersonControl : BaseControl
     {
-        YnObject3D _followedObject;
+        YnEntity3D _followedObject;
 
         /// <summary>
         /// Object to move
         /// </summary>
-        public YnObject3D FollowedObject
+        public YnEntity3D FollowedObject
         {
             get { return _followedObject; }
             set { _followedObject = value; }
@@ -39,10 +39,13 @@ namespace Yna.Framework.Display3D.Controls
         /// </summary>
         /// <param name="camera">Camera to use</param>
         /// <param name="followedObject">Object to move</param>
-        public ThirdPersonControl(ThirdPersonCamera camera, YnObject3D followedObject)
+        public ThirdPersonControl(ThirdPersonCamera camera, YnEntity3D followedObject)
             : base(camera)
         {
             _followedObject = followedObject;
+
+            if (camera.FollowedObject == null)
+                camera.FollowedObject = _followedObject;
         }
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace Yna.Framework.Display3D.Controls
         /// <param name="camera">Camera to use</param>
         /// <param name="followedObject">Object to move</param>
         /// <param name="index">Player index</param>
-        public ThirdPersonControl(ThirdPersonCamera camera, YnObject3D followedObject, PlayerIndex index)
+        public ThirdPersonControl(ThirdPersonCamera camera, YnEntity3D followedObject, PlayerIndex index)
             : this(camera, followedObject)
         {
             _playerIndex = index;

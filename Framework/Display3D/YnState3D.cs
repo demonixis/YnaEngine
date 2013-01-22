@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,11 +12,11 @@ namespace Yna.Framework.Display3D
     public class YnState3D : BaseState
     {
         protected BaseCamera _camera;
-        private YnScene _scene;
+        private YnScene3D _scene;
         private List<YnBase3D> _baseMembers;
         private List<YnBase3D> _safeBaseMembers;
 
-        public YnScene Scene
+        public YnScene3D Scene
         {
             get { return _scene; }
             protected set { _scene = value; }
@@ -42,7 +42,7 @@ namespace Yna.Framework.Display3D
             : base()
         {
             _camera = new FixedCamera();
-            _scene = new YnScene(_camera);
+            _scene = new YnScene3D(_camera);
             _baseMembers = new List<YnBase3D>();
             _safeBaseMembers = new List<YnBase3D>();
             Initialized = false;
@@ -52,7 +52,7 @@ namespace Yna.Framework.Display3D
             : this()
         {
             _camera = camera;
-            _scene = new YnScene(_camera);
+            _scene = new YnScene3D(_camera);
         }
 
         public YnState3D(string name, BaseCamera camera)
@@ -124,7 +124,7 @@ namespace Yna.Framework.Display3D
         /// Add an object3D on the scene
         /// </summary>
         /// <param name="object3D">An object3D</param>
-        public void Add(YnObject3D object3D)
+        public void Add(YnEntity3D object3D)
         {
             object3D.Camera = Camera;
             _scene.Add(object3D);
@@ -146,7 +146,7 @@ namespace Yna.Framework.Display3D
         /// Remove an object3D of the scene
         /// </summary>
         /// <param name="object3D"></param>
-        public void Remove(YnObject3D object3D)
+        public void Remove(YnEntity3D object3D)
         {
             _scene.Remove(object3D);
         }

@@ -19,6 +19,7 @@ namespace Yna.Framework.Display
         private List<YnEntity> _safeMembers;
         private bool _initialized;
         private bool _assetsLoaded;
+        private bool _secureCyle;
 
         #endregion
 
@@ -38,6 +39,17 @@ namespace Yna.Framework.Display
         public int Count
         {
             get { return _members.Count(); }
+        }
+
+        /// <summary>
+        /// Enable of disable the secure cycle. If active, after each update a secure list is created with a copy of current element. 
+        /// This list is used for update and draw so you can change the value of the base members safely. If disable this is the base list who are used for
+        /// the cycle Update and Draw.
+        /// </summary>
+        public bool SecureCycle
+        {
+            get { return _secureCyle; }
+            set { _secureCyle = value; }
         }
 
         /// <summary>
@@ -97,6 +109,7 @@ namespace Yna.Framework.Display
             _safeMembers = new List<YnEntity>();
             _initialized = false;
             _assetsLoaded = false;
+            _secureCyle = true;
         }
 
         public YnGroup (int capacity, int x, int y)
@@ -108,6 +121,9 @@ namespace Yna.Framework.Display
 
         #region GameState pattern
 
+        /// <summary>
+        /// Initialize all members
+        /// </summary>
         public override void Initialize()
         {
             if (_members.Count > 0)
@@ -119,6 +135,9 @@ namespace Yna.Framework.Display
             _initialized = true;
         }
 
+        /// <summary>
+        /// Load content of all members
+        /// </summary>
         public override void LoadContent()
         {
             if (_members.Count > 0)
@@ -130,6 +149,9 @@ namespace Yna.Framework.Display
             _assetsLoaded = true;
         }
 
+        /// <summary>
+        /// Unload content of all members
+        /// </summary>
         public override void UnloadContent()
         {
             if (_members.Count > 0)
@@ -139,6 +161,10 @@ namespace Yna.Framework.Display
             }
         }
 
+        /// <summary>
+        /// Update all members
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -149,8 +175,15 @@ namespace Yna.Framework.Display
 
             if (nbMembers > 0)
             {
-                _safeMembers.Clear();
-                _safeMembers.AddRange(_members);
+                if (_secureCyle)
+                {
+                    _safeMembers.Clear();
+                    _safeMembers.AddRange(_members);
+                }
+                else
+                {
+                    _safeMembers = _members;
+                }
 
                 for (int i = 0; i < nbMembers; i++)
                 {
@@ -160,6 +193,11 @@ namespace Yna.Framework.Display
             }
         }
 
+        /// <summary>
+        /// Draw all members
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             int nbMembers = _safeMembers.Count;
@@ -198,7 +236,7 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Add a new object in the collecion
+        /// Add a new entity in the group
         /// </summary>
         /// <param name="sceneObject">An array of objects or derivated from YnObject</param>
         public void Add(YnEntity[] sceneObject)
@@ -216,6 +254,10 @@ namespace Yna.Framework.Display
             }
         }
 
+        /// <summary>
+        /// Remove an entity from the group
+        /// </summary>
+        /// <param name="sceneObject"></param>
         public void Remove(YnEntity sceneObject)
         {
             _members.Remove(sceneObject);
@@ -223,6 +265,9 @@ namespace Yna.Framework.Display
             UpdateSizes();
         }
 
+        /// <summary>
+        /// Clear the collection
+        /// </summary>
         public void Clear()
         {
             _members.Clear();
@@ -253,6 +298,9 @@ namespace Yna.Framework.Display
 
         #endregion
 
+        /// <summary>
+        /// Update the size of the group. It's the rectangle that contains all members
+        /// </summary>
         public void UpdateSizes()
         {
             Width = 0;

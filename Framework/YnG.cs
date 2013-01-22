@@ -214,7 +214,7 @@ namespace Yna.Framework
         public static void SetStateActive(string name, bool desactiveOtherScreens)
         {
             if (StateManager != null)
-                StateManager.SetScreenActive(name, desactiveOtherScreens);
+                StateManager.SetStateActive(name, desactiveOtherScreens);
         }
 
         #endregion

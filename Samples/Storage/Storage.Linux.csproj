@@ -59,10 +59,6 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.Linux.csproj">
-      <Project>{F8106832-F889-4082-A5F5-CB754F03E82C}</Project>
-      <Name>Common.Linux</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Yna.Linux.csproj">
       <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
       <Name>Yna.Linux</Name>
@@ -71,7 +67,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\..\ThirdParty\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
+      <HintPath>..\..\ThirdParty\MonoGame\Linux\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

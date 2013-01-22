@@ -35,10 +35,7 @@ namespace Yna.Framework.Display3D.Controls
         {
             base.Update(gameTime);
 
-            Camera.Translate(_velocityPosition.X, _velocityPosition.Y, _velocityPosition.Z);
-            Camera.RotateY(_velocityRotation.Y);
-            Camera.SetPitch(_velocityRotation.X);
-            Camera.SetRoll(_velocityRotation.Z);
+            UpdatePhysics(gameTime);
 
             Camera.Update(gameTime);
         }
@@ -70,9 +67,9 @@ namespace Yna.Framework.Display3D.Controls
                 _velocityRotation.Y -= _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Look Up/Down
-            if (YnG.Keys.Pressed(Keys.PageUp))
+            if (YnG.Keys.Pressed(_keyMapper.PitchUp[0]))
                 _velocityRotation.X += _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            else if (YnG.Keys.Pressed(Keys.PageDown))
+            else if (YnG.Keys.Pressed(_keyMapper.PitchDown[0]))
                 _velocityRotation.X -= _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Roll

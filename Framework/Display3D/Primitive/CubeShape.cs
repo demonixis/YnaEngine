@@ -138,5 +138,10 @@ namespace Yna.Framework.Display3D.Primitive
                 new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
                 radius);
         }
+
+        public override void Draw(GraphicsDevice device)
+        {
+            base.Draw(device);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Yna.Framework.Display3D.Material
     /// <summary>
     /// Define a base class for all XNA stock effects
     /// </summary>
-    public abstract class StockMaterial : BaseMaterial, ILightSpecular
+    public abstract class StockMaterial : BaseMaterial
     {
         #region Protected declarations
 
@@ -17,6 +17,7 @@ namespace Yna.Framework.Display3D.Material
         protected float _fogStart;
         protected float _fogEnd;
         protected Vector3 _emissiveColor;
+        protected float _emissiveIntensity;
         protected Vector3 _specularColor;
         protected float _specularIntensity;
         protected bool _enableMainTexture;
@@ -24,6 +25,7 @@ namespace Yna.Framework.Display3D.Material
         protected bool _enablePerPixelLighting;
         protected bool _enableVertexColor;
         protected bool _enableDefaultLighting;
+        protected YnBasicLight _basicLight;
 
         #endregion
 
@@ -74,18 +76,19 @@ namespace Yna.Framework.Display3D.Material
             set { _emissiveColor = value; }
         }
 
+        public float EmissiveIntensity
+        {
+            get { return _emissiveIntensity; }
+            set { _emissiveIntensity = value; }
+        }
+
         /// <summary>
         /// Gets or sets the value of specular color
         /// </summary>
-        public Vector4 SpecularColor
+        public Vector3 SpecularColor
         {
-            get { return new Vector4(_specularColor.X, _specularColor.Y, _specularColor.Z, 1.0f); }
-            set
-            {
-                _specularColor.X = value.X;
-                _specularColor.Y = value.Y;
-                _specularColor.Z = value.Z;
-            }
+            get { return _specularColor; }
+            set { _specularColor = value; }
         }
 
         /// <summary>
@@ -152,6 +155,7 @@ namespace Yna.Framework.Display3D.Material
             _fogStart = 0.0f;
             _fogEnd = 0.0f;
             _emissiveColor = Color.Black.ToVector3();
+            _emissiveIntensity = 0.0f;
             _specularColor = Color.Black.ToVector3();
             _specularIntensity = 1.0f;
             _enableDefaultLighting = true;
@@ -213,23 +217,34 @@ namespace Yna.Framework.Display3D.Material
             else
             {
                 effectLights.LightingEnabled = !_enableDefaultLighting;
+                effectLights.AmbientLightColor = new Vector3(_ambientColor.X, _ambientColor.Y, _ambientColor.Z) * _ambientIntensity;
 
-                // TODO To bad, you must make a real and rocky lighting system ok ?
-
-                if (_light != null)
+                if (_light is YnBasicLight)
                 {
-                    effectLights.DirectionalLight0.Enabled = true;
-                    effectLights.DirectionalLight0.Direction = _light.Direction;
-                    effectLights.DirectionalLight0.DiffuseColor = _light.Diffuse;
-                    effectLights.DirectionalLight0.SpecularColor = _light.Specular;
-
-                    // TODO more in the next episode :D
+                    UpdateLighting(effectLights, (YnBasicLight)_light);
+                    effectLights.AmbientLightColor *= _light.AmbientColor * _light.AmbientIntensity;
                 }
 
-                effectLights.AmbientLightColor = new Vector3(_ambientColor.X, _ambientColor.Y, _ambientColor.Z) * _ambientIntensity;
-                
                 return true;
             }
+        }
+
+        public static void UpdateLighting(IEffectLights effect, YnBasicLight light)
+        {
+            effect.DirectionalLight0.Enabled = light.DirectionalLights[0].Enabled;
+            effect.DirectionalLight0.Direction = light.DirectionalLights[0].Direction;
+            effect.DirectionalLight0.DiffuseColor = light.DirectionalLights[0].DiffuseColor * light.DirectionalLights[0].DiffuseIntensity;
+            effect.DirectionalLight0.SpecularColor = light.DirectionalLights[0].SpecularColor * light.DirectionalLights[0].SpecularIntensity;
+
+            effect.DirectionalLight1.Enabled = light.DirectionalLights[1].Enabled;
+            effect.DirectionalLight1.Direction = light.DirectionalLights[1].Direction;
+            effect.DirectionalLight1.DiffuseColor = light.DirectionalLights[1].DiffuseColor * light.DirectionalLights[1].DiffuseIntensity;
+            effect.DirectionalLight1.SpecularColor = light.DirectionalLights[1].SpecularColor * light.DirectionalLights[1].SpecularIntensity;
+
+            effect.DirectionalLight2.Enabled = light.DirectionalLights[2].Enabled;
+            effect.DirectionalLight2.Direction = light.DirectionalLights[2].Direction;
+            effect.DirectionalLight2.DiffuseColor = light.DirectionalLights[2].DiffuseColor * light.DirectionalLights[2].DiffuseIntensity;
+            effect.DirectionalLight2.SpecularColor = light.DirectionalLights[2].SpecularColor * light.DirectionalLights[2].SpecularIntensity;
         }
     }
 }

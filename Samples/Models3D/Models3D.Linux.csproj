@@ -46,12 +46,11 @@
     <Compile Include="Models3DGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\DungeonState.cs" />
-    <Compile Include="Screens\PickingObjectsSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="MonoGame.Framework.Linux">
-      <HintPath>..\..\ThirdParty\MonoGame\Linux\MonoGame.Framework.Linux.dll</HintPath>
+      <HintPath>..\..\ThirdParty\MonoGame\Linux\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -66,13 +65,13 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.Linux.csproj">
-      <Project>{F8106832-F889-4082-A5F5-CB754F03E82C}</Project>
-      <Name>Common.Linux</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Yna.Linux.csproj">
       <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
       <Name>Yna.Linux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.Linux.csproj">
+      <Project>{f8106832-f889-4082-a5f5-cb754f03e82c}</Project>
+      <Name>Common.Linux</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

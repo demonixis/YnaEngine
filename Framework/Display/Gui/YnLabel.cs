@@ -18,6 +18,8 @@ namespace Yna.Framework.Display.Gui
         protected Color _textColor;
         protected bool _useCustomColor;
         protected SpriteFont _customFont;
+        protected float _rotation;
+        protected Vector2 _scale;
 
         #endregion
 
@@ -43,6 +45,24 @@ namespace Yna.Framework.Display.Gui
                 _textColor = value;
                 _useCustomColor = true;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation value
+        /// </summary>
+        public float Rotation
+        {
+            get { return _rotation; }
+            set { _rotation = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the scale of the text
+        /// </summary>
+        public Vector2 Scale
+        {
+            get { return _scale; }
+            set { _scale = value; }
         }
 
         /// <summary>
@@ -75,9 +95,12 @@ namespace Yna.Framework.Display.Gui
         {
             _text = "";
             _useCustomColor = false;
+            _rotation = 0.0f;
+            _scale = Vector2.One;
         }
 
         public YnLabel(string text)
+            : this()
         {
             _text = text;
         }
@@ -87,7 +110,7 @@ namespace Yna.Framework.Display.Gui
             Color color = (_useCustomColor) ? _textColor : _skin.DefaultTextColor;
             SpriteFont font = (_customFont == null) ? _skin.Font : _customFont;
 
-            spriteBatch.DrawString(font, _text, AbsolutePosition, color);
+            spriteBatch.DrawString(font, _text, AbsolutePosition, color, _rotation, Vector2.Zero, _scale, SpriteEffects.None, 1.0f);
         }
 
         public override void Layout()
@@ -97,8 +120,8 @@ namespace Yna.Framework.Display.Gui
             SpriteFont font = (_customFont == null) ? _skin.Font : _customFont;
 
             Vector2 size = font.MeasureString(Text);
-            _bounds.Width = (int) size.X;
-            _bounds.Height = (int) size.Y;
+            _bounds.Width = (int)( size.X * _scale.X);
+            _bounds.Height = (int)( size.Y * _scale.Y);
         }
     }
 }

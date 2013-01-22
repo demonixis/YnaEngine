@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Framework.Display3D.Material;
+using Yna.Framework.Display3D.Lighting;
 
 namespace Yna.Framework.Display3D.Primitive
 {
@@ -18,7 +19,7 @@ namespace Yna.Framework.Display3D.Primitive
     ///     and call in first PreDraw() method. Do your stuff after that
     /// </summary>
     /// <typeparam name="T">Type of IVertexType</typeparam>
-    public abstract class Shape<T> : YnObject3D where T : struct, IVertexType
+    public abstract class Shape<T> : YnEntity3D where T : struct, IVertexType
     {
         #region Protected declarations
     
@@ -309,6 +310,7 @@ namespace Yna.Framework.Display3D.Primitive
 
             foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
             {
+                BasicEffect e = (BasicEffect)_material.Effect;
                 pass.Apply();
                 device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
             }

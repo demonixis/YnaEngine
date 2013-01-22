@@ -37,7 +37,7 @@ namespace Yna.Samples.Screens
             Add(control);
 
             // 3 - Create a simple terrain with a size of 50x50 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("pattern55_diffuse", 50, 50, 1, 1);
+            terrain = new SimpleTerrain("Textures/pattern55_diffuse", 50, 50, 1, 1);
             // Repeat the ground texture 8x
             terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
@@ -51,14 +51,19 @@ namespace Yna.Samples.Screens
             {
                 cubePosition.X +=  5;             
 
-                cube = new CubeShape("pattern02_diffuse", Vector3.One, cubePosition);
+                cube = new CubeShape("Textures/pattern02_diffuse", Vector3.One, cubePosition);
                 groupCube.Add(cube);
             }
 
             Add(groupCube);
 
             // Sky
-            sky = new YnEntity("Sky");
+            sky = new YnEntity("Textures/Sky");
+
+            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
+            Scene.BasicLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
+            Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
+            Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
         }
 
         public override void LoadContent()
@@ -80,15 +85,8 @@ namespace Yna.Samples.Screens
             for (int i = 0, l = groupCube.Count; i < l; i++)
                 groupCube[i].RotateY(0.01f * (i + 1) * gameTime.ElapsedGameTime.Milliseconds);
 
-            if (YnG.Mouse.Click(Framework.Input.MouseButton.Left))
-            {
-                Vector2 mousePosition = YnG.Mouse.Position;
-                Vector3 position = YnG3.GetScreenToWorldPosition(Camera, ref mousePosition);
-                Add(new CubeShape("pattern02_diffuse", Vector3.One, position));
-            }
-
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetScreenActive("menu", true);
+                YnG.StateManager.SetStateActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)
