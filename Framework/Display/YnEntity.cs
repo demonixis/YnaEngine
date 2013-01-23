@@ -133,8 +133,9 @@ namespace Yna.Framework.Display
             get { return _position; }
             set
             {
-                _position = value;
+                NormalizePositionType(ref value);
 
+                _position = value;
                 _rectangle.X = (int)_position.X;
                 _rectangle.Y = (int)_position.Y;
             }
@@ -149,6 +150,8 @@ namespace Yna.Framework.Display
             get { return _rectangle; }
             set
             {
+                NormalizePositionType(ref value);
+
                 _rectangle = value;
 
                 _position.X = _rectangle.X;
@@ -570,6 +573,24 @@ namespace Yna.Framework.Display
         }
 
         #endregion
+
+        protected virtual void NormalizePositionType(ref Vector2 position)
+        {
+            if (_positionType == PositionType.Relative && _parent != null)
+            {
+                position.X += _parent.X;
+                position.Y += _parent.Y;
+            }
+        }
+
+        protected virtual void NormalizePositionType(ref Rectangle rectangle)
+        {
+            if (_positionType == PositionType.Relative && _parent != null)
+            {
+                rectangle.X += _parent.X;
+                rectangle.Y += _parent.Y;
+            }
+        }
 
         #region Change origin
 

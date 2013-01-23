@@ -12,15 +12,9 @@ namespace Yna.Framework.Audio
     /// <summary>
     /// An audio manager for playing musics and sounds
     /// </summary>
-    public class AudioManager
+    public class AudioManager : IDisposable
     {
-        #region Private declarations
-
-        private bool _soundEnabled;
-        private float _soundVolume;
-        private bool _musicEnabled;
-
-        #endregion
+        protected AudioAdapter _audioAdapter;
 
         #region Properties
 
@@ -29,17 +23,8 @@ namespace Yna.Framework.Audio
         /// </summary>
         public bool SoundEnabled
         {
-            get { return _soundEnabled; }
-            set { _soundEnabled = value; }
-        }
-
-        /// <summary>
-        /// Get or set the sound volume
-        /// </summary>
-        public float SoundVolume
-        {
-            get { return _soundVolume; }
-            set { _soundVolume = value; }
+            get { return _audioAdapter.SoundEnabled; }
+            set { _audioAdapter.SoundEnabled = value; }
         }
 
         /// <summary>
@@ -47,8 +32,8 @@ namespace Yna.Framework.Audio
         /// </summary>
         public bool MusicEnabled
         {
-            get { return _musicEnabled; }
-            set { _musicEnabled = value; }
+            get { return _audioAdapter.MusicEnabled; }
+            set { _audioAdapter.MusicEnabled = value; }
         }
 
         /// <summary>
@@ -56,46 +41,47 @@ namespace Yna.Framework.Audio
         /// </summary>
         public float MusicVolume
         {
-            get { return MediaPlayer.Volume; }
-            set { MediaPlayer.Volume = Math.Abs(value); }
+            get { return _audioAdapter.MusicVolume; }
+            set { _audioAdapter.MusicVolume = value; }
         }
+
+		/// <summary>
+		/// Gets the audio adapter.
+		/// </summary>
+		public AudioAdapter AudioAdapter
+		{
+			get { return _audioAdapter; }
+		}
 
         #endregion
 
-        #region Singleton instance & constructor
-
+		/// <summary>
+		/// Create an audio manager object with default audio adapter.
+		/// </summary>
         public AudioManager()
         {
-            MusicEnabled = true;
-            SoundEnabled = true;
-            SoundVolume = 0.4f;
-            MusicVolume = 0.6f;
+			_audioAdapter = new XnaAudioAdapter();
+            _audioAdapter.MusicEnabled = true;
+            _audioAdapter.SoundEnabled = true;
+            _audioAdapter.MusicVolume = 0.6f;
+			_audioAdapter.RepeatMusic = false;
         }
 
-        #endregion
-
-        #region Playing sound from XNA's Content Manager
-
-        private void PlaySound(SoundEffect sound, float volume, float pitch, float pan)
-        {
-            if (volume > _soundVolume)
-                volume = _soundVolume;
-            
-            sound.Play(volume, pitch, pan);
-        }
+		/// <summary>
+		/// Create an audio manager object with a custom audio adapter.
+		/// </summary>
+		/// <param name='audioAdapter'>A custom audio adapter.</param>
+		public AudioManager(AudioAdapter audioAdapter)
+		{
+			_audioAdapter = audioAdapter;
+		}
 
         public void PlaySound(string assetName, float volume, float pitch, float pan)
         {
-            if (_soundEnabled)
-            {
-                SoundEffect sound = YnG.Content.Load<SoundEffect>(assetName);
-                PlaySound(sound, volume, pitch, pan);
-            }
+			_audioAdapter.PlaySound(assetName, volume, pitch, pan);
         }
 
-        #endregion
-
-        #region Playing music from XNA's Content Manager
+		#region Music controls
 
         /// <summary>
         /// Play a music from the XNA's content manager
@@ -104,46 +90,15 @@ namespace Yna.Framework.Audio
         /// <param name="repeat"></param>
         public void PlayMusic(string assetName, bool repeat)
         {
-            if (_musicEnabled)
-            {
-#if XNA || NETFX_CORE || WINDOWS_PHONE_7
-                Song music = YnG.Content.Load<Song>(assetName);
-                PlayMusic(music, repeat);
-#elif MONOGAME && mWINDOWS
-                if (_windowMediaPlayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
-                    _windowMediaPlayer.controls.stop();
-                
-                _windowMediaPlayer.URL = YnG.Content.RootDirectory + "/" + assetName + ".wma";
-
-                _windowMediaPlayer.controls.play();
-#endif
-            }
+			_audioAdapter.PlayMusic(assetName, repeat);
         }
-
-        /// <summary>
-        /// Play a song music
-        /// </summary>
-        /// <param name="music"></param>
-        /// <param name="repeat"></param>
-        private void PlayMusic(Song music, bool repeat)
-        {
-            StopMusic();
-
-            MediaPlayer.IsRepeating = repeat;
-            MediaPlayer.Play(music);
-        }
-
-        #endregion
-
-        #region Music controls
 
         /// <summary>
         /// Stop the current music
         /// </summary>
         public void StopMusic()
         {
-            if (MediaPlayer.State != MediaState.Stopped)
-                MediaPlayer.Stop();
+			_audioAdapter.StopMusic();
         }
 
         /// <summary>
@@ -151,35 +106,19 @@ namespace Yna.Framework.Audio
         /// </summary>
         public void PauseMusic()
         {
-            if (MediaPlayer.State == MediaState.Playing)
-                MediaPlayer.Pause();
+            _audioAdapter.PauseMusic();
         }
 
         public void ResumeMusic()
         {
-            if (MediaPlayer.State == MediaState.Paused)
-                MediaPlayer.Resume();
+            _audioAdapter.ResumeMusic();
         }
 
         #endregion
 
         public void Dispose()
         {
-            if (MediaPlayer.State == MediaState.Playing)
-                MediaPlayer.Stop();
+			_audioAdapter.Dispose();
         }
     }
-
-#if WINDOWS && DIRECTX1
-    public class MediaPlayer
-    {
-        public static MediaState State { get; set; }
-        public static float Volume { get; set; }
-        public static bool IsRepeating { get; set; }
-        public static void Play(Song music) { }
-        public static void Pause() { }
-        public static void Resume() { }
-        public static void Stop() { }
-    }
-#endif
 }

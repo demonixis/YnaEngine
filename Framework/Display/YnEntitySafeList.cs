@@ -49,7 +49,7 @@ namespace Yna.Framework.Display
         /// <summary>
         /// Initialize entities
         /// </summary>
-        public virtual void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
 

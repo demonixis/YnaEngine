@@ -80,39 +80,53 @@ namespace Yna.Framework
         /// <summary>
         /// Check if objects must be added to the list
         /// </summary>
-        protected virtual void CheckForAdd()
+        protected virtual bool CheckForAdd()
         {
+            bool result = false;
+
             if (_addRequest)
             {
                 _members.AddRange(_membersToAdd);
                 _listSize = _members.Count;
                 _membersToAdd.Clear();
+
+                result = true;
             }
 
             _addRequest = false;
+
+            return result;
         }
 
         /// <summary>
         /// Check if the list must be cleared
         /// </summary>
-        protected virtual void CheckForClear()
+        protected virtual bool CheckForClear()
         {
+            bool result = false;
+
             if (_clearRequest)
             {
                 _members.Clear();
                 _membersToRemove.Clear();
                 _listSize = 0;
+
+                result = true;
             }
 
             _removeRequest = false;
             _clearRequest = false;
+
+            return result;
         }
 
         /// <summary>
         /// Check if objects must be removed from the list
         /// </summary>
-        protected virtual void CheckForRemove()
+        protected virtual bool CheckForRemove()
         {
+            bool result = false;
+
             if (_removeRequest)
             {
                 foreach (T item in _membersToRemove)
@@ -120,9 +134,13 @@ namespace Yna.Framework
 
                 _membersToRemove.Clear();
                 _listSize = _members.Count;
+
+                result = true;
             }
 
             _removeRequest = false;
+
+            return result;
         }
 
         /// <summary>
@@ -131,9 +149,11 @@ namespace Yna.Framework
         /// <param name="gameTime">GameTime object</param>
         public virtual void Update(GameTime gameTime)
         {
-            CheckForClear();
-            CheckForRemove();
-            CheckForAdd();
+            if (CheckForClear())
+            {
+                CheckForRemove();
+                CheckForAdd();
+            }
 
             int size = _members.Count;
 
@@ -167,45 +187,12 @@ namespace Yna.Framework
         }
 
         /// <summary>
-        /// Add an array of items in the collection
-        /// </summary>
-        /// <param name="items">An array of items</param>
-        public virtual void Add(T[] items)
-        {
-            foreach (T item in items)
-                _membersToAdd.Add(item);
-
-            _addRequest = true;
-        }
-
-        /// <summary>
-        /// Force the collection to add the item now
-        /// </summary>
-        /// <param name="item">Item to add</param>
-        public virtual void ForceAdd(T item)
-        {
-            _members.Add(item);
-        }
-
-        /// <summary>
         /// Remove an item from the collection
         /// </summary>
         /// <param name="item">Item</param>
         public virtual void Remove(T item)
         {
             _membersToRemove.Add(item);
-            _removeRequest = true;
-        }
-
-        /// <summary>
-        /// Remove a range of items from the collection
-        /// </summary>
-        /// <param name="items">An array of items</param>
-        public virtual void Remove(T[] items)
-        {
-            foreach (T item in items)
-                _membersToRemove.Add(item);
-
             _removeRequest = true;
         }
 

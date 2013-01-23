@@ -83,15 +83,6 @@ namespace Yna.Framework
         }
 
         /// <summary>
-        /// Add an array of basic objects
-        /// </summary>
-        /// <param name="basicObjects">An array of basic objects</param>
-        public virtual void Add(YnBase[] basicObjects)
-        {
-            _baseList.Add(basicObjects);
-        }
-
-        /// <summary>
         /// Remove a basic object
         /// </summary>
         /// <param name="basicObject">A basic object</param>
@@ -100,14 +91,6 @@ namespace Yna.Framework
             _baseList.Remove(basicObject);
         }
 
-        /// <summary>
-        /// Remove an array of basic objects
-        /// </summary>
-        /// <param name="basicObjects">An array of basic objects</param>
-        public virtual void Remove(YnBase[] basicObjects)
-        {
-            _baseList.Remove(basicObjects);
-        }
 
         /// <summary>
         /// Add a widget to the gui manager
@@ -119,32 +102,12 @@ namespace Yna.Framework
         }
 
         /// <summary>
-        /// Add an arraw of widget to the gui
-        /// </summary>
-        /// <param name="widgets"></param>
-        public virtual void Add(YnWidget[] widgets)
-        {
-            foreach (YnWidget widget in widgets)
-                _guiManager.Add(widget);
-        }
-
-        /// <summary>
         /// Remove a widget from the gui
         /// </summary>
         /// <param name="widget"></param>
         public virtual void Remove(YnWidget widget)
         {
             _guiManager.Remove(widget);
-        }
-
-        /// <summary>
-        /// Remove an array of widget from the gui
-        /// </summary>
-        /// <param name="widgets"></param>
-        public virtual void Remove(YnWidget[] widgets)
-        {
-            foreach (YnWidget widget in widgets)
-                _guiManager.Remove(widget);
         }
 
         /// <summary>

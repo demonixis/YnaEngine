@@ -123,49 +123,12 @@ namespace Yna.Framework.Display
         }
 
         /// <summary>
-        /// Add an array of entity to the scene
-        /// </summary>
-        /// <param name="entities">An array of entities to add</param>
-        public void Add(YnEntity[] entities)
-        {
-            Add(entities, false);
-        }
-
-        /// <summary>
-        /// Add an array of entity to the scene
-        /// </summary>
-        /// <param name="entities">An array of entities to add</param>
-        /// <param name="reload">True for force reload and initialization</param>
-        public void Add(YnEntity[] entities, bool reload)
-        {
-            if (!_assetsLoaded || reload)
-            {
-                foreach (YnEntity entity in entities)
-                {
-                    entity.LoadContent();
-                    entity.Initialize();
-                }
-            }
-
-            _entities.Add(entities);
-        }
-
-        /// <summary>
         /// Remove an entity from the scene
         /// </summary>
         /// <param name="entity">The entity to remove</param>
         public void Remove(YnEntity entity)
         {
             _entities.Remove(entity);
-        }
-
-        /// <summary>
-        /// Remove an array of entity from the scene
-        /// </summary>
-        /// <param name="entities">An array of entities</param>
-        public void Remove(YnEntity[] entities)
-        {
-            _entities.Remove(entities);
         }
 
         /// <summary>
