@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Yna.Framework.Audio
 {
@@ -10,14 +7,14 @@ namespace Yna.Framework.Audio
         Playing = 0, Stopped, Paused
     }
 
-    public abstract class AudioAdapter
+	/// <summary>
+	/// A base class for make an audio adapter who is used to play sound and music
+	/// </summary>
+    public abstract class AudioAdapter : IDisposable
     {
         protected bool _soundEnabled;
         protected bool _musicEnabled;
-        protected float _pitch;
-        protected float _pan;
         protected float _musicVolume;
-        protected float _soundVolume;
         protected bool _repeatMusic;
         protected AudioState _audioState;
 
@@ -35,20 +32,6 @@ namespace Yna.Framework.Audio
             set { _soundEnabled = value; }
         }
 
-        public float SoundVolume
-        {
-            get { return _soundVolume; }
-            set
-            {
-                if (value < 0)
-                    _soundVolume = 0;
-                else if (value > 1)
-                    _soundVolume = 1;
-                else
-                    _soundVolume = value;
-            }
-        }
-
         public float MusicVolume
         {
             get { return _musicVolume; }
@@ -63,34 +46,6 @@ namespace Yna.Framework.Audio
             }
         }
 
-        public float Pitch
-        {
-            get { return _pitch; }
-            set
-            {
-                if (value < 0)
-                    _pitch = 0;
-                else if (value > 1)
-                    _pitch = 1;
-                else
-                    _pitch = value;
-            }
-        }
-
-        public float Pan
-        {
-            get { return _pan; }
-            set
-            {
-                if (value < -1.0f)
-                    _pan = -1.0f;
-                else if (value > 1.0f)
-                    _pan = 1.0f;
-                else
-                    _pan = value;
-            }
-        }
-
         public bool RepeatMusic
         {
             get { return _repeatMusic; }
@@ -100,7 +55,6 @@ namespace Yna.Framework.Audio
         public AudioState AudioState
         {
             get { return _audioState; }
-            protected set { _audioState = value; }
         }
 
         #endregion
@@ -110,15 +64,13 @@ namespace Yna.Framework.Audio
             _musicEnabled = true;
             _soundEnabled = true;
             _musicVolume = 1.0f;
-            _soundVolume = 1.0f;
-            _pan = 0.0f;
-            _pitch = 1.0f;
             _repeatMusic = false;
             _audioState = AudioState.Stopped;
         }
 
         // Music
         public abstract void PlayMusic(string path);
+		public abstract void PlayMusic(string path, bool repeat);
         public abstract void StopMusic();
         public abstract void PauseMusic();
         public abstract void ResumeMusic();
@@ -127,5 +79,7 @@ namespace Yna.Framework.Audio
         public abstract void PlaySound(string path);
         public abstract void PlaySound(string path, float volume);
         public abstract void PlaySound(string path, float volume, float pitch, float pan);
+
+		public abstract void Dispose();
     }
 }

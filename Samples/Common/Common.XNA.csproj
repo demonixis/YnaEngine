@@ -61,9 +61,10 @@
   <ItemGroup>
     <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SamplesConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.XNA.csproj">
+    <ProjectReference Include="..\..\Framework\Yna.csproj">
       <Project>{DE4D83AF-5F2D-465A-8682-52692A8DCE7A}</Project>
       <Name>Yna</Name>
     </ProjectReference>
