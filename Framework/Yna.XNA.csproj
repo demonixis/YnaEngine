@@ -68,12 +68,20 @@
     <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Display3D\Lighting\YnDirectionalLight.cs" />
     <Compile Include="Display3D\Lighting\YnLight.cs" />
+    <Compile Include="Display3D\Procedural\FaceRule.cs" />
+    <Compile Include="Display3D\Procedural\MeshRule.cs" />
+    <Compile Include="Display3D\Procedural\ProcRule.cs" />
+    <Compile Include="Display3D\Procedural\ProcRuleset.cs" />
+    <Compile Include="Display3D\Procedural\RepeatRule.cs" />
+    <Compile Include="Display3D\Procedural\RepeatXRule.cs" />
+    <Compile Include="Display3D\Procedural\RepeatYRule.cs" />
+    <Compile Include="Display3D\Procedural\TopBottomRule.cs" />
     <Compile Include="Display3D\Renderer\QuadRenderer.cs" />
     <Compile Include="Display3D\Renderer\Renderer.cs" />
     <Compile Include="Display3D\YnEntity3DSafeList.cs" />
     <Compile Include="Display\YnEntitySafeList.cs" />
     <Compile Include="Display\YnScene2D.cs" />
-	<Compile Include="Display\Event\VirtualPadEventArgs.cs" />
+    <Compile Include="Display\Event\VirtualPadEventArgs.cs" />
     <Compile Include="Display3D\Camera\BaseCamera.cs" />
     <Compile Include="Display3D\Camera\FixedCamera.cs" />
     <Compile Include="Display3D\Camera\ThirdPersonCamera.cs" />
@@ -184,9 +192,10 @@
     <Compile Include="YnSafeList.cs" />
     <Compile Include="YnScene.cs" />
     <Compile Include="YnTimer.cs" />
-	<Compile Include="Display\Component\YnVirtualPad.cs" />
+    <Compile Include="Display\Component\YnVirtualPad.cs" />
     <Compile Include="Event\ContentEventArgs.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
