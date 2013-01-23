@@ -43,7 +43,7 @@ namespace Yna.Framework.Audio
             {
 #if !LINUX && !MACOSX
                 Song music = YnG.Content.Load<Song>(assetName);
-                PlayMusic(music, repeat);
+                // PlayMusic(music, repeat); // FIXME : repeat attribute is missing ?!
 #endif
             }
         }

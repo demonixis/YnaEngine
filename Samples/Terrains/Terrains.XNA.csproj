@@ -78,17 +78,22 @@
   <ItemGroup>
     <Compile Include="Screens\BasicTerrain.cs" />
     <Compile Include="Screens\HeighmapTerrain.cs" />
+    <Compile Include="Screens\ProceduralSandbox.cs" />
     <Compile Include="TerrainsGame.cs" />
-	<Compile Include="Screens\RandomHeightmap.cs" />
+    <Compile Include="Screens\RandomHeightmap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.csproj">
+    <ProjectReference Include="..\..\Framework\Yna.XNA.csproj">
       <Project>{DE4D83AF-5F2D-465A-8682-52692A8DCE7A}</Project>
       <Name>Yna</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.XNA.csproj">
+      <Project>{5E4182BC-F9B3-4DA2-B0CC-98DF4D4906F8}</Project>
+      <Name>Common.XNA</Name>
     </ProjectReference>
     <ProjectReference Include="..\SamplesContent\Content.contentproj">
       <Project>{F19FA861-79F3-47BB-946F-F2620EFAA70F}</Project>
