@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Screens\BasicTerrain.cs" />
     <Compile Include="Screens\HeighmapTerrain.cs" />
+    <Compile Include="Screens\ProceduralSandbox.cs" />
     <Compile Include="Screens\RandomHeightmap.cs" />
     <Compile Include="TerrainsGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +71,9 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\ThirdParty\MonoGame\WindowsDX\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Content.Pipeline">
+      <HintPath>..\..\ThirdParty\MonoGame\WindowsDX\MonoGame.Framework.Content.Pipeline.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

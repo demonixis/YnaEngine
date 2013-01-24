@@ -43,15 +43,21 @@ namespace Yna.Framework.Audio
             {
 #if !LINUX && !MACOSX
                 Song music = YnG.Content.Load<Song>(assetName);
-                // PlayMusic(music, repeat); // FIXME : repeat attribute is missing ?!
+                PlayMusic(music, false);
 #endif
             }
         }
 
 		public override void PlayMusic (string assetName, bool repeat)
 		{
-			_repeatMusic = repeat;
-			PlayMusic(assetName);
+            if (_musicEnabled)
+            {
+#if !LINUX && !MACOSX
+                _repeatMusic = repeat;
+                Song music = YnG.Content.Load<Song>(assetName);
+                PlayMusic(music, _repeatMusic);
+#endif
+            }
 		}
 
         /// <summary>

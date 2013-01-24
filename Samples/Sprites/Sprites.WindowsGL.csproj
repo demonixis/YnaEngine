@@ -46,7 +46,8 @@
     <Compile Include="SpritesGame.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
+    <Reference Include="MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />

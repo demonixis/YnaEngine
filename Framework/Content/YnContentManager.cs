@@ -45,9 +45,9 @@ namespace Yna.Framework.Content
         {
             _loadedAssets = new Dictionary<string, object>();
             _disposableAssets = new List<IDisposable>();
+            _rootDirectory = "Content";
             _gameDirectory = Directory.GetCurrentDirectory();
             _fullPath = Path.Combine(_gameDirectory, _rootDirectory);
-            _rootDirectory = "Content";
         }
 
         /// <summary>

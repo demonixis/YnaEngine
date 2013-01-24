@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Screens\BasicTerrain.cs" />
     <Compile Include="Screens\HeighmapTerrain.cs" />
+    <Compile Include="Screens\ProceduralSandbox.cs" />
     <Compile Include="Screens\RandomHeightmap.cs" />
     <Compile Include="TerrainsGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -146,10 +146,7 @@ namespace Yna.Framework
             this.graphics.PreferredBackBufferWidth = width;
             this.graphics.PreferredBackBufferHeight = height;
             this.graphics.ApplyChanges();
-#if WINDOWS && DIRECTX
-            // For now GraphicsDevice is null so we can't detect the correct value of IsFullScreen
-            OnScreenResolutionChanged(new ScreenChangedEventArgs(width, height, false));
-#else
+#if !(WINDOWS && DIRECTX)
             OnScreenResolutionChanged(new ScreenChangedEventArgs(width, height, this.graphics.IsFullScreen));
 #endif
         }
