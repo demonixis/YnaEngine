@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yna.Framework;
+using Yna.Engine;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples

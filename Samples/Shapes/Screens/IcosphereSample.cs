@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Display3D;
-using Yna.Framework.Display3D.Primitive;
-using Yna.Framework.Display3D.Camera;
-using Yna.Framework.Display3D.Terrain;
-using Yna.Framework.Display3D.Controls;
-using Yna.Framework.Display3D.Material;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics3D;
+using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Terrain;
+using Yna.Engine.Graphics3D.Controls;
+using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Samples.Screens
 {
@@ -17,7 +17,7 @@ namespace Yna.Samples.Screens
         YnEntity sky;
         SimpleTerrain terrain;
         FirstPersonControl control;
-        IcoSphereShape icosphere;
+        IcoSphereGeometry icosphere;
 
         public IcosphereSample(string name)
             : base(name)
@@ -43,7 +43,7 @@ namespace Yna.Samples.Screens
             terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
 
-            icosphere = new IcoSphereShape("Textures/icosphere_map", 32, 4, false);
+            icosphere = new IcoSphereGeometry("Textures/icosphere_map", 32, 4, false);
             icosphere.Scale = new Vector3(3.5f);
             Add(icosphere);
 

@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Display3D;
-using Yna.Framework.Display3D.Primitive;
-using Yna.Framework.Display3D.Camera;
-using Yna.Framework.Display3D.Terrain;
-using Yna.Framework.Display3D.Controls;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics3D;
+using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Terrain;
+using Yna.Engine.Graphics3D.Controls;
+using Yna.Engine.Graphics3D.Geometry;
 
 namespace Yna.Samples.Screens
 {
@@ -44,14 +44,14 @@ namespace Yna.Samples.Screens
 
             groupCube = new YnGroup3D(null);
 
-            CubeShape cube = null;
+            CubeGeometry cube = null;
             Vector3 cubePosition = new Vector3(0, 1, 35);
 
             for (int i = 0; i < 8; i++)
             {
                 cubePosition.X +=  5;             
 
-                cube = new CubeShape("Textures/pattern02_diffuse", Vector3.One, cubePosition);
+                cube = new CubeGeometry("Textures/pattern02_diffuse", Vector3.One, cubePosition);
                 groupCube.Add(cube);
             }
 

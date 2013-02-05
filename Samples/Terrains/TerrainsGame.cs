@@ -1,5 +1,5 @@
 ﻿using System;
-using Yna.Framework;
+using Yna.Engine;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
@@ -14,7 +14,6 @@ namespace Yna.Samples
         {
             menuItems = new MenuEntry[]
             {
-                new MenuEntry("procgen", "Procedural sandbox", "Procedural sandbox"),
                 new MenuEntry("basicSample", "Simple terrain", "In this sample we create a simple terrain and add a texture on it"),
                 new MenuEntry("heightmapSample", "Heightmap terrain", "In this sample we create an heightmap terrain with two texture"),
                 new MenuEntry("randomHeightmapSample", "Random Heightmap", "In this sample we create a random heightmap with a generated texture"),
@@ -27,7 +26,6 @@ namespace Yna.Samples
 
             menu = new Menu("menu", "Terrains", menuItems);
             stateManager.Add(menu, true);
-            stateManager.Add(new ProceduralSandbox("procgen"), false);
             stateManager.Add(new BasicTerrain("basicSample"), false);
             stateManager.Add(new HeighmapTerrain("heightmapSample"), false);
             stateManager.Add(new RandomHeightmap("randomHeightmapSample"), false);

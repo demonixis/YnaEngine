@@ -54,7 +54,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.WindowsDX.csproj">
+    <ProjectReference Include="..\..\Engine\Yna.WindowsDX.csproj">
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.WindowsDX</Name>
     </ProjectReference>

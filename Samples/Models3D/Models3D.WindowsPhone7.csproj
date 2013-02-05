@@ -82,7 +82,7 @@
     <Content Include="PhoneGameThumb.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.WindowsPhone7.csproj">
+    <ProjectReference Include="..\..\Engine\Yna.WindowsPhone7.csproj">
       <Project>{248413E0-47D0-44A3-BEDD-11E0200551C1}</Project>
       <Name>Yna.WindowsPhone7</Name>
     </ProjectReference>

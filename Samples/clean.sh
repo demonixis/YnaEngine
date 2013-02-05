@@ -28,6 +28,9 @@ rm -Rf Terrains/obj
 rm -Rf Sprites/bin
 rm -Rf Sprites/obj
 
+rm -Rf Shapes/bin
+rm -Rf Shapes/obj
+
 rm -Rf Storage/bin
 rm -Rf Storage/obj
 

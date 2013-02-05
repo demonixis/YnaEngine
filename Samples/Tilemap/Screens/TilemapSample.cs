@@ -1,15 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Display.TileMap.Basic;
-using Yna.Framework.Helpers;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics.TileMap.Basic;
+using Yna.Engine.Helpers;
 using Yna.Samples.Data;
 
 namespace Yna.Samples.Screens
 {
-    public class TilemapSample : YnState
+    public class TilemapSample : YnState2D
     {
         private TileMap2D map;
         private Vector2 camera;
@@ -17,7 +17,7 @@ namespace Yna.Samples.Screens
         private Texture2D texture;
 
         public TilemapSample(string name)
-            : base(name, 0, 0)
+            : base(name)
         {
             // A TiledMap contains layers which contains the tiles definitions.
             // Each layer is rendered on top of the previous one. There is no

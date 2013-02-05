@@ -47,7 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.WindowsGL.csproj">
+    <ProjectReference Include="..\..\Engine\Yna.WindowsGL.csproj">
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.WindowsGL</Name>
     </ProjectReference>

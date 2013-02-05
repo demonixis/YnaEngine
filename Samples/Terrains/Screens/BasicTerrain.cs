@@ -1,26 +1,29 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Display.Component;
-using Yna.Framework.Display3D;
-using Yna.Framework.Display3D.Camera;
-using Yna.Framework.Display3D.Terrain;
-using Yna.Framework.Display3D.Controls;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics.Component;
+using Yna.Engine.Graphics3D;
+using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Terrain;
+using Yna.Engine.Graphics3D.Controls;
 
 namespace Yna.Samples.Screens
 {
     public class BasicTerrain : YnState3D
     {
+        // Two controls
         FirstPersonControl control;
-        YnEntity sky;
-        YnText textInfo;
-        SimpleTerrain terrain;
-        YnModel alienModel;
-        RasterizerState rasterizerState;
         YnVirtualPadController virtualPad;
 
+        YnEntity sky;
+        SimpleTerrain terrain;
+        YnModel alienModel;
+        
+        // VirtualPad vectors
+        private Vector3 virtalPadMovement = Vector3.Zero;
+        private Vector3 virtualPadRotation = Vector3.Zero;
 
         public BasicTerrain(string name)
             : base(name)
@@ -40,20 +43,19 @@ namespace Yna.Samples.Screens
             control.MaxVelocityRotation = 0.96f;
             Add(control);
 
-            // 3 - Create a simple terrain with a size of 100x100 with 1x1 space between each vertex
+            // 3 - The virtual pad
+            virtualPad = new YnVirtualPadController();
+     
+            // 4 - Create a simple terrain with a size of 100x100 with 1x1 space between each vertex
             terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50);
             Add(terrain);
 
+            // 5 - And add an alien
             alienModel = new YnModel("Models/Alien/alien1_L");
             Add(alienModel);
 
-            // Sky & debug text ;)
+            // 6 - A fake sky
             sky = new YnEntity("Textures/Sky");
-            textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
-
-            rasterizerState = new RasterizerState();
-
-            virtualPad = new YnVirtualPadController();
         }
 
         public override void LoadContent()
@@ -63,12 +65,6 @@ namespace Yna.Samples.Screens
             // Sky
             sky.LoadContent();
             sky.SetFullScreen();
-
-            // Debug text config
-            textInfo.LoadContent();
-            textInfo.Position = new Vector2(10, 10);
-            textInfo.Color = Color.Wheat;
-            textInfo.Scale = new Vector2(1.1f);
 
             virtualPad.LoadContent();
 
@@ -81,8 +77,6 @@ namespace Yna.Samples.Screens
                 (terrain.Depth / 2) - (alienModel.Depth / 2));
         }
 
-        Vector3 virtalPadMovement = Vector3.Zero;
-
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -90,29 +84,39 @@ namespace Yna.Samples.Screens
             virtualPad.Update(gameTime);
 
             virtalPadMovement = Vector3.Zero;
+            virtualPadRotation = Vector3.Zero;
 
-            if (virtualPad.Up)
-                virtalPadMovement.Z = control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.001f;
+            if (virtualPad.Pressed(PadButtons.Up))
+                virtalPadMovement.Z = control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
 
-            if (virtualPad.Down)
-                virtalPadMovement.Z = -control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.001f;
+            else if (virtualPad.Pressed(PadButtons.Down))
+                virtalPadMovement.Z = -control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
+
+            if (virtualPad.Pressed(PadButtons.Left))
+                virtalPadMovement.X = control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
+
+            else if (virtualPad.Pressed(PadButtons.Right))
+                virtalPadMovement.X = -control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
+
+            if (virtualPad.Pressed(PadButtons.StrafeLeft))
+                virtualPadRotation.Y = control.RotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
+
+            else if (virtualPad.Pressed(PadButtons.StrafeRight))
+                virtualPadRotation.Y = -control.RotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
+
+            if (virtualPad.Pressed(PadButtons.ButtonA))
+                virtalPadMovement.Y = control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
+
+            else if (virtualPad.Pressed(PadButtons.ButtonB))
+                virtalPadMovement.Y = -control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
 
             control.VelocityPosition += virtalPadMovement;
+            control.VelocityRotation += virtualPadRotation;
             control.UpdatePhysics(gameTime);
-            Camera.Update(gameTime);
-
-            if (YnG.Keys.JustPressed(Keys.Escape) || virtualPad.ButtonPause)
+            
+            // Back to the menu
+            if (YnG.Keys.JustPressed(Keys.Escape) || virtualPad.Pressed(PadButtons.Pause))
                 YnG.StateManager.SetStateActive("menu", true);
-
-            // Choose if you wan't wireframe or solid rendering
-            if (YnG.Keys.JustPressed(Keys.F1) || YnG.Keys.JustPressed(Keys.F2))
-            {
-                if (YnG.Keys.JustPressed(Keys.F1))
-                    rasterizerState = new RasterizerState() { FillMode = FillMode.WireFrame };
-
-                else if (YnG.Keys.JustPressed(Keys.F2))
-                    rasterizerState = new RasterizerState() { FillMode = FillMode.Solid };
-            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -122,14 +126,10 @@ namespace Yna.Samples.Screens
             // Draw 2D part
             spriteBatch.Begin();
             sky.Draw(gameTime, spriteBatch);
-            textInfo.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 
             // Restore default states for 3D
             YnG3.RestoreGraphicsDeviceStates();
-
-            // Wirefram or solid fillmode
-            YnG.GraphicsDevice.RasterizerState = rasterizerState;
 
             base.Draw(gameTime);
 

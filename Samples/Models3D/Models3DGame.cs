@@ -1,5 +1,5 @@
 ﻿using System;
-using Yna.Framework;
+using Yna.Engine;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples

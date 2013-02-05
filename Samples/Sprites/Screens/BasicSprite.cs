@@ -2,12 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Yna.Framework;
-using Yna.Framework.Display;
+using Yna.Engine;
+using Yna.Engine.Graphics;
 
 namespace Yna.Samples.Screens
 {
-    public class BasicSprites : YnState
+    public class BasicSprites : YnState2D
     {
         private const int numSprites = 10;
 
@@ -17,7 +17,7 @@ namespace Yna.Samples.Screens
         private Song music;
 
         public BasicSprites(string name)
-            : base(name, 500f, 50f)
+            : base(name)
         {
             background = new YnSprite(new Rectangle(0, 0, YnG.Width, YnG.Height), Color.AliceBlue);
             Add(background);

@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{248413E0-47D0-44A3-BEDD-11E0200551C1}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Windows Phone</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Yna.Engine</RootNamespace>
+    <AssemblyName>Yna.Engine</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <XnaRefreshLevel>1</XnaRefreshLevel>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaPlatform>Windows Phone</XnaPlatform>
+    <XnaProfile>Reach</XnaProfile>
+    <XnaCrossPlatformGroupID>7ed96ef3-d724-4539-8422-da1cc15c2db6</XnaCrossPlatformGroupID>
+    <XnaOutputType>Library</XnaOutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Windows Phone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Windows Phone 7\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWS_PHONE;WINDOWS_PHONE_7</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Windows Phone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Windows Phone 7\Release</OutputPath>
+    <DefineConstants>TRACE;WINDOWS_PHONE;WINDOWS_PHONE_7</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="Microsoft.Xna.Framework.Game" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics" />
+    <Reference Include="Microsoft.Xna.Framework.GamerServices" />
+    <Reference Include="Microsoft.Xna.Framework.Input.Touch" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\AudioAdapter.cs" />
+    <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Audio\XnaAudioAdapter.cs" />
+    <Compile Include="Collision\YnCollide3.cs" />
+    <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
+    <Compile Include="Extensions\RectangleExtension.cs" />
+    <Compile Include="Extensions\Vector2Extension.cs" />
+    <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
+    <Compile Include="Graphics\YnCircle.cs" />
+    <Compile Include="Storage\XnaPhoneStorageDevice.cs" />
+    <Compile Include="Graphics3D\Lighting\YnDirectionalLight.cs" />
+    <Compile Include="Graphics3D\Lighting\YnLight.cs" />
+    <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
+    <Compile Include="Graphics3D\Renderer\MeshRenderer.cs" />
+    <Compile Include="Graphics3D\Terrain\Skybox.cs" />
+    <Compile Include="Graphics3D\YnMesh.cs" />
+    <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
+    <Compile Include="Graphics\Animation\YnInterpolator.cs" />
+    <Compile Include="Graphics\Event\AnimationEventArgs.cs" />
+    <Compile Include="Graphics\YnEntityList.cs" />
+    <Compile Include="Graphics\Scene\BaseScene.cs" />
+    <Compile Include="Graphics\Scene\YnScene2D.cs" />
+    <Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
+    <Compile Include="Graphics\Event\VirtualPadEventArgs.cs" />
+    <Compile Include="Graphics\Component\YnVirtualPad.cs" />
+    <Compile Include="Content\ContentEventArgs.cs" />
+    <Compile Include="Graphics3D\Camera\BaseCamera.cs" />
+    <Compile Include="Graphics3D\Camera\FixedCamera.cs" />
+    <Compile Include="Graphics3D\Camera\ThirdPersonCamera.cs" />
+    <Compile Include="Graphics3D\Camera\TopCamera.cs" />
+    <Compile Include="Graphics3D\Controls\BaseControl.cs" />
+    <Compile Include="Graphics3D\Controls\FirstPersonControl.cs" />
+    <Compile Include="Graphics3D\Controls\KeyMapping.cs" />
+    <Compile Include="Graphics3D\Controls\ThirdPersonControl.cs" />
+    <Compile Include="Graphics3D\Lighting\YnBasicLight.cs" />
+    <Compile Include="Graphics3D\Material\DualTextureMaterial.cs" />
+    <Compile Include="Graphics3D\Material\EnvironmentMapMaterial.cs" />
+    <Compile Include="Graphics3D\Material\StockMaterial.cs" />
+    <Compile Include="Graphics3D\Material\BaseMaterial.cs" />
+    <Compile Include="Graphics3D\Material\BasicMaterial.cs" />
+    <Compile Include="Graphics3D\Material\NormalMapMaterial.cs" />
+    <Compile Include="Graphics3D\Geometry\IcoSphereShape.cs" />
+    <Compile Include="Graphics3D\Geometry\PlaneGeometry.cs" />
+    <Compile Include="Graphics3D\Geometry\BaseGeometry.cs" />
+    <Compile Include="Graphics3D\Geometry\CubeGeometry.cs" />
+    <Compile Include="Graphics3D\Renderer\BoundingBoxRenderer.cs" />
+    <Compile Include="Graphics3D\Renderer\RayRenderer.cs" />
+    <Compile Include="Graphics3D\Renderer\BoundingFrustrumRenderer.cs" />
+    <Compile Include="Graphics3D\YnG3.cs" />
+    <Compile Include="Graphics3D\YnGroup3D.cs" />
+    <Compile Include="Graphics3D\YnModel.cs" />
+    <Compile Include="Graphics3D\YnEntity3D.cs" />
+    <Compile Include="Graphics3D\Terrain\Heightmap.cs" />
+    <Compile Include="Graphics3D\Terrain\BaseTerrain.cs" />
+    <Compile Include="Graphics3D\Terrain\SimpleTerrain.cs" />
+    <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
+    <Compile Include="Graphics3D\YnScene.cs" />
+    <Compile Include="Graphics3D\YnState3D.cs" />
+    <Compile Include="Graphics\Event\TouchSpriteEvents.cs" />
+    <Compile Include="Graphics\YnGraphics.cs" />
+    <Compile Include="Graphics\YnText.cs" />
+    <Compile Include="Graphics\YnSceneCamera2D.cs" />
+    <Compile Include="Graphics\Animation\SpriteAnimation.cs" />
+    <Compile Include="Graphics\Animation\SpriteAnimator.cs" />
+    <Compile Include="Graphics\Animation\YnTransitionEffect.cs" />
+    <Compile Include="Graphics\Animation\YnShakeEffect.cs" />
+    <Compile Include="Graphics\Event\GlobalEventArgs.cs" />
+    <Compile Include="Graphics\Event\MouseSpriteEvents.cs" />
+    <Compile Include="Graphics\Gui\YnCheckbox.cs" />
+    <Compile Include="Graphics\Gui\YnGui.cs" />
+    <Compile Include="Graphics\Gui\YnBorder.cs" />
+    <Compile Include="Graphics\Gui\YnButton.cs" />
+    <Compile Include="Graphics\Gui\YnLabel.cs" />
+    <Compile Include="Graphics\Gui\YnMessageBox.cs" />
+    <Compile Include="Graphics\Gui\YnPanel.cs" />
+    <Compile Include="Graphics\Gui\YnProgressBar.cs" />
+    <Compile Include="Graphics\Gui\YnSkin.cs" />
+    <Compile Include="Graphics\Gui\YnSkinGenerator.cs" />
+    <Compile Include="Graphics\Gui\YnSlider.cs" />
+    <Compile Include="Graphics\Gui\YnTextBox.cs" />
+    <Compile Include="Graphics\Gui\YnTextButton.cs" />
+    <Compile Include="Graphics\Gui\YnWidget.cs" />
+    <Compile Include="Graphics\Gui\YnWindow.cs" />
+    <Compile Include="Collision\YnCollide.cs" />
+    <Compile Include="Graphics\YnSprite.cs" />
+    <Compile Include="Graphics\TileMap\BaseLayer.cs" />
+    <Compile Include="Graphics\TileMap\BaseTile.cs" />
+    <Compile Include="Graphics\TileMap\BaseTileMap.cs" />
+    <Compile Include="Graphics\TileMap\Basic\Layer2D.cs" />
+    <Compile Include="Graphics\TileMap\Basic\Tile2D.cs" />
+    <Compile Include="Graphics\TileMap\Basic\TileMap2D.cs" />
+    <Compile Include="Graphics\TileMap\Iso\LayerIso.cs" />
+    <Compile Include="Graphics\TileMap\Iso\TileIso.cs" />
+    <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
+    <Compile Include="Graphics\Event\ScreenEvents.cs" />
+    <Compile Include="Helpers\ContentHelper.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\IsometricHelper.cs" />
+    <Compile Include="Helpers\ScreenHelper.cs" />
+    <Compile Include="Input\Component\GamepadComponent.cs" />
+    <Compile Include="Input\Component\KeyboardComponent.cs" />
+    <Compile Include="Input\Component\MouseComponent.cs" />
+    <Compile Include="Input\Component\TouchComponent.cs" />
+    <Compile Include="Input\YnGamepad.cs" />
+    <Compile Include="Input\YnKeyboard.cs" />
+    <Compile Include="Input\YnMouse.cs" />
+    <Compile Include="Input\YnTouch.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="State\BaseState.cs" />
+    <Compile Include="State\StateManager.cs" />
+    <Compile Include="State\YnStateList.cs" />
+    <Compile Include="Storage\IStorageDevice.cs" />
+    <Compile Include="Storage\StorageManager.cs" />
+    <Compile Include="Script\MoveScript.cs" />
+    <Compile Include="Script\BaseScriptNode.cs" />
+    <Compile Include="Script\ScriptAnimator.cs" />
+    <Compile Include="Script\WaitScript.cs" />
+    <Compile Include="Graphics\YnState2D.cs" />
+    <Compile Include="YnBase.cs" />
+    <Compile Include="Graphics3D\YnBase3D.cs" />
+    <Compile Include="YnG.cs" />
+    <Compile Include="YnGame.cs" />
+    <Compile Include="Graphics\YnGroup.cs" />
+    <Compile Include="Graphics\YnEntity.cs" />
+    <Compile Include="YnInterface.cs" />
+    <Compile Include="YnList.cs" />
+    <Compile Include="YnQuadTree.cs" />
+    <Compile Include="YnTimer.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>

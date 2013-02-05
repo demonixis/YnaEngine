@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Framework;
-using Yna.Framework.Input;
-using Yna.Framework.Display;
-using Yna.Framework.Display3D;
-using Yna.Framework.Display3D.Camera;
-using Yna.Framework.Display3D.Terrain;
-using Yna.Framework.Display3D.Controls;
-using Yna.Framework.Display3D.Material;
+using Yna.Engine;
+using Yna.Engine.Input;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics3D;
+using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Terrain;
+using Yna.Engine.Graphics3D.Controls;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Samples.Screens
 {

@@ -8,8 +8,8 @@ rm -Rf *.cachefile
 rm -Rf *.pidb
 rm -Rf *.DS_Store
 
-rm -Rf Framework/bin
-rm -Rf Framework/obj
+rm -Rf Engine/bin
+rm -Rf Engine/obj
 
 rm -Rf Plugins/Wiimote/bin
 rm -Rf Plugins/Wiimote/debug

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Display.Gui;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics.Gui;
 
 namespace Yna.Samples
 {
@@ -21,14 +21,14 @@ namespace Yna.Samples
         }
     }
 
-    public class Menu : YnState
+    public class Menu : YnState2D
     {
         private YnLabel _tooltip;
         private string _menuTitle;
         private MenuEntry[] menuItems;
 
         public Menu(string name, string title, MenuEntry[] items)
-            : base(name, 0, 0)
+            : base(name)
         {
             YnG.StateManager.ClearColor = new Color(13, 34, 56);
             YnG.ShowMouse = true;
@@ -43,7 +43,7 @@ namespace Yna.Samples
             BuildGui();
         }
 
-        public override void BuildGui()
+        public void BuildGui()
         {
             Gui.Clear();
 
@@ -81,9 +81,9 @@ namespace Yna.Samples
 
             Gui.PrepareWidgets();
 
-            menu.Position = new Vector2(YnG.DeviceWidth / 2 - menu.Width / 2, 250);
-            titleLabel.Position = new Vector2(YnG.DeviceWidth / 2 - titleLabel.Width / 2, 50);
-            toggleLabel.Position = new Vector2(YnG.DeviceWidth - toggleLabel.Width - 15, 15);
+            menu.Position = new Vector2(YnG.Width / 2 - menu.Width / 2, 250);
+            titleLabel.Position = new Vector2(YnG.Width / 2 - titleLabel.Width / 2, 50);
+            toggleLabel.Position = new Vector2(YnG.Width - toggleLabel.Width - 15, 15);
         }
 
         private YnButton CreateButton(string stateName, string label, string tooltip)

@@ -1,15 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Display.TileMap.Isometric;
-using Yna.Framework.Helpers;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics.TileMap.Isometric;
+using Yna.Engine.Helpers;
 using Yna.Samples.Data;
 
 namespace Yna.Samples.Screens
 {
-    public class IsometricMapSample : YnState
+    public class IsometricMapSample : YnState2D
     {
         private TileMapIso _map;
         private Vector2 camera;
@@ -17,7 +17,7 @@ namespace Yna.Samples.Screens
         private Texture2D texture;
 
         public IsometricMapSample(string name)
-            : base(name, 0, 0)
+            : base(name)
         {
             LayerIso groundLayer = new LayerIso("tilesets/iso_ground_tileset", IsometricMap.GroundData);
 

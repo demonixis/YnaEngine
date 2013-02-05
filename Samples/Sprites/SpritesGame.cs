@@ -1,5 +1,5 @@
 ﻿using System;
-using Yna.Framework;
+using Yna.Engine;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
@@ -16,6 +16,7 @@ namespace Yna.Samples
             {
                 new MenuEntry("basicSample", "Sprite generation", "In this sample we create some sprites and move/rotate it"),
                 new MenuEntry("spritesheetSample", "Animated sprites", "In this sample we create animated sprites with spritesheets"),
+                new MenuEntry("virtualPadSample", "Virtual Pad", "This is the same sample as \"Animated Sprites\" but \nwe use a virtual pad for moving the player"),
             };
         }
 
@@ -27,6 +28,7 @@ namespace Yna.Samples
             stateManager.Add(menu, true);
             stateManager.Add(new BasicSprites("basicSample"), false);
             stateManager.Add(new AnimatedSprites("spritesheetSample"), false);
+            stateManager.Add(new AnimatedSpriteVirtualPad("virtualPadSample"), false);
         }
 
 #if !WINDOWS_PHONE

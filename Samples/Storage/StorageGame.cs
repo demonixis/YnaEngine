@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Framework;
-using Yna.Framework.Display;
+using Yna.Engine;
+using Yna.Engine.Graphics;
 
 namespace Yna.Samples
 {
@@ -46,7 +46,7 @@ namespace Yna.Samples
             // Load and initialize the debut text 
             playerDebugText.LoadContent();
             playerDebugText.Scale = new Vector2(1.5f);
-            playerDebugText.Position = new Vector2(YnG.Width / 2 - playerDebugText.ScaledWidth / 2, YnG.Height / 2 - playerDebugText.ScaledHeight / 2);
+            playerDebugText.Position = new Vector2(YnG.Width / 2 - playerDebugText.Width / 2, YnG.Height / 2 - playerDebugText.Height / 2);
             playerDebugText.Color = Color.BlanchedAlmond;
         }
 

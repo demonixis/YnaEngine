@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Input;
-using Yna.Framework.Script;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Input;
+using Yna.Engine.Script;
+using Yna.Engine.Collision;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Samples.Screens
 {
-    public class AnimatedSprites : YnState
+    public class AnimatedSprites : YnState2D
     {
         // We create the background
         private YnEntity background;
@@ -33,7 +34,7 @@ namespace Yna.Samples.Screens
         private List<YnEntity> spriteToCollide;
 
         public AnimatedSprites(string name)
-            : base(name, 1500, 0)
+            : base(name)
         {
 
             background = new YnEntity("Scene/GreenGround");

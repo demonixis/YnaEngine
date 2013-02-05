@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terrains.MacOSX", "Terrains\Terrains.MacOSX.csproj", "{ED7BB69B-5ECA-47B5-A20E-0336647037CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.MacOSX", "..\Framework\Yna.MacOSX.csproj", "{EDC8FA64-8D97-4363-9F9A-8544E59CF661}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.MacOSX", "..\Engine\Yna.MacOSX.csproj", "{EDC8FA64-8D97-4363-9F9A-8544E59CF661}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

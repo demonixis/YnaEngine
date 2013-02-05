@@ -2,17 +2,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Display.Gui;
-using Yna.Framework.Display.Event;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics.Gui;
+using Yna.Engine.Graphics.Event;
 
 namespace Yna.Samples
 {
     /// <summary>
     /// Description of UIExample.
     /// </summary>
-    public class GuiState : YnState
+    public class GuiState : YnState2D
     {
         private YnGui gui;
         private Texture2D background;
@@ -20,13 +20,13 @@ namespace Yna.Samples
         private YnLabel progressLabel;
 
         public GuiState(string name)
-            : base(name, 0, 0)
+            : base(name)
         {
             YnG.ShowMouse = true;
             gui = new YnGui(YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font"));
         }
 
-        public override void BuildGui()
+        public void BuildGui()
         {
             // Buttons in a toolbar
             int tileSize = 100;

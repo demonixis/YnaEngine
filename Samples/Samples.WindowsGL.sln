@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprites.WindowsGL", "Sprite
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tilemap.WindowsGL", "Tilemap\Tilemap.WindowsGL.csproj", "{7EC25909-3DF8-48AC-A9AB-2866B35F057F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsGL", "..\Framework\Yna.WindowsGL.csproj", "{BF58CAF2-143A-420C-8C0E-11D438522C35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsGL", "..\Engine\Yna.WindowsGL.csproj", "{BF58CAF2-143A-420C-8C0E-11D438522C35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terrains.WindowsGL", "Terrains\Terrains.WindowsGL.csproj", "{A5ECD972-39BA-459E-9EC4-E2F19B60045B}"
 EndProject

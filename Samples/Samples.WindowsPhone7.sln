@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terrains.WindowsPhone7", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tilemap.WindowsPhone7", "Tilemap\Tilemap.WindowsPhone7.csproj", "{3316AA35-6FF7-451D-869F-A5D6A93CCC9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsPhone7", "..\Framework\Yna.WindowsPhone7.csproj", "{248413E0-47D0-44A3-BEDD-11E0200551C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsPhone7", "..\Engine\Yna.WindowsPhone7.csproj", "{248413E0-47D0-44A3-BEDD-11E0200551C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content", "SamplesContent\Content.contentproj", "{F19FA861-79F3-47BB-946F-F2620EFAA70F}"
 EndProject

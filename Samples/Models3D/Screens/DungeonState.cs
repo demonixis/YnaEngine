@@ -2,12 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Framework;
-using Yna.Framework.Display;
-using Yna.Framework.Display3D;
-using Yna.Framework.Display3D.Camera;
-using Yna.Framework.Display3D.Terrain;
-using Yna.Framework.Display3D.Controls;
+using Yna.Engine;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics3D;
+using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Terrain;
+using Yna.Engine.Graphics3D.Controls;
 
 namespace Yna.Samples.Screens
 {
@@ -44,9 +44,9 @@ namespace Yna.Samples.Screens
             dungeon.Scale = new Vector3(20.0f);
             Add(dungeon);
 
-            Scene.BasicLight.AmbientIntensity = 2;
+            Scene.BasicLight.AmbientIntensity = 1;
             Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, -1, 0.5f);
-            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.Blue.ToVector3();
+            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.White.ToVector3();
             Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Red.ToVector3();
 
             // Sky & debug text ;)
