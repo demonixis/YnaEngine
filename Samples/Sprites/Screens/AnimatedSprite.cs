@@ -31,6 +31,7 @@ namespace Yna.Samples.Screens
 
         private ScriptAnimator womanAnimator;
 
+        private YnQuadTree quadTree;
         private List<YnEntity> spriteToCollide;
 
         public AnimatedSprites(string name)
@@ -65,6 +66,8 @@ namespace Yna.Samples.Screens
 
             textInfo = new YnText("Fonts/DefaultFont", "Press S for shake the screen\nUse Right click to move the scene\nUse Middle click to rotate the scene\nUseLeft click to reset", Vector2.Zero, Color.YellowGreen);
             Add(textInfo);
+
+            quadTree = new YnQuadTree(0, new Rectangle(0, 0, YnG.Width, YnG.Height));
 
             spriteToCollide = new List<YnEntity>(5);
             spriteToCollide.Add(womanSprite);
@@ -116,6 +119,11 @@ namespace Yna.Samples.Screens
         {
             base.Update(gameTime);
 
+            // Update the quadtree structure
+            quadTree.Clear();
+            foreach (YnEntity entity in spriteToCollide)
+                quadTree.Add(entity);
+            
             womanAnimator.Update(gameTime);
 
             // Move the sprite of the man
@@ -161,8 +169,18 @@ namespace Yna.Samples.Screens
             UpdateAnimations(manSprite);
             UpdateAnimations(gunnerSprite);
 
+            /*
             if (YnCollide.CollideOneWithGroup(manSprite, spriteToCollide))
                 manSprite.Position = manSprite.LastPosition;
+            */
+
+            List<ICollidable2> collidables = quadTree.GetCandidates(manSprite);
+
+            foreach (ICollidable2 collidable in collidables)
+            {
+                if (manSprite.Rectangle.Intersects(collidable.Rectangle))
+                    manSprite.Position = manSprite.LastPosition;
+            }
 
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape))

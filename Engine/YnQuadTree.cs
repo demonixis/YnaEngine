@@ -156,7 +156,7 @@ namespace Yna.Engine
         /// </summary>
         /// <param name="entity">A collidable entity to test</param>
         /// <returns>An array of collidable elements</returns>
-        public ICollidable2[] GetRectangles(ICollidable2 entity)
+        public List<ICollidable2> GetCandidates(ICollidable2 entity)
         {
             List<ICollidable2> candidates = new List<ICollidable2>();
 
@@ -164,12 +164,12 @@ namespace Yna.Engine
 
             // If the space is already splited we get node objects that can potentially collide with this entity
             if (index > -1 && _nodes[0] != null)
-                candidates.AddRange(_nodes[index].GetRectangles(entity));
+                candidates.AddRange(_nodes[index].GetCandidates(entity));
             
             // All remaining objects can potentially collide with this entity
             candidates.AddRange(_objects);
 
-            return candidates.ToArray<ICollidable2>();
+            return candidates;
         }
     }
 }
