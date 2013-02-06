@@ -68,7 +68,7 @@ namespace Yna.Samples.Screens
             Add(textInfo);
 
             quadTree = new YnQuadTree(0, new Rectangle(0, 0, YnG.Width, YnG.Height));
-
+            quadTree.MaxObjectsPerNode = 2;
             spriteToCollide = new List<YnEntity>(5);
             spriteToCollide.Add(womanSprite);
             spriteToCollide.Add(gunnerSprite);
@@ -120,9 +120,7 @@ namespace Yna.Samples.Screens
             base.Update(gameTime);
 
             // Update the quadtree structure
-            quadTree.Clear();
-            foreach (YnEntity entity in spriteToCollide)
-                quadTree.Add(entity);
+            quadTree.Begin(spriteToCollide.ToArray());
             
             womanAnimator.Update(gameTime);
 
@@ -168,13 +166,12 @@ namespace Yna.Samples.Screens
             UpdateAnimations(womanSprite);
             UpdateAnimations(manSprite);
             UpdateAnimations(gunnerSprite);
-
-            List<ICollidable2> collidables = quadTree.GetCandidates(manSprite);
-            foreach (ICollidable2 collidable in collidables)
-            {
-                if (manSprite.Rectangle.Intersects(collidable.Rectangle))
-                    manSprite.Position = manSprite.LastPosition;
-            }
+  
+            quadTree.Test(manSprite, (mSprite, lSprite) =>
+                {
+                    if (mSprite.Rectangle.Intersects(lSprite.Rectangle))
+                        manSprite.Position = manSprite.LastPosition;
+                });
 
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape))

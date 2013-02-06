@@ -11,10 +11,35 @@ namespace Yna.Engine
     /// </summary>
     public class YnQuadTree
     {
-        public int MaxObjectsPerNode = 10;
-        public int MaxLevels = 5;
+        /// <summary>
+        /// Gets or sets the number of object per node
+        /// </summary>
+        public int MaxObjectsPerNode
+        {
+            get { return _maxObjectsPerNode; }
+            set
+            {
+                if (value > 0)
+                    _maxObjectsPerNode = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the number of sub level
+        /// </summary>
+        public int MaxLevels
+        {
+            get { return _maxSubLevels; }
+            set
+            {
+                if (value > 0)
+                    _maxSubLevels = value;
+            }
+        }
 
         private int _level;
+        private int _maxObjectsPerNode;
+        private int _maxSubLevels;
         private List<ICollidable2> _objects;
         private Rectangle _quadBounds;
         private YnQuadTree[] _nodes;
@@ -26,6 +51,8 @@ namespace Yna.Engine
         /// <param name="quadBounds">The size to use for the QuadTree</param>
         public YnQuadTree(int level, Rectangle quadBounds)
         {
+            _maxSubLevels = 5;
+            _maxObjectsPerNode = 10;
             _level = level;
             _objects = new List<ICollidable2>();
             _quadBounds = quadBounds;
@@ -33,6 +60,42 @@ namespace Yna.Engine
 
             for (int i = 0; i < 4; i++)
                 _nodes[i] = null;
+        }
+
+        /// <summary>
+        /// Clear the quadtree and add collidables objects on it
+        /// </summary>
+        /// <param name="collidables">An array of collidable objects</param>
+        public void Begin(ICollidable2[] collidables)
+        {
+            Clear();
+            foreach (ICollidable2 collidable in collidables)
+                Add(collidable);
+        }
+
+        public delegate void testFunction(ICollidable2 colliderA, ICollidable2 colliderB);
+
+        public bool Test(ICollidable2[] collidables, testFunction functionTest)
+        {
+            bool hasCandidate = false;
+
+            List<ICollidable2> candidates;
+            foreach (ICollidable2 collidable in collidables)
+            {
+                candidates = GetCandidates(collidable);
+                foreach (ICollidable2 candidate in candidates)
+                {
+                    functionTest(collidable, candidate);
+                    hasCandidate = true;
+                }
+            }
+
+            return hasCandidate;
+        }
+
+        public bool Test(ICollidable2 collidable, testFunction functionTest)
+        {
+            return Test(new ICollidable2[] { collidable }, functionTest);
         }
 
         /// <summary>
@@ -126,17 +189,15 @@ namespace Yna.Engine
             }
 
             _objects.Add(entity);
-            
-            int nbObjects = _objects.Count;
 
             // Split the space if we have too many objects. The limit is MaxLevels
-            if (nbObjects > MaxObjectsPerNode && _level < MaxLevels)
+            if (_objects.Count > _maxObjectsPerNode && _level < _maxSubLevels)
             {
                 if (_nodes[0] == null)
                     Split();
 
                 int i = 0;
-                while (i < nbObjects)
+                while (i < _objects.Count)
                 {
                     int index = GetNodeIndex(_objects[i].Rectangle);
                     if (index > -1)
@@ -165,7 +226,7 @@ namespace Yna.Engine
             // If the space is already splited we get node objects that can potentially collide with this entity
             if (index > -1 && _nodes[0] != null)
                 candidates.AddRange(_nodes[index].GetCandidates(entity));
-            
+
             // All remaining objects can potentially collide with this entity
             candidates.AddRange(_objects);
 
