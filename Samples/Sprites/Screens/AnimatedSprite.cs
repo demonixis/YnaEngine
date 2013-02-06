@@ -169,13 +169,7 @@ namespace Yna.Samples.Screens
             UpdateAnimations(manSprite);
             UpdateAnimations(gunnerSprite);
 
-            /*
-            if (YnCollide.CollideOneWithGroup(manSprite, spriteToCollide))
-                manSprite.Position = manSprite.LastPosition;
-            */
-
             List<ICollidable2> collidables = quadTree.GetCandidates(manSprite);
-
             foreach (ICollidable2 collidable in collidables)
             {
                 if (manSprite.Rectangle.Intersects(collidable.Rectangle))

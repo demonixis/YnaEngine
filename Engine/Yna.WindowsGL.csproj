@@ -42,10 +42,11 @@
     <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
     <Compile Include="Extensions\RectangleExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />
+    <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Scene\BaseScene.cs" />
     <Compile Include="Graphics\Scene\YnScene2D.cs" />
-	<Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
+    <Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Content\YnContentManager.cs" />
     <Compile Include="Graphics3D\Lighting\YnDirectionalLight.cs" />
