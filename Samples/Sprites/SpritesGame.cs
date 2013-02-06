@@ -12,6 +12,9 @@ namespace Yna.Samples
         public SpritesGame()
             : base(800, 600, "Yna : Sprite samples")
         {
+#if LINUX
+            SetScreenResolution(640, 480);
+#endif
             menuItems = new MenuEntry[]
             {
                 new MenuEntry("basicSample", "Sprite generation", "In this sample we create some sprites and move/rotate it"),

@@ -499,6 +499,20 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
+        /// Create a new <see cref="Yna.Engine.Graphics.YnEntity"/> with a procedural texture.
+        /// </summary>
+        /// <param name='rectangle'>Rectangle of the texture</param>
+        /// <param name='color'>Color of the texture</param>
+        public YnEntity(Rectangle rectangle, Color color) 
+            : this()
+        {
+            _rectangle = rectangle;
+            _position = rectangle.ToVector2();
+            _texture = YnGraphics.CreateTexture(color, rectangle.Width, rectangle.Height);
+            _assetLoaded = true;
+        }
+
+        /// <summary>
         /// A basic entity who represent a graphic object on the 2D Scene
         /// </summary>
         /// <param name="assetName">The asset name to use</param>

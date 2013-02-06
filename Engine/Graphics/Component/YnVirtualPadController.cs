@@ -64,12 +64,12 @@ namespace Yna.Engine.Graphics.Component
 		
 		public bool JustPressed(PadButtons button)
 		{
-		
+            return false;
 		}
 		
 		public bool Released(PadButtons button)
 		{
-			return !_buttons[(int)button)];
+			return !_buttons[(int)button];
 		}
 
         public void LoadContent()

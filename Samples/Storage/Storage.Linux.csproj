@@ -59,14 +59,14 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Yna.Linux.csproj">
+    <ProjectReference Include="..\..\Engine\Yna.Linux.csproj">
       <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
       <Name>Yna.Linux</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="MonoGame.Framework.Linux">
+    <Reference Include="MonoGame.Framework">
       <HintPath>..\..\ThirdParty\MonoGame\Linux\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>

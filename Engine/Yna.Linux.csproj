@@ -117,15 +117,6 @@
     <Compile Include="Graphics\Scene\BaseScene.cs" />
     <Compile Include="Graphics\Scene\YnScene2D.cs" />
     <Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
-    <Compile Include="Graphics\TileMap\BaseLayer.cs" />
-    <Compile Include="Graphics\TileMap\BaseTile.cs" />
-    <Compile Include="Graphics\TileMap\BaseTileMap.cs" />
-    <Compile Include="Graphics\TileMap\Basic\Layer2D.cs" />
-    <Compile Include="Graphics\TileMap\Basic\Tile2D.cs" />
-    <Compile Include="Graphics\TileMap\Basic\TileMap2D.cs" />
-    <Compile Include="Graphics\TileMap\Iso\LayerIso.cs" />
-    <Compile Include="Graphics\TileMap\Iso\TileIso.cs" />
-    <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Graphics\Event\ScreenEvents.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
@@ -161,6 +152,18 @@
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
+    <Compile Include="Graphics\Tilemap\BaseLayer.cs" />
+    <Compile Include="Graphics\Tilemap\BaseTile.cs" />
+    <Compile Include="Graphics\Tilemap\BaseTileMap.cs" />
+    <Compile Include="Graphics\Tilemap\Basic\Layer2D.cs" />
+    <Compile Include="Graphics\Tilemap\Basic\Tile2D.cs" />
+    <Compile Include="Graphics\Tilemap\Basic\TileMap2D.cs" />
+    <Compile Include="Graphics\Tilemap\Iso\LayerIso.cs" />
+    <Compile Include="Graphics\Tilemap\Iso\TileIso.cs" />
+    <Compile Include="Graphics\Tilemap\Iso\TileMapIso.cs" />
+    <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
+    <Compile Include="Graphics\Component\YnMenu.cs" />
+    <Compile Include="Extensions\BoundingBoxExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
