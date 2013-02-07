@@ -67,7 +67,7 @@ namespace Yna.Engine.Collision
         /// <param name="sceneObjectA">Sprite 1</param>
         /// <param name="sceneObjectB">Sprite 2</param>
         /// <returns></returns>
-        public static bool PerfectPixelCollide(YnEntity sceneObjectA, YnEntity sceneObjectB)
+        public static bool PerfectPixelCollide(IColladable2PerfectPixel sceneObjectA, IColladable2PerfectPixel sceneObjectB)
         {
             int top = Math.Max(sceneObjectA.Rectangle.Top, sceneObjectB.Rectangle.Top);
             int bottom = Math.Min(sceneObjectA.Rectangle.Bottom, sceneObjectB.Rectangle.Bottom);

@@ -167,7 +167,7 @@ namespace Yna.Samples.Screens
             UpdateAnimations(manSprite);
             UpdateAnimations(gunnerSprite);
   
-            quadTree.Test(manSprite, (mSprite, lSprite) =>
+            quadTree.TestCandidates(manSprite, (mSprite, lSprite) =>
                 {
                     if (mSprite.Rectangle.Intersects(lSprite.Rectangle))
                         manSprite.Position = manSprite.LastPosition;

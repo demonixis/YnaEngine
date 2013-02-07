@@ -42,6 +42,14 @@ namespace Yna.Engine
         private Rectangle _quadBounds;
         private YnQuadTree[] _nodes;
 
+        #region delegates declarations
+
+        public delegate void TestManyCallback(ICollidable2 colliderA, ICollidable2 colliderB);
+
+        public delegate void TestOneCallback(ICollidable2 collidables);
+
+        #endregion
+
         /// <summary>
         /// Create a new QuadTree
         /// </summary>
@@ -71,15 +79,13 @@ namespace Yna.Engine
                 Add(collidable);
         }
 
-        public delegate void testFunction(ICollidable2 colliderA, ICollidable2 colliderB);
-
         /// <summary>
-        /// Gets all objects close to the collidable object passed in parameter
+        /// Gets all objects close to the collidable objects passed in parameter
         /// </summary>
         /// <param name="collidables"></param>
         /// <param name="functionTest"></param>
         /// <returns></returns>
-        public bool Test(ICollidable2[] collidables, testFunction functionTest)
+        public bool TestCandidates(ICollidable2[] collidables, TestManyCallback testFunction)
         {
             bool hasCandidate = false;
 
@@ -89,7 +95,7 @@ namespace Yna.Engine
                 candidates = GetCandidates(collidable);
                 foreach (ICollidable2 candidate in candidates)
                 {
-                    functionTest(collidable, candidate);
+                    testFunction(collidable, candidate);
                     hasCandidate = true;
                 }
             }
@@ -97,9 +103,51 @@ namespace Yna.Engine
             return hasCandidate;
         }
 
-        public bool Test(ICollidable2 collidable, testFunction functionTest)
+        public bool Test(ICollidable2 collidable, TestManyCallback functionTest)
         {
             return Test(new ICollidable2[] { collidable }, functionTest);
+        }
+
+        /// <summary>
+        /// Gets all objects close to the collidable object passed in parameter
+        /// </summary>
+        /// <returns>True if objects are available to test otherwise return false</returns>
+        /// <param name='colliderToTest'>The object to test with the collection</param>
+        /// <param name='testFunction'>A callback function</param>
+        public bool TestCandidates(ICollidable2 colliderToTest, TestOneCallback testFunction)
+        {
+            bool hasCandidate = false;
+
+            List<ICollidable2> candidates = GetCandidates(colliderToTest);
+
+            foreach (ICollidable2 candidate in candidates)
+            {
+                testFunction(colliderToTest, candidate);
+                hasCandidate = true;
+            }
+
+            return hasCandidate;
+        }
+
+        /// <summary>
+        /// Get all that can potentially collide with this entity
+        /// </summary>
+        /// <param name="entity">A collidable entity to test</param>
+        /// <returns>An array of collidable elements</returns>
+        public List<ICollidable2> GetCandidates(ICollidable2 entity)
+        {
+            List<ICollidable2> candidates = new List<ICollidable2>();
+
+            int index = GetNodeIndex(entity.Rectangle);
+
+            // If the space is already splited we get node objects that can potentially collide with this entity
+            if (index > -1 && _nodes[0] != null)
+                candidates.AddRange(_nodes[index].GetCandidates(entity));
+
+            // All remaining objects can potentially collide with this entity
+            candidates.AddRange(_objects);
+
+            return candidates;
         }
 
         /// <summary>
@@ -214,27 +262,6 @@ namespace Yna.Engine
                         i++;
                 }
             }
-        }
-
-        /// <summary>
-        /// Get all that can potentially collide with this entity
-        /// </summary>
-        /// <param name="entity">A collidable entity to test</param>
-        /// <returns>An array of collidable elements</returns>
-        public List<ICollidable2> GetCandidates(ICollidable2 entity)
-        {
-            List<ICollidable2> candidates = new List<ICollidable2>();
-
-            int index = GetNodeIndex(entity.Rectangle);
-
-            // If the space is already splited we get node objects that can potentially collide with this entity
-            if (index > -1 && _nodes[0] != null)
-                candidates.AddRange(_nodes[index].GetCandidates(entity));
-
-            // All remaining objects can potentially collide with this entity
-            candidates.AddRange(_objects);
-
-            return candidates;
         }
     }
 }

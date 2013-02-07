@@ -164,6 +164,7 @@
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
+    <Compile Include="Collision\ICollidable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Collision
 {
@@ -7,6 +8,13 @@ namespace Yna.Engine.Collision
     /// </summary>
     public interface ICollidable2
     {
+        Rectangle Rectangle { get; set; }
+    }
+
+    public interface IColladable2PerfectPixel
+    {
+        Vector2 Scale { get; set; }
+        Texture2D Texture { get; set; }
         Rectangle Rectangle { get; set; }
     }
 
