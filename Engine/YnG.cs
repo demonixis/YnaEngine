@@ -151,7 +151,7 @@ namespace Yna.Engine
 #if !ANDROID && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
             get { return Game.Window.ClientBounds.Height / 2; }
 #else
-			Gets { return YnG.Height / 2; }
+			get { return YnG.Height / 2; }
 #endif
         }
 

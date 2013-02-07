@@ -62,10 +62,12 @@
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
+    <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Collision\YnCollide3.cs" />
     <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
     <Compile Include="Extensions\RectangleExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />
+    <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Storage\XnaPhoneStorageDevice.cs" />

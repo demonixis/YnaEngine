@@ -103,9 +103,9 @@ namespace Yna.Engine
             return hasCandidate;
         }
 
-        public bool Test(ICollidable2 collidable, TestManyCallback functionTest)
+        public bool TestCandidates(ICollidable2 collidable, TestManyCallback functionTest)
         {
-            return Test(new ICollidable2[] { collidable }, functionTest);
+            return TestCandidates(new ICollidable2[] { collidable }, functionTest);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Yna.Engine
 
             foreach (ICollidable2 candidate in candidates)
             {
-                testFunction(colliderToTest, candidate);
+                testFunction(candidate);
                 hasCandidate = true;
             }
 

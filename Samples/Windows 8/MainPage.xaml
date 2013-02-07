@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="Yna.Samples.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Yna.Samples"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.Row="0" Background="BlueViolet">
+            <TextBlock Padding="15" HorizontalAlignment="Left" FontSize="22" Margin="35, 0, 0, 0">Yna Engine for Windows 8 Modern UI</TextBlock>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Style="{StaticResource YnaButtonMenu}" Name="btn_sample_0" Content="Animated Sprites" Tapped="btn_Tapped" />
+            <Button Style="{StaticResource YnaButtonMenu}" Name="btn_sample_1" Content="Custom geometries" Tapped="btn_Tapped" />
+            <Button Style="{StaticResource YnaButtonMenu}" Name="btn_sample_2" Content="Heightmap terrain" Tapped="btn_Tapped" />
+            <Button Style="{StaticResource YnaButtonMenu}" Name="btn_sample_3" Content="Storage management" Tapped="btn_Tapped" />
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="3" Background="BlueViolet">
+            <TextBlock Padding="15, 15, 15, 0" FontSize="22" HorizontalAlignment="Right" Margin="0, 0, 35, 0">Powered by Yna Engine</TextBlock>
+            <TextBlock Padding="15, 5, 15, 15" FontSize="18" HorizontalAlignment="Right" Margin="0, 0, 35, 0">Using MonoGame and SharpDX</TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

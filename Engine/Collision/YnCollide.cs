@@ -93,16 +93,5 @@ namespace Yna.Engine.Collision
             }
             return false;
         }
-
-        /// <summary>
-        /// Optimised perfect collide test
-        /// </summary>
-        /// <param name="sceneObjectA">Sprite 1</param>
-        /// <param name="sceneObjectB">Sprite 2</param>
-        /// <returns></returns>
-        public static bool PerfectCollide(YnEntity sceneObjectA, YnEntity sceneObjectB)
-        {
-            return Collide(sceneObjectA, sceneObjectB) && PerfectPixelCollide(sceneObjectA, sceneObjectB);
-        }
     }
 }

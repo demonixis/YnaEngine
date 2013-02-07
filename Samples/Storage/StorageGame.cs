@@ -15,7 +15,7 @@ namespace Yna.Samples
         private YnText playerDebugText;
 #if !NETFX_CORE
         public StorageGame()
-            : base (640, 480, "Storage sample", false)
+            : base(640, 480, "Storage sample", false)
 #else
         public StorageGame()
             : base()
@@ -100,7 +100,7 @@ namespace Yna.Samples
             spriteBatch.End();
         }
 
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
         /// <summary>
         /// Main function
         /// </summary>
