@@ -29,15 +29,4 @@ namespace Yna.Engine
         bool Visible { get; set; }
         void Draw(GameTime gameTime, GraphicsDevice device);
     }
-
-    public interface ICollidable2
-    {
-        Rectangle Rectangle { get; set; }
-    }
-
-    public interface ICollidable3
-    {
-        BoundingBox BoundingBox { get; set; }
-        BoundingSphere BoundingSphere { get; set; }
-    }
 }

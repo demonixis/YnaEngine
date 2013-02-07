@@ -22,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>bin\WindowsGL\Debug\Yna.Engine.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
@@ -34,10 +35,13 @@
     <DefineConstants>MONOGAME;WINDOWS;OPENGL;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AssemblyDoc.cs" />
+    <Compile Include="Audio\AssemblyDoc.cs" />
     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\DummyAudioAdapter.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
+    <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Collision\YnCollide3.cs" />
     <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
     <Compile Include="Extensions\RectangleExtension.cs" />
@@ -135,6 +139,7 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
+    <Compile Include="Input\AssemblyDoc.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
     <Compile Include="Input\Component\KeyboardComponent.cs" />
     <Compile Include="Input\Component\MouseComponent.cs" />
@@ -144,9 +149,11 @@
     <Compile Include="Input\YnMouse.cs" />
     <Compile Include="Input\YnTouch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="State\AssemblyDoc.cs" />
     <Compile Include="State\BaseState.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\YnStateList.cs" />
+    <Compile Include="Storage\AssemblyDoc.cs" />
     <Compile Include="Storage\BasicStorageDevice.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />

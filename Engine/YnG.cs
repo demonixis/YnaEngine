@@ -19,12 +19,12 @@ namespace Yna.Engine
     public static class YnG
     {
         /// <summary>
-        /// Get or Set the Game instance
+        /// Gets or Set the Game instance
         /// </summary>
         public static Game Game { get; set; }
         
         /// <summary>
-        /// Get the GraphicsDevice instance relative to the Game object
+        /// Gets the GraphicsDevice instance relative to the Game object
         /// </summary>
         public static GraphicsDevice GraphicsDevice 
         { 
@@ -34,12 +34,12 @@ namespace Yna.Engine
         #region Managers
 
         /// <summary>
-        /// Get the GraphicsDeviceManager relative to the Game object
+        /// Gets the GraphicsDeviceManager relative to the Game object
         /// </summary>
         public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
         
         /// <summary>
-        /// Get the ContentManager instance relative to the Game object
+        /// Gets the ContentManager instance relative to the Game object
         /// </summary>
         public static ContentManager Content 
         { 
@@ -47,12 +47,12 @@ namespace Yna.Engine
         }
 
         /// <summary>
-        /// Get or Set the State Manager
+        /// Gets or Set the State Manager
         /// </summary>
         public static StateManager StateManager { get; set; }
 
         /// <summary>
-        /// Get or Set the audio manager
+        /// Gets or Set the audio manager
         /// </summary>
         public static AudioManager AudioManager { get; set; }
 
@@ -66,17 +66,17 @@ namespace Yna.Engine
         #region Inputs
 
         /// <summary>
-        /// Get or Set the keyboard states
+        /// Gets or Set the keyboard states
         /// </summary>
         public static YnKeyboard Keys { get; set; }
 
         /// <summary>
-        /// Get or Set the Gamepad states
+        /// Gets or Set the Gamepad states
         /// </summary>
         public static YnGamepad Gamepad { get; set; }
 
         /// <summary>
-        /// Get or Set the mouse states
+        /// Gets or Set the mouse states
         /// </summary>
         public static YnMouse Mouse { get; set; }
 
@@ -87,7 +87,7 @@ namespace Yna.Engine
         }
 
         /// <summary>
-        /// Get or Set the Touch states
+        /// Gets or Set the Touch states
         /// </summary>
         public static YnTouch Touch { get; set; }
 
@@ -96,7 +96,7 @@ namespace Yna.Engine
         #region Screen size and screen management
 
         /// <summary>
-        /// Get the width of the current viewport
+        /// Gets the width of the current viewport
         /// </summary>
         public static int Width
         {
@@ -110,7 +110,7 @@ namespace Yna.Engine
         }
 
         /// <summary>
-        /// Get the height of the current viewport
+        /// Gets the height of the current viewport
         /// </summary>
         public static int Height
         {
@@ -124,7 +124,7 @@ namespace Yna.Engine
         }
 
         /// <summary>
-        /// Get the rectangle that represent the screen size
+        /// Gets the rectangle that represent the screen size
         /// </summary>
         public static Rectangle ScreenRectangle
         {
@@ -132,7 +132,7 @@ namespace Yna.Engine
         }
 		
         /// <summary>
-        /// Get the center of the screen on X axis
+        /// Gets the center of the screen on X axis
         /// </summary>
         public static int ScreenCenterX
         {
@@ -144,14 +144,14 @@ namespace Yna.Engine
         }
 
         /// <summary>
-        /// Get the center of the screen on Y axis
+        /// Gets the center of the screen on Y axis
         /// </summary>
         public static int ScreenCenterY
         {
 #if !ANDROID && !WINDOWS_PHONE_7 && !WINDOWS_PHONE_8
             get { return Game.Window.ClientBounds.Height / 2; }
 #else
-			get { return YnG.Height / 2; }
+			Gets { return YnG.Height / 2; }
 #endif
         }
 

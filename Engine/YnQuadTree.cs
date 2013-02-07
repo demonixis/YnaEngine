@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using Yna.Engine.Graphics;
-using Microsoft.Xna.Framework;
+using Yna.Engine.Collision;
 
 namespace Yna.Engine
 {
@@ -75,6 +73,12 @@ namespace Yna.Engine
 
         public delegate void testFunction(ICollidable2 colliderA, ICollidable2 colliderB);
 
+        /// <summary>
+        /// Gets all objects close to the collidable object passed in parameter
+        /// </summary>
+        /// <param name="collidables"></param>
+        /// <param name="functionTest"></param>
+        /// <returns></returns>
         public bool Test(ICollidable2[] collidables, testFunction functionTest)
         {
             bool hasCandidate = false;
