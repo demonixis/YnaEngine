@@ -76,6 +76,8 @@ namespace Yna.Engine
             YnG.StateManager = stateManager;
             YnG.StorageManager = new StorageManager();
             YnG.AudioManager = new AudioManager();
+            YnG.Width = graphics.PreferredBackBufferWidth;
+            YnG.Height = graphics.PreferredBackBufferHeight;
            
 #if !ANDROID
             this.Window.Title = String.Format("{0} - v{1}", GameTitle, GameVersion);
@@ -102,6 +104,9 @@ namespace Yna.Engine
 
             ScreenHelper.ScreenWidthReference = width;
             ScreenHelper.ScreenHeightReference = height;
+
+            YnG.Width = width;
+            YnG.Height = height;
 #endif
         }
 

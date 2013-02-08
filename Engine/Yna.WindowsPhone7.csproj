@@ -64,6 +64,7 @@
     <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Collision\YnCollide3.cs" />
+    <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
     <Compile Include="Extensions\RectangleExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />

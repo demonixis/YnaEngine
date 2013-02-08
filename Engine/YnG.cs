@@ -22,13 +22,13 @@ namespace Yna.Engine
         /// Gets or Set the Game instance
         /// </summary>
         public static Game Game { get; set; }
-        
+
         /// <summary>
         /// Gets the GraphicsDevice instance relative to the Game object
         /// </summary>
-        public static GraphicsDevice GraphicsDevice 
-        { 
-            get { return Game.GraphicsDevice; } 
+        public static GraphicsDevice GraphicsDevice
+        {
+            get { return Game.GraphicsDevice; }
         }
 
         #region Managers
@@ -37,13 +37,13 @@ namespace Yna.Engine
         /// Gets the GraphicsDeviceManager relative to the Game object
         /// </summary>
         public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
-        
+
         /// <summary>
         /// Gets the ContentManager instance relative to the Game object
         /// </summary>
-        public static ContentManager Content 
-        { 
-            get { return Game.Content; } 
+        public static ContentManager Content
+        {
+            get { return Game.Content; }
         }
 
         /// <summary>
@@ -98,30 +98,12 @@ namespace Yna.Engine
         /// <summary>
         /// Gets the width of the current viewport
         /// </summary>
-        public static int Width
-        {
-            get 
-            {
-                if (GraphicsDeviceManager == null)
-                    return GraphicsDevice.Viewport.Width;
-                else
-                    return GraphicsDeviceManager.PreferredBackBufferWidth;
-            }
-        }
+        public static int Width { get; set; }
 
         /// <summary>
         /// Gets the height of the current viewport
         /// </summary>
-        public static int Height
-        {
-            get 
-            {
-                if (GraphicsDeviceManager == null)
-                    return GraphicsDevice.Viewport.Height;
-                else
-                    return GraphicsDeviceManager.PreferredBackBufferHeight;
-            }
-        }
+        public static int Height { get; set; }
 
         /// <summary>
         /// Gets the rectangle that represent the screen size
@@ -130,7 +112,7 @@ namespace Yna.Engine
         {
             get { return new Rectangle(0, 0, YnG.Game.GraphicsDevice.Viewport.Width, YnG.Game.GraphicsDevice.Viewport.Height); }
         }
-		
+
         /// <summary>
         /// Gets the center of the screen on X axis
         /// </summary>
@@ -163,7 +145,7 @@ namespace Yna.Engine
         /// <param name="height">Screen height</param>
         public static void SetScreenResolution(int width, int height)
         {
-        	(Game as YnGame).SetScreenResolution(width, height);
+            (Game as YnGame).SetScreenResolution(width, height);
         }
 
         /// <summary>
