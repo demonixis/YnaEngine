@@ -11,7 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
-        <Image Source="/Assets/backbutton.png" Margin="15" HorizontalAlignment="Left" Tapped="Image_Tapped" />
+        <Image Source="/Assets/BackButton_64.png" Margin="15" HorizontalAlignment="Left" Tapped="Image_Tapped" />
     </Grid>
     
 </SwapChainBackgroundPanel>
