@@ -16,12 +16,12 @@ namespace Yna.Samples.Screens
     public class HeighmapTerrain : YnState3D
     {
         private YnEntity sky;
-        private YnText textInfo;
         private Heightmap heightmap;
         private FirstPersonCamera camera;
         private FirstPersonControl control;
 
-        private YnVirtualPadController virtualPadController;
+        // A virtual controller
+        private FirstPersonVirtualPadControl virtualController;
 
         public HeighmapTerrain(string name)
             : base(name)
@@ -43,13 +43,12 @@ namespace Yna.Samples.Screens
             // 3 - Create an Heigmap with 2 textures
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
-            // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
-            heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture");
-            heightmap.Scale = new Vector3(2.5f, 2.5f, 2.5f);
+            heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture", new Vector3(4, 1, 2));
+            heightmap.Scale = new Vector3(2.5f, 0.2f, 2.5f);
             Add(heightmap);
-
+            
             BasicMaterial heightmapMaterial = new BasicMaterial("terrains/heightmapTexture");
-            heightmapMaterial.FogStart = 25.0f;
+            heightmapMaterial.FogStart = 45.0f;
             heightmapMaterial.FogEnd = 75.0f;
             heightmapMaterial.EnableFog = true;
             heightmapMaterial.FogColor = Vector3.One * 0.3f;
@@ -57,14 +56,13 @@ namespace Yna.Samples.Screens
 
             // Sky & debug info
             sky = new YnEntity("Textures/Sky");
-            textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             // Virtual pad
-            virtualPadController = new YnVirtualPadController();
-            virtualPadController.VirtualPad.InverseDirectionStrafe = true;
-            virtualPadController.VirtualPad.EnabledButtonPause = false;
-            virtualPadController.VirtualPad.EnabledButtonA = false;
-            virtualPadController.VirtualPad.EnabledButtonB = false;
+            virtualController = new FirstPersonVirtualPadControl((FirstPersonCamera)Camera);
+            virtualController.VirtualPad.InverseDirectionStrafe = true;
+            virtualController.VirtualPad.EnabledButtonPause = false;
+            virtualController.VirtualPad.EnabledButtonA = false;
+            virtualController.VirtualPad.EnabledButtonB = false;
         }
 
 
@@ -76,14 +74,9 @@ namespace Yna.Samples.Screens
             sky.LoadContent();
             sky.SetFullScreen();
 
-            // Debug text config
-            textInfo.LoadContent();
-            textInfo.Position = new Vector2(10, 10);
-            textInfo.Color = Color.Wheat;
-            textInfo.Scale = new Vector2(1.1f);
             heightmap.UpdateBoundingVolumes();
 
-            virtualPadController.LoadContent();
+            virtualController.LoadContent();
 
             // Set the camera position at the middle of the terrain
             camera.Position = new Vector3(heightmap.Width / 2, 0, heightmap.Depth / 2);
@@ -94,31 +87,12 @@ namespace Yna.Samples.Screens
         {
             base.Update(gameTime);
 
-            virtualPadController.Update(gameTime);
-
             // Naive Collide detection with ground
             // This method get the current segment height on the terrain and set the Y position of the camera at this value
             // We add 2 units because the camera is a bit higher than the ground
             camera.Y += (heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 5 - camera.Y) * 0.2f;
 
-
-            // Move
-            if (virtualPadController.Pressed(PadButtons.Up))
-                Camera.Translate(0.0f, 0.0f, 0.6f);
-            else if (virtualPadController.Pressed(PadButtons.Down))
-                Camera.Translate(0.0f, 0.0f, -0.6f);
-
-            // Strafe
-            if (virtualPadController.Pressed(PadButtons.StrafeLeft))
-                Camera.Translate(0.5f, 0.0f, 0.0f);
-            else if (virtualPadController.Pressed(PadButtons.StrafeRight))
-                Camera.Translate(-0.5f, 0.0f, 0.0f);
-
-            // Rotate 
-            if (virtualPadController.Pressed(PadButtons.Left))
-                Camera.RotateY(0.8f);
-            else if (virtualPadController.Pressed(PadButtons.Right))
-                Camera.RotateY(-0.8f);
+            virtualController.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
@@ -137,10 +111,8 @@ namespace Yna.Samples.Screens
             base.Draw(gameTime);
 
             // Draw 2D part
-            spriteBatch.Begin();
-            textInfo.Draw(gameTime, spriteBatch);
-            virtualPadController.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
+            virtualController.DrawOnSingleBatch(gameTime, spriteBatch);
+
         }
     }
 }

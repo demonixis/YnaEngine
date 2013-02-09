@@ -41,7 +41,11 @@ namespace Yna.Engine.Input
 
         public Vector2 Delta
         {
-            get { return _touchComponent.GetPosition(0) - _touchComponent.GetLastPosition(0); }
+            get 
+            { 
+                Vector2 delta = _touchComponent.GetPosition(0) - _touchComponent.GetLastPosition(0);
+                return delta;
+            }
         }
 
         public YnTouch(TouchComponent component)

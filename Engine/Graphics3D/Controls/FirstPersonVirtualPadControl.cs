@@ -14,6 +14,26 @@ namespace Yna.Engine.Graphics3D.Controls
     {
         private YnVirtualPadController _virtualPadController;
 
+        /// <summary>
+        /// Gets the VirtualPad
+        /// </summary>
+        public YnVirtualPad VirtualPad
+        {
+            get { return _virtualPadController.VirtualPad; }
+        }
+
+        /// <summary>
+        /// Gets the VirtualController used for VirtualPad
+        /// </summary>
+        public YnVirtualPadController VirtualPadController
+        {
+            get { return _virtualPadController; }
+        }
+
+        /// <summary>
+        /// Create a new controller with a default virtual pad
+        /// </summary>
+        /// <param name="camera"></param>
         public FirstPersonVirtualPadControl(FirstPersonCamera camera)
             : base(camera, PlayerIndex.One)
         {
@@ -21,6 +41,11 @@ namespace Yna.Engine.Graphics3D.Controls
             Initialize();
         }
 
+        /// <summary>
+        /// Create a new controller with a custom virtual pad
+        /// </summary>
+        /// <param name="camera"></param>
+        /// <param name="virtualPad"></param>
         public FirstPersonVirtualPadControl(FirstPersonCamera camera, YnVirtualPad virtualPad)
             : base(camera, PlayerIndex.One)
         {
@@ -28,19 +53,32 @@ namespace Yna.Engine.Graphics3D.Controls
             Initialize();
         }
 
-        public virtual void Initialize()
+        /// <summary>
+        /// Initialize default values
+        /// </summary>
+        protected virtual void Initialize()
         {
             _useGamepad = false;
             _useKeyboard = false;
             _useMouse = false;
             _keyMapper = null;
+            _moveSpeed = 0.8f;
+            _strafeSpeed = 0.8f;
+            _rotateSpeed = 1.4f;
         }
 
+        /// <summary>
+        /// Load assets for the virtual pad
+        /// </summary>
         public virtual void LoadContent()
         {
             _virtualPadController.LoadContent();
         }
 
+        /// <summary>
+        /// Update camera position
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             // Physics
@@ -56,6 +94,10 @@ namespace Yna.Engine.Graphics3D.Controls
             Camera.Update(gameTime);
         }
 
+        /// <summary>
+        /// Update virtual pad state
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected virtual void UpdateVirtualPadInput(GameTime gameTime)
         {
             // Move
@@ -74,9 +116,13 @@ namespace Yna.Engine.Graphics3D.Controls
             if (_virtualPadController.Pressed(PadButtons.Left))
                 _velocityRotation.Y += _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (_virtualPadController.Pressed(PadButtons.Right))
-                _velocityRotation.Y -= _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f; 
+                _velocityRotation.Y -= _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
         }
 
+        /// <summary>
+        /// Update touches state
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected virtual void UpdateTouchInput(GameTime gameTime)
         {
             /*
@@ -92,13 +138,29 @@ namespace Yna.Engine.Graphics3D.Controls
             else if (YnG.Keys.Pressed(Keys.X))
                 _velocityRotation.Z -= _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
              * */
+
+            if (YnG.Touch.Moved)
+            {
+                _velocityRotation.Y += YnG.Touch.Delta.X * 0.1f;
+                _velocityRotation.X -= YnG.Touch.Delta.Y * 0.1f;
+            }
         }
 
+        /// <summary>
+        /// Draw the virtual pad on screen
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             _virtualPadController.Draw(gameTime, spriteBatch);
         }
 
+        /// <summary>
+        /// Draw the virtual pad on screen in a separate SpriteBatch
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
         public virtual void DrawOnSingleBatch(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -112,7 +174,7 @@ namespace Yna.Engine.Graphics3D.Controls
         {
 
         }
-    
+
         protected override void UpdateGamepadInput(GameTime gameTime)
         {
 
