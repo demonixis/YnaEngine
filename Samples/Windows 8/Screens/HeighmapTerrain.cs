@@ -17,12 +17,9 @@ namespace Yna.Samples.Screens
     {
         private YnEntity sky;
         private YnText textInfo;
-
         private Heightmap heightmap;
         private FirstPersonCamera camera;
         private FirstPersonControl control;
-
-        private RasterizerState rasterizerState;
 
         private YnVirtualPadController virtualPadController;
 
@@ -62,11 +59,12 @@ namespace Yna.Samples.Screens
             sky = new YnEntity("Textures/Sky");
             textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
-            rasterizerState = new RasterizerState();
-
             // Virtual pad
             virtualPadController = new YnVirtualPadController();
             virtualPadController.VirtualPad.InverseDirectionStrafe = true;
+            virtualPadController.VirtualPad.EnabledButtonPause = false;
+            virtualPadController.VirtualPad.EnabledButtonA = false;
+            virtualPadController.VirtualPad.EnabledButtonB = false;
         }
 
 
@@ -121,15 +119,6 @@ namespace Yna.Samples.Screens
                 Camera.RotateY(0.8f);
             else if (virtualPadController.Pressed(PadButtons.Right))
                 Camera.RotateY(-0.8f);
-
-            // Choose if you wan't wireframe or solid rendering
-            if (virtualPadController.Pressed(PadButtons.Pause))
-            {
-                if (rasterizerState.FillMode == FillMode.Solid)
-                    rasterizerState = new RasterizerState() { FillMode = FillMode.WireFrame };
-                else
-                    rasterizerState = new RasterizerState() { FillMode = FillMode.Solid };
-            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -143,9 +132,6 @@ namespace Yna.Samples.Screens
 
             // Restore default states for 3D
             YnG3.RestoreGraphicsDeviceStates();
-
-            // Wirefram or solid fillmode
-            YnG.GraphicsDevice.RasterizerState = rasterizerState;
 
             // Draw 3D
             base.Draw(gameTime);

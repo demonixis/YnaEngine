@@ -8,15 +8,19 @@ using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Terrain;
 using Yna.Engine.Graphics3D.Controls;
 using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics.Component;
 
 namespace Yna.Samples.Screens
 {
     public class CubeSample : YnState3D
     {
-        YnEntity sky;
-        SimpleTerrain terrain;
-        FirstPersonControl control;
-        YnGroup3D groupCube;
+        private YnEntity sky;
+        private SimpleTerrain terrain;
+        private FirstPersonControl control;
+        private YnGroup3D groupCube;
+
+        // A virtual controller
+        private YnVirtualPadController virtualPadController;
 
         public CubeSample(string name)
             : base(name)
@@ -60,10 +64,18 @@ namespace Yna.Samples.Screens
             // Sky
             sky = new YnEntity("Textures/Sky");
 
+            // Setup the light
             Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
             Scene.BasicLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
             Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
             Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
+
+            // Virtual pad
+            virtualPadController = new YnVirtualPadController();
+            virtualPadController.VirtualPad.InverseDirectionStrafe = true;
+            virtualPadController.VirtualPad.EnabledButtonPause = false;
+            virtualPadController.VirtualPad.EnabledButtonA = false;
+            virtualPadController.VirtualPad.EnabledButtonB = false;
         }
 
         public override void LoadContent()
@@ -74,6 +86,8 @@ namespace Yna.Samples.Screens
             sky.LoadContent();
             sky.SetFullScreen();
 
+            virtualPadController.LoadContent();
+
             // Set the camera position at the middle of the terrain
             _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
         }
@@ -82,8 +96,29 @@ namespace Yna.Samples.Screens
         {
             base.Update(gameTime);
 
+            virtualPadController.Update(gameTime);
+
+            // Rotate all cubes
             for (int i = 0, l = groupCube.Count; i < l; i++)
                 groupCube[i].RotateY(0.01f * (i + 1) * gameTime.ElapsedGameTime.Milliseconds);
+
+            // Move
+            if (virtualPadController.Pressed(PadButtons.Up))
+                Camera.Translate(0.0f, 0.0f, 0.6f);
+            else if (virtualPadController.Pressed(PadButtons.Down))
+                Camera.Translate(0.0f, 0.0f, -0.6f);
+
+            // Strafe
+            if (virtualPadController.Pressed(PadButtons.StrafeLeft))
+                Camera.Translate(0.5f, 0.0f, 0.0f);
+            else if (virtualPadController.Pressed(PadButtons.StrafeRight))
+                Camera.Translate(-0.5f, 0.0f, 0.0f);
+
+            // Rotate 
+            if (virtualPadController.Pressed(PadButtons.Left))
+                Camera.RotateY(0.8f);
+            else if (virtualPadController.Pressed(PadButtons.Right))
+                Camera.RotateY(-0.8f);
         }
 
         public override void Draw(GameTime gameTime)
@@ -98,6 +133,11 @@ namespace Yna.Samples.Screens
             YnG3.RestoreGraphicsDeviceStates();
 
             base.Draw(gameTime);
+
+            // We must draw the virtual pad after 3D rendering
+            spriteBatch.Begin();
+            virtualPadController.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
     }
 }

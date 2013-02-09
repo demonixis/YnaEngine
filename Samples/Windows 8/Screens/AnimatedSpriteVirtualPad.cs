@@ -73,6 +73,7 @@ namespace Yna.Samples.Screens
 
             virtualPadController = new YnVirtualPadController();
             virtualPadController.VirtualPad.InverseDirectionStrafe = true;
+            virtualPadController.VirtualPad.EnabledButtonA = false;
             Add(virtualPadController.VirtualPad);
 
             spriteToCollide = new List<YnEntity>(5);

@@ -41,19 +41,19 @@ namespace Yna.Engine.Audio
         /// <param name="repeat"></param>
         public override void PlayMusic(string assetName)
         {
-            if (_musicEnabled)
-            {
-#if !LINUX && !MACOSX && !(MONOGAME && WINDOWS && OPENGL) 
-                Song music = YnG.Content.Load<Song>(assetName);
-                // PlayMusic(music, repeat); // FIXME : repeat attribute is missing ?!
-#endif
-            }
+            PlayMusic(assetName, false);
         }
 
         public override void PlayMusic(string assetName, bool repeat)
         {
             _repeatMusic = repeat;
-            PlayMusic(assetName);
+            if (_musicEnabled)
+            {
+#if !LINUX && !MACOSX && !(MONOGAME && WINDOWS && OPENGL)
+                Song music = YnG.Content.Load<Song>(assetName);
+                PlayMusic(music, repeat);
+#endif
+            }
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Yna.Engine.Audio
         /// </summary>
         /// <param name="music"></param>
         /// <param name="repeat"></param>
-        public void PlayMusic(Song music, bool repeat)
+        private void PlayMusic(Song music, bool repeat)
         {
             StopMusic();
 

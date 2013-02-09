@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yna.Samples</RootNamespace>
     <AssemblyName>Storage</AssemblyName>
-    <DefaultLanguage>fr-FR</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>Storage_TemporaryKey.pfx</PackageCertificateKeyFile>
@@ -125,7 +125,7 @@
     <None Include="Storage_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\backbutton.png" />
+    <Content Include="Assets\BackButton_64.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\monogame.png" />
     <Content Include="Assets\sharpdx.png" />
@@ -152,6 +152,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\WideLogo.scale-100.png" />
     <Content Include="Assets\yna-engine.png" />
     <Content Include="Content\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

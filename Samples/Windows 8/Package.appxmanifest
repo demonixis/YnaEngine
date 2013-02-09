@@ -14,9 +14,9 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Storage.App">
-      <VisualElements DisplayName="Storage" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Storage" ForegroundText="light" BackgroundColor="#464646">
-        <DefaultTile ShowName="allLogos" />
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Yna-Samples.App">
+      <VisualElements DisplayName="Samples" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Samples for Yna Engine for Windows 8 and Windows RT" ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="allLogos" WideLogo="Assets\WideLogo.png" />
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
       <Extensions>
