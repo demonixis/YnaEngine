@@ -41,6 +41,7 @@
     <Compile Include="Extensions\RectangleExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />
     <Compile Include="Content\YnContentManager.cs" />
+    <Compile Include="Graphics3D\Controls\FirstPersonVirtualPadControl.cs" />
     <Compile Include="Graphics3D\Lighting\YnDirectionalLight.cs" />
     <Compile Include="Graphics3D\Lighting\YnLight.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
