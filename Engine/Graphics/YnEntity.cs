@@ -61,7 +61,8 @@ namespace Yna.Engine.Graphics
         // Define the position of the sprite relative to its parent
         protected YnEntity _parent;
         protected PositionType _positionType;
-        protected int _nbMouseEventHandlers;
+        protected int _nbMouseEventObservers;
+        protected int _nbTouchEventObservers;
 
         #endregion
 
@@ -321,13 +322,7 @@ namespace Yna.Engine.Graphics
 
         #endregion
 
-        #region Events
-
-        private event EventHandler<MouseOverSpriteEventArgs> _mouseOver = null;
-        private event EventHandler<MouseLeaveSpriteEventArgs> _mouseLeave = null;
-        private event EventHandler<MouseClickSpriteEventArgs> _mouseClicked = null;
-        private event EventHandler<MouseClickSpriteEventArgs> _mouseClick = null;
-        private event EventHandler<MouseReleaseSpriteEventArgs> _mouseRelease = null;
+        #region Global events
 
         /// <summary>
         /// Triggered when the object was killed
@@ -339,6 +334,82 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public event EventHandler<EventArgs> Revived = null;
 
+        private void KillSprite(EventArgs e)
+        {
+            if (Killed != null)
+                Killed(this, e);
+        }
+
+        private void ReviveSprite(EventArgs e)
+        {
+            if (Revived != null)
+                Revived(this, e);
+        }
+
+        #endregion
+
+        #region Touch events
+
+        private event EventHandler<TouchActionSpriteEventArgs> _touchPress = null;
+        private event EventHandler<TouchActionSpriteEventArgs> _touchRelease = null;
+
+        /// <summary>
+        /// Triggered on first finger press
+        /// </summary>
+        public event EventHandler<TouchActionSpriteEventArgs> TouchPress
+        {
+            add
+            {
+                _touchPress += value;
+                _nbTouchEventObservers++;
+            }
+            remove
+            {
+                _touchPress -= value;
+                _nbTouchEventObservers--;
+            }
+        }
+
+        /// <summary>
+        /// Triggered on first finger release
+        /// </summary>
+        public event EventHandler<TouchActionSpriteEventArgs> TouchRelease
+        {
+            add
+            {
+                _touchRelease += value;
+                _nbTouchEventObservers++;
+            }
+            remove
+            {
+                _touchRelease -= value;
+                _nbTouchEventObservers--;
+            }
+        }
+
+        private void OnTouchPressed(TouchActionSpriteEventArgs e)
+        {
+            if (_touchPress != null)
+                _touchPress(this, e);
+        }
+
+        private void OnTouchRelease(TouchActionSpriteEventArgs e)
+        {
+            if (_touchRelease != null)
+                _touchRelease(this, e);
+        }
+
+        #endregion
+
+        #region Mouse events
+
+        // Mouse events
+        private event EventHandler<MouseOverSpriteEventArgs> _mouseOver = null;
+        private event EventHandler<MouseLeaveSpriteEventArgs> _mouseLeave = null;
+        private event EventHandler<MouseClickSpriteEventArgs> _mouseClicked = null;
+        private event EventHandler<MouseClickSpriteEventArgs> _mouseClick = null;
+        private event EventHandler<MouseReleaseSpriteEventArgs> _mouseRelease = null;
+
         /// <summary>
         /// Triggered when the mouse is over the object
         /// </summary>
@@ -347,12 +418,12 @@ namespace Yna.Engine.Graphics
             add
             {
                 _mouseOver += value;
-                _nbMouseEventHandlers++;
+                _nbMouseEventObservers++;
             }
             remove
             {
                 _mouseOver -= value;
-                _nbMouseEventHandlers--;
+                _nbMouseEventObservers--;
             }
         }
 
@@ -364,12 +435,12 @@ namespace Yna.Engine.Graphics
             add
             {
                 _mouseLeave += value;
-                _nbMouseEventHandlers++;
+                _nbMouseEventObservers++;
             }
             remove
             {
                 _mouseLeave -= value;
-                _nbMouseEventHandlers--;
+                _nbMouseEventObservers--;
             }
         }
 
@@ -381,12 +452,12 @@ namespace Yna.Engine.Graphics
             add
             {
                 _mouseClicked += value;
-                _nbMouseEventHandlers++;
+                _nbMouseEventObservers++;
             }
             remove
             {
                 _mouseClicked -= value;
-                _nbMouseEventHandlers--;
+                _nbMouseEventObservers--;
             }
         }
 
@@ -398,12 +469,12 @@ namespace Yna.Engine.Graphics
             add
             {
                 _mouseClick += value;
-                _nbMouseEventHandlers++;
+                _nbMouseEventObservers++;
             }
             remove
             {
                 _mouseClick -= value;
-                _nbMouseEventHandlers--;
+                _nbMouseEventObservers--;
             }
         }
 
@@ -415,25 +486,13 @@ namespace Yna.Engine.Graphics
             add
             {
                 _mouseRelease += value;
-                _nbMouseEventHandlers++;
+                _nbMouseEventObservers++;
             }
             remove
             {
                 _mouseRelease -= value;
-                _nbMouseEventHandlers--;
+                _nbMouseEventObservers--;
             }
-        }
-
-        private void KillSprite(EventArgs e)
-        {
-            if (Killed != null)
-                Killed(this, e);
-        }
-
-        private void ReviveSprite(EventArgs e)
-        {
-            if (Revived != null)
-                Revived(this, e);
         }
 
         private void MouseOverSprite(MouseOverSpriteEventArgs e)
@@ -496,7 +555,8 @@ namespace Yna.Engine.Graphics
 
             _parent = null;
             _positionType = PositionType.Absolute;
-            _nbMouseEventHandlers = 0;
+            _nbMouseEventObservers = 0;
+            _nbTouchEventObservers = 0;
         }
 
         /// <summary>
@@ -580,7 +640,7 @@ namespace Yna.Engine.Graphics
                 #region Mouse events
 
                 // We check if the mouse events only if an event handler exists for one of mouse events
-                if (_nbMouseEventHandlers > 0)
+                if (_nbMouseEventObservers > 0)
                 {
                     if (_rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
                     {
