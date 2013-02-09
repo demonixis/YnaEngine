@@ -124,6 +124,14 @@ namespace Yna.Engine
 
         #region GameState pattern
 
+        protected override void Initialize()
+        {
+            YnG.Width = graphics.GraphicsDevice.Viewport.Width;
+            YnG.Height = graphics.GraphicsDevice.Viewport.Height;
+
+            base.Initialize();
+        }
+
         /// <summary>
         /// Load assets from content manager
         /// </summary>

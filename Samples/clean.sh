@@ -37,4 +37,10 @@ rm -Rf Storage/obj
 rm -Rf Tilemap/bin
 rm -Rf Tilemap/obj
 
+rm -Rf Windows8/bin
+rm -Rf Windows8/obj
+
+rm -Rf Windows\ Phone\ 8/bin
+rm -Rf Windows\ Phone\ 8/obj
+
 echo "Cleaning done"

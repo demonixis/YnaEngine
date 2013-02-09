@@ -15,5 +15,5 @@ You can always use part of Yna as Framework, you can also pick some class to cre
 ## Contributors
 
 Project coordinator & lead developper : Yannick Comte (aka Demonixis)
-Developer : Alex Frêne (aka Drakuo)
+Developer : Alex FrÃªne (aka Drakuo)
 Logo & graphics : Thomas Ruffier & Maxime Comte

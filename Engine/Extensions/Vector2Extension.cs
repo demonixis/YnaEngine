@@ -14,5 +14,10 @@ namespace Microsoft.Xna.Framework
         {
             return Math.Atan2((vb.Y - va.Y) * -1, vb.X - va.X);
         }
+
+        public static Point ToPoint(this Vector2 vector)
+        {
+            return new Point((int)vector.X, (int)vector.Y);
+        }
     }
 }
