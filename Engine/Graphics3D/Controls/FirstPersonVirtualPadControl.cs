@@ -125,21 +125,7 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <param name="gameTime"></param>
         protected virtual void UpdateTouchInput(GameTime gameTime)
         {
-            /*
-             *  // Look Up/Down
-            if (YnG.Keys.Pressed(_keyMapper.PitchUp[0]))
-                _velocityRotation.X += _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            else if (YnG.Keys.Pressed(_keyMapper.PitchDown[0]))
-                _velocityRotation.X -= _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-
-            // Roll
-            if (YnG.Keys.Pressed(Keys.W))
-                _velocityRotation.Z += _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            else if (YnG.Keys.Pressed(Keys.X))
-                _velocityRotation.Z -= _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-             * */
-
-            if (YnG.Touch.Moved)
+            if (YnG.Touch.Moved && !_virtualPadController.hasPressedButton())
             {
                 _velocityRotation.Y += YnG.Touch.Delta.X * 0.1f;
                 _velocityRotation.X -= YnG.Touch.Delta.Y * 0.1f;

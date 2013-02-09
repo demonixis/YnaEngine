@@ -72,6 +72,19 @@ namespace Yna.Engine.Graphics.Component
 			return !_buttons[(int)button];
 		}
 
+        public bool hasPressedButton()
+        {
+            bool result = false;
+
+            foreach (bool button in _buttons)
+            {
+                if (button)
+                    result = true;
+            }
+
+            return result;
+        }
+
         public void LoadContent()
         {
             _virtualPad.LoadContent();
