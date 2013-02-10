@@ -54,7 +54,7 @@ namespace Yna.Engine.State
         }
 
         /// <summary>
-        /// Get or set the visibility value
+        /// Gets or sets the visibility value
         /// </summary>
         public bool Visible
         {
@@ -64,7 +64,7 @@ namespace Yna.Engine.State
 
        
         /// <summary>
-        /// Get or Set the Screen Manager
+        /// Gets or sets the Screen Manager
         /// </summary>
         public StateManager StateManager
         {
@@ -74,15 +74,6 @@ namespace Yna.Engine.State
                 stateManager = value;
                 spriteBatch = value.SpriteBatch;
             }
-        }
-
-        /// <summary>
-        /// Define the clear color before each draw calls
-        /// </summary>
-        public Color ClearColor
-        {
-            get { return stateManager.ClearColor; }
-            set { stateManager.ClearColor = value; }
         }
 
         #endregion

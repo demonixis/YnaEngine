@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\Common\MonoGame\MonoGame.ContentPipeline.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -61,6 +61,7 @@
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu.cs" />
     <Compile Include="Screens\BasicTerrain.cs" />
     <Compile Include="Screens\HeighmapTerrain.cs" />
     <Compile Include="Screens\RandomHeightmap.cs" />
@@ -77,10 +78,6 @@
     <ProjectReference Include="..\..\Engine\Yna.WindowsDX.csproj">
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.WindowsDX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsDX.csproj">
-      <Project>{08ec5eaa-02d9-4b51-b545-97af22836c06}</Project>
-      <Name>Common.WindowsDX</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

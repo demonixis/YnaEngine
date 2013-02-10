@@ -59,20 +59,27 @@ namespace Yna.Engine.Graphics.Animation
                 int x = indexes[i] % nbSpriteX;
                 int y = (int)Math.Floor((double)(indexes[i] / nbSpriteX));
 
-                // Adapter la valeur X suivant le numéro de ligne
-                // Exemple : Pour Y = 2, on doit faire repartir X à [0... tailleX]
+                // Adapt the X value 
+                // Ex: For Y = 2, we must have X in range [0... sizeX]
                 if (y > 0)
                     x = x % (nbSpriteX * y);
                 else
                     x = x % nbSpriteX;
 
-                // Définition du rectangle source du sprite
+                // The source rectangle for the sprite
                 animation.Rectangle[i] = new Rectangle(x * SpriteWidth, y * SpriteHeight, SpriteWidth, SpriteHeight);
             }
 
             Animations.Add(name, animation);
         }
 
+        /// <summary>
+        /// Add a new animation.
+        /// </summary>
+        /// <param name="name">Animation name</param>
+        /// <param name="rectangles">Rectangles that compose the animation</param>
+        /// <param name="frameRate">The framerate</param>
+        /// <param name="reversed">Sets to true to reverse image</param>
         public void Add(string name, Rectangle[] rectangles, int frameRate, bool reversed)
         {
             int animationLength = rectangles.Length;
@@ -92,16 +99,6 @@ namespace Yna.Engine.Graphics.Animation
         public void Update(GameTime gameTime, Vector2 lastDistance)
         {
 
-        }
-
-        public static int[] GetIndexXY(int searchedIndex, int nbSpriteX)
-        {
-            int[] coordsXY = new int[2];
-
-            coordsXY[0] = searchedIndex % nbSpriteX;
-            coordsXY[1] = (int)Math.Floor((double)(searchedIndex / nbSpriteX));
-
-            return coordsXY;
         }
     }
 }

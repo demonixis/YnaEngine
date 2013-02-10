@@ -22,8 +22,6 @@ namespace Yna.Engine.State
         private Dictionary<string, int> _statesDictionary;
         
         private bool _initialized;
-
-        private Texture2D _transitionTexture;
         private SpriteBatch _spriteBatch;
         private Color _clearColor;
 
@@ -71,49 +69,6 @@ namespace Yna.Engine.State
             }
         }
 
-        /// <summary>
-        /// Get the first active screen
-        /// </summary>
-        public BaseState FirstActiveScreen
-        {
-            get
-            {
-                int firstIndex = GetFirstActiveStatesIndex();
-                return firstIndex > -1 ? _states[firstIndex] : null;
-            }
-        }
-
-        /// <summary>
-        /// Get the last active screen
-        /// </summary>
-        public BaseState LastActiveScreen
-        {
-            get
-            {
-                int lastIndex = GetLastActiveStateIndex();
-                return lastIndex > -1 ? _states[lastIndex] : null;
-            }
-        }
-
-        #endregion
-
-        #region events
-
-        public event EventHandler<ContentLoadStartedEventArgs> LoadContentStarted = null;
-        public event EventHandler<ContentLoadFinishedEventArgs> LoadContentDone = null;
-
-        protected void OnContentLoadStarted(ContentLoadStartedEventArgs e)
-        {
-            if (LoadContentStarted != null)
-                LoadContentStarted(this, e);
-        }
-
-        protected void OnContentLoadDone(ContentLoadFinishedEventArgs e)
-        {
-            if (LoadContentDone != null)
-                LoadContentDone(this, e);
-        }
-
         #endregion
 
         #region Constructor
@@ -139,21 +94,14 @@ namespace Yna.Engine.State
             if (!_initialized)
             {
                 int nbScreens = _states.Count;
-                TimeSpan start = new TimeSpan();
-
-                OnContentLoadStarted(new ContentLoadStartedEventArgs(nbScreens));
 
                 _spriteBatch = new SpriteBatch(GraphicsDevice);
-                // La texture sera étirée
-                _transitionTexture = YnGraphics.CreateTexture(Color.White, 16, 16);
 
                 foreach (BaseState screen in _states)
                 {
                     screen.LoadContent();
                     screen.Initialize();
                 }
-
-                OnContentLoadDone(new ContentLoadFinishedEventArgs((new TimeSpan() - start).Ticks, nbScreens));
 
                 _initialized = true;
             }
@@ -212,38 +160,13 @@ namespace Yna.Engine.State
         #region Screens methods
 
         /// <summary>
-        /// Get index of actived screens
-        /// </summary>
-        public int[] GetActiveStatesIndex()
-        {
-            int size = _states.Count;
-
-            if (size == 0)
-            {
-                int[] index = new int[0];
-                index[0] = -1;
-                return index;
-            }
-
-            List<int> indexs = new List<int>();
-
-            for (int i = 0; i < size; i++)
-            {
-                if (_states[i].Active)
-                    indexs.Add(i);
-            }
-
-            return indexs.ToArray();
-        }
-
-        /// <summary>
         /// Get the index of the screen
         /// </summary>
         /// <param name="name">State name</param>
         /// <returns>State index</returns>
-        public int GetStateIndex(string name)
+        public int IndexOf(string name)
         {
-            BaseState state = GetStateByName(name);
+            BaseState state = Get(name);
 
             if (state != null)
                 return _states.IndexOf(state);
@@ -256,7 +179,7 @@ namespace Yna.Engine.State
         /// </summary>
         /// <param name="name">State</param>
         /// <returns>State index</returns>
-        public int GetStateIndex(BaseState state)
+        public int IndexOf(BaseState state)
         {
             return _states.IndexOf(state);
         }
@@ -267,7 +190,7 @@ namespace Yna.Engine.State
         /// <param name="oldState">Old state in the collection</param>
         /// <param name="newState">New state</param>
         /// <returns>True if for success then false</returns>
-        public bool ReplaceState(BaseState oldState, BaseState newState)
+        public bool Replace(BaseState oldState, BaseState newState)
         {
             int index = _states.IndexOf(oldState);
 
@@ -334,8 +257,8 @@ namespace Yna.Engine.State
         /// <summary>
         /// Get desactivated states
         /// </summary>
-        /// <returns></returns>
-        public int[] GetDesactivedStatesIndex()
+        /// <returns>An array of index</returns>
+        public int[] GetDisabledStatesIndex()
         {
             List<int> indexs = new List<int>();
 
@@ -351,37 +274,11 @@ namespace Yna.Engine.State
         }
 
         /// <summary>
-        /// Get index of the first activated screen
+        /// Gets a state by its name
         /// </summary>
-        /// <returns>Index of the first activated screen, -1 if no screen is actived</returns>
-        public int GetFirstActiveStatesIndex()
-        {
-            int[] activeIndex = GetActiveStatesIndex();
-
-            if (activeIndex.Length > 0)
-                return GetActiveStatesIndex()[0];
-            else
-                return -1;
-        }
-
-        /// <summary>
-        /// Get index of the last activated screen
-        /// </summary>
-        /// <returns>Index of the last activated screen, -1 if no screen actived</returns>
-        public int GetLastActiveStateIndex()
-        {
-            int[] activeIndex = GetActiveStatesIndex();
-            int size = activeIndex.Length;
-
-            if (size > 0 && size < 1)
-                return activeIndex[size - 1];
-            else if (size > 0)
-                return activeIndex[0];
-            else
-                return -1;
-        }
-
-        public BaseState GetStateByName(string name)
+        /// <param name="name">The name used by the state</param>
+        /// <returns>The state if exists otherwise return null</returns>
+        public BaseState Get(string name)
         {
             if (_statesDictionary.ContainsKey(name))
                 return _states[_statesDictionary[name]];
@@ -389,6 +286,9 @@ namespace Yna.Engine.State
             return null;
         }
 
+        /// <summary>
+        /// Update internal mapping with de Dictionary and the State collection
+        /// </summary>
         protected void UpdateDictionaryStates()
         {
             _statesDictionary.Clear();
@@ -402,6 +302,9 @@ namespace Yna.Engine.State
             }
         }
 
+        /// <summary>
+        /// Do all state unactive
+        /// </summary>
         public void PauseAllStates()
         {
             foreach (BaseState state in _states)
@@ -510,7 +413,7 @@ namespace Yna.Engine.State
         /// </summary>
         /// <param name="index">position</param>
         /// <returns>The screen at the position</returns>
-        public BaseState GetScreenAt(int index)
+        public BaseState GetAt(int index)
         {
             return _states[index];
         }

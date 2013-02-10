@@ -98,12 +98,24 @@ namespace Yna.Engine
         /// <summary>
         /// Gets the width of the current viewport
         /// </summary>
-        public static int Width { get; set; }
+        public static int Width 
+        {
+            get
+            {
+                return Game.GraphicsDevice.Viewport.Width;
+            }
+        }
 
         /// <summary>
         /// Gets the height of the current viewport
         /// </summary>
-        public static int Height { get; set; }
+        public static int Height 
+        {
+            get
+            {
+                return Game.GraphicsDevice.Viewport.Height;
+            } 
+        }
 
         /// <summary>
         /// Gets the rectangle that represent the screen size

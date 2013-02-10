@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models3D.WindowsDX", "Model
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes.WindowsDX", "Shapes\Shapes.WindowsDX.csproj", "{2E5F76AD-573F-4833-A2DE-4DCED2940B80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.WindowsDX", "Common\Common.WindowsDX.csproj", "{08EC5EAA-02D9-4B51-B545-97AF22836C06}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,17 +114,6 @@ Global
 		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Release|x86.ActiveCfg = Release|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Debug|x86.Build.0 = Debug|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{08EC5EAA-02D9-4B51-B545-97AF22836C06}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

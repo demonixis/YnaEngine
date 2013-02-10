@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\Common\MonoGame\MonoGame.ContentPipeline.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -41,6 +41,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\AnimatedSprite.cs" />
     <Compile Include="Screens\BasicSprite.cs" />
@@ -49,10 +50,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.Linux.csproj">
-      <Project>{F8106832-F889-4082-A5F5-CB754F03E82C}</Project>
-      <Name>Common.Linux</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Yna.Linux.csproj">
       <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
       <Name>Yna.Linux</Name>
