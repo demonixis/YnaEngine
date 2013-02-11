@@ -19,5 +19,15 @@ namespace Microsoft.Xna.Framework
         {
             return new Point((int)vector.X, (int)vector.Y);
         }
+        
+        public static Vector2 ToIso(float x, float y)
+	{
+	    Vector2 vec = Vector2.Zero;
+	    
+	    float vy = (2 * y - x) / 2;
+	    float vx = (x + vy);
+	    
+	    return new Vector2(vx, vy);
+	}
     }
 }

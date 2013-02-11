@@ -15,19 +15,23 @@ namespace Yna.Engine.Graphics.TileMap.Isometric
 		private int[] _heights;
 		
 		#region Properties
-		public int TopLeft{
+		public int TopLeft
+		{
 			get{return _heights[TOP_LEFT];}
 			set{_heights[TOP_LEFT] = value;}
 		}
-		public int TopRight{
+		public int TopRight
+		{
 			get{return _heights[TOP_RIGHT];}
 			set{_heights[TOP_RIGHT] = value;}
 		}
-		public int BottomRight{
+		public int BottomRight
+		{
 			get{return _heights[BOTTOM_RIGHT];}
 			set{_heights[BOTTOM_RIGHT] = value;}
 		}
-		public int BottomLeft{
+		public int BottomLeft
+		{
 			get{return _heights[BOTTOM_LEFT];}
 			set{_heights[BOTTOM_LEFT] = value;}
 		}

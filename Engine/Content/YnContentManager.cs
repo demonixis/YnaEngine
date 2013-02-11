@@ -46,8 +46,8 @@ namespace Yna.Engine.Content
             _loadedAssets = new Dictionary<string, object>();
             _disposableAssets = new List<IDisposable>();
             _gameDirectory = Directory.GetCurrentDirectory();
-            _fullPath = Path.Combine(_gameDirectory, _rootDirectory);
             _rootDirectory = "Content";
+            _fullPath = Path.Combine(_gameDirectory, _rootDirectory);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Yna.Engine.Content
                         // Try to deserialize an object
                         try
                         {
-                            objectAsset = ContentHelper.LoadXMLFromXna<T>(assetName);
+                            objectAsset = ContentHelper.LoadXMLFromXna<T>(GetAssetPath(assetName));
                         }
                         catch (Exception ex)
                         {
@@ -106,7 +106,7 @@ namespace Yna.Engine.Content
                     }
                     else
                     {
-                        DebugHelper.Trace("The load was aborted");
+                        DebugHelper.Trace("Can't load this asset");
                     }
                 }
 
@@ -115,15 +115,15 @@ namespace Yna.Engine.Content
         }
 
         /// <summary>
-        /// Unload all assets from the content manager
+        /// Unload all assets from content manager
         /// </summary>
         public void Unload()
         {
-            _loadedAssets.Clear();
+            Dispose();
         }
 
         /// <summary>
-        /// Unload and dispose all assets from the content
+        /// Unload and disposables assets
         /// </summary>
         public void Dispose()
         {
