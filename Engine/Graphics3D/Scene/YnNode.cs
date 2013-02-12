@@ -2,11 +2,22 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Engine.Graphics;
+using Yna.Engine.Graphics.Scene;
+using Yna.Engine.Graphics3D.Lighting;
 
-namespace Yna.Engine.Graphics
+namespace Yna.Engine.Graphics3D.Scene
 {
-    public class YnEntityList : YnList<YnEntity>
+    public class YnNode : YnList<YnEntity3D>
     {
+        protected YnTransform _tranform;
+        protected YnNode _parent;
+
+        public YnNode(YnNode parent)
+        {
+            _parent = parent;
+        }
+
         public virtual void Initialize()
         {
             int nbMembers = _members.Count;
@@ -44,21 +55,24 @@ namespace Yna.Engine.Graphics
         {
             for (int i = 0; i < count; i++)
             {
-                if (_safeMembers[i].Enabled)
-                    _safeMembers[i].Update(gameTime);
+                if (_members[i].Enabled)
+                    _members[i].Update(gameTime);
             }
         }
 
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GraphicsDevice device, YnBasicLight light)
         {
-            int nbSafeMembers = _safeMembers.Count;
+            int nbMembers = _safeMembers.Count;
 
-            if (nbSafeMembers > 0)
+            if (nbMembers > 0)
             {
-                for (int i = 0; i < nbSafeMembers; i++)
+                for (int i = 0; i < nbMembers; i++)
                 {
                     if (_safeMembers[i].Visible)
-                        _safeMembers[i].Draw(gameTime, spriteBatch);
+                    {
+                        _safeMembers[i].UpdateLighting(light);
+                        _safeMembers[i].Draw(device);
+                    }
                 }
             }
         }

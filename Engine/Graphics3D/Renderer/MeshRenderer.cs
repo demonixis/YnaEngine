@@ -10,7 +10,7 @@ namespace Yna.Engine.Graphics3D.Renderer
 {
     public class MeshRenderer
     {
-        public void Draw(BaseCamera camera, YnScene3D scene)
+        public void Draw(BaseCamera camera, YnScene3D1 scene)
         {
             foreach (YnEntity3D object3D in scene)
             {

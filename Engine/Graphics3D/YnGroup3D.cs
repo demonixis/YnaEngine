@@ -247,7 +247,7 @@ namespace Yna.Engine.Graphics3D
         /// <param name="sceneObject">An object3D</param>
         public void Add(YnEntity3D sceneObject)
         {
-            if (sceneObject is YnScene3D)
+            if (sceneObject is YnScene3D1)
                 throw new Exception("[YnGroup3D] You can't add a scene on a group, use an YnGroup3D instead");
 
             if (_initialized)

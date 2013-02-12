@@ -18,11 +18,11 @@ namespace Yna.Engine.Graphics3D
         protected BaseMaterial _material;
 
         // Direction
-        protected Vector3 _rotation;
-        protected Vector3 _scale;
-        protected Vector3 _lastPosition;
-        protected Vector3 _direction;
-        protected Vector3 _lastDirection;
+        protected Vector3 _rotation;        // @deprected
+        protected Vector3 _scale;           // @deprected
+        protected Vector3 _lastPosition;    // @deprected
+        protected Vector3 _direction;       // @deprected
+        protected Vector3 _lastDirection;   // @deprected
 
         // Bounding Sphere/Box
         protected BoundingBox _boundingBox;
@@ -31,6 +31,10 @@ namespace Yna.Engine.Graphics3D
         // Visibility
         protected bool _visible;
         protected bool _dirty;
+
+        protected bool _isFrustrumCulled;
+        protected bool _castShadow;
+        protected bool _receiveShadow;
 
         // Static or dynamic object
         protected bool _dynamic;
@@ -361,6 +365,14 @@ namespace Yna.Engine.Graphics3D
         #region GameState pattern
 
         /// <summary>
+        /// Initialize logic
+        /// </summary>
+        public virtual void Initialize()
+        {
+
+        }
+
+        /// <summary>
         /// Load Content
         /// </summary>
         public abstract void LoadContent();
@@ -373,15 +385,17 @@ namespace Yna.Engine.Graphics3D
             // TODO : material.Dispose();
         }
 
+        /// <summary>
+        /// Update logic
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             if (_dynamic)
             {
                 UpdateBoundingVolumes();
-
                 _lastDirection = (_position - _lastPosition);
                 _lastDirection.Normalize();
-
                 _lastPosition = _position;
             }
 

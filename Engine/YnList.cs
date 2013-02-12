@@ -101,27 +101,26 @@ namespace Yna.Engine
         /// Add an item in the collection
         /// </summary>
         /// <param name="item">An item</param>
-        public virtual void Add(T item)
+        public virtual bool Add(T item)
         {
+            if (_members.Contains(item))
+                return false;
+
             _members.Add(item);
+            return true;
         }
 
         /// <summary>
         /// Remove an item from the collection
         /// </summary>
         /// <param name="item">Item</param>
-        public virtual void Remove(T item)
+        public virtual bool Remove(T item)
         {
-            _members.Add(item);
-        }
+            if (!_members.Contains(item))
+                return false;
 
-        /// <summary>
-        /// Force the collection to remove the item now
-        /// </summary>
-        /// <param name="item">Item to remove</param>
-        public virtual void ForceRemove(T item)
-        {
             _members.Remove(item);
+            return true;
         }
 
         /// <summary>
@@ -142,8 +141,8 @@ namespace Yna.Engine
         {
             for (int i = 0; i < count; i++)
             {
-                if (_members[i].Enabled)
-                    _members[i].Update(gameTime);
+                if (_safeMembers[i].Enabled)
+                    _safeMembers[i].Update(gameTime);
             }
         }
     }

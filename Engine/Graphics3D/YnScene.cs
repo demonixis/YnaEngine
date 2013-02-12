@@ -10,7 +10,7 @@ using Yna.Engine.Graphics3D.Lighting;
 
 namespace Yna.Engine.Graphics3D
 {
-    public class YnScene3D : YnGroup3D
+    public class YnScene3D1 : YnGroup3D
     {
         #region Constructors
 
@@ -22,14 +22,14 @@ namespace Yna.Engine.Graphics3D
             set { _light = value; }
         }
 
-        public YnScene3D(BaseCamera camera)
+        public YnScene3D1(BaseCamera camera)
             : base(camera, null)
         {
             _light = new YnBasicLight();
             _light.AmbientIntensity = 1f;
         }
 
-        public YnScene3D()
+        public YnScene3D1()
             : this(null)
         {
 

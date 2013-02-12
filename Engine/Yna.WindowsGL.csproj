@@ -22,7 +22,8 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
-    <DocumentationFile>bin\WindowsGL\Debug\Yna.Engine.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
@@ -46,6 +47,9 @@
     <Compile Include="Extensions\RectangleExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />
     <Compile Include="Graphics3D\Controls\FirstPersonVirtualPadControl.cs" />
+    <Compile Include="Graphics3D\Scene\YnNode.cs" />
+    <Compile Include="Graphics3D\Scene\YnSceneGraph.cs" />
+    <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Scene\BaseScene.cs" />
