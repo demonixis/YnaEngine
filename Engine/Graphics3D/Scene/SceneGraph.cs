@@ -5,18 +5,19 @@ using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Scene;
 using Yna.Engine.Graphics3D.Lighting;
+using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D.Scene
 {
-    class YnSceneGraph : BaseScene
+    class SceneGraph : BaseScene
     {
-        protected YnBasicLight _light;
-        private List<YnNode> _sceneNodes;
+        protected Node _rootNode;
+        protected BaseCamera _activeCamera;
+        protected YnBasicLight _sceneLight;
 
-        public YnSceneGraph()
+        public SceneGraph()
         {
-            _light = new YnBasicLight();
-            _sceneNodes = new List<YnNode>(); 
+            
         }
 
         public override void Initialize()
@@ -29,9 +30,14 @@ namespace Yna.Engine.Graphics3D.Scene
             
         }
 
-        public override void Clear()
+        public override void Update(GameTime gameTime)
         {
-            _sceneNodes.Clear();
+            _rootNode.Up
+        }
+
+        public virtual void Draw(GraphicsDevice device)
+        {
+            _rootNode.Draw(device, _activeCamera, _sceneLight);
         }
     }
 

@@ -19,19 +19,31 @@ namespace Yna.Engine.Graphics3D
         public Vector3 Position
         {
             get { return _position; }
-            set { _position = value; }
+            set
+            {
+                _position = value;
+                UpdatePosition();
+            }
         }
 
         public Vector3 Rotation
         {
             get { return _rotation; }
-            set { _rotation = value; }
+            set
+            {
+                _rotation = value;
+                UpdateRotation();
+            }
         }
 
         public Vector3 Scale
         {
             get { return _scale; }
-            set { _scale = value; }
+            set
+            {
+                _scale = value;
+                UpdateScale();
+            }
         }
 
         public YnTransform()
@@ -42,14 +54,53 @@ namespace Yna.Engine.Graphics3D
             _world = Matrix.Identity;
         }
 
-        public void ApplyTransform(ref Matrix transformMatrix)
+        public void Translate(float x, float y, float z)
         {
-            _world *= transformMatrix;
+
         }
 
-        public void ApplyTransform(Matrix transformMatrix)
+        public void Rotate(float rx, float ry, float rz)
         {
-            ApplyTransform(ref transformMatrix);
+
+        }
+
+        protected void UpdatePosition()
+        {
+            _world *= Matrix.CreateTranslation(_position);
+        }
+
+        protected void UpdateRotation()
+        {
+            _world *= Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z);
+        }
+
+        protected void UpdateScale()
+        {
+            _world *= Matrix.CreateScale(_scale);
+        }
+
+        public void Update(YnTransform parent)
+        {
+            // Set the matrix world to identify
+            _world = Matrix.Identity;
+
+            _world *= Matrix.CreateScale(_scale);
+
+            // If a parent exists
+            if (parent != null)
+            {
+                _world = parent.World;
+                _world *= Matrix.CreateFromAxisAngle(parent.World.Right, _rotation.X);
+                _world *= Matrix.CreateFromAxisAngle(parent.World.Up, _rotation.Y);
+                _world *= Matrix.CreateFromAxisAngle(parent.World.Forward, _rotation.Z);
+            }
+            // Local transforms
+            else
+            {
+                _world *= Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z);
+            }
+
+            _world *= Matrix.CreateTranslation(_position);
         }
     }
 }

@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics;
-using Yna.Engine.Graphics.Scene;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Lighting;
 
-namespace Yna.Engine.Graphics3D.Scene
+namespace Yna.Engine.Graphics3D
 {
-    public class YnNode : YnList<YnEntity3D>
+    public class YnEntity3DList : YnList<YnEntity3D>
     {
-        protected YnTransform _tranform;
-        protected YnNode _parent;
-
-        public YnNode(YnNode parent)
-        {
-            _parent = parent;
-        }
-
         public virtual void Initialize()
         {
             int nbMembers = _members.Count;
@@ -60,21 +53,9 @@ namespace Yna.Engine.Graphics3D.Scene
             }
         }
 
-        public virtual void Draw(GraphicsDevice device, YnBasicLight light)
+        protected virtual void Draw(GraphicsDevice device, BaseCamera camera, YnBasicLight light)
         {
-            int nbMembers = _safeMembers.Count;
 
-            if (nbMembers > 0)
-            {
-                for (int i = 0; i < nbMembers; i++)
-                {
-                    if (_safeMembers[i].Visible)
-                    {
-                        _safeMembers[i].UpdateLighting(light);
-                        _safeMembers[i].Draw(device);
-                    }
-                }
-            }
         }
     }
 }
