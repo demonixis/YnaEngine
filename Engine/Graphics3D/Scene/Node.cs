@@ -9,25 +9,127 @@ using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D.Scene
 {
+    /// <summary>
+    /// A Node class used with a SceneGraph.
+    /// </summary>
     public class Node
     {
-        protected YnTransform _tranforms;
-        protected Node _parent;
+        protected YnTransform _tranform;
+        protected List<Node> _children;
+        protected Node _parentNode;
+        protected bool _enabled;
+        protected bool _visible;
 
+        /// <summary>
+        /// Gets or sets transforms.
+        /// </summary>
+        public YnTransform Transform
+        {
+            get { return _tranform; }
+            set { _tranform = value; }
+        }
+
+        /// <summary>
+        /// Enable or disable the node.
+        /// </summary>
+        public bool Enabled
+        {
+            get { return _enabled; }
+        }
+
+        /// <summary>
+        /// Gets or sets the node visible.
+        /// </summary>
+        public bool Visible
+        {
+            get { return _visible; }
+        }
+
+        /// <summary>
+        /// Create a new Node without parent
+        /// </summary>
+        public Node()
+        {
+            _tranform = new YnTransform();
+            _parentNode = null;
+            Initialize();
+        }
+
+        /// <summary>
+        /// Create a new Node with a parent node
+        /// </summary>
+        /// <param name="parent"></param>
         public Node(Node parent)
         {
-            _parent = parent;
-            _tranforms = new YnTransform();
+            _tranform = new YnTransform(parent.Transform);
+            Initialize();
         }
 
+        /// <summary>
+        /// Initialize the node
+        /// </summary>
+        public virtual void Initialize()
+        {
+            _enabled = true;
+            _visible = true;
+        }
+
+        /// <summary>
+        /// Update children logic.
+        /// </summary>
+        /// <param name="gameTime">Time elapsed</param>
+        public virtual void UpdateChildren(GameTime gameTime)
+        {
+            int nbChildren = _children.Count;
+
+            if (nbChildren > 0)
+            {
+                for (int i = 0; i < nbChildren; i++)
+                {
+                    if (_children[i].Enabled)
+                        _children[i].Update(gameTime);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draw children
+        /// </summary>
+        /// <param name="device">GraphicsDevice to use for drawing</param>
+        /// <param name="camera">Camera to use</param>
+        /// <param name="light">Light</param>
+        public virtual void DrawChildren(GraphicsDevice device, BaseCamera camera, YnBasicLight light)
+        {
+            int nbChildren = _children.Count;
+
+            if (nbChildren > 0)
+            {
+                for (int i = 0; i < nbChildren; i++)
+                {
+                    if (_children[i].Visible)
+                        _children[i].Draw(device, camera, light);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update node logic.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public virtual void Update(GameTime gameTime)
         {
-            
+
         }
 
+        /// <summary>
+        /// Draw node
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="camera"></param>
+        /// <param name="light"></param>
         public virtual void Draw(GraphicsDevice device, BaseCamera camera, YnBasicLight light)
         {
-          
+
         }
     }
 

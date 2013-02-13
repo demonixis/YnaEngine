@@ -9,6 +9,7 @@ namespace Yna.Engine.Graphics3D
         private Vector3 _rotation;
         private Vector3 _position;
         private Vector3 _scale;
+        private YnTransform _parent;
 
         public Matrix World
         {
@@ -52,14 +53,16 @@ namespace Yna.Engine.Graphics3D
             _rotation = Vector3.Zero;
             _scale = Vector3.Zero;
             _world = Matrix.Identity;
+            _parent = null;
+        }
+
+        public YnTransform(YnTransform parent)
+            : this()
+        {
+            _parent = parent;
         }
 
         public void Translate(float x, float y, float z)
-        {
-
-        }
-
-        public void Rotate(float rx, float ry, float rz)
         {
 
         }
@@ -79,7 +82,7 @@ namespace Yna.Engine.Graphics3D
             _world *= Matrix.CreateScale(_scale);
         }
 
-        public void Update(YnTransform parent)
+        public void Update()
         {
             // Set the matrix world to identify
             _world = Matrix.Identity;
@@ -87,12 +90,12 @@ namespace Yna.Engine.Graphics3D
             _world *= Matrix.CreateScale(_scale);
 
             // If a parent exists
-            if (parent != null)
+            if (_parent != null)
             {
-                _world = parent.World;
-                _world *= Matrix.CreateFromAxisAngle(parent.World.Right, _rotation.X);
-                _world *= Matrix.CreateFromAxisAngle(parent.World.Up, _rotation.Y);
-                _world *= Matrix.CreateFromAxisAngle(parent.World.Forward, _rotation.Z);
+                _world = _parent.World;
+                _world *= Matrix.CreateFromAxisAngle(_parent.World.Right, _rotation.X);
+                _world *= Matrix.CreateFromAxisAngle(_parent.World.Up, _rotation.Y);
+                _world *= Matrix.CreateFromAxisAngle(_parent.World.Forward, _rotation.Z);
             }
             // Local transforms
             else

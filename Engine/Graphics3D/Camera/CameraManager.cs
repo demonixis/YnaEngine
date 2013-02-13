@@ -31,14 +31,57 @@ namespace Yna.Engine.Graphics3D.Camera
             _activeCameraIndex = _arraySize - 1;
         }
 
+        public BaseCamera GetActiveCamera()
+        {
+            return _cameras[_activeCameraIndex];
+        }
+
+        public void SetActiveCamera(int index)
+        {
+            if (index > -1 && index < _arraySize)
+                _activeCameraIndex = index;
+        }
+
+        /// <summary>
+        /// Sets the next camera active
+        /// </summary>
+        /// <returns></returns>
+        public bool NextCamera()
+        {
+            if (_activeCameraIndex < _arraySize - 1)
+            {
+                _activeCameraIndex++;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Sets the previous camera active
+        /// </summary>
+        /// <returns></returns>
+        public bool PreviousCamera()
+        {
+            if (_activeCameraIndex > 0)
+            {
+                _activeCameraIndex--;
+                return true;
+            }
+
+            return false;
+        }
+
         public void Add(BaseCamera item)
         {
             bool canAdd = true;
+            int i = 0;
 
-            for (int i = 0; i < _arraySize; i++)
+            while (i < _arraySize && canAdd)
             {
                 if (_cameras[i] == item)
                     canAdd = false;
+                i++;
             }
 
             if (canAdd)
