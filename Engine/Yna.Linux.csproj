@@ -166,6 +166,8 @@
     <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Collision\ICollidable.cs" />
+    <Compile Include="Graphics3D\Scene\Node.cs" />
+    <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -175,4 +177,7 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Graphics3D\Scene\" />
+  </ItemGroup>
 </Project>
