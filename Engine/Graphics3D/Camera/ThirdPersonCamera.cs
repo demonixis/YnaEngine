@@ -54,17 +54,13 @@ namespace Yna.Engine.Graphics3D.Camera
         {
             _position = position;
             _target = target;
-
             _yaw = 0.0f;
             _pitch = 0.0f;
-
             _nearClip = nearClip;
             _farClip = farClip;
 
             _view = Matrix.CreateLookAt(_position, _target, Vector3.Up);
-
             _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
-
             _world = Matrix.Identity;
         }
 
@@ -78,15 +74,11 @@ namespace Yna.Engine.Graphics3D.Camera
             base.Update(gameTime);
 
             Matrix matRotation = Matrix.CreateRotationY(_yaw) * Matrix.CreateRotationY(_followedObject.Rotation.Y);
-
             Vector3 transformedReference = Vector3.Transform(_reference, matRotation);
-
             Vector3 position = transformedReference + _followedObject.Position;
 
             _view = Matrix.CreateLookAt(position, _followedObject.Position, Vector3.Up);
-
             _projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Near, Far);
-
             _world = Matrix.Identity;
         }
     }

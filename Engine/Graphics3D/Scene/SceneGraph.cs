@@ -14,14 +14,14 @@ namespace Yna.Engine.Graphics3D.Scene
     /// </summary>
     public class SceneGraph : BaseScene
     {
-        protected Node _rootNode;
+        protected SceneNode _rootNode;
         protected CameraManager _cameraManager;
         protected YnBasicLight _sceneLight;
 
         /// <summary>
         /// Gets the root node
         /// </summary>
-        public Node RootNode
+        public SceneNode RootNode
         {
             get { return _rootNode; }
         }

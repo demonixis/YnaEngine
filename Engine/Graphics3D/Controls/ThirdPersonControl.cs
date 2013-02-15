@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Input;
 
 namespace Yna.Engine.Graphics3D.Controls
 {
@@ -25,78 +26,89 @@ namespace Yna.Engine.Graphics3D.Controls
         {
             base.Update(gameTime);
 
+            UpdatePhysics(gameTime);
+
             Camera.Update(gameTime);
+        }
+
+        public override void UpdatePhysics(GameTime gameTime)
+        {
+            var camera = Camera as ThirdPersonCamera;
+            camera.FollowedObject.Translate(_velocityPosition.X, _velocityPosition.Y, _velocityPosition.Z);
+            camera.FollowedObject.RotateY(_velocityRotation.Y);
+        }
+
+        public void SetDistance(float distance)
+        {
+            (Camera as ThirdPersonCamera).AngleArround = distance;
+            (Camera as ThirdPersonCamera).Distance = distance;
+        }
+
+        public void SetTopDistance(float topDistance)
+        {
+            (Camera as ThirdPersonCamera).Angle = topDistance;
         }
 
         protected override void UpdateKeyboardInput(GameTime gameTime)
         {
-            var camera = Camera as ThirdPersonCamera;
-
             // Translation Up/Down
             if (YnG.Keys.Pressed(Keys.A))
-                camera.FollowedObject.Translate(0, _moveSpeed, 0);
+                _velocityPosition.Y += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.E))
-                camera.FollowedObject.Translate(0, -_moveSpeed, 0);
+                _velocityPosition.Y -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Translation Forward/backward
             if (YnG.Keys.Pressed(Keys.Z) || YnG.Keys.Up)
-                camera.FollowedObject.Translate(0, 0, _moveSpeed);
+                _velocityPosition.Z -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
-                camera.FollowedObject.Translate(0, 0, -_moveSpeed);
+                _velocityPosition.Z += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Translation Left/Right
             if (YnG.Keys.Pressed(Keys.Q))
-                camera.FollowedObject.Translate(_strafeSpeed, 0, 0);
+                _velocityPosition.X -= _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.D))
-                camera.FollowedObject.Translate(-_strafeSpeed, 0, 0);
+                _velocityPosition.X += _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Rotation Left/Right
             if (YnG.Keys.Left)
-                camera.FollowedObject.RotateY(_rotateSpeed);
+                _velocityRotation.Y += _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Right)
-                camera.FollowedObject.RotateY(-_rotateSpeed);
+                _velocityRotation.Y -= _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Rotate the camera arround the followed object
             if (YnG.Keys.Pressed(Keys.W))
-                Camera.RotateY(-_rotateSpeed);
+                Camera.RotateY(-_rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f);
             else if (YnG.Keys.Pressed(Keys.X))
-                Camera.RotateY(_rotateSpeed);
-
-            // Add or reduce the distance between camera and object
-            if (YnG.Keys.Pressed(Keys.PageUp) || YnG.Keys.Pressed(Keys.PageDown))
-            {
-                if (YnG.Keys.Pressed(Keys.PageUp))
-                {
-                    camera.Distance += 0.5f;
-                    camera.Angle -= 0.5f;
-                }
-                else
-                {
-                    camera.Distance -= 0.5f;
-                    camera.Angle += 0.5f;
-                }
-            }
+                Camera.RotateY(_rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f);
         }
 
         protected override void UpdateGamepadInput(GameTime gameTime)
         {
-            var camera = Camera as ThirdPersonCamera;
-
             Vector2 leftStickValue = YnG.Gamepad.LeftStickValue(_playerIndex);
             Vector2 rightStickValue = YnG.Gamepad.RightStickValue(_playerIndex);
 
-            camera.FollowedObject.Translate(-leftStickValue.X * _moveSpeed, 0, leftStickValue.Y * _moveSpeed);
-            camera.FollowedObject.RotateY(-rightStickValue.X * _rotateSpeed);
+            _velocityPosition.X += -leftStickValue.X * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            _velocityPosition.Z += leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+
 
             if (YnG.Gamepad.LeftShoulder(_playerIndex))
-                camera.FollowedObject.Translate(0, _moveSpeed, 0);
+                _velocityPosition.Y += -leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Gamepad.RightShoulder(_playerIndex))
-                camera.FollowedObject.Translate(0, -_moveSpeed, 0);
+                _velocityPosition.Y -= -leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
         }
 
         protected override void UpdateMouseInput(GameTime gameTime)
         {
-            (Camera as ThirdPersonCamera).FollowedObject.Translate(-YnG.Mouse.Delta.X * 0.5f, 0, -YnG.Mouse.Delta.Y * 0.5f);
+            if (YnG.Mouse.Click(MouseButton.Left) || YnG.Mouse.Click(MouseButton.Right))
+            {
+                if (YnG.Mouse.Click(MouseButton.Left))
+                    _velocityPosition.Z += YnG.Mouse.Delta.Y * 0.5f * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+
+                else if (YnG.Mouse.Click(MouseButton.Right))
+                    _velocityPosition.Z -= -YnG.Mouse.Delta.Y * 0.5f * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+
+                _velocityRotation.Y = -YnG.Mouse.Delta.X * 0.5f * _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            }
         }
     }
 }

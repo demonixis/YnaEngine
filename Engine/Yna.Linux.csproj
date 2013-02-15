@@ -166,8 +166,10 @@
     <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Collision\ICollidable.cs" />
-    <Compile Include="Graphics3D\Scene\Node.cs" />
+    <Compile Include="Graphics3D\YnTransform.cs" />
+    <Compile Include="Graphics3D\Camera\CameraManager.cs" />
     <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
+    <Compile Include="Graphics3D\Scene\SceneNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

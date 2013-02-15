@@ -12,11 +12,11 @@ namespace Yna.Engine.Graphics3D.Scene
     /// <summary>
     /// A Node class used with a SceneGraph.
     /// </summary>
-    public class Node
+    public class SceneNode
     {
         protected YnTransform _tranform;
-        protected List<Node> _children;
-        protected Node _parentNode;
+        protected List<SceneNode> _children;
+        protected SceneNode _parentNode;
         protected bool _enabled;
         protected bool _visible;
 
@@ -48,7 +48,7 @@ namespace Yna.Engine.Graphics3D.Scene
         /// <summary>
         /// Create a new Node without parent
         /// </summary>
-        public Node()
+        public SceneNode()
         {
             _tranform = new YnTransform();
             _parentNode = null;
@@ -59,7 +59,7 @@ namespace Yna.Engine.Graphics3D.Scene
         /// Create a new Node with a parent node
         /// </summary>
         /// <param name="parent"></param>
-        public Node(Node parent)
+        public SceneNode(SceneNode parent)
         {
             _tranform = new YnTransform(parent.Transform);
             Initialize();
