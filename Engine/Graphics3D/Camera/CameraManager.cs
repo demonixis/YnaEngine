@@ -5,20 +5,43 @@ using System.Text;
 
 namespace Yna.Engine.Graphics3D.Camera
 {
-    public class CameraManager : ICollection<BaseCamera>
+    /// <summary>
+    /// A camera manager
+    /// </summary>
+    public sealed class CameraManager : ICollection<BaseCamera>
     {
         private BaseCamera [] _cameras;
         private int _arraySize;
         private int _activeCameraIndex;
 
+        /// <summary>
+        /// Gets the number of cameras.
+        /// </summary>
+        public int Count
+        {
+            get { return _arraySize; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Create a camera manager with a default camera
+        /// </summary>
+        /// <param name="camera">A camera</param>
         public CameraManager(BaseCamera camera)
         {
             _cameras = new BaseCamera[1];
             _activeCameraIndex = 0;
             _arraySize = 1;
-            Add(camera);
         }
 
+        /// <summary>
+        /// Create a camera manager with cameras. The latest camera is the default camera
+        /// </summary>
+        /// <param name="cameras">Array of cameras</param>
         public CameraManager(BaseCamera[] cameras)
         {
             _arraySize = cameras.Length;
@@ -30,11 +53,19 @@ namespace Yna.Engine.Graphics3D.Camera
             _activeCameraIndex = _arraySize - 1;
         }
 
+        /// <summary>
+        /// Gets active camera.
+        /// </summary>
+        /// <returns></returns>
         public BaseCamera GetActiveCamera()
         {
             return _cameras[_activeCameraIndex];
         }
 
+        /// <summary>
+        /// Set active camera.
+        /// </summary>
+        /// <param name="index">Index of camera to use</param>
         public void SetActiveCamera(int index)
         {
             if (index > -1 && index < _arraySize)
@@ -45,7 +76,7 @@ namespace Yna.Engine.Graphics3D.Camera
         /// Sets the next camera active
         /// </summary>
         /// <returns></returns>
-        public bool NextCamera()
+        public bool ActiveNextCamera()
         {
             if (_activeCameraIndex < _arraySize - 1)
             {
@@ -60,7 +91,7 @@ namespace Yna.Engine.Graphics3D.Camera
         /// Sets the previous camera active
         /// </summary>
         /// <returns></returns>
-        public bool PreviousCamera()
+        public bool ActivePreviousCamera()
         {
             if (_activeCameraIndex > 0)
             {
@@ -71,6 +102,11 @@ namespace Yna.Engine.Graphics3D.Camera
             return false;
         }
 
+        /// <summary>
+        /// Add a new camera
+        /// </summary>
+        /// <param name="item">A camera</param>
+        /// <param name="isActiveCamera">True if the camera is the current active camera otherwise false</param>
         public void Add(BaseCamera item)
         {
             bool canAdd = true;
@@ -89,6 +125,9 @@ namespace Yna.Engine.Graphics3D.Camera
                 CopyTo(temp, 0);
                 temp[_arraySize] = item;
                 _arraySize++;
+
+                if (_activeCameraIndex == -1)
+                    _activeCameraIndex = 0;
             }
         }
 
@@ -123,16 +162,11 @@ namespace Yna.Engine.Graphics3D.Camera
                 array[i] = _cameras[i];
         }
 
-        public int Count
-        {
-            get { return _arraySize; }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
-
+        /// <summary>
+        /// Remove a camera from the collection
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(BaseCamera item)
         {
             int arraySize = _cameras.Length;
@@ -161,6 +195,9 @@ namespace Yna.Engine.Graphics3D.Camera
 
                 _cameras = temp;
                 _arraySize -= 1;
+                
+                if (_activeCameraIndex > 0 && _activeCameraIndex == removedIndex)
+                    _activeCameraIndex--;
 
                 return true;
             }

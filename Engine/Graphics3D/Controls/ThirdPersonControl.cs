@@ -25,28 +25,15 @@ namespace Yna.Engine.Graphics3D.Controls
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            UpdatePhysics(gameTime);
-
+            ApplyPhysics(gameTime);
             Camera.Update(gameTime);
         }
 
-        public override void UpdatePhysics(GameTime gameTime)
+        public override void ApplyPhysics(GameTime gameTime)
         {
             var camera = Camera as ThirdPersonCamera;
             camera.FollowedObject.Translate(_velocityPosition.X, _velocityPosition.Y, _velocityPosition.Z);
             camera.FollowedObject.RotateY(_velocityRotation.Y);
-        }
-
-        public void SetDistance(float distance)
-        {
-            (Camera as ThirdPersonCamera).AngleArround = distance;
-            (Camera as ThirdPersonCamera).Distance = distance;
-        }
-
-        public void SetTopDistance(float topDistance)
-        {
-            (Camera as ThirdPersonCamera).Angle = topDistance;
         }
 
         protected override void UpdateKeyboardInput(GameTime gameTime)
@@ -77,9 +64,9 @@ namespace Yna.Engine.Graphics3D.Controls
 
             // Rotate the camera arround the followed object
             if (YnG.Keys.Pressed(Keys.W))
-                Camera.RotateY(-_rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f);
+                Camera.RotateY(-_rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.1f);
             else if (YnG.Keys.Pressed(Keys.X))
-                Camera.RotateY(_rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f);
+                Camera.RotateY(_rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.1f);
         }
 
         protected override void UpdateGamepadInput(GameTime gameTime)
@@ -87,14 +74,24 @@ namespace Yna.Engine.Graphics3D.Controls
             Vector2 leftStickValue = YnG.Gamepad.LeftStickValue(_playerIndex);
             Vector2 rightStickValue = YnG.Gamepad.RightStickValue(_playerIndex);
 
-            _velocityPosition.X += -leftStickValue.X * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            _velocityPosition.Z += leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            _velocityPosition.X += leftStickValue.X * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            _velocityPosition.Z += -leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            _velocityRotation.Y += -rightStickValue.X * _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+
+            if (YnG.Gamepad.LeftTrigger(PlayerIndex.One))
+                _velocityPosition.Y += -_moveSpeed * YnG.Gamepad.LeftTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            else if (YnG.Gamepad.RightTrigger(PlayerIndex.One))
+                _velocityPosition.Y += +_moveSpeed * YnG.Gamepad.RightTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+
+            Camera.RotateX(-rightStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.1f);
 
 
-            if (YnG.Gamepad.LeftShoulder(_playerIndex))
-                _velocityPosition.Y += -leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            else if (YnG.Gamepad.RightShoulder(_playerIndex))
-                _velocityPosition.Y -= -leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            if (YnG.Gamepad.LeftShoulder(PlayerIndex.One))
+                Camera.RotateY(-_moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.1f);
+            else if (YnG.Gamepad.RightShoulder(PlayerIndex.One))
+                Camera.RotateY(_moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.1f);
+
+            //Camera.RotateY(-rightStickValue.X * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.1f);
         }
 
         protected override void UpdateMouseInput(GameTime gameTime)

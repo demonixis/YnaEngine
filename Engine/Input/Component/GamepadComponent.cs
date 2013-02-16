@@ -27,7 +27,6 @@ namespace Yna.Engine.Input.Service
 
         public override void Update(GameTime gameTime)
         {
-            return;
             for (int i = 0; i < 4; i++)
             {
                 lastState[i] = state[i];

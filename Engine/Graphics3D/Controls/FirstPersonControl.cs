@@ -35,7 +35,7 @@ namespace Yna.Engine.Graphics3D.Controls
         {
             base.Update(gameTime);
 
-            UpdatePhysics(gameTime);
+            ApplyPhysics(gameTime);
 
             Camera.Update(gameTime);
         }
@@ -104,7 +104,7 @@ namespace Yna.Engine.Graphics3D.Controls
         protected override void UpdateMouseInput(GameTime gameTime)
         {
             Camera.RotateY(YnG.Mouse.Delta.X * 0.2f);
-            Camera.SetPitch(-YnG.Mouse.Delta.Y * 0.2f);
+            Camera.RotateX(-YnG.Mouse.Delta.Y * 0.2f);
         }
     }
 }

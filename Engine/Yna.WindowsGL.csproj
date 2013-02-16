@@ -48,8 +48,8 @@
     <Compile Include="Extensions\Vector2Extension.cs" />
     <Compile Include="Graphics3D\Camera\CameraManager.cs" />
     <Compile Include="Graphics3D\Controls\FirstPersonVirtualPadControl.cs" />
-    <Compile Include="Graphics3D\Scene\Node.cs" />
     <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
+    <Compile Include="Graphics3D\Scene\SceneNode.cs" />
     <Compile Include="Graphics3D\YnEntity3DList.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />

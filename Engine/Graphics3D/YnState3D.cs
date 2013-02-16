@@ -13,8 +13,8 @@ namespace Yna.Engine.Graphics3D
     {
         protected BaseCamera _camera;
         private YnScene3D1 _scene;
-        private List<YnBase3D> _baseMembers;
-        private List<YnBase3D> _safeBaseMembers;
+        private List<YnBase> _baseMembers;
+        private List<YnBase> _safeBaseMembers;
 
         public YnScene3D1 Scene
         {
@@ -22,7 +22,7 @@ namespace Yna.Engine.Graphics3D
             protected set { _scene = value; }
         }
 
-        public List<YnBase3D> BaseMembers
+        public List<YnBase> BaseMembers
         {
             get { return _baseMembers; }
             protected set { _baseMembers = value; }
@@ -43,8 +43,8 @@ namespace Yna.Engine.Graphics3D
         {
             _camera = new FixedCamera();
             _scene = new YnScene3D1(_camera);
-            _baseMembers = new List<YnBase3D>();
-            _safeBaseMembers = new List<YnBase3D>();
+            _baseMembers = new List<YnBase>();
+            _safeBaseMembers = new List<YnBase>();
             Initialized = false;
         }
 
@@ -128,12 +128,12 @@ namespace Yna.Engine.Graphics3D
         /// Add a non drawable object. If it's a Camera it is used as default camera
         /// </summary>
         /// <param name="basic3D">A basic object</param>
-        public void Add(YnBase3D basic3D)
+        public void Add(YnBase basic)
         {
-            if (basic3D is BaseCamera)
-                Camera = (basic3D as BaseCamera);
+            if (basic is BaseCamera)
+                Camera = (basic as BaseCamera);
 
-            _baseMembers.Add(basic3D);
+            _baseMembers.Add(basic);
         }
 
         /// <summary>
@@ -149,9 +149,9 @@ namespace Yna.Engine.Graphics3D
         /// Remove a basic object
         /// </summary>
         /// <param name="base3D"></param>
-        public void Remove(YnBase3D base3D)
+        public void Remove(YnBase basic)
         {
-            _baseMembers.Remove(base3D);
+            _baseMembers.Remove(basic);
         }
 
         /// <summary>

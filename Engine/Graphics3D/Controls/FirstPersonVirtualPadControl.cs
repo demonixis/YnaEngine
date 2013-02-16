@@ -58,9 +58,9 @@ namespace Yna.Engine.Graphics3D.Controls
         /// </summary>
         protected virtual void Initialize()
         {
-            _useGamepad = false;
-            _useKeyboard = false;
-            _useMouse = false;
+            _enableGamepad = false;
+            _enableKeyboard = false;
+            _enableMouse = false;
             _keyMapper = null;
             _moveSpeed = 0.8f;
             _strafeSpeed = 0.8f;
@@ -89,7 +89,7 @@ namespace Yna.Engine.Graphics3D.Controls
 
             UpdateVirtualPadInput(gameTime);
             UpdateTouchInput(gameTime);
-            UpdatePhysics(gameTime);
+            ApplyPhysics(gameTime);
 
             Camera.Update(gameTime);
         }

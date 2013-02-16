@@ -96,7 +96,7 @@ namespace Yna.Engine.Input
 
         public bool RightTrigger(PlayerIndex index)
         {
-            return _gamepadComponent.Pressed(index, Buttons.RightStick);
+            return _gamepadComponent.Pressed(index, Buttons.RightTrigger);
         }
 
         public bool RightShoulder(PlayerIndex index)

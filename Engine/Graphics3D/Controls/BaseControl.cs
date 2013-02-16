@@ -30,9 +30,9 @@ namespace Yna.Engine.Graphics3D.Controls
         protected bool _mouseLock;
 
         // Flags
-        protected bool _useKeyboard;
-        protected bool _useGamepad;
-        protected bool _useMouse;
+        protected bool _enableKeyboard;
+        protected bool _enableGamepad;
+        protected bool _enableMouse;
 
         #region Properties
 
@@ -165,18 +165,14 @@ namespace Yna.Engine.Graphics3D.Controls
             set 
             { 
                 _mouseLock = value;
-                if (_mouseLock)
-                {
-                    YnG.Mouse.SetPosition(YnG.Width / 2, YnG.Height / 2);
-                    YnG.Mouse.ResetDelta();
-                }
+
             }
         }
 
         /// <summary>
         /// Gets or sets the rotate speed
         /// </summary>
-        public float RotateSpeed
+        public float RotationSpeed
         {
             get { return _rotateSpeed; }
             set
@@ -189,37 +185,41 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <summary>
         /// Enable or disable keyboard
         /// </summary>
-        public bool UseKeyboard
+        public bool EnableKeyboard
         {
-            get { return _useKeyboard; }
-            set { _useKeyboard = value; }
+            get { return _enableKeyboard; }
+            set { _enableKeyboard = value; }
         }
 
         /// <summary>
         /// Enable or disable gamepad
         /// </summary>
-        public bool UseGamepad
+        public bool EnableGamepad
         {
-            get { return _useGamepad; }
-            set { _useGamepad = value; }
+            get { return _enableGamepad; }
+            set { _enableGamepad = value; }
         }
 
         /// <summary>
         /// Enable or disable mouse
         /// </summary>
-        public bool UseMouse
+        public bool EnableMouse
         {
-            get { return _useMouse; }
+            get { return _enableMouse; }
             set 
             {
-                _useMouse = value;
-                if (_useMouse)
+                _enableMouse = value;
+                if (_enableMouse)
                     Mouse.SetPosition(YnG.Width / 2, YnG.Height / 2);
             }
         }
 
         #endregion
 
+        /// <summary>
+        /// A base control with a camera.
+        /// </summary>
+        /// <param name="camera"></param>
         public BaseControl(BaseCamera camera)
         {
             _camera = camera;
@@ -241,9 +241,9 @@ namespace Yna.Engine.Graphics3D.Controls
             _playerIndex = PlayerIndex.One;
 
             // Flags
-            _useKeyboard = true;
-            _useGamepad = true;
-            _useMouse = false;
+            _enableKeyboard = true;
+            _enableGamepad = true;
+            _enableMouse = false;
 #if LINUX
 			_useGamepad = false;
 #endif
@@ -258,29 +258,48 @@ namespace Yna.Engine.Graphics3D.Controls
         public override void Update(GameTime gameTime)
         {
             // Physics
-            _velocityPosition *= _accelerationPosition * _maxVelocityPosition;
-            _velocityRotation *= _accelerationRotation * _maxVelocityRotation;
+            UpdatePhysics(gameTime);
 
-            if (_useKeyboard)
-                UpdateKeyboardInput(gameTime);
-
-            if (_useMouse)
-                UpdateMouseInput(gameTime);
-
-            if (_useGamepad)
-                UpdateGamepadInput(gameTime); 
+            // Inputs
+            UpdateInputs(gameTime);
         }
 
         /// <summary>
-        /// Update velocity speed and acceleration
+        /// Update physics.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public virtual void UpdatePhysics(GameTime gameTime)
+        {
+            _velocityPosition *= _accelerationPosition * _maxVelocityPosition;
+            _velocityRotation *= _accelerationRotation * _maxVelocityRotation;
+        }
+
+        /// <summary>
+        /// Apply velocity speed and acceleration
         /// </summary>
         /// <param name="gameTime">GameTime</param>
-        public virtual void UpdatePhysics(GameTime gameTime)
+        public virtual void ApplyPhysics(GameTime gameTime)
         {
             Camera.Translate(_velocityPosition.X, _velocityPosition.Y, _velocityPosition.Z);
             Camera.RotateY(_velocityRotation.Y);
-            Camera.SetPitch(_velocityRotation.X);
-            Camera.SetRoll(_velocityRotation.Z);
+            Camera.RotateX(_velocityRotation.X);
+            Camera.RotateZ(_velocityRotation.Z);
+        }
+
+        /// <summary>
+        /// Update all inputs.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        protected virtual void UpdateInputs(GameTime gameTime)
+        {
+            if (_enableKeyboard)
+                UpdateKeyboardInput(gameTime);
+
+            if (_enableMouse)
+                UpdateMouseInput(gameTime);
+
+            if (_enableGamepad)
+                UpdateGamepadInput(gameTime); 
         }
 
         /// <summary>

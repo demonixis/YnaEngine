@@ -7,19 +7,19 @@ namespace Yna.Engine.Graphics3D.Camera
     /// <summary>
     /// Define a basic camera used to view a 3D scene
     /// </summary>
-    public abstract class BaseCamera : YnBase3D
+    public abstract class BaseCamera : YnBase
     {
         #region Protected declarations
 
-        // Position 
-        protected Vector3 _lastPosition;
-
-        // Direction
+        // Position and Direction
+        protected Vector3 _position;
         protected Vector3 _direction;
         protected Vector3 _lastDirection;
+        protected Vector3 _lastPosition;
         private bool _dynamic;
 
         // Matrix
+        protected Matrix _world;
         protected Matrix _projection;
         protected Matrix _view;
 
@@ -48,6 +48,42 @@ namespace Yna.Engine.Graphics3D.Camera
         #endregion
 
         #region Porperties for position and direction
+
+        /// <summary>
+        /// Get or Set the position value
+        /// </summary>
+        public Vector3 Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the position on X axis
+        /// </summary>
+        public float X
+        {
+            get { return _position.X; }
+            set { _position.X = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the position on Y axis
+        /// </summary>
+        public float Y
+        {
+            get { return _position.Y; }
+            set { _position.Y = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the position on Z axis
+        /// </summary>
+        public float Z
+        {
+            get { return _position.Z; }
+            set { _position.Z = value; }
+        }
 
         /// <summary>
         /// Get the last position
@@ -108,6 +144,15 @@ namespace Yna.Engine.Graphics3D.Camera
         #endregion
 
         #region Properties for Matrix
+
+        /// <summary>
+        /// Get or Set the World matrix of the object
+        /// </summary>
+        public Matrix World
+        {
+            get { return _world; }
+            set { _world = value; }
+        }
 
         /// <summary>
         /// Gets or sets the projection matrix
@@ -312,7 +357,7 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
-        /// Initialize camera with default parameters
+        /// Setup the camera with default values
         /// </summary>
         public virtual void SetupCamera()
         {
@@ -320,43 +365,42 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
-        /// Initialize camera
+        /// Setup the camera.
         /// </summary>
         /// <param name="position">World position</param>
-        /// <param name="target">Targeted position</param>
+        /// <param name="target">Target position</param>
         /// <param name="nearClip">Near vision</param>
         /// <param name="farClip">Far vision</param>
         public virtual void SetupCamera(Vector3 position, Vector3 target, float nearClip, float farClip)
         {
             _position = position;
-            _reference = new Vector3(0.0f, 0.0f, 10.0f); // fix that
+            _reference = new Vector3(0.0f, 0.0f, 10.0f);
             _target = target;
-
             _yaw = 0.0f;
             _pitch = 0.0f;
             _roll = 0.0f;
-
             _nearClip = nearClip;
             _farClip = farClip;
 
             _view = Matrix.CreateLookAt(_position, _target, _vectorUp);
-
             _world = Matrix.Identity;
 
             UpdateProjection();
         }
 
+        /// <summary>
+        /// Update project matrix and frustrum matrix
+        /// </summary>
         public virtual void UpdateProjection()
         {
             _projection = Matrix.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, _nearClip, _farClip);
-
             _boundingFrustrum.Matrix = MatrixViewProjection; 
         }
 
         /// <summary>
-        /// Rotate the camera around Y axis
+        /// Rotate the camera around Y axis.
         /// </summary>
-        /// <param name="angle">An angle in degree</param>
+        /// <param name="angle">An angle in degree.</param>
         public virtual void RotateY(float angle)
         {
             _yaw += MathHelper.ToRadians(angle);
@@ -365,15 +409,22 @@ namespace Yna.Engine.Graphics3D.Camera
                 _yaw = 0.0f;
         }
 
-        public virtual void SetPitch(float angle)
+        /// <summary>
+        /// Rotate the camera around X axis.
+        /// </summary>
+        /// <param name="angle">An angle in degree.</param>
+        public virtual void RotateX(float angle)
         {
             _pitch += MathHelper.ToRadians(angle);
-
             _pitch = _pitch <= -1.0f ? -1.0f : _pitch;
             _pitch = _pitch >= 1.0f ? 1.0f : _pitch;
         }
 
-        public virtual void SetRoll(float angle)
+        /// <summary>
+        /// Rotate the camera around Z axis.
+        /// </summary>
+        /// <param name="angle">An angle in degree.</param>
+        public virtual void RotateZ(float angle)
         {
             _roll += MathHelper.ToRadians(angle);
         }
@@ -395,6 +446,9 @@ namespace Yna.Engine.Graphics3D.Camera
             _position.Z += v.Z;
         }
 
+        /// <summary>
+        /// Update BoundingBox, BoundingSphere and BoundingFrustrum. It's called by Update method.
+        /// </summary>
         public virtual void UpdateBoundingVolumes()
         {
             // Update BoudingSphere
@@ -405,22 +459,23 @@ namespace Yna.Engine.Graphics3D.Camera
             _boundingBox.Min.X = X - _boundingRadius;
             _boundingBox.Min.Y = Y - _boundingRadius;
             _boundingBox.Min.Z = Z - _boundingRadius;
-            _boundingBox.Min.X = X + _boundingRadius;
-            _boundingBox.Min.Y = Y + _boundingRadius;
-            _boundingBox.Min.Z = Z + _boundingRadius;
+            _boundingBox.Max.X = X + _boundingRadius;
+            _boundingBox.Max.Y = Y + _boundingRadius;
+            _boundingBox.Max.Z = Z + _boundingRadius;
 
             // Update Frustrum
             _boundingFrustrum.Matrix = MatrixWorldViewProject;
         }
 
+        /// <summary>
+        /// Update the camera.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             UpdateBoundingVolumes();
-
-            // Update direction and last position
-            _lastDirection = (_position - _lastPosition);
-           // _lastDirection.Normalize();
-
+            _lastDirection = _direction;
+            _direction = _position - _lastPosition;
             _lastPosition = _position;
         }
     }
