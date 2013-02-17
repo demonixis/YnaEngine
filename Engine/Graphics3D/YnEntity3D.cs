@@ -393,7 +393,7 @@ namespace Yna.Engine.Graphics3D
         {
             if (_dynamic)
             {
-                UpdateBoundingVolumes();
+				UpdateBoundingVolumes();
                 _lastDirection = (_position - _lastPosition);
                 _lastDirection.Normalize();
                 _lastPosition = _position;

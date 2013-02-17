@@ -244,9 +244,6 @@ namespace Yna.Engine.Graphics3D.Controls
             _enableKeyboard = true;
             _enableGamepad = true;
             _enableMouse = false;
-#if LINUX
-			_useGamepad = false;
-#endif
         }
 
         public BaseControl(BaseCamera camera, PlayerIndex index)

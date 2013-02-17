@@ -13,8 +13,8 @@ namespace Microsoft.Xna.Framework
         {
             int x = (int)boundingBox.Min.X;
             int y = (int)boundingBox.Min.Z;
-            int width = (int)boundingBox.Max.X;
-            int height = (int)boundingBox.Max.Z;
+            int width = (int)(boundingBox.Max.X - boundingBox.Min.X);
+            int height = (int)(boundingBox.Max.Z - boundingBox.Min.Z);
 
             return new Rectangle(x, y, width, height);
         }
