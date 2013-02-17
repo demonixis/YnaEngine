@@ -2,6 +2,7 @@ Thumbs.db
 *.suo
 *.cachefile
 *.user
+*.v11
 *.pidb
 *.userprefs
 *.DS_Store

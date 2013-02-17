@@ -250,6 +250,9 @@ namespace Yna.Engine.Graphics3D
             if (sceneObject is YnScene3D1)
                 throw new Exception("[YnGroup3D] You can't add a scene on a group, use an YnGroup3D instead");
 
+            if (sceneObject == this)
+                throw new Exception("[YnGroup3D] You can't add this group");
+
             if (_initialized)
             {
                 sceneObject.Camera = _camera;

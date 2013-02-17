@@ -98,10 +98,14 @@ namespace Yna.Engine
         /// <summary>
         /// Gets the width of the current viewport
         /// </summary>
-        public static int Width 
+        public static int Width
         {
             get
             {
+#if MONOGAME && DIRECTX
+                if (Game.GraphicsDevice == null)
+                    return GraphicsDeviceManager.PreferredBackBufferWidth;
+#endif
                 return Game.GraphicsDevice.Viewport.Width;
             }
         }
@@ -109,12 +113,17 @@ namespace Yna.Engine
         /// <summary>
         /// Gets the height of the current viewport
         /// </summary>
-        public static int Height 
+        public static int Height
         {
             get
             {
+#if MONOGAME && DIRECTX
+                if (Game.GraphicsDevice == null)
+                    return GraphicsDeviceManager.PreferredBackBufferHeight;
+#endif
                 return Game.GraphicsDevice.Viewport.Height;
-            } 
+
+            }
         }
 
         /// <summary>
