@@ -46,12 +46,11 @@
     <Compile Include="Extensions\Vector2Extension.cs" />
     <Compile Include="Content\YnContentManager.cs" />
     <Compile Include="Graphics3D\Controls\FirstPersonVirtualPadControl.cs" />
-    <Compile Include="Graphics3D\Lighting\YnDirectionalLight.cs" />
-    <Compile Include="Graphics3D\Lighting\YnLight.cs" />
+    <Compile Include="Graphics3D\Lighting\DirectionalLight.cs" />
+    <Compile Include="Graphics3D\Lighting\BaseLight.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
     <Compile Include="Graphics3D\Renderer\MeshRenderer.cs" />
     <Compile Include="Graphics3D\Terrain\Skybox.cs" />
-    <Compile Include="Graphics3D\YnMesh.cs" />
     <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
     <Compile Include="Graphics\Animation\YnInterpolator.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />
@@ -70,7 +69,7 @@
     <Compile Include="Graphics3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Graphics3D\Controls\KeyMapping.cs" />
     <Compile Include="Graphics3D\Controls\ThirdPersonControl.cs" />
-    <Compile Include="Graphics3D\Lighting\YnBasicLight.cs" />
+    <Compile Include="Graphics3D\Lighting\SceneLight.cs" />
     <Compile Include="Graphics3D\Material\DualTextureMaterial.cs" />
     <Compile Include="Graphics3D\Material\EnvironmentMapMaterial.cs" />
     <Compile Include="Graphics3D\Material\StockMaterial.cs" />
@@ -138,6 +137,9 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
+    <Compile Include="IDrawableEntity.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IDrawableEntity3D.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
     <Compile Include="Input\Component\KeyboardComponent.cs" />
     <Compile Include="Input\Component\MouseComponent.cs" />
@@ -164,7 +166,6 @@
     <Compile Include="YnGame.cs" />
     <Compile Include="Graphics\YnGroup.cs" />
     <Compile Include="Graphics\YnEntity.cs" />
-    <Compile Include="YnInterface.cs" />
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Engine.Graphics3D.Lighting
 {
-    public class YnDirectionalLight
+    public class DirectionalLight
     {
         public Vector3 DiffuseColor { get; set; }
         public float DiffuseIntensity { get; set; }
@@ -12,7 +12,7 @@ namespace Yna.Engine.Graphics3D.Lighting
         public float SpecularIntensity { get; set; }
         public bool Enabled { get; set; }
 
-        public YnDirectionalLight()
+        public DirectionalLight()
         {
             DiffuseColor = new Vector3(1.0f, 1.0f, 1.0f);
             DiffuseIntensity = 1.0f;

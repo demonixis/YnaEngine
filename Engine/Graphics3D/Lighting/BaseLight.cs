@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Engine.Graphics3D.Lighting
 {
-    public class YnLight
+    public class BaseLight
     {
         protected bool _enabled;
         protected Vector3 _ambientColor;
@@ -44,7 +44,7 @@ namespace Yna.Engine.Graphics3D.Lighting
         /// <summary>
         /// Create a basic light with just an ambient color set to white
         /// </summary>
-        public YnLight()
+        public BaseLight()
         {
             _ambientColor = Vector3.One;
             _ambientIntensity = 1.0f;

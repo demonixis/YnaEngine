@@ -445,7 +445,7 @@ namespace Yna.Engine.Graphics.Component
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void Pad_Click(object sender, MouseClickSpriteEventArgs e)
+        protected virtual void Pad_Click(object sender, MouseClickEntityEventArgs e)
         {
             YnSprite button = sender as YnSprite;
 
@@ -463,7 +463,7 @@ namespace Yna.Engine.Graphics.Component
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void Pad_Released(object sender, MouseReleaseSpriteEventArgs e)
+        protected virtual void Pad_Released(object sender, MouseReleaseEntityEventArgs e)
         {
             YnSprite button = sender as YnSprite;
 

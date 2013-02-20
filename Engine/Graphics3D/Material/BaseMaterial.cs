@@ -28,7 +28,7 @@ namespace Yna.Engine.Graphics3D.Material
         protected Vector3 _diffuseColor;
         protected float _diffuseIntensity;
 
-        protected YnLight _light;
+        protected BaseLight _light;
 
         #region Properties
 
@@ -41,7 +41,7 @@ namespace Yna.Engine.Graphics3D.Material
             set { _effect = value; }
         }
 
-        public YnLight Light
+        public BaseLight Light
         {
             get { return _light; }
             set { _light = value; }

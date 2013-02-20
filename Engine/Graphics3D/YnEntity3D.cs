@@ -356,7 +356,7 @@ namespace Yna.Engine.Graphics3D
 
         public abstract void UpdateBoundingVolumes();
 
-        public virtual void UpdateLighting(YnBasicLight light)
+        public virtual void UpdateLighting(SceneLight light)
         {
             if (_material != null)
                 _material.Light = light;

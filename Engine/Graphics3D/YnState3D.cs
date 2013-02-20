@@ -13,8 +13,7 @@ namespace Yna.Engine.Graphics3D
     {
         protected BaseCamera _camera;
         private YnScene3D1 _scene;
-        private List<YnBase> _baseMembers;
-        private List<YnBase> _safeBaseMembers;
+        private YnBaseList _basicObjects;
 
         public YnScene3D1 Scene
         {
@@ -24,8 +23,8 @@ namespace Yna.Engine.Graphics3D
 
         public List<YnBase> BaseMembers
         {
-            get { return _baseMembers; }
-            protected set { _baseMembers = value; }
+            get { return _basicObjects.Members; }
+            protected set { _basicObjects.Members = value; }
         }
 
         public BaseCamera Camera
@@ -43,8 +42,7 @@ namespace Yna.Engine.Graphics3D
         {
             _camera = new FixedCamera();
             _scene = new YnScene3D1(_camera);
-            _baseMembers = new List<YnBase>();
-            _safeBaseMembers = new List<YnBase>();
+            _basicObjects = new YnBaseList();
             Initialized = false;
         }
 
@@ -93,17 +91,7 @@ namespace Yna.Engine.Graphics3D
 
         public override void Update(GameTime gameTime)
         {
-            int nbMembers = _baseMembers.Count;
-
-            if (nbMembers > 0)
-            {
-                _safeBaseMembers.Clear();
-                _safeBaseMembers.AddRange(_baseMembers);
-
-                for (int i = 0; i < nbMembers; i++)
-                    _safeBaseMembers[i].Update(gameTime);
-            }
-
+            _basicObjects.Update(gameTime);
             _scene.Update(gameTime);
         }
 
@@ -133,7 +121,7 @@ namespace Yna.Engine.Graphics3D
             if (basic is BaseCamera)
                 Camera = (basic as BaseCamera);
 
-            _baseMembers.Add(basic);
+            _basicObjects.Add(basic);
         }
 
         /// <summary>
@@ -151,7 +139,7 @@ namespace Yna.Engine.Graphics3D
         /// <param name="base3D"></param>
         public void Remove(YnBase basic)
         {
-            _baseMembers.Remove(basic);
+            _basicObjects.Remove(basic);
         }
 
         /// <summary>
@@ -159,8 +147,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public void Clear()
         {
-            _baseMembers.Clear();
-            _safeBaseMembers.Clear();
+            _basicObjects.Clear();
             _scene.Clear();
         }
 

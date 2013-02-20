@@ -25,7 +25,7 @@ namespace Yna.Engine.Graphics3D.Material
         protected bool _enablePerPixelLighting;
         protected bool _enableVertexColor;
         protected bool _enableDefaultLighting;
-        protected YnBasicLight _basicLight;
+        protected SceneLight _basicLight;
 
         #endregion
 
@@ -219,9 +219,9 @@ namespace Yna.Engine.Graphics3D.Material
                 effectLights.LightingEnabled = !_enableDefaultLighting;
                 effectLights.AmbientLightColor = _ambientColor * _ambientIntensity;
 
-                if (_light is YnBasicLight)
+                if (_light is SceneLight)
                 {
-                    UpdateLighting(effectLights, (YnBasicLight)_light);
+                    UpdateLighting(effectLights, (SceneLight)_light);
                     effectLights.AmbientLightColor *= _light.AmbientColor * _light.AmbientIntensity;
                 }
 
@@ -229,7 +229,7 @@ namespace Yna.Engine.Graphics3D.Material
             }
         }
 
-        public static void UpdateLighting(IEffectLights effect, YnBasicLight light)
+        public static void UpdateLighting(IEffectLights effect, SceneLight light)
         {
             effect.DirectionalLight0.Enabled = light.DirectionalLights[0].Enabled;
             effect.DirectionalLight0.Direction = light.DirectionalLights[0].Direction;

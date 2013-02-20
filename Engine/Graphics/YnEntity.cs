@@ -31,7 +31,7 @@ namespace Yna.Engine.Graphics
     /// <summary>
     /// A basic drawable object
     /// </summary>
-    public class YnEntity : YnBase, ICollidable2
+    public class YnEntity : YnBase, IDrawableEntity, ICollidable2
     {
         #region Protected and private declarations
 
@@ -404,16 +404,16 @@ namespace Yna.Engine.Graphics
         #region Mouse events
 
         // Mouse events
-        private event EventHandler<MouseOverSpriteEventArgs> _mouseOver = null;
-        private event EventHandler<MouseLeaveSpriteEventArgs> _mouseLeave = null;
-        private event EventHandler<MouseClickSpriteEventArgs> _mouseClicked = null;
-        private event EventHandler<MouseClickSpriteEventArgs> _mouseClick = null;
-        private event EventHandler<MouseReleaseSpriteEventArgs> _mouseRelease = null;
+        private event EventHandler<MouseOverEntityEventArgs> _mouseOver = null;
+        private event EventHandler<MouseLeaveEntityEventArgs> _mouseLeave = null;
+        private event EventHandler<MouseClickEntityEventArgs> _mouseClicked = null;
+        private event EventHandler<MouseClickEntityEventArgs> _mouseClick = null;
+        private event EventHandler<MouseReleaseEntityEventArgs> _mouseRelease = null;
 
         /// <summary>
         /// Triggered when the mouse is over the object
         /// </summary>
-        public event EventHandler<MouseOverSpriteEventArgs> MouseOver
+        public event EventHandler<MouseOverEntityEventArgs> MouseOver
         {
             add
             {
@@ -430,7 +430,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Triggered when the mouse leave the object
         /// </summary>
-        public event EventHandler<MouseLeaveSpriteEventArgs> MouseLeave
+        public event EventHandler<MouseLeaveEntityEventArgs> MouseLeave
         {
             add
             {
@@ -447,7 +447,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Triggered when a click (and just one) is detected over the object
         /// </summary>
-        public event EventHandler<MouseClickSpriteEventArgs> MouseClicked
+        public event EventHandler<MouseClickEntityEventArgs> MouseClicked
         {
             add
             {
@@ -464,7 +464,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Triggered when click are detected over the object
         /// </summary>
-        public event EventHandler<MouseClickSpriteEventArgs> MouseClick
+        public event EventHandler<MouseClickEntityEventArgs> MouseClick
         {
             add
             {
@@ -481,7 +481,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Triggered when click are detected over the object
         /// </summary>
-        public event EventHandler<MouseReleaseSpriteEventArgs> MouseReleased
+        public event EventHandler<MouseReleaseEntityEventArgs> MouseReleased
         {
             add
             {
@@ -495,31 +495,31 @@ namespace Yna.Engine.Graphics
             }
         }
 
-        private void MouseOverSprite(MouseOverSpriteEventArgs e)
+        private void MouseOverSprite(MouseOverEntityEventArgs e)
         {
             if (_mouseOver != null)
                 _mouseOver(this, e);
         }
 
-        private void MouseLeaveSprite(MouseLeaveSpriteEventArgs e)
+        private void MouseLeaveSprite(MouseLeaveEntityEventArgs e)
         {
             if (_mouseLeave != null)
                 _mouseLeave(this, e);
         }
 
-        private void MouseJustClickedSprite(MouseClickSpriteEventArgs e)
+        private void MouseJustClickedSprite(MouseClickEntityEventArgs e)
         {
             if (_mouseClicked != null)
                 _mouseClicked(this, e);
         }
 
-        private void MouseClickSprite(MouseClickSpriteEventArgs e)
+        private void MouseClickSprite(MouseClickEntityEventArgs e)
         {
             if (_mouseClick != null)
                 _mouseClick(this, e);
         }
 
-        private void MouseReleaseSprite(MouseReleaseSpriteEventArgs e)
+        private void MouseReleaseSprite(MouseReleaseEntityEventArgs e)
         {
             if (_mouseRelease != null)
                 _mouseRelease(this, e);
@@ -645,7 +645,7 @@ namespace Yna.Engine.Graphics
                     if (_rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
                     {
                         // Mouse Over
-                        MouseOverSprite(new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+                        MouseOverSprite(new MouseOverEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
 
                         // Just clicked
                         if (YnG.Mouse.JustClicked(MouseButton.Left) || YnG.Mouse.JustClicked(MouseButton.Middle) || YnG.Mouse.JustClicked(MouseButton.Right))
@@ -659,7 +659,7 @@ namespace Yna.Engine.Graphics
                             else
                                 mouseButton = MouseButton.Right;
 
-                            MouseJustClickedSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true, false));
+                            MouseJustClickedSprite(new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true, false));
                         }
 
                         // one click
@@ -674,21 +674,21 @@ namespace Yna.Engine.Graphics
                             else
                                 mouseButton = MouseButton.Right;
 
-                            MouseClickSprite(new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false, false));
+                            MouseClickSprite(new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, false, false));
                         }
                         else
                         {
-                            MouseReleaseSprite(new MouseReleaseSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+                            MouseReleaseSprite(new MouseReleaseEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
                         }
                     }
                     // Mouse leave
                     else if (Rectangle.Contains(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y))
                     {
-                        MouseLeaveSprite(new MouseLeaveSpriteEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
+                        MouseLeaveSprite(new MouseLeaveEntityEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
                     }
                     else
                     {
-                        MouseReleaseSprite(new MouseReleaseSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+                        MouseReleaseSprite(new MouseReleaseEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
                     }
                 }
                 #endregion

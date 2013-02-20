@@ -560,7 +560,7 @@ namespace Yna.Engine.Graphics.Gui
 
                         // TODO : Get the correct button
                         if (MouseJustClicked != null)
-                            MouseJustClicked(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, true, false));
+                            MouseJustClicked(this, new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, true, false));
                     }
 
                     // Part (2) : Mouse button down
@@ -574,14 +574,14 @@ namespace Yna.Engine.Graphics.Gui
 
                         // TODO : Get the correct button
                         if (MouseClick != null)
-                            MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
+                            MouseClick(this, new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
                     }
 
                     // Mouse release
                     if (YnG.Mouse.JustReleased(MouseButton.Left) && YnG.Mouse.LastMouseState.LeftButton == ButtonState.Pressed)
                     {
                         if (MouseReleasedInside != null) 
-                            MouseReleasedInside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
+                            MouseReleasedInside(this, new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
                     }
                 }
                 else
@@ -594,7 +594,7 @@ namespace Yna.Engine.Graphics.Gui
                         // Mouse release
                         if (YnG.Mouse.JustReleased(MouseButton.Left) && YnG.Mouse.LastMouseState.LeftButton == ButtonState.Pressed)
                         {
-                            if (MouseReleasedOutside != null) MouseReleasedOutside(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
+                            if (MouseReleasedOutside != null) MouseReleasedOutside(this, new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, false, false));
                         }
                     }
                 }
@@ -713,39 +713,39 @@ namespace Yna.Engine.Graphics.Gui
         /// <summary>
         /// Triggered when the mouse is over the object
         /// </summary>
-        public event EventHandler<MouseOverSpriteEventArgs> MouseOver = null;
+        public event EventHandler<MouseOverEntityEventArgs> MouseOver = null;
 
         /// <summary>
         /// Triggered when the mouse leave the object
         /// </summary>
-        public event EventHandler<MouseLeaveSpriteEventArgs> MouseLeave = null;
+        public event EventHandler<MouseLeaveEntityEventArgs> MouseLeave = null;
 
         /// <summary>
         /// Triggered when a click (and just one) is detected over the object
         /// </summary>
-        public event EventHandler<MouseClickSpriteEventArgs> MouseJustClicked = null;
+        public event EventHandler<MouseClickEntityEventArgs> MouseJustClicked = null;
 
         /// <summary>
         /// Triggered when click are detected over the object
         /// </summary>
-        public event EventHandler<MouseClickSpriteEventArgs> MouseClick = null;
+        public event EventHandler<MouseClickEntityEventArgs> MouseClick = null;
 
         /// <summary>
         /// Triggered when a mouse button is released with the mouse on the widget
         /// </summary>
-        public event EventHandler<MouseClickSpriteEventArgs> MouseReleasedInside = null;
+        public event EventHandler<MouseClickEntityEventArgs> MouseReleasedInside = null;
 
         /// <summary>
         /// Triggered when a mouse button is released with the mouse out of the widget
         /// </summary>
-        public event EventHandler<MouseClickSpriteEventArgs> MouseReleasedOutside = null;
+        public event EventHandler<MouseClickEntityEventArgs> MouseReleasedOutside = null;
 
         /// <summary>
         /// Performs the mouse over actions and send proper the event
         /// </summary>
         protected virtual void DoMouseOver()
         {
-            if (MouseOver != null) MouseOver(this, new MouseOverSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
+            if (MouseOver != null) MouseOver(this, new MouseOverEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
         }
 
         /// <summary>
@@ -753,7 +753,7 @@ namespace Yna.Engine.Graphics.Gui
         /// </summary>
         protected virtual void DoMouseLeave()
         {
-            if (MouseLeave != null) MouseLeave(this, new MouseLeaveSpriteEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
+            if (MouseLeave != null) MouseLeave(this, new MouseLeaveEntityEventArgs(YnG.Mouse.LastMouseState.X, YnG.Mouse.LastMouseState.Y, YnG.Mouse.X, YnG.Mouse.Y));
         }
 
         /// <summary>
@@ -767,13 +767,13 @@ namespace Yna.Engine.Graphics.Gui
         {
             if (leftClick)
             {
-                if (MouseClick != null) MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, justClicked, false));
+                if (MouseClick != null) MouseClick(this, new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Left, justClicked, false));
             }
             if (middleClick)
-                if (MouseClick != null) MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Middle, justClicked, false));
+                if (MouseClick != null) MouseClick(this, new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Middle, justClicked, false));
 
             if (rightClick)
-                if (MouseClick != null) MouseClick(this, new MouseClickSpriteEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Right, justClicked, false));
+                if (MouseClick != null) MouseClick(this, new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, MouseButton.Right, justClicked, false));
         }
 
         #endregion

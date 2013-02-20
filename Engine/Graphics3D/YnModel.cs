@@ -165,7 +165,7 @@ namespace Yna.Engine.Graphics3D
                     effect.VertexColorEnabled = material.EnableVertexColor;
 
 
-                    YnBasicLight light = (YnBasicLight)material.Light;
+                    SceneLight light = (SceneLight)material.Light;
 
                     if (light != null)
                     {

@@ -4,7 +4,28 @@ using Yna.Engine.Input;
 
 namespace Yna.Engine.Graphics.Event
 {
-    public class MouseClickSpriteEventArgs : EventArgs
+    /// <summary>
+    /// Base event used for entity mouse event.
+    /// </summary>
+    public class MouseEntityEventArgs : EventArgs
+    {
+        public int X { get; protected set; }
+        public int Y { get; protected set; }
+
+        public MouseEntityEventArgs()
+        {
+            X = 0;
+            Y = 0;
+        }
+
+        public MouseEntityEventArgs(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+
+    public class MouseClickEntityEventArgs : EventArgs
     {
         public int X { get; protected set; }
         public int Y { get; protected set; }
@@ -12,7 +33,7 @@ namespace Yna.Engine.Graphics.Event
         public bool JustClicked;
         public bool DoubleClicked;
 
-        public MouseClickSpriteEventArgs(int x, int y, MouseButton mouseButton, bool justClicked, bool doubleClicked)
+        public MouseClickEntityEventArgs(int x, int y, MouseButton mouseButton, bool justClicked, bool doubleClicked)
         {
             X = x;
             Y = y;
@@ -22,14 +43,14 @@ namespace Yna.Engine.Graphics.Event
         }
     }
 
-    public class MouseLeaveSpriteEventArgs : EventArgs
+    public class MouseLeaveEntityEventArgs : EventArgs
     {
         public int LastX { get; protected set; }
         public int LastY { get; protected set; }
         public int X { get; protected set; }
         public int Y { get; protected set; }
 
-        public MouseLeaveSpriteEventArgs(int lastX, int lastY, int x, int y)
+        public MouseLeaveEntityEventArgs(int lastX, int lastY, int x, int y)
         {
             LastX = lastX;
             LastY = lastY;
@@ -38,24 +59,24 @@ namespace Yna.Engine.Graphics.Event
         }
     }
 
-    public class MouseOverSpriteEventArgs : EventArgs
+    public class MouseOverEntityEventArgs : EventArgs
     {
         public int X { get; protected set; }
         public int Y { get; protected set; }
 
-        public MouseOverSpriteEventArgs(int x, int y)
+        public MouseOverEntityEventArgs(int x, int y)
         {
             X = x;
             Y = y;
         }
     }
 
-    public class MouseReleaseSpriteEventArgs : EventArgs
+    public class MouseReleaseEntityEventArgs : EventArgs
     {
         public int X { get; protected set; }
         public int Y { get; protected set; }
 
-        public MouseReleaseSpriteEventArgs(int x, int y)
+        public MouseReleaseEntityEventArgs(int x, int y)
         {
             X = x;
             Y = y;

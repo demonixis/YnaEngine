@@ -14,9 +14,9 @@ namespace Yna.Engine.Graphics3D
     {
         #region Constructors
 
-        protected YnBasicLight _light;
+        protected SceneLight _light;
 
-        public YnBasicLight BasicLight
+        public SceneLight BasicLight
         {
             get { return _light; }
             set { _light = value; }
@@ -25,7 +25,7 @@ namespace Yna.Engine.Graphics3D
         public YnScene3D1(BaseCamera camera)
             : base(camera, null)
         {
-            _light = new YnBasicLight();
+            _light = new SceneLight();
             _light.AmbientIntensity = 1f;
         }
 
