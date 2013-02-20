@@ -15,6 +15,18 @@ namespace Yna.Engine.Graphics3D.Camera
             set { _followedObject = value; }
         }
 
+        public float Angle
+        {
+            get { return _reference.Y; }
+            set { _reference.Y = value; }
+        }
+
+        public float Distance
+        {
+            get { return _reference.Z; }
+            set { _reference.Z = value; }
+        }
+
         #region Constructors
 
         /// <summary>
@@ -23,7 +35,7 @@ namespace Yna.Engine.Graphics3D.Camera
         public ThirdPersonCamera()
             : this(null)
         {
-            
+
         }
 
         /// <summary>
@@ -33,7 +45,7 @@ namespace Yna.Engine.Graphics3D.Camera
         public ThirdPersonCamera(YnEntity3D entity3D)
             : this(entity3D, new Vector3(0, 10, 80))
         {
-           
+
         }
 
         /// <summary>

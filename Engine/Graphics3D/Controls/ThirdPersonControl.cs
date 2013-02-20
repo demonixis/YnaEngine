@@ -96,15 +96,26 @@ namespace Yna.Engine.Graphics3D.Controls
 
         protected override void UpdateMouseInput(GameTime gameTime)
         {
+            var camera = Camera as ThirdPersonCamera;
+
             if (YnG.Mouse.Click(MouseButton.Left) || YnG.Mouse.Click(MouseButton.Right))
             {
                 if (YnG.Mouse.Click(MouseButton.Left))
                     _velocityPosition.Z += YnG.Mouse.Delta.Y * 0.5f * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
-                else if (YnG.Mouse.Click(MouseButton.Right))
-                    _velocityPosition.Z -= -YnG.Mouse.Delta.Y * 0.5f * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-
                 _velocityRotation.Y = -YnG.Mouse.Delta.X * 0.5f * _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            }
+
+            if (YnG.Mouse.Click(MouseButton.Right))
+            {
+                Camera.RotateX(Camera.Pitch + YnG.Mouse.Delta.Y);
+                Camera.RotateY(Camera.Roll - YnG.Mouse.Delta.X);
+            }
+
+            else if (YnG.Mouse.Click(MouseButton.Middle))
+            {
+                camera.Distance += YnG.Mouse.Delta.X;
+                camera.Angle += YnG.Mouse.Delta.Y;
             }
         }
     }
