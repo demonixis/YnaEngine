@@ -32,7 +32,7 @@ namespace Yna.Samples.Screens
             control = new FirstPersonControl((FirstPersonCamera)_camera);
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.05f;
-            control.RotateSpeed = 0.45f;
+            control.RotationSpeed = 0.45f;
             control.MaxVelocityPosition = 0.95f;
             control.MaxVelocityRotation = 0.96f;
             Add(control);

@@ -36,7 +36,7 @@ namespace Yna.Samples.Screens
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
             control = new FirstPersonControl((FirstPersonCamera)_camera);
-            control.RotateSpeed = 0.45f;
+            control.RotationSpeed = 0.45f;
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.45f;
             control.MaxVelocityPosition = 0.96f;
@@ -99,10 +99,10 @@ namespace Yna.Samples.Screens
                 virtalPadMovement.X = -control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
 
             if (virtualPad.Pressed(PadButtons.StrafeLeft))
-                virtualPadRotation.Y = control.RotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
+                virtualPadRotation.Y = control.RotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
 
             else if (virtualPad.Pressed(PadButtons.StrafeRight))
-                virtualPadRotation.Y = -control.RotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
+                virtualPadRotation.Y = -control.RotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
 
             if (virtualPad.Pressed(PadButtons.ButtonA))
                 virtalPadMovement.Y = control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
