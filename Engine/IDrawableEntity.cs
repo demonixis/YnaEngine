@@ -6,8 +6,14 @@ namespace Yna.Engine
     /// <summary>
     /// An interface for 2D Entity
     /// </summary>
-    public interface IDrawableEntity : IEntity
+    public interface IDrawableEntity
     {
+        void Initialize();
+
+        void LoadContent();
+
+        void UnloadContent();
+
         /// <summary>
         /// Draw entity
         /// </summary>

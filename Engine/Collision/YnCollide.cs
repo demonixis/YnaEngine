@@ -81,8 +81,8 @@ namespace Yna.Engine.Collision
                     int index_A = (x - sceneObjectA.Rectangle.Left) + (y - sceneObjectA.Rectangle.Top) * sceneObjectA.Rectangle.Width;
                     int index_B = (x - sceneObjectB.Rectangle.Left) + (y - sceneObjectB.Rectangle.Top) * sceneObjectB.Rectangle.Width;
 
-                    Color[] colorsSpriteA = YnGraphics.GetTextureData(sceneObjectA.Texture);
-                    Color[] colorsSpriteB = YnGraphics.GetTextureData(sceneObjectB.Texture);
+                    Color[] colorsSpriteA = YnGraphics.GetTextureColors(sceneObjectA.Texture);
+                    Color[] colorsSpriteB = YnGraphics.GetTextureColors(sceneObjectB.Texture);
 
                     Color colorSpriteA = colorsSpriteA[index_A];
                     Color colorSpriteB = colorsSpriteB[index_B];

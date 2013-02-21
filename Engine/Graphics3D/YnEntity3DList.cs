@@ -53,7 +53,7 @@ namespace Yna.Engine.Graphics3D
             }
         }
 
-        protected virtual void Draw(GraphicsDevice device, BaseCamera camera, YnBasicLight light)
+        protected virtual void Draw(GraphicsDevice device, BaseCamera camera, SceneLight light)
         {
 
         }

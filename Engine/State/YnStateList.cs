@@ -5,8 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.State
 {
+    /// <summary>
+    /// A safe updateable state collection.
+    /// </summary>
     public class YnStateList : YnList<BaseState>
     {
+        /// <summary>
+        /// Initialize states
+        /// </summary>
         public virtual void Initialize()
         {
             int nbMembers = _members.Count;
@@ -18,6 +24,9 @@ namespace Yna.Engine.State
             }
         }
 
+        /// <summary>
+        /// Load assets from content manager.
+        /// </summary>
         public virtual void LoadContent()
         {
             int nbMembers = _members.Count;
@@ -29,6 +38,9 @@ namespace Yna.Engine.State
             }
         }
 
+        /// <summary>
+        /// Unload content.
+        /// </summary>
         public virtual void UnloadContent()
         {
             int nbMembers = _members.Count;
@@ -40,6 +52,11 @@ namespace Yna.Engine.State
             }
         }
 
+        /// <summary>
+        /// Logic update for safe states.
+        /// </summary>
+        /// <param name="gameTime">Game time</param>
+        /// <param name="count">Number of states to update</param>
         protected override void DoUpdate(GameTime gameTime, int count)
         {
             for (int i = 0; i < count; i++)
@@ -49,6 +66,11 @@ namespace Yna.Engine.State
             }
         }
 
+        /// <summary>
+        /// Draw safe states.
+        /// </summary>
+        /// <param name="gameTime">Game time</param>
+        /// <param name="spriteBatch">SpriteBatch object</param>
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             int nbSafeMembers = _safeMembers.Count;

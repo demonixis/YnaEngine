@@ -98,7 +98,7 @@ namespace Yna.Engine.Graphics3D.Scene
         /// <param name="device">GraphicsDevice to use for drawing</param>
         /// <param name="camera">Camera to use</param>
         /// <param name="light">Light</param>
-        public virtual void DrawChildren(GraphicsDevice device, BaseCamera camera, YnBasicLight light)
+        public virtual void DrawChildren(GraphicsDevice device, BaseCamera camera, SceneLight light)
         {
             int nbChildren = _children.Count;
 
@@ -127,7 +127,7 @@ namespace Yna.Engine.Graphics3D.Scene
         /// <param name="device"></param>
         /// <param name="camera"></param>
         /// <param name="light"></param>
-        public virtual void Draw(GraphicsDevice device, BaseCamera camera, YnBasicLight light)
+        public virtual void Draw(GraphicsDevice device, BaseCamera camera, SceneLight light)
         {
 
         }

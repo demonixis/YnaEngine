@@ -42,15 +42,18 @@
     <Compile Include="Extensions\Vector2Extension.cs" />
     <Compile Include="Content\YnContentManager.cs" />
     <Compile Include="Graphics3D\Controls\FirstPersonVirtualPadControl.cs" />
-    <Compile Include="Graphics3D\Lighting\YnDirectionalLight.cs" />
-    <Compile Include="Graphics3D\Lighting\YnLight.cs" />
+    <Compile Include="Graphics3D\Lighting\BaseLight.cs" />
+    <Compile Include="Graphics3D\Lighting\DirectionalLight.cs" />
+    <Compile Include="Graphics3D\Lighting\SceneLight.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
-    <Compile Include="Graphics3D\Renderer\MeshRenderer.cs" />
+    <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
+    <Compile Include="Graphics3D\Scene\SceneNode.cs" />
     <Compile Include="Graphics3D\Terrain\Skybox.cs" />
-    <Compile Include="Graphics3D\YnMesh.cs" />
+    <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
     <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
     <Compile Include="Graphics\Animation\YnInterpolator.cs" />
-    <Compile Include="Graphics\Event\AnimationEventArgs.cs" />
+    <Compile Include="Graphics\Event\MouseEntityEvents.cs" />
+    <Compile Include="Graphics\Event\TouchEntityEvents.cs" />
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Graphics\YnEntityList.cs" />
     <Compile Include="Graphics\Event\VirtualPadEventArgs.cs" />
@@ -64,7 +67,6 @@
     <Compile Include="Graphics3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Graphics3D\Controls\KeyMapping.cs" />
     <Compile Include="Graphics3D\Controls\ThirdPersonControl.cs" />
-    <Compile Include="Graphics3D\Lighting\YnBasicLight.cs" />
     <Compile Include="Graphics3D\Material\DualTextureMaterial.cs" />
     <Compile Include="Graphics3D\Material\EnvironmentMapMaterial.cs" />
     <Compile Include="Graphics3D\Material\StockMaterial.cs" />
@@ -88,7 +90,6 @@
     <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Graphics3D\YnScene.cs" />
     <Compile Include="Graphics3D\YnState3D.cs" />
-    <Compile Include="Graphics\Event\TouchSpriteEvents.cs" />
     <Compile Include="Graphics\YnGraphics.cs" />
     <Compile Include="Graphics\YnText.cs" />
     <Compile Include="Graphics\YnSceneCamera2D.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Graphics\Animation\YnTransitionEffect.cs" />
     <Compile Include="Graphics\Animation\YnShakeEffect.cs" />
     <Compile Include="Graphics\Event\GlobalEventArgs.cs" />
-    <Compile Include="Graphics\Event\MouseSpriteEvents.cs" />
     <Compile Include="Graphics\Gui\YnCheckbox.cs" />
     <Compile Include="Graphics\Gui\YnGui.cs" />
     <Compile Include="Graphics\Gui\YnBorder.cs" />
@@ -118,11 +118,12 @@
     <Compile Include="Graphics\Scene\BaseScene.cs" />
     <Compile Include="Graphics\Scene\YnScene2D.cs" />
     <Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
-    <Compile Include="Graphics\Event\ScreenEvents.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
+    <Compile Include="IDrawableEntity.cs" />
+    <Compile Include="IDrawableEntity3D.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
     <Compile Include="Input\Component\KeyboardComponent.cs" />
     <Compile Include="Input\Component\MouseComponent.cs" />
@@ -149,7 +150,6 @@
     <Compile Include="YnGame.cs" />
     <Compile Include="Graphics\YnGroup.cs" />
     <Compile Include="Graphics\YnEntity.cs" />
-    <Compile Include="YnInterface.cs" />
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
@@ -168,8 +168,6 @@
     <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics3D\Camera\CameraManager.cs" />
-    <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
-    <Compile Include="Graphics3D\Scene\SceneNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -179,7 +177,5 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Graphics3D\Scene\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

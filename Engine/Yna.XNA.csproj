@@ -77,6 +77,8 @@
     <Compile Include="Graphics3D\Renderer\MeshRenderer.cs" />
     <Compile Include="Graphics3D\Terrain\Skybox.cs" />
     <Compile Include="Graphics3D\YnMesh.cs" />
+	<Compile Include="Graphics3D\Scene\SceneGraph.cs" />
+    <Compile Include="Graphics3D\Scene\SceneNode.cs" />
     <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
     <Compile Include="Graphics\Animation\YnInterpolator.cs" />
     <Compile Include="Graphics\Event\AnimationEventArgs.cs" />

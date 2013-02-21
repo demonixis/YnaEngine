@@ -5,11 +5,18 @@ using Yna.Engine.Input;
 namespace Yna.Engine.Graphics.Event
 {
     /// <summary>
-    /// Base event used for entity mouse event.
+    /// Event class used for entity mouse event.
     /// </summary>
     public class MouseEntityEventArgs : EventArgs
     {
+        /// <summary>
+        /// X position on screen.
+        /// </summary>
         public int X { get; protected set; }
+
+        /// <summary>
+        /// Y position on screen.
+        /// </summary>
         public int Y { get; protected set; }
 
         public MouseEntityEventArgs()
@@ -25,61 +32,65 @@ namespace Yna.Engine.Graphics.Event
         }
     }
 
-    public class MouseClickEntityEventArgs : EventArgs
+    /// <summary>
+    /// Event class used when a mouse clic is done on an entity.
+    /// </summary>
+    public class MouseClickEntityEventArgs : MouseEntityEventArgs
     {
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
+        /// <summary>
+        /// The mouse button who clicked.
+        /// </summary>
         public MouseButton MouseButton { get; protected set; }
+
         public bool JustClicked;
         public bool DoubleClicked;
 
         public MouseClickEntityEventArgs(int x, int y, MouseButton mouseButton, bool justClicked, bool doubleClicked)
+            : base(x, y)
         {
-            X = x;
-            Y = y;
             MouseButton = mouseButton;
             JustClicked = justClicked;
             DoubleClicked = doubleClicked;
         }
     }
 
-    public class MouseLeaveEntityEventArgs : EventArgs
+    /// <summary>
+    /// Event class used when the mouse position leave an entity.
+    /// </summary>
+    public class MouseLeaveEntityEventArgs : MouseEntityEventArgs
     {
         public int LastX { get; protected set; }
         public int LastY { get; protected set; }
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
 
         public MouseLeaveEntityEventArgs(int lastX, int lastY, int x, int y)
+            : base (x, y)
         {
             LastX = lastX;
             LastY = lastY;
-            X = x;
-            Y = y;
         }
     }
 
-    public class MouseOverEntityEventArgs : EventArgs
+    /// <summary>
+    /// Event class used when the mouse is over an entity.
+    /// </summary>
+    public class MouseOverEntityEventArgs : MouseEntityEventArgs
     {
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
-
         public MouseOverEntityEventArgs(int x, int y)
+            : base(x, y)
         {
-            X = x;
-            Y = y;
+
         }
     }
 
-    public class MouseReleaseEntityEventArgs : EventArgs
+    /// <summary>
+    /// Event class used when the mouse button release on an entity.
+    /// </summary>
+    public class MouseReleaseEntityEventArgs : MouseEntityEventArgs
     {
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
-
         public MouseReleaseEntityEventArgs(int x, int y)
+            : base(x, y)
         {
-            X = x;
-            Y = y;
+
         }
     }
 }

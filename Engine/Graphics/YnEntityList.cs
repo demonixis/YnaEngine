@@ -5,8 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Graphics
 {
+    /// <summary>
+    /// An entity safe updateable collection
+    /// </summary>
     public class YnEntityList : YnList<YnEntity>
     {
+        /// <summary>
+        /// Initialize entities.
+        /// </summary>
         public virtual void Initialize()
         {
             int nbMembers = _members.Count;
@@ -18,6 +24,9 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Load assets.
+        /// </summary>
         public virtual void LoadContent()
         {
             int nbMembers = _members.Count;
@@ -29,6 +38,9 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Unload assets.
+        /// </summary>
         public virtual void UnloadContent()
         {
             int nbMembers = _members.Count;
@@ -40,6 +52,11 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Update logic of safe entities.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="count"></param>
         protected override void DoUpdate(GameTime gameTime, int count)
         {
             for (int i = 0; i < count; i++)
@@ -49,6 +66,11 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Draw safe entities
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             int nbSafeMembers = _safeMembers.Count;

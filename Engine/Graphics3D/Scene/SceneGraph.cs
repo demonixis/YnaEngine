@@ -16,7 +16,7 @@ namespace Yna.Engine.Graphics3D.Scene
     {
         protected SceneNode _rootNode;
         protected CameraManager _cameraManager;
-        protected YnBasicLight _sceneLight;
+        protected SceneLight _sceneLight;
 
         /// <summary>
         /// Gets the root node
@@ -37,7 +37,7 @@ namespace Yna.Engine.Graphics3D.Scene
         /// <summary>
         /// Gets the scene light
         /// </summary>
-        public YnBasicLight SceneLight
+        public SceneLight SceneLight
         {
             get { return _sceneLight; }
         }
@@ -48,7 +48,7 @@ namespace Yna.Engine.Graphics3D.Scene
         public SceneGraph()
         {
             _cameraManager = new CameraManager(new FixedCamera());
-            _sceneLight = new YnBasicLight();
+            _sceneLight = new SceneLight();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Yna.Engine.Graphics3D.Scene
         public SceneGraph(BaseCamera camera)
         {
             _cameraManager = new CameraManager(camera);
-            _sceneLight = new YnBasicLight();
+            _sceneLight = new SceneLight();
         }
 
         public override void Initialize()

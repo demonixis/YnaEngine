@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Yna.Engine.Graphics.Event
+namespace Yna.Engine.Graphics.Animation
 {
+    /// <summary>
+    /// Event class used when an interpolator object done its job.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class InterpolationEndEventArgs<T> : EventArgs
     {
         public T InterpolatedValue;

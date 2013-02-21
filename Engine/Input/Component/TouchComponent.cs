@@ -169,8 +169,6 @@ namespace Yna.Engine.Input.Service
             _pressure[index] = 0.0f;
         }
 
-        #region ITouchService Membres
-
         public bool Pressed(int id)
         {
             if (id >= MaxFingerPoints)
@@ -258,7 +256,5 @@ namespace Yna.Engine.Input.Service
 
             return _pressure[id];
         }
-
-        #endregion
     }
 }

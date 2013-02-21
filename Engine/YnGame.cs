@@ -27,21 +27,6 @@ namespace Yna.Engine
         public static string GameTitle = "Yna Game";
         public static string GameVersion = "1.0.0.0";
 
-        #region Events
-
-        /// <summary>
-        /// Triggered when the screen resolution changed
-        /// </summary>
-        public event EventHandler<ScreenChangedEventArgs> ScreenResolutionChanged = null;
-
-        private void OnScreenResolutionChanged(ScreenChangedEventArgs e)
-        {
-            if (ScreenResolutionChanged != null)
-                ScreenResolutionChanged(this, e);
-        }
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -157,10 +142,6 @@ namespace Yna.Engine
             this.graphics.PreferredBackBufferWidth = width;
             this.graphics.PreferredBackBufferHeight = height;
             this.graphics.ApplyChanges();
-
-#if !MONOGAME && WINDOWS && DIRECTX
-            OnScreenResolutionChanged(new ScreenChangedEventArgs(width, height, this.graphics.IsFullScreen));
-#endif
         }
 
         /// <summary>
