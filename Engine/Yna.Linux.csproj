@@ -168,6 +168,7 @@
     <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics3D\Camera\CameraManager.cs" />
+    <Compile Include="RandomMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
