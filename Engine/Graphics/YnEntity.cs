@@ -184,6 +184,16 @@ namespace Yna.Engine.Graphics
             set { _scale = value; }
         }
 
+        public float ScaledWidth
+        {
+            get { return _rectangle.Width * _scale.X; }
+        }
+
+        public float ScaledHeight
+        {
+            get { return _rectangle.Height * _scale.Y; }
+        }
+
         /// <summary>
         /// Gets or sets the color applied to the object
         /// </summary>
