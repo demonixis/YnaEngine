@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Material;
@@ -262,7 +262,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// 2 - Rotation on Y axis (override if you wan't more)
         /// 3 - Translation
         /// </summary>
-        public override void UpdateMatrices()
+        public override void UpdateMatrix()
         {
             _world = Matrix.CreateScale(Scale) *
                 Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
@@ -289,7 +289,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         public virtual void PreDraw()
         {
             if (_needMatricesUpdate)
-                UpdateMatrices();
+                UpdateMatrix();
 
             if (_dynamic)
                 UpdateBoundingVolumes();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
@@ -372,7 +372,7 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
-        public abstract void UpdateMatrices();
+        public abstract void UpdateMatrix();
 
         public abstract void UpdateBoundingVolumes();
 

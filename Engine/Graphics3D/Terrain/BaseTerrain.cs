@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
@@ -82,7 +82,7 @@ namespace Yna.Engine.Graphics3D.Terrain
 
         public override void UpdateBoundingVolumes()
         {
-            UpdateMatrices();
+            UpdateMatrix();
 
             // Reset bounding box to min/max values
             _boundingBox.Min = new Vector3(float.MaxValue);
