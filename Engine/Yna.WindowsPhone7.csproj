@@ -194,6 +194,7 @@
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
+	<Compile Include="RandomMachine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

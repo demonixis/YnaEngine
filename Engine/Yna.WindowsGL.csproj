@@ -173,6 +173,7 @@
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
+	<Compile Include="RandomMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
