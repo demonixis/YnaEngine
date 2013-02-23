@@ -258,7 +258,11 @@ namespace Yna.Engine.Graphics.Component
             _margin = new Vector2(3, 3);
             _padding = new Vector2(5, 5);
             _inputRectangle = new Rectangle(0, 0, 65, 65);
+#if WINDOWS_PHONE
+            _inverseDirectionStrafe = true;
+#else
             _inverseDirectionStrafe = false;
+#endif
             _spaceBetweenActionButtons = 45;
         }
 

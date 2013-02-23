@@ -102,10 +102,9 @@ namespace Yna.Engine
         {
             get
             {
-#if MONOGAME && DIRECTX
                 if (Game.GraphicsDevice == null)
                     return GraphicsDeviceManager.PreferredBackBufferWidth;
-#endif
+
                 return Game.GraphicsDevice.Viewport.Width;
             }
         }
@@ -117,12 +116,10 @@ namespace Yna.Engine
         {
             get
             {
-#if MONOGAME && DIRECTX
                 if (Game.GraphicsDevice == null)
                     return GraphicsDeviceManager.PreferredBackBufferHeight;
-#endif
-                return Game.GraphicsDevice.Viewport.Height;
 
+                return Game.GraphicsDevice.Viewport.Height;
             }
         }
 

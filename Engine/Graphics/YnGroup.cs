@@ -148,6 +148,11 @@ namespace Yna.Engine.Graphics
                     _position.X = _parent.X + value;
                     _rectangle.X = _parent.X + value;
                 }
+                else
+                {
+                    _position.X = value;
+                    _rectangle.X = value;
+                }
 
                 int nbMembers = _entitiesList.Count;
 
@@ -177,6 +182,11 @@ namespace Yna.Engine.Graphics
                 {
                     _position.Y = _parent.Y + value;
                     _rectangle.Y = _parent.Y + value;
+                }
+                else
+                {
+                    _position.Y = value;
+                    _rectangle.Y = value;
                 }
 
                 int nbMembers = _entitiesList.Count;
