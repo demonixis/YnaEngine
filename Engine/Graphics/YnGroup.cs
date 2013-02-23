@@ -118,11 +118,163 @@ namespace Yna.Engine.Graphics
                     for (int i = 0; i < nbMembers; i++)
                     {
                         if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].Position += new Vector2(_position.X, _position.Y);
+                            _entitiesList[i].Position += _position;
                     }
                 }
-                
+
                 UpdateRectangle();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the position on X. If a parent exists and if the position type is sets to Relative then
+        /// the position is added to the parent position. It's the same thing for children.
+        /// </summary>
+        public new int X
+        {
+            get { return (int)_position.X; }
+            set
+            {
+                if (_positionType == PositionType.Relative && _parent != null)
+                    value += _parent.X;
+
+                _position.X = value;
+                _rectangle.X = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].X += value;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the position on Y. If a parent exists and if the position type is sets to Relative then
+        /// the position is added to the parent position. It's the same thing for children.
+        /// </summary>
+        public new int Y
+        {
+            get { return (int)_position.Y; }
+            set
+            {
+                if (_positionType == PositionType.Relative && _parent != null)
+                    value += _parent.Y;
+
+                _position.Y = value;
+                _rectangle.Y = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].Y += value;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation value for all children. The value is added to the current rotation value of a child. It's not replaced.
+        /// </summary>
+        public new float Rotation
+        {
+            get { return _rotation; }
+            set
+            {
+                if (_positionType == PositionType.Relative && _parent != null)
+                    value += _parent.Rotation;
+
+                _rotation = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].Rotation += value;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets scale for all children. The value is added to the current scale value of a child. It is not replaced.
+        /// </summary>
+        public new Vector2 Scale
+        {
+            get { return _scale; }
+            set
+            {
+                NormalizePositionType(ref value);
+
+                _scale = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                        _entitiesList[i].Scale += _scale;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ges or sets origin point. All children are updated.
+        /// </summary>
+        public new Vector2 Origin
+        {
+            get { return _origin; }
+            set
+            {
+                NormalizePositionType(ref value);
+
+                _origin = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].Origin += new Vector2(_position.X, _position.Y);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets color for all children.
+        /// </summary>
+        public new Color Color
+        {
+            get { return _color; }
+            set
+            {
+                _color = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].Color = value;
+                    }
+                }
             }
         }
 
