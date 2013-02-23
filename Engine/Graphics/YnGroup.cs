@@ -79,6 +79,9 @@ namespace Yna.Engine.Graphics
             get { return _position; }
             set
             {
+                int rawX = (int)(value.X - _position.X);
+                int rawY = (int)(value.Y - _position.Y);
+
                 NormalizePositionType(ref value);
 
                 _position = value;
@@ -90,7 +93,7 @@ namespace Yna.Engine.Graphics
                 if (nbMembers > 0)
                 {
                     for (int i = 0; i < nbMembers; i++)
-                        _entitiesList[i].Position += value;
+                        _entitiesList[i].AddAbsolutePosition(rawX, rawY);
                 }
             }
         }
@@ -104,6 +107,9 @@ namespace Yna.Engine.Graphics
             get { return _rectangle; }
             set
             {
+                int rawX = value.X - _rectangle.X;
+                int rawY = value.Y - _rectangle.Y;
+
                 NormalizePositionType(ref value);
 
                 _rectangle = value;
@@ -118,7 +124,7 @@ namespace Yna.Engine.Graphics
                     for (int i = 0; i < nbMembers; i++)
                     {
                         if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].Position += _position;
+                            _entitiesList[i].AddAbsolutePosition(rawX, rawY);
                     }
                 }
 
@@ -135,11 +141,13 @@ namespace Yna.Engine.Graphics
             get { return (int)_position.X; }
             set
             {
-                if (_positionType == PositionType.Relative && _parent != null)
-                    value += _parent.X;
+                int rawValue = value - (int)_position.X;
 
-                _position.X = value;
-                _rectangle.X = value;
+                if (_positionType == PositionType.Relative && _parent != null)
+                {
+                    _position.X = _parent.X + value;
+                    _rectangle.X = _parent.X + value;
+                }
 
                 int nbMembers = _entitiesList.Count;
 
@@ -148,7 +156,7 @@ namespace Yna.Engine.Graphics
                     for (int i = 0; i < nbMembers; i++)
                     {
                         if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].X += value;
+                            _entitiesList[i].AddAbsolutePosition(rawValue, 0);
                     }
                 }
             }
@@ -163,11 +171,13 @@ namespace Yna.Engine.Graphics
             get { return (int)_position.Y; }
             set
             {
-                if (_positionType == PositionType.Relative && _parent != null)
-                    value += _parent.Y;
+                int rawValue = value - (int)_position.Y;
 
-                _position.Y = value;
-                _rectangle.Y = value;
+                if (_positionType == PositionType.Relative && _parent != null)
+                {
+                    _position.Y = _parent.Y + value;
+                    _rectangle.Y = _parent.Y + value;
+                }
 
                 int nbMembers = _entitiesList.Count;
 
@@ -176,7 +186,7 @@ namespace Yna.Engine.Graphics
                     for (int i = 0; i < nbMembers; i++)
                     {
                         if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].Y += value;
+                            _entitiesList[i].AddAbsolutePosition(0, rawValue);
                     }
                 }
             }
@@ -190,8 +200,7 @@ namespace Yna.Engine.Graphics
             get { return _rotation; }
             set
             {
-                if (_positionType == PositionType.Relative && _parent != null)
-                    value += _parent.Rotation;
+                float rawValue = value - _rotation;
 
                 _rotation = value;
 
@@ -202,7 +211,7 @@ namespace Yna.Engine.Graphics
                     for (int i = 0; i < nbMembers; i++)
                     {
                         if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].Rotation += value;
+                            _entitiesList[i].Rotation += rawValue;
                     }
                 }
             }
@@ -216,7 +225,7 @@ namespace Yna.Engine.Graphics
             get { return _scale; }
             set
             {
-                NormalizePositionType(ref value);
+                Vector2 rawValue = value - _scale;
 
                 _scale = value;
 
@@ -225,7 +234,7 @@ namespace Yna.Engine.Graphics
                 if (nbMembers > 0)
                 {
                     for (int i = 0; i < nbMembers; i++)
-                        _entitiesList[i].Scale += _scale;
+                        _entitiesList[i].Scale += rawValue;
                 }
             }
         }
@@ -386,6 +395,10 @@ namespace Yna.Engine.Graphics
 
             if (_initialized)
                 sceneObject.Initialize();
+
+            if (sceneObject.PositionType == PositionType.Relative)
+                sceneObject.AddAbsolutePosition(X, Y);
+            
 
             UpdateRectangle();
 

@@ -118,7 +118,20 @@ namespace Yna.Engine.Graphics
         public PositionType PositionType
         {
             get { return _positionType; }
-            set { _positionType = value; }
+            set 
+            {
+                _positionType = value;
+                if (value == Graphics.PositionType.Relative)
+                {
+                    if (_parent != null)
+                        Position += _parent.Position;
+                }
+                else
+                {
+                    if (_parent != null)
+                        Position -= _parent.Position;
+                }
+            }
         }
 
         /// <summary>
@@ -825,6 +838,22 @@ namespace Yna.Engine.Graphics
         #endregion
 
         #region Other methods
+
+        public virtual void AddAbsolutePosition(int x, int y)
+        {
+            _position.X += x;
+            _position.Y += y;
+            _rectangle.X += x;
+            _rectangle.Y += y;
+        }
+
+        public virtual void SetAbsolutePosition(int x, int y)
+        {
+            _position.X = x;
+            _position.Y = y;
+            _rectangle.X = x;
+            _rectangle.Y = y;
+        }
 
         /// <summary>
         /// Gets an adapted position relative to the position type of the sprite
