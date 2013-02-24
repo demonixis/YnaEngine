@@ -14,7 +14,6 @@ namespace Yna.Samples.Screens
         private YnSprite background;
         private YnGroup sprites;
         private Color[] colors;
-        private Song music;
 
         public BasicSprites(string name)
             : base(name)

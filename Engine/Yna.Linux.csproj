@@ -169,6 +169,8 @@
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics3D\Camera\CameraManager.cs" />
     <Compile Include="RandomMachine.cs" />
+	<Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="Graphics\Particle\YnParticle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

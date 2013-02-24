@@ -60,6 +60,8 @@
     <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
+    <Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="Graphics\Particle\YnParticle.cs" />
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Graphics\YnEntityList.cs" />
     <Compile Include="Graphics\Event\VirtualPadEventArgs.cs" />

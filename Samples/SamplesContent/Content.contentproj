@@ -105,6 +105,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+	<Compile Include="Sprites\sphere_red.png">
+      <Name>sphere_red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="terrains\heightfield.png">
       <Name>heightfield</Name>
       <Importer>TextureImporter</Importer>

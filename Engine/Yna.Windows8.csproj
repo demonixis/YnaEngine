@@ -235,6 +235,8 @@
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
 	<Compile Include="RandomMachine.cs" />
+	<Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="Graphics\Particle\YnParticle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
