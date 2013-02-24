@@ -118,7 +118,7 @@ namespace Yna.Engine.Graphics
         public PositionType PositionType
         {
             get { return _positionType; }
-            set 
+            set
             {
                 _positionType = value;
                 if (value == Graphics.PositionType.Relative)
@@ -641,7 +641,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name='rectangle'>Rectangle of the texture</param>
         /// <param name='color'>Color of the texture</param>
-        public YnEntity(Rectangle rectangle, Color color) 
+        public YnEntity(Rectangle rectangle, Color color)
             : this()
         {
             _rectangle = rectangle;
@@ -711,8 +711,8 @@ namespace Yna.Engine.Graphics
             // Check mouse events
             if (_enabled)
             {
-                _rectangle.X = (int)_position.X;
-                _rectangle.Y = (int)_position.Y;
+                _rectangle.X = (int)(_position.X - _origin.X);
+                _rectangle.Y = (int)(_position.Y - _origin.Y);
 
                 #region Touch events
 
@@ -729,7 +729,7 @@ namespace Yna.Engine.Graphics
 
                         if (YnG.Touch.Tapped)
                             OnTouchPress(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-                        
+
                     }
                     else if (Rectangle.Contains((int)lastTouchPosition.X, (int)lastTouchPosition.Y))
                         OnTouchLeave(new TouchLeaveEntityEventArgs((int)lastTouchPosition.X, (int)lastTouchPosition.Y, fingerId, (int)touchPosition.X, (int)touchPosition.Y));
