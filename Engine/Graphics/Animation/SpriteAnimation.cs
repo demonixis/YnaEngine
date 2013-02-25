@@ -20,6 +20,11 @@ namespace Yna.Engine.Graphics.Animation
         public bool Reversed { get; set; }
 
         public event EventHandler<EventArgs> AnimationComplete = null;
+        
+        /// <summary>
+        /// This event is thrown just before the animation index is reset.
+        /// </summary>
+        public event EventHandler<EventArgs> AnimationJustComplete = null;
 
         public int Index 
         {
@@ -27,11 +32,19 @@ namespace Yna.Engine.Graphics.Animation
             set 
             {
                 if (value < 0)
+                {
                     index = 0;
+                }
                 else if (value >= max)
+                {
+                	// Call the AnimationJustComplete event before reseting the animation index
+                	OnAnimationJustComplete(EventArgs.Empty);
                     index = 0;
+                }
                 else
+                {
                     index = value;
+                }
             }
         }
 
@@ -75,6 +88,12 @@ namespace Yna.Engine.Graphics.Animation
         {
             if (AnimationComplete != null)
                 AnimationComplete(this, e);
+        }
+        
+        private void OnAnimationJustComplete(EventArgs e)
+        {
+        	if(AnimationJustComplete != null)
+        		AnimationJustComplete(this, e);
         }
     }
 }
