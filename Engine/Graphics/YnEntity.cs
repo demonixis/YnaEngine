@@ -269,9 +269,6 @@ namespace Yna.Engine.Graphics
             get { return (int)_position.X; }
             set
             {
-                if (_positionType == PositionType.Relative && _parent != null)
-                    value += _parent.X;
-
                 _position.X = value;
                 _rectangle.X = value;
             }
@@ -286,9 +283,6 @@ namespace Yna.Engine.Graphics
             get { return (int)_position.Y; }
             set
             {
-                if (_positionType == PositionType.Relative && _parent != null)
-                    value += _parent.Y;
-
                 _position.Y = value;
                 _rectangle.Y = value;
             }

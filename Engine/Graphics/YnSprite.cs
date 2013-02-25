@@ -432,37 +432,37 @@ namespace Yna.Engine.Graphics
             {
                 if (X < _viewport.X)
                 {
-                    Position = new Vector2(_viewport.X, Y);
+                    _position.X = _viewport.X;
                     _velocity *= 0.0f;
                 }
                 else if (X + (Width - Origin.X) > _viewport.Width)
                 {
-                    Position = new Vector2(_viewport.Width - (Width - Origin.X), Y);
+                    _position.X = _viewport.Width - (Width - Origin.X);
                     _velocity *= 0.0f;
                 }
 
                 if (Y < _viewport.Y)
                 {
-                    Position = new Vector2(X, _viewport.Y);
+                    _position.Y = _viewport.Y;
                     _velocity *= 0.0f;
                 }
                 else if (Y + (Height - Origin.Y) > _viewport.Height)
                 {
-                    Position = new Vector2(X, _viewport.Height - (Height - _origin.Y));
+                    _position.Y = _viewport.Height - (Height - _origin.Y);
                     _velocity *= 0.0f;
                 }
             }
             else if (_acrossScreen)
             {
-                if (X + Width < _viewport.X)
-                    Position = new Vector2(_viewport.Width, Y);
+                if (X + (Width - Origin.X) < _viewport.X)
+                    _position.X = _viewport.Width - Origin.X;
                 else if (X > _viewport.Width)
-                    Position = new Vector2(_viewport.X, Y);
+                    _position.X = _viewport.X;
 
                 if (Y + Height < _viewport.Y)
-                    Position = new Vector2(X, _viewport.Height);
+                    _position.Y = _viewport.Height;
                 else if (Y > _viewport.Height)
-                    Position = new Vector2(X, _viewport.Y);
+                    _position.Y = _viewport.Y;
             }
         }
 
