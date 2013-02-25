@@ -52,6 +52,7 @@
       <HintPath>..\..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\**\*.*">
@@ -63,10 +64,6 @@
     <ProjectReference Include="..\..\Engine\Yna.WindowsGL.csproj">
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{08ec5eaa-02d9-4b51-b545-97af22836c06}</Project>
-      <Name>Common.WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
