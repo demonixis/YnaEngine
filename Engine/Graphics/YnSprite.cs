@@ -368,10 +368,14 @@ namespace Yna.Engine.Graphics
                         throw new Exception("[Sprite] Impossible de charger la texture");
                 }
 
-                SourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
-                Rectangle = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                // if the sprite has animations destination and source rectangle are already setted correctly
+                if (!_hasAnimation)
+                {
+                    SourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
+                    Rectangle = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                }
+                
                 _circle.Radius = Math.Max(_texture.Width, _texture.Height);
-
                 _assetLoaded = true;
             }
         }
