@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
@@ -49,6 +49,7 @@ namespace Yna.Engine.Graphics3D
 
         // Initialization
         protected bool _initialized;
+        protected bool _loaded;
 
         // View matrix
         protected Matrix _view;
@@ -93,12 +94,30 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Get the parent object of the scene
+        /// Gets the parent object.
         /// </summary>
         public YnEntity3D Parent
         {
             get { return _parent; }
             set { _parent = value; }
+        }
+
+        /// <summary>
+        /// Determine if the entity is initialized.
+        /// </summary>
+        public bool Initialized
+        {
+            get { return _initialized; }
+            set { _initialized = value; }
+        }
+
+        /// <summary>
+        /// Determine if the entity is loaded.
+        /// </summary>
+        public bool Loaded
+        {
+            get { return _loaded; }
+            set { _loaded = value; }
         }
 
         #endregion
@@ -279,6 +298,7 @@ namespace Yna.Engine.Graphics3D
             _visible = true;
             _dirty = false;
             _initialized = false;
+            _loaded = false;
             _dynamic = false;
             _material = null;
 
@@ -352,7 +372,7 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
-        public abstract void UpdateMatrices();
+        public abstract void UpdateMatrix();
 
         public abstract void UpdateBoundingVolumes();
 

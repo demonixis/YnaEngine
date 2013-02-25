@@ -79,6 +79,9 @@ namespace Yna.Engine.Graphics
             get { return _position; }
             set
             {
+                int rawX = (int)(value.X - _position.X);
+                int rawY = (int)(value.Y - _position.Y);
+
                 NormalizePositionType(ref value);
 
                 _position = value;
@@ -90,7 +93,7 @@ namespace Yna.Engine.Graphics
                 if (nbMembers > 0)
                 {
                     for (int i = 0; i < nbMembers; i++)
-                        _entitiesList[i].Position += value;
+                        _entitiesList[i].AddAbsolutePosition(rawX, rawY);
                 }
             }
         }
@@ -104,6 +107,9 @@ namespace Yna.Engine.Graphics
             get { return _rectangle; }
             set
             {
+                int rawX = value.X - _rectangle.X;
+                int rawY = value.Y - _rectangle.Y;
+
                 NormalizePositionType(ref value);
 
                 _rectangle = value;
@@ -118,11 +124,176 @@ namespace Yna.Engine.Graphics
                     for (int i = 0; i < nbMembers; i++)
                     {
                         if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].Position += new Vector2(_position.X, _position.Y);
+                            _entitiesList[i].AddAbsolutePosition(rawX, rawY);
                     }
                 }
-                
+
                 UpdateRectangle();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the position on X. If a parent exists and if the position type is sets to Relative then
+        /// the position is added to the parent position. It's the same thing for children.
+        /// </summary>
+        public new int X
+        {
+            get { return (int)_position.X; }
+            set
+            {
+                int rawValue = value - (int)_position.X;
+
+                if (_positionType == PositionType.Relative && _parent != null)
+                {
+                    _position.X = _parent.X + value;
+                    _rectangle.X = _parent.X + value;
+                }
+                else
+                {
+                    _position.X = value;
+                    _rectangle.X = value;
+                }
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].AddAbsolutePosition(rawValue, 0);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the position on Y. If a parent exists and if the position type is sets to Relative then
+        /// the position is added to the parent position. It's the same thing for children.
+        /// </summary>
+        public new int Y
+        {
+            get { return (int)_position.Y; }
+            set
+            {
+                int rawValue = value - (int)_position.Y;
+
+                if (_positionType == PositionType.Relative && _parent != null)
+                {
+                    _position.Y = _parent.Y + value;
+                    _rectangle.Y = _parent.Y + value;
+                }
+                else
+                {
+                    _position.Y = value;
+                    _rectangle.Y = value;
+                }
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].AddAbsolutePosition(0, rawValue);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation value for all children. The value is added to the current rotation value of a child. It's not replaced.
+        /// </summary>
+        public new float Rotation
+        {
+            get { return _rotation; }
+            set
+            {
+                float rawValue = value - _rotation;
+
+                _rotation = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].Rotation += rawValue;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets scale for all children. The value is added to the current scale value of a child. It is not replaced.
+        /// </summary>
+        public new Vector2 Scale
+        {
+            get { return _scale; }
+            set
+            {
+                Vector2 rawValue = value - _scale;
+
+                _scale = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                        _entitiesList[i].Scale += rawValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ges or sets origin point. All children are updated.
+        /// </summary>
+        public new Vector2 Origin
+        {
+            get { return _origin; }
+            set
+            {
+                NormalizePositionType(ref value);
+
+                _origin = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].Origin += new Vector2(_position.X, _position.Y);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets color for all children.
+        /// </summary>
+        public new Color Color
+        {
+            get { return _color; }
+            set
+            {
+                _color = value;
+
+                int nbMembers = _entitiesList.Count;
+
+                if (nbMembers > 0)
+                {
+                    for (int i = 0; i < nbMembers; i++)
+                    {
+                        if (_entitiesList[i].PositionType == PositionType.Relative)
+                            _entitiesList[i].Color = value;
+                    }
+                }
             }
         }
 
@@ -234,6 +405,10 @@ namespace Yna.Engine.Graphics
 
             if (_initialized)
                 sceneObject.Initialize();
+
+            if (sceneObject.PositionType == PositionType.Relative)
+                sceneObject.AddAbsolutePosition(X, Y);
+            
 
             UpdateRectangle();
 

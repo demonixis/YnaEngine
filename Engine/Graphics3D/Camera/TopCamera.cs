@@ -24,7 +24,8 @@ namespace Yna.Engine.Graphics3D.Camera
             }
         }
 
-        public TopCamera(Vector3 target, int height) : base()
+        public TopCamera(Vector3 target, int height)
+            : base()
         {
             _target = target;
             _height = height;
@@ -35,6 +36,7 @@ namespace Yna.Engine.Graphics3D.Camera
             : this(followedModel.Position, height)
         {
             _followedObject = followedModel;
+            followedModel.Camera = this;
         }
 
         public override void SetupCamera()
@@ -60,7 +62,7 @@ namespace Yna.Engine.Graphics3D.Camera
             //_reference = new Vector3(_followedObject.X, _height, _followedObject.Z);
             if (_followedObject != null)
             {
-                _position = new Vector3(Target.X, _height, Target.Z-0.0001f); // FIXME : Why vertical is impossible?
+                _position = new Vector3(Target.X, _height, Target.Z - 0.0001f); // FIXME : Why vertical is impossible?
             }
 
             _view = Matrix.CreateLookAt(_position, Target, _vectorUp);

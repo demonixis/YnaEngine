@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -151,7 +151,7 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
-        public override void UpdateMatrices()
+        public override void UpdateMatrix()
         {
             World = Matrix.Identity;
 
