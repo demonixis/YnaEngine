@@ -14,9 +14,29 @@ namespace Yna.Engine.Graphics.Animation
         private int max;
         private int _length;
         private long _elapsedTime;
+        private int _frameRate;
+        private double _frameRateValue;
 
         public Rectangle [] Rectangle { get; set; }
-        public int FrameRate { get; set; }
+        
+        /// <summary>
+        /// The animation framerate
+        /// </summary>
+        public int FrameRate
+        {
+        	get
+        	{
+        		return _frameRate;
+        	}
+        	set
+        	{
+        		_frameRate = value;
+        		// This value is the amount of miliseconds between two animations
+        		// 1 / _frameRate => amount of seconds per animation
+        		// 1000 / _frameRate => amount of miliseconds per animation
+        		_frameRateValue = 1000 / _frameRate;
+        	}
+       	}
         public bool Reversed { get; set; }
 
         public event EventHandler<EventArgs> AnimationComplete = null;
@@ -72,7 +92,7 @@ namespace Yna.Engine.Graphics.Animation
 
             _elapsedTime += elapsedTime;
 
-            if (_elapsedTime > FrameRate)
+            if (_elapsedTime > _frameRateValue)
             {
                 Index++;
                 if (Index == 0)
