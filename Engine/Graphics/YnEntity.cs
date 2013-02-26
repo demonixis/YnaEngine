@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using Yna.Engine.Collision;
 using Yna.Engine.Graphics.Event;
+using Yna.Engine.Helpers;
 using Yna.Engine.Input;
 
 namespace Yna.Engine.Graphics
@@ -217,7 +218,7 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets or sets the rotation of the object (deg)
+        /// Gets or sets the rotation of the object in radians
         /// </summary>
         public float Rotation
         {
@@ -225,6 +226,15 @@ namespace Yna.Engine.Graphics
             set { _rotation = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the rotation of the object in degrees (angle is converted to radian)
+        /// </summary>
+        public float DegRotation
+        {
+        	get { return GeomHelper.radianToDegree(_rotation); }
+        	set { _rotation = GeomHelper.degreeToRadian(value); }
+        }
+        
         /// <summary>
         /// Gets or sets the Alpha applied to the object. Value between 0.0f and 1.0f
         /// </summary>
@@ -269,9 +279,6 @@ namespace Yna.Engine.Graphics
             get { return (int)_position.X; }
             set
             {
-                if (_positionType == PositionType.Relative && _parent != null)
-                    value += _parent.X;
-
                 _position.X = value;
                 _rectangle.X = value;
             }
@@ -286,9 +293,6 @@ namespace Yna.Engine.Graphics
             get { return (int)_position.Y; }
             set
             {
-                if (_positionType == PositionType.Relative && _parent != null)
-                    value += _parent.Y;
-
                 _position.Y = value;
                 _rectangle.Y = value;
             }

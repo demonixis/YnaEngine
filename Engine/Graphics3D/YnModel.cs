@@ -235,12 +235,14 @@ namespace Yna.Engine.Graphics3D
 		/// </summary>
 		/// <param name='effect'>A custom effect<param>
 		public void SetEffect (Effect effect)
-		{
+        {
+#if !WINDOWS && DIRECTX
 			foreach (ModelMesh mesh in _model.Meshes)
 			{
 				foreach (ModelMeshPart part in mesh.MeshParts)
 					part.Effect = effect;
 			}
+#endif
 		}
 
         public override string ToString()

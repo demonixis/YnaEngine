@@ -293,6 +293,38 @@ namespace Yna.Engine.Graphics
         /// Add an animation
         /// </summary>
         /// <param name="name">Animation name</param>
+        /// <param name="startIndex">The start sprite index (included)</param>
+        /// <param name="endIndex">The end sprite index (included)</param>
+        /// <param name="frameRate">Framerate for this animation</param>
+        /// <param name="reversed">Reverse or not the animation</param>
+        public void AddAnimation(string name, int startIndex, int endIndex, int frameRate, bool reversed)
+        {
+        	// Securize the start and end index
+        	if(startIndex > endIndex)
+        	{
+        		int temp = endIndex;
+        		endIndex = startIndex;
+        		startIndex = temp;
+        	}
+        	
+        	// Build the index array
+        	int count = endIndex - startIndex;
+        	int[] indexes = new int[count+1];
+        	int currentIntex = startIndex;
+        	for(int i = 0; i <= count; i++)
+        	{
+        		indexes[i] = currentIntex;
+        		currentIntex++;
+        	}
+        	
+        	// Call the proper method
+        	AddAnimation(name, indexes, frameRate, reversed);
+        }
+        
+        /// <summary>
+        /// Add an animation
+        /// </summary>
+        /// <param name="name">Animation name</param>
         /// <param name="rectangles">Array of Rectangles that represents animations on the spritesheet</param>
         /// <param name="frameRate">Framerate for this animation</param>
         /// <param name="reversed">Reverse or not the animation</param>
@@ -368,10 +400,14 @@ namespace Yna.Engine.Graphics
                         throw new Exception("[Sprite] Impossible de charger la texture");
                 }
 
-                SourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
-                Rectangle = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                // if the sprite has animations destination and source rectangle are already setted correctly
+                if (!_hasAnimation)
+                {
+                    SourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
+                    Rectangle = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                }
+                
                 _circle.Radius = Math.Max(_texture.Width, _texture.Height);
-
                 _assetLoaded = true;
             }
         }
@@ -432,37 +468,37 @@ namespace Yna.Engine.Graphics
             {
                 if (X < _viewport.X)
                 {
-                    Position = new Vector2(_viewport.X, Y);
+                    _position.X = _viewport.X;
                     _velocity *= 0.0f;
                 }
                 else if (X + (Width - Origin.X) > _viewport.Width)
                 {
-                    Position = new Vector2(_viewport.Width - (Width - Origin.X), Y);
+                    _position.X = _viewport.Width - (Width - Origin.X);
                     _velocity *= 0.0f;
                 }
 
                 if (Y < _viewport.Y)
                 {
-                    Position = new Vector2(X, _viewport.Y);
+                    _position.Y = _viewport.Y;
                     _velocity *= 0.0f;
                 }
                 else if (Y + (Height - Origin.Y) > _viewport.Height)
                 {
-                    Position = new Vector2(X, _viewport.Height - (Height - _origin.Y));
+                    _position.Y = _viewport.Height - (Height - _origin.Y);
                     _velocity *= 0.0f;
                 }
             }
             else if (_acrossScreen)
             {
-                if (X + Width < _viewport.X)
-                    Position = new Vector2(_viewport.Width, Y);
+                if (X + (Width - Origin.X) < _viewport.X)
+                    _position.X = _viewport.Width - Origin.X;
                 else if (X > _viewport.Width)
-                    Position = new Vector2(_viewport.X, Y);
+                    _position.X = _viewport.X;
 
                 if (Y + Height < _viewport.Y)
-                    Position = new Vector2(X, _viewport.Height);
+                    _position.Y = _viewport.Height;
                 else if (Y > _viewport.Height)
-                    Position = new Vector2(X, _viewport.Y);
+                    _position.Y = _viewport.Y;
             }
         }
 

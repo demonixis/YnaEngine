@@ -409,7 +409,6 @@ namespace Yna.Engine.Graphics
             if (sceneObject.PositionType == PositionType.Relative)
                 sceneObject.AddAbsolutePosition(X, Y);
             
-
             UpdateRectangle();
 
             _entitiesList.Add(sceneObject);
