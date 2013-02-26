@@ -293,6 +293,38 @@ namespace Yna.Engine.Graphics
         /// Add an animation
         /// </summary>
         /// <param name="name">Animation name</param>
+        /// <param name="startIndex">The start sprite index (included)</param>
+        /// <param name="endIndex">The end sprite index (included)</param>
+        /// <param name="frameRate">Framerate for this animation</param>
+        /// <param name="reversed">Reverse or not the animation</param>
+        public void AddAnimation(string name, int startIndex, int endIndex, int frameRate, bool reversed)
+        {
+        	// Securize the start and end index
+        	if(startIndex > endIndex)
+        	{
+        		int temp = endIndex;
+        		endIndex = startIndex;
+        		startIndex = temp;
+        	}
+        	
+        	// Build the index array
+        	int count = endIndex - startIndex;
+        	int[] indexes = new int[count+1];
+        	int currentIntex = startIndex;
+        	for(int i = 0; i <= count; i++)
+        	{
+        		indexes[i] = currentIntex;
+        		currentIntex++;
+        	}
+        	
+        	// Call the proper method
+        	AddAnimation(name, indexes, frameRate, reversed);
+        }
+        
+        /// <summary>
+        /// Add an animation
+        /// </summary>
+        /// <param name="name">Animation name</param>
         /// <param name="rectangles">Array of Rectangles that represents animations on the spritesheet</param>
         /// <param name="frameRate">Framerate for this animation</param>
         /// <param name="reversed">Reverse or not the animation</param>
