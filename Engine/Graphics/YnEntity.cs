@@ -150,11 +150,16 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Vector2 Position
         {
-            get { return _position; }
+            get
+            {
+                if (_positionType == PositionType.Relative && _parent != null)
+                    return new Vector2(_parent.X - (_position.X - _origin.X), _parent.Y - (_position.Y - _origin.Y));
+
+                return new Vector2(_position.X - _origin.X, _position.Y - _origin.Y);
+            }
             set
             {
                 NormalizePositionType(ref value);
-
                 _position = value;
                 _rectangle.X = (int)_position.X;
                 _rectangle.Y = (int)_position.Y;
@@ -167,13 +172,27 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Rectangle Rectangle
         {
-            get { return _rectangle; }
+            get
+            {
+                if (_positionType == PositionType.Relative && _parent != null)
+                {
+                    return new Rectangle(
+                        (int)(_parent.X - (_position.X - _origin.X)), 
+                        (int)(_parent.Y - (_position.Y - _origin.Y)),
+                        (int)(_rectangle.Width * _scale.X), 
+                        (int)(_rectangle.Height * _scale.Y));
+                }
+
+                return new Rectangle(
+                    (int)_position.X,
+                    (int)_position.Y,
+                    (int)(_rectangle.Width * _scale.X),
+                    (int)(_rectangle.Height * _scale.Y));
+            }
             set
             {
                 NormalizePositionType(ref value);
-
                 _rectangle = value;
-
                 _position.X = _rectangle.X;
                 _position.Y = _rectangle.Y;
             }
@@ -231,10 +250,10 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public float DegRotation
         {
-        	get { return GeomHelper.radianToDegree(_rotation); }
-        	set { _rotation = GeomHelper.degreeToRadian(value); }
+            get { return  MathHelper.ToDegrees(_rotation); }
+            set { _rotation = MathHelper.ToRadians(value); }
         }
-        
+
         /// <summary>
         /// Gets or sets the Alpha applied to the object. Value between 0.0f and 1.0f
         /// </summary>
@@ -316,6 +335,22 @@ namespace Yna.Engine.Graphics
         {
             get { return _rectangle.Width; }
             set { _rectangle.Width = value; }
+        }
+
+        /// <summary>
+        /// Gets texture width.
+        /// </summary>
+        public int TextureWidth
+        {
+            get { return _texture.Width; }
+        }
+
+        /// <summary>
+        /// Gets texture height.
+        /// </summary>
+        public int TextureHeight
+        {
+            get { return _texture.Height; }
         }
 
         #endregion
