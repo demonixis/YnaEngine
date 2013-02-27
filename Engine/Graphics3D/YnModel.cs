@@ -88,7 +88,7 @@ namespace Yna.Engine.Graphics3D
             _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 
             // Update matrix world
-            UpdateMatrices();
+            UpdateMatrix();
 
             // For each mesh of the model
             foreach (ModelMesh mesh in _model.Meshes)
@@ -126,57 +126,62 @@ namespace Yna.Engine.Graphics3D
             _boundingSphere.Center = _position;
         }
 
-        protected virtual void UpdateEffect(BasicEffect effect)
-        {
-            if (_material == null)
-            {
-                effect.LightingEnabled = true;
+        protected virtual void UpdateEffect (Effect meshEffect)
+		{
+			if (meshEffect is BasicEffect)
+			{
+				var effect = meshEffect as BasicEffect;
 
-                // Mesh color light
-                effect.AmbientLightColor = Color.White.ToVector3();
-                effect.DiffuseColor = Color.White.ToVector3();
-                effect.EmissiveColor = Color.White.ToVector3() * 0.5f;
-                effect.SpecularColor = Color.Black.ToVector3();
-                effect.Alpha = 1;
-            }
-            else
-            {
-                _material.Update(ref _world, ref _view, ref _projection, ref _position);
+				if (_material == null)
+				{
+					effect.LightingEnabled = true;
 
-                BasicMaterial material = (BasicMaterial)_material;
+					// Mesh color light
+					effect.AmbientLightColor = Color.White.ToVector3 ();
+					effect.DiffuseColor = Color.White.ToVector3 ();
+					effect.EmissiveColor = Color.White.ToVector3 () * 0.5f;
+					effect.SpecularColor = Color.Black.ToVector3 ();
+					effect.Alpha = 1;
+				}
+				else
+				{
+					_material.Update (ref _world, ref _view, ref _projection, ref _position);
 
-                if (material != null)
-                {
-                    effect.Alpha = material.AlphaColor;
-                    effect.AmbientLightColor = material.AmbientColor * material.AmbientIntensity;
-                    effect.DiffuseColor = material.DiffuseColor * material.DiffuseIntensity;
-                    effect.EmissiveColor = material.EmissiveColor * material.EmissiveIntensity;
-                    effect.FogColor = material.FogColor;
-                    effect.FogEnabled = material.EnableFog;
-                    effect.FogStart = material.FogStart;
-                    effect.FogEnd = material.FogEnd;
-                    effect.LightingEnabled = true;
+					BasicMaterial material = (BasicMaterial)_material;
 
-                    if (material.EnableDefaultLighting)
-                        effect.EnableDefaultLighting();
+					if (material != null)
+					{
+						effect.Alpha = material.AlphaColor;
+						effect.AmbientLightColor = material.AmbientColor * material.AmbientIntensity;
+						effect.DiffuseColor = material.DiffuseColor * material.DiffuseIntensity;
+						effect.EmissiveColor = material.EmissiveColor * material.EmissiveIntensity;
+						effect.FogColor = material.FogColor;
+						effect.FogEnabled = material.EnableFog;
+						effect.FogStart = material.FogStart;
+						effect.FogEnd = material.FogEnd;
+						effect.LightingEnabled = true;
 
-                    effect.PreferPerPixelLighting = material.EnabledPerPixelLighting;
-                    effect.SpecularColor = material.SpecularColor * material.SpecularIntensity;
-                    effect.VertexColorEnabled = material.EnableVertexColor;
+						if (material.EnableDefaultLighting)
+							effect.EnableDefaultLighting ();
+
+						effect.PreferPerPixelLighting = material.EnabledPerPixelLighting;
+						effect.SpecularColor = material.SpecularColor * material.SpecularIntensity;
+						effect.VertexColorEnabled = material.EnableVertexColor;
 
 
-                    SceneLight light = (SceneLight)material.Light;
+						SceneLight light = (SceneLight)material.Light;
 
-                    if (light != null)
-                    {
-                        StockMaterial.UpdateLighting(effect, light);
-                        effect.AmbientLightColor *= light.AmbientColor * light.AmbientIntensity;
-                    }
-                }
-            }
+						if (light != null)
+						{
+							StockMaterial.UpdateLighting (effect, light);
+							effect.AmbientLightColor *= light.AmbientColor * light.AmbientIntensity;
+						}
+					}
+				}
+			}
         }
 
-        public override void UpdateMatrices()
+        public override void UpdateMatrix()
         {
             World = Matrix.CreateScale(Scale) *
                 Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
@@ -206,7 +211,7 @@ namespace Yna.Engine.Graphics3D
 
         public override void Draw(GraphicsDevice device)
         {
-            UpdateMatrices();
+            UpdateMatrix();
 
             _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 
@@ -215,11 +220,8 @@ namespace Yna.Engine.Graphics3D
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     UpdateEffect(effect);
-
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
-
                     effect.View = _camera.View;
-
                     effect.Projection = _camera.Projection;
                 }
                 mesh.Draw();
@@ -227,6 +229,21 @@ namespace Yna.Engine.Graphics3D
         }
 
         #endregion
+
+		/// <summary>
+		/// Sets the effect.
+		/// </summary>
+		/// <param name='effect'>A custom effect<param>
+		public void SetEffect (Effect effect)
+        {
+#if !WINDOWS && DIRECTX
+			foreach (ModelMesh mesh in _model.Meshes)
+			{
+				foreach (ModelMeshPart part in mesh.MeshParts)
+					part.Effect = effect;
+			}
+#endif
+		}
 
         public override string ToString()
         {

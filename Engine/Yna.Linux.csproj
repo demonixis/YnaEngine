@@ -120,6 +120,7 @@
     <Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\GeomHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="IDrawableEntity.cs" />
@@ -168,6 +169,9 @@
     <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics3D\Camera\CameraManager.cs" />
+    <Compile Include="RandomMachine.cs" />
+	<Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="Graphics\Particle\YnParticle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

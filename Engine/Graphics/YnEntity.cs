@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using Yna.Engine.Collision;
 using Yna.Engine.Graphics.Event;
+using Yna.Engine.Helpers;
 using Yna.Engine.Input;
 
 namespace Yna.Engine.Graphics
@@ -118,7 +119,20 @@ namespace Yna.Engine.Graphics
         public PositionType PositionType
         {
             get { return _positionType; }
-            set { _positionType = value; }
+            set
+            {
+                _positionType = value;
+                if (value == Graphics.PositionType.Relative)
+                {
+                    if (_parent != null)
+                        Position += _parent.Position;
+                }
+                else
+                {
+                    if (_parent != null)
+                        Position -= _parent.Position;
+                }
+            }
         }
 
         /// <summary>
@@ -184,6 +198,16 @@ namespace Yna.Engine.Graphics
             set { _scale = value; }
         }
 
+        public float ScaledWidth
+        {
+            get { return _rectangle.Width * _scale.X; }
+        }
+
+        public float ScaledHeight
+        {
+            get { return _rectangle.Height * _scale.Y; }
+        }
+
         /// <summary>
         /// Gets or sets the color applied to the object
         /// </summary>
@@ -194,7 +218,7 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets or sets the rotation of the object (deg)
+        /// Gets or sets the rotation of the object in radians
         /// </summary>
         public float Rotation
         {
@@ -202,6 +226,15 @@ namespace Yna.Engine.Graphics
             set { _rotation = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the rotation of the object in degrees (angle is converted to radian)
+        /// </summary>
+        public float DegRotation
+        {
+        	get { return GeomHelper.radianToDegree(_rotation); }
+        	set { _rotation = GeomHelper.degreeToRadian(value); }
+        }
+        
         /// <summary>
         /// Gets or sets the Alpha applied to the object. Value between 0.0f and 1.0f
         /// </summary>
@@ -612,7 +645,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name='rectangle'>Rectangle of the texture</param>
         /// <param name='color'>Color of the texture</param>
-        public YnEntity(Rectangle rectangle, Color color) 
+        public YnEntity(Rectangle rectangle, Color color)
             : this()
         {
             _rectangle = rectangle;
@@ -682,8 +715,8 @@ namespace Yna.Engine.Graphics
             // Check mouse events
             if (_enabled)
             {
-                _rectangle.X = (int)_position.X;
-                _rectangle.Y = (int)_position.Y;
+                _rectangle.X = (int)(_position.X - _origin.X);
+                _rectangle.Y = (int)(_position.Y - _origin.Y);
 
                 #region Touch events
 
@@ -700,7 +733,7 @@ namespace Yna.Engine.Graphics
 
                         if (YnG.Touch.Tapped)
                             OnTouchPress(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-                        
+
                     }
                     else if (Rectangle.Contains((int)lastTouchPosition.X, (int)lastTouchPosition.Y))
                         OnTouchLeave(new TouchLeaveEntityEventArgs((int)lastTouchPosition.X, (int)lastTouchPosition.Y, fingerId, (int)touchPosition.X, (int)touchPosition.Y));
@@ -809,6 +842,22 @@ namespace Yna.Engine.Graphics
         #endregion
 
         #region Other methods
+
+        public virtual void AddAbsolutePosition(int x, int y)
+        {
+            _position.X += x;
+            _position.Y += y;
+            _rectangle.X += x;
+            _rectangle.Y += y;
+        }
+
+        public virtual void SetAbsolutePosition(int x, int y)
+        {
+            _position.X = x;
+            _position.Y = y;
+            _rectangle.X = x;
+            _rectangle.Y = y;
+        }
 
         /// <summary>
         /// Gets an adapted position relative to the position type of the sprite

@@ -191,10 +191,10 @@ namespace Yna.Samples.Screens
             // 2 - An array of index that represent what image we want using
             // 3 - The framerate for the animation
             // 4 - We don't reverse the image because we have all animation in the spritesheet
-            sprite.AddAnimation("up", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, 25, false);
-            sprite.AddAnimation("left", new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 17 }, 25, false);
-            sprite.AddAnimation("down", new int[] { 18, 19, 20, 21, 22, 23, 24, 25, 26 }, 25, false);
-            sprite.AddAnimation("right", new int[] { 27, 28, 29, 30, 31, 32, 33, 34, 35 }, 25, false);
+            sprite.AddAnimation("up", 0, 8, 25, false);
+            sprite.AddAnimation("left", 9, 17, 25, false);
+            sprite.AddAnimation("down", 18, 26, 25, false);
+            sprite.AddAnimation("right", 27, 35, 25, false);
         }
 
         private void UpdateAnimations(YnSprite sprite)

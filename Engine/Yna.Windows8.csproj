@@ -204,6 +204,7 @@
     <Compile Include="Graphics\TileMap\Iso\TileIso.cs" />
     <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\GeomHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
@@ -234,6 +235,9 @@
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
+	<Compile Include="RandomMachine.cs" />
+	<Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="Graphics\Particle\YnParticle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

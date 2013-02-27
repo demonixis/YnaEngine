@@ -164,6 +164,7 @@
     <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\GeomHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
@@ -194,6 +195,9 @@
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
+	<Compile Include="RandomMachine.cs" />
+	<Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="Graphics\Particle\YnParticle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

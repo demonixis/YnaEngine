@@ -60,6 +60,8 @@
     <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
+    <Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="Graphics\Particle\YnParticle.cs" />
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Graphics\YnEntityList.cs" />
     <Compile Include="Graphics\Event\VirtualPadEventArgs.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\GeomHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="IDrawableEntity.cs" />
@@ -151,6 +154,7 @@
     <Compile Include="Input\YnMouse.cs" />
     <Compile Include="Input\YnTouch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomMachine.cs" />
     <Compile Include="State\BaseState.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\YnStateList.cs" />

@@ -45,6 +45,7 @@
     <Compile Include="Screens\AnimatedSprite.cs" />
     <Compile Include="Screens\BasicSprite.cs" />
     <Compile Include="Screens\AnimatedSpriteVirtualPad.cs" />
+	<Compile Include="Screens\ParticlesSample.cs" />
     <Compile Include="SpritesGame.cs" />
   </ItemGroup>
   <ItemGroup>
