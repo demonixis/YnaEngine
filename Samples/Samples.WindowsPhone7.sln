@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.WindowsPhone7", "..\Eng
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content", "SamplesContent\Content.contentproj", "{F19FA861-79F3-47BB-946F-F2620EFAA70F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.WindowsPhone7", "Common\Common.WindowsPhone7.csproj", "{6C87EB21-6DA0-4226-9266-3381CF88246A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,16 +127,6 @@ Global
 		{F19FA861-79F3-47BB-946F-F2620EFAA70F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{F19FA861-79F3-47BB-946F-F2620EFAA70F}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{F19FA861-79F3-47BB-946F-F2620EFAA70F}.Release|Windows Phone.ActiveCfg = Debug|Any CPU
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Debug|Any CPU.ActiveCfg = Debug|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Debug|Mixed Platforms.ActiveCfg = Debug|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Debug|Mixed Platforms.Build.0 = Debug|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Release|Any CPU.ActiveCfg = Release|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Release|Mixed Platforms.ActiveCfg = Release|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Release|Mixed Platforms.Build.0 = Release|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
-		{6C87EB21-6DA0-4226-9266-3381CF88246A}.Release|Windows Phone.Build.0 = Release|Windows Phone
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -61,7 +61,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Menu.cs" />
@@ -75,7 +74,7 @@
     <Compile Include="Screens\AnimatedSprite.cs" />
     <Compile Include="Screens\AnimatedSpriteVirtualPad.cs" />
     <Compile Include="Screens\BasicSprite.cs" />
-	<Compile Include="Screens\ParticlesSample.cs" />
+    <Compile Include="Screens\ParticlesSample.cs" />
     <Compile Include="SpritesGame.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,10 +86,6 @@
     <ProjectReference Include="..\..\Engine\Yna.WindowsPhone7.csproj">
       <Project>{248413E0-47D0-44A3-BEDD-11E0200551C1}</Project>
       <Name>Yna.WindowsPhone7</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsPhone7.csproj">
-      <Project>{6C87EB21-6DA0-4226-9266-3381CF88246A}</Project>
-      <Name>Common.WindowsPhone7</Name>
     </ProjectReference>
     <ProjectReference Include="..\SamplesContent\Content.contentproj">
       <Project>{F19FA861-79F3-47BB-946F-F2620EFAA70F}</Project>
