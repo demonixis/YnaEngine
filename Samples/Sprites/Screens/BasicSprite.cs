@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Yna.Engine;
 using Yna.Engine.Graphics;
-using System.Net;
 using System.IO;
 
 namespace Yna.Samples.Screens

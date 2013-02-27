@@ -61,7 +61,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Menu.cs" />
@@ -75,7 +74,7 @@
     <Compile Include="Screens\AnimatedSprite.cs" />
     <Compile Include="Screens\AnimatedSpriteVirtualPad.cs" />
     <Compile Include="Screens\BasicSprite.cs" />
-	<Compile Include="Screens\ParticlesSample.cs" />
+    <Compile Include="Screens\ParticlesSample.cs" />
     <Compile Include="SpritesGame.cs" />
   </ItemGroup>
   <ItemGroup>
