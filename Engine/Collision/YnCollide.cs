@@ -18,7 +18,10 @@ namespace Yna.Engine.Collision
         /// <returns></returns>
         public static bool Collide(YnEntity sceneObjectA, YnEntity sceneObjectB)
         {
-            return sceneObjectA.Rectangle.Intersects(sceneObjectB.Rectangle);
+            Rectangle r1 = new Rectangle((int)sceneObjectA.X, (int)sceneObjectA.Y, (int)sceneObjectA.ScaledWidth, (int)sceneObjectA.ScaledHeight);
+            Rectangle r2 = new Rectangle((int)sceneObjectB.X, (int)sceneObjectB.Y, (int)sceneObjectB.ScaledWidth, (int)sceneObjectB.ScaledHeight);
+            return r1.Intersects(r2);
+            //return sceneObjectA.Rectangle.Intersects(sceneObjectB.Rectangle);
         }
 
         public static bool CollideOneWithGroup(YnEntity sceneObject, List<YnEntity> group)
@@ -29,9 +32,7 @@ namespace Yna.Engine.Collision
 
             while (i < size && !collide)
             {
-                if (sceneObject.Rectangle.Intersects(group[i].Rectangle))
-                    collide = true;
-
+                collide = Collide(sceneObject, group[i]);
                 i++;
             }
 
