@@ -160,6 +160,7 @@ namespace Yna.Engine.Graphics
             set
             {
                 NormalizePositionType(ref value);
+                value += _origin;
                 _position = value;
                 _rectangle.X = (int)_position.X;
                 _rectangle.Y = (int)_position.Y;
@@ -192,6 +193,9 @@ namespace Yna.Engine.Graphics
             set
             {
                 NormalizePositionType(ref value);
+                value.X += (int)_origin.X;
+                value.Y += (int)_origin.Y;
+
                 _rectangle = value;
                 _position.X = _rectangle.X;
                 _position.Y = _rectangle.Y;
