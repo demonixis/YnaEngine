@@ -91,7 +91,7 @@ Global
 		{EB068317-21C8-44D3-9F77-32AE7D47DB2C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Sprites\Sprites.Linux.csproj
+		StartupItem = Shapes\Shapes.Linux.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None

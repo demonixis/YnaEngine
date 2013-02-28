@@ -30,31 +30,11 @@ namespace Yna.Samples.Screens
 
             colors = new Color[numSprites];
 
-            Texture2D texture = GetTextureFromURL(YnG.GraphicsDevice, 200, 523, @"http://residentevil.neoseeker.com/w/i/residentevil/thumb/b/b8/LeonS.Kennedy.jpg/200px-LeonS.Kennedy.jpg");
-
             Random rand = new Random(DateTime.Now.Millisecond);
 
             for (int i = 0; i < 10; i++)
                 colors[i] = new Color(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255));
         }
-
-        private Texture2D GetTextureFromURL(GraphicsDevice device, int width, int height, string url)
-        {
-            Texture2D texture = new Texture2D(YnG.GraphicsDevice, width, height);
-
-            var stream = 
-            
-
-            WebClient webClient = new WebClient();
-            var image = webClient.DownloadData(url);
-            byte[] tmp = new byte[image.Length];
-            image.CopyTo(tmp, 0);
-            webClient.Dispose();
-            texture.SetData<byte>(tmp);
-            
-            return texture;
-        }
-
 
         public override void Initialize()
         {
