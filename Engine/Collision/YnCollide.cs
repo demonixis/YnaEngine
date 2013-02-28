@@ -11,17 +11,25 @@ namespace Yna.Engine.Collision
     public class YnCollide
     {
         /// <summary>
-        /// Simple test collision with rectangles
+        /// Test if two entities collinding
         /// </summary>
-        /// <param name="sceneObjectA">Sprite 1</param>
-        /// <param name="sceneObjectB">Sprite 2</param>
+        /// <param name="entityA">Sprite 1</param>
+        /// <param name="entityB">Sprite 2</param>
         /// <returns></returns>
-        public static bool Collide(YnEntity sceneObjectA, YnEntity sceneObjectB)
+        public static bool Collide(YnEntity entityA, YnEntity entityB)
         {
-            return sceneObjectA.Rectangle.Intersects(sceneObjectB.Rectangle);
+            Rectangle r1 = new Rectangle((int)(entityA.X - entityA.Origin.X), (int)(entityA.Y - entityA.Origin.Y), (int)entityA.ScaledWidth, (int)entityA.ScaledHeight);
+            Rectangle r2 = new Rectangle((int)(entityB.X - entityB.Origin.X), (int)(entityB.Y - entityB.Origin.Y), (int)entityB.ScaledWidth, (int)entityB.ScaledHeight);
+            return r1.Intersects(r2);
         }
 
-        public static bool CollideOneWithGroup(YnEntity sceneObject, List<YnEntity> group)
+        /// <summary>
+        /// Test if an entity and a group of entities are colliding.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public static bool CollideOneWithGroup(YnEntity entity, List<YnEntity> group)
         {
             bool collide = false;
             int size = group.Count;
@@ -29,15 +37,19 @@ namespace Yna.Engine.Collision
 
             while (i < size && !collide)
             {
-                if (sceneObject.Rectangle.Intersects(group[i].Rectangle))
-                    collide = true;
-
+                collide = Collide(entity, group[i]);
                 i++;
             }
 
             return collide;
         }
 
+        /// <summary>
+        /// Test if a group of entities is collinding another group of entities.
+        /// </summary>
+        /// <param name="groupA"></param>
+        /// <param name="groupB"></param>
+        /// <returns></returns>
         public static bool CollideGroupWithGroup(YnGroup groupA, YnGroup groupB)
         {
             bool collide = false;
@@ -50,9 +62,7 @@ namespace Yna.Engine.Collision
             {
                 while (j < groupBSize && !collide)
                 {
-                    if (groupA[i].Rectangle.Intersects(groupB[j].Rectangle))
-                        collide = true;
-
+                    collide = Collide(groupA[i], groupB[j]);
                     j++;
                 }
                 i++;
@@ -64,25 +74,25 @@ namespace Yna.Engine.Collision
         /// <summary>
         /// Perfect pixel test collision
         /// </summary>
-        /// <param name="sceneObjectA">Sprite 1</param>
-        /// <param name="sceneObjectB">Sprite 2</param>
+        /// <param name="entityA">Sprite 1</param>
+        /// <param name="entityB">Sprite 2</param>
         /// <returns></returns>
-        public static bool PerfectPixelCollide(IColladable2PerfectPixel sceneObjectA, IColladable2PerfectPixel sceneObjectB)
+        public static bool PerfectPixelCollide(IColladable2PerfectPixel entityA, IColladable2PerfectPixel entityB)
         {
-            int top = Math.Max(sceneObjectA.Rectangle.Top, sceneObjectB.Rectangle.Top);
-            int bottom = Math.Min(sceneObjectA.Rectangle.Bottom, sceneObjectB.Rectangle.Bottom);
-            int left = Math.Max(sceneObjectA.Rectangle.Left, sceneObjectB.Rectangle.Left);
-            int right = Math.Min(sceneObjectA.Rectangle.Right, sceneObjectB.Rectangle.Right);
+            int top = Math.Max(entityA.Rectangle.Top, entityB.Rectangle.Top);
+            int bottom = Math.Min(entityA.Rectangle.Bottom, entityB.Rectangle.Bottom);
+            int left = Math.Max(entityA.Rectangle.Left, entityB.Rectangle.Left);
+            int right = Math.Min(entityA.Rectangle.Right, entityB.Rectangle.Right);
 
             for (int y = top; y < bottom; y++)  // De haut en bas
             {
                 for (int x = left; x < right; x++)  // de gauche à droite
                 {
-                    int index_A = (x - sceneObjectA.Rectangle.Left) + (y - sceneObjectA.Rectangle.Top) * sceneObjectA.Rectangle.Width;
-                    int index_B = (x - sceneObjectB.Rectangle.Left) + (y - sceneObjectB.Rectangle.Top) * sceneObjectB.Rectangle.Width;
+                    int index_A = (x - entityA.Rectangle.Left) + (y - entityA.Rectangle.Top) * entityA.Rectangle.Width;
+                    int index_B = (x - entityB.Rectangle.Left) + (y - entityB.Rectangle.Top) * entityB.Rectangle.Width;
 
-                    Color[] colorsSpriteA = YnGraphics.GetTextureColors(sceneObjectA.Texture);
-                    Color[] colorsSpriteB = YnGraphics.GetTextureColors(sceneObjectB.Texture);
+                    Color[] colorsSpriteA = YnGraphics.GetTextureColors(entityA.Texture);
+                    Color[] colorsSpriteB = YnGraphics.GetTextureColors(entityB.Texture);
 
                     Color colorSpriteA = colorsSpriteA[index_A];
                     Color colorSpriteB = colorsSpriteB[index_B];
