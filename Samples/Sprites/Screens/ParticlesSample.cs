@@ -58,7 +58,7 @@ namespace Yna.Samples.Screens
         public override void Update(GameTime gameTime)
         {
             if (YnG.Keys.JustPressed(Keys.Escape))
-                Exit();
+                YnG.StateManager.SetStateActive("menu", true);
 
             emitter.Update(gameTime);
             emitter2.Update(gameTime);

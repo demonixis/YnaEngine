@@ -160,7 +160,12 @@ namespace Yna.Engine.Graphics
             set
             {
                 NormalizePositionType(ref value);
-                value += _origin;
+                
+                if (_origin.X < 0 || _origin.X > 0)
+                    value.X += _origin.X / 2;
+                if (_origin.Y < 0 || _origin.X > 0)
+                    value.Y += _origin.Y / 2;
+
                 _position = value;
                 _rectangle.X = (int)_position.X;
                 _rectangle.Y = (int)_position.Y;
