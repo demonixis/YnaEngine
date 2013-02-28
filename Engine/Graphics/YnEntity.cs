@@ -783,7 +783,7 @@ namespace Yna.Engine.Graphics
                 // We check if the mouse events only if an event handler exists for one of mouse events
                 if (_nbMouseEventObservers > 0)
                 {
-                    if (_rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
+                    if (Rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
                     {
                         // Mouse Over
                         MouseOverSprite(new MouseOverEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
