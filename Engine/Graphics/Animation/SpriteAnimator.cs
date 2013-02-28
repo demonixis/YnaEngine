@@ -19,6 +19,7 @@ namespace Yna.Engine.Graphics.Animation
         private int nbSpriteX;
         private int nbSpriteY;
         private int spritesheetLenght;
+        private string _currentFrameName;
 
         public SpriteAnimator()
         {
@@ -30,6 +31,8 @@ namespace Yna.Engine.Graphics.Animation
             nbSpriteX = 0;
             nbSpriteY = 0;
             spritesheetLenght = 0;
+
+            _currentFrameName = String.Empty;
 
             Animations = new Dictionary<string, SpriteAnimation>();
         }
@@ -73,6 +76,21 @@ namespace Yna.Engine.Graphics.Animation
             Animations.Add(name, animation);
         }
 
+        public Rectangle GetNextFrame(string animationKeyName, ref SpriteEffects effect, long elapsedTime)
+        {
+            return Animations[animationKeyName].Next(ref effect, elapsedTime);
+        }
+
+        public Rectangle CheckForIDLEAnimation(ref SpriteEffects effect, Vector2 lastPosition)
+        {
+            if (lastPosition.X == 0 && lastPosition.Y == 0 && _currentFrameName != String.Empty)
+            {
+                return Animations[_currentFrameName].Next(ref effect, 0);
+            }
+
+            return Rectangle.Empty;
+        }
+
         /// <summary>
         /// Add a new animation.
         /// </summary>
@@ -91,12 +109,7 @@ namespace Yna.Engine.Graphics.Animation
             Animations.Add(name, animation);
         }
 
-        public void Update(GameTime gameTime, Vector2 currentPosition, Vector2 lastPosition)
-        {
-
-        }
-
-        public void Update(GameTime gameTime, Vector2 lastDistance)
+        public void Update(GameTime gameTime, Vector2 lastPosition)
         {
 
         }

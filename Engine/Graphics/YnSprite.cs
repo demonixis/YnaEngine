@@ -449,7 +449,13 @@ namespace Yna.Engine.Graphics
                 _circle.Y = (int)_position.Y;
 
                 if (_hasAnimation)
-                    _animator.Update(gameTime, LastDistance);
+                {
+                    //_animator.Update(gameTime, _lastPosition);
+
+                    Rectangle r = _animator.CheckForIDLEAnimation(ref _effects, _lastPosition);
+                    if (r != Rectangle.Empty)
+                        _sourceRectangle = r;
+                }
             }
         }
 
