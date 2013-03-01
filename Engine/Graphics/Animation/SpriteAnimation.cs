@@ -34,7 +34,10 @@ namespace Yna.Engine.Graphics.Animation
         		// This value is the amount of miliseconds between two animations
         		// 1 / _frameRate => amount of seconds per animation
         		// 1000 / _frameRate => amount of miliseconds per animation
-        		_frameRateValue = 1000 / _frameRate;
+				if (_frameRate > 0)
+        			_frameRateValue = 1000 / _frameRate;
+				else
+					_frameRateValue = 0;
         	}
        	}
         public bool Reversed { get; set; }
