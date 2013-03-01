@@ -102,7 +102,7 @@ namespace Yna.Engine
         {
             get
             {
-                if (Game.GraphicsDevice == null)
+                if (GraphicsDeviceManager != null)
                     return GraphicsDeviceManager.PreferredBackBufferWidth;
 
                 return Game.GraphicsDevice.Viewport.Width;
@@ -116,7 +116,7 @@ namespace Yna.Engine
         {
             get
             {
-                if (Game.GraphicsDevice == null)
+                if (GraphicsDeviceManager != null)
                     return GraphicsDeviceManager.PreferredBackBufferHeight;
 
                 return Game.GraphicsDevice.Viewport.Height;

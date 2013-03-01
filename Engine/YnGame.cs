@@ -111,6 +111,7 @@ namespace Yna.Engine
         {
             base.LoadContent();
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
+            GraphicsDevice.Viewport = new Viewport(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
 
         /// <summary>
