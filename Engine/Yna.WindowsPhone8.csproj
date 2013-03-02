@@ -227,6 +227,7 @@
 	<Compile Include="RandomMachine.cs" />
 	<Compile Include="Graphics\Particle\YnEmitter.cs" />
     <Compile Include="Graphics\Particle\YnParticle.cs" />
+	<Compile Include="Extensions\PointExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
