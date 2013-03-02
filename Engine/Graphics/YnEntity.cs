@@ -67,7 +67,7 @@ namespace Yna.Engine.Graphics
 
         #endregion
 
-        #region Base properties
+        #region Base Properties
 
         /// <summary>
         /// Flags who determine if this object must be cleaned and removed
@@ -110,7 +110,7 @@ namespace Yna.Engine.Graphics
 
         #endregion
 
-        #region Properties for position/rotation/scale/etc..
+        #region Properties for position/rotation/scale
 
         /// <summary>
         /// Gets or sets the positionment type for this object
@@ -119,20 +119,7 @@ namespace Yna.Engine.Graphics
         public PositionType PositionType
         {
             get { return _positionType; }
-            set
-            {
-                _positionType = value;
-                if (value == Graphics.PositionType.Relative)
-                {
-                    if (_parent != null)
-                        Position += _parent.Position;
-                }
-                else
-                {
-                    if (_parent != null)
-                        Position -= _parent.Position;
-                }
-            }
+            protected set { _positionType = value; }
         }
 
         /// <summary>
@@ -150,26 +137,8 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Vector2 Position
         {
-            get
-            {
-                if (_positionType == PositionType.Relative && _parent != null)
-                    return new Vector2(_parent.X - (_position.X - _origin.X), _parent.Y - (_position.Y - _origin.Y));
-
-                return new Vector2(_position.X - _origin.X, _position.Y - _origin.Y);
-            }
-            set
-            {
-                NormalizePositionType(ref value);
-                
-                if (_origin.X < 0 || _origin.X > 0)
-                    value.X += _origin.X / 2;
-                if (_origin.Y < 0 || _origin.X > 0)
-                    value.Y += _origin.Y / 2;
-
-                _position = value;
-                _rectangle.X = (int)_position.X;
-                _rectangle.Y = (int)_position.Y;
-            }
+            get { return GetPosition().ToVector2(); }
+            set { SetPosition((int)value.X, (int)value.Y); }
         }
 
         /// <summary>
@@ -178,33 +147,8 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Rectangle Rectangle
         {
-            get
-            {
-                if (_positionType == PositionType.Relative && _parent != null)
-                {
-                    return new Rectangle(
-                        (int)(_parent.X - (_position.X - _origin.X)), 
-                        (int)(_parent.Y - (_position.Y - _origin.Y)),
-                        (int)(_rectangle.Width * _scale.X), 
-                        (int)(_rectangle.Height * _scale.Y));
-                }
-
-                return new Rectangle(
-                    (int)_position.X,
-                    (int)_position.Y,
-                    (int)(_rectangle.Width * _scale.X),
-                    (int)(_rectangle.Height * _scale.Y));
-            }
-            set
-            {
-                NormalizePositionType(ref value);
-                value.X += (int)_origin.X;
-                value.Y += (int)_origin.Y;
-
-                _rectangle = value;
-                _position.X = _rectangle.X;
-                _position.Y = _rectangle.Y;
-            }
+            get { return GetRectangle(); }
+            set { SetRectangle(value); }
         }
 
         /// <summary>
@@ -259,7 +203,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public float DegRotation
         {
-            get { return  MathHelper.ToDegrees(_rotation); }
+            get { return MathHelper.ToDegrees(_rotation); }
             set { _rotation = MathHelper.ToRadians(value); }
         }
 
@@ -271,12 +215,8 @@ namespace Yna.Engine.Graphics
             get { return _alpha; }
             set
             {
-                _alpha = value;
-
-                if (_alpha > 1.0)
-                    _alpha = 1.0f;
-                else if (_alpha < 0)
-                    _alpha = 0.0f;
+                _alpha = value > 1.0f ? 1.0f : value;
+                _alpha = _alpha < 0.0f ? 0.0f : _alpha;
             }
         }
 
@@ -344,22 +284,6 @@ namespace Yna.Engine.Graphics
         {
             get { return _rectangle.Width; }
             set { _rectangle.Width = value; }
-        }
-
-        /// <summary>
-        /// Gets texture width.
-        /// </summary>
-        public int TextureWidth
-        {
-            get { return _texture.Width; }
-        }
-
-        /// <summary>
-        /// Gets texture height.
-        /// </summary>
-        public int TextureHeight
-        {
-            get { return _texture.Height; }
         }
 
         #endregion
@@ -771,7 +695,7 @@ namespace Yna.Engine.Graphics
                     Vector2 touchPosition = YnG.Touch.GetPosition(fingerId); // TODO : Add a solution for all fingers
                     Vector2 lastTouchPosition = YnG.Touch.GetLastPosition(fingerId);
 
-                    if (_rectangle.Contains((int)touchPosition.X, (int)touchPosition.Y))
+                    if (Rectangle.Contains((int)touchPosition.X, (int)touchPosition.Y))
                     {
                         OnTouchOver(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
 
@@ -891,8 +815,16 @@ namespace Yna.Engine.Graphics
         {
             _position.X += x;
             _position.Y += y;
-            _rectangle.X += x;
-            _rectangle.Y += y;
+            _rectangle.X = (int)_position.X;
+            _rectangle.Y = (int)_position.Y;
+        }
+
+        public virtual void MultiplyAbsolutePosition(float x, float y)
+        {
+            _position.X *= x;
+            _position.Y *= y;
+            _rectangle.X = (int)_position.X;
+            _rectangle.Y = (int)_position.Y;
         }
 
         public virtual void SetAbsolutePosition(int x, int y)
@@ -901,6 +833,114 @@ namespace Yna.Engine.Graphics
             _position.Y = y;
             _rectangle.X = x;
             _rectangle.Y = y;
+        }
+
+        public void SetPositionType(PositionType positionType)
+        {
+            _positionType = positionType;
+            if (positionType == Graphics.PositionType.Relative)
+            {
+                if (_parent != null)
+                    Position += _parent.Position;
+            }
+            else
+            {
+                if (_parent != null)
+                    Position -= _parent.Position;
+            }
+        }
+
+        public virtual void SetPosition(int x, int y)
+        {
+            NormalizePositionType(x, y);
+
+            x += (_origin.X < 0 || _origin.X > 0) ? (int)(_origin.X / 2) : 0;
+            y += (_origin.Y < 0 || _origin.X > 0) ? (int)(_origin.Y / 2) : 0;
+
+            _position.X = x;
+            _position.Y = y;
+            _rectangle.X = x;
+            _rectangle.Y = y;
+        }
+
+        public virtual void SetPosition(Vector2 vector)
+        {
+            SetPosition(ref vector);
+        }
+
+        public virtual void SetPosition(ref Vector2 vector)
+        {
+            SetPosition((int)vector.X, (int)vector.Y);
+        }
+
+        public virtual void SetPosition(Rectangle rectangle)
+        {
+            SetPosition(rectangle.X, rectangle.Y);
+        }
+
+        public virtual void SetPosition(ref Rectangle rectangle)
+        {
+            SetPosition(rectangle.X, rectangle.Y);
+        }
+
+        public virtual Point GetPosition(PositionType positionType)
+        {
+            Point position = new Point((int)(_position.X - _origin.X), (int)(_position.Y - _origin.Y));
+
+            if (positionType == PositionType.Relative && _parent != null)
+            {
+                position.X = _parent.X - position.X;
+                position.Y = _parent.Y - position.Y;
+            }
+
+            return position;
+        }
+
+        public virtual Point GetPosition()
+        {
+            return GetPosition(_positionType);
+        }
+
+        public virtual void SetRectangle(ref Rectangle rectangle)
+        {
+            NormalizePositionType(ref rectangle);
+            rectangle.X += (int)_origin.X;
+            rectangle.Y += (int)_origin.Y;
+
+            _rectangle = rectangle;
+            _position.X = rectangle.X;
+            _position.Y = rectangle.Y;
+        }
+
+        public virtual void SetRectangle(Rectangle rectangle)
+        {
+            SetRectangle(ref rectangle);
+        }
+
+        public virtual Rectangle GetRectangle()
+        {
+            Rectangle rectangle = new Rectangle(
+                (int)(_position.X - _origin.X),
+                (int)(_position.Y - _origin.Y),
+                (int)(_rectangle.Width * _scale.X),
+                (int)(_rectangle.Height * _scale.Y));
+
+            if (_positionType == PositionType.Relative && _parent != null)
+            {
+                rectangle.X = _parent.X - rectangle.X;
+                rectangle.Y = _parent.Y - rectangle.Y;
+            }
+
+            return rectangle;
+        }
+
+        protected virtual void NormalizePositionType(int x, int y)
+        {
+            if (_positionType == PositionType.Relative && _parent != null)
+            {
+                x += _parent.X;
+                y += _parent.Y;
+            }
         }
 
         /// <summary>
@@ -954,7 +994,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public void SetFullScreen()
         {
-            Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            SetRectangle(new Rectangle(0, 0, YnG.Width, YnG.Height));
         }
 
         #endregion
