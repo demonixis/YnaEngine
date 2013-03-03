@@ -24,7 +24,7 @@ namespace Yna.Samples.Screens
 
             FirstPersonControl control = new FirstPersonControl(camera);
             control.MoveSpeed = 1.25f;
-            control.RotateSpeed = 1.45f;
+            control.RotationSpeed = 1.45f;
             Add(control);
 
             alien = new YnModel("Models/Alien/alien1_L");

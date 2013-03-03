@@ -811,6 +811,11 @@ namespace Yna.Engine.Graphics
 
         #region Other methods
 
+        /// <summary>
+        /// Add a new position to the current absolute position.
+        /// </summary>
+        /// <param name="x">Position to add on X axis.</param>
+        /// <param name="y">Position to add on Y axis.</param>
         public virtual void AddAbsolutePosition(int x, int y)
         {
             _position.X += x;
@@ -819,6 +824,11 @@ namespace Yna.Engine.Graphics
             _rectangle.Y = (int)_position.Y;
         }
 
+        /// <summary>
+        /// Multiply a new position to the current absolute position.
+        /// </summary>
+        /// <param name="x">Position to multiply on X axis.</param>
+        /// <param name="y">Position to multiply on Y axis.</param>
         public virtual void MultiplyAbsolutePosition(float x, float y)
         {
             _position.X *= x;
@@ -827,6 +837,11 @@ namespace Yna.Engine.Graphics
             _rectangle.Y = (int)_position.Y;
         }
 
+        /// <summary>
+        /// Sets the absolute position of the entity.
+        /// </summary>
+        /// <param name="x">Position on X axis.</param>
+        /// <param name="y">Position on Y axis.</param>
         public virtual void SetAbsolutePosition(int x, int y)
         {
             _position.X = x;
@@ -835,6 +850,11 @@ namespace Yna.Engine.Graphics
             _rectangle.Y = y;
         }
 
+        /// <summary>
+        /// Sets the position type of the entity.
+        /// If it sets to relative, the position will be sets relative to the entity's parent.
+        /// </summary>
+        /// <param name="positionType">Type of position.</param>
         public void SetPositionType(PositionType positionType)
         {
             _positionType = positionType;
@@ -850,6 +870,11 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="x">Position on X axis.</param>
+        /// <param name="y">Position on Y axis.</param>
         public virtual void SetPosition(int x, int y)
         {
             NormalizePositionType(x, y);
@@ -863,21 +888,37 @@ namespace Yna.Engine.Graphics
             _rectangle.Y = y;
         }
 
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="vector">Vector2 that represent the position.</param>
         public virtual void SetPosition(Vector2 vector)
         {
             SetPosition(ref vector);
         }
 
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="vector">Reference of a vector</param>
         public virtual void SetPosition(ref Vector2 vector)
         {
             SetPosition((int)vector.X, (int)vector.Y);
         }
 
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="rectangle">A rectangle. Note that only the X and Y coordinates are used</param>
         public virtual void SetPosition(Rectangle rectangle)
         {
             SetPosition(rectangle.X, rectangle.Y);
         }
 
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="rectangle">Reference of a rectangle. Note that only the X and Y coordinates are used</param>
         public virtual void SetPosition(ref Rectangle rectangle)
         {
             SetPosition(rectangle.X, rectangle.Y);
