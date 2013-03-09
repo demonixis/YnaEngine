@@ -122,10 +122,8 @@ namespace Yna.Engine.Graphics3D.Material
         /// <summary>
         /// Update the shader values
         /// </summary>
+        /// <param name="camera">Camera to use.</param>
         /// <param name="world">Entity World matrix</param>
-        /// <param name="view">Camera view matrix</param>
-        /// <param name="projection">Camera project matrix</param>
-        /// <param name="position">Entity position</param>
-        public abstract void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position);
+        public abstract void Update(BaseCamera camera, ref Matrix world);
     }
 }

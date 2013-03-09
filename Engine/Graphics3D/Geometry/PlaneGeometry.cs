@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D.Geometry
 {
@@ -17,14 +18,9 @@ namespace Yna.Engine.Graphics3D.Geometry
             set { _invertFaces = value; }
         }
 
-        public PlaneGeometry(string textureName, Vector3 sizes, Vector3 position)
+        public PlaneGeometry(string textureName, Vector3 sizes)
         {
             _segmentSizes = sizes;
-            _position = position;
-            _textureName = textureName;
-            _width = sizes.X;
-            _height = sizes.Y;
-            _depth = sizes.Z;
             _invertFaces = false;
         }
 
@@ -71,11 +67,9 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// Draw the plane shape
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            PreDraw();
-
-            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);

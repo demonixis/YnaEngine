@@ -19,7 +19,7 @@ namespace Yna.Engine.Graphics3D.Geometry
     ///     and call in first PreDraw() method. Do your stuff after that
     /// </summary>
     /// <typeparam name="T">Type of IVertexType</typeparam>
-    public abstract class BaseGeometry<T> : YnEntity3D where T : struct, IVertexType
+    public abstract class BaseGeometry<T> where T : struct, IVertexType
     {
         #region Protected declarations
     
@@ -30,16 +30,12 @@ namespace Yna.Engine.Graphics3D.Geometry
         protected IndexBuffer _indexBuffer;
 
         // Texture
-        protected string _textureName;
         protected Vector2 _textureRepeat;
 
         // Segments size
         protected Vector3 _segmentSizes;
         protected Vector3 _origin;
         protected bool _constructed;
-
-        // Update flags
-        protected bool _needMatrixUpdate;
 
         #endregion
 
@@ -51,15 +47,6 @@ namespace Yna.Engine.Graphics3D.Geometry
         public T[] Vertices
         {
             get { return _vertices; }
-        }
-
-        /// <summary>
-        /// True if the texture is loaded
-        /// </summary>
-        public bool Initialized
-        {
-            get { return _initialized; }
-            set { _initialized = value; }
         }
 
         /// <summary>
@@ -89,45 +76,19 @@ namespace Yna.Engine.Graphics3D.Geometry
             set { _segmentSizes = value; }
         }
 
-        /// <summary>
-        /// Width of the shape
-        /// </summary>
-        public new int Width
+        public int Width
         {
-            get { return (int)_width; }
-            protected set { _width = (float)value; }
+            get { return (int)_segmentSizes.X; }
         }
 
-        /// <summary>
-        /// Height of the shape
-        /// </summary>
-        public new int Height
+        public int Height
         {
-            get { return (int)_height; }
-            protected set { _height = (float)value; }
+            get { return (int)_segmentSizes.Y; }
         }
 
-        /// <summary>
-        /// Depth of the shape
-        /// </summary>
-        public new int Depth
+        public int Depth
         {
-            get { return (int)_depth; }
-            protected set { _depth = (float)value; }
-        }
-
-        #endregion
-
-        #region Flags properties
-
-        /// <summary>
-        /// Gets or sets the value of the flags who's used to update matrices.
-        /// If set to true, all matrices will be updated
-        /// </summary>
-        public bool NeedMatricesUpdate
-        {
-            get { return _needMatrixUpdate; }
-            set { _needMatrixUpdate = value; }
+            get { return (int)_segmentSizes.Z; }
         }
 
         #endregion
@@ -138,24 +99,11 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// Create a basic shape
         /// </summary>
         public BaseGeometry()
-            : base ()
         {
-            _textureName = String.Empty;
             _textureRepeat = Vector2.One;
             _origin = Vector3.Zero;
             _segmentSizes = Vector3.One;
             _constructed = false;
-            _needMatrixUpdate = true;
-        }
-
-        /// <summary>
-        /// Create a new shape with a texture
-        /// </summary>
-        /// <param name="textureName">The texture name</param>
-        public BaseGeometry(string textureName)
-            : this()
-        {
-            _textureName = textureName;
         }
 
         /// <summary>
@@ -164,27 +112,13 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <param name="textureName">The texture name</param>
         /// <param name="sizes">Desired size</param>
         /// <param name="position">Position</param>
-        public BaseGeometry(string textureName, Vector3 sizes, Vector3 position)
-            : this(textureName)
+        public BaseGeometry(Vector3 sizes)
+            : this()
         {
             _segmentSizes = sizes;
-            _position = position;
         }
 
         #endregion
-
-        /// <summary>
-        /// Load the texture and launch the process of generation
-        /// </summary>
-        public override void LoadContent()
-        {
-            if (_material == null)
-                _material = new BasicMaterial(_textureName);
-                
-            _material.LoadContent();
-
-            GenerateShape();
-        }
 
         /// <summary>
         /// Generate the shape, update the shader and update bounding volumes
@@ -200,9 +134,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             CreateVertices();
             CreateIndices();
             CreateBuffers();
-            UpdateBoundingVolumes();
             _constructed = true;
-            _initialized = true;
         }
 
         /// <summary>
@@ -257,60 +189,16 @@ namespace Yna.Engine.Graphics3D.Geometry
         }
 
         /// <summary>
-        /// Update matrices world and view. There are 3 updates
-        /// 1 - Scale
-        /// 2 - Rotation on Y axis (override if you wan't more)
-        /// 3 - Translation
-        /// </summary>
-        public override void UpdateMatrix()
-        {
-            _world = Matrix.CreateScale(Scale) *
-                Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
-                Matrix.CreateTranslation(Position);
-
-            _view = _camera.View;
-            _projection = _camera.Projection;
-        }
-
-        /// <summary>
-        /// Update Bounding Box and Bounding Sphere
-        /// </summary>
-        public override void UpdateBoundingVolumes()
-        {
-            _boundingBox = new BoundingBox(
-                new Vector3(X, Y, Z),
-                new Vector3(X + Width, Y + Height, Z + Depth));
-
-            _boundingSphere = new BoundingSphere(
-                new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
-                Math.Max(Math.Max(Width, Height), Depth));
-        }
-
-        public virtual void PreDraw()
-        {
-            if (_needMatrixUpdate)
-                UpdateMatrix();
-
-            if (_dynamic)
-                UpdateBoundingVolumes();
-
-            _material.Update(ref _world, ref _view, ref _projection, ref _position);
-        }
-
-        /// <summary>
         /// Draw the shape
         /// </summary>
         /// <param name="device">Graphics device</param>
-        public override void Draw(GraphicsDevice device)
+        public virtual void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            PreDraw();
-
             device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;
 
-            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
             {
-                BasicEffect e = (BasicEffect)_material.Effect;
                 pass.Apply();
                 device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
             }

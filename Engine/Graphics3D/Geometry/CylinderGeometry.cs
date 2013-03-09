@@ -19,14 +19,9 @@ namespace Yna.Engine.Graphics3D.Geometry
         private int _nbSlices;
         private static Random random = new Random();
 
-        public CylinderGeometry(string textureName, Vector3 startPosition, Vector3 endPosition, float startRadius, float endRadius, bool invertFaces, int nbSegments, int nbSlices, Vector3 sizes, Vector3 position)
+        public CylinderGeometry(Vector3 startPosition, Vector3 endPosition, float startRadius, float endRadius, bool invertFaces, int nbSegments, int nbSlices, Vector3 sizes)
         {
             _segmentSizes = sizes;
-            _position = position;
-            _textureName = textureName;
-            _width = sizes.X;
-            _height = sizes.Y;
-            _depth = sizes.Z;
             _startPosition = startPosition;
             _endPosition = endPosition;
             _startRadius = startRadius;

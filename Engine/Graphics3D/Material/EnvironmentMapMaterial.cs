@@ -151,12 +151,12 @@ namespace Yna.Engine.Graphics3D.Material
             }
         }
 
-        public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
+        public override void Update(BaseCamera camera, ref Matrix world)
         {
             if (!_effectLoaded) return;
 
             // Update matrices
-            base.Update(ref world, ref view, ref projection, ref position);
+            base.Update(camera, ref world);
 
             EnvironmentMapEffect environmentMapEffect = (EnvironmentMapEffect)_effect;
 
@@ -173,7 +173,7 @@ namespace Yna.Engine.Graphics3D.Material
             if (UpdateLights(environmentMapEffect))
             {
                 environmentMapEffect.EmissiveColor = _emissiveColor;
-                environmentMapEffect.DiffuseColor = _diffuseColor *_diffuseIntensity;
+                environmentMapEffect.DiffuseColor = _diffuseColor * _diffuseIntensity;
                 environmentMapEffect.Alpha = _alphaColor;
             }
         }

@@ -5,6 +5,11 @@ using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D.Terrain
 {
+    private class HeightmapGeometry
+    {
+
+    }
+
     public class Heightmap : BaseTerrain
     {
         private string _heightmapAssetName;

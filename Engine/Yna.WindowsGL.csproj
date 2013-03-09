@@ -93,6 +93,7 @@
     <Compile Include="Graphics3D\Scene\SceneNode.cs" />
     <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
     <Compile Include="Graphics3D\YnEntity3DList.cs" />
+    <Compile Include="Graphics3D\YnMesh.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />

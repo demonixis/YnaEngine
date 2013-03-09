@@ -20,24 +20,7 @@ namespace Yna.Engine.Graphics3D.Terrain
         public BaseTerrain()
             : base()
         {
-            _initialized = false;
-        }
 
-        public BaseTerrain(Vector3 position)
-            : this()
-        {
-            _position = position;
-        }
-
-        /// <summary>
-        /// Load texture if not already loaded. If you wan't to reload a new texture,
-        /// set the Initialized property to true before calling this method
-        /// </summary>
-        public override void LoadContent()
-        {
-            if (_material == null)
-                _material = new BasicMaterial(_textureName);
-            _material.LoadContent();
         }
 
         /// <summary>
@@ -120,11 +103,9 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// Draw Terrain
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            PreDraw();
-
-            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);

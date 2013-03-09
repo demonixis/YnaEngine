@@ -38,20 +38,14 @@ namespace Yna.Engine.Graphics3D.Geometry
         private List<TriangleData> _triangles;
         protected Dictionary<Int64, int> _cache;
 
-        public IcoSphereGeometry(string textureName, float radius, int lod, bool invertFaces)
+        public IcoSphereGeometry(float radius, int lod, bool invertFaces)
             : base()
         {
-            _textureName = textureName;
             _radius = radius;
             _lod = lod;
             _invertFaces = invertFaces;
             _vertexPositions = new List<Vector3>();
             _triangles = new List<TriangleData>();
-        }
-
-        public override void LoadContent()
-        {
-            base.LoadContent();
         }
 
         protected override void CreateVertices()
@@ -295,14 +289,12 @@ namespace Yna.Engine.Graphics3D.Geometry
             return (a + b) / 2;
         }
 
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            PreDraw();
-			
 			device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;
 
-            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 
