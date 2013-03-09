@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +6,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Yna.Engine;
 using Yna.Engine.Graphics;
-using System.IO;
 
 namespace Yna.Samples.Screens
 {

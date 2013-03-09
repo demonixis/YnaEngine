@@ -14,11 +14,17 @@ namespace Yna.Samples.Screens
 {
     public class BaseSample : YnState3D
     {
-        protected YnEntity sky;
         protected SimpleTerrain terrain;
         protected FirstPersonControl control;
+        protected SkyBox skybox;
 
         public BaseSample(string name)
+            : this(name, false)
+        {
+
+        }
+
+        public BaseSample(string name, bool night)
             : base(name)
         {
             // 1 - Create an FPSCamera
@@ -42,24 +48,53 @@ namespace Yna.Samples.Screens
             terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
 
-            // Sky
-            sky = new YnEntity("Textures/Sky");
+            string[] skyboxTextures;
+
+            if (night)
+            {
+                skyboxTextures = new string[6]
+                {
+                    "Textures/galaxy/galaxy-X",
+                    "Textures/galaxy/galaxy+X",
+                    "Textures/galaxy/galaxy-Y",
+                    "Textures/galaxy/galaxy+Y",
+                    "Textures/galaxy/galaxy-Z",
+                    "Textures/galaxy/galaxy+Z"
+                };
+            }
+            else
+            {
+                skyboxTextures = new string[6]
+                {
+                    "Textures/skybox/neg-x",
+                    "Textures/skybox/pos-x",
+                    "Textures/skybox/neg-y",
+                    "Textures/skybox/pos-y",
+                    "Textures/skybox/neg-z",
+                    "Textures/skybox/pos-z"
+                };
+            }
+
+            skybox = new SkyBox(Camera, null, Vector3.Zero, 100, skyboxTextures);
+            Add(skybox);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
 
-            // Sky
-            sky.LoadContent();
-            sky.SetFullScreen();
-
             Camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
+            skybox.Position = new Vector3(terrain.Width / 2, 0, terrain.Depth / 2);
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (Camera.Y < 1)
+                Camera.Y = 1;
+            else if (Camera.Y > 50)
+                Camera.Y = 50;
 
             if (YnG.Keys.JustPressed(Keys.Escape))
                 YnG.StateManager.SetStateActive("menu", true);
@@ -68,10 +103,6 @@ namespace Yna.Samples.Screens
         public override void Draw(GameTime gameTime)
         {
             YnG.GraphicsDevice.Clear(Color.Black);
-
-            spriteBatch.Begin();
-            sky.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
 
             // Restore default states for 3D
             YnG3.RestoreGraphicsDeviceStates();

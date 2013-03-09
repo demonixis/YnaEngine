@@ -8,14 +8,11 @@ namespace Yna.Samples.Screens
         PyramidGeometry pyramid;
 
         public PyramidSample(string name)
-            : base(name)
+            : base(name, true)
         {
             pyramid = new PyramidGeometry("Textures/pyramid", new Vector3(10), Vector3.Zero);
             pyramid.TextureRepeat = new Vector2(4);
             Add(pyramid);
-
-            CylinderGeometry cylinder = new CylinderGeometry("Textures/Sky", new Vector3(0, 10, 0), new Vector3(0, 0, 0), 5, 5, false, 10, 10, Vector3.One, Vector3.Zero);
-            Add(cylinder);
         }
 
         public override void LoadContent()

@@ -105,7 +105,7 @@
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Content\YnContentManager.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
-    <Compile Include="Graphics3D\Terrain\Skybox.cs" />
+    <Compile Include="Graphics3D\Terrain\SkyBox.cs" />
     <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
     <Compile Include="Graphics\Animation\YnInterpolator.cs" />
     <Compile Include="Graphics\YnEntityList.cs" />

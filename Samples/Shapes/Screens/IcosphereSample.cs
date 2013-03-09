@@ -21,7 +21,7 @@ namespace Yna.Samples.Screens
         {
             icosphere = new IcoSphereGeometry("Textures/icosphere_map", 32, 4, false);
             icosphere.Scale = new Vector3(3.5f);
-            Add(icosphere);
+            //Add(icosphere);
 
             // Setup a new material for the terrain
             BasicMaterial terrainMaterial = new BasicMaterial("Textures/pattern55_diffuse");

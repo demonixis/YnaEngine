@@ -57,11 +57,12 @@ namespace Yna.Engine.Graphics3D.Geometry
         protected override void CreateVertices()
         {
             CreateVertexData();
-
             ApplyVertexData();
+            for (int i = 0; i < _vertices.Length; i++)
+                _vertices[i].TextureCoordinate *= _textureRepeat;
         }
-		
-		protected override void CreateIndices()
+
+        protected override void CreateIndices()
 		{
 			// Indices are calculated in ApplyVertexData
 		}
@@ -134,7 +135,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             // TEST
             //u = (float)(0.5f - Math.Atan2(point.X, point.Z) * (1/Math.PI) * 2);
             //v = (float)(0.5f - Math.Asin(point.Y) * (1/Math.PI));
-            return new Vector2(u, v);
+            return new Vector2(u, v) * _textureRepeat;
         }
 
         /// <summary>
