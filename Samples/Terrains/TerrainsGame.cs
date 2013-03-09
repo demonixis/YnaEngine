@@ -10,7 +10,7 @@ namespace Yna.Samples
         MenuEntry[] menuItems;
 
         public TerrainsGame()
-                : base(640, 408, "Yna : Heightmap")
+                : base(1280, 800, "Yna : Heightmap")
         {
             menuItems = new MenuEntry[]
             {

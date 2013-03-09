@@ -65,10 +65,6 @@
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.WindowsGL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{08ec5eaa-02d9-4b51-b545-97af22836c06}</Project>
-      <Name>Common.WindowsGL</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

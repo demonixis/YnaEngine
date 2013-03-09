@@ -17,7 +17,6 @@ namespace Yna.Engine.Graphics3D.Geometry
         public Vector2 UVB;
         public Vector2 UVC;
 
-
         public TriangleData(int a, int b, int c, Vector2 uva, Vector2 uvb, Vector2 uvc)
         {
             A = a;

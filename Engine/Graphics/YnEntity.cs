@@ -665,7 +665,7 @@ namespace Yna.Engine.Graphics
 
         public virtual void LoadContent(bool forceReload)
         {
-            _assetLoaded = forceReload;
+            _assetLoaded = !forceReload;
             LoadContent();
         }
 

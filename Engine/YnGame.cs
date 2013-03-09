@@ -152,7 +152,7 @@ namespace Yna.Engine
         public virtual void DetermineBestResolution(bool fullscreen)
         {
             SetScreenResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
-
+            
             if (!graphics.IsFullScreen && fullscreen)
                 graphics.ToggleFullScreen();
         }

@@ -118,7 +118,7 @@ namespace Yna.Engine.Graphics3D.Scene
         /// <param name="gameTime"></param>
         public virtual void Update(GameTime gameTime)
         {
-
+            UpdateChildren(gameTime);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Yna.Engine.Graphics3D.Scene
         /// <param name="light"></param>
         public virtual void Draw(GraphicsDevice device, BaseCamera camera, SceneLight light)
         {
-
+            DrawChildren(device, camera, light);
         }
     }
 

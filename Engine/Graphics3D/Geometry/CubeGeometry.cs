@@ -4,17 +4,43 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Graphics3D.Geometry
 {
+    /// <summary>
+    /// Cube geometry
+    /// </summary>
     public class CubeGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
+        #region Constructors
+
+        public CubeGeometry(string textureName)
+            : this(textureName, new Vector3(1.0f), new Vector3(0.0f))
+        {
+
+        }
+
+        public CubeGeometry(string textureName, Vector3 position)
+            : this(textureName, new Vector3(1.0f), position)
+        {
+
+        }
+
         public CubeGeometry(string textureName, Vector3 sizes, Vector3 position)
+            : this(textureName, sizes, position, new Vector3(0.0f))
+        {
+
+        }
+
+        public CubeGeometry(string textureName, Vector3 sizes, Vector3 position, Vector3 origin)
         {
             _segmentSizes = sizes;
             _position = position;
+            _origin = origin;
             _textureName = textureName;
             _width = sizes.X;
             _height = sizes.Y;
             _depth = sizes.Z;
         }
+
+        #endregion
 
         protected override void CreateVertices()
         {

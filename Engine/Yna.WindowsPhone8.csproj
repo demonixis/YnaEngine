@@ -89,18 +89,28 @@
     <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Collision\YnCollide3.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
+    <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
+    <Compile Include="Extensions\BoundingSphereExtension.cs" />
     <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
+    <Compile Include="Extensions\ModelExtension.cs" />
     <Compile Include="Extensions\RectangleExtension.cs" />
+    <Compile Include="Extensions\Texture2DExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />
+    <Compile Include="Extensions\ViewportExtension.cs" />
     <Compile Include="Graphics3D\Camera\CameraManager.cs" />
     <Compile Include="Graphics3D\Controls\BaseControl.cs" />
     <Compile Include="Graphics3D\Controls\FirstPersonControl.cs" />
     <Compile Include="Graphics3D\Controls\FirstPersonVirtualPadControl.cs" />
     <Compile Include="Graphics3D\Controls\KeyMapping.cs" />
     <Compile Include="Graphics3D\Controls\ThirdPersonControl.cs" />
+    <Compile Include="Graphics3D\Geometry\CylinderGeometry.cs" />
+    <Compile Include="Graphics3D\Geometry\PyramidGeometry.cs" />
+    <Compile Include="Graphics3D\Geometry\SphereGeometry.cs" />
+    <Compile Include="Graphics3D\Geometry\TorusGeometry.cs" />
     <Compile Include="Graphics3D\Lighting\BaseLight.cs" />
     <Compile Include="Graphics3D\Lighting\DirectionalLight.cs" />
     <Compile Include="Graphics3D\Lighting\SceneLight.cs" />
+    <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
     <Compile Include="Graphics3D\YnEntity3DList.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
@@ -195,7 +205,6 @@
     <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Helpers\GeomHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Input\Component\KeyboardComponent.cs" />
@@ -224,10 +233,10 @@
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
-	<Compile Include="RandomMachine.cs" />
-	<Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="RandomMachine.cs" />
+    <Compile Include="Graphics\Particle\YnEmitter.cs" />
     <Compile Include="Graphics\Particle\YnParticle.cs" />
-	<Compile Include="Extensions\PointExtension.cs" />
+    <Compile Include="Extensions\PointExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

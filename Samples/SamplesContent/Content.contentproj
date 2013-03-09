@@ -130,6 +130,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+	<Compile Include="Textures\pyramid.png">
+      <Name>pyramid</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+	<Compile Include="Textures\sand.png">
+      <Name>sand</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Textures\pattern02_diffuse.png">
       <Name>pattern02_diffuse</Name>
       <Importer>TextureImporter</Importer>
@@ -174,6 +184,20 @@
   <ItemGroup>
     <Compile Include="Models\Alien\alien1.bmp">
       <Name>alien1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\icomap.png">
+      <Name>icomap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\metal.png">
+      <Name>metal</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
