@@ -5,24 +5,37 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Yna.Engine.Graphics3D.Geometry
 {
     /// <summary>
-    /// Cube geometry
+    /// A Cube geometry to use within an YnMesh with a Material
     /// </summary>
     public class CubeGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
         #region Constructors
 
+        /// <summary>
+        /// Create a new cube geometry
+        /// </summary>
+        /// <param name="textureName"></param>
         public CubeGeometry(string textureName)
             : this(textureName, new Vector3(1.0f), new Vector3(0.0f))
         {
 
         }
 
+        /// <summary>
+        /// Create a new cube geometry.
+        /// </summary>
+        /// <param name="textureName"></param>
         public CubeGeometry(string textureName, Vector3 position)
             : this(textureName, new Vector3(1.0f), position)
         {
 
         }
 
+        /// <summary>
+        /// Create a new cube geometry.
+        /// </summary>
+        /// <param name="textureName"></param>
+        /// <param name="sizes">Size of geometry</param>
         public CubeGeometry(string textureName, Vector3 sizes, Vector3 position)
             : this(textureName, sizes, position, new Vector3(0.0f))
         {
@@ -163,11 +176,6 @@ namespace Yna.Engine.Graphics3D.Geometry
             _boundingSphere = new BoundingSphere(
                 new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
                 radius);
-        }
-
-        public override void Draw(GraphicsDevice device)
-        {
-            base.Draw(device);
         }
     }
 }
