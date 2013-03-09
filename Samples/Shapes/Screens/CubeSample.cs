@@ -10,7 +10,7 @@ namespace Yna.Samples.Screens
         YnGroup3D groupCube;
 
         public CubeSample(string name)
-            : base(name)
+            : base(name, true)
         {
             groupCube = new YnGroup3D(null);
 

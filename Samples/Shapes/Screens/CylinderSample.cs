@@ -9,7 +9,7 @@ namespace Yna.Samples.Screens
         CylinderGeometry cone;
 
         public CylinderSample(string name)
-            : base(name)
+            : base(name, true)
         {
             cylinder = new CylinderGeometry("Textures/metal", new Vector3(0, 10, 0), new Vector3(0, 0, 0), 5, 5, false, 10, 10, Vector3.One, Vector3.Zero);
             Add(cylinder);

@@ -17,11 +17,11 @@ namespace Yna.Samples.Screens
         IcoSphereGeometry icosphere;
 
         public IcosphereSample(string name)
-            : base(name)
+            : base(name, true)
         {
             icosphere = new IcoSphereGeometry("Textures/icosphere_map", 32, 4, false);
             icosphere.Scale = new Vector3(3.5f);
-            //Add(icosphere);
+            Add(icosphere);
 
             // Setup a new material for the terrain
             BasicMaterial terrainMaterial = new BasicMaterial("Textures/pattern55_diffuse");
@@ -30,15 +30,11 @@ namespace Yna.Samples.Screens
             terrainMaterial.FogEnd = 65.0f;
             terrainMaterial.EnableFog = true;
             terrain.Material = terrainMaterial;
-
-            // Sky
-            sky = new YnEntity("Textures/Sky");
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-
             // Set the camera position at the middle of the terrain
             icosphere.Position = new Vector3(terrain.Width / 2, icosphere.Scale.Y, terrain.Depth / 2);
         }
@@ -46,7 +42,6 @@ namespace Yna.Samples.Screens
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
             icosphere.RotateY(gameTime.ElapsedGameTime.Milliseconds * 0.1f);
         }
     }
