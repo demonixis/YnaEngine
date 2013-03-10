@@ -1,12 +1,13 @@
 ﻿using System;
 using Yna.Engine;
+using Yna.Engine.Graphics.Component;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
 {
     public class Models3DGame : YnGame
     {
-        Menu menu;
+        YnMenu menu;
         MenuEntry[] menuItems;
 
         public Models3DGame()
@@ -22,7 +23,7 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            menu = new Menu("menu", "3D models", menuItems);
+            menu = new YnMenu("menu", "3D models", menuItems);
 
             stateManager.Add(menu, true);
             stateManager.Add(new DungeonState("dungeonSample"), false);

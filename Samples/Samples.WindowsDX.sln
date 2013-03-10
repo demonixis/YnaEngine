@@ -1,6 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 4.2.1.8805
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprites.WindowsDX", "Sprites\Sprites.WindowsDX.csproj", "{F77F7C22-E38E-4D1F-8967-345BE83FB8D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tilemap.WindowsDX", "Tilemap\Tilemap.WindowsDX.csproj", "{7EC25909-3DF8-48AC-A9AB-2866B35F057F}"

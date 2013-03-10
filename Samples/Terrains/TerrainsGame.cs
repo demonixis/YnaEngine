@@ -1,12 +1,13 @@
 ﻿using System;
 using Yna.Engine;
+using Yna.Engine.Graphics.Component;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
 {
     public class TerrainsGame : YnGame
     {
-        Menu menu;
+        YnMenu menu;
         MenuEntry[] menuItems;
 
         public TerrainsGame()
@@ -24,7 +25,7 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            menu = new Menu("menu", "Terrains", menuItems);
+            menu = new YnMenu("menu", "Terrains", menuItems);
             stateManager.Add(menu, true);
             stateManager.Add(new BasicTerrain("basicSample"), false);
             stateManager.Add(new HeighmapTerrain("heightmapSample"), false);

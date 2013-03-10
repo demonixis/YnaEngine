@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Yna.Engine.Helpers;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
     /// Basic checkbox widget
@@ -27,10 +27,10 @@ namespace Yna.Engine.Graphics.Gui
         public YnCheckbox()
             : base()
         {
-            _withBackground = true;
+            _hasBackground = true;
             _checked = false;
         }
-
+/*
         public override void Layout()
         {
             base.Layout();
@@ -40,7 +40,8 @@ namespace Yna.Engine.Graphics.Gui
             Width = size;
             Height = size;
         }
-
+        */
+/*
         protected override void DoMouseClick(bool leftClick, bool middleClick, bool rightClick, bool justClicked)
         {
             if (justClicked && leftClick)
@@ -48,9 +49,10 @@ namespace Yna.Engine.Graphics.Gui
                 _checked = !_checked;
             }
         }
-
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
+*/
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
+        	/*
             if (_checked)
             {
                 // Draw a square with padding (Width /5)
@@ -61,13 +63,15 @@ namespace Yna.Engine.Graphics.Gui
 
                 spriteBatch.Draw(fg, dest, source, Color.White);
             }
-
+*/
         }
 
-        protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
+        protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
+        	/*
             Texture2D bg = YnGraphics.CreateTexture(_skin.DefaultTextColor, Width, Height);
             base.DrawBackground(gameTime, spriteBatch, bg);
+            */
         }
     }
 }

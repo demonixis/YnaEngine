@@ -71,8 +71,8 @@ namespace Yna.Engine
         /// <param name="gameTime">GameTime object</param>
         public virtual void Update(GameTime gameTime)
         {
-            // We make a copy of all screens to provide any error
-            // if a screen is removed during the update opreation
+            // We make a copy of all entities to provide any error
+            // if an entity is removed during the update operation
             int nbMembers = _members.Count;
 
             if (nbMembers > 0)

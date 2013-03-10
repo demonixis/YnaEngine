@@ -10,36 +10,48 @@ namespace Yna.Engine.Graphics.Gui
 {
     public class YnSkinGenerator
     {
+
         /// <summary>
-        /// Generates a Windows 8 like skin base on the color
+        /// Generates a Windows 8 like skin based on a start color
         /// </summary>
         /// <param name="baseColor">The base color</param>
         /// <param name="fontName">Font name</param>
-        /// <returns></returns>
+        /// <returns>The skin</returns>
         public static YnSkin Generate(Color baseColor, string fontName)
+        {
+            return Generate(baseColor, fontName, true);
+        }
+
+        /// <summary>
+        /// Generates a Windows 8 like skin based on a start color
+        /// </summary>
+        /// <param name="baseColor">The base color</param>
+        /// <param name="fontName">Font name</param>
+        /// <param name="animated">set to true to generate "Hover" and "Clicked" skins</param>
+        /// <returns>The skin</returns>
+        public static YnSkin Generate(Color baseColor, string fontName, bool animated)
         {
             Color tempColor;
             YnSkin skin = new YnSkin();
 
-            skin.FontName = fontName; 
-            if (fontName != null)
-                skin.Font = YnG.Game.Content.Load<SpriteFont>(skin.FontName);
-            skin.DefaultTextColor = Color.White;
+            // Default state
+            skin.FontNameDefault = fontName;
+            skin.FontDefault = YnG.Game.Content.Load<SpriteFont>(fontName);
+            skin.TextColorDefault = Color.White;
+            skin.BackgroundDefault = YnGraphics.CreateTexture(baseColor, 1, 1);
+            skin.BorderDefault = null; // Borders are left blank
 
-            // The base color will be used for buttons
-            skin.ButtonBackground = YnGraphics.CreateTexture(baseColor, 1, 1);
+            // If the skin is "animated", generate data for "Hover" and "Clicked" states
+            if (animated)
+            {
+                // Hover state : change only background color
+                tempColor = Add(baseColor, 50, 50, 50);
+                skin.BackgroundHover = YnGraphics.CreateTexture(tempColor, 1, 1);
 
-            // A darker color will be used for hovered buttons
-            tempColor = Add(baseColor, 50, 50, 50);
-            skin.HoveredButtonBackground = YnGraphics.CreateTexture(tempColor, 1, 1);
-
-            // Invert text / background color for clicked buttons
-            skin.ClickedButtonTextColor = baseColor;
-            skin.ClickedButtonBackground = YnGraphics.CreateTexture(Color.White, 1, 1);
-
-            // Panels background will be 
-            tempColor = Sub(baseColor, 150, 150, 150);
-            skin.PanelBackground = YnGraphics.CreateTexture(tempColor, 1, 1);
+                // Clicked state : invert background & text color
+                skin.TextColorClicked = baseColor;
+                skin.BackgroundClicked = YnGraphics.CreateTexture(Color.White, 1, 1);
+            }
 
             return skin;
         }

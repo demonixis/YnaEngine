@@ -6,6 +6,7 @@ using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Gui;
 using Yna.Engine.Graphics.Event;
+using Yna.Engine.Graphics.Gui.Widgets;
 
 namespace Yna.Samples
 {
@@ -14,7 +15,6 @@ namespace Yna.Samples
     /// </summary>
     public class GuiState : YnState2D
     {
-        private YnGui gui;
         private Texture2D background;
         private YnProgressBar progress;
         private YnLabel progressLabel;
@@ -23,7 +23,10 @@ namespace Yna.Samples
             : base(name)
         {
             YnG.ShowMouse = true;
-            gui = new YnGui(YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font"));
+            // YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font")
+            
+            YnGui.RegisterSkin("blueSkin", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font"));
+            YnGui.RegisterSkin("chocolateSkin", YnSkinGenerator.Generate(Color.Chocolate, "Fonts/Font"));
         }
 
         public void BuildGui()
@@ -33,20 +36,33 @@ namespace Yna.Samples
             int padding = 10;
             int tileCount = 5;
 
-            YnPanel toolbar = new YnPanel();
-            gui.Add(toolbar); // Add toolbar to Gui
 
-            toolbar.WithBackground = false;
-            toolbar.Orientation = YnOrientation.Horizontal;
+            /*
+            YnLabel label = new YnLabel();
+            label.Text = "Test label";
+            label.SkinName = "testSkin";
+            Gui.Add(label);
+            
+            */
+            YnPanel toolbar = new YnPanel();
+            Gui.Add(toolbar); // Add toolbar to Gui
+
+            toolbar.HasBackground = false;
             toolbar.Padding = padding;
             toolbar.Height = tileSize;
             toolbar.Position = new Vector2(YnG.Width / 2 - (tileSize * tileCount + padding * (tileCount + 1)) / 2, YnG.Height / 2 - toolbar.Height / 2);
 
-            toolbar.Add(new YnTextButton("New", tileSize, tileSize, false));
-            toolbar.Add(new YnTextButton("Load", tileSize, tileSize, false));
-            toolbar.Add(new YnTextButton("Options", tileSize, tileSize, false));
-            toolbar.Add(new YnTextButton("Store", tileSize, tileSize, false));
-
+            toolbar.Add(new YnTextButton(tileSize, tileSize, "New"));
+            /*
+            toolbar.Add(new YnTextButton(tileSize, tileSize, "Load"));
+            toolbar.Add(new YnTextButton(tileSize, tileSize, "Options"));
+            toolbar.Add(new YnTextButton(tileSize, tileSize, "Store"));
+            toolbar.Layout();
+            */
+            
+            //Gui.Add(new YnTextButton("test button"));
+			
+            /*
             YnTextButton button = toolbar.Add(new YnTextButton("Exit", tileSize, tileSize, false));
             button.MouseJustClicked += (s, e) => YnG.Exit();
 
@@ -150,6 +166,8 @@ namespace Yna.Samples
             verticalGauge.Width = plusButton.Width;
             verticalGauge.Height = YnG.Height - plusButton.Height - minusButton.Height;
             verticalGauge.Position = new Vector2(YnG.Width - plusButton.Width, plusButton.Height);
+            
+            */
         }
 
         public override void Initialize()
@@ -162,17 +180,14 @@ namespace Yna.Samples
         public override void LoadContent()
         {
             base.LoadContent();
-
-            gui.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            gui.Update(gameTime);
-
             // Update the progress bar
+            /*
             progress.Value++;
 
             if (progress.Value == progress.MaxValue)
@@ -188,15 +203,12 @@ namespace Yna.Samples
 
                 YnG.StateManager.SetStateActive("menu", true);
             }
+            */
         }
 
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-
-            spriteBatch.Begin();
-            gui.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
         }
     }
 }

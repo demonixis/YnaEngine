@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Yna.Engine.Helpers;
 using Yna.Engine.Graphics.Event;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
     /// Horizontal slider widget
@@ -69,8 +69,8 @@ namespace Yna.Engine.Graphics.Gui
         /// </summary>
         public bool ShowValue 
         {
-            get { return _labelValue.IsVisible; }
-            set { _labelValue.IsVisible = value; }
+            get { return _labelValue.Visible; }
+            set { _labelValue.Visible = value; }
         }
 
 #endregion
@@ -83,8 +83,8 @@ namespace Yna.Engine.Graphics.Gui
             _dragging = false;
             _cursor = Add(new YnTextButton());
             _cursor.MouseClick += (s, e) => _dragging = true;
-            _cursor.MouseReleasedInside += (s, e) => _dragging = false;
-            _cursor.MouseReleasedOutside += (s, e) => _dragging = false;
+            //_cursor.MouseReleasedInside += (s, e) => _dragging = false;
+            //_cursor.MouseReleasedOutside += (s, e) => _dragging = false;
             _labelValue = Add(new YnLabel());
         }
 
@@ -127,6 +127,7 @@ namespace Yna.Engine.Graphics.Gui
             _cursor.Position = new Vector2((float)_currentValue * Width / _maxValue, _cursor.Position.Y);
         }
 
+        /*
         public override void Layout()
         {
             base.Layout();
@@ -136,10 +137,10 @@ namespace Yna.Engine.Graphics.Gui
 
             UpdateCursor();
         }
-
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
+*/
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-
+/*
             // Background
             int bgHeight = Height / 8;
             Rectangle rect = new Rectangle(
@@ -151,6 +152,7 @@ namespace Yna.Engine.Graphics.Gui
 
             Texture2D tex = YnGraphics.CreateTexture(_skin.DefaultTextColor, 1,1);
             spriteBatch.Draw(tex, rect, Color.White);
+            */
         }
 
         /// <summary>

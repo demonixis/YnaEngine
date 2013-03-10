@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Yna.Engine.Helpers;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
     /// Progress bar widget. Can be used horizontally (left to right) or vertically (bottom to top)
@@ -55,8 +55,7 @@ namespace Yna.Engine.Graphics.Gui
             _minValue = 0;
             _maxValue = 100;
             _currentValue = 0;
-            _withBackground = true;
-            _orientation = YnOrientation.Horizontal;
+            _hasBackground = true;
         }
 
         protected override void DoCustomUpdate(GameTime gameTime)
@@ -64,8 +63,9 @@ namespace Yna.Engine.Graphics.Gui
 
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
+        	/*
             Texture2D fg = _skin.ButtonBackground;
             Rectangle source;
             Rectangle dest;
@@ -87,17 +87,19 @@ namespace Yna.Engine.Graphics.Gui
                 }
                 spriteBatch.Draw(fg, dest, source, Color.White);
             }
-
+*/
         }
 
-        protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
+        protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
             // TODO : store this texture instead of generating it each time
+            /*
             Texture2D bg = YnGraphics.CreateTexture(Skin.DefaultTextColor, 1, 1);
             Rectangle source = new Rectangle(0, 0, bg.Width, bg.Height);
             Rectangle dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, Bounds.Width, Bounds.Height);
 
             spriteBatch.Draw(bg, dest, source, Color.White);
+            */
         }
     }
 }

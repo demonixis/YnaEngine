@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
     /// Simple text label widget
@@ -18,8 +18,6 @@ namespace Yna.Engine.Graphics.Gui
         protected Color _textColor;
         protected bool _useCustomColor;
         protected SpriteFont _customFont;
-        protected float _rotation;
-        protected Vector2 _scale;
 
         #endregion
 
@@ -45,24 +43,6 @@ namespace Yna.Engine.Graphics.Gui
                 _textColor = value;
                 _useCustomColor = true;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the rotation value
-        /// </summary>
-        public float Rotation
-        {
-            get { return _rotation; }
-            set { _rotation = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the scale of the text
-        /// </summary>
-        public Vector2 Scale
-        {
-            get { return _scale; }
-            set { _scale = value; }
         }
 
         /// <summary>
@@ -95,33 +75,33 @@ namespace Yna.Engine.Graphics.Gui
         {
             _text = "";
             _useCustomColor = false;
-            _rotation = 0.0f;
-            _scale = Vector2.One;
         }
 
-        public YnLabel(string text)
-            : this()
+        public YnLabel(int x, int y) : base()
         {
-            _text = text;
+        	X = x;
+        	Y = y;
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-            Color color = (_useCustomColor) ? _textColor : _skin.DefaultTextColor;
-            SpriteFont font = (_customFont == null) ? _skin.Font : _customFont;
+        	
+            Color color = (_useCustomColor) ? _textColor : skin.TextColorDefault;
+            SpriteFont font = (_customFont == null) ? skin.FontDefault : _customFont;
 
-            spriteBatch.DrawString(font, _text, AbsolutePosition, color, _rotation, Vector2.Zero, _scale, SpriteEffects.None, 1.0f);
+            spriteBatch.DrawString(font, _text, ScreenPosition, color, _rotation, Vector2.Zero, _scale, SpriteEffects.None, 1.0f);
+            
         }
 
-        public override void Layout()
+        
+        protected override void Layout(YnSkin skin)
         {
-            base.Layout();
-
-            SpriteFont font = (_customFont == null) ? _skin.Font : _customFont;
+            SpriteFont font = (_customFont == null) ? skin.FontDefault : _customFont;
 
             Vector2 size = font.MeasureString(Text);
-            _bounds.Width = (int)( size.X * _scale.X);
-            _bounds.Height = (int)( size.Y * _scale.Y);
+            Width = (int)( size.X * _scale.X);
+            Height = (int)( size.Y * _scale.Y);
         }
+        
     }
 }

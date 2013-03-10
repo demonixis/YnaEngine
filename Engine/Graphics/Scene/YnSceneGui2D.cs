@@ -6,6 +6,7 @@ using Yna.Engine.Graphics.Gui;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Yna.Engine.Graphics.Gui.Widgets;
 
 namespace Yna.Engine.Graphics.Scene
 {

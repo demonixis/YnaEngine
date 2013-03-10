@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
     /// All possible text alignments for a YnTextButon
@@ -32,7 +32,10 @@ namespace Yna.Engine.Graphics.Gui
         public YnTextAlign TextAlign
         {
             get { return _align; }
-            set { _align = value; }
+            set {
+                _align = value;
+                AlignText();
+            }
         }
 
         /// <summary>
@@ -70,35 +73,25 @@ namespace Yna.Engine.Graphics.Gui
         {
             _label = Add(new YnLabel());
             _align = YnTextAlign.Center;
-            Pack = true;
         }
 
-        public YnTextButton(string text)
-            : this()
-        {
-            _label.Text = text;
-        }
-
-        public YnTextButton(string text, int width, int height)
-            : this(text)
+        public YnTextButton(int width, int height, string text)
+             : this()
         {
             Width = width;
             Height = height;
-        }
 
-        public YnTextButton(string text, int width, int height, bool pack)
-            : this(text, width, height)
-        {
-            _pack = pack;
+            _label.Text = text;
+            Vector2 textSize = YnGui.GetSkin(_skinName).FontDefault.MeasureString(text);
+            _label.Width = (int)textSize.X;
+            _label.Height = (int)textSize.Y;
+            AlignText();
         }
-
         #endregion
 
-        public override void Layout()
+        
+        public void AlignText()
         {
-            base.Layout();
-            _label.TextColor = Skin.ClickedButtonTextColor;
-
             // Align the text in the widget
             int width = _label.Width;
             int height = _label.Height;
@@ -135,19 +128,6 @@ namespace Yna.Engine.Graphics.Gui
                     break;
             }
             _label.Position = pos;
-        }
-
-        protected override void DoCustomUpdate(GameTime gameTime)
-        {
-            if(_buttonDown) _label.UseCustomColor = true;
-            else _label.UseCustomColor = false;
-
-            base.DoCustomUpdate(gameTime);
-        }
-
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            base.DrawWidget(gameTime, spriteBatch);
         }
     }
 }
