@@ -43,6 +43,7 @@ namespace Yna.Engine.Graphics
 
         // Sprite position and rectangle
         protected Vector2 _position;
+        protected Vector2 _screenPosition;
         protected Rectangle _rectangle;
 
         // Texture
@@ -64,6 +65,9 @@ namespace Yna.Engine.Graphics
         protected PositionType _positionType;
         protected int _nbMouseEventObservers;
         protected int _nbTouchEventObservers;
+
+        protected bool _clicked;
+        protected bool _hovered;
 
         #endregion
 
@@ -108,6 +112,26 @@ namespace Yna.Engine.Graphics
             set { _visible = value; }
         }
 
+        /// <summary>
+        /// Flag indicating that the entity is currently hovered (touch or mouse)
+        /// </summary>
+        public bool Hovered
+        {
+          get { return _hovered; }
+        }
+ 
+        /// <summary>
+        /// Flag indicating that the entity is currently beeing clicked (touch or mouse)
+        /// </summary>
+        public bool Clicked
+        {
+            get { return _clicked; }
+        }
+
+        public Vector2 ScreenPosition
+        {
+            get { return _screenPosition; }
+        }
         #endregion
 
         #region Properties for position/rotation/scale/etc..
@@ -712,11 +736,15 @@ namespace Yna.Engine.Graphics
 
         public override void Update(GameTime gameTime)
         {
+            ComputeScreenPosition();
+
+            _clicked = false;
+            _hovered = false;
             // Check mouse events
             if (_enabled)
             {
-                _rectangle.X = (int)(_position.X - _origin.X);
-                _rectangle.Y = (int)(_position.Y - _origin.Y);
+                _rectangle.X = (int)(ScreenPosition.X - _origin.X);
+                _rectangle.Y = (int)(ScreenPosition.Y - _origin.Y);
 
                 #region Touch events
 
@@ -729,11 +757,14 @@ namespace Yna.Engine.Graphics
 
                     if (_rectangle.Contains((int)touchPosition.X, (int)touchPosition.Y))
                     {
+                        _hovered = true; 
                         OnTouchOver(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
 
                         if (YnG.Touch.Tapped)
+                        {
+                            _clicked = true; 
                             OnTouchPress(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-
+                        }
                     }
                     else if (Rectangle.Contains((int)lastTouchPosition.X, (int)lastTouchPosition.Y))
                         OnTouchLeave(new TouchLeaveEntityEventArgs((int)lastTouchPosition.X, (int)lastTouchPosition.Y, fingerId, (int)touchPosition.X, (int)touchPosition.Y));
@@ -750,12 +781,14 @@ namespace Yna.Engine.Graphics
                 {
                     if (_rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
                     {
+                        _hovered = true;
                         // Mouse Over
                         MouseOverSprite(new MouseOverEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y));
 
                         // Just clicked
                         if (YnG.Mouse.JustClicked(MouseButton.Left) || YnG.Mouse.JustClicked(MouseButton.Middle) || YnG.Mouse.JustClicked(MouseButton.Right))
                         {
+                            _clicked = true;
                             MouseButton mouseButton;
 
                             if (YnG.Mouse.JustClicked(MouseButton.Left))
@@ -768,8 +801,8 @@ namespace Yna.Engine.Graphics
                             MouseJustClickedSprite(new MouseClickEntityEventArgs(YnG.Mouse.X, YnG.Mouse.Y, mouseButton, true, false));
                         }
 
-                        // one click
-                        if (YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Right, ButtonState.Pressed))
+                        // One click
+                        else if (YnG.Mouse.ClickOn(MouseButton.Left, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Middle, ButtonState.Pressed) || YnG.Mouse.ClickOn(MouseButton.Right, ButtonState.Pressed))
                         {
                             MouseButton mouseButton;
 
@@ -798,6 +831,20 @@ namespace Yna.Engine.Graphics
                     }
                 }
                 #endregion
+            }
+        }
+
+        private void ComputeScreenPosition()
+        {
+            if (_parent != null)
+            {
+                // Relative position to it's parent
+                _screenPosition = Position + _parent.ScreenPosition;
+            }
+            else
+            {
+                // Absolute position
+                _screenPosition = Position;
             }
         }
 

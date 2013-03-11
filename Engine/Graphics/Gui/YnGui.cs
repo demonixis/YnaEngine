@@ -147,7 +147,7 @@ namespace Yna.Engine.Graphics.Gui
         {
         	// Generate the default skin
         	// FIXME : load a stored default skin file instead of generating one with a spritefont asset
-        	RegisterSkin("default", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font"));
+        	RegisterSkin("default", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/DefaultFont"));
         }
 
         /// <summary>
