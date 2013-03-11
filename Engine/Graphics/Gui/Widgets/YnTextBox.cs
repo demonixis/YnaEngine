@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
     /// Text box widget. Provies wrapping and elipsis processing
@@ -62,10 +62,12 @@ namespace Yna.Engine.Graphics.Gui
             _text = text;
             _wrapLines = wrapLines;
             _wordWrap = true;
-            _orientation = YnOrientation.Vertical;
+            
+            Layout();
         }
 
-        public override void Layout()
+        
+        public void Layout()
         {
             _children.Clear();
 
@@ -88,18 +90,14 @@ namespace Yna.Engine.Graphics.Gui
                 // Text elipsis
                 CharacterElipsis();
             }
-
-            // Set the skin to newly created labels
-            InitSkin();
-
-            base.Layout();
         }
 
         #region Wrapping methods
         
         private void WrapChars()
         {
-            SpriteFont font = _skin.Font;
+        	/*
+        	SpriteFont font = YnGui.GetSkin(_skinName).Font;
             string buffer = "";
             for (int i = 0; i < _text.Length; i++)
             {
@@ -118,11 +116,13 @@ namespace Yna.Engine.Graphics.Gui
             }
 
             Add(new YnLabel(buffer));
+            */
         }
 
         private void WrapWords()
         {
-            SpriteFont font = _skin.Font;
+        	/*
+            SpriteFont font = YnGui.GetSkin(_skinName).Font;
             string[] words = _text.Split(' ');
             string buffer = "";
             for (int i = 0; i < words.Length; i++ )
@@ -140,11 +140,13 @@ namespace Yna.Engine.Graphics.Gui
                 }
             }
             Add(new YnLabel(buffer));
+            */
         }
 
         private void CharacterElipsis()
         {
-            SpriteFont font = _skin.Font;
+        	/*
+            SpriteFont font = YnGui.GetSkin(_skinName).Font;;
             string buffer = "";
             int i = 0;
             while (font.MeasureString(buffer + "...").X <= Width && i < _text.Length)
@@ -154,6 +156,7 @@ namespace Yna.Engine.Graphics.Gui
             }
 
             Add(new YnLabel(buffer + "..."));
+            */
         }
 
         #endregion

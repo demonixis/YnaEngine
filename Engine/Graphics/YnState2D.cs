@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Gui;
+using Yna.Engine.Graphics.Gui.Widgets;
 using Yna.Engine.State;
 using Yna.Engine.Graphics.Scene;
 
@@ -193,9 +194,12 @@ namespace Yna.Engine.Graphics
         {
             int nbMembers = _scene.Entities.Count;
             
-            if (!_scene.UseOtherBatchForGUI)
-                nbMembers += _scene.Gui.Count;
-
+            if (!_scene.UseOtherBatchForGUI && _scene.Gui.HasWidgets)
+            {
+            	// There is at least one widget to render in the scene sprite batch
+                nbMembers++;
+            }
+            
             if (nbMembers > 0)
             {
                 spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _camera.GetTransformMatrix());

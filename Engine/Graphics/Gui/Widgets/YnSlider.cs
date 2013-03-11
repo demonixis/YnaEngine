@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Yna.Engine.Helpers;
 using Yna.Engine.Graphics.Event;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
     /// Horizontal slider widget
@@ -69,8 +69,8 @@ namespace Yna.Engine.Graphics.Gui
         /// </summary>
         public bool ShowValue 
         {
-            get { return _labelValue.IsVisible; }
-            set { _labelValue.IsVisible = value; }
+            get { return _labelValue.Visible; }
+            set { _labelValue.Visible = value; }
         }
 
 #endregion
@@ -83,8 +83,9 @@ namespace Yna.Engine.Graphics.Gui
             _dragging = false;
             _cursor = Add(new YnTextButton());
             _cursor.MouseClick += (s, e) => _dragging = true;
-            _cursor.MouseReleasedInside += (s, e) => _dragging = false;
-            _cursor.MouseReleasedOutside += (s, e) => _dragging = false;
+            _cursor.MouseReleased += (s, e) => _dragging = false;
+            //_cursor.MouseReleasedInside += (s, e) => _dragging = false;
+            //_cursor.MouseReleasedOutside += (s, e) => _dragging = false;
             _labelValue = Add(new YnLabel());
         }
 
@@ -95,7 +96,7 @@ namespace Yna.Engine.Graphics.Gui
             {
                 Vector2 delta = YnG.Mouse.Delta;
                 // Horizontal move only
-                _cursor.Move((int)-delta.X, 0);
+                _cursor.Move((int)delta.X, 0);
 
                 // TODO : handle mouse movement overflow to ease the use
                 // Ensure the cursor is still in his rail
@@ -127,9 +128,9 @@ namespace Yna.Engine.Graphics.Gui
             _cursor.Position = new Vector2((float)_currentValue * Width / _maxValue, _cursor.Position.Y);
         }
 
-        public override void Layout()
+        
+        protected override void ApplySkin(YnSkin skin)
         {
-            base.Layout();
             _cursor.Width = Height;
             _cursor.Height = Height;
             _cursor.Position = new Vector2(-_cursor.Width / 2, 0);
@@ -137,20 +138,20 @@ namespace Yna.Engine.Graphics.Gui
             UpdateCursor();
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-
             // Background
             int bgHeight = Height / 8;
             Rectangle rect = new Rectangle(
-                (int)AbsolutePosition.X,
-                (int)AbsolutePosition.Y + Height / 2 - bgHeight/2,
+                (int)ScreenPosition.X,
+                (int)ScreenPosition.Y + Height / 2 - bgHeight / 2,
                 Width,
                 bgHeight
             );
 
-            Texture2D tex = YnGraphics.CreateTexture(_skin.DefaultTextColor, 1,1);
+            Texture2D tex = GetSkin().BackgroundClicked;
             spriteBatch.Draw(tex, rect, Color.White);
+            
         }
 
         /// <summary>

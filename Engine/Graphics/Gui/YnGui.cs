@@ -5,61 +5,93 @@ using System.Text;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Engine.Graphics.Gui.Widgets;
 using Yna.Engine.Helpers;
 
 namespace Yna.Engine.Graphics.Gui
 {
     /// <summary>
-    /// The GUI manager
+    /// This class is a manager for all UI widgets. It can be used as a simple manager handling widgets and 
+    /// as a layer for global rendering.
     /// </summary>
     public class YnGui : YnEntity
     {
+    	#region Static skin storage
+    	
+    	public const string DEFAULT_SKIN = "default";
+    	
+    	/// <summary>
+    	/// This dictionary contains all registered GUI skins. They're identified by a name.
+    	/// </summary>
+    	private static Dictionary<string, YnSkin> __skinCache = new Dictionary<string, YnSkin>();
+    	
+    	/// <summary>
+    	/// Retreive a skin definition from the static cache.
+    	/// </summary>
+    	/// <param name="name">The skin name</param>
+    	/// <returns>the skin</returns>
+    	public static YnSkin GetSkin(string name)
+    	{
+    		if(!__skinCache.ContainsKey(name))
+    		{
+    			// The skin was not found. Use the default one instead
+    			// TODO Add warning log
+    			__skinCache[name] = __skinCache[DEFAULT_SKIN];
+    			
+    			return __skinCache[DEFAULT_SKIN];
+    		}
+    		return __skinCache[name];
+    	}
+    	
+    	/// <summary>
+    	/// Register a new skin in the cache. Be carefull when registering a new skin : names must
+    	/// be unique. 
+    	/// </summary>
+    	/// <param name="name">The skin name</param>
+    	/// <param name="skin">The skin definition</param>
+    	public static void RegisterSkin(string name, YnSkin skin)
+    	{
+    		if(__skinCache.ContainsKey(name))
+    		{
+    			// Skin overwriting
+    			// TODO Add warning log
+    		}
+    		__skinCache[name] = skin;
+    	}
+    	
+    	/// <summary>
+    	/// Loads a skin directly from an asset file
+    	/// </summary>
+    	/// <param name="name">The skin resource file</param>
+    	public static void LoadSkin(string asset)
+    	{
+    		// TODO Load the skin from XML file or whatever
+    	}
+    	
+    	#endregion
+    	
         #region Protected declarations
 
-        protected YnSkin _skin;
+        /// <summary>
+        /// The widget list
+        /// </summary>
+        protected YnWidgetList _widgets;
+        
+        /// <summary>
+        /// The default's GUI skin name. If a widget is added to the GUI without 
+        /// a specific skin, this one will be used
+        /// </summary>
         protected string _skinName;
-        protected List<YnWidget> _widgets;
-        private List<YnWidget> _safeWidgets;
+        
+        /// <summary>
+        /// Store a flag indicating that the GUI is currently hovered. May be usefull to prevent
+        /// other input handling
+        /// </summary>
         protected bool _hovered;
-
+        
         #endregion
 
         #region Properties
-
-        public YnWidget this[int index]
-        {
-            get
-            {
-                if (index < 0 || index > Count)
-                    throw new IndexOutOfRangeException();
-
-                return _widgets[index];
-            }
-            set
-            {
-                if (index < 0 || index > Count)
-                    throw new IndexOutOfRangeException();
-
-                _widgets[index] = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of widgets
-        /// </summary>
-        public int Count
-        {
-            get { return _widgets.Count; }
-        }
-
-        /// <summary>
-        /// The Gui current skin
-        /// </summary>
-        private YnSkin Skin
-        {
-            get { return _skin; }
-            set { _skin = value; }
-        }
 
         /// <summary>
         /// The skin name
@@ -71,16 +103,17 @@ namespace Yna.Engine.Graphics.Gui
         }
 
         /// <summary>
-        /// The widgets to handle
+        /// The widgets currently registered in the GUI. Note that children of widgets 
+        /// added in the GUI will bot appear here.
         /// </summary>
-        public List<YnWidget> Widgets
+        public YnWidgetList Widgets
         {
             get { return _widgets; }
             set { _widgets = value; }
         }
 
         /// <summary>
-        /// Flag indicating if a gui component is currently hovered. Usefull to prevent other actions
+        /// Flag indicating if a GUI component is currently hovered. Usefull to prevent other actions
         /// out of the UI
         /// </summary>
         public bool Hovered
@@ -88,48 +121,41 @@ namespace Yna.Engine.Graphics.Gui
             get { return _hovered; }
             set { _hovered = value; }
         }
+        
+        /// <summary>
+        /// Return true if at least one widget was added to the GUI
+        /// </summary>
+        public bool HasWidgets
+        {
+        	get { return _widgets.Count > 0; }
+        }
+        
         #endregion
 
         public YnGui()
         {
-            _widgets = new List<YnWidget>();
-            _safeWidgets = new List<YnWidget>();
-            _skinName = String.Empty;
-        }
-
-        public YnGui(YnSkin skin)
-            : this()
-        {
-            _skin = skin;
+        	_widgets = new YnWidgetList();
+            _skinName = DEFAULT_SKIN; // The default skin
         }
 
         #region GameState pattern
-
-        /// <summary>
-        /// Gamestate pattern : initialize
-        /// </summary>
-        public override void Initialize()
-        {
-            // Nothing!
-        }
 
         /// <summary>
         /// Gamestate pattern : load content
         /// </summary>
         public override void LoadContent()
         {
-            if (_skinName == String.Empty && _skin == null)
-            {
-                // No skin, generate the default one
-                Skin = YnSkinGenerator.Generate(Color.DodgerBlue, null);
-            }
-            else
-            {
-                // TODO Load the skin for XML file
-                // We must make a serializable class for a skin for an XML import with content manager
-                // Or writing a custom pipeline importer (must be better)
-                //_skin = Game.Content.Load<YnSkin>(_skinName);
-            }
+        	// Generate the default skin
+        	// FIXME : load a stored default skin file instead of generating one with a spritefont asset
+        	RegisterSkin("default", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font"));
+        }
+
+        /// <summary>
+        /// Gamestate pattern : initialize all widgets
+        /// </summary>
+        public override void Initialize()
+        {
+            
         }
 
         /// <summary>
@@ -139,19 +165,15 @@ namespace Yna.Engine.Graphics.Gui
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            
+            // Reset the global hover flag
             _hovered = false;
 
-            if (_widgets.Count > 0)
-            {
-                _safeWidgets.Clear();
-                _safeWidgets.AddRange(_widgets);
-
-                foreach (YnWidget widget in _safeWidgets)
-                {
-                    widget.Update(gameTime);
-                    _hovered |= widget.IsHovered;
-                }
-            }
+            // Update the widgets
+            _widgets.Update(gameTime);
+            
+            // Update the hover flag
+            _hovered = _widgets.Hovered;
         }
 
         /// <summary>
@@ -160,15 +182,11 @@ namespace Yna.Engine.Graphics.Gui
         /// <param name="gameTime">The game time</param>
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (_safeWidgets.Count > 0)
-            {
-                foreach (YnWidget widget in _safeWidgets)
-                    widget.Draw(gameTime, spriteBatch);
-            }
+        	_widgets.Draw(gameTime, spriteBatch);
         }
 
         /// <summary>
-        /// Draw the GUI with another batch
+        /// Draw the GUI in a new spriteBatch pipe
         /// </summary>
         /// <param name="gameTime">The game time</param>
         /// <param name="spriteBatch">The sprite batch to use</param>
@@ -186,56 +204,61 @@ namespace Yna.Engine.Graphics.Gui
         /// <summary>
         /// Add a widget to the UI
         /// </summary>
-        /// <typeparam name="W">The widget type</typeparam>
         /// <param name="widget">The widget</param>
         /// <returns>The widget added for ease</returns>
         public YnWidget Add(YnWidget widget)
         {
+            // Apply skin
+            widget.ApplySkin();
+
             _widgets.Add(widget);
 
-            // If the skin is already loaded, link it directly
-            if (widget.Skin == null && _skin != null)
-                widget.Skin = _skin;
+            // If the widget has no skin, then use the default one
+            if(widget.SkinName == null)
+            {
+            	widget.SkinName = DEFAULT_SKIN;
+            }
 
             return widget;
         }
 
         /// <summary>
-        /// Remove all widgets
+        /// Remove all widgets.
         /// </summary>
         public void Clear()
         {
             _widgets.Clear();
         }
 
+        /// <summary>
+        /// Removes a widget from the GUI. Only widgets added directly in the GUI can be removed by this method.
+        /// </summary>
+        /// <param name="widget">The widget to remove</param>
         public void Remove(YnWidget widget)
         {
+        	// TODO : make possible to remove any hierarchy level widget with this method
             if (_widgets.Count > 0)
                 _widgets.Remove(widget);
         }
 
-        public IEnumerator GetEnumerator()
-        {
-            foreach (YnWidget widget in Widgets)
-                yield return widget;
-        }
-
         /// <summary>
-        /// Get a widget by its name
+        /// Get a widget by its name.
         /// </summary>
         /// <param name="name">The widget name</param>
-        /// <returns>A widget or null</returns>
+        /// <returns>A widget or null if the name was not found</returns>
         public virtual YnWidget GetWidgetByName(string name)
         {
             YnWidget widget = null;
 
-            int size = Count;
+            int size = _widgets.Count;
             int i = 0;
 
             while (i < size && widget == null)
             {
                 if (_widgets[i].Name == name)
-                    widget = _widgets[i];
+                {
+                	widget = _widgets[i];
+                }
                 i++;
             }
 
@@ -243,45 +266,5 @@ namespace Yna.Engine.Graphics.Gui
         }
 
         #endregion
-
-        public void PrepareWidgets()
-        {
-            // Initializes the skin for all added widgets if not done yet
-            foreach (YnWidget widget in _widgets)
-            {
-                if (widget.Skin == null)
-                    widget.SetSkin(_skin);
-
-                widget.InitSkin();
-            }
-
-            // Do the layout for all widgets
-            foreach (YnWidget widget in _widgets)
-            {
-                widget.Layout();
-            }
-        }
-
-        public void SetSkin(YnSkin skin)
-        {
-            // Hide all components to stop rendering
-            foreach (YnWidget widget in _widgets)
-            {
-                widget.Show(false);
-            }
-
-            // Set the new skin
-            _skin = skin;
-
-            // Redo all widgets initializations
-            PrepareWidgets();
-
-
-            // Show all components back
-            foreach (YnWidget widget in _widgets)
-            {
-                widget.Show(true);
-            }
-        }
     }
 }

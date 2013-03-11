@@ -61,7 +61,6 @@
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu.cs" />
     <Compile Include="Screens\BasicTerrain.cs" />
     <Compile Include="Screens\HeighmapTerrain.cs" />
     <Compile Include="Screens\RandomHeightmap.cs" />

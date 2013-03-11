@@ -6,6 +6,7 @@ using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Gui;
 using Yna.Engine.Graphics.Event;
+using Yna.Engine.Graphics.Gui.Widgets;
 
 namespace Yna.Samples
 {
@@ -14,7 +15,6 @@ namespace Yna.Samples
     /// </summary>
     public class GuiState : YnState2D
     {
-        private YnGui gui;
         private Texture2D background;
         private YnProgressBar progress;
         private YnLabel progressLabel;
@@ -23,7 +23,9 @@ namespace Yna.Samples
             : base(name)
         {
             YnG.ShowMouse = true;
-            gui = new YnGui(YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font"));
+            // YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font")
+            
+            YnGui.RegisterSkin("chocolateSkin", YnSkinGenerator.Generate(Color.Chocolate, "Fonts/Font"));
         }
 
         public void BuildGui()
@@ -33,88 +35,93 @@ namespace Yna.Samples
             int padding = 10;
             int tileCount = 5;
 
-            YnPanel toolbar = new YnPanel();
-            gui.Add(toolbar); // Add toolbar to Gui
 
-            toolbar.WithBackground = false;
-            toolbar.Orientation = YnOrientation.Horizontal;
+            YnLabel label = new YnLabel();
+            label.Text = "Test label";
+            label.SkinName = "testSkin";
+            Gui.Add(label);
+            
+            YnPanel toolbar = new YnPanel();
+            Gui.Add(toolbar); // Add toolbar to Gui
+
+            toolbar.HasBackground = false;
             toolbar.Padding = padding;
             toolbar.Height = tileSize;
             toolbar.Position = new Vector2(YnG.Width / 2 - (tileSize * tileCount + padding * (tileCount + 1)) / 2, YnG.Height / 2 - toolbar.Height / 2);
 
-            toolbar.Add(new YnTextButton("New", tileSize, tileSize, false));
-            toolbar.Add(new YnTextButton("Load", tileSize, tileSize, false));
-            toolbar.Add(new YnTextButton("Options", tileSize, tileSize, false));
-            toolbar.Add(new YnTextButton("Store", tileSize, tileSize, false));
+            toolbar.Add(new YnTextButton(tileSize, tileSize, "New"));
+            toolbar.Add(new YnTextButton(tileSize, tileSize, "Load"));
+            toolbar.Add(new YnTextButton(tileSize, tileSize, "Options"));
+            toolbar.Add(new YnTextButton(tileSize, tileSize, "Store"));
+            YnTextButton button = toolbar.Add(new YnTextButton(tileSize, tileSize, "Exit"));
+            button.MouseClicked += (s, e) => YnG.Exit();
 
-            YnTextButton button = toolbar.Add(new YnTextButton("Exit", tileSize, tileSize, false));
-            button.MouseJustClicked += (s, e) => YnG.Exit();
+            toolbar.Layout();
 
+            
             progress = new YnProgressBar();
-            gui.Add(progress);
+            Gui.Add(progress);
 
             progress.Width = 400;
             progress.MaxValue = 400;
             progress.Height = 5;
             progress.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 100);
 
-            progressLabel = new YnLabel("Fake loading...");
-            gui.Add(progressLabel);
-
+            progressLabel = new YnLabel();
+            progressLabel.Text = "Fake loading...";
             progressLabel.Position = new Vector2(YnG.Width / 2 - progress.Width / 2, 75);
+            Gui.Add(progressLabel);
+
+
 
             YnPanel container = new YnPanel();
-            gui.Add(container);
-
-            container.Orientation = YnOrientation.Horizontal;
-            container.WithBackground = false;
             container.Position = new Vector2(20, 20);
+            container.Orientation = YnOrientation.Horizontal;
+            Gui.Add(container);
 
-            YnLabel modeLabel = container.Add(new YnLabel("Hard Mode "));
-            YnCheckbox check = container.Add(new YnCheckbox());
+            YnLabel modeLabel = new YnLabel();
+            modeLabel.Text = "Hard Mode ";
+            container.Add(modeLabel);
+            container.Add(new YnCheckbox());
+
+            container.Layout();
 
             // Slider
             YnSlider slider = new YnSlider();
-            gui.Add(slider);
             slider.Width = 200;
             slider.Height = 20;
             slider.Position = new Vector2(20, 200);
             slider.MaxValue = 10;
+            Gui.Add(slider);
 
+            
             YnProgressBar verticalGauge = new YnProgressBar();
             verticalGauge.Orientation = YnOrientation.Vertical;
-            gui.Add(verticalGauge);
+            Gui.Add(verticalGauge);
 
-            YnTextButton plusButton = new YnTextButton();
-            plusButton.Text = "+";
-            plusButton.Width = 30;
-            plusButton.Height = 30;
+            YnTextButton plusButton = new YnTextButton(30, 30, "+");
             plusButton.MouseClick += (o, e) =>
             {
                 verticalGauge.Value++;
 
             };
-            gui.Add(plusButton);
+            Gui.Add(plusButton);
 
-            YnTextButton minusButton = new YnTextButton();
-            minusButton.Text = "-";
-            minusButton.Width = 30;
-            minusButton.Height = 30;
+            YnTextButton minusButton = new YnTextButton(30, 30, "-");
             minusButton.MouseClick += (o, e) =>
             {
                 verticalGauge.Value--;
                 Console.WriteLine(verticalGauge.Value);
             };
-            gui.Add(minusButton);
-
+            Gui.Add(minusButton);
 
             // Button with custom skin
-            YnTextButton customButton = new YnTextButton("Custom skin button");
-            customButton.Position = new Vector2(toolbar.Position.X + padding, toolbar.Position.Y + tileSize + padding * 2);
-            customButton.Skin = YnSkinGenerator.Generate(Color.Green, "Fonts/MenuFont");
-            gui.Add(customButton);
+            YnTextButton customButton = new YnTextButton(toolbar.Width - 2 * padding, 50, "Custom skin button");
+            customButton.SkinName = "chocolateSkin";
+            customButton.Position = new Vector2(toolbar.Position.X, toolbar.Position.Y + tileSize + padding * 2);
+            Gui.Add(customButton);
 
-
+            /*
             // Textbox
             string wrappedText = "Example of default character wrapping textbox";
             YnTextBox textBox = new YnTextBox(wrappedText, 150, true);
@@ -135,14 +142,7 @@ namespace Yna.Samples
             elipsisTextbox.Position = new Vector2(400, 550);
             elipsisTextbox.Wrap = false;
             gui.Add(elipsisTextbox);
-
-            gui.PrepareWidgets();
-
-            // Widget positionning after layout
-            customButton.Width = toolbar.Width - 2 * padding;
-            customButton.Height = 50;
-            customButton.Pack = false;
-            customButton.Layout();
+            */
 
             plusButton.Position = new Vector2(YnG.Width - plusButton.Width, 0);
             minusButton.Position = new Vector2(YnG.Width - minusButton.Width, YnG.Height - minusButton.Height);
@@ -150,6 +150,34 @@ namespace Yna.Samples
             verticalGauge.Width = plusButton.Width;
             verticalGauge.Height = YnG.Height - plusButton.Height - minusButton.Height;
             verticalGauge.Position = new Vector2(YnG.Width - plusButton.Width, plusButton.Height);
+            
+            // Widget with custom borders
+
+            // Generate a basic base skin
+            YnBorder borderDef = new YnBorder();
+            borderDef.TopLeft = YnGraphics.CreateTexture(Color.PowderBlue, 15, 15);
+            borderDef.Top = YnGraphics.CreateTexture(Color.Orange, 5, 5);
+            borderDef.TopRight = YnGraphics.CreateTexture(Color.PowderBlue, 15, 15);
+            borderDef.Right = YnGraphics.CreateTexture(Color.Orange, 5, 5);
+            borderDef.BottomRight = YnGraphics.CreateTexture(Color.PowderBlue, 15, 15);
+            borderDef.Bottom = YnGraphics.CreateTexture(Color.Orange, 5, 5);
+            borderDef.BottomLeft = YnGraphics.CreateTexture(Color.PowderBlue, 15, 15);
+            borderDef.Left = YnGraphics.CreateTexture(Color.Orange, 5, 5);
+
+            YnSkin customSkin = YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font");
+            customSkin.BorderDefault = borderDef;
+
+            // Register the custom skin
+            YnGui.RegisterSkin("customBorderSkin", customSkin);
+
+            YnTextButton customBorderButton = new YnTextButton(150, 30, "Funky borders");
+            customBorderButton.X = 50;
+            customBorderButton.Y = 500;
+            customBorderButton.SkinName = "customBorderSkin";
+            customBorderButton.HasBorders = true;
+
+            Gui.Add(customBorderButton);
+
         }
 
         public override void Initialize()
@@ -162,17 +190,14 @@ namespace Yna.Samples
         public override void LoadContent()
         {
             base.LoadContent();
-
-            gui.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            gui.Update(gameTime);
-
             // Update the progress bar
+            
             progress.Value++;
 
             if (progress.Value == progress.MaxValue)
@@ -184,19 +209,15 @@ namespace Yna.Samples
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
                 // Stop the gui
-                gui.Active = false;
 
                 YnG.StateManager.SetStateActive("menu", true);
             }
+            
         }
 
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-
-            spriteBatch.Begin();
-            gui.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
         }
     }
 }

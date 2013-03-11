@@ -6,12 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Yna.Engine.Helpers;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
     /// Progress bar widget. Can be used horizontally (left to right) or vertically (bottom to top)
     /// </summary>
-    public class YnProgressBar : YnWidget
+    public class YnProgressBar : YnPanel
     {
         #region Attributes
 
@@ -55,8 +55,7 @@ namespace Yna.Engine.Graphics.Gui
             _minValue = 0;
             _maxValue = 100;
             _currentValue = 0;
-            _withBackground = true;
-            _orientation = YnOrientation.Horizontal;
+            _hasBackground = true;
         }
 
         protected override void DoCustomUpdate(GameTime gameTime)
@@ -64,9 +63,9 @@ namespace Yna.Engine.Graphics.Gui
 
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-            Texture2D fg = _skin.ButtonBackground;
+            Texture2D fg = skin.BackgroundDefault;
             Rectangle source;
             Rectangle dest;
             if (_maxValue != 0)
@@ -76,26 +75,24 @@ namespace Yna.Engine.Graphics.Gui
                     int height = Height * _currentValue / _maxValue;
 
                     source = new Rectangle(0, 0, fg.Width, fg.Height);
-                    dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y + Height - height, Width, height);
+                    dest = new Rectangle((int)ScreenPosition.X, (int)ScreenPosition.Y + Height - height, Width, height);
                 }
                 else
                 {
                     int width = Width * _currentValue / _maxValue;
 
                     source = new Rectangle(0, 0, fg.Width, fg.Height);
-                    dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, width, _bounds.Height);
+                    dest = new Rectangle((int)ScreenPosition.X, (int)ScreenPosition.Y, width, Height);
                 }
                 spriteBatch.Draw(fg, dest, source, Color.White);
             }
-
         }
 
-        protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, Texture2D background)
+        protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-            // TODO : store this texture instead of generating it each time
-            Texture2D bg = YnGraphics.CreateTexture(Skin.DefaultTextColor, 1, 1);
+            Texture2D bg = skin.BackgroundClicked;
             Rectangle source = new Rectangle(0, 0, bg.Width, bg.Height);
-            Rectangle dest = new Rectangle((int)AbsolutePosition.X, (int)AbsolutePosition.Y, Bounds.Width, Bounds.Height);
+            Rectangle dest = new Rectangle((int)ScreenPosition.X, (int)ScreenPosition.Y, Width, Height);
 
             spriteBatch.Draw(bg, dest, source, Color.White);
         }

@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Engine.Graphics.Gui
+namespace Yna.Engine.Graphics.Gui.Widgets
 {
     public class YnWindow : YnWidget
     {
@@ -23,10 +23,9 @@ namespace Yna.Engine.Graphics.Gui
             _titlePanel.Add(new YnLabel() { Text = title});
             _contentPanel = Add(new YnPanel());
             _contentPanel.Padding = 10;
-            Orientation = YnOrientation.Vertical;
         }
 
-        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
             // TODO
         }
