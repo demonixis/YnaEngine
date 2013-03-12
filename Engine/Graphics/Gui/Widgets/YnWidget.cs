@@ -87,7 +87,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
         /// <summary>
         /// The widget depth in the GUI layer. This property should not be modified 
-        /// manually. In order to change the depth of a widget, use methods fr omYnGui
+        /// manually. In order to change the depth of a widget, use methods from YnGui
         /// instead.
         /// </summary>
         public int Depth
@@ -125,6 +125,16 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             // mouse and touch routines
             _nbMouseEventObservers++;
             _nbTouchEventObservers++;
+        }
+
+        /// <summary>
+        /// Create a widget with the properties defined in the parameter.
+        /// </summary>
+        /// <param name="properties">The widget properties container</param>
+        public YnWidget(YnWidgetProperties properties)
+            : this()
+        {
+            SetProperties(properties);
         }
 
         #endregion
@@ -320,6 +330,38 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         #endregion
 
         #region Other methods
+
+        /// <summary>
+        /// Initializes a bunch of common properties defined in the parameter.
+        /// </summary>
+        /// <param name="properties">The widget properties container</param>
+        public void SetProperties(YnWidgetProperties properties)
+        {
+            if (properties.X != null) 
+                X = (int)properties.X;
+
+            if (properties.Y != null) 
+                Y = (int)properties.Y;
+
+            if (properties.Width != null) 
+                Width = (int)properties.Width;
+
+            if (properties.Height != null) 
+                Height = (int)properties.Height;
+
+            if (properties.SkinName != null) 
+                SkinName = (string)properties.SkinName;
+
+            if (properties.HasBorders != null) 
+                HasBorders = (bool)properties.HasBorders;
+
+            if (properties.HasBackground != null) 
+                HasBackground = (bool)properties.HasBackground;
+
+            if (properties.Padding != null) 
+                Padding = (int)properties.Padding;
+
+        }
 
         /// <summary>
         /// Show the widget.
