@@ -178,6 +178,30 @@ namespace Yna.Samples
 
             Gui.Add(customBorderButton);
 
+
+            YnPanel depthPanel = new YnPanel();
+            depthPanel.HasBackground = true;
+            depthPanel.Width = YnG.Width;
+            depthPanel.Height = 300;
+            depthPanel.X = 0;
+            depthPanel.Y = 150;
+            Gui.Add(depthPanel);
+
+            YnPanel depthButtonPanel = new YnPanel();
+            depthButtonPanel.X = 350;
+            depthButtonPanel.Y = 570;
+            Gui.Add(depthButtonPanel);
+
+            YnTextButton upButton = new YnTextButton(50, 20, "Up");
+            upButton.MouseClicked += (s, e) => Gui.DepthUp(depthPanel);
+            depthButtonPanel.Add(upButton);
+
+            YnTextButton downButton = new YnTextButton(50, 20, "Down");
+            downButton.MouseClicked += (s, e) => Gui.DepthDown(depthPanel);
+            depthButtonPanel.Add(downButton);
+
+            depthButtonPanel.Layout();
+
         }
 
         public override void Initialize()

@@ -60,7 +60,7 @@ namespace Yna.Engine.Graphics.Gui
     	}
     	
     	/// <summary>
-    	/// Loads a skin directly from an asset file
+    	/// Loads a skin directly from an asset file.
     	/// </summary>
     	/// <param name="name">The skin resource file</param>
     	public static void LoadSkin(string asset)
@@ -70,31 +70,31 @@ namespace Yna.Engine.Graphics.Gui
     	
     	#endregion
     	
-        #region Protected declarations
+        #region Attributes
 
         /// <summary>
-        /// The widget list
+        /// The widget list. This list contains only widgets added directly to the GUI. Children
+        /// of those widgets will not be in this list.
         /// </summary>
         protected YnWidgetList _widgets;
         
         /// <summary>
         /// The default's GUI skin name. If a widget is added to the GUI without 
-        /// a specific skin, this one will be used
+        /// a specific skin, this one will be used.
         /// </summary>
         protected string _skinName;
-        
+
         /// <summary>
-        /// Store a flag indicating that the GUI is currently hovered. May be usefull to prevent
-        /// other input handling
+        /// This is the cuirrent max widget deppth value. This number is used for dept management.
         /// </summary>
-        protected bool _hovered;
-        
+        private int _maxDepth;
+
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// The skin name
+        /// The skin name.
         /// </summary>
         public string SkinName
         {
@@ -111,19 +111,9 @@ namespace Yna.Engine.Graphics.Gui
             get { return _widgets; }
             set { _widgets = value; }
         }
-
-        /// <summary>
-        /// Flag indicating if a GUI component is currently hovered. Usefull to prevent other actions
-        /// out of the UI
-        /// </summary>
-        public bool Hovered
-        {
-            get { return _hovered; }
-            set { _hovered = value; }
-        }
         
         /// <summary>
-        /// Return true if at least one widget was added to the GUI
+        /// Return true if at least one widget was added to the GUI.
         /// </summary>
         public bool HasWidgets
         {
@@ -132,16 +122,23 @@ namespace Yna.Engine.Graphics.Gui
         
         #endregion
 
+        #region Constructors
+
         public YnGui()
         {
         	_widgets = new YnWidgetList();
             _skinName = DEFAULT_SKIN; // The default skin
+
+            // The max depth is initialized at -1 for the first widget added to have a depth of 0
+            _maxDepth = -1;
         }
+
+        #endregion
 
         #region GameState pattern
 
         /// <summary>
-        /// Gamestate pattern : load content
+        /// Gamestate pattern : load content.
         /// </summary>
         public override void LoadContent()
         {
@@ -151,33 +148,22 @@ namespace Yna.Engine.Graphics.Gui
         }
 
         /// <summary>
-        /// Gamestate pattern : initialize all widgets
-        /// </summary>
-        public override void Initialize()
-        {
-            
-        }
-
-        /// <summary>
-        /// Gamestate pattern : update
+        /// Gamestate pattern : update.
         /// </summary>
         /// <param name="gameTime">The game time</param>
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             
-            // Reset the global hover flag
-            _hovered = false;
-
             // Update the widgets
             _widgets.Update(gameTime);
             
-            // Update the hover flag
+            // Update the GUI hover flag
             _hovered = _widgets.Hovered;
         }
 
         /// <summary>
-        /// Gamestate pattern : Draw the GUI
+        /// Gamestate pattern : Draw the GUI.
         /// </summary>
         /// <param name="gameTime">The game time</param>
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -186,7 +172,7 @@ namespace Yna.Engine.Graphics.Gui
         }
 
         /// <summary>
-        /// Draw the GUI in a new spriteBatch pipe
+        /// Draw the GUI in a new spriteBatch pipe.
         /// </summary>
         /// <param name="gameTime">The game time</param>
         /// <param name="spriteBatch">The sprite batch to use</param>
@@ -202,22 +188,34 @@ namespace Yna.Engine.Graphics.Gui
         #region Collection methods
 
         /// <summary>
-        /// Add a widget to the UI
+        /// Add a widget to the UI.
         /// </summary>
         /// <param name="widget">The widget</param>
         /// <returns>The widget added for ease</returns>
         public YnWidget Add(YnWidget widget)
         {
-            // Apply skin
-            widget.ApplySkin();
-
-            _widgets.Add(widget);
-
-            // If the widget has no skin, then use the default one
-            if(widget.SkinName == null)
+            // First, test if the widget is not already added
+            if(!_widgets.Contains(widget))
             {
-            	widget.SkinName = DEFAULT_SKIN;
+                // Increase the max depth and set it up on the added widget
+                _maxDepth++;
+                widget.Depth = _maxDepth;
+
+                // Apply skin
+                widget.ApplySkin();
+
+                // Add the widget to the list
+                _widgets.Add(widget);
+
+                // If the widget has no skin, then use the default one
+                // The skin name is defined in default widgets constructors but this 
+                // is a double security
+                if (widget.SkinName == null)
+                {
+                    widget.SkinName = DEFAULT_SKIN;
+                }
             }
+
 
             return widget;
         }
@@ -227,7 +225,8 @@ namespace Yna.Engine.Graphics.Gui
         /// </summary>
         public void Clear()
         {
-            _widgets.Clear();
+            _widgets.Clear(); // Clear the list
+            _maxDepth = 0; // Reset the max depth
         }
 
         /// <summary>
@@ -252,7 +251,6 @@ namespace Yna.Engine.Graphics.Gui
 
             int size = _widgets.Count;
             int i = 0;
-
             while (i < size && widget == null)
             {
                 if (_widgets[i].Name == name)
@@ -263,6 +261,81 @@ namespace Yna.Engine.Graphics.Gui
             }
 
             return widget;
+        }
+
+        #endregion
+
+        #region Widget depth management
+
+        /// <summary>
+        /// Swap the depth of the two widgets.
+        /// </summary>
+        /// <param name="widget1">The first widget</param>
+        /// <param name="widget2">The second widget</param>
+        public void DepthSwap(YnWidget widget1, YnWidget widget2)
+        {
+            // The widget's depth is also it's index in the widget list : magic!
+            // No need to make a temp value as we have the references here with
+            // widget1 and widget2
+            _widgets[widget1.Depth] = widget2;
+            _widgets[widget2.Depth] = widget1;
+
+            // Swap depths values in wigets
+            int firstDepth = widget1.Depth;
+            widget1.Depth = widget2.Depth;
+            widget2.Depth = firstDepth;
+        }
+
+        /// <summary>
+        /// Move the widget up in the layer depth. If the widget is already on top of
+        /// the layer, nothing is done.
+        /// </summary>
+        /// <param name="widget">The widget to move up</param>
+        public void DepthUp(YnWidget widget)
+        {
+            if(widget.Depth < _maxDepth)
+            {
+                // The widget is not already on top of the layer
+                // Swap the widget with the one just above
+                DepthSwap(widget, _widgets[widget.Depth + 1]);
+            }
+        }
+
+        /// <summary>
+        /// Move the widget down in the layer depth. If the widget is already on the bottom of
+        /// the layer, nothing is done.
+        /// </summary>
+        /// <param name="widget">The widget to mode down</param>
+        public void DepthDown(YnWidget widget)
+        {
+            if(widget.Depth > 0)
+            {
+                // The widget is not already on the bottom of the layer
+                // Swap the widget with the one just below
+                DepthSwap(widget, _widgets[widget.Depth - 1]);
+            }
+        }
+
+        public void DepthToBottom(YnWidget widget)
+        {
+            // All widgets below the widget have to go up in the depth
+            // Depth - 1 => Depth
+            // Depth - 2 => Depth - 1
+            // and so on...
+            for (int i = widget.Depth; i >= 0; i--)
+            {
+                DepthUp(_widgets[i]);
+            }
+
+            // Now that all other widgets were moved up, just set the widget
+            // new depth
+            widget.Depth = 0;
+            _widgets[0] = widget;
+        }
+
+        public void DepthToTop(YnWidget widget)
+        {
+            // TODO
         }
 
         #endregion

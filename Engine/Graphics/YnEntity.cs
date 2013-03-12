@@ -738,8 +738,10 @@ namespace Yna.Engine.Graphics
         {
             ComputeScreenPosition();
 
+            // Reset flags
             _clicked = false;
             _hovered = false;
+
             // Check mouse events
             if (_enabled)
             {

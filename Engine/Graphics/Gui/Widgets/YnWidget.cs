@@ -23,6 +23,8 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 		protected bool _hasBackground;
 		protected bool _hasBorders;
         protected Vector2 _relativePosition;
+        protected int _depth;
+        protected bool _animated;
         
         #endregion
 
@@ -82,25 +84,47 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         	get { return _hasBorders; }
         	set { _hasBorders = value; }
         }
-        
+
+        /// <summary>
+        /// The widget depth in the GUI layer. This property should not be modified 
+        /// manually. In order to change the depth of a widget, use methods fr omYnGui
+        /// instead.
+        /// </summary>
+        public int Depth
+        {
+            get { return _depth; }
+            set { _depth = value; }
+        }
+
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Default constructor. Initializes values
+        /// Default constructor. Initializes default values.
         /// </summary>
         protected YnWidget()
         {
-            _visible = true;
-            _parent = null;
-            _skinName = YnGui.DEFAULT_SKIN;
             _children = new List<YnWidget>();
             Position = Vector2.Zero;
+            _visible = true;
+            _padding = 0;
+            _hasBackground = false;
+            _hasBorders = false;
+            _parent = null;
+            _animated = true;
+
+            // The skin is mandatory so the default one is used
+            _skinName = YnGui.DEFAULT_SKIN;
+
+            // Depth is initialized at a negative value. This means it has no depth
+            _depth = -1;
 
             // FIXME this tweak is horrible
-            // Fake the presence of a special mouse event handler
+            // Fake the presence of a event handlers for the YnEntity to manage
+            // mouse and touch routines
             _nbMouseEventObservers++;
+            _nbTouchEventObservers++;
         }
 
         #endregion
@@ -108,7 +132,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         #region Draw methods
 
         /// <summary>
-        /// Draw the widget
+        /// Gamestate pattern : Draw the widget.
         /// </summary>
         /// <param name="gameTime">Elasped time since last draw</param>
         /// <param name="spriteBatch">The sprite batch</param>
@@ -137,22 +161,22 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Renders the widget background. This method ay be overridden to customise the way the background is 
-        /// drawn
+        /// Renders the widget background. This method may be overridden to customise the way the background is 
+        /// drawn.
         /// </summary>
         /// <param name="gameTime">Elasped time since last draw</param>
         /// <param name="spriteBatch">The sprite batch</param>
         /// <param name="skin">The rendering skin used</param>
         protected virtual void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-            // Get the appropriate background according to the current widget state
+            // Get the appropriate background according to the current widget's state (if it's animated)
             Texture2D background;
-            if(Clicked)
+            if (Clicked && _animated)
             {
                 // Clicked state
                 background = skin.BackgroundClicked;
             }
-            else if(Hovered)
+            else if (Hovered && _animated)
             {
                 // Hovered state
                 background = skin.BackgroundHover;
@@ -171,25 +195,26 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
         /// <summary>
         /// Renders the widget borders. This method may be overridden to customise the way the borders are 
-        /// drawn
+        /// drawn.
         /// </summary>
         /// <param name="gameTime">Elasped time since last draw</param>
         /// <param name="spriteBatch">The sprite batch</param>
         /// <param name="skin">The rendering skin used</param>
         protected virtual void DrawBorders(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-        	
+        	// Used vars
             Vector2 pos = Vector2.Zero;
             Rectangle source = Rectangle.Empty;
             Rectangle dest = Rectangle.Empty;
-
             YnBorder border;
-            if (Clicked)
+
+            // Get the appropriate border definition according to the widget's state (if it's animated)
+            if (Clicked && _animated)
             {
                 // Clicked state
                 border = skin.BorderClicked;
             }
-            else if (Hovered)
+            else if (Hovered && _animated)
             {
                 // Hovered state
                 border = skin.BorderHover;
@@ -267,7 +292,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
         /// <summary>
         /// Renders the widget children. This method ay be overridden to customise the way the children
-        /// are rendered
+        /// are rendered.
         /// </summary>
         /// <param name="gameTime">Elasped time since last draw</param>
         /// <param name="spriteBatch">The sprite batch</param>
@@ -284,12 +309,12 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Renders the widget itself. This method must be overriden in subclasses to defind specific
-        /// rendering
+        /// Renders the widget itself. This method must be overriden in subclasses to define specific
+        /// rendering.
         /// </summary>
-        /// <param name="gameTime"></param>
-        /// <param name="spriteBatch"></param>
-        /// <param name="skin"></param>
+        /// <param name="gameTime">Elasped time since last draw</param>
+        /// <param name="spriteBatch">The sprite batch</param>
+        /// <param name="skin">The rendering skin used</param>
         protected abstract void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin);
 
         #endregion
@@ -297,17 +322,16 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         #region Other methods
 
         /// <summary>
-        /// Show the widget
+        /// Show the widget.
         /// </summary>
-        /// <param name="show"></param>
         public void Show()
         {
-            // Hide / show the widget
+            //Show the widget
             _visible = true;
         }
 
         /// <summary>
-        /// Hide the widget
+        /// Hide the widget.
         /// </summary>
         public void Hide()
         {
@@ -320,8 +344,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         /// <param name="gameTime">The game time</param>
         public override void Update(GameTime gameTime)
         {
-            
-            // Perform user input handling
+            // Perform user input handling in parent
         	base.Update(gameTime);
         	
             // Update children
@@ -335,7 +358,8 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Performs custom Update
+        /// Performs a custom Update. This method may be overidden in subclass to do specific
+        /// update.
         /// </summary>
         /// <param name="gameTime">The game time</param>
         protected virtual void DoCustomUpdate(GameTime gameTime)
@@ -344,7 +368,8 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Apply the current skin
+        /// Apply the current skin to the widget. Bounds will be recomputed according to the
+        /// skin definition
         /// </summary>
         public void ApplySkin()
         {
@@ -361,7 +386,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
         
         /// <summary>
-        /// Add a widget as child of this widget
+        /// Add a widget as child of this widget. This method as
         /// </summary>
         /// <typeparam name="W">The widget type</typeparam>
         /// <param name="widget">The widget</param>

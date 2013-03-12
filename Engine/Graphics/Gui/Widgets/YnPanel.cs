@@ -28,10 +28,14 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         public YnPanel()
             : base()
         {
+            // Default orientation
             _orientation = YnOrientation.Horizontal;
 
             // Add a little padding for children
             _padding = 5;
+
+            // A panel is not animated on mouse / touch over nor click / tap
+            _animated = false;
         }
 
         /// <summary>
