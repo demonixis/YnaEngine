@@ -23,6 +23,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         {
             _padding = 10;
             _hasBackground = true;
+            _animated = true;
         }
 
         /// <summary>
