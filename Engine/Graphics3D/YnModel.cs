@@ -75,6 +75,18 @@ namespace Yna.Engine.Graphics3D
 
         }
 
+        public YnModel(Model model, Vector3 position)
+            : base(position)
+        {
+            _model = model;
+        }
+
+        public YnModel(Model model)
+            : this(model, new Vector3(0.0f))
+        {
+
+        }
+
         #endregion
 
         #region Bounding volumes and light
@@ -196,17 +208,20 @@ namespace Yna.Engine.Graphics3D
 
         public override void LoadContent()
         {
-            _model = YnG.Content.Load<Model>(_modelName);
+            if (_model == null)
+            {
+                _model = YnG.Content.Load<Model>(_modelName);
 
-            _bonesTransforms = new Matrix[_model.Bones.Count];
+                _bonesTransforms = new Matrix[_model.Bones.Count];
 
-            _material.LoadContent();
+                _material.LoadContent();
 
-            UpdateBoundingVolumes();
+                UpdateBoundingVolumes();
 
-            _width = _boundingBox.Max.X - _boundingBox.Min.X;
-            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
-            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+                _width = _boundingBox.Max.X - _boundingBox.Min.X;
+                _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+                _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+            }
         }
 
         public override void Draw(GraphicsDevice device)

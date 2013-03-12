@@ -4,63 +4,53 @@ using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D.Terrain
-{
-    private class HeightmapGeometry
-    {
-
-    }
-
-    public class Heightmap : BaseTerrain
+{/*
+    internal class HeightmapGeometry : BaseTerrainGeometry
     {
         private string _heightmapAssetName;
         private Texture2D _heightmapTexture;
         private float[,] _heightData;
 
-        private Heightmap(string heightmapAsset)
+        private HeightmapGeometry(string heightmapAsset)
             : base()
         {
             _heightmapAssetName = heightmapAsset;
         }
 
-        public Heightmap(string heightmapName, string textureName)
+        public HeightmapGeometry(string heightmapName, string textureName)
             : this(heightmapName)
         {
             _textureName = textureName;
         }
 
-        public Heightmap(string heightmapName, string textureName, Vector3 segmentSizes)
+        public HeightmapGeometry(string heightmapName, string textureName, Vector3 segmentSizes)
             : this (heightmapName, textureName)
         {
             _segmentSizes = segmentSizes;
         }
 
-        public Heightmap(Texture2D heightmapTexture, string textureName)
+        public HeightmapGeometry(Texture2D heightmapTexture, string textureName)
         {
             _heightmapAssetName = heightmapTexture.Name;
             _heightmapTexture = heightmapTexture;
             _textureName = textureName;
         }
 
-        public Heightmap(Texture2D heightmapTexture, string textureName, Vector3 segmentSizes)
-            : this(heightmapTexture, textureName)
+        public HeightmapGeometry(Texture2D heightmapTexture, Vector3 segmentSizes)
+            : this(heightmapTexture)
         {
             _segmentSizes = segmentSizes;
         }
 
-        public override void LoadContent()
+        public override void GenerateShape()
         {
-            base.LoadContent();
 
             if (_heightmapTexture == null)
                 _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);
 
             LoadHeightDatas();
 
-            GenerateShape();
-
             ComputeNormals(ref _vertices);
-
-            UpdateBoundingVolumes();
         }
 
         private void LoadHeightDatas()
@@ -77,8 +67,6 @@ namespace Yna.Engine.Graphics3D.Terrain
                 for (int y = 0; y < Depth; y++)
                     _heightData[x, y] = colors[x + y * Width].R / 10.0f; // Max height 25.5f
         }
-
-        #region Terrain construction
 
         protected override void CreateVertices()
         {
@@ -103,10 +91,11 @@ namespace Yna.Engine.Graphics3D.Terrain
                 }
             }
         }
+    }
 
-        #endregion
-
-        /// <summary>
+    public class Heightmap : BaseTerrain
+    {
+         /// <summary>
         /// Get the terrain height at the specified position
         /// </summary>
         /// <param name="positionX">X value</param>
@@ -154,5 +143,5 @@ namespace Yna.Engine.Graphics3D.Terrain
 
             return (terrainHeigth * _segmentSizes.Y * _scale.Y);
         }
-    }
+    }*/
 }

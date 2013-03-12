@@ -9,20 +9,8 @@ using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D.Terrain
 {
-    /// <summary>
-    /// Abstract class that represent a basic Terrain
-    /// </summary>
-    public abstract class BaseTerrain : BaseGeometry<VertexPositionNormalTexture>
+    internal class BaseTerrainGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
-        /// <summary>
-        /// Basic initialization for an abstract terrain
-        /// </summary>
-        public BaseTerrain()
-            : base()
-        {
-
-        }
-
         /// <summary>
         /// Create indices with vertex array
         /// </summary>
@@ -36,9 +24,9 @@ namespace Yna.Engine.Graphics3D.Terrain
             {
                 for (int y = 0; y < Depth - 1; y++)
                 {
-                    short lowerLeft = (short)(x + y * Width);             
-                    short lowerRight = (short)((x + 1) + y * Width);       
-                    short topLeft = (short)(x + (y + 1) * Width);                
+                    short lowerLeft = (short)(x + y * Width);
+                    short lowerRight = (short)((x + 1) + y * Width);
+                    short topLeft = (short)(x + (y + 1) * Width);
                     short topRight = (short)((x + 1) + (y + 1) * Width);
 
                     _indices[counter++] = topLeft;
@@ -57,45 +45,11 @@ namespace Yna.Engine.Graphics3D.Terrain
 
             // TODO : compute vertex normal only for this vertex
             ComputeNormals(ref _vertices);
-
-            UpdateBoundingVolumes();
         }
 
         #region Bounding volumes
 
-        public override void UpdateBoundingVolumes()
-        {
-            UpdateMatrix();
-
-            // Reset bounding box to min/max values
-            _boundingBox.Min = new Vector3(float.MaxValue);
-            _boundingBox.Max = new Vector3(float.MinValue);
-
-            for (int i = 0; i < _vertices.Length; i++)
-            {
-                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, _vertices[i].Position.X);
-                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, _vertices[i].Position.Y);
-                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, _vertices[i].Position.Z);
-                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, _vertices[i].Position.X);
-                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, _vertices[i].Position.Y);
-                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _vertices[i].Position.Z);
-            }
-
-            // Apply scale on the object
-            _boundingBox.Min *= _scale;
-            _boundingBox.Max *= _scale;
-
-            // Update size of the object
-            _width = _boundingBox.Max.X - _boundingBox.Min.X;
-            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
-            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
-
-            // Update bouding sphere
-            _boundingSphere.Center.X = X + (_width / 2);
-            _boundingSphere.Center.Y = Y + (_height / 2);
-            _boundingSphere.Center.Z = Z + (_depth / 2);
-            _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
-        }
+        
 
         #endregion
 
@@ -110,6 +64,30 @@ namespace Yna.Engine.Graphics3D.Terrain
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
             }
+        }
+    }
+
+    /// <summary>
+    /// Abstract class that represent a basic Terrain
+    /// </summary>
+    public abstract class BaseTerrain : YnEntity3D
+    {
+        private YnGeometryMesh<VertexPositionNormalTexture> _mesh;
+        private BaseTerrainGeometry _geometry;
+
+        /// <summary>
+        /// Basic initialization for an abstract terrain
+        /// </summary>
+        public BaseTerrain()
+            : base()
+        {
+            _geometry = new BaseTerrainGeometry();
+            _mesh = new YnGeometryMesh<VertexPositionNormalTexture>(_geometry);
+        }
+
+        public override void Draw(GraphicsDevice device)
+        {
+            _mesh.Draw(device);
         }
     }
 }

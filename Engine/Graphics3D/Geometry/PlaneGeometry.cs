@@ -18,7 +18,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             set { _invertFaces = value; }
         }
 
-        public PlaneGeometry(string textureName, Vector3 sizes)
+        public PlaneGeometry(Vector3 sizes)
         {
             _segmentSizes = sizes;
             _invertFaces = false;

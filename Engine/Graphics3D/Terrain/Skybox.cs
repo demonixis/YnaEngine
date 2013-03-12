@@ -11,7 +11,7 @@ namespace Yna.Engine.Graphics3D.Terrain
     {
         private string[] _textureNames;
         private Texture2D[] _textures;
-        private PlaneGeometry[] _walls;
+        private YnMesh[] _walls;
 
         /// <summary>
         /// Create a Skybox 3D object.
@@ -29,7 +29,7 @@ namespace Yna.Engine.Graphics3D.Terrain
 
             _textureNames = textureNames;
             _textures = new Texture2D[6];
-            _walls = new PlaneGeometry[6];
+            _walls = new YnGeometryMesh<VertexPositionNormalTexture>[6];
             _position = position;
             _width = size;
             _height = size;
@@ -62,9 +62,8 @@ namespace Yna.Engine.Graphics3D.Terrain
 
             for (int i = 0; i < 6; i++)
             {
-                _walls[i] = new PlaneGeometry(_textureNames[i], sizes, positions[i]);
+                _walls[i] = new YnGeometryMesh<VertexPositionNormalTexture>(new PlaneGeometry(sizes), new BasicMaterial(_textureNames[i]);
                 _walls[i].Rotation = rotations[i];
-                //_walls[i].InvertFaces = i % 2 == 0 ? true : false;
                 Add(_walls[i]);
             }
 
