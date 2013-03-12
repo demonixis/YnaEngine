@@ -79,15 +79,25 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             Y = 0;
         }
 
-        public YnLabel(int x, int y, string text) : base()
+        /// <summary>
+        /// Create a label with the given text
+        /// </summary>
+        /// <param name="text">The label text</param>
+        public YnLabel(string text)
+            : this()
         {
-        	X = x;
-        	Y = y;
             _text = text;
         }
 
+        /// <summary>
+        /// See documentation in YnWidget
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
+        /// <param name="skin"></param>
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
+            // The label does not react to user input so we simply get the default text color
             Color color = (_useCustomColor) ? _textColor : skin.TextColorDefault;
             SpriteFont font = (_customFont == null) ? skin.FontDefault : _customFont;
 
@@ -95,10 +105,16 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             
         }
 
+        /// <summary>
+        /// See documentation in YnWidget
+        /// </summary>
+        /// <param name="skin"></param>
         protected override void ApplySkin(YnSkin skin)
         {
-            SpriteFont font = (_customFont == null) ? skin.FontDefault : _customFont;
+            // If a custom font is currently in use, take it to measure the text
+            SpriteFont font = (_useCustomColor && _customFont != null) ? _customFont : skin.FontDefault;
 
+            // Measure the text to define widget's width & height
             Vector2 size = font.MeasureString(Text);
             Width = (int)( size.X * _scale.X);
             Height = (int)( size.Y * _scale.Y);
