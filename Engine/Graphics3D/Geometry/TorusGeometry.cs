@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D.Geometry
 {
@@ -121,15 +122,9 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         }
 
-        /// <summary>
-        /// Draw torus
-        /// </summary>
-        /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            PreDraw();
-
-            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);

@@ -35,6 +35,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         // Segments size
         protected Vector3 _segmentSizes;
         protected Vector3 _origin;
+        protected Vector3 _position;
         protected bool _constructed;
 
         #endregion
@@ -47,6 +48,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         public T[] Vertices
         {
             get { return _vertices; }
+            protected set { _vertices = value; }
         }
 
         /// <summary>
@@ -56,6 +58,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         public bool Constructed
         {
             get { return _constructed; }
+            protected set { _constructed = value; }
         }
 
         /// <summary>
@@ -76,19 +79,34 @@ namespace Yna.Engine.Graphics3D.Geometry
             set { _segmentSizes = value; }
         }
 
+        public Vector3 Position
+        {
+            get { return _position; }
+            protected set { _position = value; }
+        }
+
+        public Vector3 Origin
+        {
+            get { return _origin; }
+            protected set { _origin = value; }
+        }
+
         public int Width
         {
             get { return (int)_segmentSizes.X; }
+            protected set { _segmentSizes.X = value; }
         }
 
         public int Height
         {
             get { return (int)_segmentSizes.Y; }
+            protected set { _segmentSizes.Y = value; }
         }
 
         public int Depth
         {
             get { return (int)_segmentSizes.Z; }
+            protected set { _segmentSizes.Z = value; }
         }
 
         #endregion
@@ -101,6 +119,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         public BaseGeometry()
         {
             _textureRepeat = Vector2.One;
+            _position = Vector3.Zero;
             _origin = Vector3.Zero;
             _segmentSizes = Vector3.One;
             _constructed = false;
@@ -123,7 +142,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <summary>
         /// Generate the shape, update the shader and update bounding volumes
         /// </summary>
-        protected virtual void GenerateShape()
+        public virtual void GenerateGeometry()
         {
             if (_constructed)
             {

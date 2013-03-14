@@ -32,6 +32,12 @@ namespace Yna.Engine.Graphics3D
             _material = material;
         }
 
+        public override void LoadContent()
+        {
+            _geometry.GenerateGeometry();
+            _material.LoadContent();
+        }
+
 
         public override void Update(GameTime gameTime)
         {

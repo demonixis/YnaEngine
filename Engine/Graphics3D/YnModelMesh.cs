@@ -37,5 +37,15 @@ namespace Yna.Engine.Graphics3D
         {
             
         }
+
+        public override void LoadContent()
+        {
+            _material.LoadContent();
+        }
+
+        public override void Draw(GraphicsDevice device)
+        {
+            _model.Draw(device);
+        }
     }
 }

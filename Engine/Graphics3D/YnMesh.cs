@@ -9,7 +9,7 @@ using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D
 {
-    public class YnMesh : YnEntity3D
+    public abstract class YnMesh : YnEntity3D
     {
         protected BaseMaterial _material;
 

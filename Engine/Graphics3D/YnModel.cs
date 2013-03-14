@@ -157,7 +157,7 @@ namespace Yna.Engine.Graphics3D
 				}
 				else
 				{
-					_material.Update (ref _world, ref _view, ref _projection, ref _position);
+					_material.Update (_camera, ref _world);
 
 					BasicMaterial material = (BasicMaterial)_material;
 

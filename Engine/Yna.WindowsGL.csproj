@@ -91,6 +91,9 @@
     <Compile Include="Graphics3D\Lighting\SceneLight.cs" />
     <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
     <Compile Include="Graphics3D\Scene\SceneNode.cs" />
+    <Compile Include="Graphics3D\Terrain\BaseTerrainGeometry.cs" />
+    <Compile Include="Graphics3D\Terrain\HeitmapGeometry.cs" />
+    <Compile Include="Graphics3D\Terrain\SimpleTerrainGeometry.cs" />
     <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
     <Compile Include="Graphics3D\YnEntity3DList.cs" />
     <Compile Include="Graphics3D\YnMesh.cs" />
