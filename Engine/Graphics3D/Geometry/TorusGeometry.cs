@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D.Geometry
 {
@@ -18,39 +19,28 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         #region Constructors
 
-        public TorusGeometry(string textureName, float radiusExterior, float radiusInterior)
-            : this(textureName, radiusExterior, radiusInterior, new Vector3(0.0f))
+        public TorusGeometry(float radiusExterior, float radiusInterior)
+            : this(radiusExterior, radiusInterior, new Vector3(1.0f))
         {
 
         }
 
-        public TorusGeometry(string textureName, float radiusExterior, float radiusInterior, Vector3 position)
-            : this(textureName, radiusExterior, radiusInterior, position, new Vector3(1.0f))
+        public TorusGeometry(float radiusExterior, float radiusInterior, Vector3 sizes)
+            : this(radiusExterior, radiusInterior, false, 10, 10, sizes)
         {
 
         }
 
-        public TorusGeometry(string textureName, float radiusExterior, float radiusInterior, Vector3 position, Vector3 sizes)
-            : this(textureName, radiusExterior, radiusInterior, false, 10, 10, position, sizes)
+        public TorusGeometry(float radiusExterior, float radiusInterior, bool invertFaces, int nbSlices, int nbSegments, Vector3 sizes)
+            : this(radiusExterior, radiusInterior, invertFaces, nbSlices, nbSegments, sizes, new Vector3(0.0f))
         {
 
         }
 
-        public TorusGeometry(string textureName, float radiusExterior, float radiusInterior, bool invertFaces, int nbSlices, int nbSegments, Vector3 position, Vector3 sizes)
-            : this(textureName, radiusExterior, radiusInterior, invertFaces, nbSlices, nbSegments, position, sizes, new Vector3(0.0f))
-        {
-
-        }
-
-        public TorusGeometry(string textureName, float radiusExterior, float radiusInterior, bool invertFaces, int nbSlices, int nbSegments, Vector3 position, Vector3 sizes, Vector3 origin)
+        public TorusGeometry(float radiusExterior, float radiusInterior, bool invertFaces, int nbSlices, int nbSegments, Vector3 sizes, Vector3 origin)
         {
             _segmentSizes = sizes;
             _origin = origin;
-            _position = position;
-            _textureName = textureName;
-            _width = sizes.X;
-            _height = sizes.Y;
-            _depth = sizes.Z;
             _radiusExterior = radiusExterior;
             _raduisInterior = radiusInterior;
             _invertFaces = invertFaces;
@@ -132,15 +122,9 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         }
 
-        /// <summary>
-        /// Draw torus
-        /// </summary>
-        /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            PreDraw();
-
-            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);

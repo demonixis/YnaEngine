@@ -26,7 +26,7 @@ namespace Yna.Samples
 
             menu = new Menu("menu", "Terrains", menuItems);
             stateManager.Add(menu, true);
-            stateManager.Add(new BasicTerrain("basicSample"), false);
+            //stateManager.Add(new BasicTerrain("basicSample"), false);
             stateManager.Add(new HeighmapTerrain("heightmapSample"), false);
             stateManager.Add(new RandomHeightmap("randomHeightmapSample"), false);
         }

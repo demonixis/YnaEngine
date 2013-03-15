@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D.Geometry
 {
@@ -34,38 +35,27 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         #region Constructors
 
-        public SphereGeometry(string textureName, float radius)
-            : this(textureName, radius, false, 10, new Vector3(0.0f))
+        public SphereGeometry(float radius)
+            : this(radius, false, 10)
         {
 
         }
 
-        public SphereGeometry(string textureName, float radius, Vector3 position)
-            : this(textureName, radius, false, 10, position)
+        public SphereGeometry(float radius, bool invertFaces, int tessellationLevel)
+            : this(radius, invertFaces, tessellationLevel, new Vector3(1.0f))
         {
 
         }
 
-        public SphereGeometry(string textureName, float radius, bool invertFaces, int tessellationLevel, Vector3 position)
-            : this(textureName, radius, invertFaces, tessellationLevel, position, new Vector3(1.0f))
+        public SphereGeometry(float radius, bool invertFaces, int tessellationLevel, Vector3 sizes)
+            : this (radius, invertFaces, tessellationLevel, sizes, new Vector3(0.0f))
         {
 
         }
 
-        public SphereGeometry(string textureName, float radius, bool invertFaces, int tessellationLevel, Vector3 position, Vector3 sizes)
-            : this (textureName, radius, invertFaces, tessellationLevel, position, sizes, new Vector3(0.0f))
-        {
-
-        }
-
-        public SphereGeometry(string textureName, float radius, bool invertFaces, int tessellationLevel, Vector3 position, Vector3 sizes, Vector3 origin)
+        public SphereGeometry(float radius, bool invertFaces, int tessellationLevel, Vector3 sizes, Vector3 origin)
         {
             _segmentSizes = sizes;
-            _position = position;
-            _textureName = textureName;
-            _width = sizes.X;
-            _height = sizes.Y;
-            _depth = sizes.Z;
             _radius = radius;
             _invertFaces = invertFaces;
             _tessellationLevel = tessellationLevel;
@@ -163,9 +153,9 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         }
 
-        protected override void GenerateShape()
+        public override void GenerateGeometry()
         {
-            base.GenerateShape();
+            base.GenerateGeometry();
             ComputeNormals(ref _vertices);
         }
 
@@ -173,11 +163,9 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// Draw the plane shape
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            PreDraw();
-
-            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);

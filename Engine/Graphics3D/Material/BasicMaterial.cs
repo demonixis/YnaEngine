@@ -43,10 +43,10 @@ namespace Yna.Engine.Graphics3D.Material
             }
         }
 
-        public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
+        public override void Update(BaseCamera camera, ref Matrix world)
         {
             // Update matrices
-            base.Update(ref world, ref view, ref projection, ref position);
+            base.Update(camera, ref world);
 
             BasicEffect basicEffect = (BasicEffect)_effect;
 

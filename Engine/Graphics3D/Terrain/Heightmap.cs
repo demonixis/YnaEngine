@@ -2,106 +2,31 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D.Terrain
 {
     public class Heightmap : BaseTerrain
     {
-        private string _heightmapAssetName;
-        private Texture2D _heightmapTexture;
-        private float[,] _heightData;
-
-        private Heightmap(string heightmapAsset)
-            : base()
+        public Heightmap(string heigtmapName, string textureName)
+            : this(heigtmapName, textureName, new Vector3(1.0f))
         {
-            _heightmapAssetName = heightmapAsset;
+
         }
 
-        public Heightmap(string heightmapName, string textureName)
-            : this(heightmapName)
+        public Heightmap(string heightmapName, string textureName, Vector3 size)
         {
-            _textureName = textureName;
+            _geometry = new HeightmapGeometry(heightmapName, size);
+            Material = new BasicMaterial(textureName);
         }
 
-        public Heightmap(string heightmapName, string textureName, Vector3 segmentSizes)
-            : this (heightmapName, textureName)
+        public Heightmap(Texture2D heightmapTexture, string textureName, Vector3 size)
         {
-            _segmentSizes = segmentSizes;
+            _geometry = new HeightmapGeometry(heightmapTexture, size);
+            _material = new BasicMaterial(textureName);
         }
 
-        public Heightmap(Texture2D heightmapTexture, string textureName)
-        {
-            _heightmapAssetName = heightmapTexture.Name;
-            _heightmapTexture = heightmapTexture;
-            _textureName = textureName;
-        }
-
-        public Heightmap(Texture2D heightmapTexture, string textureName, Vector3 segmentSizes)
-            : this(heightmapTexture, textureName)
-        {
-            _segmentSizes = segmentSizes;
-        }
-
-        public override void LoadContent()
-        {
-            base.LoadContent();
-
-            if (_heightmapTexture == null)
-                _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);
-
-            LoadHeightDatas();
-
-            GenerateShape();
-
-            ComputeNormals(ref _vertices);
-
-            UpdateBoundingVolumes();
-        }
-
-        private void LoadHeightDatas()
-        {
-            Width = _heightmapTexture.Width;
-            Depth = _heightmapTexture.Height;
-
-            Color[] colors = new Color[Width * Depth];
-            _heightmapTexture.GetData(colors);
-
-            _heightData = new float[Width, Depth];
-
-            for (int x = 0; x < Width; x++)
-                for (int y = 0; y < Depth; y++)
-                    _heightData[x, y] = colors[x + y * Width].R / 10.0f; // Max height 25.5f
-        }
-
-        #region Terrain construction
-
-        protected override void CreateVertices()
-        {
-            _vertices = new VertexPositionNormalTexture[Width * Depth];
-
-            Color color = Color.White;
-
-            for (int x = 0; x < Width; x++)
-            {
-                for (int z = 0; z < Depth; z++)
-                {
-                    _vertices[x + z * Width].Position = new Vector3(
-                        x * _segmentSizes.X,
-                        _heightData[x, z] * _segmentSizes.Y,
-                        _position.Z + z * _segmentSizes.Z);
-
-                    _vertices[x + z * Width].TextureCoordinate = new Vector2(
-                        (float)x / (float)Width * _textureRepeat.X,
-                        (float)z / (float)Depth * _textureRepeat.Y);
-
-                    _vertices[x + z * Width].Normal = Vector3.Zero;
-                }
-            }
-        }
-
-        #endregion
-
-        /// <summary>
+         /// <summary>
         /// Get the terrain height at the specified position
         /// </summary>
         /// <param name="positionX">X value</param>
@@ -110,23 +35,25 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// <returns></returns>
         public virtual float GetTerrainHeight(float positionX, float positionY, float positionZ)
         {
+            var geometry = _geometry as HeightmapGeometry;
+
             float terrainHeigth = 0.0f;
 
-            float sizedPosX = (positionX / _segmentSizes.X) / _scale.X;
-            float sizedPosY = (positionY / _segmentSizes.Y) / _scale.Y;
-            float sizedPosZ = (positionZ / _segmentSizes.Z) / _scale.Z;
+            float sizedPosX = (positionX / geometry.SegmentSizes.X) / _scale.X;
+            float sizedPosY = (positionY / geometry.SegmentSizes.Y) / _scale.Y;
+            float sizedPosZ = (positionZ / geometry.SegmentSizes.Z) / _scale.Z;
 
-            int x = (int)((positionX / _segmentSizes.X) / _scale.X);
-            int z = (int)((positionZ / _segmentSizes.Z) / _scale.Z);
+            int x = (int)((positionX / geometry.SegmentSizes.X) / _scale.X);
+            int z = (int)((positionZ / geometry.SegmentSizes.Z) / _scale.Z);
 
-            if (x < 0 || x >= _heightData.GetLength(0) - 1 || z < 0 || z >= _heightData.GetLength(1) - 1)
+            if (x < 0 || x >= geometry.HeightmapData.GetLength(0) - 1 || z < 0 || z >= geometry.HeightmapData.GetLength(1) - 1)
                 terrainHeigth = positionY;
             else
             {
-                float triangleY0 = _heightData[x, z];
-                float triangleY1 = _heightData[x + 1, z];
-                float triangleY2 = _heightData[x, z + 1];
-                float triangleY3 = _heightData[x + 1, z + 1];
+                float triangleY0 = geometry.HeightmapData[x, z];
+                float triangleY1 = geometry.HeightmapData[x + 1, z];
+                float triangleY2 = geometry.HeightmapData[x, z + 1];
+                float triangleY3 = geometry.HeightmapData[x + 1, z + 1];
 
                 // Determine where are the point
                 float segX = sizedPosX - x;
@@ -147,7 +74,7 @@ namespace Yna.Engine.Graphics3D.Terrain
                 }
             }
 
-            return (terrainHeigth * _segmentSizes.Y * _scale.Y);
+            return (terrainHeigth * geometry.SegmentSizes.Y * _scale.Y);
         }
     }
 }
