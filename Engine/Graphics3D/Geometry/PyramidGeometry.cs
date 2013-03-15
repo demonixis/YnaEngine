@@ -56,9 +56,9 @@ namespace Yna.Engine.Graphics3D.Geometry
             };
         }
 
-        protected override void GenerateShape()
+        public override void GenerateGeometry()
         {
-            base.GenerateShape();
+            base.GenerateGeometry();
             ComputeNormals(ref _vertices);
         }
 

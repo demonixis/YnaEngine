@@ -1,60 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Material;
-
 namespace Yna.Engine.Graphics3D
 {
     /// <summary>
     /// A mesh object that contains a geometry and a material.
     /// </summary>
-    /// <typeparam name="T">Type of vertex to use with geometry</typeparam>
-    public class YnMesh<T> : YnEntity3D where T : struct, IVertexType
+    public class YnMesh : YnEntity3D
     {
-        private BaseGeometry<T> _geometry;
-        private BaseMaterial _material;
-
+        protected  BaseMaterial _material;
+		
         /// <summary>
-        /// Create a new mesh with a geometry and a basic material without texture.
+        /// Update matrices world and view. There are 3 updates
+        /// 1 - Scale
+        /// 2 - Rotation on Y axis (override if you wan't more)
+        /// 3 - Translation
         /// </summary>
-        /// <param name="geometry">Geometry to use.</param>
-        public YnMesh(BaseGeometry<T> geometry)
-            : this(geometry, "")
-        {
-
-        }
-
-        /// <summary>
-        /// Create a new mesh with a geometry and a basic material.
-        /// </summary>
-        /// <param name="geometry">Geometry to use.</param>
-        /// <param name="textureName">Texture name to use with default material.</param>
-        public YnMesh(BaseGeometry<T> geometry, string textureName)
-            : this(geometry, new BasicMaterial(textureName))
-        {
-
-        }
-
-        /// <summary>
-        /// Create a new mesh with a geometry and a basic material without texture.
-        /// </summary>
-        /// <param name="geometry">Geometry to use.</param>
-        /// <param name="material">Material to use.</param>
-        public YnMesh(BaseGeometry<T> geometry, BasicMaterial material)
-        {
-            _geometry = geometry;
-            _material = material;
-            _width = geometry.SegmentSizes.X;
-            _height = geometry.SegmentSizes.Y;
-            _depth = geometry.SegmentSizes.Z;
-        }
-
         public override void UpdateMatrix()
         {
             _world = Matrix.CreateScale(Scale) *
@@ -84,17 +50,11 @@ namespace Yna.Engine.Graphics3D
         public virtual void PreDraw()
         {
             UpdateMatrix();
-
+			
             if (_dynamic)
                 UpdateBoundingVolumes();
 
             _material.Update(ref _world, Camera, ref _position);
-        }
-
-        public override void Draw(GraphicsDevice device)
-        {
-            PreDraw();
-            _geometry.Draw(device, _material);
         }
     }
 }

@@ -162,11 +162,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             // 2 - An object can don't have a texture so you MUST use a default value
             int w = 1;
             int h = 1;
-            if (_material.Texture != null)
-            {
-                w = _material.Texture.Width;
-                h = _material.Texture.Height;
-            }
+
             float triSizeW = w / 5.5f;
             float triSizeH = h / 3f;
             float halfTriSize = triSizeW / 2;
