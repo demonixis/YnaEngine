@@ -11,6 +11,48 @@ namespace Yna.Engine.Graphics3D.Terrain
 {
     public abstract class BaseTerrainGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
+        protected float _width;
+        protected float _height;
+        protected float _depth;
+
+        public int Width
+        {
+            get { return (int)_width; }
+            protected set { _width = value; }
+        }
+
+        public int Height
+        {
+            get { return (int)_height; }
+            protected set { _height = value; }
+        }
+
+        public int Depth
+        {
+            get { return (int)_depth; }
+            protected set { _depth = value; }
+        }
+
+        public BaseTerrainGeometry()
+            : this(0, 0, 0)
+        {
+
+        }
+
+        public BaseTerrainGeometry(float width, float height, float depth)
+            : this(width, height, depth, new Vector3(0.0f))
+        {
+
+        }
+
+        public BaseTerrainGeometry(float width, float height, float depth, Vector3 segmentSize)
+            : base(segmentSize)
+        {
+            _width = width;
+            _height = height;
+            _depth = depth;
+        }
+
         /// <summary>
         /// Create indices with vertex array
         /// </summary>

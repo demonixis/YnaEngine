@@ -17,7 +17,7 @@ namespace Yna.Engine.Graphics3D.Terrain
         public Heightmap(string heightmapName, string textureName, Vector3 size)
         {
             _geometry = new HeightmapGeometry(heightmapName, size);
-            Material = new BasicMaterial(textureName);
+            _material = new BasicMaterial(textureName);
         }
 
         public Heightmap(Texture2D heightmapTexture, string textureName, Vector3 size)

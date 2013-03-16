@@ -29,7 +29,7 @@ namespace Yna.Engine.Graphics3D.Terrain
 
             _textureNames = textureNames;
             _textures = new Texture2D[6];
-            _walls = new YnGeometryMesh<VertexPositionNormalTexture>[6];
+            _walls = new YnMeshGeometry<VertexPositionNormalTexture>[6];
             _position = position;
             _width = size;
             _height = size;
@@ -62,7 +62,7 @@ namespace Yna.Engine.Graphics3D.Terrain
 
             for (int i = 0; i < 6; i++)
             {
-                _walls[i] = new YnGeometryMesh<VertexPositionNormalTexture>(new PlaneGeometry(sizes), new BasicMaterial(_textureNames[i]));
+                _walls[i] = new YnMeshGeometry<VertexPositionNormalTexture>(new PlaneGeometry(sizes), new BasicMaterial(_textureNames[i]));
                 _walls[i].Rotation = rotations[i];
                 Add(_walls[i]);
             }

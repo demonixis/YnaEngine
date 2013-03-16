@@ -7,7 +7,7 @@ namespace Yna.Engine.Graphics3D.Geometry
 {
     public class PyramidGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
-        public PyramidGeometry(string textureName, Vector3 sizes)
+        public PyramidGeometry(Vector3 sizes)
         {
             _segmentSizes = sizes;
         }

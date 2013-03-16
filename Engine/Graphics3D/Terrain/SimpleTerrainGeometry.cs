@@ -11,14 +11,18 @@ namespace Yna.Engine.Graphics3D.Terrain
 {
     public class SimpleTerrainGeometry : BaseTerrainGeometry
     {
-        public SimpleTerrainGeometry()
+        public SimpleTerrainGeometry(float width, float height, float depth)
+            : this(width, height, depth, new Vector3(1.0f))
         {
-            _segmentSizes = new Vector3(5.0f, 0.0f, 5.0f);
+
         }
 
-        public SimpleTerrainGeometry(Vector3 size)
+        public SimpleTerrainGeometry(float width, float height, float depth, Vector3 size)
         {
-            _segmentSizes = size;
+            _segmentSizes = Vector3.Max(size, Vector3.One);
+            _width = width;
+            _height = height;
+            _depth = depth;
         }
 
         protected override void CreateVertices()

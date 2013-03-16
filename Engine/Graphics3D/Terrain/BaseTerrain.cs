@@ -12,61 +12,59 @@ namespace Yna.Engine.Graphics3D.Terrain
     /// <summary>
     /// Abstract class that represent a basic Terrain
     /// </summary>
-    public abstract class BaseTerrain : YnEntity3D
+    public abstract class BaseTerrain : YnMeshGeometry<VertexPositionNormalTexture>
     {
-        public new BaseCamera Camera
+        public BaseTerrain()
+            : this(0, 0, 0)
         {
-            get { return _camera; }
-            set
-            {
-                _camera = value;
-                if (_mesh != null)
-                    _mesh.Camera = value;
-            }
+
         }
 
-        public new float Width
+        public BaseTerrain(float width, float height, float depth)
         {
-            get { return _mesh.Width; }
+            _width = width;
+            _height = height;
+            _depth = depth;
         }
-
-        public new float Height
-        {
-            get { return _mesh.Height; }
-        }
-
-        public new float Depth
-        {
-            get { return _mesh.Depth; }
-        }
-
-        protected YnGeometryMesh<VertexPositionNormalTexture> _mesh;
-        protected BaseTerrainGeometry _geometry;
 
         public override void LoadContent()
         {
             _geometry.GenerateGeometry();
             _material.LoadContent();
-            _mesh = new YnGeometryMesh<VertexPositionNormalTexture>(_geometry, _material);
-            _mesh.Camera = Camera;
             UpdateBoundingVolumes();
             _initialized = true;
         }
 
-        public override void UpdateMatrix()
-        {
-            _mesh.UpdateMatrix();
-        }
-
         public override void UpdateBoundingVolumes()
         {
-            _mesh.UpdateBoundingVolumes();
-        }
+            // Reset bounding box to min/max values
+            _boundingBox.Min = new Vector3(float.MaxValue);
+            _boundingBox.Max = new Vector3(float.MinValue);
 
-        public override void Draw(GraphicsDevice device)
-        {
-            _mesh.PreDraw();
-            _mesh.Draw(device);
+            for (int i = 0; i < _geometry.Vertices.Length; i++)
+            {
+                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, _geometry.Vertices[i].Position.X);
+                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, _geometry.Vertices[i].Position.Y);
+                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, _geometry.Vertices[i].Position.Z);
+                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, _geometry.Vertices[i].Position.X);
+                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, _geometry.Vertices[i].Position.Y);
+                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _geometry.Vertices[i].Position.Z);
+            }
+
+            // Apply scale on the object
+            _boundingBox.Min *= _scale;
+            _boundingBox.Max *= _scale;
+
+            // Update size of the object
+            _width = _boundingBox.Max.X - _boundingBox.Min.X;
+            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+
+            // Update bouding sphere
+            _boundingSphere.Center.X = X + (_width / 2);
+            _boundingSphere.Center.Y = Y + (_height / 2);
+            _boundingSphere.Center.Z = Z + (_depth / 2);
+            _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
 using Yna.Engine.Graphics3D.Material;
 using Yna.Engine.Graphics3D.Geometry;
@@ -14,13 +15,13 @@ namespace Yna.Samples.Screens
         {
             groupCube = new YnGroup3D(null);
 
-            CubeGeometry cube = null;
+            YnMeshGeometry<VertexPositionNormalTexture> cube = null;
             Vector3 cubePosition = new Vector3(10, 1, 35);
 
             for (int i = 0; i < 12; i++)
             {
                 cubePosition.X +=  5;             
-                cube = new CubeGeometry("Textures/pattern02_diffuse", Vector3.One, cubePosition);
+                cube = new YnMeshGeometry<VertexPositionNormalTexture>(new CubeGeometry(Vector3.One, cubePosition), new BasicMaterial("Textures/pattern02_diffuse"));
                 groupCube.Add(cube);
             }
 

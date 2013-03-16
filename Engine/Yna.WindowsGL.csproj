@@ -97,8 +97,8 @@
     <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
     <Compile Include="Graphics3D\YnEntity3DList.cs" />
     <Compile Include="Graphics3D\YnMesh.cs" />
-    <Compile Include="Graphics3D\YnGeometryMesh.cs" />
-    <Compile Include="Graphics3D\YnModelMesh.cs" />
+    <Compile Include="Graphics3D\YnMeshGeometry.cs" />
+    <Compile Include="Graphics3D\YnMeshModel.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />

@@ -15,12 +15,9 @@ namespace Yna.Engine.Graphics3D.Terrain
         }
 
         public SimpleTerrain(string textureName, int width, int depth, int segmentX, int segmentZ)
+            : base(width, 0, depth)
         {
-            _width = width;
-            _height = 0;
-            _depth = depth;
-            _geometry = new SimpleTerrainGeometry(new Vector3(segmentX, 0, segmentZ));
-            _geometry.Dimension = new Vector3(_width, _height, _depth);
+            _geometry = new SimpleTerrainGeometry(width, 0, depth, new Vector3(segmentX, 0, segmentZ));
             _material = new BasicMaterial(textureName);
         } 
     }

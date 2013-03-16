@@ -1,25 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
-using Yna.Engine.Graphics3D.Geometry;
-using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Material;
+
 namespace Yna.Engine.Graphics3D
 {
     /// <summary>
     /// A mesh object that contains a geometry and a material.
     /// </summary>
-    public class YnMesh : YnEntity3D
+    public abstract class YnMesh : YnEntity3D
     {
         protected  BaseMaterial _material;
 
         /// <summary>
-        /// Update matrices world and view. There are 3 updates
-        /// 1 - Scale
-        /// 2 - Rotation on Y axis (override if you wan't more)
-        /// 3 - Translation
+        /// Gets or sets the material used by the mesh.
+        /// </summary>
+        public BaseMaterial Material
+        {
+            get { return _material; }
+            set { _material = value; }
+        }
+
+        /// <summary>
+        /// Update world matrix. (Scale, Rotation, Translation)
         /// </summary>
         public override void UpdateMatrix()
         {
@@ -28,6 +30,9 @@ namespace Yna.Engine.Graphics3D
                 Matrix.CreateTranslation(Position);
         }
 
+        /// <summary>
+        /// Update BoundingBox and BoundingSphere
+        /// </summary>
         public override void UpdateBoundingVolumes()
         {
             _boundingBox.Min.X = X;
@@ -36,17 +41,16 @@ namespace Yna.Engine.Graphics3D
             _boundingBox.Max.X = X + Width;
             _boundingBox.Max.Y = Y + Height;
             _boundingBox.Max.Z = Z + Depth;
+
             _boundingSphere.Center.X = X + (Width / 2);
             _boundingSphere.Center.Y = Y + (Height / 2);
             _boundingSphere.Center.Z = Z + (Depth / 2);
             _boundingSphere.Radius = Math.Max(Math.Max(Width, Height), Depth);
         }
 
-        public override void LoadContent()
-        {
-            _material.LoadContent();
-        }
-
+        /// <summary>
+        /// Update matrix world, bounding volumes if the mesh is dynamic and update the material.
+        /// </summary>
         public virtual void PreDraw()
         {
             UpdateMatrix();
@@ -55,11 +59,6 @@ namespace Yna.Engine.Graphics3D
                 UpdateBoundingVolumes();
 
             _material.Update(Camera, ref _world);
-        }
-
-        public override void Draw(GraphicsDevice device)
-        {
-            throw new NotImplementedException();
         }
     }
 }

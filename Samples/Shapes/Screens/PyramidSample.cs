@@ -1,17 +1,22 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Yna.Engine.Graphics3D;
 using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Samples.Screens
 {
     public class PyramidSample : BaseSample
     {
-        PyramidGeometry pyramid;
+        YnMeshGeometry<VertexPositionNormalTexture> pyramid;
 
         public PyramidSample(string name)
             : base(name, true)
         {
-            pyramid = new PyramidGeometry("Textures/pyramid", new Vector3(10), Vector3.Zero);
-            pyramid.TextureRepeat = new Vector2(4);
+            PyramidGeometry geometry = new PyramidGeometry(new Vector3(10));
+            geometry.TextureRepeat = new Vector2(4);
+
+            pyramid = new YnMeshGeometry<VertexPositionNormalTexture>(geometry, new BasicMaterial("Textures/pyramid"));
             Add(pyramid);
         }
 
