@@ -36,6 +36,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         protected Vector3 _segmentSizes;
         protected Vector3 _origin;
         protected Vector3 _position;
+        protected Vector3 _dimension;
         protected bool _constructed;
 
         #endregion
@@ -79,6 +80,12 @@ namespace Yna.Engine.Graphics3D.Geometry
             set { _segmentSizes = value; }
         }
 
+        public Vector3 Dimension
+        {
+            get { return _dimension; }
+            set { _dimension = value; }
+        }
+
         public Vector3 Position
         {
             get { return _position; }
@@ -93,20 +100,20 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         public int Width
         {
-            get { return (int)_segmentSizes.X; }
-            protected set { _segmentSizes.X = value; }
+            get { return (int)_dimension.X; }
+            protected set { _dimension.X = value; }
         }
 
         public int Height
         {
-            get { return (int)_segmentSizes.Y; }
-            protected set { _segmentSizes.Y = value; }
+            get { return (int)_dimension.Y; }
+            protected set { _dimension.Y = value; }
         }
 
         public int Depth
         {
-            get { return (int)_segmentSizes.Z; }
-            protected set { _segmentSizes.Z = value; }
+            get { return (int)_dimension.Z; }
+            protected set { _dimension.Z = value; }
         }
 
         #endregion
@@ -122,6 +129,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             _position = Vector3.Zero;
             _origin = Vector3.Zero;
             _segmentSizes = Vector3.One;
+            _dimension = Vector3.Zero;
             _constructed = false;
         }
 

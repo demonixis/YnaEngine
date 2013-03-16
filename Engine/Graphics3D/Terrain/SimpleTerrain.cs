@@ -20,6 +20,7 @@ namespace Yna.Engine.Graphics3D.Terrain
             _height = 0;
             _depth = depth;
             _geometry = new SimpleTerrainGeometry(new Vector3(segmentX, 0, segmentZ));
+            _geometry.Dimension = new Vector3(_width, _height, _depth);
             _material = new BasicMaterial(textureName);
         } 
     }

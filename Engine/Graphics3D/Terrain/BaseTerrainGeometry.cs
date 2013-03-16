@@ -53,11 +53,17 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
+            device.SetVertexBuffer(_vertexBuffer);
+            device.Indices = _indexBuffer;
+
             foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
             }
+
+            device.SetVertexBuffer(null);
+            device.Indices = null;
         }
     }
 }

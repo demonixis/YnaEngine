@@ -50,6 +50,9 @@ namespace Yna.Engine.Graphics3D.Terrain
                 _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);
 
             LoadHeightDatas();
+            CreateVertices();
+            CreateIndices();
+            CreateBuffers();
 
             ComputeNormals(ref _vertices);
         }

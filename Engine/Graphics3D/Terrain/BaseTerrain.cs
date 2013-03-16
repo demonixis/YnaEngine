@@ -14,6 +14,32 @@ namespace Yna.Engine.Graphics3D.Terrain
     /// </summary>
     public abstract class BaseTerrain : YnEntity3D
     {
+        public new BaseCamera Camera
+        {
+            get { return _camera; }
+            set
+            {
+                _camera = value;
+                if (_mesh != null)
+                    _mesh.Camera = value;
+            }
+        }
+
+        public new float Width
+        {
+            get { return _mesh.Width; }
+        }
+
+        public new float Height
+        {
+            get { return _mesh.Height; }
+        }
+
+        public new float Depth
+        {
+            get { return _mesh.Depth; }
+        }
+
         protected YnGeometryMesh<VertexPositionNormalTexture> _mesh;
         protected BaseTerrainGeometry _geometry;
 
@@ -21,20 +47,25 @@ namespace Yna.Engine.Graphics3D.Terrain
         {
             _geometry.GenerateGeometry();
             _material.LoadContent();
+            _mesh = new YnGeometryMesh<VertexPositionNormalTexture>(_geometry, _material);
+            _mesh.Camera = Camera;
+            UpdateBoundingVolumes();
+            _initialized = true;
         }
 
         public override void UpdateMatrix()
         {
-            throw new NotImplementedException();
+            _mesh.UpdateMatrix();
         }
 
         public override void UpdateBoundingVolumes()
         {
-            throw new NotImplementedException();
+            _mesh.UpdateBoundingVolumes();
         }
 
         public override void Draw(GraphicsDevice device)
         {
+            _mesh.PreDraw();
             _mesh.Draw(device);
         }
     }

@@ -47,7 +47,7 @@ namespace Yna.Samples.Screens
             virtualPad = new YnVirtualPadController();
      
             // 4 - Create a simple terrain with a size of 100x100 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50);
+            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50, 10, 10);
             Add(terrain);
 
             // 5 - And add an alien

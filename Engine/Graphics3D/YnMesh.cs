@@ -14,7 +14,7 @@ namespace Yna.Engine.Graphics3D
     public class YnMesh : YnEntity3D
     {
         protected  BaseMaterial _material;
-		
+
         /// <summary>
         /// Update matrices world and view. There are 3 updates
         /// 1 - Scale
@@ -54,7 +54,12 @@ namespace Yna.Engine.Graphics3D
             if (_dynamic)
                 UpdateBoundingVolumes();
 
-            _material.Update(ref _world, Camera, ref _position);
+            _material.Update(Camera, ref _world);
+        }
+
+        public override void Draw(GraphicsDevice device)
+        {
+            throw new NotImplementedException();
         }
     }
 }
