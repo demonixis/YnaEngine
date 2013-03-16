@@ -9,18 +9,18 @@ namespace Yna.Samples.Screens
 {
     public class CylinderSample : BaseSample
     {
-        YnMeshGeometry<VertexPositionNormalTexture> cylinder;
-        YnMeshGeometry<VertexPositionNormalTexture> cone;
+        YnMeshGeometry cylinder;
+        YnMeshGeometry cone;
 
         public CylinderSample(string name)
             : base(name, true)
         {
             CylinderGeometry cylinderGeometry = new CylinderGeometry(new Vector3(0, 10, 0), new Vector3(0, 0, 0), 5, 5, false, 10, 10, Vector3.One);
             CylinderGeometry coneGeometry = new CylinderGeometry(new Vector3(0, 10, 0), new Vector3(0, 0, 0), 0, 5, false, 10, 10, Vector3.One);
-            cylinder = new YnMeshGeometry<VertexPositionNormalTexture>(cylinderGeometry, new BasicMaterial("Textures/metal"));
+            cylinder = new YnMeshGeometry(cylinderGeometry, new BasicMaterial("Textures/metal"));
             Add(cylinder);
 
-            cone = new YnMeshGeometry<VertexPositionNormalTexture>(coneGeometry, new BasicMaterial("Textures/metal"));
+            cone = new YnMeshGeometry(coneGeometry, new BasicMaterial("Textures/metal"));
             Add(cone);
         }
 

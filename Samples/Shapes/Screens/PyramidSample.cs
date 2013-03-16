@@ -8,7 +8,7 @@ namespace Yna.Samples.Screens
 {
     public class PyramidSample : BaseSample
     {
-        YnMeshGeometry<VertexPositionNormalTexture> pyramid;
+        YnMeshGeometry pyramid;
 
         public PyramidSample(string name)
             : base(name, true)
@@ -16,7 +16,7 @@ namespace Yna.Samples.Screens
             PyramidGeometry geometry = new PyramidGeometry(new Vector3(10));
             geometry.TextureRepeat = new Vector2(4);
 
-            pyramid = new YnMeshGeometry<VertexPositionNormalTexture>(geometry, new BasicMaterial("Textures/pyramid"));
+            pyramid = new YnMeshGeometry(geometry, new BasicMaterial("Textures/pyramid"));
             Add(pyramid);
         }
 

@@ -8,7 +8,7 @@ namespace Yna.Samples.Screens
 {
     public class SphereSample : BaseSample
     {
-        YnMeshGeometry<VertexPositionNormalTexture> sphere;
+        YnMeshGeometry sphere;
 
         public SphereSample(string name)
             : base(name)
@@ -18,7 +18,7 @@ namespace Yna.Samples.Screens
 
             BasicMaterial material = new BasicMaterial("Textures/metal");
 
-            sphere = new YnMeshGeometry<VertexPositionNormalTexture>(geometry, material);
+            sphere = new YnMeshGeometry(geometry, material);
             Add(sphere);
         }
 

@@ -12,10 +12,9 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// A mesh who use a procedural geometry.
     /// </summary>
-    /// <typeparam name="T">Type of vertex to use</typeparam>
-    public class YnMeshGeometry<T> : YnMesh where T : struct, IVertexType
+    public class YnMeshGeometry : YnMesh
     {
-        protected BaseGeometry<T> _geometry;
+        protected BaseGeometry<VertexPositionNormalTexture> _geometry;
         protected Vector2 _textureRepeat;
 
         /// <summary>
@@ -30,7 +29,7 @@ namespace Yna.Engine.Graphics3D
         /// <summary>
         /// Gets the geometry of the mesh.
         /// </summary>
-        public BaseGeometry<T> Geometry
+        public BaseGeometry<VertexPositionNormalTexture> Geometry
         {
             get { return _geometry; }
             protected set { _geometry = value; }
@@ -51,7 +50,7 @@ namespace Yna.Engine.Graphics3D
         /// Create an YnMeshGeoemtry with a geometry and a BasicMaterial without texture.
         /// </summary>
         /// <param name="geometry"></param>
-        public YnMeshGeometry(BaseGeometry<T> geometry)
+        public YnMeshGeometry(BaseGeometry<VertexPositionNormalTexture> geometry)
             : this(geometry, "")
         {
 
@@ -62,7 +61,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="geometry">Geometry to use.</param>
         /// <param name="textureName">Texture name to use with BasicMaterial</param>
-        public YnMeshGeometry(BaseGeometry<T> geometry, string textureName)
+        public YnMeshGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, string textureName)
             : this(geometry, new BasicMaterial(textureName))
         {
 
@@ -73,7 +72,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="geometry">Geometry to use.</param>
         /// <param name="material">Material to use with geometry.</param>
-        public YnMeshGeometry(BaseGeometry<T> geometry, BaseMaterial material)
+        public YnMeshGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, BaseMaterial material)
             : base()
         {
             _geometry = geometry;
@@ -89,6 +88,11 @@ namespace Yna.Engine.Graphics3D
         {
             _geometry.GenerateGeometry();
             _material.LoadContent();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
         }
 
         /// <summary>

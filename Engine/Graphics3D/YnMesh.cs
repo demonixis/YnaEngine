@@ -8,7 +8,7 @@ namespace Yna.Engine.Graphics3D
     /// A mesh object that contains a geometry and a material.
     /// </summary>
     public abstract class YnMesh : YnEntity3D
-    {
+    {/*
         protected  BaseMaterial _material;
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace Yna.Engine.Graphics3D
         {
             get { return _material; }
             set { _material = value; }
-        }
+        }*/
 
         /// <summary>
         /// Update world matrix. (Scale, Rotation, Translation)

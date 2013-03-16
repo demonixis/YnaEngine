@@ -8,12 +8,12 @@ namespace Yna.Samples.Screens
 {
     public class PlaneSample : BaseSample
     {
-        YnMeshGeometry<VertexPositionNormalTexture> plane;
+        YnMeshGeometry plane;
 
         public PlaneSample(string name)
             : base(name)
         {
-            plane = new YnMeshGeometry<VertexPositionNormalTexture>(new PlaneGeometry(new Vector3(10)), new BasicMaterial("Textures/metal"));
+            plane = new YnMeshGeometry(new PlaneGeometry(new Vector3(10)), new BasicMaterial("Textures/metal"));
             Add(plane);
         }
 

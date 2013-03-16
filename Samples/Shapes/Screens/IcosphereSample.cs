@@ -8,12 +8,12 @@ namespace Yna.Samples.Screens
 {
     public class IcosphereSample : BaseSample
     {
-        YnMeshGeometry<VertexPositionNormalTexture> icosphere;
+        YnMeshGeometry icosphere;
 
         public IcosphereSample(string name)
             : base(name, true)
         {
-            icosphere = new YnMeshGeometry<VertexPositionNormalTexture>(new IcoSphereGeometry(32, 4, false), new BasicMaterial("Textures/icosphere_map"));
+            icosphere = new YnMeshGeometry(new IcoSphereGeometry(32, 4, false), new BasicMaterial("Textures/icosphere_map"));
             icosphere.Scale = new Vector3(3.5f);
             Add(icosphere);
 
