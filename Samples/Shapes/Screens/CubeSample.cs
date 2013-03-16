@@ -21,7 +21,8 @@ namespace Yna.Samples.Screens
             for (int i = 0; i < 12; i++)
             {
                 cubePosition.X +=  5;             
-                cube = new YnMeshGeometry<VertexPositionNormalTexture>(new CubeGeometry(Vector3.One, cubePosition), new BasicMaterial("Textures/pattern02_diffuse"));
+                cube = new YnMeshGeometry<VertexPositionNormalTexture>(new CubeGeometry(Vector3.One), new BasicMaterial("Textures/pattern02_diffuse"));
+                cube.Position = cubePosition;
                 groupCube.Add(cube);
             }
 

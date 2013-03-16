@@ -64,6 +64,7 @@ namespace Yna.Engine.Graphics3D.Terrain
             {
                 _walls[i] = new YnMeshGeometry<VertexPositionNormalTexture>(new PlaneGeometry(sizes), new BasicMaterial(_textureNames[i]));
                 _walls[i].Rotation = rotations[i];
+                _walls[i].Position = positions[i];
                 Add(_walls[i]);
             }
 
