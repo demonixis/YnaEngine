@@ -203,6 +203,14 @@ namespace Yna.Engine.State
 
             return false;
         }
+        /*
+        /// <summary>
+        /// Launch the previous state.
+        /// </summary>
+        public void Back()
+        {
+
+        }*/
 
         /// <summary>
         /// Active a screen and desactive other screens on demand
