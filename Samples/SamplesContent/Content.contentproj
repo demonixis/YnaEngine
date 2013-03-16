@@ -261,33 +261,33 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\skybox\neg-x.png">
-      <Name>neg-x</Name>
+    <Compile Include="Textures\skybox\nx.png">
+      <Name>nx</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\skybox\neg-y.png">
-      <Name>neg-y</Name>
+    <Compile Include="Textures\skybox\ny.png">
+      <Name>ny</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\skybox\neg-z.png">
-      <Name>neg-z</Name>
+    <Compile Include="Textures\skybox\nz.png">
+      <Name>nz</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\skybox\pos-x.png">
-      <Name>pos-x</Name>
+    <Compile Include="Textures\skybox\px.png">
+      <Name>px</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\skybox\pos-y.png">
-      <Name>pos-y</Name>
+    <Compile Include="Textures\skybox\py.png">
+      <Name>py</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\skybox\pos-z.png">
-      <Name>pos-z</Name>
+    <Compile Include="Textures\skybox\pz.png">
+      <Name>pz</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

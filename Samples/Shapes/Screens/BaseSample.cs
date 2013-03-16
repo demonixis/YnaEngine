@@ -66,12 +66,12 @@ namespace Yna.Samples.Screens
             {
                 skyboxTextures = new string[6]
                 {
-                    "Textures/skybox/neg-x",
-                    "Textures/skybox/pos-x",
-                    "Textures/skybox/neg-y",
-                    "Textures/skybox/pos-y",
-                    "Textures/skybox/neg-z",
-                    "Textures/skybox/pos-z"
+                    "Textures/skybox/nx",
+                    "Textures/skybox/px",
+                    "Textures/skybox/ny",
+                    "Textures/skybox/py",
+                    "Textures/skybox/nz",
+                    "Textures/skybox/pz"
                 };
             }
 
@@ -84,7 +84,7 @@ namespace Yna.Samples.Screens
             base.LoadContent();
 
             Camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
-            skybox.Position = new Vector3(terrain.Width / 2, 0, terrain.Depth / 2);
+            skybox.Position = new Vector3(terrain.Width / 2, skybox.Height / 3, terrain.Depth / 2);
         }
 
         public override void Update(GameTime gameTime)

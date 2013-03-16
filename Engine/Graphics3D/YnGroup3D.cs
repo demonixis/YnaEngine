@@ -86,6 +86,39 @@ namespace Yna.Engine.Graphics3D
             }
         }
 
+        public new Vector3 Rotation
+        {
+            get { return _rotation; }
+            set
+            {
+                foreach (YnEntity3D entity in this)
+                    entity.Rotation += value;
+                _rotation = value;
+            }
+        }
+
+        public new Vector3 Position
+        {
+            get { return _position; }
+            set
+            {
+                foreach (YnEntity3D entity in this)
+                    entity.Position += value;
+                _position = value;
+            }
+        }
+
+        public new Vector3 Scale
+        {
+            get { return _scale; }
+            set
+            {
+                foreach (YnEntity3D entity in this)
+                    entity.Scale += value;
+                _scale = value;
+            }
+        }
+
         #endregion
 
         #region Constructors
