@@ -9,7 +9,7 @@ namespace Yna.Engine.Graphics3D.Terrain
     public class SimpleTerrain : BaseTerrain
     {
         public SimpleTerrain(string textureName, int width, int depth)
-            : this (textureName, width, depth, 5, 5)
+            : this (textureName, width, depth, 1, 1)
         {
 
         }

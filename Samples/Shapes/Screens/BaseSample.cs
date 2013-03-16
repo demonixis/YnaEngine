@@ -43,7 +43,7 @@ namespace Yna.Samples.Screens
             Add(control);
 
             // 3 - Create a simple terrain with a size of 50x50 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("Textures/sand", 100, 100, 1, 1);
+            terrain = new SimpleTerrain("Textures/sand", 100, 100);
             // Repeat the ground texture 8x
             terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
