@@ -15,7 +15,7 @@ namespace Yna.Samples.Screens
     {
         YnEntity sky;
         SimpleTerrain terrain;
-        YnModel dungeon;
+        YnMeshModel dungeon;
         FirstPersonControl control;
 
         public DungeonState(string name)
@@ -39,7 +39,7 @@ namespace Yna.Samples.Screens
             Add(terrain);
 
             // A dungeon !
-            dungeon = new YnModel("Models/Dungeon/dungeon");
+            dungeon = new YnMeshModel("Models/Dungeon/dungeon");
             dungeon.RotationX = -(float)Math.PI / 2;
             dungeon.Scale = new Vector3(20.0f);
             Add(dungeon);

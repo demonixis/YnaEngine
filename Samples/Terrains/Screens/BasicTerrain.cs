@@ -19,7 +19,7 @@ namespace Yna.Samples.Screens
 
         YnEntity sky;
         SimpleTerrain terrain;
-        YnModel alienModel;
+        YnMeshModel alienModel;
         
         // VirtualPad vectors
         private Vector3 virtalPadMovement = Vector3.Zero;
@@ -51,7 +51,7 @@ namespace Yna.Samples.Screens
             Add(terrain);
 
             // 5 - And add an alien
-            alienModel = new YnModel("Models/Alien/alien1_L");
+            alienModel = new YnMeshModel("Models/Alien/alien1_L");
             Add(alienModel);
 
             // 6 - A fake sky
