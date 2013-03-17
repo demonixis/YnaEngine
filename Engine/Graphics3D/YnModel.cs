@@ -13,6 +13,7 @@ namespace Yna.Engine.Graphics3D
         protected Model _model;
         protected string _modelName;
         protected Matrix[] _bonesTransforms;
+        protected BasicMaterial _material;
 
         #region Properties
 
@@ -198,8 +199,6 @@ namespace Yna.Engine.Graphics3D
             World = Matrix.CreateScale(Scale) *
                 Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
                 Matrix.CreateTranslation(Position);
-
-            View = _camera.View;
         }
 
         #endregion
@@ -251,13 +250,11 @@ namespace Yna.Engine.Graphics3D
 		/// <param name='effect'>A custom effect<param>
 		public void SetEffect (Effect effect)
         {
-#if !WINDOWS && DIRECTX
 			foreach (ModelMesh mesh in _model.Meshes)
 			{
 				foreach (ModelMeshPart part in mesh.MeshParts)
 					part.Effect = effect;
 			}
-#endif
 		}
 
         public override string ToString()

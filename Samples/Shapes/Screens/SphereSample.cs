@@ -25,7 +25,7 @@ namespace Yna.Samples.Screens
         public override void LoadContent()
         {
             base.LoadContent();
-            sphere.Position = new Vector3(terrain.Width / 2, sphere.Height, terrain.Depth / 2);
+            sphere.Position = new Vector3(terrain.Width / 2, sphere.Height / 2, terrain.Depth / 2);
         }
     }
 }

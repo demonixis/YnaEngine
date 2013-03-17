@@ -10,12 +10,11 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// This is a base class for all things that can be drawn on the screen
     /// </summary>
-    public abstract class YnEntity3D : YnBase3D, IDisposable
+    public abstract class YnEntity3D : YnBase3D
     {
         #region Protected & private declarations
 
         protected BaseCamera _camera;
-        protected BaseMaterial _material;
 
         // Direction
         protected Vector3 _rotation;        // @deprected
@@ -32,10 +31,6 @@ namespace Yna.Engine.Graphics3D
         protected bool _visible;
         protected bool _dirty;
 
-        protected bool _isFrustrumCulled;
-        protected bool _castShadow;
-        protected bool _receiveShadow;
-
         // Static or dynamic object
         protected bool _dynamic;
 
@@ -49,11 +44,6 @@ namespace Yna.Engine.Graphics3D
 
         // Initialization
         protected bool _initialized;
-        protected bool _loaded;
-
-        // View matrix
-        protected Matrix _view;
-        protected Matrix _projection;
 
         #endregion
 
@@ -109,15 +99,6 @@ namespace Yna.Engine.Graphics3D
         {
             get { return _initialized; }
             set { _initialized = value; }
-        }
-
-        /// <summary>
-        /// Determine if the entity is loaded.
-        /// </summary>
-        public bool Loaded
-        {
-            get { return _loaded; }
-            set { _loaded = value; }
         }
 
         #endregion
@@ -229,20 +210,6 @@ namespace Yna.Engine.Graphics3D
             set { _camera = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the material for this object
-        /// </summary>
-        public BaseMaterial Material
-        {
-            get { return _material; }
-            set 
-            { 
-                _material = value;
-                if (_initialized && !_material.Loaded)
-                    _material.LoadContent();
-            }
-        }
-
         #endregion
 
         #region Bounding volumes
@@ -261,19 +228,6 @@ namespace Yna.Engine.Graphics3D
         public BoundingSphere BoundingSphere
         {
             get { return _boundingSphere; }
-        }
-
-        #endregion
-
-        #region Properties for matrices
-
-        /// <summary>
-        /// Gets or sets the view matrix
-        /// </summary>
-        public Matrix View
-        {
-            get { return _view; }
-            set { _view = value; }
         }
 
         #endregion
@@ -298,9 +252,7 @@ namespace Yna.Engine.Graphics3D
             _visible = true;
             _dirty = false;
             _initialized = false;
-            _loaded = false;
             _dynamic = false;
-            _material = null;
 
             _boundingBox = new BoundingBox();
             _boundingSphere = new BoundingSphere();
@@ -378,8 +330,7 @@ namespace Yna.Engine.Graphics3D
 
         public virtual void UpdateLighting(SceneLight light)
         {
-            if (_material != null)
-                _material.Light = light;
+
         }
 
         #region GameState pattern
@@ -418,7 +369,6 @@ namespace Yna.Engine.Graphics3D
                 _lastDirection.Normalize();
                 _lastPosition = _position;
             }
-
         }
 
         /// <summary>
@@ -426,15 +376,6 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="device">GraphicsDevice object</param>
         public abstract void Draw(GraphicsDevice device);
-
-        #endregion
-
-        #region IDisposable implementation
-
-        void IDisposable.Dispose()
-        {
-            UnloadContent();
-        }
 
         #endregion
     }

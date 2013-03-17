@@ -28,7 +28,7 @@ namespace Yna.Samples.Screens
         public override void LoadContent()
         {
             base.LoadContent();
-            torus.Position = new Vector3(terrain.Width / 2, 6, terrain.Depth / 2);
+            torus.Position = new Vector3(terrain.Width / 2, 6.5f, terrain.Depth / 2);
         }
     }
 }

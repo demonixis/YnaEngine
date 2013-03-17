@@ -27,8 +27,8 @@ namespace Yna.Samples.Screens
         public override void LoadContent()
         {
             base.LoadContent();
-            cylinder.Position = new Vector3(terrain.Width / 2.5f, cylinder.Height / 2, terrain.Depth / 2);
-            cone.Position = new Vector3(terrain.Width - terrain.Width / 2.5f, cone.Height / 2, terrain.Depth / 2);
+            cylinder.Position = new Vector3(terrain.Width / 2.5f, 0, terrain.Depth / 2);
+            cone.Position = new Vector3(terrain.Width - terrain.Width / 2.5f, 0, terrain.Depth / 2);
         }
     }
 }

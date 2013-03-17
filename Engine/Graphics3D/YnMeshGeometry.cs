@@ -80,6 +80,40 @@ namespace Yna.Engine.Graphics3D
         }
 
         #endregion
+        
+        public override void UpdateBoundingVolumes()
+        {
+            UpdateMatrix();
+
+            // Reset bounding box to min/max values
+            _boundingBox.Min = new Vector3(float.MaxValue);
+            _boundingBox.Max = new Vector3(float.MinValue);
+
+            for (int i = 0; i < _geometry.Vertices.Length; i++)
+            {
+                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, _geometry.Vertices[i].Position.X);
+                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, _geometry.Vertices[i].Position.Y);
+                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, _geometry.Vertices[i].Position.Z);
+                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, _geometry.Vertices[i].Position.X);
+                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, _geometry.Vertices[i].Position.Y);
+                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _geometry.Vertices[i].Position.Z);
+            }
+
+            // Apply scale on the object
+            _boundingBox.Min *= _scale;
+            _boundingBox.Max *= _scale;
+
+            // Update size of the object
+            _width = _boundingBox.Max.X - _boundingBox.Min.X;
+            _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
+            _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
+
+            // Update bouding sphere
+            _boundingSphere.Center.X = X + (_width / 2);
+            _boundingSphere.Center.Y = Y + (_height / 2);
+            _boundingSphere.Center.Z = Z + (_depth / 2);
+            _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
+        }
 
         /// <summary>
         /// Generate geometry and load material.
@@ -88,11 +122,18 @@ namespace Yna.Engine.Graphics3D
         {
             _geometry.GenerateGeometry();
             _material.LoadContent();
+            UpdateBoundingVolumes();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+        }
+
+        public override void UpdateLighting(SceneLight light)
+        {
+            if (_material != null)
+                _material.Light = light;
         }
 
         /// <summary>

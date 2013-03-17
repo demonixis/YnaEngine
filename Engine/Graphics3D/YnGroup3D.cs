@@ -190,8 +190,6 @@ namespace Yna.Engine.Graphics3D
 
             foreach (YnEntity3D members in _members)
                 World *= members.World;
-
-            View = _camera.View;
         }
 
         public override void UpdateLighting(SceneLight light)

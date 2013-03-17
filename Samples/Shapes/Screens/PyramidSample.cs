@@ -23,7 +23,7 @@ namespace Yna.Samples.Screens
         public override void LoadContent()
         {
             base.LoadContent();
-            pyramid.Position = new Vector3(terrain.Width / 2, pyramid.Height, terrain.Depth / 2);
+            pyramid.Position = new Vector3(terrain.Width / 2, pyramid.Height / 2, terrain.Depth / 2);
         }
     }
 }

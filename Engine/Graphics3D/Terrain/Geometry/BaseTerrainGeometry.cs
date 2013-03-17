@@ -7,7 +7,7 @@ using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Material;
 
-namespace Yna.Engine.Graphics3D.Terrain
+namespace Yna.Engine.Graphics3D.Terrain.Geometry
 {
     public abstract class BaseTerrainGeometry : BaseGeometry<VertexPositionNormalTexture>
     {

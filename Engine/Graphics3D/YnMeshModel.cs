@@ -15,6 +15,7 @@ namespace Yna.Engine.Graphics3D
     public class YnMeshModel : YnMesh
     {
         protected YnModel _model;
+        protected BaseMaterial[] _materials;
 
         /// <summary>
         /// Gets the model used by this mesh
@@ -89,6 +90,31 @@ namespace Yna.Engine.Graphics3D
         {
             _model.LoadContent();
             _material.LoadContent();
+#if DEBUG
+            if (_material == null)
+            {
+                _materials = new BaseMaterial[_model.Model.Meshes.Count];
+                int counter = 0;
+
+                foreach (ModelMesh mesh in _model.Meshes)
+                {
+                    foreach (ModelMeshPart part in mesh.MeshParts)
+                    {
+                        BaseMaterial material = new BasicMaterial();
+
+                        var effect = part.Effect as BasicEffect;
+
+                        if (effect != null)
+                        {
+                            material.Texture = effect.Texture;
+                            material.Effect = effect;
+                        }
+
+                        _materials[counter++] = material;
+                    }
+                }
+            }
+#endif
         }
 
         /// <summary>
