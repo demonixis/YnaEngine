@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Component;

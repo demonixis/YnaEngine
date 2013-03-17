@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Storage;
 
-namespace Yna.Framework.Storage
+namespace Yna.Engine.Storage
 {
     /// <summary>
     /// XNA storage device that use native XNA methods for save and load datas.

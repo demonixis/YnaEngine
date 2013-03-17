@@ -34,6 +34,7 @@
     <DefineConstants>MONOGAME;WINDOWS;DIRECTX;</DefineConstants>
   </PropertyGroup>
   <ItemGroup><Compile Include="Audio\AudioAdapter.cs" />
+   <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\DummyAudioAdapter.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
@@ -113,7 +114,6 @@
     <Compile Include="Graphics3D\Renderer\BoundingFrustrumRenderer.cs" />
     <Compile Include="Graphics3D\YnG3.cs" />
     <Compile Include="Graphics3D\YnGroup3D.cs" />
-    <Compile Include="Graphics3D\YnModel.cs" />
     <Compile Include="Graphics3D\YnEntity3D.cs" />
     <Compile Include="Graphics3D\Terrain\Heightmap.cs" />
     <Compile Include="Graphics3D\Terrain\BaseTerrain.cs" />

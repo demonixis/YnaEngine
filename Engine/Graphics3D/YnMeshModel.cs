@@ -77,7 +77,7 @@ namespace Yna.Engine.Graphics3D
         }
 
         public YnMeshModel(string modelName)
-            : this(modelName, null)
+            : this(modelName, new BasicMaterial())
         {
 
         }

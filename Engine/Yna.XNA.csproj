@@ -90,8 +90,15 @@
     <Compile Include="Graphics3D\Lighting\SceneLight.cs" />
     <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
     <Compile Include="Graphics3D\Scene\SceneNode.cs" />
+    <Compile Include="Graphics3D\Terrain\Geometry\BaseTerrainGeometry.cs" />
+    <Compile Include="Graphics3D\Terrain\Geometry\HeitmapGeometry.cs" />
+    <Compile Include="Graphics3D\Terrain\Geometry\SimpleTerrainGeometry.cs" />
     <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
+    <Compile Include="Graphics3D\YnBillboard.cs" />
     <Compile Include="Graphics3D\YnEntity3DList.cs" />
+    <Compile Include="Graphics3D\YnMesh.cs" />
+    <Compile Include="Graphics3D\YnMeshGeometry.cs" />
+    <Compile Include="Graphics3D\YnMeshModel.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />
@@ -103,7 +110,7 @@
     <Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
-    <Compile Include="Graphics3D\Terrain\Skybox.cs" />
+    <Compile Include="Graphics3D\Terrain\SkyBox.cs" />
     <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
     <Compile Include="Graphics\Animation\YnInterpolator.cs" />
     <Compile Include="Graphics\YnEntityList.cs" />
@@ -133,7 +140,6 @@
     <Compile Include="Graphics3D\Renderer\BoundingFrustrumRenderer.cs" />
     <Compile Include="Graphics3D\YnG3.cs" />
     <Compile Include="Graphics3D\YnGroup3D.cs" />
-    <Compile Include="Graphics3D\YnModel.cs" />
     <Compile Include="Graphics3D\YnEntity3D.cs" />
     <Compile Include="Graphics3D\Terrain\Heightmap.cs" />
     <Compile Include="Graphics3D\Terrain\BaseTerrain.cs" />
@@ -175,7 +181,6 @@
     <Compile Include="Graphics\TileMap\Iso\LayerIso.cs" />
     <Compile Include="Graphics\TileMap\Iso\TileIso.cs" />
     <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
-    <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />

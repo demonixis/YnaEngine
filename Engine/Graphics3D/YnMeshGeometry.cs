@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Material;
@@ -81,10 +79,11 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
         
+        /// <summary>
+        /// Update BoundingBox and BoundingSphere
+        /// </summary>
         public override void UpdateBoundingVolumes()
         {
-            UpdateMatrix();
-
             // Reset bounding box to min/max values
             _boundingBox.Min = new Vector3(float.MaxValue);
             _boundingBox.Max = new Vector3(float.MinValue);
@@ -125,11 +124,10 @@ namespace Yna.Engine.Graphics3D
             UpdateBoundingVolumes();
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
+        /// <summary>
+        /// Update lights.
+        /// </summary>
+        /// <param name="light"></param>
         public override void UpdateLighting(SceneLight light)
         {
             if (_material != null)
@@ -137,7 +135,7 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Draw Terrain
+        /// Draw mesh.
         /// </summary>
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device)
