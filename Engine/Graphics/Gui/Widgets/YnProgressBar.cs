@@ -9,45 +9,55 @@ using Yna.Engine.Helpers;
 namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
-    /// Progress bar widget. Can be used horizontally (left to right) or vertically (bottom to top)
+    /// Progress bar widget. Can be used horizontally (left to right) or vertically (bottom to top).
+    /// Values are positive only (uint).
     /// </summary>
     public class YnProgressBar : YnPanel
     {
         #region Attributes
 
-        protected int _minValue;
-        protected int _maxValue;
-        protected int _currentValue;
+        protected uint _minValue;
+        protected uint _maxValue;
+        protected uint _currentValue;
 
         #endregion
 
+        #region Properties
+
         /// <summary>
-        /// The minimum possible value
+        /// The minimum possible value.
         /// </summary>
-        public int MinValue
+        public uint MinValue
         {
             get { return _minValue; }
             set { _minValue = value; }
         }
 
         /// <summary>
-        /// The maximum possible value
+        /// The maximum possible value.
         /// </summary>
-        public int MaxValue
+        public uint MaxValue
         {
             get { return _maxValue; }
             set { _maxValue = value; }
         }
 
         /// <summary>
-        /// The current progress value
+        /// The current progress value.
         /// </summary>
-        public int Value
+        public uint Value
         {
             get { return _currentValue; }
-            set { _currentValue = (int)MathHelper.Clamp(value, _minValue, _maxValue); }
+            set { _currentValue = (uint)MathHelper.Clamp(value, _minValue, _maxValue); }
         }
 
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public YnProgressBar()
             : base()
         {
@@ -58,11 +68,23 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             _hasBackground = true;
         }
 
-        protected override void DoCustomUpdate(GameTime gameTime)
+        /// <summary>
+        /// constructor with a YnWidgetProperties
+        /// </summary>
+        /// <param name="properties">The properties</param>
+        public YnProgressBar(YnWidgetProperties properties)
         {
-
+            SetProperties(properties);
         }
 
+        #endregion
+
+        /// <summary>
+        /// Draw the widget.
+        /// </summary>
+        /// <param name="gameTime">The game time</param>
+        /// <param name="spriteBatch">The sprite batch</param>
+        /// <param name="skin">The skin to use</param>
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
             Texture2D fg = skin.BackgroundDefault;
@@ -72,28 +94,40 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             {
                 if (_orientation == YnOrientation.Vertical)
                 {
-                    int height = Height * _currentValue / _maxValue;
+                    int height = (int)(Height * _currentValue / _maxValue);
 
                     source = new Rectangle(0, 0, fg.Width, fg.Height);
                     dest = new Rectangle((int)ScreenPosition.X, (int)ScreenPosition.Y + Height - height, Width, height);
                 }
                 else
                 {
-                    int width = Width * _currentValue / _maxValue;
+                    int width = (int)(Width * _currentValue / _maxValue);
 
                     source = new Rectangle(0, 0, fg.Width, fg.Height);
                     dest = new Rectangle((int)ScreenPosition.X, (int)ScreenPosition.Y, width, Height);
                 }
+
+                // Draw the bar
                 spriteBatch.Draw(fg, dest, source, Color.White);
             }
         }
 
+        /// <summary>
+        /// Draw the background.
+        /// </summary>
+        /// <param name="gameTime">The game time</param>
+        /// <param name="spriteBatch">The sprite batch</param>
+        /// <param name="skin">The skin to use</param>
         protected override void DrawBackground(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
+            // Get the clicked background as background.
             Texture2D bg = skin.BackgroundClicked;
+
+            // Create source and destination rectangles for rendering
             Rectangle source = new Rectangle(0, 0, bg.Width, bg.Height);
             Rectangle dest = new Rectangle((int)ScreenPosition.X, (int)ScreenPosition.Y, Width, Height);
 
+            // Render
             spriteBatch.Draw(bg, dest, source, Color.White);
         }
     }
