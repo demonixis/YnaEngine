@@ -119,6 +119,16 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
+        /// Constructor with a YnWidgetProperties.
+        /// </summary>
+        /// <param name="properties">The widget properties</param>
+        public YnLabel(YnWidgetProperties properties)
+            : this()
+        {
+            SetProperties(properties);
+        }
+
+        /// <summary>
         /// See documentation in YnWidget.
         /// </summary>
         /// <param name="gameTime">The game time</param>
