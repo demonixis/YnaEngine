@@ -8,11 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
-    /// All possible text alignments for a YnTextButon
-    /// </summary>
-    public enum YnTextAlign { TopLeft, Top, TopRight, Left, Center, Right,BottomLeft, Bottom, BottomRight}
-
-    /// <summary>
     /// Text button widget
     /// </summary>
     public class YnTextButton : YnButton
