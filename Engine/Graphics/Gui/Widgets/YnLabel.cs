@@ -86,7 +86,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             set
             {
                 _textAlign = value;
-                AlignText();
+                ComputeTextAlignment();
             }
         }
 
@@ -163,7 +163,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             if (_textAlign != YnTextAlign.None)
             {
                 // An alignment is defined, recompute coordinates
-                AlignText();
+                ComputeTextAlignment();
             }
             else
             {
@@ -176,7 +176,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         /// <summary>
         /// Compute the text relative position in the widget.
         /// </summary>
-        private void AlignText()
+        public void ComputeTextAlignment()
         {
             int width = _textWidth;
             int height = _textHeight;
