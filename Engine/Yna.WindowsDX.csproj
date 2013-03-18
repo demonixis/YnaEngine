@@ -125,7 +125,6 @@
     <Compile Include="Graphics\Gui\YnSkinGenerator.cs" />
     <Compile Include="Graphics\Gui\YnWidgetList.cs" />
     <Compile Include="Graphics\Gui\Widgets\YnSlider.cs" />
-    <Compile Include="Graphics\Gui\Widgets\YnTextBox.cs" />
     <Compile Include="Graphics\Gui\Widgets\YnTextButton.cs" />
     <Compile Include="Graphics\Gui\Widgets\YnWidget.cs" />
     <Compile Include="Graphics\Gui\Widgets\YnWindow.cs" />
