@@ -316,13 +316,17 @@ namespace Yna.Engine.Graphics.Gui
             }
         }
 
+        /// <summary>
+        /// Move the widget to the bottom of the layer depth. All widgets below are moved up.
+        /// </summary>
+        /// <param name="widget">The widget to move to the bottom</param>
         public void DepthToBottom(YnWidget widget)
         {
             // All widgets below the widget have to go up in the depth
             // Depth - 1 => Depth
             // Depth - 2 => Depth - 1
             // and so on...
-            for (int i = widget.Depth; i >= 0; i--)
+            for (int i = widget.Depth -1; i >= 0; i--)
             {
                 DepthUp(_widgets[i]);
             }
@@ -333,9 +337,25 @@ namespace Yna.Engine.Graphics.Gui
             _widgets[0] = widget;
         }
 
+        /// <summary>
+        /// Move the widget to the top of the lauer depth. All widgets above are moved down.
+        /// </summary>
+        /// <param name="widget">The widget to move to the top</param>
         public void DepthToTop(YnWidget widget)
         {
-            // TODO
+            // All widgets above the widget have to go down in the depth
+            // Depth + 1 => Depth
+            // Depth + 2 => Depth + 1
+            // and so on...
+            for (int i = widget.Depth +1; i <= _maxDepth; i++)
+            {
+                DepthDown(_widgets[i]);
+            }
+
+            // Now that all other widgets were moved up, just set the widget
+            // new depth
+            widget.Depth = _maxDepth;
+            _widgets[_maxDepth] = widget;
         }
 
         #endregion

@@ -89,7 +89,12 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             : base()
         {
             _label = new YnLabel();
+            _label.TextAlign = YnTextAlign.Center; // Default text alignment
             Add(_label);
+
+            // Default width / height
+            Width = 150;
+            Height = 40;
         }
 
         /// <summary>
@@ -141,6 +146,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             {
                 _label.UseCustomColor = false;
             }
+
         }
 
         /// <summary>

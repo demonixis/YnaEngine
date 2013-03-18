@@ -104,6 +104,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         /// Default constructor. Initializes default values.
         /// </summary>
         protected YnWidget()
+            : base()
         {
             _children = new List<YnWidget>();
             Position = Vector2.Zero;
