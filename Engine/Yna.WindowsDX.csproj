@@ -33,8 +33,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <DefineConstants>MONOGAME;WINDOWS;DIRECTX;</DefineConstants>
   </PropertyGroup>
-  <ItemGroup><Compile Include="Audio\AudioAdapter.cs" />
-   <Compile Include="Audio\AudioAdapter.cs" />
+  <ItemGroup>
+    <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\DummyAudioAdapter.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
