@@ -63,7 +63,6 @@ namespace Yna.Engine.Graphics
         protected YnEntity _parent;
         protected PositionType _positionType;
         protected int _nbMouseEventObservers;
-        protected int _nbTouchEventObservers;
 
         #endregion
 
@@ -349,107 +348,6 @@ namespace Yna.Engine.Graphics
 
         #endregion
 
-        #region Touch events
-
-        private event EventHandler<TouchActionEntityEventArgs> _touchPress = null;
-        private event EventHandler<TouchActionEntityEventArgs> _touchOver = null;
-        private event EventHandler<TouchLeaveEntityEventArgs> _touchLeave = null;
-        private event EventHandler<TouchActionEntityEventArgs> _touchOut = null;
-
-        /// <summary>
-        /// Triggered on first finger press
-        /// </summary>
-        public event EventHandler<TouchActionEntityEventArgs> TouchPress
-        {
-            add
-            {
-                _touchPress += value;
-                _nbTouchEventObservers++;
-            }
-            remove
-            {
-                _touchPress -= value;
-                _nbTouchEventObservers--;
-            }
-        }
-
-        /// <summary>
-        /// Triggered on first finger is over an entity.
-        /// </summary>
-        public event EventHandler<TouchActionEntityEventArgs> TouchOver
-        {
-            add
-            {
-                _touchOver += value;
-                _nbTouchEventObservers++;
-            }
-            remove
-            {
-                _touchOver -= value;
-                _nbTouchEventObservers--;
-            }
-        }
-
-        /// <summary>
-        /// Triggered on first finger leave an entity.
-        /// </summary>
-        public event EventHandler<TouchLeaveEntityEventArgs> TouchLeave
-        {
-            add
-            {
-                _touchLeave += value;
-                _nbTouchEventObservers++;
-            }
-            remove
-            {
-                _touchLeave -= value;
-                _nbTouchEventObservers--;
-            }
-        }
-
-        /// <summary>
-        /// Triggered on first finger is out of the entity.
-        /// </summary>
-        public event EventHandler<TouchActionEntityEventArgs> TouchOut
-        {
-            add
-            {
-                _touchOut += value;
-                _nbTouchEventObservers++;
-            }
-            remove
-            {
-                _touchOut -= value;
-                _nbTouchEventObservers--;
-            }
-        }
-
-        private void OnTouchPress(TouchActionEntityEventArgs e)
-        {
-            if (_touchPress != null)
-                _touchPress(this, e);
-        }
-
-        private void OnTouchOver(TouchActionEntityEventArgs e)
-        {
-            if (_touchOver != null)
-                _touchOver(this, e);
-        }
-
-        private void OnTouchLeave(TouchLeaveEntityEventArgs e)
-        {
-            if (_touchLeave != null)
-                _touchLeave(this, e);
-        }
-
-        public void OnTouchOut(TouchActionEntityEventArgs e)
-        {
-            if (_touchOut != null)
-                _touchOut(this, e);
-        }
-
-        #endregion
-
         #region Mouse events
 
         // Mouse events
@@ -605,7 +503,6 @@ namespace Yna.Engine.Graphics
             _parent = null;
             _positionType = PositionType.Absolute;
             _nbMouseEventObservers = 0;
-            _nbTouchEventObservers = 0;
         }
 
         /// <summary>
@@ -685,31 +582,6 @@ namespace Yna.Engine.Graphics
             {
                 _rectangle.X = (int)(_position.X - _origin.X);
                 _rectangle.Y = (int)(_position.Y - _origin.Y);
-
-                #region Touch events
-
-                // We check if the mouse events only if an event handler exists for one of mouse events
-                if (_nbTouchEventObservers > 0)
-                {
-                    int fingerId = 0;
-                    Vector2 touchPosition = YnG.Touch.GetPosition(fingerId); // TODO : Add a solution for all fingers
-                    Vector2 lastTouchPosition = YnG.Touch.GetLastPosition(fingerId);
-
-                    if (Rectangle.Contains((int)touchPosition.X, (int)touchPosition.Y))
-                    {
-                        OnTouchOver(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-
-                        if (YnG.Touch.Tapped)
-                            OnTouchPress(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-
-                    }
-                    else if (Rectangle.Contains((int)lastTouchPosition.X, (int)lastTouchPosition.Y))
-                        OnTouchLeave(new TouchLeaveEntityEventArgs((int)lastTouchPosition.X, (int)lastTouchPosition.Y, fingerId, (int)touchPosition.X, (int)touchPosition.Y));
-                    else
-                        OnTouchOut(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-                }
-
-                #endregion
 
                 #region Mouse events
 
