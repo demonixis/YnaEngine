@@ -38,7 +38,7 @@ namespace Yna.Engine.Graphics3D
             renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int)_entity.Width, (int)_entity.Height, true, SurfaceFormat.Color, DepthFormat.Depth24);
         }
 
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GameTime gameTime, GraphicsDevice device)
         {
             PreDraw();
             
@@ -48,7 +48,7 @@ namespace Yna.Engine.Graphics3D
             device.Clear(Color.Transparent);
             
             spriteBatch.Begin();
-            _entity.Draw(null, spriteBatch);
+            _entity.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 
             device.SetRenderTarget((RenderTarget2D)null);

@@ -76,7 +76,7 @@ namespace Yna.Engine.Graphics3D
         /// <param name="device"></param>
         /// <param name="camera"></param>
         /// <param name="light"></param>
-        protected virtual void Draw(GraphicsDevice device, BaseCamera camera, SceneLight light)
+        protected virtual void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera, SceneLight light)
         {
             int nbMembers = _safeMembers.Count;
 
@@ -85,7 +85,7 @@ namespace Yna.Engine.Graphics3D
                 for (int i = 0; i < nbMembers; i++)
                 {
                     if (_safeMembers[i].Enabled)
-                        _safeMembers[i].Draw(device);
+                        _safeMembers[i].Draw(gameTime, device);
                 }
             }
         }

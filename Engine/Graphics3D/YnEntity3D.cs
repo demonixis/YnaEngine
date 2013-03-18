@@ -10,7 +10,7 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// This is a base class for all things that can be drawn on the screen
     /// </summary>
-    public abstract class YnEntity3D : YnBase3D
+    public abstract class YnEntity3D : YnBase3D, IDrawableEntity3D
     {
         #region Protected & private declarations
 
@@ -336,7 +336,7 @@ namespace Yna.Engine.Graphics3D
         #region GameState pattern
 
         /// <summary>
-        /// Initialize logic
+        /// Initialize logic.
         /// </summary>
         public virtual void Initialize()
         {
@@ -344,16 +344,19 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Load Content
+        /// Load content.
         /// </summary>
-        public abstract void LoadContent();
+        public virtual void LoadContent()
+        {
+
+        }
 
         /// <summary>
         /// Unload Content
         /// </summary>
         public virtual void UnloadContent()
         {
-            // TODO : material.Dispose();
+
         }
 
         /// <summary>
@@ -371,11 +374,10 @@ namespace Yna.Engine.Graphics3D
             }
         }
 
-        /// <summary>
-        /// Draw the object
-        /// </summary>
-        /// <param name="device">GraphicsDevice object</param>
-        public abstract void Draw(GraphicsDevice device);
+        public virtual void Draw(GameTime gameTime, GraphicsDevice device)
+        {
+
+        }
 
         #endregion
     }

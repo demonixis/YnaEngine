@@ -647,11 +647,17 @@ namespace Yna.Engine.Graphics
 
         #region GameState pattern
 
+        /// <summary>
+        /// Initialize logic.
+        /// </summary>
         public virtual void Initialize()
         {
 
         }
 
+        /// <summary>
+        /// Load asset.
+        /// </summary>
         public virtual void LoadContent()
         {
             if (!_assetLoaded && _assetName != String.Empty)
@@ -663,6 +669,10 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Load asset.
+        /// </summary>
+        /// <param name="forceReload">Force reload if sets to true.</param>
         public virtual void LoadContent(bool forceReload)
         {
             _assetLoaded = !forceReload;
@@ -678,6 +688,10 @@ namespace Yna.Engine.Graphics
                 _texture.Dispose();
         }
 
+        /// <summary>
+        /// Update entity's logic and test mouse/touch events.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             // Check mouse events
@@ -769,6 +783,11 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Draw on screen.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (_visible)

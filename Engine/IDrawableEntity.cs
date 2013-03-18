@@ -8,10 +8,19 @@ namespace Yna.Engine
     /// </summary>
     public interface IDrawableEntity
     {
+        /// <summary>
+        /// Initialize logic.
+        /// </summary>
         void Initialize();
 
+        /// <summary>
+        /// Load content.
+        /// </summary>
         void LoadContent();
 
+        /// <summary>
+        /// Unload content.
+        /// </summary>
         void UnloadContent();
 
         /// <summary>

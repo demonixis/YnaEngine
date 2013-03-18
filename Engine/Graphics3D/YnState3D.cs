@@ -12,10 +12,10 @@ namespace Yna.Engine.Graphics3D
     public class YnState3D : BaseState
     {
         protected BaseCamera _camera;
-        private YnScene3D1 _scene;
+        private YnScene3D _scene;
         private YnBaseList _basicObjects;
 
-        public YnScene3D1 Scene
+        public YnScene3D Scene
         {
             get { return _scene; }
             protected set { _scene = value; }
@@ -41,7 +41,7 @@ namespace Yna.Engine.Graphics3D
             : base()
         {
             _camera = new FixedCamera();
-            _scene = new YnScene3D1(_camera);
+            _scene = new YnScene3D(_camera);
             _basicObjects = new YnBaseList();
             Initialized = false;
         }
@@ -50,7 +50,7 @@ namespace Yna.Engine.Graphics3D
             : this()
         {
             _camera = camera;
-            _scene = new YnScene3D1(_camera);
+            _scene = new YnScene3D(_camera);
         }
 
         public YnState3D(string name, BaseCamera camera)
@@ -97,7 +97,7 @@ namespace Yna.Engine.Graphics3D
 
         public override void Draw(GameTime gameTime)
         {
-            _scene.Draw(YnG.GraphicsDevice);
+            _scene.Draw(gameTime, YnG.GraphicsDevice);
         }
 
         #region Collection Management
