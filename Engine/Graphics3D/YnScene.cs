@@ -53,21 +53,7 @@ namespace Yna.Engine.Graphics3D
         public override void Draw(GameTime gameTime, GraphicsDevice device)
         {
             if (Visible)
-            {
-                int nbMembers = _safeMembers.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        if (_safeMembers[i].Visible)
-                        {
-                            _safeMembers[i].UpdateLighting(_light);
-                            _safeMembers[i].Draw(gameTime, device);
-                        }
-                    }
-                }
-            }
+                _members.Draw(gameTime, device, Camera, _light);
         }
     }
 }

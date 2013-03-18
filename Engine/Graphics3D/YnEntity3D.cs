@@ -1,9 +1,7 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D
 {
@@ -44,6 +42,7 @@ namespace Yna.Engine.Graphics3D
 
         // Initialization
         protected bool _initialized;
+        protected bool _assetLoaded;
 
         #endregion
 
@@ -99,6 +98,15 @@ namespace Yna.Engine.Graphics3D
         {
             get { return _initialized; }
             set { _initialized = value; }
+        }
+
+        /// <summary>
+        /// Determine if asset is loaded.
+        /// </summary>
+        public bool AssetLoaded
+        {
+            get { return _assetLoaded; }
+            set { _assetLoaded = value; }
         }
 
         #endregion
@@ -252,6 +260,7 @@ namespace Yna.Engine.Graphics3D
             _visible = true;
             _dirty = false;
             _initialized = false;
+            _assetLoaded = false;
             _dynamic = false;
 
             _boundingBox = new BoundingBox();
@@ -324,14 +333,28 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
+        #region Update methods
+
+        /// <summary>
+        /// Update world matrix.
+        /// </summary>
         public abstract void UpdateMatrix();
 
+        /// <summary>
+        /// Update bounding box and bounding sphere.
+        /// </summary>
         public abstract void UpdateBoundingVolumes();
 
+        /// <summary>
+        /// Update lights.
+        /// </summary>
+        /// <param name="light">Light to use.</param>
         public virtual void UpdateLighting(SceneLight light)
         {
 
         }
+
+        #endregion
 
         #region GameState pattern
 

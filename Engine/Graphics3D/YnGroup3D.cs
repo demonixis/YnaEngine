@@ -14,8 +14,7 @@ namespace Yna.Engine.Graphics3D
     // @Deprecated
     public class YnGroup3D : YnEntity3D
     {
-        protected List<YnEntity3D> _members;
-        protected List<YnEntity3D> _safeMembers;
+        protected YnEntity3DList _members;
 
         #region Properties
 
@@ -65,7 +64,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public List<YnEntity3D> SceneObjects
         {
-            get { return _members; }
+            get { return _members.Members; }
         }
 
         public YnEntity3D this[int index]
@@ -125,8 +124,7 @@ namespace Yna.Engine.Graphics3D
 
         public YnGroup3D(BaseCamera camera, YnEntity3D parent)
         {
-            _members = new List<YnEntity3D>();
-            _safeMembers = new List<YnEntity3D>();
+            _members = new YnEntity3DList();
             _initialized = false;
             _camera = camera;
             _parent = parent;
@@ -139,7 +137,7 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
-        #region Compute bounding box & bounding sphere
+        #region Update methods
 
         /// <summary>
         /// Get the bounding box of the scene. All YnObject3D's BoundingBox are updated
@@ -182,8 +180,9 @@ namespace Yna.Engine.Graphics3D
                 World *= members.World;
         }
 
-        #endregion
-
+        /// <summary>
+        /// Update world and children world matrix.
+        /// </summary>
         public override void UpdateMatrix()
         {
             World = Matrix.Identity;
@@ -192,80 +191,75 @@ namespace Yna.Engine.Graphics3D
                 World *= members.World;
         }
 
+        /// <summary>
+        /// Update lights.
+        /// </summary>
+        /// <param name="light">Light to use.</param>
         public override void UpdateLighting(SceneLight light)
         {
             foreach (YnEntity3D entity3D in _members)
                 entity3D.UpdateLighting(light);
         }
 
+        #endregion
+
         #region GameState Pattern
 
-        public override void LoadContent()
+        /// <summary>
+        /// Initialize logic.
+        /// </summary>
+        public override void Initialize()
         {
             if (!_initialized)
             {
-                if (_members.Count > 0)
-                {
-                    foreach (YnEntity3D sceneObject in _members)
-                    {
-                        sceneObject.Camera = _camera;
-                        sceneObject.LoadContent();
-                    }
-                }
-
+                _members.Initialize(Camera);
                 _initialized = true;
             }
         }
 
-        public override void UnloadContent()
+        /// <summary>
+        /// Load content of members.
+        /// </summary>
+        public override void LoadContent()
         {
-            if (_initialized)
+            if (!_assetLoaded)
             {
-                if (_members.Count > 0)
-                {
-                    foreach (YnEntity3D sceneObject in _members)
-                        sceneObject.UnloadContent();
-                }
-
-                _initialized = false;
+                _members.LoadContent(Camera);
+                _assetLoaded = true;
             }
         }
 
+        /// <summary>
+        /// Unload content of members.
+        /// </summary>
+        public override void UnloadContent()
+        {
+            if (_assetLoaded)
+            {
+                _members.UnloadContent();
+                _assetLoaded = false;
+            }
+        }
+
+        /// <summary>
+        /// Update members logic.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             if (Enabled)
-            {
-                int nbMembers = _members.Count;
-
-                if (nbMembers > 0)
-                {
-                    _safeMembers.Clear();
-                    _safeMembers.AddRange(_members);
-
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        if (_safeMembers[i].Enabled)
-                            _safeMembers[i].Update(gameTime);
-                    }
-                }
-            }
+                _members.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draw members on screen if visible.
+        /// </summary>
+        /// <param name="gameTime">GameTime object.</param>
+        /// <param name="device">GraphicsDevice object</param>
         public override void Draw(GameTime gameTime, GraphicsDevice device)
         {
             if (Visible)
-            {
-                int nbMembers = _safeMembers.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        if (_safeMembers[i].Visible)
-                            _safeMembers[i].Draw(gameTime, device);
-                    }
-                }
-            }
+                _members.Draw(gameTime, device, null, null);
         }
 
         #endregion
@@ -284,13 +278,14 @@ namespace Yna.Engine.Graphics3D
             if (sceneObject == this)
                 throw new Exception("[YnGroup3D] You can't add this group");
 
+            sceneObject.Parent = this;
+
             if (_initialized)
             {
                 sceneObject.Camera = _camera;
                 sceneObject.LoadContent();
+                sceneObject.Initialize();
             }
-
-            sceneObject.Parent = this;
 
             _members.Add(sceneObject);
         }
@@ -310,12 +305,11 @@ namespace Yna.Engine.Graphics3D
         public void Clear()
         {
             _members.Clear();
-            _safeMembers.Clear();
         }
 
         public IEnumerator GetEnumerator()
         {
-            foreach (YnBase3D member in _members)
+            foreach (YnEntity3D member in _members)
                 yield return member;
         }
 
