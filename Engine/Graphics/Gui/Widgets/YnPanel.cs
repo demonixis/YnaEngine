@@ -7,24 +7,45 @@ using Microsoft.Xna.Framework;
 
 namespace Yna.Engine.Graphics.Gui.Widgets
 {
+    /// <summary>
+    /// Define an orientation display for the children of a YnPanel
+    /// </summary>
     public enum YnOrientation
     {
         Horizontal, Vertical
     }
 
     /// <summary>
-    /// Container widget. Useful for multiple widget placement
+    /// Container widget. Useful for multiple widget placement like a menu.
+    /// Because this class is only a container or some kind of layout manager,
+    /// there is no constructor with a YnWidgetProperties. 
     /// </summary>
     public class YnPanel : YnWidget
     {
+        #region Attributes
+
         protected YnOrientation _orientation;
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// The panel orientation.
+        /// </summary>
         public YnOrientation Orientation
         {
             get { return _orientation; }
             set { _orientation = value;}
         }
 
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public YnPanel()
             : base()
         {
@@ -39,7 +60,19 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Does nothing. YnPanels are juste containers
+        /// Constructor with an orientation.
+        /// </summary>
+        /// <param name="orientation">The panel orientation</param>
+        public YnPanel(YnOrientation orientation)
+            : this()
+        {
+            _orientation = orientation;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// As YnPanels are juste containers, this method does nothing.
         /// </summary>
         /// <param name="gameTime">The game time</param>
         /// <param name="spriteBatch">The sprite batch</param>
@@ -49,7 +82,10 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Compute children relative coordinates
+        /// Compute children relative coordinates. This method must be called after all children
+        /// were added to the panel. If new widgets are added afterwards, you will have to call
+        /// this method again to recompute the layout. Otherwise, newly added widgets will not 
+        /// have proper coordinates.
         /// </summary>
         public void Layout()
         {
