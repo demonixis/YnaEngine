@@ -8,33 +8,35 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
-    /// Text button widget
+    /// Text button widget. The text can be aligned inside the button.
+    /// See YnLabel for more informations about text alignment.
     /// </summary>
     public class YnTextButton : YnButton
     {
         #region Attributes
         
         private YnLabel _label;
-        private YnTextAlign _align;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// The text alignment inside the button
+        /// The text alignment inside the button.
         /// </summary>
         public YnTextAlign TextAlign
         {
-            get { return _align; }
-            set {
-                _align = value;
-                AlignText();
+            get { return _label.TextAlign; }
+            set
+            {
+                _label.TextAlign = value;
+                // Recompute text alignment
+                _label.ComputeTextAlignment();
             }
         }
 
         /// <summary>
-        /// The text displayed in the button
+        /// The text displayed in the button.
         /// </summary>
         public string Text
         {
@@ -43,7 +45,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Overrides the skin font and use this one instead
+        /// Overrides the skin font and use this one instead.
         /// </summary>
         public SpriteFont CustomFont
         {
@@ -51,42 +53,87 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Overrides the default text color defined in the skin and use this one instead
+        /// The button width.
         /// </summary>
-        public Color TextColor
+        public new int Width
         {
-            get { return _label.TextColor; }
-            set { _label.TextColor = value; }
+            get { return base.Width; }
+            set
+            {
+                base.Width = value;
+                _label.Width = value;
+            }
+        }
+
+        /// <summary>
+        /// The button height.
+        /// </summary>
+        public new int Height
+        {
+            get { return base.Height; }
+            set
+            {
+                base.Height = value;
+                _label.Height = value;
+            }
         }
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public YnTextButton()
             : base()
         {
-            _label = Add(new YnLabel());
-            _align = YnTextAlign.Center;
+            _label = new YnLabel();
+            Add(_label);
         }
 
-        public YnTextButton(int width, int height, string text)
+        /// <summary>
+        /// Constructor with the button text.
+        /// </summary>
+        /// <param name="text">the button text</param>
+        public YnTextButton(string text)
              : this()
         {
-            Width = width;
-            Height = height;
-
             _label.Text = text;
-            AlignText();
         }
+
+        /// <summary>
+        /// Constructor with a YnWidgetProperties.
+        /// </summary>
+        /// <param name="properties">the widget's properties</param>
+        public YnTextButton(YnWidgetProperties properties)
+            : this()
+        {
+            SetProperties(properties);
+
+            // Button's width / height must be set on the label too if defined
+            if(properties.Width != null)
+            {
+                _label.Width = (int) properties.Width;
+            }
+
+            if (properties.Height != null)
+            {
+                _label.Height = (int)properties.Height;
+            }
+        }
+
         #endregion
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Manage the text color when the button is clicked.
+        /// </summary>
+        /// <param name="gameTime">The game time</param>
+        protected override void DoCustomUpdate(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (Clicked)
             {
+                // The label's custom text color is used to render it in the clicked state
                 _label.TextColor = YnGui.GetSkin(_skinName).TextColorClicked;
                 _label.UseCustomColor = true;
             }
@@ -96,53 +143,15 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             }
         }
 
+        /// <summary>
+        /// Apply the skin to the inner label.
+        /// </summary>
+        /// <param name="skin">The skin</param>
         protected override void ApplySkin(YnSkin skin)
         {
-            AlignText();
+            _label.SkinName = _skinName;
+            _label.ApplySkin();
         }
 
-        public void AlignText()
-        {
-            // Align the text in the widget
-            Vector2 textSize = YnGui.GetSkin(_skinName).FontDefault.MeasureString(_label.Text);
-            _label.Width = (int)textSize.X;
-            _label.Height = (int)textSize.Y;
-
-            int width = _label.Width;
-            int height = _label.Height;
-
-            Vector2 pos = Vector2.Zero;
-            switch (_align)
-            {
-                case YnTextAlign.TopLeft:
-                    pos = Vector2.Zero;
-                    break;
-                case YnTextAlign.Top:
-                    pos = new Vector2(Width / 2 - width / 2, 0);
-                    break;
-                case YnTextAlign.TopRight:
-                    pos = new Vector2(Width - width, 0);
-                    break;
-                case YnTextAlign.Left:
-                    pos = new Vector2(0, Height / 2 - height / 2);
-                    break;
-                case YnTextAlign.Center:
-                    pos = new Vector2(Width/2 - width/2, Height/2 - height/2);
-                    break;
-                case YnTextAlign.Right:
-                    pos = new Vector2(Width - width, Height / 2 - height / 2);
-                    break;
-                case YnTextAlign.BottomLeft:
-                    pos = new Vector2(0, Height - height);
-                    break;
-                case YnTextAlign.Bottom:
-                    pos = new Vector2(Width / 2 - width / 2, Height - height);
-                    break;
-                case YnTextAlign.BottomRight:
-                    pos = new Vector2(Width - width, Height - height);
-                    break;
-            }
-            _label.Position = pos;
-        }
     }
 }
