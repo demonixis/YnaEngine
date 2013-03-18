@@ -17,28 +17,38 @@ namespace Yna.Engine.Graphics3D
         /// <summary>
         /// Initialize entities.
         /// </summary>
-        public virtual void Initialize()
+        public virtual void Initialize(BaseCamera camera)
         {
             int nbMembers = _members.Count;
 
             if (nbMembers > 0)
             {
                 for (int i = 0; i < nbMembers; i++)
+                {
+                    if (_members[i].Camera != camera)
+                        _members[i].Camera = camera;
+
                     _members[i].Initialize();
+                }
             }
         }
 
         /// <summary>
         /// Load entities.
         /// </summary>
-        public virtual void LoadContent()
+        public virtual void LoadContent(BaseCamera camera)
         {
             int nbMembers = _members.Count;
 
             if (nbMembers > 0)
             {
                 for (int i = 0; i < nbMembers; i++)
+                {
+                    if (_members[i].Camera != camera)
+                        _members[i].Camera = camera;
+
                     _members[i].LoadContent();
+                }
             }
         }
 
@@ -76,7 +86,18 @@ namespace Yna.Engine.Graphics3D
         /// <param name="device"></param>
         /// <param name="camera"></param>
         /// <param name="light"></param>
-        protected virtual void Draw(GraphicsDevice device, BaseCamera camera, SceneLight light)
+        public virtual void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
+        {
+            Draw(gameTime, device, camera, null);
+        }
+
+        /// <summary>
+        /// Draw entities on screen.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="camera"></param>
+        /// <param name="light"></param>
+        public virtual void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera, SceneLight light)
         {
             int nbMembers = _safeMembers.Count;
 
@@ -85,7 +106,12 @@ namespace Yna.Engine.Graphics3D
                 for (int i = 0; i < nbMembers; i++)
                 {
                     if (_safeMembers[i].Enabled)
-                        _safeMembers[i].Draw(device);
+                    {
+                        if (light != null)
+                            _safeMembers[i].UpdateLighting(light);
+
+                        _safeMembers[i].Draw(gameTime, device);
+                    }
                 }
             }
         }

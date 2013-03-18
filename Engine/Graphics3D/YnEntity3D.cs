@@ -1,16 +1,14 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D
 {
     /// <summary>
     /// This is a base class for all things that can be drawn on the screen
     /// </summary>
-    public abstract class YnEntity3D : YnBase3D
+    public abstract class YnEntity3D : YnBase3D, IDrawableEntity3D
     {
         #region Protected & private declarations
 
@@ -44,6 +42,7 @@ namespace Yna.Engine.Graphics3D
 
         // Initialization
         protected bool _initialized;
+        protected bool _assetLoaded;
 
         #endregion
 
@@ -99,6 +98,15 @@ namespace Yna.Engine.Graphics3D
         {
             get { return _initialized; }
             set { _initialized = value; }
+        }
+
+        /// <summary>
+        /// Determine if asset is loaded.
+        /// </summary>
+        public bool AssetLoaded
+        {
+            get { return _assetLoaded; }
+            set { _assetLoaded = value; }
         }
 
         #endregion
@@ -252,6 +260,7 @@ namespace Yna.Engine.Graphics3D
             _visible = true;
             _dirty = false;
             _initialized = false;
+            _assetLoaded = false;
             _dynamic = false;
 
             _boundingBox = new BoundingBox();
@@ -324,19 +333,33 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
+        #region Update methods
+
+        /// <summary>
+        /// Update world matrix.
+        /// </summary>
         public abstract void UpdateMatrix();
 
+        /// <summary>
+        /// Update bounding box and bounding sphere.
+        /// </summary>
         public abstract void UpdateBoundingVolumes();
 
+        /// <summary>
+        /// Update lights.
+        /// </summary>
+        /// <param name="light">Light to use.</param>
         public virtual void UpdateLighting(SceneLight light)
         {
 
         }
 
+        #endregion
+
         #region GameState pattern
 
         /// <summary>
-        /// Initialize logic
+        /// Initialize logic.
         /// </summary>
         public virtual void Initialize()
         {
@@ -344,16 +367,19 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Load Content
+        /// Load content.
         /// </summary>
-        public abstract void LoadContent();
+        public virtual void LoadContent()
+        {
+
+        }
 
         /// <summary>
         /// Unload Content
         /// </summary>
         public virtual void UnloadContent()
         {
-            // TODO : material.Dispose();
+
         }
 
         /// <summary>
@@ -371,11 +397,10 @@ namespace Yna.Engine.Graphics3D
             }
         }
 
-        /// <summary>
-        /// Draw the object
-        /// </summary>
-        /// <param name="device">GraphicsDevice object</param>
-        public abstract void Draw(GraphicsDevice device);
+        public virtual void Draw(GameTime gameTime, GraphicsDevice device)
+        {
+
+        }
 
         #endregion
     }

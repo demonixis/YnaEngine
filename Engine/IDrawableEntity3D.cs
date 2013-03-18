@@ -8,6 +8,26 @@ namespace Yna.Engine
     /// </summary>
     interface IDrawableEntity3D
     {
+        /// <summary>
+        /// Initialize logic.
+        /// </summary>
+        void Initialize();
+
+        /// <summary>
+        /// Load content.
+        /// </summary>
+        void LoadContent();
+
+        /// <summary>
+        /// Unload content.
+        /// </summary>
+        void UnloadContent();
+
+        /// <summary>
+        /// Draw on screen.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="device"></param>
         void Draw(GameTime gameTime, GraphicsDevice device);
     }
 }

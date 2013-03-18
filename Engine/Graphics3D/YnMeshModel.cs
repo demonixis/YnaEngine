@@ -28,6 +28,8 @@ namespace Yna.Engine.Graphics3D
             protected set { _model = value; }
         }
 
+        #region Constructors
+
         /// <summary>
         /// Create an empty mesh.
         /// </summary>
@@ -76,12 +78,21 @@ namespace Yna.Engine.Graphics3D
             _material = material;
         }
 
+        /// <summary>
+        /// Create an YnMeshModel.
+        /// </summary>
+        /// <param name="modelName">Model name.</param>
         public YnMeshModel(string modelName)
             : this(modelName, new BasicMaterial())
         {
 
         }
 
+        #endregion
+
+        /// <summary>
+        /// Update bounding box and bounding sphere. Width, Height and Depth properties are updated too.
+        /// </summary>
         public override void UpdateBoundingVolumes()
         {
             // 1 - Global Bounding box
@@ -129,6 +140,10 @@ namespace Yna.Engine.Graphics3D
             _boundingSphere.Center = _position;
         }
 
+        /// <summary>
+        /// Update model effect
+        /// </summary>
+        /// <param name="meshEffect">An effect</param>
         protected virtual void UpdateModelEffects(Effect meshEffect)
         {
             if (meshEffect is BasicEffect)
@@ -158,6 +173,11 @@ namespace Yna.Engine.Graphics3D
             }
         }
 
+        /// <summary>
+        /// Update the current effect. This method will change.
+        /// </summary>
+        /// <param name="effect"></param>
+        /// <param name="material"></param>
         private void UpdateEffect(BasicEffect effect, BasicMaterial material)
         {
             effect.Alpha = material.AlphaColor;
@@ -188,7 +208,7 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Sets the effect.
+        /// Change all effects to the model and replace them.
         /// </summary>
         /// <param name='effect'>A custom effect<param>
         public void SetEffect(Effect effect)
@@ -269,7 +289,7 @@ namespace Yna.Engine.Graphics3D
         /// Draw the model.
         /// </summary>
         /// <param name="device">GraphicsDevice</param>
-        public override void Draw(GraphicsDevice device)
+        public override void Draw(GameTime gameTime, GraphicsDevice device)
         {
             UpdateMatrix();
 

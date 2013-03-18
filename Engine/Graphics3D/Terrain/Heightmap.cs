@@ -7,6 +7,9 @@ using Yna.Engine.Graphics3D.Terrain.Geometry;
 
 namespace Yna.Engine.Graphics3D.Terrain
 {
+    /// <summary>
+    /// An heightmap terrain.
+    /// </summary>
     public class Heightmap : BaseTerrain
     {
         public Heightmap(string heigtmapName, string textureName)
