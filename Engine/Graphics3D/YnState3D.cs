@@ -13,6 +13,7 @@ namespace Yna.Engine.Graphics3D
     {
         private CameraManager _cameraManager;
         private YnScene3D _scene;
+        private YnBaseList _basicObjects;
 
         /// <summary>
         /// Gets (protected sets) the scene.
@@ -57,7 +58,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="camera">Camera to use on this scene.</param>
         public YnState3D(BaseCamera camera)
-            : this()
+            : base()
         {
             if (camera != null)
                 _cameraManager = new CameraManager(camera);
@@ -65,6 +66,7 @@ namespace Yna.Engine.Graphics3D
                 _cameraManager = new CameraManager(new FixedCamera());
 
             _scene = new YnScene3D();
+            _basicObjects = new YnBaseList();
             Initialized = false;
         }
 
@@ -152,18 +154,6 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Add a non drawable object. If it's a Camera it is used as default camera
-        /// </summary>
-        /// <param name="basic3D">A basic object</param>
-        public void Add(YnBase basic)
-        {
-            if (basic is BaseCamera)
-                Camera = (basic as BaseCamera);
-
-            _scene.Add(basic);
-        }
-
-        /// <summary>
         /// Remove an object3D of the scene
         /// </summary>
         /// <param name="object3D"></param>
@@ -173,20 +163,41 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Remove a basic object
-        /// </summary>
-        /// <param name="base3D"></param>
-        public void Remove(YnBase basic)
-        {
-            _scene.Remove(basic);
-        }
-
-        /// <summary>
         /// Clear all objects on the state and on the scene
         /// </summary>
         public void Clear()
         {
             _scene.Clear();
+        }
+
+        /// <summary>
+        /// Add a basic object to the scene.
+        /// </summary>
+        /// <param name="basicObject">A basic object like Timer, Camera, etc...</param>
+        /// <returns>Return true if the object has been added, otherwise return false.</returns>
+        public bool Add(YnBase basicObject)
+        {
+            return _basicObjects.Add(basicObject);
+        }
+
+        /// <summary>
+        /// Gets a basic member with its index id.
+        /// </summary>
+        /// <param name="index">Index of object.</param>
+        /// <returns>Return desired object if exists, otherwise return null.</returns>
+        public YnBase GetBasicMember(int index)
+        {
+            return _basicObjects[index];
+        }
+
+        /// <summary>
+        /// Remove a basic object to the scene.
+        /// </summary>
+        /// <param name="basicObject">Basic object to remove.</param>
+        /// <returns>Return true if the object has been succefully removed, otherwise return false.</returns>
+        public bool Remove(YnBase basicObject)
+        {
+            return _basicObjects.Remove(basicObject);
         }
 
         #endregion

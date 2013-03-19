@@ -59,39 +59,5 @@ namespace Yna.Engine.Graphics3D
         {
             _members.Draw(gameTime, device, camera, _sceneLight);
         }
-
-        #region Collection methods
-
-        /// <summary>
-        /// Add a basic object to the scene.
-        /// </summary>
-        /// <param name="basicObject">A basic object like Timer, Camera, etc...</param>
-        /// <returns>Return true if the object has been added, otherwise return false.</returns>
-        public bool Add(YnBase basicObject)
-        {
-            return _basicObjects.Add(basicObject);
-        }
-
-        /// <summary>
-        /// Gets a basic member with its index id.
-        /// </summary>
-        /// <param name="index">Index of object.</param>
-        /// <returns>Return desired object if exists, otherwise return null.</returns>
-        public YnBase GetBasicMember(int index)
-        {
-            return _basicObjects[index];
-        }
-
-        /// <summary>
-        /// Remove a basic object to the scene.
-        /// </summary>
-        /// <param name="basicObject">Basic object to remove.</param>
-        /// <returns>Return true if the object has been succefully removed, otherwise return false.</returns>
-        public bool Remove(YnBase basicObject)
-        {
-            return _basicObjects.Remove(basicObject);
-        }
-
-        #endregion
     }
 }

@@ -14,7 +14,6 @@ namespace Yna.Samples.Screens
 {
     public class HeighmapTerrain : YnState3D
     {
-
         YnEntity sky;
         YnText textInfo;
 

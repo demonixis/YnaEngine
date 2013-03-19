@@ -59,7 +59,7 @@ namespace Yna.Engine.Graphics3D.Camera
         {
             _cameras = new BaseCamera[1];
             _activeCameraIndex = 0;
-            _arraySize = 1;
+            _arraySize = 0;
         }
 
         /// <summary>

@@ -12,6 +12,7 @@ namespace Yna.Samples.Screens
 {
     public class BasicTerrain : YnState3D
     {
+        FirstPersonCamera camera;
         // Two controls
         FirstPersonControl control;
         YnVirtualPadController virtualPad;
@@ -28,13 +29,13 @@ namespace Yna.Samples.Screens
             : base(name)
         {
             // 1 - Create an FPSCamera
-            _camera = new FirstPersonCamera();
-            _camera.SetupCamera();
-            Add(_camera);
+            camera = new FirstPersonCamera();
+            camera.SetupCamera();
+            Add(camera);
 
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
-            control = new FirstPersonControl((FirstPersonCamera)_camera);
+            control = new FirstPersonControl(camera);
             control.RotationSpeed = 0.45f;
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.45f;
@@ -68,7 +69,7 @@ namespace Yna.Samples.Screens
             virtualPad.LoadContent();
 
             // Set the camera position at the middle of the terrain
-            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
+            camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
 
             alienModel.Position = new Vector3(
                 (terrain.Width / 2) - (alienModel.Width / 2),
