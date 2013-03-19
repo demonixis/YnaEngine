@@ -160,8 +160,12 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Vector2 Position
         {
-            get { return GetPosition().ToVector2(); }
-            set { SetPosition((int)value.X, (int)value.Y); }
+            get { return _position; }
+            set
+            {
+                _position.X = (int)value.X;
+                _position.Y = (int)value.Y;
+            }
         }
 
         /// <summary>
@@ -170,8 +174,8 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Rectangle Rectangle
         {
-            get { return GetRectangle(); }
-            set { SetRectangle(value); }
+            get { return _rectangle; }
+            set { _rectangle = value; }
         }
 
         /// <summary>
@@ -730,76 +734,12 @@ namespace Yna.Engine.Graphics
         #region Other methods
 
         /// <summary>
-        /// Add a new position to the current absolute position.
-        /// </summary>
-        /// <param name="x">Position to add on X axis.</param>
-        /// <param name="y">Position to add on Y axis.</param>
-        public virtual void AddAbsolutePosition(int x, int y)
-        {
-            _position.X += x;
-            _position.Y += y;
-            _rectangle.X = (int)_position.X;
-            _rectangle.Y = (int)_position.Y;
-        }
-
-        /// <summary>
-        /// Multiply a new position to the current absolute position.
-        /// </summary>
-        /// <param name="x">Position to multiply on X axis.</param>
-        /// <param name="y">Position to multiply on Y axis.</param>
-        public virtual void MultiplyAbsolutePosition(float x, float y)
-        {
-            _position.X *= x;
-            _position.Y *= y;
-            _rectangle.X = (int)_position.X;
-            _rectangle.Y = (int)_position.Y;
-        }
-
-        /// <summary>
-        /// Sets the absolute position of the entity.
-        /// </summary>
-        /// <param name="x">Position on X axis.</param>
-        /// <param name="y">Position on Y axis.</param>
-        public virtual void SetAbsolutePosition(int x, int y)
-        {
-            _position.X = x;
-            _position.Y = y;
-            _rectangle.X = x;
-            _rectangle.Y = y;
-        }
-
-        /// <summary>
-        /// Sets the position type of the entity.
-        /// If it sets to relative, the position will be sets relative to the entity's parent.
-        /// </summary>
-        /// <param name="positionType">Type of position.</param>
-        public void SetPositionType(PositionType positionType)
-        {
-            _positionType = positionType;
-            if (positionType == Graphics.PositionType.Relative)
-            {
-                if (_parent != null)
-                    Position += _parent.Position;
-            }
-            else
-            {
-                if (_parent != null)
-                    Position -= _parent.Position;
-            }
-        }
-
-        /// <summary>
-        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// Ease the positionning. Sets the position of the entity.
         /// </summary>
         /// <param name="x">Position on X axis.</param>
         /// <param name="y">Position on Y axis.</param>
         public virtual void SetPosition(int x, int y)
         {
-            NormalizePositionType(x, y);
-
-            x += (_origin.X < 0 || _origin.X > 0) ? (int)(_origin.X / 2) : 0;
-            y += (_origin.Y < 0 || _origin.X > 0) ? (int)(_origin.Y / 2) : 0;
-
             _position.X = x;
             _position.Y = y;
             _rectangle.X = x;
@@ -807,129 +747,10 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
-        /// </summary>
-        /// <param name="vector">Vector2 that represent the position.</param>
-        public virtual void SetPosition(Vector2 vector)
-        {
-            SetPosition(ref vector);
-        }
-
-        /// <summary>
-        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
-        /// </summary>
-        /// <param name="vector">Reference of a vector</param>
-        public virtual void SetPosition(ref Vector2 vector)
-        {
-            SetPosition((int)vector.X, (int)vector.Y);
-        }
-
-        /// <summary>
-        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
-        /// </summary>
-        /// <param name="rectangle">A rectangle. Note that only the X and Y coordinates are used</param>
-        public virtual void SetPosition(Rectangle rectangle)
-        {
-            SetPosition(rectangle.X, rectangle.Y);
-        }
-
-        /// <summary>
-        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
-        /// </summary>
-        /// <param name="rectangle">Reference of a rectangle. Note that only the X and Y coordinates are used</param>
-        public virtual void SetPosition(ref Rectangle rectangle)
-        {
-            SetPosition(rectangle.X, rectangle.Y);
-        }
-
-        public virtual Point GetPosition(PositionType positionType)
-        {
-            Point position = new Point((int)(_position.X - _origin.X), (int)(_position.Y - _origin.Y));
-
-            if (positionType == PositionType.Relative && _parent != null)
-            {
-                position.X = _parent.X - position.X;
-                position.Y = _parent.Y - position.Y;
-            }
-
-            return position;
-        }
-
-        public virtual Point GetPosition()
-        {
-            return GetPosition(_positionType);
-        }
-
-        public virtual void SetRectangle(ref Rectangle rectangle)
-        {
-            NormalizePositionType(ref rectangle);
-            rectangle.X += (int)_origin.X;
-            rectangle.Y += (int)_origin.Y;
-
-            _rectangle = rectangle;
-            _position.X = rectangle.X;
-            _position.Y = rectangle.Y;
-        }
-
-        public virtual void SetRectangle(Rectangle rectangle)
-        {
-            SetRectangle(ref rectangle);
-        }
-
-        public virtual Rectangle GetRectangle()
-        {
-            Rectangle rectangle = new Rectangle(
-                (int)(_position.X - _origin.X),
-                (int)(_position.Y - _origin.Y),
-                (int)(_rectangle.Width * _scale.X),
-                (int)(_rectangle.Height * _scale.Y));
-
-            if (_positionType == PositionType.Relative && _parent != null)
-            {
-                rectangle.X = _parent.X - rectangle.X;
-                rectangle.Y = _parent.Y - rectangle.Y;
-            }
-
-            return rectangle;
-        }
-
-        protected virtual void NormalizePositionType(int x, int y)
-        {
-            if (_positionType == PositionType.Relative && _parent != null)
-            {
-                x += _parent.X;
-                y += _parent.Y;
-            }
-        }
-
-        /// <summary>
-        /// Gets an adapted position relative to the position type of the sprite
-        /// </summary>
-        /// <param name="position">The position must be set</param>
-        protected virtual void NormalizePositionType(ref Vector2 position)
-        {
-            if (_positionType == PositionType.Relative && _parent != null)
-            {
-                position.X += _parent.X;
-                position.Y += _parent.Y;
-            }
-        }
-
-        /// <summary>
-        /// Gets an adapted position relative to the position type of the entity
-        /// </summary>
-        /// <param name="position">The position must be set</param>
-        protected virtual void NormalizePositionType(ref Rectangle rectangle)
-        {
-            if (_positionType == PositionType.Relative && _parent != null)
-            {
-                rectangle.X += _parent.X;
-                rectangle.Y += _parent.Y;
-            }
-        }
-
-        /// <summary>
-        /// Change the origin of the object
+        /// Change the origin of the object. Note that when initializing the object origin
+        /// with this method, the origin point will be computed once. If you change the object's
+        /// bounds afterwards, old origin will be kept as is and may not reflect the initially wanted 
+        /// origin point.
         /// </summary>
         /// <param name="spriteOrigin">Determinated point of origin</param>
         public void SetOriginTo(ObjectOrigin spriteOrigin)
@@ -953,7 +774,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public void SetFullScreen()
         {
-            SetRectangle(new Rectangle(0, 0, YnG.Width, YnG.Height));
+            _rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
         }
 
         #endregion

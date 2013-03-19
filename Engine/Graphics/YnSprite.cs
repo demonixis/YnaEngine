@@ -282,7 +282,7 @@ namespace Yna.Engine.Graphics
             _animator.Initialize(width, height, _texture.Width, _texture.Height);
             
             // The sprite size is now the size of a sprite on the spritesheet
-            SetRectangle(new Rectangle(X, Y, width, height));
+            _rectangle = new Rectangle(X, Y, width, height);
 
             _hasAnimation = true;
         }
@@ -419,7 +419,7 @@ namespace Yna.Engine.Graphics
                 if (!_hasAnimation)
                 {
                     SourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
-                    SetRectangle(new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height));
+                    _rectangle = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
                 }
                 
                 _circle.Radius = Math.Max(_texture.Width, _texture.Height);

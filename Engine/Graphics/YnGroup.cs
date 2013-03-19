@@ -71,7 +71,7 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets or sets the position of the group and update all children
+        /// Gets or sets the position of the group.
         /// Note: The rectangle values are updated
         /// </summary>
         public new Vector2 Position
@@ -79,27 +79,14 @@ namespace Yna.Engine.Graphics
             get { return _position; }
             set
             {
-                int rawX = (int)(value.X - _position.X);
-                int rawY = (int)(value.Y - _position.Y);
-
-                NormalizePositionType(ref value);
-
                 _position = value;
                 _rectangle.X = (int)_position.X;
                 _rectangle.Y = (int)_position.Y;
-
-                int nbMembers = _entitiesList.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                        _entitiesList[i].AddAbsolutePosition(rawX, rawY);
-                }
             }
         }
 
         /// <summary>
-        /// Gets or sets the Rectangle (Bounding box) of the group and update all children
+        /// Gets or sets the Rectangle (Bounding box) of the group.
         /// Note: The position values are updated
         /// </summary>
         public new Rectangle Rectangle
@@ -107,98 +94,38 @@ namespace Yna.Engine.Graphics
             get { return _rectangle; }
             set
             {
-                int rawX = value.X - _rectangle.X;
-                int rawY = value.Y - _rectangle.Y;
-
-                NormalizePositionType(ref value);
-
                 _rectangle = value;
 
                 _position.X = _rectangle.X;
                 _position.Y = _rectangle.Y;
-
-                int nbMembers = _entitiesList.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].AddAbsolutePosition(rawX, rawY);
-                    }
-                }
 
                 UpdateRectangle();
             }
         }
 
         /// <summary>
-        /// Gets or sets the position on X. If a parent exists and if the position type is sets to Relative then
-        /// the position is added to the parent position. It's the same thing for children.
+        /// Gets or sets the position on X.
         /// </summary>
         public new int X
         {
             get { return (int)_position.X; }
             set
             {
-                int rawValue = value - (int)_position.X;
-
-                if (_positionType == PositionType.Relative && _parent != null)
-                {
-                    _position.X = _parent.X + value;
-                    _rectangle.X = _parent.X + value;
-                }
-                else
-                {
-                    _position.X = value;
-                    _rectangle.X = value;
-                }
-
-                int nbMembers = _entitiesList.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].AddAbsolutePosition(rawValue, 0);
-                    }
-                }
+                _position.X = value;
+                _rectangle.X = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets the position on Y. If a parent exists and if the position type is sets to Relative then
-        /// the position is added to the parent position. It's the same thing for children.
+        /// Gets or sets the position on Y.
         /// </summary>
         public new int Y
         {
             get { return (int)_position.Y; }
             set
             {
-                int rawValue = value - (int)_position.Y;
-
-                if (_positionType == PositionType.Relative && _parent != null)
-                {
-                    _position.Y = _parent.Y + value;
-                    _rectangle.Y = _parent.Y + value;
-                }
-                else
-                {
-                    _position.Y = value;
-                    _rectangle.Y = value;
-                }
-
-                int nbMembers = _entitiesList.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].AddAbsolutePosition(0, rawValue);
-                    }
-                }
+                _position.Y = value;
+                _rectangle.Y = value;
             }
         }
 
@@ -250,28 +177,12 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Ges or sets origin point. All children are updated.
+        /// Ges or sets origin point.
         /// </summary>
         public new Vector2 Origin
         {
             get { return _origin; }
-            set
-            {
-                NormalizePositionType(ref value);
-
-                _origin = value;
-
-                int nbMembers = _entitiesList.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].Origin += new Vector2(_position.X, _position.Y);
-                    }
-                }
-            }
+            set { _origin = value; }
         }
 
         /// <summary>
@@ -290,8 +201,7 @@ namespace Yna.Engine.Graphics
                 {
                     for (int i = 0; i < nbMembers; i++)
                     {
-                        if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].Color = value;
+                        _entitiesList[i].Color = value;
                     }
                 }
             }
@@ -405,9 +315,6 @@ namespace Yna.Engine.Graphics
 
             if (_initialized)
                 sceneObject.Initialize();
-
-            if (sceneObject.PositionType == PositionType.Relative)
-                sceneObject.AddAbsolutePosition(X, Y);
             
             UpdateRectangle();
 
