@@ -124,6 +124,9 @@ namespace Yna.Engine.Graphics.Gui
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public YnGui()
         {
         	_widgets = new YnWidgetList();

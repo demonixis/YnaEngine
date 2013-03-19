@@ -10,7 +10,7 @@ using Yna.Engine.Graphics.Event;
 namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
-    /// Horizontal slider widget
+    /// Horizontal slider widget.
     /// </summary>
     public class YnSlider : YnWidget
     {
@@ -75,6 +75,11 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
 #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public YnSlider()
             : base()
         {
@@ -89,6 +94,22 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             _labelValue = Add(new YnLabel());
         }
 
+        /// <summary>
+        /// Constructor with a YnWidgetProperties.
+        /// </summary>
+        /// <param name="properties">The properties</param>
+        public YnSlider(YnWidgetProperties properties)
+            : this()
+        {
+            SetProperties(properties);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Manage slider movement and value changes.
+        /// </summary>
+        /// <param name="gameTime">The game time</param>
         protected override void DoCustomUpdate(GameTime gameTime)
         {
             base.DoCustomUpdate(gameTime);
@@ -109,6 +130,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
                 int oldValue = _currentValue;
                 _currentValue = (int)(_cursor.Position.X + _cursor.Width / 2) * _maxValue / Width;
 
+                // If the value was modified, trigger the change event
                 if (oldValue != _currentValue && Changed != null)
                     Changed(this, new ValueChangedEventArgs<int>(_currentValue));
 
@@ -128,7 +150,10 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             _cursor.Position = new Vector2((float)_currentValue * Width / _maxValue, _cursor.Position.Y);
         }
 
-        
+        /// <summary>
+        /// Set up the cursor size.
+        /// </summary>
+        /// <param name="skin">The skin to use</param>
         protected override void ApplySkin(YnSkin skin)
         {
             _cursor.Width = Height;
@@ -138,9 +163,16 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             UpdateCursor();
         }
 
+        /// <summary>
+        /// Draw the background rail. As the rail does not fill the entire widget bounds
+        /// it cannot be handled by the DrawBackground method.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
+        /// <param name="skin"></param>
         protected override void DrawWidget(GameTime gameTime, SpriteBatch spriteBatch, YnSkin skin)
         {
-            // Background
+            // Background rail rectangle
             int bgHeight = Height / 8;
             Rectangle rect = new Rectangle(
                 (int)ScreenPosition.X,
@@ -155,7 +187,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Triggered when the value is changed
+        /// Triggered when the value is changed.
         /// </summary>
         public event EventHandler<ValueChangedEventArgs<int>> Changed = null;
     }

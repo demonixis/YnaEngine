@@ -13,7 +13,9 @@ namespace Yna.Engine.Graphics.Gui.Widgets
     /// </summary>
     public abstract class YnButton : YnPanel
     {
-
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public YnButton()
             : base()
         {

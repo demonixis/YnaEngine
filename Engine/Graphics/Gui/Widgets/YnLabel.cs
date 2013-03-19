@@ -92,6 +92,8 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
         #endregion
 
+        #region Constructors
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -127,6 +129,8 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         {
             SetProperties(properties);
         }
+
+        #endregion
 
         /// <summary>
         /// See documentation in YnWidget.

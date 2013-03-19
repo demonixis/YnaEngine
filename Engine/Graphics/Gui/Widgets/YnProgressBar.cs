@@ -69,7 +69,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// constructor with a YnWidgetProperties
+        /// Constructor with a YnWidgetProperties.
         /// </summary>
         /// <param name="properties">The properties</param>
         public YnProgressBar(YnWidgetProperties properties)

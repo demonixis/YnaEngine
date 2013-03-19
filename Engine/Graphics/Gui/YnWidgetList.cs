@@ -9,19 +9,27 @@ namespace Yna.Engine.Graphics.Gui
 	/// Widget safe list for use in GUI.
 	/// </summary>
 	public class YnWidgetList : YnList<YnWidget>
-	{
-		/// <summary>
+    {
+        #region Attributes
+
+        /// <summary>
 		/// Stores a flag indicating that one of the widgets was hovered during the update.
 		/// </summary>
 		private bool _hovered;
-		
-		/// <summary>
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
 		/// Return true if one of the widgets was hovered.
 		/// </summary>
 		public bool Hovered
 		{
 			get { return _hovered; }
 		}
+
+        #endregion
 
         /// <summary>
         /// Safely reset the member list.

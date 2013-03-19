@@ -32,7 +32,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
         /// <summary>
         /// The parent widget. If left empty, position will be considered as absolute. otherwise, 
-        /// they will be considered as relative to the parent's bounds
+        /// they will be considered as relative to the parent's bounds.
         /// </summary>
         public new YnWidget Parent
         {
@@ -41,7 +41,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// This list contains all children contained in the widget
+        /// This list contains all children contained in the widget.
         /// </summary>
         public List<YnWidget> Children
         {
@@ -50,7 +50,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// The skin name
+        /// The skin name.
         /// </summary>
         public string SkinName
         {
@@ -59,7 +59,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// The padding between borders and inner widgets
+        /// The padding between borders and inner widgets.
         /// </summary>
         public int Padding
         {
@@ -68,7 +68,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
         
         /// <summary>
-        /// Set to true to render a background for this widget
+        /// Set to true to render a background for this widget.
         /// </summary>
         public bool HasBackground
         { 
@@ -77,7 +77,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
         
         /// <summary>
-        /// Set to true to render borders for this widget
+        /// Set to true to render borders for this widget.
         /// </summary>
         public bool HasBorders
         { 
@@ -122,7 +122,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             _depth = -1;
 
             // FIXME this tweak is horrible
-            // Fake the presence of a event handlers for the YnEntity to manage
+            // Fake the presence of event handlers for the YnEntity to manage
             // mouse and touch routines
             _nbMouseEventObservers++;
             _nbTouchEventObservers++;
@@ -402,7 +402,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
         /// <summary>
         /// Performs a custom Update. This method may be overidden in subclass to do specific
-        /// update.
+        /// update. Do not override the Update method.
         /// </summary>
         /// <param name="gameTime">The game time</param>
         protected virtual void DoCustomUpdate(GameTime gameTime)
@@ -412,7 +412,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
         /// <summary>
         /// Apply the current skin to the widget. Bounds will be recomputed according to the
-        /// skin definition
+        /// skin definition.
         /// </summary>
         public void ApplySkin()
         {
@@ -420,7 +420,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Performs skin related computing on the widget bounds
+        /// Performs skin related computing on the widget bounds.
         /// </summary>
         /// <param name="skin">The new skin</param>
         protected virtual void ApplySkin(YnSkin skin)
@@ -429,7 +429,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
         
         /// <summary>
-        /// Add a widget as child of this widget. This method as
+        /// Add a widget as child of this widget.
         /// </summary>
         /// <typeparam name="W">The widget type</typeparam>
         /// <param name="widget">The widget</param>
@@ -452,7 +452,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Move the widgets with the given deltats in X and Y
+        /// Move the widgets with the given deltas in X and Y.
         /// </summary>
         /// <param name="dx">X delta</param>
         /// <param name="dy">Y delta</param>
@@ -463,7 +463,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Ease method to retreive the widget's skin
+        /// Ease method to retreive the widget's current skin.
         /// </summary>
         /// <returns>The skin</returns>
         protected YnSkin GetSkin()

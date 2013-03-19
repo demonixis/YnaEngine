@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 namespace Yna.Engine.Graphics.Gui.Widgets
 {
     /// <summary>
-    /// Define an orientation display for the children of a YnPanel
+    /// Define an orientation display for the children of a YnPanel.
     /// </summary>
     public enum YnOrientation
     {
@@ -67,6 +67,16 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             : this()
         {
             _orientation = orientation;
+        }
+
+        /// <summary>
+        /// Constructor with a YnWidgetProperties.
+        /// </summary>
+        /// <param name="properties">The properties</param>
+        public YnPanel(YnWidgetProperties properties)
+            : this()
+        {
+            SetProperties(properties);
         }
 
         #endregion

@@ -15,6 +15,8 @@ namespace Yna.Engine.Graphics.Gui
     /// </summary>
     public class YnSkin
     {
+        #region Attributes
+
         // Default state
         protected SpriteFont _fontDefault;
         protected string _fontNameDefault;
@@ -36,6 +38,7 @@ namespace Yna.Engine.Graphics.Gui
         protected YnBorder _borderClicked;
         protected Texture2D _backgroundClicked;
 
+        #endregion
 
         #region Default state
 

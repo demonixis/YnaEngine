@@ -38,7 +38,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         #region Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Default constructor.
         /// </summary>
         public YnCheckbox()
             : base()
@@ -50,7 +50,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         }
 
         /// <summary>
-        /// Constructor with a YnWidgetProperties
+        /// Constructor with a YnWidgetProperties.
         /// </summary>
         /// <param name="properties">The properties</param>
         public YnCheckbox(YnWidgetProperties properties)

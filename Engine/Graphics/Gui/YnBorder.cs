@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 namespace Yna.Engine.Graphics.Gui
 {
     /// <summary>
-    /// Border skin definition. Contains textures for all borders
+    /// Border skin definition. Contains textures for all borders.
     /// </summary>
     public class YnBorder
     {

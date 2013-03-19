@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Graphics.Gui.Widgets
 {
+    /// <summary>
+    /// Work in progress
+    /// </summary>
     public class YnWindow : YnWidget
     {
         private string _title;

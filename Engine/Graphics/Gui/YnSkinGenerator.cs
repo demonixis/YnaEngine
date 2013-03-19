@@ -8,11 +8,14 @@ using Yna.Engine.Helpers;
 
 namespace Yna.Engine.Graphics.Gui
 {
+    /// <summary>
+    /// This helper can generate flat skins based on a single color.
+    /// </summary>
     public class YnSkinGenerator
     {
 
         /// <summary>
-        /// Generates a Windows 8 like skin based on a start color
+        /// Generates a Windows 8 like skin based on a start color.
         /// </summary>
         /// <param name="baseColor">The base color</param>
         /// <param name="fontName">Font name</param>
@@ -23,7 +26,7 @@ namespace Yna.Engine.Graphics.Gui
         }
 
         /// <summary>
-        /// Generates a Windows 8 like skin based on a start color
+        /// Generates a Windows 8 like skin based on a start color.
         /// </summary>
         /// <param name="baseColor">The base color</param>
         /// <param name="fontName">Font name</param>
@@ -56,6 +59,14 @@ namespace Yna.Engine.Graphics.Gui
             return skin;
         }
 
+        /// <summary>
+        /// Apply color multipliers on the color RGB values. Usefull to create shades.
+        /// </summary>
+        /// <param name="baseColor">The base color to work with</param>
+        /// <param name="r">Red multiplier</param>
+        /// <param name="g">Green multiplier</param>
+        /// <param name="b">Blue multiplier</param>
+        /// <returns>The new color</returns>
         private static Color ApplyRatio(Color baseColor, double r, double g, double b)
         {
             Color newColor = baseColor;
@@ -65,7 +76,15 @@ namespace Yna.Engine.Graphics.Gui
             
             return newColor;
         }
-
+        
+        /// <summary>
+        /// Add RGB values to the given color. Usefull to create shades.
+        /// </summary>
+        /// <param name="baseColor">The base color to work with</param>
+        /// <param name="r">Red value</param>
+        /// <param name="g">Green value</param>
+        /// <param name="b">Blue value</param>
+        /// <returns>The new color</returns>
         private static Color Add(Color baseColor, float r, float g, float b)
         {
             Color newColor = baseColor;
@@ -76,6 +95,14 @@ namespace Yna.Engine.Graphics.Gui
             return newColor;
         }
 
+        /// <summary>
+        /// Remove RGB values to the given color. Usefull to create shades.
+        /// </summary>
+        /// <param name="baseColor">The base color to work with</param>
+        /// <param name="r">Red value</param>
+        /// <param name="g">Green value</param>
+        /// <param name="b">Blue value</param>
+        /// <returns>The new color</returns>
         private static Color Sub(Color baseColor, float r, float g, float b)
         {
             return Add(baseColor, -r, -g, -b);
