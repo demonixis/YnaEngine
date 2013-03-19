@@ -38,9 +38,9 @@ namespace Yna.Engine.Graphics3D
             renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int)_entity.Width, (int)_entity.Height, true, SurfaceFormat.Color, DepthFormat.Depth24);
         }
 
-        public override void Draw(GameTime gameTime, GraphicsDevice device)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
-            PreDraw();
+            PreDraw(camera);
             
             RenderTargetBinding[] oldRenderTargets = device.GetRenderTargets();
 

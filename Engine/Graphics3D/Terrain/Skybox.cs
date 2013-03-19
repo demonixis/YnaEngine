@@ -26,8 +26,8 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// <param name="position">Position</param>
         /// <param name="size">Size of skybox</param>
         /// <param name="textureNames">An array of textures in this order: negX/posX/negY/posY/negZ/posZ</param>
-        public SkyBox(BaseCamera camera, YnEntity3D parent, Vector3 position, float size, string[] textureNames)
-            : base(camera, parent)
+        public SkyBox(YnEntity3D parent, Vector3 position, float size, string[] textureNames)
+            : base(parent)
         {
             _textureNames = textureNames;
             _textures = new Texture2D[6];
@@ -46,8 +46,8 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// <param name="position">Position</param>
         /// <param name="size">Size of skybox</param>
         /// <param name="textureName">The texture to use on each face.</param>
-        public SkyBox(BaseCamera camera, YnEntity3D parent, Vector3 position, float size, string textureName)
-            : this(camera, parent, position, size, new string [] {})
+        public SkyBox(YnEntity3D parent, Vector3 position, float size, string textureName)
+            : this(parent, position, size, new string [] {})
         {
             _textureNames = new string[6];
 
@@ -61,7 +61,7 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// <param name="size">Size of skybox</param>
         /// <param name="textureNames">An array of textures in this order: negX/posX/negY/posY/negZ/posZ</param>
         public SkyBox(float size, string[] textureNames)
-            : this(null, null, new Vector3(0.0f), size, textureNames)
+            : this(null, new Vector3(0.0f), size, textureNames)
         {
 
         }
@@ -71,7 +71,7 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// </summary>
         /// <param name="size">Size of skybox</param>
         public SkyBox(float size, string textureName)
-            : this(null, null, new Vector3(0.0f), size, textureName)
+            : this(null, new Vector3(0.0f), size, textureName)
         {
 
         }

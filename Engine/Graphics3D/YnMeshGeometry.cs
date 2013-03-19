@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D
 {
@@ -138,9 +139,9 @@ namespace Yna.Engine.Graphics3D
         /// Draw mesh.
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
-            PreDraw();
+            PreDraw(camera);
             _geometry.Draw(device, _material);
         }
     }

@@ -36,7 +36,6 @@ namespace Yna.Engine.Graphics3D.Camera
             : this(followedModel.Position, height)
         {
             _followedObject = followedModel;
-            followedModel.Camera = this;
         }
 
         public override void SetupCamera()

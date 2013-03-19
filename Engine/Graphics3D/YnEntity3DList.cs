@@ -17,38 +17,28 @@ namespace Yna.Engine.Graphics3D
         /// <summary>
         /// Initialize entities.
         /// </summary>
-        public virtual void Initialize(BaseCamera camera)
+        public virtual void Initialize()
         {
             int nbMembers = _members.Count;
 
             if (nbMembers > 0)
             {
                 for (int i = 0; i < nbMembers; i++)
-                {
-                    if (_members[i].Camera != camera)
-                        _members[i].Camera = camera;
-
                     _members[i].Initialize();
-                }
             }
         }
 
         /// <summary>
         /// Load entities.
         /// </summary>
-        public virtual void LoadContent(BaseCamera camera)
+        public virtual void LoadContent()
         {
             int nbMembers = _members.Count;
 
             if (nbMembers > 0)
             {
                 for (int i = 0; i < nbMembers; i++)
-                {
-                    if (_members[i].Camera != camera)
-                        _members[i].Camera = camera;
-
                     _members[i].LoadContent();
-                }
             }
         }
 
@@ -110,7 +100,7 @@ namespace Yna.Engine.Graphics3D
                         if (light != null)
                             _safeMembers[i].UpdateLighting(light);
 
-                        _safeMembers[i].Draw(gameTime, device);
+                        _safeMembers[i].Draw(gameTime, device, camera);
                     }
                 }
             }

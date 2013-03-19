@@ -12,18 +12,34 @@ namespace Yna.Engine.Graphics3D.Terrain
     /// </summary>
     public class Heightmap : BaseTerrain
     {
+        /// <summary>
+        /// Create an heightmap terrain.
+        /// </summary>
+        /// <param name="heigtmapName">Texture name to use for height generation.</param>
+        /// <param name="textureName">Texture name to use for terrain.</param>
         public Heightmap(string heigtmapName, string textureName)
             : this(heigtmapName, textureName, new Vector3(1.0f))
         {
 
         }
 
+        /// <summary>
+        /// Create an heightmap terrain.
+        /// </summary>
+        /// <param name="heigtmapName">Texture name to use for height generation.</param>
+        /// <param name="textureName">Texture name to use for terrain.</param>
+        /// <param name="size">Size between each vertex.</param>
         public Heightmap(string heightmapName, string textureName, Vector3 size)
         {
             _geometry = new HeightmapGeometry(heightmapName, size);
             _material = new BasicMaterial(textureName);
         }
 
+        /// <summary>
+        /// Create an heightmap terrain.
+        /// </summary>
+        /// <param name="heightmapTexture">Texture to use for height generation.</param>
+        /// <param name="textureName">Texture name to use for terrain.</param>
         public Heightmap(Texture2D heightmapTexture, string textureName, Vector3 size)
         {
             _geometry = new HeightmapGeometry(heightmapTexture, size);

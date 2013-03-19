@@ -75,7 +75,7 @@ namespace Yna.Samples.Screens
                 };
             }
 
-            skybox = new SkyBox(Camera, null, Vector3.Zero, 100, skyboxTextures);
+            skybox = new SkyBox(null, Vector3.Zero, 100, skyboxTextures);
             Add(skybox);
         }
 

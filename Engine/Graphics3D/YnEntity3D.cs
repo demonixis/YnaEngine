@@ -12,8 +12,6 @@ namespace Yna.Engine.Graphics3D
     {
         #region Protected & private declarations
 
-        protected BaseCamera _camera;
-
         // Direction
         protected Vector3 _rotation;        // @deprected
         protected Vector3 _scale;           // @deprected
@@ -207,19 +205,6 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
-        #region Properties for camera and material
-
-        /// <summary>
-        /// Gets or sets the camera used for this model
-        /// </summary>
-        public BaseCamera Camera
-        {
-            get { return _camera; }
-            set { _camera = value; }
-        }
-
-        #endregion
-
         #region Bounding volumes
 
         /// <summary>
@@ -397,7 +382,7 @@ namespace Yna.Engine.Graphics3D
             }
         }
 
-        public virtual void Draw(GameTime gameTime, GraphicsDevice device)
+        public virtual void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
 
         }

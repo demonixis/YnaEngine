@@ -163,8 +163,6 @@ namespace Yna.Engine.Graphics3D
                 }
                 else
                 {
-                    _material.Update(Camera, ref _world);
-
                     BasicMaterial material = (BasicMaterial)_material;
 
                     if (material != null)
@@ -289,9 +287,10 @@ namespace Yna.Engine.Graphics3D
         /// Draw the model.
         /// </summary>
         /// <param name="device">GraphicsDevice</param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
             UpdateMatrix();
+            _material.Update(camera, ref _world);
 
             _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 
@@ -301,8 +300,8 @@ namespace Yna.Engine.Graphics3D
                 {
                     UpdateModelEffects(effect);
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
-                    effect.View = _camera.View;
-                    effect.Projection = _camera.Projection;
+                    effect.View = camera.View;
+                    effect.Projection = camera.Projection;
                 }
                 mesh.Draw();
             }

@@ -11,7 +11,9 @@ using Yna.Engine.Graphics3D.Lighting;
 
 namespace Yna.Engine.Graphics3D
 {
-    // @Deprecated
+    /// <summary>
+    /// A container for updating and drawing 3D object
+    /// </summary>
     public class YnGroup3D : YnEntity3D
     {
         protected YnEntity3DList _members;
@@ -24,21 +26,6 @@ namespace Yna.Engine.Graphics3D
         public int Count
         {
             get { return _members.Count; }
-        }
-
-        /// <summary>
-        /// Get or Set the camera used for this group. If set all objects are updated with this camera
-        /// </summary>
-        public new BaseCamera Camera
-        {
-            get { return _camera; }
-            set
-            {
-                _camera = value;
-
-                foreach (YnEntity3D sceneObject in _members)
-                    sceneObject.Camera = _camera;
-            }
         }
 
         public new Matrix World
@@ -120,22 +107,12 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
-        #region Constructors
-
-        public YnGroup3D(BaseCamera camera, YnEntity3D parent)
+        public YnGroup3D(YnEntity3D parent)
         {
             _members = new YnEntity3DList();
             _initialized = false;
-            _camera = camera;
             _parent = parent;
         }
-
-        public YnGroup3D(YnEntity3D parent)
-            : this(new FixedCamera(), parent)
-        {
-        }
-
-        #endregion
 
         #region Update methods
 
@@ -212,7 +189,7 @@ namespace Yna.Engine.Graphics3D
         {
             if (!_initialized)
             {
-                _members.Initialize(Camera);
+                _members.Initialize();
                 _initialized = true;
             }
         }
@@ -224,7 +201,7 @@ namespace Yna.Engine.Graphics3D
         {
             if (!_assetLoaded)
             {
-                _members.LoadContent(Camera);
+                _members.LoadContent();
                 _assetLoaded = true;
             }
         }
@@ -256,10 +233,10 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="gameTime">GameTime object.</param>
         /// <param name="device">GraphicsDevice object</param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
             if (Visible)
-                _members.Draw(gameTime, device, null, null);
+                _members.Draw(gameTime, device, camera, null);
         }
 
         #endregion
@@ -282,7 +259,6 @@ namespace Yna.Engine.Graphics3D
 
             if (_initialized)
             {
-                sceneObject.Camera = _camera;
                 sceneObject.LoadContent();
                 sceneObject.Initialize();
             }

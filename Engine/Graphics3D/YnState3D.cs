@@ -11,93 +11,121 @@ namespace Yna.Engine.Graphics3D
 {
     public class YnState3D : BaseState
     {
-        protected BaseCamera _camera;
+        private BaseCamera _camera;
         private YnScene3D _scene;
-        private YnBaseList _basicObjects;
 
+        /// <summary>
+        /// Gets (protected sets) the scene.
+        /// </summary>
         public YnScene3D Scene
         {
             get { return _scene; }
             protected set { _scene = value; }
         }
 
-        public List<YnBase> BaseMembers
-        {
-            get { return _basicObjects.Members; }
-            protected set { _basicObjects.Members = value; }
-        }
-
+        /// <summary>
+        /// Gets (protected sets) the camera.
+        /// </summary>
         public BaseCamera Camera
         {
             get { return _camera; }
-            set
-            {
-                _camera = value;
-                _scene.Camera = _camera;
-            }
+            protected set { _camera = value; }
         }
 
+        #region Constructors
+
+        /// <summary>
+        /// Create a state with a 3D scene and a fixed camera.
+        /// </summary>
         public YnState3D()
             : base()
         {
             _camera = new FixedCamera();
-            _scene = new YnScene3D(_camera);
-            _basicObjects = new YnBaseList();
+            _scene = new YnScene3D();
             Initialized = false;
         }
 
+        /// <summary>
+        /// Create a state with a 3D scene and a camera.
+        /// </summary>
+        /// <param name="camera">Camera to use on this scene.</param>
         public YnState3D(BaseCamera camera)
             : this()
         {
-            _camera = camera;
-            _scene = new YnScene3D(_camera);
+            if (camera != null)
+                _camera = camera;
         }
 
+        /// <summary>
+        /// Create a state with a 3D scene and a camera.
+        /// </summary>
+        /// <param name="name">State name.</param>
+        /// <param name="camera">Camera to use on this scene.</param>
         public YnState3D(string name, BaseCamera camera)
             : this(camera)
         {
             _name = name;
         }
 
+        /// <summary>
+        /// Create a state with a 3D scene and a fixed camera.
+        /// </summary>
+        /// <param name="name">State name.</param>
         public YnState3D(string name)
             : this(name, null)
         {
 
         }
 
+        #endregion
+
+        /// <summary>
+        /// Initialize logic of all scene members.
+        /// </summary>
+        public override void Initialize()
+        {
+            _scene.Initialize();
+        }
+
+        /// <summary>
+        /// Load content for all scene members.
+        /// </summary>
         public override void LoadContent()
         {
             if (!Initialized)
             {
                 base.LoadContent();
-
                 _scene.LoadContent();
-
                 Initialized = true;
             }
         }
 
+        /// <summary>
+        /// Unload content of all scene members and clear the scene.
+        /// </summary>
         public override void UnloadContent()
         {
             if (Initialized)
             {
                 _scene.UnloadContent();
-
                 _scene.Clear();
-
                 Initialized = false;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            _basicObjects.Update(gameTime);
+            _camera.Update(gameTime);
             _scene.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            _scene.Draw(gameTime, YnG.GraphicsDevice);
+            _scene.Draw(gameTime, YnG.GraphicsDevice, _camera);
         }
 
         #region Collection Management
@@ -108,7 +136,6 @@ namespace Yna.Engine.Graphics3D
         /// <param name="object3D">An object3D</param>
         public void Add(YnEntity3D object3D)
         {
-            object3D.Camera = Camera;
             _scene.Add(object3D);
         }
 
@@ -121,7 +148,7 @@ namespace Yna.Engine.Graphics3D
             if (basic is BaseCamera)
                 Camera = (basic as BaseCamera);
 
-            _basicObjects.Add(basic);
+            _scene.Add(basic);
         }
 
         /// <summary>
@@ -139,7 +166,7 @@ namespace Yna.Engine.Graphics3D
         /// <param name="base3D"></param>
         public void Remove(YnBase basic)
         {
-            _basicObjects.Remove(basic);
+            _scene.Remove(basic);
         }
 
         /// <summary>
@@ -147,7 +174,6 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public void Clear()
         {
-            _basicObjects.Clear();
             _scene.Clear();
         }
 

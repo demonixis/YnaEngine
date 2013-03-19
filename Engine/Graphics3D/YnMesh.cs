@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D
 {
@@ -56,14 +57,14 @@ namespace Yna.Engine.Graphics3D
         /// <summary>
         /// Update matrix world, bounding volumes if the mesh is dynamic and update the material.
         /// </summary>
-        public virtual void PreDraw()
+        public virtual void PreDraw(BaseCamera camera)
         {
             UpdateMatrix();
 			
             if (_dynamic)
                 UpdateBoundingVolumes();
 
-            _material.Update(Camera, ref _world);
+            _material.Update(camera, ref _world);
         }
     }
 }

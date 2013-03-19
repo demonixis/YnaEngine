@@ -43,10 +43,10 @@ namespace Yna.Samples.Screens
             dungeon.Scale = new Vector3(20.0f);
             Add(dungeon);
 
-            Scene.BasicLight.AmbientIntensity = 1;
-            Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, -1, 0.5f);
-            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.White.ToVector3();
-            Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Red.ToVector3();
+            Scene.SceneLight.AmbientIntensity = 1;
+            Scene.SceneLight.DirectionalLights[0].Direction = new Vector3(1, -1, 0.5f);
+            Scene.SceneLight.DirectionalLights[0].DiffuseColor = Color.White.ToVector3();
+            Scene.SceneLight.DirectionalLights[0].SpecularColor = Color.Red.ToVector3();
 
             // Sky & debug text ;)
             sky = new YnEntity("Backgrounds/sky");
