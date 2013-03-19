@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Yna.Engine.Graphics3D.Camera
     /// </summary>
     public sealed class CameraManager : ICollection<BaseCamera>
     {
-        private BaseCamera [] _cameras;
+        private BaseCamera[] _cameras;
         private int _arraySize;
         private int _activeCameraIndex;
 
@@ -77,9 +78,18 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
+        /// Update the camera.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void Update(GameTime gameTime)
+        {
+            _cameras[_activeCameraIndex].Update(gameTime);
+        }
+
+        /// <summary>
         /// Gets active camera.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the active camera.</returns>
         public BaseCamera GetActiveCamera()
         {
             return _cameras[_activeCameraIndex];
@@ -95,6 +105,32 @@ namespace Yna.Engine.Graphics3D.Camera
             {
                 _activeCameraIndex = index;
                 OnActiveCameraChanged(new CameraChangedEventArgs(_cameras[_activeCameraIndex]));
+            }
+        }
+
+        /// <summary>
+        /// Set active camera. If the camera is not added to the manager, it added and selected to be the active camera.
+        /// </summary>
+        /// <param name="camera"></param>
+        public void SetActiveCamera(BaseCamera camera)
+        {
+            bool founded = false;
+            int i = 0;
+
+            while (i < _arraySize && !founded)
+            {
+                if (_cameras[i] == camera)
+                {
+                    SetActiveCamera(i);
+                    founded = true;
+                }
+                i++;
+            }
+
+            if (!founded)
+            {
+                Add(camera);
+                SetActiveCamera(_arraySize - 1);
             }
         }
 

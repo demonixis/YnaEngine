@@ -11,7 +11,7 @@ namespace Yna.Engine.Graphics3D
 {
     public class YnState3D : BaseState
     {
-        private BaseCamera _camera;
+        private CameraManager _cameraManager;
         private YnScene3D _scene;
 
         /// <summary>
@@ -24,12 +24,21 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Gets (protected sets) the camera.
+        /// Gets (protected sets) the active camera.
         /// </summary>
         public BaseCamera Camera
         {
-            get { return _camera; }
-            protected set { _camera = value; }
+            get { return _cameraManager.GetActiveCamera(); }
+            protected set { _cameraManager.SetActiveCamera(value); }
+        }
+
+        /// <summary>
+        /// Gets (protected sets) the camera manager.
+        /// </summary>
+        public CameraManager CameraManager
+        {
+            get { return _cameraManager; }
+            protected set { _cameraManager = value; }
         }
 
         #region Constructors
@@ -38,11 +47,9 @@ namespace Yna.Engine.Graphics3D
         /// Create a state with a 3D scene and a fixed camera.
         /// </summary>
         public YnState3D()
-            : base()
+            : this(new FixedCamera())
         {
-            _camera = new FixedCamera();
-            _scene = new YnScene3D();
-            Initialized = false;
+            
         }
 
         /// <summary>
@@ -53,7 +60,12 @@ namespace Yna.Engine.Graphics3D
             : this()
         {
             if (camera != null)
-                _camera = camera;
+                _cameraManager = new CameraManager(camera);
+            else
+                _cameraManager = new CameraManager(new FixedCamera());
+
+            _scene = new YnScene3D();
+            Initialized = false;
         }
 
         /// <summary>
@@ -119,13 +131,13 @@ namespace Yna.Engine.Graphics3D
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            _camera.Update(gameTime);
+            _cameraManager.Update(gameTime);
             _scene.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            _scene.Draw(gameTime, YnG.GraphicsDevice, _camera);
+            _scene.Draw(gameTime, YnG.GraphicsDevice, _cameraManager.GetActiveCamera());
         }
 
         #region Collection Management
