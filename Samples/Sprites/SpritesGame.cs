@@ -10,7 +10,7 @@ namespace Yna.Samples
         MenuEntry[] menuItems;
 
         public SpritesGame()
-            : base(800, 600, "Yna : Sprite samples")
+            : base(1280, 600, "Yna : Sprite samples")
         {
             menuItems = new MenuEntry[]
             {
