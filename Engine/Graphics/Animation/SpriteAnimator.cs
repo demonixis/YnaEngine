@@ -10,44 +10,71 @@ namespace Yna.Engine.Graphics.Animation
     /// </summary>
     public class SpriteAnimator
     {
-        public Dictionary<string, SpriteAnimation> Animations { get; set; }
-        public int SpriteWidth { get; set; }
-        public int SpriteHeight { get; set; }
-        public int TextureWidth { get; set; }
-        public int TextureHeight { get; set; }
+        private Dictionary<string, SpriteAnimation> _animations { get; set; }
+        private int _spriteWidth;
+        private int _spriteHeight;
+        private int _textureWidth;
+        private int _textureHeight;
+        private int _nbSpriteX;
+        private int _nbSpriteY;
+        private int _spritesheetLenght;
+        private string _currentAnimationName;
 
-        private int nbSpriteX;
-        private int nbSpriteY;
-        private int spritesheetLenght;
+        public Dictionary<string, SpriteAnimation> Animations
+        {
+            get { return _animations; }
+            protected set { _animations = value; }
+        }
+
+        /// <summary>
+        /// Gets the current animation name.
+        /// </summary>
+        public string CurrentAnimationName
+        {
+            get { return _currentAnimationName; }
+        }
 
         public SpriteAnimator()
         {
-            SpriteWidth = 0;
-            SpriteHeight = 0;
-            TextureWidth = 0;
-            TextureHeight = 0;
-
-            nbSpriteX = 0;
-            nbSpriteY = 0;
-            spritesheetLenght = 0;
-
-            Animations = new Dictionary<string, SpriteAnimation>();
+            _spriteWidth = 0;
+            _spriteHeight = 0;
+            _textureWidth = 0;
+            _textureHeight = 0;
+            _nbSpriteX = 0;
+            _nbSpriteY = 0;
+            _spritesheetLenght = 0;
+            _currentAnimationName = String.Empty;
+            _animations = new Dictionary<string, SpriteAnimation>();
         }
 
+        /// <summary>
+        /// Initialization of the animator.
+        /// </summary>
+        /// <param name="animationWidth"></param>
+        /// <param name="animationHeight"></param>
+        /// <param name="textureWidth"></param>
+        /// <param name="textureHeight"></param>
         public void Initialize(int animationWidth, int animationHeight, int textureWidth, int textureHeight)
         {
-            Animations.Clear();
+            _animations.Clear();
 
-            SpriteWidth = animationWidth;
-            SpriteHeight = animationHeight;
-            TextureWidth = textureWidth;
-            TextureHeight = textureHeight;
-
-            nbSpriteX = TextureWidth / SpriteWidth;
-            nbSpriteY = TextureHeight / SpriteHeight;
-            spritesheetLenght = nbSpriteX * nbSpriteY;
+            _spriteWidth = animationWidth;
+            _spriteHeight = animationHeight;
+            _textureWidth = textureWidth;
+            _textureHeight = textureHeight;
+            _currentAnimationName = String.Empty;
+            _nbSpriteX = _textureWidth / _spriteWidth;
+            _nbSpriteY = _textureHeight / _spriteHeight;
+            _spritesheetLenght = _nbSpriteX * _nbSpriteY;
         }
 
+        /// <summary>
+        /// Add an animation to a sprite.
+        /// </summary>
+        /// <param name="name">Animation name.</param>
+        /// <param name="indexes">Array of index</param>
+        /// <param name="frameRate">Desired framerate</param>
+        /// <param name="reversed">Sets to true for a reversed animation.</param>
         public void Add(string name, int[] indexes, int frameRate, bool reversed)
         {
             int animationLength = indexes.Length;
@@ -56,21 +83,21 @@ namespace Yna.Engine.Graphics.Animation
 
             for (int i = 0; i < animationLength; i++)
             {
-                int x = indexes[i] % nbSpriteX;
-                int y = (int)Math.Floor((double)(indexes[i] / nbSpriteX));
+                int x = indexes[i] % _nbSpriteX;
+                int y = (int)Math.Floor((double)(indexes[i] / _nbSpriteX));
 
                 // Adapt the X value 
                 // Ex: For Y = 2, we must have X in range [0... sizeX]
                 if (y > 0)
-                    x = x % (nbSpriteX * y);
+                    x = x % (_nbSpriteX * y);
                 else
-                    x = x % nbSpriteX;
+                    x = x % _nbSpriteX;
 
                 // The source rectangle for the sprite
-                animation.Rectangle[i] = new Rectangle(x * SpriteWidth, y * SpriteHeight, SpriteWidth, SpriteHeight);
+                animation.Rectangle[i] = new Rectangle(x * _spriteWidth, y * _spriteHeight, _spriteWidth, _spriteHeight);
             }
 
-            Animations.Add(name, animation);
+            _animations.Add(name, animation);
         }
 
         /// <summary>
@@ -83,22 +110,51 @@ namespace Yna.Engine.Graphics.Animation
         public void Add(string name, Rectangle[] rectangles, int frameRate, bool reversed)
         {
             int animationLength = rectangles.Length;
-
             SpriteAnimation animation = new SpriteAnimation(animationLength, frameRate, reversed);
-
             animation.Rectangle = rectangles;
-
-            Animations.Add(name, animation);
+            _animations.Add(name, animation);
         }
 
-        public void Update(GameTime gameTime, Vector2 currentPosition, Vector2 lastPosition)
+        /// <summary>
+        /// Play an animation by its name.
+        /// </summary>
+        /// <param name="animationName">The name of the animation.</param>
+        /// <param name="effects">A SpriteEffects if the animation must be reversed.</param>
+        /// <returns>The source rectangle of the animation.</returns>
+        public Rectangle Play(string animationName, ref SpriteEffects effects)
         {
-
+            _currentAnimationName = animationName;
+            return _animations[animationName].Next(ref effects);
         }
 
-        public void Update(GameTime gameTime, Vector2 lastDistance)
+        public SpriteAnimation GetCurrentAnimation()
         {
+            if (_currentAnimationName != String.Empty)
+                return _animations[_currentAnimationName];
 
+            return null;
+        }
+
+        /// <summary>
+        /// Update animator.
+        /// </summary>
+        /// <param name="gameTime">GameTime object.</param>
+        public void Update(GameTime gameTime)
+        {
+            if (_currentAnimationName != String.Empty)
+                _animations[_currentAnimationName].Update(gameTime);
+        }
+
+        /// <summary>
+        /// Check if the sprite must gets its first frame. (if it's stopped)
+        /// </summary>
+        /// <param name="lastDirection"></param>
+        /// <returns></returns>
+        public Rectangle? CheckForIDLEAnimation(Vector2 lastDirection)
+        {
+            if (_currentAnimationName != String.Empty && lastDirection == Vector2.Zero)
+                return _animations[_currentAnimationName].Rectangle[0];
+            return null;
         }
     }
 }

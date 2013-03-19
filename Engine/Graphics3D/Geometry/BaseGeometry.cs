@@ -35,10 +35,11 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         // Segments size
         protected Vector3 _segmentSizes;
+        protected Vector3 _origin;
         protected bool _constructed;
 
         // Update flags
-        protected bool _needMatricesUpdate;
+        protected bool _needMatrixUpdate;
 
         #endregion
 
@@ -125,8 +126,8 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// </summary>
         public bool NeedMatricesUpdate
         {
-            get { return _needMatricesUpdate; }
-            set { _needMatricesUpdate = value; }
+            get { return _needMatrixUpdate; }
+            set { _needMatrixUpdate = value; }
         }
 
         #endregion
@@ -141,11 +142,10 @@ namespace Yna.Engine.Graphics3D.Geometry
         {
             _textureName = String.Empty;
             _textureRepeat = Vector2.One;
-
+            _origin = Vector3.Zero;
             _segmentSizes = Vector3.One;
             _constructed = false;
-
-            _needMatricesUpdate = true;
+            _needMatrixUpdate = true;
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         public virtual void PreDraw()
         {
-            if (_needMatricesUpdate)
+            if (_needMatrixUpdate)
                 UpdateMatrix();
 
             if (_dynamic)

@@ -5,6 +5,21 @@ using System.Text;
 
 namespace Yna.Engine.Graphics3D.Camera
 {
+    public class CameraChangedEventArgs : EventArgs
+    {
+        public BaseCamera ActiveCamera;
+
+        public CameraChangedEventArgs()
+        {
+            ActiveCamera = null;
+        }
+
+        public CameraChangedEventArgs(BaseCamera camera)
+        {
+            ActiveCamera = camera;
+        }
+    }
+
     /// <summary>
     /// A camera manager
     /// </summary>
@@ -25,6 +40,14 @@ namespace Yna.Engine.Graphics3D.Camera
         public bool IsReadOnly
         {
             get { return false; }
+        }
+
+        public event EventHandler<CameraChangedEventArgs> ActiveCameraChanged = null;
+
+        public void OnActiveCameraChanged(CameraChangedEventArgs e)
+        {
+            if (ActiveCameraChanged != null)
+                ActiveCameraChanged(this, e);
         }
 
         /// <summary>
@@ -69,22 +92,24 @@ namespace Yna.Engine.Graphics3D.Camera
         public void SetActiveCamera(int index)
         {
             if (index > -1 && index < _arraySize)
+            {
                 _activeCameraIndex = index;
+                OnActiveCameraChanged(new CameraChangedEventArgs(_cameras[_activeCameraIndex]));
+            }
         }
 
         /// <summary>
         /// Sets the next camera active
         /// </summary>
         /// <returns></returns>
-        public bool ActiveNextCamera()
+        public void ActiveNextCamera()
         {
             if (_activeCameraIndex < _arraySize - 1)
-            {
                 _activeCameraIndex++;
-                return true;
-            }
+            else
+                _activeCameraIndex = 0;
 
-            return false;
+            OnActiveCameraChanged(new CameraChangedEventArgs(_cameras[_activeCameraIndex]));
         }
 
         /// <summary>
@@ -96,6 +121,7 @@ namespace Yna.Engine.Graphics3D.Camera
             if (_activeCameraIndex > 0)
             {
                 _activeCameraIndex--;
+                OnActiveCameraChanged(new CameraChangedEventArgs(_cameras[_activeCameraIndex]));
                 return true;
             }
 
@@ -195,9 +221,12 @@ namespace Yna.Engine.Graphics3D.Camera
 
                 _cameras = temp;
                 _arraySize -= 1;
-                
+
                 if (_activeCameraIndex > 0 && _activeCameraIndex == removedIndex)
+                {
                     _activeCameraIndex--;
+                    OnActiveCameraChanged(new CameraChangedEventArgs(_cameras[_activeCameraIndex]));
+                }
 
                 return true;
             }
@@ -213,7 +242,7 @@ namespace Yna.Engine.Graphics3D.Camera
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }

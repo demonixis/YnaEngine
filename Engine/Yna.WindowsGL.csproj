@@ -24,6 +24,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>
     </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
@@ -34,6 +35,31 @@
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
     <DefineConstants>MONOGAME;WINDOWS;OPENGL;</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '.Net4.5-Release|x86'">
+    <OutputPath>bin\WindowsGL\Release-4.5</OutputPath>
+    <DefineConstants>MONOGAME;WINDOWS;OPENGL;DOTNET45</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '.Net4.5-Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <OutputPath>bin\WindowsGL\Debug-4.5</OutputPath>
+    <DefineConstants>MONOGAME;WINDOWS;OPENGL;DOTNET45;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioAdapter.cs" />
@@ -42,17 +68,30 @@
     <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Collision\YnCollide3.cs" />
+    <Compile Include="Content\IContentManager.cs" />
+    <Compile Include="Content\LocalContentManager.cs" />
+    <Compile Include="Content\ZipContentManager.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
+    <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
+    <Compile Include="Extensions\BoundingSphereExtension.cs" />
     <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
+    <Compile Include="Extensions\ModelExtension.cs" />
     <Compile Include="Extensions\RectangleExtension.cs" />
+    <Compile Include="Extensions\Texture2DExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />
+    <Compile Include="Extensions\ViewportExtension.cs" />
     <Compile Include="Graphics3D\Camera\CameraManager.cs" />
     <Compile Include="Graphics3D\Controls\FirstPersonVirtualPadControl.cs" />
+    <Compile Include="Graphics3D\Geometry\CylinderGeometry.cs" />
+    <Compile Include="Graphics3D\Geometry\PyramidGeometry.cs" />
+    <Compile Include="Graphics3D\Geometry\SphereGeometry.cs" />
+    <Compile Include="Graphics3D\Geometry\TorusGeometry.cs" />
     <Compile Include="Graphics3D\Lighting\BaseLight.cs" />
     <Compile Include="Graphics3D\Lighting\DirectionalLight.cs" />
     <Compile Include="Graphics3D\Lighting\SceneLight.cs" />
     <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
     <Compile Include="Graphics3D\Scene\SceneNode.cs" />
+    <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
     <Compile Include="Graphics3D\YnEntity3DList.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
@@ -66,7 +105,7 @@
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Content\YnContentManager.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
-    <Compile Include="Graphics3D\Terrain\Skybox.cs" />
+    <Compile Include="Graphics3D\Terrain\SkyBox.cs" />
     <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
     <Compile Include="Graphics\Animation\YnInterpolator.cs" />
     <Compile Include="Graphics\YnEntityList.cs" />
@@ -140,7 +179,6 @@
     <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Helpers\GeomHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="IDrawableEntity.cs" />
@@ -174,9 +212,10 @@
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
-	<Compile Include="RandomMachine.cs" />
-	<Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="RandomMachine.cs" />
+    <Compile Include="Graphics\Particle\YnEmitter.cs" />
     <Compile Include="Graphics\Particle\YnParticle.cs" />
+    <Compile Include="Extensions\PointExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

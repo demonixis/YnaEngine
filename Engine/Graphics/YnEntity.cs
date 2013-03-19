@@ -64,14 +64,13 @@ namespace Yna.Engine.Graphics
         protected YnEntity _parent;
         protected PositionType _positionType;
         protected int _nbMouseEventObservers;
-        protected int _nbTouchEventObservers;
 
         protected bool _clicked;
         protected bool _hovered;
 
         #endregion
 
-        #region Base properties
+        #region Base Properties
 
         /// <summary>
         /// Flags who determine if this object must be cleaned and removed
@@ -134,7 +133,7 @@ namespace Yna.Engine.Graphics
         }
         #endregion
 
-        #region Properties for position/rotation/scale/etc..
+        #region Properties for position/rotation/scale
 
         /// <summary>
         /// Gets or sets the positionment type for this object
@@ -143,20 +142,7 @@ namespace Yna.Engine.Graphics
         public PositionType PositionType
         {
             get { return _positionType; }
-            set
-            {
-                _positionType = value;
-                if (value == Graphics.PositionType.Relative)
-                {
-                    if (_parent != null)
-                        Position += _parent.Position;
-                }
-                else
-                {
-                    if (_parent != null)
-                        Position -= _parent.Position;
-                }
-            }
+            protected set { _positionType = value; }
         }
 
         /// <summary>
@@ -174,15 +160,8 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Vector2 Position
         {
-            get { return _position; }
-            set
-            {
-                NormalizePositionType(ref value);
-
-                _position = value;
-                _rectangle.X = (int)_position.X;
-                _rectangle.Y = (int)_position.Y;
-            }
+            get { return GetPosition().ToVector2(); }
+            set { SetPosition((int)value.X, (int)value.Y); }
         }
 
         /// <summary>
@@ -191,16 +170,8 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Rectangle Rectangle
         {
-            get { return _rectangle; }
-            set
-            {
-                NormalizePositionType(ref value);
-
-                _rectangle = value;
-
-                _position.X = _rectangle.X;
-                _position.Y = _rectangle.Y;
-            }
+            get { return GetRectangle(); }
+            set { SetRectangle(value); }
         }
 
         /// <summary>
@@ -255,10 +226,10 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public float DegRotation
         {
-        	get { return GeomHelper.radianToDegree(_rotation); }
-        	set { _rotation = GeomHelper.degreeToRadian(value); }
+            get { return MathHelper.ToDegrees(_rotation); }
+            set { _rotation = MathHelper.ToRadians(value); }
         }
-        
+
         /// <summary>
         /// Gets or sets the Alpha applied to the object. Value between 0.0f and 1.0f
         /// </summary>
@@ -267,12 +238,8 @@ namespace Yna.Engine.Graphics
             get { return _alpha; }
             set
             {
-                _alpha = value;
-
-                if (_alpha > 1.0)
-                    _alpha = 1.0f;
-                else if (_alpha < 0)
-                    _alpha = 0.0f;
+                _alpha = value > 1.0f ? 1.0f : value;
+                _alpha = _alpha < 0.0f ? 0.0f : _alpha;
             }
         }
 
@@ -401,107 +368,6 @@ namespace Yna.Engine.Graphics
         {
             if (Revived != null)
                 Revived(this, e);
-        }
-
-        #endregion
-
-        #region Touch events
-
-        private event EventHandler<TouchActionEntityEventArgs> _touchPress = null;
-        private event EventHandler<TouchActionEntityEventArgs> _touchOver = null;
-        private event EventHandler<TouchLeaveEntityEventArgs> _touchLeave = null;
-        private event EventHandler<TouchActionEntityEventArgs> _touchOut = null;
-
-        /// <summary>
-        /// Triggered on first finger press
-        /// </summary>
-        public event EventHandler<TouchActionEntityEventArgs> TouchPress
-        {
-            add
-            {
-                _touchPress += value;
-                _nbTouchEventObservers++;
-            }
-            remove
-            {
-                _touchPress -= value;
-                _nbTouchEventObservers--;
-            }
-        }
-
-        /// <summary>
-        /// Triggered on first finger is over an entity.
-        /// </summary>
-        public event EventHandler<TouchActionEntityEventArgs> TouchOver
-        {
-            add
-            {
-                _touchOver += value;
-                _nbTouchEventObservers++;
-            }
-            remove
-            {
-                _touchOver -= value;
-                _nbTouchEventObservers--;
-            }
-        }
-
-        /// <summary>
-        /// Triggered on first finger leave an entity.
-        /// </summary>
-        public event EventHandler<TouchLeaveEntityEventArgs> TouchLeave
-        {
-            add
-            {
-                _touchLeave += value;
-                _nbTouchEventObservers++;
-            }
-            remove
-            {
-                _touchLeave -= value;
-                _nbTouchEventObservers--;
-            }
-        }
-
-        /// <summary>
-        /// Triggered on first finger is out of the entity.
-        /// </summary>
-        public event EventHandler<TouchActionEntityEventArgs> TouchOut
-        {
-            add
-            {
-                _touchOut += value;
-                _nbTouchEventObservers++;
-            }
-            remove
-            {
-                _touchOut -= value;
-                _nbTouchEventObservers--;
-            }
-        }
-
-        private void OnTouchPress(TouchActionEntityEventArgs e)
-        {
-            if (_touchPress != null)
-                _touchPress(this, e);
-        }
-
-        private void OnTouchOver(TouchActionEntityEventArgs e)
-        {
-            if (_touchOver != null)
-                _touchOver(this, e);
-        }
-
-        private void OnTouchLeave(TouchLeaveEntityEventArgs e)
-        {
-            if (_touchLeave != null)
-                _touchLeave(this, e);
-        }
-
-        public void OnTouchOut(TouchActionEntityEventArgs e)
-        {
-            if (_touchOut != null)
-                _touchOut(this, e);
         }
 
         #endregion
@@ -661,7 +527,6 @@ namespace Yna.Engine.Graphics
             _parent = null;
             _positionType = PositionType.Absolute;
             _nbMouseEventObservers = 0;
-            _nbTouchEventObservers = 0;
         }
 
         /// <summary>
@@ -721,7 +586,7 @@ namespace Yna.Engine.Graphics
 
         public virtual void LoadContent(bool forceReload)
         {
-            _assetLoaded = forceReload;
+            _assetLoaded = !forceReload;
             LoadContent();
         }
 
@@ -747,34 +612,6 @@ namespace Yna.Engine.Graphics
             {
                 _rectangle.X = (int)(ScreenPosition.X - _origin.X);
                 _rectangle.Y = (int)(ScreenPosition.Y - _origin.Y);
-
-                #region Touch events
-
-                // We check if the mouse events only if an event handler exists for one of mouse events
-                if (_nbTouchEventObservers > 0)
-                {
-                    int fingerId = 0;
-                    Vector2 touchPosition = YnG.Touch.GetPosition(fingerId); // TODO : Add a solution for all fingers
-                    Vector2 lastTouchPosition = YnG.Touch.GetLastPosition(fingerId);
-
-                    if (_rectangle.Contains((int)touchPosition.X, (int)touchPosition.Y))
-                    {
-                        _hovered = true; 
-                        OnTouchOver(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-
-                        if (YnG.Touch.Tapped)
-                        {
-                            _clicked = true; 
-                            OnTouchPress(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-                        }
-                    }
-                    else if (Rectangle.Contains((int)lastTouchPosition.X, (int)lastTouchPosition.Y))
-                        OnTouchLeave(new TouchLeaveEntityEventArgs((int)lastTouchPosition.X, (int)lastTouchPosition.Y, fingerId, (int)touchPosition.X, (int)touchPosition.Y));
-                    else
-                        OnTouchOut(new TouchActionEntityEventArgs((int)touchPosition.X, (int)touchPosition.Y, fingerId, YnG.Touch.Tapped, YnG.Touch.Moved, YnG.Touch.Released, YnG.Touch.GetPressureLevel(fingerId)));
-                }
-
-                #endregion
 
                 #region Mouse events
 
@@ -892,20 +729,177 @@ namespace Yna.Engine.Graphics
 
         #region Other methods
 
+        /// <summary>
+        /// Add a new position to the current absolute position.
+        /// </summary>
+        /// <param name="x">Position to add on X axis.</param>
+        /// <param name="y">Position to add on Y axis.</param>
         public virtual void AddAbsolutePosition(int x, int y)
         {
             _position.X += x;
             _position.Y += y;
-            _rectangle.X += x;
-            _rectangle.Y += y;
+            _rectangle.X = (int)_position.X;
+            _rectangle.Y = (int)_position.Y;
         }
 
+        /// <summary>
+        /// Multiply a new position to the current absolute position.
+        /// </summary>
+        /// <param name="x">Position to multiply on X axis.</param>
+        /// <param name="y">Position to multiply on Y axis.</param>
+        public virtual void MultiplyAbsolutePosition(float x, float y)
+        {
+            _position.X *= x;
+            _position.Y *= y;
+            _rectangle.X = (int)_position.X;
+            _rectangle.Y = (int)_position.Y;
+        }
+
+        /// <summary>
+        /// Sets the absolute position of the entity.
+        /// </summary>
+        /// <param name="x">Position on X axis.</param>
+        /// <param name="y">Position on Y axis.</param>
         public virtual void SetAbsolutePosition(int x, int y)
         {
             _position.X = x;
             _position.Y = y;
             _rectangle.X = x;
             _rectangle.Y = y;
+        }
+
+        /// <summary>
+        /// Sets the position type of the entity.
+        /// If it sets to relative, the position will be sets relative to the entity's parent.
+        /// </summary>
+        /// <param name="positionType">Type of position.</param>
+        public void SetPositionType(PositionType positionType)
+        {
+            _positionType = positionType;
+            if (positionType == Graphics.PositionType.Relative)
+            {
+                if (_parent != null)
+                    Position += _parent.Position;
+            }
+            else
+            {
+                if (_parent != null)
+                    Position -= _parent.Position;
+            }
+        }
+
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="x">Position on X axis.</param>
+        /// <param name="y">Position on Y axis.</param>
+        public virtual void SetPosition(int x, int y)
+        {
+            NormalizePositionType(x, y);
+
+            x += (_origin.X < 0 || _origin.X > 0) ? (int)(_origin.X / 2) : 0;
+            y += (_origin.Y < 0 || _origin.X > 0) ? (int)(_origin.Y / 2) : 0;
+
+            _position.X = x;
+            _position.Y = y;
+            _rectangle.X = x;
+            _rectangle.Y = y;
+        }
+
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="vector">Vector2 that represent the position.</param>
+        public virtual void SetPosition(Vector2 vector)
+        {
+            SetPosition(ref vector);
+        }
+
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="vector">Reference of a vector</param>
+        public virtual void SetPosition(ref Vector2 vector)
+        {
+            SetPosition((int)vector.X, (int)vector.Y);
+        }
+
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="rectangle">A rectangle. Note that only the X and Y coordinates are used</param>
+        public virtual void SetPosition(Rectangle rectangle)
+        {
+            SetPosition(rectangle.X, rectangle.Y);
+        }
+
+        /// <summary>
+        /// Sets the position of the entity. If the position type is relative then values are added to the parent's coordinates.
+        /// </summary>
+        /// <param name="rectangle">Reference of a rectangle. Note that only the X and Y coordinates are used</param>
+        public virtual void SetPosition(ref Rectangle rectangle)
+        {
+            SetPosition(rectangle.X, rectangle.Y);
+        }
+
+        public virtual Point GetPosition(PositionType positionType)
+        {
+            Point position = new Point((int)(_position.X - _origin.X), (int)(_position.Y - _origin.Y));
+
+            if (positionType == PositionType.Relative && _parent != null)
+            {
+                position.X = _parent.X - position.X;
+                position.Y = _parent.Y - position.Y;
+            }
+
+            return position;
+        }
+
+        public virtual Point GetPosition()
+        {
+            return GetPosition(_positionType);
+        }
+
+        public virtual void SetRectangle(ref Rectangle rectangle)
+        {
+            NormalizePositionType(ref rectangle);
+            rectangle.X += (int)_origin.X;
+            rectangle.Y += (int)_origin.Y;
+
+            _rectangle = rectangle;
+            _position.X = rectangle.X;
+            _position.Y = rectangle.Y;
+        }
+
+        public virtual void SetRectangle(Rectangle rectangle)
+        {
+            SetRectangle(ref rectangle);
+        }
+
+        public virtual Rectangle GetRectangle()
+        {
+            Rectangle rectangle = new Rectangle(
+                (int)(_position.X - _origin.X),
+                (int)(_position.Y - _origin.Y),
+                (int)(_rectangle.Width * _scale.X),
+                (int)(_rectangle.Height * _scale.Y));
+
+            if (_positionType == PositionType.Relative && _parent != null)
+            {
+                rectangle.X = _parent.X - rectangle.X;
+                rectangle.Y = _parent.Y - rectangle.Y;
+            }
+
+            return rectangle;
+        }
+
+        protected virtual void NormalizePositionType(int x, int y)
+        {
+            if (_positionType == PositionType.Relative && _parent != null)
+            {
+                x += _parent.X;
+                y += _parent.Y;
+            }
         }
 
         /// <summary>
@@ -959,7 +953,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public void SetFullScreen()
         {
-            Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            SetRectangle(new Rectangle(0, 0, YnG.Width, YnG.Height));
         }
 
         #endregion

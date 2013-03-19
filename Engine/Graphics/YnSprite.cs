@@ -23,6 +23,7 @@ namespace Yna.Engine.Graphics
         // Moving the sprite
         protected Vector2 _direction;
         protected Vector2 _lastPosition;
+        protected Vector2 _lastDirection;
         protected Rectangle _viewport;
         protected YnCircle _circle;
 
@@ -159,12 +160,21 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets or sets the last position of the sprite
+        /// Gets the last position of the sprite
         /// </summary>
         public Vector2 LastPosition
         {
             get { return _lastPosition; }
-            set { _lastPosition = value; }
+            protected set { _lastPosition = value; }
+        }
+
+        /// <summary>
+        /// Gets the latest direction of the sprite.
+        /// </summary>
+        public Vector2 LastDirection
+        {
+            get { return _lastDirection; }
+            protected set { _lastDirection = value; }
         }
 
         /// <summary>
@@ -195,6 +205,7 @@ namespace Yna.Engine.Graphics
         {
             _sourceRectangle = null;
             _lastPosition = Vector2.Zero;
+            _lastDirection = Vector2.Zero;
             _circle = new YnCircle();
 
             _viewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
@@ -271,7 +282,7 @@ namespace Yna.Engine.Graphics
             _animator.Initialize(width, height, _texture.Width, _texture.Height);
             
             // The sprite size is now the size of a sprite on the spritesheet
-            Rectangle = new Rectangle(X, Y, width, height);
+            SetRectangle(new Rectangle(X, Y, width, height));
 
             _hasAnimation = true;
         }
@@ -311,6 +322,7 @@ namespace Yna.Engine.Graphics
         	int count = endIndex - startIndex;
         	int[] indexes = new int[count+1];
         	int currentIntex = startIndex;
+
         	for(int i = 0; i <= count; i++)
         	{
         		indexes[i] = currentIntex;
@@ -355,7 +367,7 @@ namespace Yna.Engine.Graphics
         public int GetAnimationLenght(string animationKeyName)
         {
             if (_hasAnimation)
-                return _animator.Animations[animationKeyName].Length;
+                return _animator.Animations[animationKeyName].Count;
             else
                 return 0;
         }
@@ -379,7 +391,7 @@ namespace Yna.Engine.Graphics
         /// <param name="animationName">Animation name</param>
         public void Play(string animationName)
         {
-            _sourceRectangle = _animator.Animations[animationName].Next(ref _effects, _elapsedTime);
+            _sourceRectangle = _animator.Play(animationName, ref _effects);
         }
 
         #endregion
@@ -388,6 +400,9 @@ namespace Yna.Engine.Graphics
 
         public override void Initialize() { }
 
+        /// <summary>
+        /// Load the texture of the sprite.
+        /// </summary>
         public override void LoadContent()
         {
             if (!_assetLoaded)
@@ -404,7 +419,7 @@ namespace Yna.Engine.Graphics
                 if (!_hasAnimation)
                 {
                     SourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
-                    Rectangle = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                    SetRectangle(new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height));
                 }
                 
                 _circle.Radius = Math.Max(_texture.Width, _texture.Height);
@@ -434,7 +449,8 @@ namespace Yna.Engine.Graphics
             if (Enabled)
             {
                 // Sauvegarde de la dernière position
-                LastPosition = Position;
+                _lastPosition = _position;
+                _lastDirection = _direction;
   
                 _elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
 
@@ -445,11 +461,16 @@ namespace Yna.Engine.Graphics
                     _velocity *= _maxVelocity;
                 }
 
-                _circle.X = (int)_position.X;
-                _circle.Y = (int)_position.Y;
+                _circle.X = (int)(_position.X - _origin.X);
+                _circle.Y = (int)(_position.Y - _origin.Y);
 
                 if (_hasAnimation)
-                    _animator.Update(gameTime, LastDistance);
+                {
+                    _animator.Update(gameTime);
+
+                    if (_lastDirection == Vector2.Zero && _animator.CurrentAnimationName != String.Empty)
+                        _sourceRectangle = _animator.GetCurrentAnimation().Rectangle[0];
+                }
             }
         }
 
@@ -461,14 +482,14 @@ namespace Yna.Engine.Graphics
         public virtual void PostUpdate(GameTime gameTime)
         {
             // Update the direction
-            Direction = new Vector2(LastDistance.X, LastDistance.Y);
-            Direction.Normalize();
+            _direction.X = LastDistance.X;
+            _direction.Y = LastDistance.Y;
 
             if (_insideScreen)
             {
-                if (X < _viewport.X)
+                if (X - _origin.X < _viewport.X)
                 {
-                    _position.X = _viewport.X;
+                    _position.X = _viewport.X + _origin.X;
                     _velocity *= 0.0f;
                 }
                 else if (X + (Width - Origin.X) > _viewport.Width)
@@ -477,9 +498,9 @@ namespace Yna.Engine.Graphics
                     _velocity *= 0.0f;
                 }
 
-                if (Y < _viewport.Y)
+                if (Y - _origin.Y < _viewport.Y)
                 {
-                    _position.Y = _viewport.Y;
+                    _position.Y = _viewport.Y + _origin.Y;
                     _velocity *= 0.0f;
                 }
                 else if (Y + (Height - Origin.Y) > _viewport.Height)

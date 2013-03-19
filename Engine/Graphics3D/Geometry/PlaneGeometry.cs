@@ -4,8 +4,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Graphics3D.Geometry
 {
+    /// <summary>
+    /// Plane geometry
+    /// </summary>
     public class PlaneGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
+        private bool _invertFaces;
+
+        public bool InvertFaces
+        {
+            get { return _invertFaces; }
+            set { _invertFaces = value; }
+        }
+
         public PlaneGeometry(string textureName, Vector3 sizes, Vector3 position)
         {
             _segmentSizes = sizes;
@@ -14,16 +25,17 @@ namespace Yna.Engine.Graphics3D.Geometry
             _width = sizes.X;
             _height = sizes.Y;
             _depth = sizes.Z;
+            _invertFaces = false;
         }
 
         protected override void CreateVertices()
         {
             Vector3[] vertexPositions = new Vector3[4]
             {
-                new Vector3(-1.0f, 1.0f, -1.0f),
-                new Vector3(-1.0f, 1.0f, 1.0f),
-                new Vector3(1.0f, 1.0f, -1.0f),
-                new Vector3(1.0f, 1.0f, 1.0f)
+                new Vector3(-1.0f, 0.0f, -1.0f),
+                new Vector3(-1.0f, 0.0f, 1.0f),
+                new Vector3(1.0f, 0.0f, -1.0f),
+                new Vector3(1.0f, 0.0f, 1.0f)
             };
 
             Vector2[] textureCoordinates = new Vector2[4]
@@ -38,7 +50,7 @@ namespace Yna.Engine.Graphics3D.Geometry
 
             for (int i = 0; i < 4; i++)
             {
-                _vertices[i].Position = vertexPositions[i] * _segmentSizes;
+                _vertices[i].Position = (vertexPositions[i] + _origin) * _segmentSizes;
                 _vertices[i].TextureCoordinate = textureCoordinates[i] * _textureRepeat;
                 _vertices[i].Normal = Vector3.Up;
             }
@@ -46,10 +58,13 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         protected override void CreateIndices()
         {
-            _indices = new short[] 
-            {
-                0, 1, 2, 1, 3, 2
-            };
+            _indices = new short[6]; 
+            _indices[0] = 0;
+            _indices[1] = (short)(_invertFaces ? 1 : 2);
+            _indices[2] = (short)(_invertFaces ? 2 : 1);
+            _indices[3] = 1;
+            _indices[4] = (short)(_invertFaces ? 3 : 2);
+            _indices[5] = (short)(_invertFaces ? 2 : 3);
         }
         
         /// <summary>

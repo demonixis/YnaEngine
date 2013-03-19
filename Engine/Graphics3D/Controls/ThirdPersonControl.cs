@@ -18,8 +18,7 @@ namespace Yna.Engine.Graphics3D.Controls
         public ThirdPersonControl(ThirdPersonCamera camera)
             : base(camera)
         {
-            if (camera.FollowedObject == null)
-                throw new Exception("[ThirdPersonCamera] The followed object is null");
+
         }
 
         public override void Update(GameTime gameTime)
@@ -46,15 +45,15 @@ namespace Yna.Engine.Graphics3D.Controls
 
             // Translation Forward/backward
             if (YnG.Keys.Pressed(Keys.Z) || YnG.Keys.Up)
-                _velocityPosition.Z -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
                 _velocityPosition.Z += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
+                _velocityPosition.Z -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Translation Left/Right
             if (YnG.Keys.Pressed(Keys.Q))
-                _velocityPosition.X -= _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            else if (YnG.Keys.Pressed(Keys.D))
                 _velocityPosition.X += _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            else if (YnG.Keys.Pressed(Keys.D))
+                _velocityPosition.X -= _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Rotation Left/Right
             if (YnG.Keys.Left)
@@ -79,9 +78,9 @@ namespace Yna.Engine.Graphics3D.Controls
             _velocityRotation.Y += -rightStickValue.X * _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             if (YnG.Gamepad.LeftTrigger(PlayerIndex.One))
-                _velocityPosition.Y += -_moveSpeed * YnG.Gamepad.LeftTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                _velocityPosition.Y += _moveSpeed * YnG.Gamepad.LeftTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Gamepad.RightTrigger(PlayerIndex.One))
-                _velocityPosition.Y += +_moveSpeed * YnG.Gamepad.RightTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                _velocityPosition.Y += -_moveSpeed * YnG.Gamepad.RightTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             Camera.RotateX(-rightStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.1f);
 

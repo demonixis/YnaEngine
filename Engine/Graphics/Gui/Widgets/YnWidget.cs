@@ -125,7 +125,6 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             // Fake the presence of event handlers for the YnEntity to manage
             // mouse and touch routines
             _nbMouseEventObservers++;
-            _nbTouchEventObservers++;
         }
 
         /// <summary>

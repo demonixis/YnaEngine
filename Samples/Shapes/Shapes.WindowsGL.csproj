@@ -44,9 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Menu.cs" />
+    <Compile Include="Screens\BaseSample.cs" />
     <Compile Include="Screens\CubeSample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screens\CylinderSample.cs" />
     <Compile Include="Screens\IcosphereSample.cs" />
+    <Compile Include="Screens\PlaneSample.cs" />
+    <Compile Include="Screens\PyramidSample.cs" />
+    <Compile Include="Screens\SphereSample.cs" />
+    <Compile Include="Screens\TorusSample.cs" />
     <Compile Include="ShapesGame.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,10 +70,6 @@
     <ProjectReference Include="..\..\Engine\Yna.WindowsGL.csproj">
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.WindowsGL.csproj">
-      <Project>{08ec5eaa-02d9-4b51-b545-97af22836c06}</Project>
-      <Name>Common.WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

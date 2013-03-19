@@ -57,7 +57,10 @@ namespace Yna.Engine.Graphics3D.Camera
         {
             _reference = reference;
             _followedObject = entity3D;
-            entity3D.Camera = this;
+
+            if (entity3D != null)
+                entity3D.Camera = this;
+
             SetupCamera();
         }
 

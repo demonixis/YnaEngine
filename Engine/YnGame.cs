@@ -111,6 +111,7 @@ namespace Yna.Engine
         {
             base.LoadContent();
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
+            GraphicsDevice.Viewport = new Viewport(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
 
         /// <summary>
@@ -151,7 +152,7 @@ namespace Yna.Engine
         public virtual void DetermineBestResolution(bool fullscreen)
         {
             SetScreenResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
-
+            
             if (!graphics.IsFullScreen && fullscreen)
                 graphics.ToggleFullScreen();
         }

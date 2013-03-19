@@ -46,7 +46,7 @@
     <Compile Include="Screens\AnimatedSprite.cs" />
     <Compile Include="Screens\BasicSprite.cs" />
     <Compile Include="SpritesGame.cs" />
-	<Compile Include="Screens\ParticlesSample.cs" />
+    <Compile Include="Screens\ParticlesSample.cs" />
     <Compile Include="Screens\AnimatedSpriteVirtualPad.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
