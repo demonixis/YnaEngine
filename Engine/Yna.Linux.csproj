@@ -32,7 +32,7 @@
     <DefineConstants>MONOGAME;LINUX;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-  <Compile Include="Audio\AudioAdapter.cs" />
+    <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\DummyAudioAdapter.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
@@ -82,7 +82,6 @@
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Content\YnContentManager.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
-    <Compile Include="Graphics3D\Terrain\SkyBox.cs" />
     <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
     <Compile Include="Graphics\Animation\YnInterpolator.cs" />
     <Compile Include="Graphics\YnEntityList.cs" />
@@ -117,7 +116,6 @@
     <Compile Include="Graphics3D\Terrain\BaseTerrain.cs" />
     <Compile Include="Graphics3D\Terrain\SimpleTerrain.cs" />
     <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
-    <Compile Include="Graphics3D\YnScene.cs" />
     <Compile Include="Graphics3D\YnState3D.cs" />
     <Compile Include="Graphics\YnGraphics.cs" />
     <Compile Include="Graphics\YnText.cs" />
@@ -144,15 +142,6 @@
     <Compile Include="Graphics\Gui\YnWindow.cs" />
     <Compile Include="Collision\YnCollide.cs" />
     <Compile Include="Graphics\YnSprite.cs" />
-    <Compile Include="Graphics\TileMap\BaseLayer.cs" />
-    <Compile Include="Graphics\TileMap\BaseTile.cs" />
-    <Compile Include="Graphics\TileMap\BaseTileMap.cs" />
-    <Compile Include="Graphics\TileMap\Basic\Layer2D.cs" />
-    <Compile Include="Graphics\TileMap\Basic\Tile2D.cs" />
-    <Compile Include="Graphics\TileMap\Basic\TileMap2D.cs" />
-    <Compile Include="Graphics\TileMap\Iso\LayerIso.cs" />
-    <Compile Include="Graphics\TileMap\Iso\TileIso.cs" />
-    <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
@@ -192,6 +181,17 @@
     <Compile Include="Graphics\Particle\YnEmitter.cs" />
     <Compile Include="Graphics\Particle\YnParticle.cs" />
     <Compile Include="Extensions\PointExtension.cs" />
+    <Compile Include="Graphics3D\Terrain\Skybox.cs" />
+    <Compile Include="Graphics\Tilemap\BaseLayer.cs" />
+    <Compile Include="Graphics\Tilemap\BaseTile.cs" />
+    <Compile Include="Graphics\Tilemap\BaseTileMap.cs" />
+    <Compile Include="Graphics\Tilemap\Basic\Layer2D.cs" />
+    <Compile Include="Graphics\Tilemap\Basic\Tile2D.cs" />
+    <Compile Include="Graphics\Tilemap\Basic\TileMap2D.cs" />
+    <Compile Include="Graphics\Tilemap\Iso\LayerIso.cs" />
+    <Compile Include="Graphics\Tilemap\Iso\TileIso.cs" />
+    <Compile Include="Graphics\Tilemap\Iso\TileMapIso.cs" />
+    <Compile Include="Graphics3D\YnScene3D.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
