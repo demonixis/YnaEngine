@@ -8,19 +8,31 @@ namespace Yna.Engine.Graphics3D.Camera
         /// Create a fixed camera with default values
         /// </summary>
         public FixedCamera()
-            : this(new Vector3(0.0f, 5.0f, -5.0f), new Vector3(0.0f, 0.0f, 0.0f))
+            : this(new Vector3(0.0f), new Vector3(0.0f, 0.0f, 0.0f))
         {
             
         }
 
         /// <summary>
-        /// Create a fixed camera with an initiale position and a target
+        /// Create a fixed camera with an initiale position and a target.
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="target"></param>
+        /// <param name="position">The initial position.</param>
+        /// <param name="target">The initial target.</param>
         public FixedCamera(Vector3 position, Vector3 target)
+            : this(position, target, new Vector3(0.0f, 0.0f, 10.0f))
         {
-            _reference = new Vector3(0.0f, 0.0f, 10.0f);
+            
+        }
+
+        /// <summary>
+        /// Create a fixed camera with an initiale position and a target.
+        /// </summary>
+        /// <param name="position">Initial position.</param>
+        /// <param name="target">Initial target.</param>
+        /// <param name="reference">Initial reference.</param>
+        public FixedCamera(Vector3 position, Vector3 target, Vector3 reference)
+        {
+            _reference = reference;
             _position = position;
             _target = target;
 

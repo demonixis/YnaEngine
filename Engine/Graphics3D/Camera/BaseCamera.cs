@@ -346,16 +346,6 @@ namespace Yna.Engine.Graphics3D.Camera
             _world = Matrix.Identity;
         }
 
-        public Matrix GetProjection()
-        {
-            return _projection;
-        }
-
-        public Matrix GetView()
-        {
-            return _view;
-        }
-
         /// <summary>
         /// Setup the camera with default values
         /// </summary>
@@ -398,6 +388,17 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
+        /// Rotate the camera around X axis.
+        /// </summary>
+        /// <param name="angle">An angle in degree.</param>
+        public virtual void RotateX(float angle)
+        {
+            _pitch += MathHelper.ToRadians(angle);
+            _pitch = _pitch <= -1.0f ? -1.0f : _pitch;
+            _pitch = _pitch >= 1.0f ? 1.0f : _pitch;
+        }
+
+        /// <summary>
         /// Rotate the camera around Y axis.
         /// </summary>
         /// <param name="angle">An angle in degree.</param>
@@ -410,17 +411,6 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
-        /// Rotate the camera around X axis.
-        /// </summary>
-        /// <param name="angle">An angle in degree.</param>
-        public virtual void RotateX(float angle)
-        {
-            _pitch += MathHelper.ToRadians(angle);
-            _pitch = _pitch <= -1.0f ? -1.0f : _pitch;
-            _pitch = _pitch >= 1.0f ? 1.0f : _pitch;
-        }
-
-        /// <summary>
         /// Rotate the camera around Z axis.
         /// </summary>
         /// <param name="angle">An angle in degree.</param>
@@ -430,7 +420,40 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
-        /// Translate the camera
+        /// Rotate the camera. (Degree)
+        /// </summary>
+        /// <param name="rx">Angle for X axis (degrees)</param>
+        /// <param name="ry">Angle for Y axis (degrees)</param>
+        /// <param name="rz">Angle for Z axis (degrees)</param>
+        public virtual void Rotate(float rx, float ry, float rz)
+        {
+            _pitch += MathHelper.ToRadians(rx);
+            _yaw += MathHelper.ToRadians(ry);
+            _roll += MathHelper.ToRadians(rz); 
+        }
+
+        /// <summary>
+        /// Rotate the camera. (Radians)
+        /// </summary>
+        /// <param name="rotation">Vector to use for rotation.</param>
+        public virtual void Rotate(Vector3 rotation)
+        {
+            Rotate(ref rotation);
+        }
+
+        /// <summary>
+        /// Rotate the camera. (Radians)
+        /// </summary>
+        /// <param name="rotation">Vector to use for rotation.</param>
+        public virtual void Rotate(ref Vector3 rotation)
+        {
+            _pitch += MathHelper.ToRadians(rotation.X);
+            _yaw += MathHelper.ToRadians(rotation.Y);
+            _roll += MathHelper.ToRadians(rotation.Z);
+        }
+
+        /// <summary>
+        /// Translate the camera. Values are transformed and added to the current position.
         /// </summary>
         /// <param name="x">X value</param>
         /// <param name="y">Y value</param>
@@ -444,6 +467,59 @@ namespace Yna.Engine.Graphics3D.Camera
             _position.X += v.X;
             _position.Y += v.Y;
             _position.Z += v.Z;
+        }
+
+        /// <summary>
+        /// Translate the camera. Values are transformed and added to the current position.
+        /// </summary>
+        /// <param name="translation">Translation vector to use.</param>
+        public virtual void Translate(Vector3 translation)
+        {
+            Translate(ref translation);
+        }
+
+        /// <summary>
+        /// Translate the camera. Values are transformed and added to the current position.
+        /// </summary>
+        /// <param name="translation">Translation vector to use.</param>
+        public virtual void Translate(ref Vector3 translation)
+        {
+            Translate(translation.X, translation.Y, translation.Z);
+        }
+
+        /// <summary>
+        /// Move the camera. Values are transformed and replace the current position.
+        /// </summary>
+        /// <param name="x">X value</param>
+        /// <param name="y">Y value</param>
+        /// <param name="z">Z value</param>
+        public virtual void Move(float x, float y, float z)
+        {
+            Vector3 move = new Vector3(x, y, z);
+            Matrix forwardMovement = Matrix.CreateRotationY(_yaw);
+            Vector3 v = Vector3.Transform(move, forwardMovement);
+
+            _position.X = v.X;
+            _position.Y = v.Y;
+            _position.Z = v.Z;
+        }
+
+        /// <summary>
+        /// Move the camera. Values are transformed and replace the current position.
+        /// </summary>
+        /// <param name="moveVector">Vector to use.</param>
+        public virtual void Move(Vector3 moveVector)
+        {
+            Move(ref moveVector);
+        }
+
+        /// <summary>
+        /// Move the camera. Values are transformed and replace the current position.
+        /// </summary>
+        /// <param name="moveVector">Vector to use.</param>
+        public virtual void Move(ref Vector3 moveVector)
+        {
+            Move(moveVector.X, moveVector.Y, moveVector.Z);
         }
 
         /// <summary>

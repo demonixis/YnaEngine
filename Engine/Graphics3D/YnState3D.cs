@@ -9,11 +9,23 @@ using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D
 {
+    /// <summary>
+    /// A 3D state who contains a camera manager, a scene manager and a collection of basic objects (timers, controllers, etc...)
+    /// </summary>
     public class YnState3D : BaseState
     {
         private CameraManager _cameraManager;
         private YnScene3D _scene;
         private YnBaseList _basicObjects;
+
+        /// <summary>
+        /// Gets (protected sets) the collection of basic objects.
+        /// </summary>
+        public List<YnBase> BasicObjects
+        {
+            get { return _basicObjects.Members; }
+            protected set { _basicObjects.Members = value; }
+        }
 
         /// <summary>
         /// Gets (protected sets) the scene.
@@ -48,7 +60,7 @@ namespace Yna.Engine.Graphics3D
         /// Create a state with a 3D scene and a fixed camera.
         /// </summary>
         public YnState3D()
-            : this(new FixedCamera())
+            : this((BaseCamera)null)
         {
             
         }
@@ -63,7 +75,7 @@ namespace Yna.Engine.Graphics3D
             if (camera != null)
                 _cameraManager = new CameraManager(camera);
             else
-                _cameraManager = new CameraManager(new FixedCamera());
+                _cameraManager = new CameraManager();
 
             _scene = new YnScene3D();
             _basicObjects = new YnBaseList();
@@ -92,6 +104,8 @@ namespace Yna.Engine.Graphics3D
         }
 
         #endregion
+
+        #region GameState pattern
 
         /// <summary>
         /// Initialize logic of all scene members.
@@ -128,12 +142,13 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// 
+        /// Update camera manager, basic objects and scene logic.
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             _cameraManager.Update(gameTime);
+            _basicObjects.Update(gameTime);
             _scene.Update(gameTime);
         }
 
@@ -142,33 +157,9 @@ namespace Yna.Engine.Graphics3D
             _scene.Draw(gameTime, YnG.GraphicsDevice, _cameraManager.GetActiveCamera());
         }
 
+        #endregion
+
         #region Collection Management
-
-        /// <summary>
-        /// Add an object3D on the scene
-        /// </summary>
-        /// <param name="object3D">An object3D</param>
-        public void Add(YnEntity3D object3D)
-        {
-            _scene.Add(object3D);
-        }
-
-        /// <summary>
-        /// Remove an object3D of the scene
-        /// </summary>
-        /// <param name="object3D"></param>
-        public void Remove(YnEntity3D object3D)
-        {
-            _scene.Remove(object3D);
-        }
-
-        /// <summary>
-        /// Clear all objects on the state and on the scene
-        /// </summary>
-        public void Clear()
-        {
-            _scene.Clear();
-        }
 
         /// <summary>
         /// Add a basic object to the scene.
@@ -181,13 +172,23 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Gets a basic member with its index id.
+        /// Add an object3D on the scene
         /// </summary>
-        /// <param name="index">Index of object.</param>
-        /// <returns>Return desired object if exists, otherwise return null.</returns>
-        public YnBase GetBasicMember(int index)
+        /// <param name="object3D">An object3D</param>
+        public bool Add(YnEntity3D object3D)
         {
-            return _basicObjects[index];
+            return _scene.Add(object3D);
+        }
+
+        /// <summary>
+        /// Add a camera to the scene.
+        /// </summary>
+        /// <param name="camera">Camera to add.</param>
+        /// <returns>Return false if the camera is already added otherwise return true.</returns>
+        public bool Add(BaseCamera camera)
+        {
+            _cameraManager.Add(camera);
+            return true;
         }
 
         /// <summary>
@@ -198,6 +199,33 @@ namespace Yna.Engine.Graphics3D
         public bool Remove(YnBase basicObject)
         {
             return _basicObjects.Remove(basicObject);
+        }
+
+        /// <summary>
+        /// Remove an object3D of the scene
+        /// </summary>
+        /// <param name="object3D">Object3D to remove.</param>
+        public bool Remove(YnEntity3D object3D)
+        {
+            return _scene.Remove(object3D);
+        }
+
+        /// <summary>
+        /// Remove a camera of the scene
+        /// </summary>
+        /// <param name="cmaera">Camera to remove.</param>
+        public bool Remove(BaseCamera camera)
+        {
+            return _cameraManager.Remove(camera);
+        }
+
+        /// <summary>
+        /// Clear all objects on the state and on the scene
+        /// </summary>
+        public void Clear()
+        {
+            _basicObjects.Clear();
+            _scene.Clear();
         }
 
         #endregion

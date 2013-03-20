@@ -93,7 +93,7 @@ namespace Yna.Samples.Screens
             // Naive Collide detection with ground
             // This method get the current segment height on the terrain and set the Y position of the camera at this value
             // We add 2 units because the camera is a bit higher than the ground
-            //camera.Y += (heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 5 - camera.Y) * 0.2f;
+            camera.Y += (heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 5 - camera.Y) * 0.2f;
 
             // Move the camera with a click
             if (YnG.Mouse.Click(MouseButton.Left))

@@ -12,7 +12,6 @@ namespace Yna.Engine.Graphics3D
 {
     public class YnScene3D : YnGroup3D
     {
-        private YnBaseList _basicObjects;
         protected SceneLight _sceneLight;
 
         /// <summary>
@@ -24,31 +23,11 @@ namespace Yna.Engine.Graphics3D
             set { _sceneLight = value; }
         }
 
-        /// <summary>
-        /// Gets base members like Camera, Timers, etc...
-        /// </summary>
-        public List<YnBase> BaseMembers
-        {
-            get { return _basicObjects.Members; }
-            protected set { _basicObjects.Members = value; }
-        }
-
         public YnScene3D()
             : base(null)
         {
             _sceneLight = new SceneLight();
             _sceneLight.AmbientIntensity = 1f;
-            _basicObjects = new YnBaseList();
-        }
-
-        /// <summary>
-        /// Update logic of all members.
-        /// </summary>
-        /// <param name="gameTime"></param>
-        public override void Update(GameTime gameTime)
-        {
-            _basicObjects.Update(gameTime);
-            base.Update(gameTime);
         }
 
         /// <summary>

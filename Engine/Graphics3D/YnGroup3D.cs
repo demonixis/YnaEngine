@@ -247,7 +247,7 @@ namespace Yna.Engine.Graphics3D
         /// Add an object to the group, the camera used for this group will be used for this object
         /// </summary>
         /// <param name="sceneObject">An object3D</param>
-        public bool Add(YnEntity3D sceneObject)
+        public virtual bool Add(YnEntity3D sceneObject)
         {
             if (sceneObject is YnScene3D)
                 throw new Exception("[YnGroup3D] You can't add a scene on a group, use an YnGroup3D instead");
@@ -270,7 +270,7 @@ namespace Yna.Engine.Graphics3D
         /// Remove an object of the group
         /// </summary>
         /// <param name="sceneObject"></param>
-        public bool Remove(YnEntity3D sceneObject)
+        public virtual bool Remove(YnEntity3D sceneObject)
         {
             return _members.Remove(sceneObject);
         }
@@ -278,7 +278,7 @@ namespace Yna.Engine.Graphics3D
         /// <summary>
         /// Clear the group
         /// </summary>
-        public void Clear()
+        public virtual void Clear()
         {
             _members.Clear();
         }
