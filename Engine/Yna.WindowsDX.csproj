@@ -72,6 +72,7 @@
     <Compile Include="Graphics3D\YnMesh.cs" />
     <Compile Include="Graphics3D\YnMeshGeometry.cs" />
     <Compile Include="Graphics3D\YnMeshModel.cs" />
+    <Compile Include="Graphics3D\YnScene3D.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />
@@ -119,7 +120,6 @@
     <Compile Include="Graphics3D\Terrain\BaseTerrain.cs" />
     <Compile Include="Graphics3D\Terrain\SimpleTerrain.cs" />
     <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
-    <Compile Include="Graphics3D\YnScene.cs" />
     <Compile Include="Graphics3D\YnState3D.cs" />
     <Compile Include="Graphics\YnGraphics.cs" />
     <Compile Include="Graphics\YnText.cs" />
