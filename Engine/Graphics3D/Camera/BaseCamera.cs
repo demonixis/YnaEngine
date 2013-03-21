@@ -521,6 +521,66 @@ namespace Yna.Engine.Graphics3D.Camera
         {
             Move(moveVector.X, moveVector.Y, moveVector.Z);
         }
+		
+        /// <summary>
+        /// Sets the camera to front view.
+        /// </summary>
+		public virtual void FrontView()
+		{
+			_pitch = 0;
+			_yaw = 0;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to back view.
+        /// </summary>
+		public virtual void BackView()
+		{
+			_pitch = 0;
+			_yaw = (float)MathHelper.PiOver2;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to left view.
+        /// </summary>
+		public virtual void LeftView()
+		{
+			_pitch = 0;
+			_yaw = (float)-MathHelper.PiOver2;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to right view.
+        /// </summary>
+		public virtual void RightView()
+		{
+			_pitch = 0;
+			_yaw = (float)MathHelper.PiOver2;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to top view.
+        /// </summary>
+		public virtual void TopView()
+		{
+			_pitch = (float)-MathHelper.PiOver2;
+			_yaw = 0;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to bottom view.
+        /// </summary>
+		public virtual void BottomView()
+		{
+			_pitch = (float)MathHelper.PiOver2;
+			_yaw = 0;
+			_roll = 0;
+		}
 
         /// <summary>
         /// Update BoundingBox, BoundingSphere and BoundingFrustrum. It's called by Update method.
