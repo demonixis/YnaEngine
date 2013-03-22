@@ -7,12 +7,12 @@ using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Material;
 using Yna.Engine.Graphics;
-
+#if DEBUG
 namespace Yna.Engine.Graphics3D
 {
     public class YnBillboard : YnMeshGeometry
     {
-        private SpriteBatch spriteBatch;
+        private SpriteBatch _spriteBatch;
         private RenderTarget2D renderTarget;
         private YnEntity _entity;
 
@@ -34,28 +34,27 @@ namespace Yna.Engine.Graphics3D
         {
             base.LoadContent();
             _entity.LoadContent();
-            spriteBatch = new SpriteBatch(YnG.GraphicsDevice);
-            renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int)_entity.Width, (int)_entity.Height, true, SurfaceFormat.Color, DepthFormat.Depth24);
+            _spriteBatch = new SpriteBatch(YnG.GraphicsDevice);
+            //renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int)_entity.Width, (int)_entity.Height, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 1, RenderTargetUsage.PlatformContents);
         }
 
         public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
             PreDraw(camera);
-            
-            RenderTargetBinding[] oldRenderTargets = device.GetRenderTargets();
-
+            renderTarget = new RenderTarget2D(YnG.GraphicsDevice, 128, 128);
             device.SetRenderTarget(renderTarget);
-            device.Clear(Color.Transparent);
+            device.Clear(Color.Black);
             
-            spriteBatch.Begin();
-            _entity.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
+            _spriteBatch.Begin();
+            //_entity.Draw(gameTime, _spriteBatch);
+            _spriteBatch.End();
 
-            device.SetRenderTarget((RenderTarget2D)null);
- 
-            _material.Texture = renderTarget;
+            device.SetRenderTarget(null);
 
-            _geometry.Draw(device, _material);
+            //_material.Texture = (Texture2D)renderTarget;
+
+            //_geometry.Draw(device, _material);
         }
     }
 }
+#endif

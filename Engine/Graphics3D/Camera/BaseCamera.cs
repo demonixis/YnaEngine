@@ -376,6 +376,8 @@ namespace Yna.Engine.Graphics3D.Camera
             _world = Matrix.Identity;
 
             UpdateProjection();
+
+            _boundingFrustrum.BuildBoundingFrustum(this);
         }
 
         /// <summary>

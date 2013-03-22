@@ -15,6 +15,7 @@ namespace Yna.Samples.Screens
     public class BaseSample : YnState3D
     {
         protected SimpleTerrain terrain;
+        protected FirstPersonCamera camera;
         protected FirstPersonControl control;
         protected SkyBox skybox;
 
@@ -28,13 +29,13 @@ namespace Yna.Samples.Screens
             : base(name)
         {
             // 1 - Create an FPSCamera
-            _camera = new FirstPersonCamera();
-            _camera.SetupCamera();
-            Add(_camera);
+            camera = new FirstPersonCamera();
+            camera.SetupCamera();
+            Add(camera);
 
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
-            control = new FirstPersonControl((FirstPersonCamera)_camera);
+            control = new FirstPersonControl(camera);
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.05f;
             control.RotationSpeed = 0.45f;
