@@ -178,7 +178,7 @@ namespace Yna.Engine.Graphics3D.Material
                 _enableMainTexture = true;
             }
             else
-                _enableMainTexture = false;
+                _enableMainTexture = _texture != null ? true : false;
         }
 
         public override void Update(BaseCamera camera, ref Matrix world)

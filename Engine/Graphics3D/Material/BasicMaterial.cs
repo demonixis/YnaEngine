@@ -32,6 +32,14 @@ namespace Yna.Engine.Graphics3D.Material
             _enableMainTexture = true;
         }
 
+        public BasicMaterial(Texture2D texture)
+            : this()
+        {
+            _texture = texture;
+            _textureLoaded = true;
+            _enableMainTexture = true;
+        }
+
         public override void LoadContent()
         {
             base.LoadContent();
