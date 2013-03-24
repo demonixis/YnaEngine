@@ -35,25 +35,33 @@ namespace Yna.Engine.Graphics3D
             base.LoadContent();
             _entity.LoadContent();
             _spriteBatch = new SpriteBatch(YnG.GraphicsDevice);
-            //renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int)_entity.Width, (int)_entity.Height, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 1, RenderTargetUsage.PlatformContents);
+            renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int)_entity.Width, (int)_entity.Height, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 1, RenderTargetUsage.PlatformContents);
         }
 
         public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
             PreDraw(camera);
-            renderTarget = new RenderTarget2D(YnG.GraphicsDevice, 128, 128);
+            
             device.SetRenderTarget(renderTarget);
-            device.Clear(Color.Black);
+           // device.Clear(Color.Transparent);
             
             _spriteBatch.Begin();
-            //_entity.Draw(gameTime, _spriteBatch);
+            _entity.Draw(gameTime, _spriteBatch);
             _spriteBatch.End();
 
             device.SetRenderTarget(null);
 
-            //_material.Texture = (Texture2D)renderTarget;
+            device.BlendState = BlendState.AlphaBlend;
+            device.DepthStencilState = DepthStencilState.None;
+            device.RasterizerState = RasterizerState.CullCounterClockwise;
+            device.SamplerStates[0] = SamplerState.LinearClamp;
+            device.BlendState = BlendState.Opaque;
+            device.DepthStencilState = DepthStencilState.Default;
+            device.SamplerStates[0] = SamplerState.LinearWrap;
+            device.Clear(Color.Transparent);
+            _material.Texture = (Texture2D)renderTarget;
 
-            //_geometry.Draw(device, _material);
+            _geometry.Draw(device, _material);
         }
     }
 }

@@ -31,8 +31,8 @@ namespace Yna.Engine.Graphics3D.Controls
         public override void ApplyPhysics(GameTime gameTime)
         {
             var camera = Camera as ThirdPersonCamera;
-            camera.FollowedObject.Translate(_velocityPosition.X, _velocityPosition.Y, _velocityPosition.Z);
-            camera.FollowedObject.RotateY(_velocityRotation.Y);
+            camera.FollowedObject.Translate(_velocityPosition.X * _xDirection, _velocityPosition.Y * _yDirection, _velocityPosition.Z * _zDirection);
+            camera.FollowedObject.RotateY(_velocityRotation.Y * _yRotation);
         }
 
         protected override void UpdateKeyboardInput(GameTime gameTime)
