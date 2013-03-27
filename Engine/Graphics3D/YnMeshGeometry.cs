@@ -85,19 +85,25 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public override void UpdateBoundingVolumes()
         {
-            // Reset bounding box to min/max values
-            _boundingBox.Min = new Vector3(float.MaxValue);
-            _boundingBox.Max = new Vector3(float.MinValue);
+            Vector3 min = new Vector3(float.MaxValue);
+            Vector3 max = new Vector3(float.MinValue);
 
             for (int i = 0; i < _geometry.Vertices.Length; i++)
             {
-                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, _geometry.Vertices[i].Position.X);
-                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, _geometry.Vertices[i].Position.Y);
-                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, _geometry.Vertices[i].Position.Z);
-                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, _geometry.Vertices[i].Position.X);
-                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, _geometry.Vertices[i].Position.Y);
-                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _geometry.Vertices[i].Position.Z);
+                min.X = Math.Min(min.X, _geometry.Vertices[i].Position.X);
+                min.Y = Math.Min(min.Y, _geometry.Vertices[i].Position.Y);
+                min.Z = Math.Min(min.Z, _geometry.Vertices[i].Position.Z);
+                max.X = Math.Max(max.X, _geometry.Vertices[i].Position.X);
+                max.Y = Math.Max(max.Y, _geometry.Vertices[i].Position.Y);
+                max.Z = Math.Max(max.Z, _geometry.Vertices[i].Position.Z);
             }
+
+            _boundingBox.Min.X = X;
+            _boundingBox.Min.Y = Y;
+            _boundingBox.Min.Z = Z;
+            _boundingBox.Max.X = X + (max.X - min.X);
+            _boundingBox.Max.Y = Y + (max.Y - min.Y);
+            _boundingBox.Max.Z = Z + (max.Z - min.Z);
 
             // Apply scale on the object
             _boundingBox.Min *= _scale;

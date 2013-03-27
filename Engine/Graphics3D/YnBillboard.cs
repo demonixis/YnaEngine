@@ -15,22 +15,34 @@ namespace Yna.Engine.Graphics3D
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _renderTarget;
         private YnEntity _entity;
+        private float _width;
+        private float _height;
 
         public YnBillboard(YnEntity entity)
+            : this (entity, 0, 0)
+        {
+        }
+
+        public YnBillboard(YnEntity entity, float width, float height)
         {
             _entity = entity;
             _material = new BasicMaterial(YnGraphics.CreateTexture(Color.White, 1, 1));
             _rotation = new Vector3(-MathHelper.PiOver2, 0, MathHelper.Pi);
+            _width = width;
+            _height = height;
         }
 
         public override void LoadContent()
         {
+            _width = _width <= 0 ? 1 : _width;
+            _height = _height <= 0 ? 1 : _height;
+
             _entity.LoadContent();
             _entity.Initialize();
             _position.Y = 1;
-            _geometry = new PlaneGeometry(new Vector3(1, 1, 1));
+            _geometry = new PlaneGeometry(new Vector3(_width, 1, _height));
             _spriteBatch = new SpriteBatch(YnG.GraphicsDevice);
-            _renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int)_entity.Width, (int)_entity.Height, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 1, RenderTargetUsage.PlatformContents);
+            _renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int) _entity.Width, (int)_entity.Height, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 1, RenderTargetUsage.PlatformContents);
             base.LoadContent();
         }
 
