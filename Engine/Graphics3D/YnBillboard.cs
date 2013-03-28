@@ -7,26 +7,17 @@ using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Material;
 using Yna.Engine.Graphics;
-#if DEBUG
+
 namespace Yna.Engine.Graphics3D
 {
     public class YnBillboard : YnMeshGeometry
     {
-        private SpriteBatch _spriteBatch;
-        private RenderTarget2D _renderTarget;
-        private YnEntity _entity;
         private float _width;
         private float _height;
 
-        public YnBillboard(YnEntity entity)
-            : this (entity, 0, 0)
+        public YnBillboard(string textureName, float width, float height)
         {
-        }
-
-        public YnBillboard(YnEntity entity, float width, float height)
-        {
-            _entity = entity;
-            _material = new BasicMaterial(YnGraphics.CreateTexture(Color.White, 1, 1));
+            _material = new BasicMaterial(textureName);
             _rotation = new Vector3(-MathHelper.PiOver2, 0, MathHelper.Pi);
             _width = width;
             _height = height;
@@ -37,46 +28,37 @@ namespace Yna.Engine.Graphics3D
             _width = _width <= 0 ? 1 : _width;
             _height = _height <= 0 ? 1 : _height;
 
-            _entity.LoadContent();
-            _entity.Initialize();
+
             _position.Y = 1;
             _geometry = new PlaneGeometry(new Vector3(_width, 1, _height));
-            _spriteBatch = new SpriteBatch(YnG.GraphicsDevice);
-            _renderTarget = new RenderTarget2D(YnG.GraphicsDevice, (int) _entity.Width, (int)_entity.Height, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 1, RenderTargetUsage.PlatformContents);
             base.LoadContent();
         }
 
-        public override void Update(GameTime gameTime)
+        public void UpdateRotation(BaseCamera camera)
         {
-            base.Update(gameTime);
+            Vector3 reference = Vector3.Backward;
+            Vector3 lookDirection = Vector3.Normalize(camera.Position - camera.Target);
+            float dot = Vector3.Dot(reference, lookDirection);
+            float angle = (float)Math.Acos(dot / (reference.Length() * lookDirection.Length()));
 
-            UpdateEntity(gameTime, YnG.GraphicsDevice);
+            if (lookDirection.X < reference.X)
+                angle = -angle;
+
+            _world = Matrix.CreateRotationY(angle) * Matrix.CreateTranslation(_position);
         }
 
-        public virtual void UpdateEntity(GameTime gameTime, GraphicsDevice device)
+        public override void PreDraw(BaseCamera camera)
         {
-            _entity.Update(gameTime);
+            if (_dynamic)
+                UpdateBoundingVolumes();
 
-            device.SetRenderTarget(_renderTarget);
-            device.Clear(Color.Transparent);
-
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
-            _entity.Draw(gameTime, _spriteBatch);
-            _spriteBatch.End();
-
-            device.SetRenderTarget(null);
-
-            _material.Texture = (Texture2D)_renderTarget;
-
-            YnG3.RestoreGraphicsDeviceStates();
+            _material.Update(camera, ref _world);
         }
 
         public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
             PreDraw(camera);
-
             _geometry.Draw(device, _material);
         }
     }
 }
-#endif
