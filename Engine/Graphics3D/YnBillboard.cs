@@ -14,6 +14,7 @@ namespace Yna.Engine.Graphics3D
     {
         private float _width;
         private float _height;
+        private bool _isFixed;
 
         public YnBillboard(string textureName, float width, float height)
         {
@@ -21,6 +22,7 @@ namespace Yna.Engine.Graphics3D
             _rotation = new Vector3(-MathHelper.PiOver2, 0, MathHelper.Pi);
             _width = width;
             _height = height;
+            _isFixed = true;
         }
 
         public override void LoadContent()
@@ -44,11 +46,20 @@ namespace Yna.Engine.Graphics3D
             if (lookDirection.X < reference.X)
                 angle = -angle;
 
-            _world = Matrix.CreateRotationY(angle) * Matrix.CreateTranslation(_position);
+            _world = Matrix.CreateScale(_scale) * 
+                Matrix.CreateFromYawPitchRoll(angle + _rotation.Y, _rotation.X, _rotation.Z) * 
+                Matrix.CreateTranslation(_position);
         }
 
         public override void PreDraw(BaseCamera camera)
         {
+            if (_isFixed)
+            {
+                _world = Matrix.CreateScale(_scale) *
+                    Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
+                    Matrix.CreateTranslation(_position);
+            }
+
             if (_dynamic)
                 UpdateBoundingVolumes();
 
