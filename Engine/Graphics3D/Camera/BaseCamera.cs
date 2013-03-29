@@ -449,9 +449,42 @@ namespace Yna.Engine.Graphics3D.Camera
         /// <param name="rotation">Vector to use for rotation.</param>
         public virtual void Rotate(ref Vector3 rotation)
         {
-            _pitch += MathHelper.ToRadians(rotation.X);
-            _yaw += MathHelper.ToRadians(rotation.Y);
-            _roll += MathHelper.ToRadians(rotation.Z);
+            _pitch += rotation.X;
+            _yaw += rotation.Y;
+            _roll += rotation.Z;
+        }
+
+        /// <summary>
+        /// Sets the rotation. (degrees)
+        /// </summary>
+        /// <param name="rx">Angle for X axis (degrees)</param>
+        /// <param name="ry">Angle for Y axis (degrees)</param>
+        /// <param name="rz">Angle for Z axis (degrees)</param>
+        public virtual void SetRotation(float rx, float ry, float rz)
+        {
+            _pitch = MathHelper.ToRadians(rx);
+            _yaw = MathHelper.ToRadians(ry);
+            _roll = MathHelper.ToRadians(rz); 
+        }
+
+        /// <summary>
+        /// Sets the rotation. (Radians)
+        /// </summary>
+        /// <param name="rotation">Vector to use for rotation.</param>
+        public virtual void SetRotation(Vector3 rotation)
+        {
+            SetRotation(ref rotation);
+        }
+
+        /// <summary>
+        /// Sets the rotation. (Radians)
+        /// </summary>
+        /// <param name="rotation">Vector to use for rotation.</param>
+        public virtual void SetRotation(ref Vector3 rotation)
+        {
+            _pitch = MathHelper.ToRadians(rotation.X);
+            _yaw = MathHelper.ToRadians(rotation.Y);
+            _roll = MathHelper.ToRadians(rotation.Z);
         }
 
         /// <summary>

@@ -263,6 +263,18 @@ namespace Yna.Engine.Graphics3D
         #region Rotation & Translation methods
 
         /// <summary>
+        /// Rotate arround X axis
+        /// </summary>
+        /// <param name="angle">An angle in degrees</param>
+        public virtual void RotateX(float angle)
+        {
+            _rotation.X += MathHelper.ToRadians(angle);
+
+            if ((_rotation.X >= MathHelper.Pi * 2) || (_rotation.X <= -MathHelper.Pi * 2))
+                _rotation.X = 0.0f;
+        }
+
+        /// <summary>
         /// Rotate arround Y axis
         /// </summary>
         /// <param name="angle">An angle in degrees</param>
@@ -272,6 +284,18 @@ namespace Yna.Engine.Graphics3D
 
             if ((_rotation.Y >= MathHelper.Pi * 2) || (_rotation.Y <= -MathHelper.Pi * 2))
                 _rotation.Y = 0.0f;
+        }
+
+        /// <summary>
+        /// Rotate arround Z axis
+        /// </summary>
+        /// <param name="angle">An angle in degrees</param>
+        public virtual void RotateZ(float angle)
+        {
+            _rotation.Z += MathHelper.ToRadians(angle);
+
+            if ((_rotation.Z >= MathHelper.Pi * 2) || (_rotation.Z <= -MathHelper.Pi * 2))
+                _rotation.Z = 0.0f;
         }
 
         /// <summary>

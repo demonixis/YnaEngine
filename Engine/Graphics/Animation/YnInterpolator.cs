@@ -154,6 +154,27 @@ namespace Yna.Engine.Graphics.Animation
                 _startValue = startValue;
                 _endValue = endValue;
                 _desiredDuration = desiredDuration;
+                _elapsedTime = 0.0f;
+                _interpolatedValue = startValue;
+                _active = true;
+                OnStarted(EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Start a new interpolation
+        /// </summary>
+        /// <param name="startValue">Start value</param>
+        /// <param name="endValue">End value</param>
+        /// <param name="desiredDuration">Desired duration</param>
+        public void StartInterpolation(T startValue, T endValue, float desiredDuration, bool force)
+        {
+            if (!_active || force)
+            {
+                _startValue = startValue;
+                _endValue = endValue;
+                _desiredDuration = desiredDuration;
+                _elapsedTime = 0.0f;
                 _interpolatedValue = startValue;
                 _active = true;
                 OnStarted(EventArgs.Empty);
