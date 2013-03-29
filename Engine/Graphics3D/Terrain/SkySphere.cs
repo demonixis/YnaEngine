@@ -11,7 +11,7 @@ namespace Yna.Engine.Graphics3D.Terrain
         public SkySphere(string textureName, float size)
             : base(new IcoSphereGeometry(size, 2, true), new BasicMaterial(textureName))
         {
-
+            _scale *= -1 * size;
         }
     }
 }
