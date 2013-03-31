@@ -26,7 +26,7 @@ namespace Yna.Engine.Graphics3D.Controls
         protected float _moveSpeed;
         protected float _strafeSpeed;
         protected float _pitchSpeed;
-        protected float _rotateSpeed;
+        protected float _rotationSpeed;
         protected bool _mouseLock;
 
         // Flags
@@ -182,11 +182,11 @@ namespace Yna.Engine.Graphics3D.Controls
         /// </summary>
         public float RotationSpeed
         {
-            get { return _rotateSpeed; }
+            get { return _rotationSpeed; }
             set
             {
                 if (value >= 0)
-                    _rotateSpeed = value;
+                    _rotationSpeed = value;
             }
         }
 
@@ -245,7 +245,7 @@ namespace Yna.Engine.Graphics3D.Controls
             _moveSpeed = 0.3f;
             _strafeSpeed = 0.2f;
             _pitchSpeed = 0.2f;
-            _rotateSpeed = 0.3f;
+            _rotationSpeed = 0.3f;
             _playerIndex = PlayerIndex.One;
 
             // Flags

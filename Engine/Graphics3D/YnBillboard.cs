@@ -69,7 +69,12 @@ namespace Yna.Engine.Graphics3D
         public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
             PreDraw(camera);
+
+            device.BlendState = BlendState.AlphaBlend;
+
             _geometry.Draw(device, _material);
+
+            device.BlendState = BlendState.Opaque;
         }
     }
 }

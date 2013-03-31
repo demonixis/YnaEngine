@@ -400,8 +400,8 @@ namespace Yna.Engine.Graphics3D
             if (_dynamic)
             {
 				UpdateBoundingVolumes();
-                _lastDirection = (_position - _lastPosition);
-                _lastDirection.Normalize();
+                _lastDirection = _direction;
+                _direction = (_position - _lastPosition);
                 _lastPosition = _position;
             }
         }
