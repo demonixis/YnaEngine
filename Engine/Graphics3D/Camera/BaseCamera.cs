@@ -567,6 +567,13 @@ namespace Yna.Engine.Graphics3D.Camera
 			_roll = 0;
 		}
 
+        public virtual void AddToReference(float rx, float ry, float rz)
+        {
+            _reference.X += rx;
+            _reference.Y += ry;
+            _reference.Z += rz;
+        }
+
         /// <summary>
         /// Sets the camera to back view.
         /// </summary>
