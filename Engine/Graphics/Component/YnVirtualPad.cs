@@ -348,8 +348,8 @@ namespace Yna.Engine.Graphics.Component
             _buttonPause.Name = "Button_" + ((int)PadButtons.Pause).ToString();
             Add(_buttonPause);
 
-            X = (int)(10 + _margin.X);
-            Y = (int)(YnG.Height - (2 * _downPad.Height) - (2 * _margin.Y));
+            //X = (int)(10 + _margin.X);
+            //Y = (int)(YnG.Height - (2 * _downPad.Height) - (2 * _margin.Y));
 
             _alpha = 0.75f;
 
@@ -401,11 +401,11 @@ namespace Yna.Engine.Graphics.Component
         /// </summary>
         public virtual void UpdateLayout()
         {
-            _leftPad.Position = new Vector2(X + _padding.X, Y - _padding.Y);
+            _leftPad.Position = new Vector2(_padding.X, YnG.Height - _leftPad.Height * 2 - _padding.Y * 2);
             _upPad.Position = new Vector2(_leftPad.X + _leftPad.Width + _margin.X, _leftPad.Y);
             _rightPad.Position = new Vector2(_upPad.X + _upPad.Width + _margin.X, _leftPad.Y);
 
-            _strafeLeftPad.Position = new Vector2(X + _padding.X, (_upPad.Y + _upPad.Height) + _margin.Y);
+            _strafeLeftPad.Position = new Vector2(_padding.X, (_upPad.Y + _upPad.Height) + _margin.Y);
             _downPad.Position = new Vector2(_strafeLeftPad.X + _strafeLeftPad.Width + _margin.X, _strafeLeftPad.Y);
             _strafeRightPad.Position = new Vector2(_downPad.X + _downPad.Width + _margin.X, _strafeLeftPad.Y);
 
