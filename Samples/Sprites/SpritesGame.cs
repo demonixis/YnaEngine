@@ -25,7 +25,7 @@ namespace Yna.Samples
         protected override void Initialize()
         {
             base.Initialize();
-
+            YnG.ShowMouse = true;
             menu = new YnMenu("menu", "Tilemap", menuItems);
             stateManager.Add(menu, true);
             stateManager.Add(new BasicSprites("basicSample"), false);
