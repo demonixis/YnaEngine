@@ -82,6 +82,9 @@ namespace Yna.Engine.Graphics
                 _position = value;
                 _rectangle.X = (int)_position.X;
                 _rectangle.Y = (int)_position.Y;
+
+                foreach (YnEntity entity in this)
+                    entity.Position += value;
             }
         }
 
@@ -99,6 +102,9 @@ namespace Yna.Engine.Graphics
                 _position.X = _rectangle.X;
                 _position.Y = _rectangle.Y;
 
+                foreach (YnEntity entity in this)
+                    entity.Position += new Vector2(value.X, value.Y);
+
                 UpdateRectangle();
             }
         }
@@ -113,6 +119,8 @@ namespace Yna.Engine.Graphics
             {
                 _position.X = value;
                 _rectangle.X = value;
+
+                UpdateRectangle();
             }
         }
 
@@ -126,6 +134,8 @@ namespace Yna.Engine.Graphics
             {
                 _position.Y = value;
                 _rectangle.Y = value;
+
+                UpdateRectangle();
             }
         }
 
@@ -267,6 +277,8 @@ namespace Yna.Engine.Graphics
             _entitiesList.LoadContent();
 
             _assetsLoaded = true;
+
+            UpdateRectangle();
         }
 
         /// <summary>
