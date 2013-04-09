@@ -1,16 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
+using Yna.Engine.Graphics3D;
 using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Samples.Screens
 {
     public class PlaneSample : BaseSample
     {
-        PlaneGeometry plane;
+        YnMeshGeometry plane;
 
         public PlaneSample(string name)
             : base(name)
         {
-            plane = new PlaneGeometry("Textures/metal", new Vector3(10), Vector3.Zero);
+            plane = new YnMeshGeometry(new PlaneGeometry(new Vector3(10)), new BasicMaterial("Textures/metal"));
             Add(plane);
         }
 

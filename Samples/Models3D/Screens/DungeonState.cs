@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics3D;
@@ -15,20 +14,21 @@ namespace Yna.Samples.Screens
     {
         YnEntity sky;
         SimpleTerrain terrain;
-        YnModel dungeon;
+        YnMeshModel dungeon;
+        FirstPersonCamera camera;
         FirstPersonControl control;
 
         public DungeonState(string name)
             : base(name)
         {
             // 1 - Create an FPSCamera
-            _camera = new FirstPersonCamera();
-            _camera.SetupCamera();
-            Add(_camera);
+            camera = new FirstPersonCamera();
+            camera.SetupCamera();
+            Add(camera);
 
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
-            control = new FirstPersonControl((FirstPersonCamera)_camera);
+            control = new FirstPersonControl(camera);
             control.MoveSpeed = 1.2f;
             control.RotationSpeed = 1.2f;
             control.StrafeSpeed = 0.4f;
@@ -39,15 +39,15 @@ namespace Yna.Samples.Screens
             Add(terrain);
 
             // A dungeon !
-            dungeon = new YnModel("Models/Dungeon/dungeon");
+            dungeon = new YnMeshModel("Models/Dungeon/dungeon");
             dungeon.RotationX = -(float)Math.PI / 2;
             dungeon.Scale = new Vector3(20.0f);
             Add(dungeon);
 
-            Scene.BasicLight.AmbientIntensity = 1;
-            Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, -1, 0.5f);
-            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.White.ToVector3();
-            Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Red.ToVector3();
+            Scene.SceneLight.AmbientIntensity = 1;
+            Scene.SceneLight.DirectionalLights[0].Direction = new Vector3(1, -1, 0.5f);
+            Scene.SceneLight.DirectionalLights[0].DiffuseColor = Color.White.ToVector3();
+            Scene.SceneLight.DirectionalLights[0].SpecularColor = Color.Red.ToVector3();
 
             // Sky & debug text ;)
             sky = new YnEntity("Backgrounds/sky");
@@ -62,8 +62,8 @@ namespace Yna.Samples.Screens
             sky.SetFullScreen();
 
             dungeon.Position = new Vector3(terrain.Width / 2, 5, terrain.Depth / 2);
-            _camera.Position = new Vector3(229, 12, 232);
-            _camera.Yaw = 1.9163f;
+            camera.Position = new Vector3(229, 12, 232);
+            camera.Yaw = 1.9163f;
         }
 
         public override void Update(GameTime gameTime)

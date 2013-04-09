@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Lighting;
+using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D.Material
 {
@@ -177,16 +178,16 @@ namespace Yna.Engine.Graphics3D.Material
                 _enableMainTexture = true;
             }
             else
-                _enableMainTexture = false;
+                _enableMainTexture = _texture != null ? true : false;
         }
 
-        public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
+        public override void Update(BaseCamera camera, ref Matrix world)
         {
             // Matrices
             IEffectMatrices effectMatrices = (IEffectMatrices)_effect;
             effectMatrices.World = world;
-            effectMatrices.View = view;
-            effectMatrices.Projection = projection;
+            effectMatrices.View = camera.View;
+            effectMatrices.Projection = camera.Projection;
         }
 
         protected virtual void UpdateFog(IEffectFog effectFog)

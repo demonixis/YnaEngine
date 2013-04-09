@@ -15,6 +15,7 @@ namespace Yna.Samples.Screens
     public class BaseSample : YnState3D
     {
         protected SimpleTerrain terrain;
+        protected FirstPersonCamera camera;
         protected FirstPersonControl control;
         protected SkyBox skybox;
 
@@ -28,13 +29,13 @@ namespace Yna.Samples.Screens
             : base(name)
         {
             // 1 - Create an FPSCamera
-            _camera = new FirstPersonCamera();
-            _camera.SetupCamera();
-            Add(_camera);
+            camera = new FirstPersonCamera();
+            camera.SetupCamera();
+            Add(camera);
 
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
-            control = new FirstPersonControl((FirstPersonCamera)_camera);
+            control = new FirstPersonControl(camera);
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.05f;
             control.RotationSpeed = 0.45f;
@@ -43,7 +44,7 @@ namespace Yna.Samples.Screens
             Add(control);
 
             // 3 - Create a simple terrain with a size of 50x50 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("Textures/sand", 100, 100, 1, 1);
+            terrain = new SimpleTerrain("Textures/sand", 100, 100);
             // Repeat the ground texture 8x
             terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
@@ -66,16 +67,16 @@ namespace Yna.Samples.Screens
             {
                 skyboxTextures = new string[6]
                 {
-                    "Textures/skybox/neg-x",
-                    "Textures/skybox/pos-x",
-                    "Textures/skybox/neg-y",
-                    "Textures/skybox/pos-y",
-                    "Textures/skybox/neg-z",
-                    "Textures/skybox/pos-z"
+                    "Textures/skybox/nx",
+                    "Textures/skybox/px",
+                    "Textures/skybox/ny",
+                    "Textures/skybox/py",
+                    "Textures/skybox/nz",
+                    "Textures/skybox/pz"
                 };
             }
 
-            skybox = new SkyBox(Camera, null, Vector3.Zero, 100, skyboxTextures);
+            skybox = new SkyBox(null, Vector3.Zero, 100, skyboxTextures);
             Add(skybox);
         }
 
@@ -84,7 +85,7 @@ namespace Yna.Samples.Screens
             base.LoadContent();
 
             Camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
-            skybox.Position = new Vector3(terrain.Width / 2, 0, terrain.Depth / 2);
+            skybox.Position = new Vector3(terrain.Width / 2, skybox.Height / 3, terrain.Depth / 2);
         }
 
         public override void Update(GameTime gameTime)

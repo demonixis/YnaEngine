@@ -91,8 +91,16 @@
     <Compile Include="Graphics3D\Lighting\SceneLight.cs" />
     <Compile Include="Graphics3D\Scene\SceneGraph.cs" />
     <Compile Include="Graphics3D\Scene\SceneNode.cs" />
+    <Compile Include="Graphics3D\Terrain\Geometry\BaseTerrainGeometry.cs" />
+    <Compile Include="Graphics3D\Terrain\Geometry\HeitmapGeometry.cs" />
+    <Compile Include="Graphics3D\Terrain\Geometry\SimpleTerrainGeometry.cs" />
     <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
+    <Compile Include="Graphics3D\YnBillboard.cs" />
     <Compile Include="Graphics3D\YnEntity3DList.cs" />
+    <Compile Include="Graphics3D\YnMesh.cs" />
+    <Compile Include="Graphics3D\YnMeshGeometry.cs" />
+    <Compile Include="Graphics3D\YnMeshModel.cs" />
+    <Compile Include="Graphics3D\YnScene3D.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
     <Compile Include="Graphics\Component\YnMenu.cs" />
@@ -136,13 +144,11 @@
     <Compile Include="Graphics3D\Renderer\BoundingFrustrumRenderer.cs" />
     <Compile Include="Graphics3D\YnG3.cs" />
     <Compile Include="Graphics3D\YnGroup3D.cs" />
-    <Compile Include="Graphics3D\YnModel.cs" />
     <Compile Include="Graphics3D\YnEntity3D.cs" />
     <Compile Include="Graphics3D\Terrain\Heightmap.cs" />
     <Compile Include="Graphics3D\Terrain\BaseTerrain.cs" />
     <Compile Include="Graphics3D\Terrain\SimpleTerrain.cs" />
     <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
-    <Compile Include="Graphics3D\YnScene.cs" />
     <Compile Include="Graphics3D\YnState3D.cs" />
     <Compile Include="Graphics\YnGraphics.cs" />
     <Compile Include="Graphics\YnText.cs" />
@@ -225,6 +231,5 @@
     <Reference Include="System" />
     <Reference Include="System.XML" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

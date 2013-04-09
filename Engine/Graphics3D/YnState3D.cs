@@ -9,137 +9,214 @@ using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D
 {
+    /// <summary>
+    /// A 3D state who contains a camera manager, a scene manager and a collection of basic objects (timers, controllers, etc...)
+    /// </summary>
     public class YnState3D : BaseState
     {
-        protected BaseCamera _camera;
-        private YnScene3D1 _scene;
+        private CameraManager _cameraManager;
+        private YnScene3D _scene;
         private YnBaseList _basicObjects;
 
-        public YnScene3D1 Scene
-        {
-            get { return _scene; }
-            protected set { _scene = value; }
-        }
-
-        public List<YnBase> BaseMembers
+        /// <summary>
+        /// Gets (protected sets) the collection of basic objects.
+        /// </summary>
+        public List<YnBase> BasicObjects
         {
             get { return _basicObjects.Members; }
             protected set { _basicObjects.Members = value; }
         }
 
-        public BaseCamera Camera
+        /// <summary>
+        /// Gets (protected sets) the scene.
+        /// </summary>
+        public YnScene3D Scene
         {
-            get { return _camera; }
-            set
-            {
-                _camera = value;
-                _scene.Camera = _camera;
-            }
+            get { return _scene; }
+            protected set { _scene = value; }
         }
 
+        /// <summary>
+        /// Gets (protected sets) the active camera.
+        /// </summary>
+        public BaseCamera Camera
+        {
+            get { return _cameraManager.GetActiveCamera(); }
+            protected set { _cameraManager.SetActiveCamera(value); }
+        }
+
+        /// <summary>
+        /// Gets (protected sets) the camera manager.
+        /// </summary>
+        public CameraManager CameraManager
+        {
+            get { return _cameraManager; }
+            protected set { _cameraManager = value; }
+        }
+
+        #region Constructors
+
+        /// <summary>
+        /// Create a state with a 3D scene and a fixed camera.
+        /// </summary>
         public YnState3D()
+            : this((BaseCamera)null)
+        {
+            
+        }
+
+        /// <summary>
+        /// Create a state with a 3D scene and a camera.
+        /// </summary>
+        /// <param name="camera">Camera to use on this scene.</param>
+        public YnState3D(BaseCamera camera)
             : base()
         {
-            _camera = new FixedCamera();
-            _scene = new YnScene3D1(_camera);
+            if (camera != null)
+                _cameraManager = new CameraManager(camera);
+            else
+                _cameraManager = new CameraManager();
+
+            _scene = new YnScene3D();
             _basicObjects = new YnBaseList();
             Initialized = false;
         }
 
-        public YnState3D(BaseCamera camera)
-            : this()
-        {
-            _camera = camera;
-            _scene = new YnScene3D1(_camera);
-        }
-
+        /// <summary>
+        /// Create a state with a 3D scene and a camera.
+        /// </summary>
+        /// <param name="name">State name.</param>
+        /// <param name="camera">Camera to use on this scene.</param>
         public YnState3D(string name, BaseCamera camera)
             : this(camera)
         {
             _name = name;
         }
 
+        /// <summary>
+        /// Create a state with a 3D scene and a fixed camera.
+        /// </summary>
+        /// <param name="name">State name.</param>
         public YnState3D(string name)
             : this(name, null)
         {
 
         }
 
+        #endregion
+
+        #region GameState pattern
+
+        /// <summary>
+        /// Initialize logic of all scene members.
+        /// </summary>
+        public override void Initialize()
+        {
+            _scene.Initialize();
+        }
+
+        /// <summary>
+        /// Load content for all scene members.
+        /// </summary>
         public override void LoadContent()
         {
             if (!Initialized)
             {
                 base.LoadContent();
-
                 _scene.LoadContent();
-
                 Initialized = true;
             }
         }
 
+        /// <summary>
+        /// Unload content of all scene members and clear the scene.
+        /// </summary>
         public override void UnloadContent()
         {
             if (Initialized)
             {
                 _scene.UnloadContent();
-
                 _scene.Clear();
-
                 Initialized = false;
             }
         }
 
+        /// <summary>
+        /// Update camera manager, basic objects and scene logic.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
+            _cameraManager.Update(gameTime);
             _basicObjects.Update(gameTime);
             _scene.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            _scene.Draw(YnG.GraphicsDevice);
+            _scene.Draw(gameTime, YnG.GraphicsDevice, _cameraManager.GetActiveCamera());
         }
 
+        #endregion
+
         #region Collection Management
+
+        /// <summary>
+        /// Add a basic object to the scene.
+        /// </summary>
+        /// <param name="basicObject">A basic object like Timer, Camera, etc...</param>
+        /// <returns>Return true if the object has been added, otherwise return false.</returns>
+        public bool Add(YnBase basicObject)
+        {
+            return _basicObjects.Add(basicObject);
+        }
 
         /// <summary>
         /// Add an object3D on the scene
         /// </summary>
         /// <param name="object3D">An object3D</param>
-        public void Add(YnEntity3D object3D)
+        public bool Add(YnEntity3D object3D)
         {
-            object3D.Camera = Camera;
-            _scene.Add(object3D);
+            return _scene.Add(object3D);
         }
 
         /// <summary>
-        /// Add a non drawable object. If it's a Camera it is used as default camera
+        /// Add a camera to the scene.
         /// </summary>
-        /// <param name="basic3D">A basic object</param>
-        public void Add(YnBase basic)
+        /// <param name="camera">Camera to add.</param>
+        /// <returns>Return false if the camera is already added otherwise return true.</returns>
+        public bool Add(BaseCamera camera)
         {
-            if (basic is BaseCamera)
-                Camera = (basic as BaseCamera);
+            _cameraManager.Add(camera);
+            return true;
+        }
 
-            _basicObjects.Add(basic);
+        /// <summary>
+        /// Remove a basic object to the scene.
+        /// </summary>
+        /// <param name="basicObject">Basic object to remove.</param>
+        /// <returns>Return true if the object has been succefully removed, otherwise return false.</returns>
+        public bool Remove(YnBase basicObject)
+        {
+            return _basicObjects.Remove(basicObject);
         }
 
         /// <summary>
         /// Remove an object3D of the scene
         /// </summary>
-        /// <param name="object3D"></param>
-        public void Remove(YnEntity3D object3D)
+        /// <param name="object3D">Object3D to remove.</param>
+        public bool Remove(YnEntity3D object3D)
         {
-            _scene.Remove(object3D);
+            return _scene.Remove(object3D);
         }
 
         /// <summary>
-        /// Remove a basic object
+        /// Remove a camera of the scene
         /// </summary>
-        /// <param name="base3D"></param>
-        public void Remove(YnBase basic)
+        /// <param name="cmaera">Camera to remove.</param>
+        public bool Remove(BaseCamera camera)
         {
-            _basicObjects.Remove(basic);
+            return _cameraManager.Remove(camera);
         }
 
         /// <summary>

@@ -41,7 +41,7 @@ namespace Yna.Engine.Graphics3D.Camera
         /// <summary>
         /// Create a third person camera with an entity3D and default values
         /// </summary>
-        /// <param name="entity3D"></param>
+        /// <param name="entity3D">The object to follow.</param>
         public ThirdPersonCamera(YnEntity3D entity3D)
             : this(entity3D, new Vector3(0, 10, 80))
         {
@@ -51,15 +51,12 @@ namespace Yna.Engine.Graphics3D.Camera
         /// <summary>
         /// Create a third person camera with an entity3D to follow and values for distance.
         /// </summary>
-        /// <param name="entity3D"></param>
-        /// <param name="reference"></param>
+        /// <param name="entity3D">The object to follow</param>
+        /// <param name="reference">Initial reference.</param>
         public ThirdPersonCamera(YnEntity3D entity3D, Vector3 reference)
         {
             _reference = reference;
             _followedObject = entity3D;
-
-            if (entity3D != null)
-                entity3D.Camera = this;
 
             SetupCamera();
         }

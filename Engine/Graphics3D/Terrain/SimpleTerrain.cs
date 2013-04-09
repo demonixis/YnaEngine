@@ -1,55 +1,25 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Yna.Engine.Graphics3D.Material;
 using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Terrain.Geometry;
 
 namespace Yna.Engine.Graphics3D.Terrain
 {
     public class SimpleTerrain : BaseTerrain
     {
         public SimpleTerrain(string textureName, int width, int depth)
-            : base()
+            : this (textureName, width, depth, 1, 1)
         {
-            _width = width;
-            _height = 0;
-            _depth = depth;
-            _textureName = textureName;
-            _segmentSizes = new Vector3(5.0f, 0.0f, 5.0f);
+
         }
 
         public SimpleTerrain(string textureName, int width, int depth, int segmentX, int segmentZ)
-            : this (textureName, width, depth)
+            : base(width, 0, depth)
         {
-            _segmentSizes = new Vector3(segmentX, 0, segmentZ);
-        }
-
-        public override void LoadContent()
-        {
-            base.LoadContent();
-            GenerateShape();
-            ComputeNormals(ref _vertices);
-        }
-
-        protected override void CreateVertices()
-        {
-            _vertices = new VertexPositionNormalTexture[Width * Depth];
-
-            for (int x = 0; x < Width; x++)
-            {
-                for (int z = 0; z < Depth; z++)
-                {
-                    _vertices[x + z * Width].Position = new Vector3(
-                        x * _segmentSizes.X, 
-                        0 * _segmentSizes.Y, 
-                        z * _segmentSizes.Z);
-
-                    _vertices[x + z * Width].TextureCoordinate = new Vector2(
-                        ((float)x / (float)Width) * _textureRepeat.X, 
-                        ((float)z / (float)Depth) * _textureRepeat.Y);
-
-                    _vertices[x + z * Width].Normal = Vector3.Zero;
-                }
-            }
-        }
+            _geometry = new SimpleTerrainGeometry(width, 0, depth, new Vector3(segmentX, 0, segmentZ));
+            _material = new BasicMaterial(textureName);
+        } 
     }
 }

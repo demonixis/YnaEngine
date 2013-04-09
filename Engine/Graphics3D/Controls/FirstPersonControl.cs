@@ -62,9 +62,9 @@ namespace Yna.Engine.Graphics3D.Controls
 
             // Rotation Left/Right
             if (YnG.Keys.Pressed(_keyMapper.Left[0]))
-                _velocityRotation.Y += _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                _velocityRotation.Y += _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(_keyMapper.Right[0]))
-                _velocityRotation.Y -= _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                _velocityRotation.Y -= _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Look Up/Down
             if (YnG.Keys.Pressed(_keyMapper.PitchUp[0]))
@@ -89,7 +89,7 @@ namespace Yna.Engine.Graphics3D.Controls
             _velocityPosition.Z += leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Rotate
-            _velocityRotation.Y += -rightStickValue.X * _rotateSpeed  * gameTime.ElapsedGameTime.Milliseconds * 0.01f; 
+            _velocityRotation.Y += -rightStickValue.X * _rotationSpeed  * gameTime.ElapsedGameTime.Milliseconds * 0.01f; 
 
             // Pitch
             _velocityRotation.X += -rightStickValue.Y * _pitchSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f; 

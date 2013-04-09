@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,6 +18,9 @@ namespace Yna.Engine
         protected List<T> _safeMembers;
         protected bool _secureCyle;
 
+        /// <summary>
+        /// Enable or disable the secure cycle. If enabled the collection must be updated to get all enabled members.
+        /// </summary>
         public bool SecureCycle
         {
             get { return _secureCyle; }
@@ -129,6 +133,12 @@ namespace Yna.Engine
         public virtual void Clear()
         {
             _members.Clear();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            foreach (T t in _members)
+                yield return t; 
         }
     }
 

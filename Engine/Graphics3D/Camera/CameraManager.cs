@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Yna.Engine.Graphics3D.Camera
     /// </summary>
     public sealed class CameraManager : ICollection<BaseCamera>
     {
-        private BaseCamera [] _cameras;
+        private BaseCamera[] _cameras;
         private int _arraySize;
         private int _activeCameraIndex;
 
@@ -44,10 +45,23 @@ namespace Yna.Engine.Graphics3D.Camera
 
         public event EventHandler<CameraChangedEventArgs> ActiveCameraChanged = null;
 
-        public void OnActiveCameraChanged(CameraChangedEventArgs e)
+        private void OnActiveCameraChanged(CameraChangedEventArgs e)
         {
             if (ActiveCameraChanged != null)
                 ActiveCameraChanged(this, e);
+        }
+
+        #region Constructors
+
+        /// <summary>
+        /// Create a default camera manager without cameras.
+        /// </summary>
+        /// <param name="camera">A camera</param>
+        public CameraManager()
+        {
+            _cameras = null;
+            _activeCameraIndex = -1;
+            _arraySize = 0;
         }
 
         /// <summary>
@@ -57,6 +71,7 @@ namespace Yna.Engine.Graphics3D.Camera
         public CameraManager(BaseCamera camera)
         {
             _cameras = new BaseCamera[1];
+            _cameras[0] = camera;
             _activeCameraIndex = 0;
             _arraySize = 1;
         }
@@ -69,20 +84,32 @@ namespace Yna.Engine.Graphics3D.Camera
         {
             _arraySize = cameras.Length;
             _cameras = new BaseCamera[_arraySize];
-
+            
             for (int i = 0; i < _arraySize; i++)
                 _cameras[i] = cameras[i];
 
             _activeCameraIndex = _arraySize - 1;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Update the active camera.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void Update(GameTime gameTime)
+        {
+            if (_arraySize > 0)
+                _cameras[_activeCameraIndex].Update(gameTime);
+        }
+
         /// <summary>
         /// Gets active camera.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the active camera.</returns>
         public BaseCamera GetActiveCamera()
         {
-            return _cameras[_activeCameraIndex];
+            return _arraySize > 0 ? _cameras[_activeCameraIndex] : null;
         }
 
         /// <summary>
@@ -99,10 +126,36 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
-        /// Sets the next camera active
+        /// Set active camera. If the camera is not added to the manager, it added and selected to be the active camera.
         /// </summary>
-        /// <returns></returns>
-        public void ActiveNextCamera()
+        /// <param name="camera"></param>
+        public void SetActiveCamera(BaseCamera camera)
+        {
+            bool founded = false;
+            int i = 0;
+
+            while (i < _arraySize && !founded)
+            {
+                if (_cameras[i] == camera)
+                {
+                    SetActiveCamera(i);
+                    founded = true;
+                }
+                i++;
+            }
+
+            if (!founded)
+            {
+                Add(camera);
+                SetActiveCamera(_arraySize - 1);
+            }
+        }
+
+        /// <summary>
+        /// Sets the next camera active.
+        /// </summary>
+        /// <returns>The active camera index.</returns>
+        public int NextCamera()
         {
             if (_activeCameraIndex < _arraySize - 1)
                 _activeCameraIndex++;
@@ -110,53 +163,59 @@ namespace Yna.Engine.Graphics3D.Camera
                 _activeCameraIndex = 0;
 
             OnActiveCameraChanged(new CameraChangedEventArgs(_cameras[_activeCameraIndex]));
+
+            return _activeCameraIndex;
         }
 
         /// <summary>
-        /// Sets the previous camera active
+        /// Sets the previous camera active.
         /// </summary>
-        /// <returns></returns>
-        public bool ActivePreviousCamera()
+        /// <returns>The active camera index.</returns>
+        public int PreviousCamera()
         {
             if (_activeCameraIndex > 0)
-            {
                 _activeCameraIndex--;
-                OnActiveCameraChanged(new CameraChangedEventArgs(_cameras[_activeCameraIndex]));
-                return true;
-            }
+            else
+                _activeCameraIndex = _arraySize - 1;
+            
+            OnActiveCameraChanged(new CameraChangedEventArgs(_cameras[_activeCameraIndex]));
 
-            return false;
+            return _activeCameraIndex;
         }
 
         /// <summary>
         /// Add a new camera
         /// </summary>
         /// <param name="item">A camera</param>
-        /// <param name="isActiveCamera">True if the camera is the current active camera otherwise false</param>
         public void Add(BaseCamera item)
         {
-            bool canAdd = true;
+            bool alreadyAddded = false;
             int i = 0;
 
-            while (i < _arraySize && canAdd)
+            while (i < _arraySize && !alreadyAddded)
             {
                 if (_cameras[i] == item)
-                    canAdd = false;
+                    alreadyAddded = true;
                 i++;
             }
 
-            if (canAdd)
+            if (!alreadyAddded)
             {
                 BaseCamera[] temp = new BaseCamera[_arraySize + 1];
                 CopyTo(temp, 0);
                 temp[_arraySize] = item;
                 _arraySize++;
 
-                if (_activeCameraIndex == -1)
+                _cameras = temp;
+
+                if (_activeCameraIndex < 0)
                     _activeCameraIndex = 0;
             }
         }
 
+        /// <summary>
+        /// Remove all camera of the manager.
+        /// </summary>
         public void Clear()
         {
             for (int i = 0; i < _arraySize; i++)
@@ -169,6 +228,11 @@ namespace Yna.Engine.Graphics3D.Camera
             _cameras = null;
         }
 
+        /// <summary>
+        /// Determine if the collection contains the camera.
+        /// </summary>
+        /// <param name="item">Camera to test.</param>
+        /// <returns>Return true if the camera is in the collection, otherwise return false.</returns>
         public bool Contains(BaseCamera item)
         {
             bool result = false;
@@ -182,6 +246,11 @@ namespace Yna.Engine.Graphics3D.Camera
             return result;
         }
 
+        /// <summary>
+        /// Copy the collection in an array.
+        /// </summary>
+        /// <param name="array">Blank array</param>
+        /// <param name="arrayIndex">Start index.</param>
         public void CopyTo(BaseCamera[] array, int arrayIndex)
         {
             for (int i = 0; i < _arraySize; i++)

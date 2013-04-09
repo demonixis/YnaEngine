@@ -1,21 +1,16 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Engine.Graphics3D
 {
     /// <summary>
     /// This is a base class for all things that can be drawn on the screen
     /// </summary>
-    public abstract class YnEntity3D : YnBase3D, IDisposable
+    public abstract class YnEntity3D : YnBase3D, IDrawableEntity3D
     {
         #region Protected & private declarations
-
-        protected BaseCamera _camera;
-        protected BaseMaterial _material;
 
         // Direction
         protected Vector3 _rotation;        // @deprected
@@ -32,10 +27,6 @@ namespace Yna.Engine.Graphics3D
         protected bool _visible;
         protected bool _dirty;
 
-        protected bool _isFrustrumCulled;
-        protected bool _castShadow;
-        protected bool _receiveShadow;
-
         // Static or dynamic object
         protected bool _dynamic;
 
@@ -49,11 +40,7 @@ namespace Yna.Engine.Graphics3D
 
         // Initialization
         protected bool _initialized;
-        protected bool _loaded;
-
-        // View matrix
-        protected Matrix _view;
-        protected Matrix _projection;
+        protected bool _assetLoaded;
 
         #endregion
 
@@ -112,12 +99,12 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Determine if the entity is loaded.
+        /// Determine if asset is loaded.
         /// </summary>
-        public bool Loaded
+        public bool AssetLoaded
         {
-            get { return _loaded; }
-            set { _loaded = value; }
+            get { return _assetLoaded; }
+            set { _assetLoaded = value; }
         }
 
         #endregion
@@ -218,33 +205,6 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
-        #region Properties for camera and material
-
-        /// <summary>
-        /// Gets or sets the camera used for this model
-        /// </summary>
-        public BaseCamera Camera
-        {
-            get { return _camera; }
-            set { _camera = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the material for this object
-        /// </summary>
-        public BaseMaterial Material
-        {
-            get { return _material; }
-            set 
-            { 
-                _material = value;
-                if (_initialized && !_material.Loaded)
-                    _material.LoadContent();
-            }
-        }
-
-        #endregion
-
         #region Bounding volumes
 
         /// <summary>
@@ -261,19 +221,6 @@ namespace Yna.Engine.Graphics3D
         public BoundingSphere BoundingSphere
         {
             get { return _boundingSphere; }
-        }
-
-        #endregion
-
-        #region Properties for matrices
-
-        /// <summary>
-        /// Gets or sets the view matrix
-        /// </summary>
-        public Matrix View
-        {
-            get { return _view; }
-            set { _view = value; }
         }
 
         #endregion
@@ -298,9 +245,8 @@ namespace Yna.Engine.Graphics3D
             _visible = true;
             _dirty = false;
             _initialized = false;
-            _loaded = false;
+            _assetLoaded = false;
             _dynamic = false;
-            _material = null;
 
             _boundingBox = new BoundingBox();
             _boundingSphere = new BoundingSphere();
@@ -317,6 +263,18 @@ namespace Yna.Engine.Graphics3D
         #region Rotation & Translation methods
 
         /// <summary>
+        /// Rotate arround X axis
+        /// </summary>
+        /// <param name="angle">An angle in degrees</param>
+        public virtual void RotateX(float angle)
+        {
+            _rotation.X += MathHelper.ToRadians(angle);
+
+            if ((_rotation.X >= MathHelper.Pi * 2) || (_rotation.X <= -MathHelper.Pi * 2))
+                _rotation.X = 0.0f;
+        }
+
+        /// <summary>
         /// Rotate arround Y axis
         /// </summary>
         /// <param name="angle">An angle in degrees</param>
@@ -326,6 +284,18 @@ namespace Yna.Engine.Graphics3D
 
             if ((_rotation.Y >= MathHelper.Pi * 2) || (_rotation.Y <= -MathHelper.Pi * 2))
                 _rotation.Y = 0.0f;
+        }
+
+        /// <summary>
+        /// Rotate arround Z axis
+        /// </summary>
+        /// <param name="angle">An angle in degrees</param>
+        public virtual void RotateZ(float angle)
+        {
+            _rotation.Z += MathHelper.ToRadians(angle);
+
+            if ((_rotation.Z >= MathHelper.Pi * 2) || (_rotation.Z <= -MathHelper.Pi * 2))
+                _rotation.Z = 0.0f;
         }
 
         /// <summary>
@@ -372,20 +342,33 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
+        #region Update methods
+
+        /// <summary>
+        /// Update world matrix.
+        /// </summary>
         public abstract void UpdateMatrix();
 
+        /// <summary>
+        /// Update bounding box and bounding sphere.
+        /// </summary>
         public abstract void UpdateBoundingVolumes();
 
+        /// <summary>
+        /// Update lights.
+        /// </summary>
+        /// <param name="light">Light to use.</param>
         public virtual void UpdateLighting(SceneLight light)
         {
-            if (_material != null)
-                _material.Light = light;
+
         }
+
+        #endregion
 
         #region GameState pattern
 
         /// <summary>
-        /// Initialize logic
+        /// Initialize logic.
         /// </summary>
         public virtual void Initialize()
         {
@@ -393,16 +376,19 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Load Content
+        /// Load content.
         /// </summary>
-        public abstract void LoadContent();
+        public virtual void LoadContent()
+        {
+
+        }
 
         /// <summary>
         /// Unload Content
         /// </summary>
         public virtual void UnloadContent()
         {
-            // TODO : material.Dispose();
+
         }
 
         /// <summary>
@@ -414,26 +400,15 @@ namespace Yna.Engine.Graphics3D
             if (_dynamic)
             {
 				UpdateBoundingVolumes();
-                _lastDirection = (_position - _lastPosition);
-                _lastDirection.Normalize();
+                _lastDirection = _direction;
+                _direction = (_position - _lastPosition);
                 _lastPosition = _position;
             }
-
         }
 
-        /// <summary>
-        /// Draw the object
-        /// </summary>
-        /// <param name="device">GraphicsDevice object</param>
-        public abstract void Draw(GraphicsDevice device);
-
-        #endregion
-
-        #region IDisposable implementation
-
-        void IDisposable.Dispose()
+        public virtual void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
         {
-            UnloadContent();
+
         }
 
         #endregion

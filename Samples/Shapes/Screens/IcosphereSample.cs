@@ -1,12 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine;
-using Yna.Engine.Graphics;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Camera;
-using Yna.Engine.Graphics3D.Terrain;
-using Yna.Engine.Graphics3D.Controls;
 using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Material;
 
@@ -14,12 +8,12 @@ namespace Yna.Samples.Screens
 {
     public class IcosphereSample : BaseSample
     {
-        IcoSphereGeometry icosphere;
+        YnMeshGeometry icosphere;
 
         public IcosphereSample(string name)
             : base(name, true)
         {
-            icosphere = new IcoSphereGeometry("Textures/icosphere_map", 32, 4, false);
+            icosphere = new YnMeshGeometry(new IcoSphereGeometry(32, 4, false), new BasicMaterial("Textures/icosphere_map"));
             icosphere.Scale = new Vector3(3.5f);
             Add(icosphere);
 

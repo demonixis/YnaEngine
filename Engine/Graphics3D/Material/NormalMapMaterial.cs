@@ -75,12 +75,12 @@ namespace Yna.Engine.Graphics3D.Material
             _effect = YnG.Content.Load<Effect>(_effectName);
         }
 
-        public override void Update(ref Matrix world, ref Matrix view, ref Matrix projection, ref Vector3 position)
+        public override void Update(BaseCamera camera, ref Matrix world)
         {
             // Matrices
             _effect.Parameters["World"].SetValue(world);
-            _effect.Parameters["View"].SetValue(view);
-            _effect.Parameters["Projection"].SetValue(projection);
+            _effect.Parameters["View"].SetValue(camera.View);
+            _effect.Parameters["Projection"].SetValue(camera.Projection);
 
             // Lights
             _effect.Parameters["AmbientColor"].SetValue(_ambientColor);
@@ -94,14 +94,9 @@ namespace Yna.Engine.Graphics3D.Material
             // Textures
             _effect.Parameters["ColorMapSampler"].SetValue(_texture);
             _effect.Parameters["NormalMapSampler"].SetValue(_normalMap);
-
+            
             // Position
-            _effect.Parameters["EyePosition"].SetValue(position);
-        }
-
-        public static Vector4 ToVector4(Vector3 vector3)
-        {
-            return new Vector4(vector3.X, vector3.Y, vector3.Z, 1.0f);
+            _effect.Parameters["EyePosition"].SetValue(world.Translation);
         }
     }
 }

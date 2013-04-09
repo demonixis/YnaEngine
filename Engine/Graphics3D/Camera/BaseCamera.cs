@@ -346,16 +346,6 @@ namespace Yna.Engine.Graphics3D.Camera
             _world = Matrix.Identity;
         }
 
-        public Matrix GetProjection()
-        {
-            return _projection;
-        }
-
-        public Matrix GetView()
-        {
-            return _view;
-        }
-
         /// <summary>
         /// Setup the camera with default values
         /// </summary>
@@ -386,6 +376,8 @@ namespace Yna.Engine.Graphics3D.Camera
             _world = Matrix.Identity;
 
             UpdateProjection();
+
+            _boundingFrustrum.BuildBoundingFrustum(this);
         }
 
         /// <summary>
@@ -395,6 +387,17 @@ namespace Yna.Engine.Graphics3D.Camera
         {
             _projection = Matrix.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, _nearClip, _farClip);
             _boundingFrustrum.Matrix = MatrixViewProjection; 
+        }
+
+        /// <summary>
+        /// Rotate the camera around X axis.
+        /// </summary>
+        /// <param name="angle">An angle in degree.</param>
+        public virtual void RotateX(float angle)
+        {
+            _pitch += MathHelper.ToRadians(angle);
+            _pitch = _pitch <= -1.0f ? -1.0f : _pitch;
+            _pitch = _pitch >= 1.0f ? 1.0f : _pitch;
         }
 
         /// <summary>
@@ -410,17 +413,6 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
-        /// Rotate the camera around X axis.
-        /// </summary>
-        /// <param name="angle">An angle in degree.</param>
-        public virtual void RotateX(float angle)
-        {
-            _pitch += MathHelper.ToRadians(angle);
-            _pitch = _pitch <= -1.0f ? -1.0f : _pitch;
-            _pitch = _pitch >= 1.0f ? 1.0f : _pitch;
-        }
-
-        /// <summary>
         /// Rotate the camera around Z axis.
         /// </summary>
         /// <param name="angle">An angle in degree.</param>
@@ -430,7 +422,73 @@ namespace Yna.Engine.Graphics3D.Camera
         }
 
         /// <summary>
-        /// Translate the camera
+        /// Rotate the camera. (Degree)
+        /// </summary>
+        /// <param name="rx">Angle for X axis (degrees)</param>
+        /// <param name="ry">Angle for Y axis (degrees)</param>
+        /// <param name="rz">Angle for Z axis (degrees)</param>
+        public virtual void Rotate(float rx, float ry, float rz)
+        {
+            _pitch += MathHelper.ToRadians(rx);
+            _yaw += MathHelper.ToRadians(ry);
+            _roll += MathHelper.ToRadians(rz); 
+        }
+
+        /// <summary>
+        /// Rotate the camera. (Radians)
+        /// </summary>
+        /// <param name="rotation">Vector to use for rotation.</param>
+        public virtual void Rotate(Vector3 rotation)
+        {
+            Rotate(ref rotation);
+        }
+
+        /// <summary>
+        /// Rotate the camera. (Radians)
+        /// </summary>
+        /// <param name="rotation">Vector to use for rotation.</param>
+        public virtual void Rotate(ref Vector3 rotation)
+        {
+            _pitch += rotation.X;
+            _yaw += rotation.Y;
+            _roll += rotation.Z;
+        }
+
+        /// <summary>
+        /// Sets the rotation. (degrees)
+        /// </summary>
+        /// <param name="rx">Angle for X axis (degrees)</param>
+        /// <param name="ry">Angle for Y axis (degrees)</param>
+        /// <param name="rz">Angle for Z axis (degrees)</param>
+        public virtual void SetRotation(float rx, float ry, float rz)
+        {
+            _pitch = MathHelper.ToRadians(rx);
+            _yaw = MathHelper.ToRadians(ry);
+            _roll = MathHelper.ToRadians(rz); 
+        }
+
+        /// <summary>
+        /// Sets the rotation. (Radians)
+        /// </summary>
+        /// <param name="rotation">Vector to use for rotation.</param>
+        public virtual void SetRotation(Vector3 rotation)
+        {
+            SetRotation(ref rotation);
+        }
+
+        /// <summary>
+        /// Sets the rotation. (Radians)
+        /// </summary>
+        /// <param name="rotation">Vector to use for rotation.</param>
+        public virtual void SetRotation(ref Vector3 rotation)
+        {
+            _pitch = MathHelper.ToRadians(rotation.X);
+            _yaw = MathHelper.ToRadians(rotation.Y);
+            _roll = MathHelper.ToRadians(rotation.Z);
+        }
+
+        /// <summary>
+        /// Translate the camera. Values are transformed and added to the current position.
         /// </summary>
         /// <param name="x">X value</param>
         /// <param name="y">Y value</param>
@@ -445,6 +503,126 @@ namespace Yna.Engine.Graphics3D.Camera
             _position.Y += v.Y;
             _position.Z += v.Z;
         }
+
+        /// <summary>
+        /// Translate the camera. Values are transformed and added to the current position.
+        /// </summary>
+        /// <param name="translation">Translation vector to use.</param>
+        public virtual void Translate(Vector3 translation)
+        {
+            Translate(ref translation);
+        }
+
+        /// <summary>
+        /// Translate the camera. Values are transformed and added to the current position.
+        /// </summary>
+        /// <param name="translation">Translation vector to use.</param>
+        public virtual void Translate(ref Vector3 translation)
+        {
+            Translate(translation.X, translation.Y, translation.Z);
+        }
+
+        /// <summary>
+        /// Move the camera. Values are transformed and replace the current position.
+        /// </summary>
+        /// <param name="x">X value</param>
+        /// <param name="y">Y value</param>
+        /// <param name="z">Z value</param>
+        public virtual void Move(float x, float y, float z)
+        {
+            Vector3 move = new Vector3(x, y, z);
+            Matrix forwardMovement = Matrix.CreateRotationY(_yaw);
+            Vector3 v = Vector3.Transform(move, forwardMovement);
+
+            _position.X = v.X;
+            _position.Y = v.Y;
+            _position.Z = v.Z;
+        }
+
+        /// <summary>
+        /// Move the camera. Values are transformed and replace the current position.
+        /// </summary>
+        /// <param name="moveVector">Vector to use.</param>
+        public virtual void Move(Vector3 moveVector)
+        {
+            Move(ref moveVector);
+        }
+
+        /// <summary>
+        /// Move the camera. Values are transformed and replace the current position.
+        /// </summary>
+        /// <param name="moveVector">Vector to use.</param>
+        public virtual void Move(ref Vector3 moveVector)
+        {
+            Move(moveVector.X, moveVector.Y, moveVector.Z);
+        }
+		
+        /// <summary>
+        /// Sets the camera to front view.
+        /// </summary>
+		public virtual void FrontView()
+		{
+			_pitch = 0;
+			_yaw = 0;
+			_roll = 0;
+		}
+
+        public virtual void AddToReference(float rx, float ry, float rz)
+        {
+            _reference.X += rx;
+            _reference.Y += ry;
+            _reference.Z += rz;
+        }
+
+        /// <summary>
+        /// Sets the camera to back view.
+        /// </summary>
+		public virtual void BackView()
+		{
+			_pitch = 0;
+			_yaw = (float)MathHelper.PiOver2;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to left view.
+        /// </summary>
+		public virtual void LeftView()
+		{
+			_pitch = 0;
+			_yaw = (float)-MathHelper.PiOver2;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to right view.
+        /// </summary>
+		public virtual void RightView()
+		{
+			_pitch = 0;
+			_yaw = (float)MathHelper.PiOver2;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to top view.
+        /// </summary>
+		public virtual void TopView()
+		{
+			_pitch = (float)-MathHelper.PiOver2;
+			_yaw = 0;
+			_roll = 0;
+		}
+
+        /// <summary>
+        /// Sets the camera to bottom view.
+        /// </summary>
+		public virtual void BottomView()
+		{
+			_pitch = (float)MathHelper.PiOver2;
+			_yaw = 0;
+			_roll = 0;
+		}
 
         /// <summary>
         /// Update BoundingBox, BoundingSphere and BoundingFrustrum. It's called by Update method.

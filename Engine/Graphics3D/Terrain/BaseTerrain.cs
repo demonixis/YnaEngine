@@ -12,90 +12,43 @@ namespace Yna.Engine.Graphics3D.Terrain
     /// <summary>
     /// Abstract class that represent a basic Terrain
     /// </summary>
-    public abstract class BaseTerrain : BaseGeometry<VertexPositionNormalTexture>
+    public abstract class BaseTerrain : YnMeshGeometry
     {
-        /// <summary>
-        /// Basic initialization for an abstract terrain
-        /// </summary>
         public BaseTerrain()
-            : base()
+            : this(0, 0, 0)
         {
-            _initialized = false;
+
         }
 
-        public BaseTerrain(Vector3 position)
-            : this()
+        public BaseTerrain(float width, float height, float depth)
         {
-            _position = position;
+            _width = width;
+            _height = height;
+            _depth = depth;
         }
 
-        /// <summary>
-        /// Load texture if not already loaded. If you wan't to reload a new texture,
-        /// set the Initialized property to true before calling this method
-        /// </summary>
         public override void LoadContent()
         {
-            if (_material == null)
-                _material = new BasicMaterial(_textureName);
+            _geometry.GenerateGeometry();
             _material.LoadContent();
-        }
-
-        /// <summary>
-        /// Create indices with vertex array
-        /// </summary>
-        protected override void CreateIndices()
-        {
-            _indices = new short[(Width - 1) * (Depth - 1) * 6];
-
-            int counter = 0;
-
-            for (int x = 0; x < Width - 1; x++)
-            {
-                for (int y = 0; y < Depth - 1; y++)
-                {
-                    short lowerLeft = (short)(x + y * Width);             
-                    short lowerRight = (short)((x + 1) + y * Width);       
-                    short topLeft = (short)(x + (y + 1) * Width);                
-                    short topRight = (short)((x + 1) + (y + 1) * Width);
-
-                    _indices[counter++] = topLeft;
-                    _indices[counter++] = lowerLeft;
-                    _indices[counter++] = lowerRight;
-                    _indices[counter++] = topLeft;
-                    _indices[counter++] = lowerRight;
-                    _indices[counter++] = topRight;
-                }
-            }
-        }
-
-        public virtual void MoveVertex(int x, int z, float deltaY)
-        {
-            _vertices[x + z * Width].Position.Y += deltaY;
-
-            // TODO : compute vertex normal only for this vertex
-            ComputeNormals(ref _vertices);
-
             UpdateBoundingVolumes();
+            _initialized = true;
         }
-
-        #region Bounding volumes
 
         public override void UpdateBoundingVolumes()
         {
-            UpdateMatrix();
-
             // Reset bounding box to min/max values
             _boundingBox.Min = new Vector3(float.MaxValue);
             _boundingBox.Max = new Vector3(float.MinValue);
 
-            for (int i = 0; i < _vertices.Length; i++)
+            for (int i = 0; i < _geometry.Vertices.Length; i++)
             {
-                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, _vertices[i].Position.X);
-                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, _vertices[i].Position.Y);
-                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, _vertices[i].Position.Z);
-                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, _vertices[i].Position.X);
-                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, _vertices[i].Position.Y);
-                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _vertices[i].Position.Z);
+                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, _geometry.Vertices[i].Position.X);
+                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, _geometry.Vertices[i].Position.Y);
+                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, _geometry.Vertices[i].Position.Z);
+                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, _geometry.Vertices[i].Position.X);
+                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, _geometry.Vertices[i].Position.Y);
+                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _geometry.Vertices[i].Position.Z);
             }
 
             // Apply scale on the object
@@ -112,23 +65,6 @@ namespace Yna.Engine.Graphics3D.Terrain
             _boundingSphere.Center.Y = Y + (_height / 2);
             _boundingSphere.Center.Z = Z + (_depth / 2);
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Draw Terrain
-        /// </summary>
-        /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device)
-        {
-            PreDraw();
-
-            foreach (EffectPass pass in _material.Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
-            }
         }
     }
 }
