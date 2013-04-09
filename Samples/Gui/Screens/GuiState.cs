@@ -20,7 +20,7 @@ namespace Yna.Samples
         private YnLabel progressLabel;
 
         public GuiState(string name)
-            : base(name)
+            : base(name, false, true)
         {
             YnG.ShowMouse = true;
             // YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Font")

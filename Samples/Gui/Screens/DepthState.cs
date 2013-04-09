@@ -18,7 +18,7 @@ namespace Yna.Samples.Screens
     {
 
         public DepthState(string name)
-            : base(name)
+            : base(name, false, true)
         {
         }
 

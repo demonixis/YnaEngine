@@ -16,7 +16,7 @@ namespace Yna.Samples.Screens
     public class PanelState : YnState2D
     {
         public PanelState(string name)
-            : base(name)
+            : base(name, false, true)
         {
         }
 

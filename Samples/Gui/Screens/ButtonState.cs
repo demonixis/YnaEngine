@@ -18,7 +18,7 @@ namespace Yna.Samples.Screens
     public class ButtonState : YnState2D
     {
         public ButtonState(string name)
-            : base(name)
+            : base(name, false, true)
         {
         }
 

@@ -39,8 +39,11 @@ namespace Yna.Engine.Graphics.Component
         protected YnWidgetProperties _buttonProps;
 
         public YnMenu(string name, string title, MenuEntry[] items)
-            : base(name)
+            : base(name, false, true)
         {
+            // Show the mouse on the menu
+            YnG.ShowMouse = true;
+
             _background = new YnEntity(new Rectangle(0, 0, YnG.Width, YnG.Height), new Color(13, 34, 56));
             Add(_background);
 
