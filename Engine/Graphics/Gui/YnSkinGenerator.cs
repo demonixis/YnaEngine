@@ -39,7 +39,7 @@ namespace Yna.Engine.Graphics.Gui
 
             // Default state
             skin.FontNameDefault = fontName;
-            skin.FontDefault = YnG.Game.Content.Load<SpriteFont>(fontName);
+            //skin.FontDefault = YnG.Game.Content.Load<SpriteFont>(fontName);
             skin.TextColorDefault = Color.White;
             skin.BackgroundDefault = YnGraphics.CreateTexture(baseColor, 1, 1);
             skin.BorderDefault = null; // Borders are left blank

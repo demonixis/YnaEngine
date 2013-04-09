@@ -85,40 +85,28 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public override void UpdateBoundingVolumes()
         {
-            Vector3 min = new Vector3(float.MaxValue);
-            Vector3 max = new Vector3(float.MinValue);
+            _boundingBox = new BoundingBox(new Vector3(float.MaxValue), new Vector3(float.MinValue));
 
             for (int i = 0; i < _geometry.Vertices.Length; i++)
             {
-                min.X = Math.Min(min.X, _geometry.Vertices[i].Position.X);
-                min.Y = Math.Min(min.Y, _geometry.Vertices[i].Position.Y);
-                min.Z = Math.Min(min.Z, _geometry.Vertices[i].Position.Z);
-                max.X = Math.Max(max.X, _geometry.Vertices[i].Position.X);
-                max.Y = Math.Max(max.Y, _geometry.Vertices[i].Position.Y);
-                max.Z = Math.Max(max.Z, _geometry.Vertices[i].Position.Z);
+                _boundingBox.Min.X = Math.Min(_boundingBox.Min.X, _geometry.Vertices[i].Position.X + X);
+                _boundingBox.Min.Y = Math.Min(_boundingBox.Min.Y, _geometry.Vertices[i].Position.Y + Y);
+                _boundingBox.Min.Z = Math.Min(_boundingBox.Min.Z, _geometry.Vertices[i].Position.Z + Z);
+
+                _boundingBox.Max.X = Math.Max(_boundingBox.Max.X, _geometry.Vertices[i].Position.X + X);
+                _boundingBox.Max.Y = Math.Max(_boundingBox.Max.Y, _geometry.Vertices[i].Position.Y + Y);
+                _boundingBox.Max.Z = Math.Max(_boundingBox.Max.Z, _geometry.Vertices[i].Position.Z + Z);
             }
 
-            _boundingBox.Min.X = X;
-            _boundingBox.Min.Y = Y;
-            _boundingBox.Min.Z = Z;
-            _boundingBox.Max.X = X + (max.X - min.X);
-            _boundingBox.Max.Y = Y + (max.Y - min.Y);
-            _boundingBox.Max.Z = Z + (max.Z - min.Z);
-
-            // Apply scale on the object
-            _boundingBox.Min *= _scale;
-            _boundingBox.Max *= _scale;
-
-            // Update size of the object
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
             _height = _boundingBox.Max.Y - _boundingBox.Min.Y;
             _depth = _boundingBox.Max.Z - _boundingBox.Min.Z;
 
-            // Update bouding sphere
-            _boundingSphere.Center.X = X + (_width / 2);
-            _boundingSphere.Center.Y = Y + (_height / 2);
-            _boundingSphere.Center.Z = Z + (_depth / 2);
-            _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
+            int radius = (int)Math.Max(Math.Max(_width, _height), _depth);
+
+            _boundingSphere = new BoundingSphere(
+                new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
+                radius);
         }
 
         /// <summary>
