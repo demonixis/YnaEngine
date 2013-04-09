@@ -713,7 +713,7 @@ namespace Yna.Engine.Graphics
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (_visible)
-                spriteBatch.Draw(_texture, _rectangle, null, _color * _alpha, _rotation, _origin, _effects, _layerDepth);
+                spriteBatch.Draw(_texture, _position, null, _color * _alpha, _rotation, _origin, _scale, _effects, _layerDepth);
         }
 
         #endregion
