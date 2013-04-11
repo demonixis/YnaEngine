@@ -19,14 +19,6 @@ namespace Yna.Engine.Graphics
         TopLeft = 0, Top, TopRight, Left, Center, Right, BottomLeft, Bottom, BottomRight
     }
 
-    /// <summary>
-    /// Define the type of position used by an object
-    /// </summary>
-    public enum PositionType
-    {
-        Absolute = 0, Relative
-    }
-
     #endregion
 
     /// <summary>
@@ -62,7 +54,6 @@ namespace Yna.Engine.Graphics
 
         // Define the position of the sprite relative to its parent
         protected YnEntity _parent;
-        protected PositionType _positionType;
         protected int _nbMouseEventObservers;
 
         protected bool _clicked;
@@ -136,16 +127,6 @@ namespace Yna.Engine.Graphics
         #region Properties for position/rotation/scale
 
         /// <summary>
-        /// Gets or sets the positionment type for this object
-        /// Relative to its parent or absolute
-        /// </summary>
-        public PositionType PositionType
-        {
-            get { return _positionType; }
-            protected set { _positionType = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the parent object of this object (null if don't have a parent)
         /// </summary>
         public YnEntity Parent
@@ -165,6 +146,8 @@ namespace Yna.Engine.Graphics
             {
                 _position.X = (int)value.X;
                 _position.Y = (int)value.Y;
+                _rectangle.X = (int)value.X;
+                _rectangle.Y = (int)value.Y;
             }
         }
 
@@ -175,7 +158,17 @@ namespace Yna.Engine.Graphics
         public Rectangle Rectangle
         {
             get { return _rectangle; }
-            set { _rectangle = value; }
+            set 
+            {
+                if (_texture != null)
+                {
+                    _scale.X = (float)((float)value.Width / (float) _texture.Width);
+                    _scale.Y = (float)((float)value.Height / (float)_texture.Height);
+                }
+                _rectangle = value;
+                _position.X = value.X;
+                _position.Y = value.Y;
+            }
         }
 
         /// <summary>
@@ -300,7 +293,13 @@ namespace Yna.Engine.Graphics
         public int Height
         {
             get { return _rectangle.Height; }
-            set { _rectangle.Height = value; }
+            set
+            {
+                if (_texture != null)
+                    _scale.Y = (float)((float)value / (float)_texture.Height);
+                
+                _rectangle.Height = value; 
+            }
         }
 
         /// <summary>
@@ -310,7 +309,13 @@ namespace Yna.Engine.Graphics
         public int Width
         {
             get { return _rectangle.Width; }
-            set { _rectangle.Width = value; }
+            set 
+            {
+                if (_texture != null)
+                    _scale.X = (float)((float)value / (float)_texture.Width);
+
+                _rectangle.Width = value; 
+            }
         }
 
         #endregion
@@ -529,7 +534,6 @@ namespace Yna.Engine.Graphics
             _layerDepth = 1.0f;
 
             _parent = null;
-            _positionType = PositionType.Absolute;
             _nbMouseEventObservers = 0;
         }
 

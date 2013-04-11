@@ -79,12 +79,14 @@ namespace Yna.Engine.Graphics
             get { return _position; }
             set
             {
+                Vector2 rawValue = value - _position;
+
                 _position = value;
                 _rectangle.X = (int)_position.X;
                 _rectangle.Y = (int)_position.Y;
 
-                foreach (YnEntity entity in this)
-                    entity.Position += value;
+                for (int i = 0, l = this.Count; i < l; i++)
+                    this[i].Position += rawValue;
             }
         }
 
@@ -98,13 +100,7 @@ namespace Yna.Engine.Graphics
             set
             {
                 _rectangle = value;
-
-                _position.X = _rectangle.X;
-                _position.Y = _rectangle.Y;
-
-                foreach (YnEntity entity in this)
-                    entity.Position += new Vector2(value.X, value.Y);
-
+                Position = new Vector2(_rectangle.X, _rectangle.Y);
                 UpdateRectangle();
             }
         }
@@ -117,8 +113,13 @@ namespace Yna.Engine.Graphics
             get { return (int)_position.X; }
             set
             {
+                int rawValue = value - (int)_position.X;
+
                 _position.X = value;
                 _rectangle.X = value;
+
+                for (int i = 0, l = this.Count; i < l; i++)
+                    this[i].X += rawValue;
 
                 UpdateRectangle();
             }
@@ -132,8 +133,13 @@ namespace Yna.Engine.Graphics
             get { return (int)_position.Y; }
             set
             {
+                int rawValue = value - (int)_position.Y;
+
                 _position.Y = value;
                 _rectangle.Y = value;
+
+                for (int i = 0, l = this.Count; i < l; i++)
+                    this[i].Y += rawValue;
 
                 UpdateRectangle();
             }
@@ -151,16 +157,8 @@ namespace Yna.Engine.Graphics
 
                 _rotation = value;
 
-                int nbMembers = _entitiesList.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        if (_entitiesList[i].PositionType == PositionType.Relative)
-                            _entitiesList[i].Rotation += rawValue;
-                    }
-                }
+                for (int i = 0, l = this.Count; i < l; i++)
+                    this[i].Rotation += rawValue;
             }
         }
 
@@ -176,13 +174,8 @@ namespace Yna.Engine.Graphics
 
                 _scale = value;
 
-                int nbMembers = _entitiesList.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                        _entitiesList[i].Scale += rawValue;
-                }
+                for (int i = 0, l = this.Count; i < l; i++)
+                    this[i].Scale += rawValue;
             }
         }
 
@@ -192,7 +185,15 @@ namespace Yna.Engine.Graphics
         public new Vector2 Origin
         {
             get { return _origin; }
-            set { _origin = value; }
+            set 
+            {
+                Vector2 rawValue = value - _origin;
+
+                _origin = value;
+
+                for (int i = 0, l = this.Count; i < l; i++)
+                    this[i].Origin += rawValue;
+            }
         }
 
         /// <summary>
@@ -205,15 +206,8 @@ namespace Yna.Engine.Graphics
             {
                 _color = value;
 
-                int nbMembers = _entitiesList.Count;
-
-                if (nbMembers > 0)
-                {
-                    for (int i = 0; i < nbMembers; i++)
-                    {
-                        _entitiesList[i].Color = value;
-                    }
-                }
+                for (int i = 0, l = this.Count; i < l; i++)
+                    this[i].Color = value;
             }
         }
 
