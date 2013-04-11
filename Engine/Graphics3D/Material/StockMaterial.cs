@@ -176,6 +176,7 @@ namespace Yna.Engine.Graphics3D.Material
             {
                 _texture = YnG.Content.Load<Texture2D>(_textureName);
                 _enableMainTexture = true;
+                _textureLoaded = true;
             }
             else
                 _enableMainTexture = _texture != null ? true : false;
