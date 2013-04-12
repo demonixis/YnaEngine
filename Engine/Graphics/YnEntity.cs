@@ -221,7 +221,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Gets or sets the rotation of the object in degrees (angle is converted to radian)
         /// </summary>
-        public float DegRotation
+        public float RotationDegrees
         {
             get { return MathHelper.ToDegrees(_rotation); }
             set { _rotation = MathHelper.ToRadians(value); }
@@ -797,7 +797,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public void SetFullScreen()
         {
-            _rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
         }
 
         #endregion

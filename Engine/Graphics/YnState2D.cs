@@ -170,7 +170,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         private void InitializeDefaultState()
         {
-            _spriteSortMode = SpriteSortMode.Immediate;
+            _spriteSortMode = SpriteSortMode.Deferred;
             _blendState = BlendState.AlphaBlend;
             _samplerState = SamplerState.LinearClamp;
             _depthStencilState = DepthStencilState.None;
