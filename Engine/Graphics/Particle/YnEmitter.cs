@@ -224,7 +224,7 @@ namespace Yna.Engine.Graphics.Particle
         /// </summary>
         /// <param name="x">X coordinate on screen.</param>
         /// <param name="y">Y coordinate on screen.</param>
-        public void SetPosition(int x, int y)
+        public override void SetPosition(int x, int y)
         {
             int rx = (int)(x - _position.X);
             int ry = (int)(y - _position.Y);

@@ -47,7 +47,7 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// <param name="size">Size of skybox</param>
         /// <param name="textureName">The texture to use on each face.</param>
         public SkyBox(YnEntity3D parent, Vector3 position, float size, string textureName)
-            : this(parent, position, size, new string [] {})
+            : this(parent, position, size, new string[] { })
         {
             _textureNames = new string[6];
 
@@ -84,7 +84,7 @@ namespace Yna.Engine.Graphics3D.Terrain
                 throw new Exception("[Skybox] The array must contains 6 names");
 
             Vector3 sizes = new Vector3(_width, 1, _depth);
-           
+
             Vector3[] positions = new Vector3[6]
             {
                 new Vector3(X - Width, Y, Z),
@@ -116,6 +116,22 @@ namespace Yna.Engine.Graphics3D.Terrain
             }
 
             base.LoadContent();
+        }
+
+        public BaseMaterial[] GetMaterials()
+        {
+            BaseMaterial[] materials = new BaseMaterial[6];
+
+            for (int i = 0; i < 6; i++)
+                materials[i] = (this[i] as YnMesh).Material;
+
+            return materials;
+        }
+
+        public void SetLightEnable(bool isEnabled)
+        {
+            for (int i = 0; i < 6; i++)
+                ((this[i] as YnMesh).Material as BasicMaterial).EnableDefaultLighting = !isEnabled;
         }
     }
 }

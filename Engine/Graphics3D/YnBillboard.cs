@@ -12,8 +12,6 @@ namespace Yna.Engine.Graphics3D
 {
     public class YnBillboard : YnMeshGeometry
     {
-        private float _width;
-        private float _height;
         private bool _isFixed;
 
         public YnBillboard(string textureName, float width, float height)

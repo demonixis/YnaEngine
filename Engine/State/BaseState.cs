@@ -37,7 +37,7 @@ namespace Yna.Engine.State
         /// <summary>
         /// Active or desactive this state. Enable & Visible
         /// </summary>
-        public bool Active
+        public new bool Active
         {
             get { return _enabled && _visible; }
             set

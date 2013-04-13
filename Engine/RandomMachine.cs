@@ -191,7 +191,7 @@ namespace Yna.Engine
         /// <param name="blue">Blue amount</param>
         /// <param name="alpha">Alpha amount</param>
         /// <returns>A random color.</returns>
-        public Color GetColor(float? red, float? green, float blue, float? alpha)
+        public Color GetColor(float? red, float? green, float? blue, float? alpha)
         {
             float r = (red != null) ? (int)(red * 256) % 256 : GetFloat(0, 255);
             float g = (green != null) ? (int)(green * 256) % 256 : GetFloat(0, 255);
