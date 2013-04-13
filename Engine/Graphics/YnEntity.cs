@@ -56,6 +56,7 @@ namespace Yna.Engine.Graphics
         protected YnEntity _parent;
         protected int _nbMouseEventObservers;
 
+        private Rectangle _testEventRectangle;
         protected bool _clicked;
         protected bool _hovered;
 
@@ -635,12 +636,17 @@ namespace Yna.Engine.Graphics
                 _rectangle.X = (int)(ScreenPosition.X - _origin.X);
                 _rectangle.Y = (int)(ScreenPosition.Y - _origin.Y);
 
+                _testEventRectangle.X = (int)(ScreenPosition.X - _origin.X);
+                _testEventRectangle.Y = (int)(ScreenPosition.Y - _origin.Y);
+                _testEventRectangle.Width = (int)(_rectangle.Width * _scale.X);
+                _testEventRectangle.Height = (int)(_rectangle.Height * _scale.Y);
+
                 #region Mouse events
 
                 // We check if the mouse events only if an event handler exists for one of mouse events
                 if (_nbMouseEventObservers > 0)
                 {
-                    if (_rectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
+                    if (_testEventRectangle.Contains(YnG.Mouse.X, YnG.Mouse.Y))
                     {
                         _hovered = true;
                         // Mouse Over
