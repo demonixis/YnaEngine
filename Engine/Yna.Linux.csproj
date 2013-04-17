@@ -76,6 +76,7 @@
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Event\MouseEntityEvents.cs" />
     <Compile Include="Graphics\Event\TouchEntityEvents.cs" />
+    <Compile Include="Graphics\Gui\YnWidgetProperties.cs" />
     <Compile Include="Graphics\Scene\BaseScene.cs" />
     <Compile Include="Graphics\Scene\YnScene2D.cs" />
     <Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
