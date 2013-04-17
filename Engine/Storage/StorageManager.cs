@@ -20,8 +20,10 @@ namespace Yna.Engine.Storage
             _storageDevice = new XnaPhoneStorageDevice();
 #elif MONOGAME && WINDOWS || LINUX || MACOSX || XNA
             _storageDevice = new BasicStorageDevice();
-#else
+#elif WINDOWS_STORE
             _storageDevice = new XnaStorageDevice();
+#else
+			_storageDevice = new DummyStorageDevice();
 #endif
         }
 
