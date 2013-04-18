@@ -146,9 +146,7 @@ namespace Yna.Engine.Graphics3D.Material
 
             if (!_effectLoaded)
             {
-#if !PSMOBILE
                 _effect = new EnvironmentMapEffect(YnG.GraphicsDevice);
-#endif
 				_effectLoaded = true;
             }
         }
@@ -159,7 +157,7 @@ namespace Yna.Engine.Graphics3D.Material
 
             // Update matrices
             base.Update(camera, ref world);
-#if !PSMOBILE
+
             EnvironmentMapEffect environmentMapEffect = (EnvironmentMapEffect)_effect;
 
             // Texture
@@ -178,7 +176,6 @@ namespace Yna.Engine.Graphics3D.Material
                 environmentMapEffect.DiffuseColor = _diffuseColor * _diffuseIntensity;
                 environmentMapEffect.Alpha = _alphaColor;
             }
-#endif
         }
     }
 }

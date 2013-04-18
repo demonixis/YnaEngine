@@ -54,9 +54,7 @@ namespace Yna.Engine.Graphics3D.Material
 
             if (!_effectLoaded)
             {
-#if !PSMOBILE
                 _effect = new DualTextureEffect(YnG.GraphicsDevice);
-#endif
 				_effectLoaded = true;
             }
         }
@@ -65,7 +63,7 @@ namespace Yna.Engine.Graphics3D.Material
         {
             // Update matrices
             base.Update(camera, ref world);
-#if !PSMOBILE
+
             DualTextureEffect dualTextureEffect = (DualTextureEffect)_effect;
 			
             // Fog
@@ -78,7 +76,6 @@ namespace Yna.Engine.Graphics3D.Material
             // Lights
             dualTextureEffect.DiffuseColor = new Vector3(_diffuseColor.X, _diffuseColor.Y, _diffuseColor.Z) * _diffuseIntensity;
             dualTextureEffect.Alpha = _alphaColor;
-#endif
         }
     }
 }
