@@ -202,7 +202,7 @@ namespace Yna.Engine.Graphics.TileMap.Isometric
             Rectangle texRect;
             Vector2 position;
             int delta;
-            int decoDelta;
+            int decoDelta = 0;
             for (int x = 0; x < _mapWidth; x++)
             {
                 for (int y = 0; y < _mapHeight; y++)

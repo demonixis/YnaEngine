@@ -64,7 +64,7 @@ namespace Yna.Engine.Graphics3D.Controls
             _keyMapper = null;
             _moveSpeed = 0.8f;
             _strafeSpeed = 0.8f;
-            _rotateSpeed = 1.4f;
+            _rotationSpeed = 1.4f;
         }
 
         /// <summary>
@@ -114,9 +114,9 @@ namespace Yna.Engine.Graphics3D.Controls
 
             // Rotate 
             if (_virtualPadController.Pressed(PadButtons.Left))
-                _velocityRotation.Y += _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                _velocityRotation.Y += _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (_virtualPadController.Pressed(PadButtons.Right))
-                _velocityRotation.Y -= _rotateSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                _velocityRotation.Y -= _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
         }
 
         /// <summary>

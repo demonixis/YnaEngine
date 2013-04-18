@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,6 +18,9 @@ namespace Yna.Engine
         protected List<T> _safeMembers;
         protected bool _secureCyle;
 
+        /// <summary>
+        /// Enable or disable the secure cycle. If enabled the collection must be updated to get all enabled members.
+        /// </summary>
         public bool SecureCycle
         {
             get { return _secureCyle; }
@@ -71,8 +75,8 @@ namespace Yna.Engine
         /// <param name="gameTime">GameTime object</param>
         public virtual void Update(GameTime gameTime)
         {
-            // We make a copy of all screens to provide any error
-            // if a screen is removed during the update opreation
+            // We make a copy of all entities to provide any error
+            // if an entity is removed during the update operation
             int nbMembers = _members.Count;
 
             if (nbMembers > 0)
@@ -129,6 +133,12 @@ namespace Yna.Engine
         public virtual void Clear()
         {
             _members.Clear();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            foreach (T t in _members)
+                yield return t; 
         }
     }
 

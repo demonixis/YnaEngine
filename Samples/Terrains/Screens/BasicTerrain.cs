@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Component;
@@ -13,13 +12,14 @@ namespace Yna.Samples.Screens
 {
     public class BasicTerrain : YnState3D
     {
+        FirstPersonCamera camera;
         // Two controls
         FirstPersonControl control;
         YnVirtualPadController virtualPad;
 
         YnEntity sky;
         SimpleTerrain terrain;
-        YnModel alienModel;
+        YnMeshModel alienModel;
         
         // VirtualPad vectors
         private Vector3 virtalPadMovement = Vector3.Zero;
@@ -29,13 +29,13 @@ namespace Yna.Samples.Screens
             : base(name)
         {
             // 1 - Create an FPSCamera
-            _camera = new FirstPersonCamera();
-            _camera.SetupCamera();
-            Add(_camera);
+            camera = new FirstPersonCamera();
+            camera.SetupCamera();
+            Add(camera);
 
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
-            control = new FirstPersonControl((FirstPersonCamera)_camera);
+            control = new FirstPersonControl(camera);
             control.RotationSpeed = 0.45f;
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.45f;
@@ -46,12 +46,12 @@ namespace Yna.Samples.Screens
             // 3 - The virtual pad
             virtualPad = new YnVirtualPadController();
      
-            // 4 - Create a simple terrain with a size of 100x100 with 1x1 space between each vertex
-            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50);
+            // 4 - Create a simple terrain with a size of 100x100 with 5x5 space between each vertex
+            terrain = new SimpleTerrain("terrains/heightmapTexture", 50, 50, 5, 5);
             Add(terrain);
 
             // 5 - And add an alien
-            alienModel = new YnModel("Models/Alien/alien1_L");
+            alienModel = new YnMeshModel("Models/Alien/alien1_L");
             Add(alienModel);
 
             // 6 - A fake sky
@@ -69,7 +69,7 @@ namespace Yna.Samples.Screens
             virtualPad.LoadContent();
 
             // Set the camera position at the middle of the terrain
-            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
+            camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
 
             alienModel.Position = new Vector3(
                 (terrain.Width / 2) - (alienModel.Width / 2),

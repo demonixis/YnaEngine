@@ -121,7 +121,7 @@ namespace Yna.Engine.Audio
         #region IDisposable implementation
         public override void Dispose()
         {
-            MediaPlayer.Stop();
+            //MediaPlayer.Stop();
         }
         #endregion
     }

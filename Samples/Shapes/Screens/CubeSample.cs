@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
 using Yna.Engine.Graphics3D.Material;
 using Yna.Engine.Graphics3D.Geometry;
@@ -14,13 +15,14 @@ namespace Yna.Samples.Screens
         {
             groupCube = new YnGroup3D(null);
 
-            CubeGeometry cube = null;
+            YnMeshGeometry cube = null;
             Vector3 cubePosition = new Vector3(10, 1, 35);
 
             for (int i = 0; i < 12; i++)
             {
                 cubePosition.X +=  5;             
-                cube = new CubeGeometry("Textures/pattern02_diffuse", Vector3.One, cubePosition);
+                cube = new YnMeshGeometry(new CubeGeometry(Vector3.One), new BasicMaterial("Textures/pattern02_diffuse"));
+                cube.Position = cubePosition;
                 groupCube.Add(cube);
             }
 
@@ -35,10 +37,10 @@ namespace Yna.Samples.Screens
             terrain.Material = terrainMaterial;
 
             // Setup lighting
-            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
-            Scene.BasicLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
-            Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
-            Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
+            Scene.SceneLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
+            Scene.SceneLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
+            Scene.SceneLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
+            Scene.SceneLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
         }
 
         public override void Update(GameTime gameTime)

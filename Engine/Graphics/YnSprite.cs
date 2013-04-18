@@ -25,7 +25,6 @@ namespace Yna.Engine.Graphics
         protected Vector2 _lastPosition;
         protected Vector2 _lastDirection;
         protected Rectangle _viewport;
-        protected YnCircle _circle;
 
         // Collide with screen
         protected bool _insideScreen;
@@ -37,7 +36,6 @@ namespace Yna.Engine.Graphics
         // Animations
         protected bool _hasAnimation;
         protected SpriteAnimator _animator;
-        protected long _elapsedTime;
 
         #endregion
 
@@ -123,12 +121,6 @@ namespace Yna.Engine.Graphics
             set { _viewport = value; }
         }
 
-        public YnCircle Circle
-        {
-            get { return _circle; }
-            set { _circle = value; }
-        }
-
         /// <summary>
         /// Force or not the sprite to stay in screen
         /// </summary>
@@ -206,7 +198,6 @@ namespace Yna.Engine.Graphics
             _sourceRectangle = null;
             _lastPosition = Vector2.Zero;
             _lastDirection = Vector2.Zero;
-            _circle = new YnCircle();
 
             _viewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
             _insideScreen = false;
@@ -214,7 +205,6 @@ namespace Yna.Engine.Graphics
 
             _hasAnimation = false;
             _animator = new SpriteAnimator();
-            _elapsedTime = 0;
 
             _acceleration = Vector2.One;
 			_velocity = Vector2.Zero;
@@ -228,8 +218,6 @@ namespace Yna.Engine.Graphics
             : this()
         {
             _position = position;
-            _circle.X = (int)_position.X;
-            _circle.Y = (int)_position.Y;
         }
 
         /// <summary>
@@ -282,7 +270,7 @@ namespace Yna.Engine.Graphics
             _animator.Initialize(width, height, _texture.Width, _texture.Height);
             
             // The sprite size is now the size of a sprite on the spritesheet
-            SetRectangle(new Rectangle(X, Y, width, height));
+            _rectangle = new Rectangle(X, Y, width, height);
 
             _hasAnimation = true;
         }
@@ -407,22 +395,18 @@ namespace Yna.Engine.Graphics
         {
             if (!_assetLoaded)
             {
-                if (_texture == null)
+                if (_texture == null && _assetName != String.Empty)
                 {
-                    if (_assetName != string.Empty)
-                        _texture = YnG.Content.Load<Texture2D>(_assetName);
-                    else
-                        throw new Exception("[Sprite] Impossible de charger la texture");
-                }
+                    _texture = YnG.Content.Load<Texture2D>(_assetName);
 
-                // if the sprite has animations destination and source rectangle are already setted correctly
-                if (!_hasAnimation)
-                {
-                    SourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
-                    SetRectangle(new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height));
+                    // if the sprite has animations destination and source rectangle are already setted correctly
+                    if (!_hasAnimation)
+                    {
+                        _sourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
+                        _rectangle = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                    }
                 }
-                
-                _circle.Radius = Math.Max(_texture.Width, _texture.Height);
+               
                 _assetLoaded = true;
             }
         }
@@ -436,9 +420,7 @@ namespace Yna.Engine.Graphics
         {
             _assetName = textureName;
             _assetLoaded = false;
-            
             _texture = null;
-            
             LoadContent();
         }
 
@@ -451,8 +433,6 @@ namespace Yna.Engine.Graphics
                 // Sauvegarde de la dernière position
                 _lastPosition = _position;
                 _lastDirection = _direction;
-  
-                _elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
 
                 // Physics
                 if (_enableDefaultPhysics)
@@ -460,9 +440,6 @@ namespace Yna.Engine.Graphics
                     _position += _velocity * _acceleration;
                     _velocity *= _maxVelocity;
                 }
-
-                _circle.X = (int)(_position.X - _origin.X);
-                _circle.Y = (int)(_position.Y - _origin.Y);
 
                 if (_hasAnimation)
                 {

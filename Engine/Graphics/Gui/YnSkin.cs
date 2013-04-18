@@ -8,125 +8,181 @@ using Microsoft.Xna.Framework;
 namespace Yna.Engine.Graphics.Gui
 {
     /// <summary>
-    /// Container of all definitions for a given GUI theme
+    /// Global skin definition. Contains all possible states rendering details. Rendering modes are "default", 
+    /// "hovered" and "clicked". Each group defines the same properties for a different state. Default definitions are
+    /// mandatory, the two others may be skipped. If done so, retreiving a hover font will return the default font (for 
+    /// example). 
     /// </summary>
     public class YnSkin
     {
         #region Attributes
 
-        protected YnBorder _panelBorder;
-        protected YnBorder _buttonBorder;
-        protected YnBorder _hoveredButtonBorder;
-        protected Texture2D _panelBackground;
-        protected Texture2D _buttonBackground;
-        protected Texture2D _hoveredButtonBackground;
-        protected SpriteFont _font;
-        protected string _fontName;
-        protected Color _defaultTextColor;
-        protected Color _clickedButtonTextColor;
-        protected Texture2D _clickedButtonBackground;
+        // Default state
+        protected SpriteFont _fontDefault;
+        protected string _fontNameDefault;
+        protected Color _textColorDefault;
+        protected YnBorder _borderDefault;
+        protected Texture2D _backgroundDefault;
+
+        // Hover state
+        protected SpriteFont _fontHover;
+        protected string _fontNameHover;
+        protected Color _textColorHover;
+        protected YnBorder _borderHover;
+        protected Texture2D _backgroundHover;
+
+        // Clicked state
+        protected SpriteFont _fontClicked;
+        protected string _fontNameClicked;
+        protected Color _textColorClicked;
+        protected YnBorder _borderClicked;
+        protected Texture2D _backgroundClicked;
 
         #endregion
 
-        #region Properties
+        #region Default state
 
         /// <summary>
-        /// Border definitions for box widgets
+        /// The font for default mode. Must be filled.
         /// </summary>
-        public YnBorder PanelBorder
+        public SpriteFont FontDefault
         {
-            get { return _panelBorder; }
-            set { _panelBorder = value; }
+            get { return _fontDefault; }
+            set { _fontDefault = value; }
         }
 
         /// <summary>
-        /// Border definitions for buttons
+        /// The font name for default mode. Must be filled.
         /// </summary>
-        public YnBorder ButtonBorder
+        public string FontNameDefault
         {
-            get { return _buttonBorder; }
-            set { _buttonBorder = value; }
+            get { return _fontNameDefault; }
+            set { _fontNameDefault = value; }
         }
 
         /// <summary>
-        /// Border definition for hovered bos widgets
+        /// The text color for default mode. Must be filled.
         /// </summary>
-        public YnBorder HoveredButtonBorder
+        public Color TextColorDefault
         {
-            get { return _hoveredButtonBorder; }
-            set { _hoveredButtonBorder = value; }
+            get { return _textColorDefault; }
+            set { _textColorDefault = value; }
         }
 
         /// <summary>
-        /// Background image for box widgets
+        /// The border for default mode. Can be left blank.
         /// </summary>
-        public Texture2D PanelBackground
+        public YnBorder BorderDefault
         {
-            get { return _panelBackground; }
-            set { _panelBackground = value; }
+            get { return _borderDefault; }
+            set { _borderDefault = value; }
         }
 
         /// <summary>
-        /// Background image for buttons
+        /// The background for default mode. Can be left blank.
         /// </summary>
-        public Texture2D ButtonBackground
+        public Texture2D BackgroundDefault
         {
-            get { return _buttonBackground; }
-            set { _buttonBackground = value; }
+            get { return _backgroundDefault; }
+            set { _backgroundDefault = value; }
+        }
+
+        #endregion
+
+        #region Hover state
+
+        /// <summary>
+        /// The font for Hover mode. Can be left blank.
+        /// </summary>
+        public SpriteFont FontHover
+        {
+            get { return _fontHover != null ? _fontHover : _fontDefault; }
+            set { _fontHover = value; }
         }
 
         /// <summary>
-        /// Hovered background image for buttons
+        /// The font name for Hover mode. Can be left blank.
         /// </summary>
-        public Texture2D HoveredButtonBackground
+        public string FontNameHover
         {
-            get { return _hoveredButtonBackground; }
-            set { _hoveredButtonBackground = value; }
+            get { return _fontNameHover != null ? _fontNameHover : _fontNameDefault; }
+            set { _fontNameHover = value; }
         }
 
         /// <summary>
-        /// The skin font
+        /// The text color for Hover mode. Can be left blank.
         /// </summary>
-        public SpriteFont Font
+        public Color TextColorHover
         {
-            get { return _font; }
-            set { _font = value; }
+            get { return _textColorHover != null ? _textColorHover : _textColorDefault; }
+            set { _textColorHover = value; }
         }
 
         /// <summary>
-        /// The font name to use
+        /// The border for Hover mode. Can be left blank.
         /// </summary>
-        public string FontName
+        public YnBorder BorderHover
         {
-            get { return _fontName; }
-            set { _fontName = value; }
+            get { return _borderHover != null ? _borderHover : _borderDefault; }
+            set { _borderHover = value; }
         }
 
         /// <summary>
-        /// The default text color
+        /// The background for Hover mode. Can be left blank.
         /// </summary>
-        public Color DefaultTextColor
+        public Texture2D BackgroundHover
         {
-            get { return _defaultTextColor; }
-            set { _defaultTextColor = value; }
+            get { return _backgroundHover != null ? _backgroundHover : _backgroundDefault; }
+            set { _backgroundHover = value; }
+        }
+
+        #endregion
+
+        #region Clicked state
+
+        /// <summary>
+        /// The font for Clicked mode. Can be left blank.
+        /// </summary>
+        public SpriteFont FontClicked
+        {
+            get { return _fontClicked != null ? _fontClicked : _fontDefault; }
+            set { _fontClicked = value; }
         }
 
         /// <summary>
-        /// The text color for clicked buttons
+        /// The font name for Clicked mode. Can be left blank.
         /// </summary>
-        public Color ClickedButtonTextColor
+        public string FontNameClicked
         {
-            get { return _clickedButtonTextColor; }
-            set { _clickedButtonTextColor = value; }
+            get { return _fontNameClicked != null ? _fontNameClicked : _fontNameDefault; }
+            set { _fontNameClicked = value; }
         }
 
         /// <summary>
-        /// Clicked background image for buttons
+        /// The text color for Clicked mode. Can be left blank.
         /// </summary>
-        public Texture2D ClickedButtonBackground
+        public Color TextColorClicked
         {
-            get { return _clickedButtonBackground; }
-            set { _clickedButtonBackground = value; }
+            get { return _textColorClicked != null ? _textColorClicked : _textColorDefault; }
+            set { _textColorClicked = value; }
+        }
+
+        /// <summary>
+        /// The border for Clicked mode. Can be left blank.
+        /// </summary>
+        public YnBorder BorderClicked
+        {
+            get { return _borderClicked != null ? _borderClicked : _borderDefault; }
+            set { _borderClicked = value; }
+        }
+
+        /// <summary>
+        /// The background for Clicked mode. Can be left blank.
+        /// </summary>
+        public Texture2D BackgroundClicked
+        {
+            get { return _backgroundClicked != null ? _backgroundClicked : _backgroundDefault; }
+            set { _backgroundClicked = value; }
         }
 
         #endregion

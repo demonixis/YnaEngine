@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Gui;
+using Yna.Engine.Graphics.Gui.Widgets;
 using Yna.Engine.State;
 using Yna.Engine.Graphics.Scene;
 
@@ -19,7 +20,7 @@ namespace Yna.Engine.Graphics
         #region Private declarations
 
         // The scene
-        protected YnSceneGui2D _scene;
+        protected YnScene2D _scene;
 
         // SpriteBatch modes
         protected SpriteSortMode _spriteSortMode;
@@ -52,9 +53,21 @@ namespace Yna.Engine.Graphics
             get { return _scene.Entities; }
         }
 
+        /// <summary>
+        /// Returns the GUI attached to the state. If no GUI is used, null is returned
+        /// without error.
+        /// </summary>
         public YnGui Gui
         {
-            get { return _scene.Gui; }
+            get
+            {
+                YnSceneGui2D guiScene = _scene as YnSceneGui2D;
+                if (guiScene != null)
+                {
+                    return guiScene.Gui;
+                }
+                return null;
+            }
         }
 
         /// <summary>
@@ -107,24 +120,47 @@ namespace Yna.Engine.Graphics
 
         #region Constructors
 
-        private YnState2D()
-            : base()
-        {
-            InitializeDefaultState();
-            _scene = new YnSceneGui2D();
-        }
-
-        public YnState2D(string name)
+        /// <summary>
+        /// Create a 2D state.
+        /// </summary>
+        /// <param name="name">The state name</param>
+        /// <param name="active">Set to true to activate the state</param>
+        /// <param name="enableGui">Set to true tu enable GUI on this state</param>
+        public YnState2D(string name, bool active, bool enableGui)
             : base(name)
         {
+            _enabled = active;
+            _visible = active;
+
             InitializeDefaultState();
-            _scene = new YnSceneGui2D();
+
+            if (enableGui)
+            {
+                _scene = new YnSceneGui2D();
+            }
+            else
+            {
+                _scene = new YnScene2D();
+            }
         }
 
+        /// <summary>
+        /// Create a 2D state without GUI.
+        /// </summary>
+        /// <param name="name">The state name</param>
+        /// <param name="active">Set to true to activate the state</param>
         public YnState2D(string name, bool active)
-            : this(name)
+            : this(name, active, false)
         {
-            Active = active;
+        }
+
+        /// <summary>
+        ///  Create a 2D state without GUI.
+        /// </summary>
+        /// <param name="name">The state name</param>
+        public YnState2D(string name)
+            : this(name, true, false)
+        {
         }
 
         #endregion
@@ -134,7 +170,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         private void InitializeDefaultState()
         {
-            _spriteSortMode = SpriteSortMode.Immediate;
+            _spriteSortMode = SpriteSortMode.Deferred;
             _blendState = BlendState.AlphaBlend;
             _samplerState = SamplerState.LinearClamp;
             _depthStencilState = DepthStencilState.None;
@@ -192,10 +228,24 @@ namespace Yna.Engine.Graphics
         public override void Draw(GameTime gameTime)
         {
             int nbMembers = _scene.Entities.Count;
-            
-            if (!_scene.UseOtherBatchForGUI)
-                nbMembers += _scene.Gui.Count;
+            bool useOtherBatchForGUI = false;
 
+            if (_scene is YnSceneGui2D)
+            {
+                // If the scene is a YnSceneGui2D, a GUI is defined
+                YnSceneGui2D scene = _scene as YnSceneGui2D;
+                if (scene.UseOtherBatchForGUI)
+                {
+                    useOtherBatchForGUI = true;
+                }
+            }
+
+            if (!useOtherBatchForGUI && Gui != null && Gui.HasWidgets)
+            {
+            	// There is at least one widget to render in the scene sprite batch
+                nbMembers++;
+            }
+            
             if (nbMembers > 0)
             {
                 spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _camera.GetTransformMatrix());
@@ -205,10 +255,10 @@ namespace Yna.Engine.Graphics
                 spriteBatch.End();
             }
 
-            if (_scene.UseOtherBatchForGUI)
+            if (useOtherBatchForGUI)
             {
                 spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _camera.GetTransformMatrix());
-                _scene.Gui.Draw(gameTime, spriteBatch);
+                Gui.Draw(gameTime, spriteBatch);
                 spriteBatch.End();
             }
         }

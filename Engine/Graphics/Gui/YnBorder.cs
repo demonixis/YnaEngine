@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Yna.Engine.Graphics.Gui
 {
     /// <summary>
-    /// Border skin definition. Contains textures for all borders
+    /// Border skin definition. Contains textures for all borders.
     /// </summary>
     public class YnBorder
     {
@@ -92,6 +93,45 @@ namespace Yna.Engine.Graphics.Gui
         {
             get { return _left; }
             set { _left = value; }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public YnBorder()
+        {
+            // Nothing here
+        }
+
+        /// <summary>
+        /// Create a flat border definition based on the given color and
+        /// border size.
+        /// </summary>
+        /// <param name="borderColor">The border color</param>
+        /// <param name="thickness">The border thickness</param>
+        public YnBorder(Color borderColor, int thickness)
+        {
+            // Corners
+            Texture2D cornerTexture = YnGraphics.CreateTexture(borderColor, thickness, thickness);
+            TopLeft = cornerTexture;
+            TopRight = cornerTexture;
+            BottomRight = cornerTexture;
+            BottomLeft = cornerTexture;
+
+            // Horizontal
+            Texture2D hTexture = YnGraphics.CreateTexture(borderColor, 1, thickness);
+            Top = hTexture;
+            Bottom = hTexture;
+
+            // Vertical
+            Texture2D vTexture = YnGraphics.CreateTexture(borderColor, thickness, 1);
+            Left = vTexture;
+            Right = vTexture;
+
         }
 
         #endregion

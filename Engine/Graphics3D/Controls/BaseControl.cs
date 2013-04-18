@@ -26,13 +26,21 @@ namespace Yna.Engine.Graphics3D.Controls
         protected float _moveSpeed;
         protected float _strafeSpeed;
         protected float _pitchSpeed;
-        protected float _rotateSpeed;
+        protected float _rotationSpeed;
         protected bool _mouseLock;
 
         // Flags
         protected bool _enableKeyboard;
         protected bool _enableGamepad;
         protected bool _enableMouse;
+
+        // Inverts
+        protected int _xDirection;
+        protected int _yDirection;
+        protected int _zDirection;
+        protected int _xRotation;
+        protected int _yRotation;
+        protected int _zRotation;
 
         #region Properties
 
@@ -174,11 +182,11 @@ namespace Yna.Engine.Graphics3D.Controls
         /// </summary>
         public float RotationSpeed
         {
-            get { return _rotateSpeed; }
+            get { return _rotationSpeed; }
             set
             {
                 if (value >= 0)
-                    _rotateSpeed = value;
+                    _rotationSpeed = value;
             }
         }
 
@@ -237,13 +245,21 @@ namespace Yna.Engine.Graphics3D.Controls
             _moveSpeed = 0.3f;
             _strafeSpeed = 0.2f;
             _pitchSpeed = 0.2f;
-            _rotateSpeed = 0.3f;
+            _rotationSpeed = 0.3f;
             _playerIndex = PlayerIndex.One;
 
             // Flags
             _enableKeyboard = true;
             _enableGamepad = true;
             _enableMouse = false;
+
+            // Invert
+            _xDirection = 1;
+            _yDirection = 1;
+            _zDirection = 1;
+            _xRotation = 1;
+            _yRotation = 1;
+            _zRotation = 1;
         }
 
         public BaseControl(BaseCamera camera, PlayerIndex index)
@@ -277,10 +293,10 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <param name="gameTime">GameTime</param>
         public virtual void ApplyPhysics(GameTime gameTime)
         {
-            Camera.Translate(_velocityPosition.X, _velocityPosition.Y, _velocityPosition.Z);
-            Camera.RotateY(_velocityRotation.Y);
-            Camera.RotateX(_velocityRotation.X);
-            Camera.RotateZ(_velocityRotation.Z);
+            Camera.Translate(_velocityPosition.X * _xDirection, _velocityPosition.Y * _yDirection, _velocityPosition.Z * _zDirection);
+            Camera.RotateY(_velocityRotation.Y * _yRotation);
+            Camera.RotateX(_velocityRotation.X * _xRotation);
+            Camera.RotateZ(_velocityRotation.Z * _zRotation);
         }
 
         /// <summary>
@@ -297,6 +313,32 @@ namespace Yna.Engine.Graphics3D.Controls
 
             if (_enableGamepad)
                 UpdateGamepadInput(gameTime); 
+        }
+
+        /// <summary>
+        /// Set invertion axis for translations.
+        /// </summary>
+        /// <param name="invertX">Invert X axis if set to true</param>
+        /// <param name="invertY">Invert Y axis if set to true</param>
+        /// <param name="invertZ">Invert Z axis if set to true</param>
+        public virtual void SetInvertTranslation(bool invertX, bool invertY, bool invertZ)
+        {
+            _xDirection = invertX ? -1 : 1;
+            _yDirection = invertY ? -1 : 1;
+            _zDirection = invertZ ? -1 : 1;
+        }
+
+        /// <summary>
+        /// Set invertion axis for rotations.
+        /// </summary>
+        /// <param name="invertX">Invert X axis if set to true</param>
+        /// <param name="invertY">Invert Y axis if set to true</param>
+        /// <param name="invertZ">Invert Z axis if set to true</param>
+        public virtual void SetInvertRotation(bool invertX, bool invertY, bool invertZ)
+        {
+            _xRotation = invertX ? -1 : 1;
+            _yRotation = invertY ? -1 : 1;
+            _zRotation = invertZ ? -1 : 1;
         }
 
         /// <summary>

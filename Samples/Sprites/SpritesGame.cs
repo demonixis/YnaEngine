@@ -1,12 +1,13 @@
 ﻿using System;
 using Yna.Engine;
+using Yna.Engine.Graphics.Component;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
 {
     public class SpritesGame : YnGame
     {
-        Menu menu;
+        YnMenu menu;
         MenuEntry[] menuItems;
 
         public SpritesGame()
@@ -24,8 +25,8 @@ namespace Yna.Samples
         protected override void Initialize()
         {
             base.Initialize();
-
-            menu = new Menu("menu", "Tilemap", menuItems);
+            YnG.ShowMouse = true;
+            menu = new YnMenu("menu", "Tilemap", menuItems);
             stateManager.Add(menu, true);
             stateManager.Add(new BasicSprites("basicSample"), false);
             stateManager.Add(new ParticlesSample("particleSample"), false);

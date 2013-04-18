@@ -8,7 +8,7 @@ namespace Yna.Engine.Graphics3D.Camera
     public class TopCamera : BaseCamera
     {
         protected int _height;
-        protected YnModel _followedObject;
+        protected YnEntity3D _followedObject;
 
         public int Height
         {
@@ -32,11 +32,10 @@ namespace Yna.Engine.Graphics3D.Camera
             _position = new Vector3(target.X, height, target.Z);
         }
 
-        public TopCamera(YnModel followedModel, int height)
+        public TopCamera(YnEntity3D followedModel, int height)
             : this(followedModel.Position, height)
         {
             _followedObject = followedModel;
-            followedModel.Camera = this;
         }
 
         public override void SetupCamera()

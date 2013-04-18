@@ -198,19 +198,18 @@ namespace Yna.Engine.State
             {
                 newState.StateManager = this;
                 _states[index] = newState;
+
+                if (!newState.Initialized)
+                {
+                    newState.LoadContent();
+                    newState.Initialize();
+                }
+
                 return true;
             }
 
             return false;
         }
-        /*
-        /// <summary>
-        /// Launch the previous state.
-        /// </summary>
-        public void Back()
-        {
-
-        }*/
 
         /// <summary>
         /// Active a screen and desactive other screens on demand

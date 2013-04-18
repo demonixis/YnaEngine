@@ -44,8 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GuiGame.cs" />
-    <Compile Include="GuiState.cs" />
+    <Compile Include="Screens\DepthState.cs" />
+    <Compile Include="Screens\GuiState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screens\ButtonState.cs" />
+    <Compile Include="Screens\PanelState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

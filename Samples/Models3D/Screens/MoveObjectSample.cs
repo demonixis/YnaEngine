@@ -1,9 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine;
-using Yna.Engine.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Yna.Engine.Graphics3D;
 using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Terrain;
@@ -13,7 +8,7 @@ namespace Yna.Samples.Screens
 {
     public class MoveObjectSample : YnState3D
     {
-        private YnModel alien;
+        private YnMeshModel alien;
 
         public MoveObjectSample(string name)
             : base(name)
@@ -27,7 +22,7 @@ namespace Yna.Samples.Screens
             control.RotationSpeed = 1.45f;
             Add(control);
 
-            alien = new YnModel("Models/Alien/alien1_L");
+            alien = new YnMeshModel("Models/Alien/alien1_L");
             alien.Dynamic = true;
             alien.Scale = new Vector3(0.2f);
             //camera.FollowedObject = alien;

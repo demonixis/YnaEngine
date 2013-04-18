@@ -8,42 +8,65 @@ using Yna.Engine.Helpers;
 
 namespace Yna.Engine.Graphics.Gui
 {
+    /// <summary>
+    /// This helper can generate flat skins based on a single color.
+    /// </summary>
     public class YnSkinGenerator
     {
+
         /// <summary>
-        /// Generates a Windows 8 like skin base on the color
+        /// Generates a Windows 8 like skin based on a start color.
         /// </summary>
         /// <param name="baseColor">The base color</param>
         /// <param name="fontName">Font name</param>
-        /// <returns></returns>
+        /// <returns>The skin</returns>
         public static YnSkin Generate(Color baseColor, string fontName)
+        {
+            return Generate(baseColor, fontName, true);
+        }
+
+        /// <summary>
+        /// Generates a Windows 8 like skin based on a start color.
+        /// </summary>
+        /// <param name="baseColor">The base color</param>
+        /// <param name="fontName">Font name</param>
+        /// <param name="animated">set to true to generate "Hover" and "Clicked" skins</param>
+        /// <returns>The skin</returns>
+        public static YnSkin Generate(Color baseColor, string fontName, bool animated)
         {
             Color tempColor;
             YnSkin skin = new YnSkin();
 
-            skin.FontName = fontName; 
-            if (fontName != null)
-                skin.Font = YnG.Game.Content.Load<SpriteFont>(skin.FontName);
-            skin.DefaultTextColor = Color.White;
+            // Default state
+            skin.FontNameDefault = fontName;
+            skin.FontDefault = YnG.Game.Content.Load<SpriteFont>(fontName);
+            skin.TextColorDefault = Color.White;
+            skin.BackgroundDefault = YnGraphics.CreateTexture(baseColor, 1, 1);
+            skin.BorderDefault = null; // Borders are left blank
 
-            // The base color will be used for buttons
-            skin.ButtonBackground = YnGraphics.CreateTexture(baseColor, 1, 1);
+            // If the skin is "animated", generate data for "Hover" and "Clicked" states
+            if (animated)
+            {
+                // Hover state : change only background color
+                tempColor = Add(baseColor, 50, 50, 50);
+                skin.BackgroundHover = YnGraphics.CreateTexture(tempColor, 1, 1);
 
-            // A darker color will be used for hovered buttons
-            tempColor = Add(baseColor, 50, 50, 50);
-            skin.HoveredButtonBackground = YnGraphics.CreateTexture(tempColor, 1, 1);
-
-            // Invert text / background color for clicked buttons
-            skin.ClickedButtonTextColor = baseColor;
-            skin.ClickedButtonBackground = YnGraphics.CreateTexture(Color.White, 1, 1);
-
-            // Panels background will be 
-            tempColor = Sub(baseColor, 150, 150, 150);
-            skin.PanelBackground = YnGraphics.CreateTexture(tempColor, 1, 1);
+                // Clicked state : invert background & text color
+                skin.TextColorClicked = baseColor;
+                skin.BackgroundClicked = YnGraphics.CreateTexture(Color.White, 1, 1);
+            }
 
             return skin;
         }
 
+        /// <summary>
+        /// Apply color multipliers on the color RGB values. Usefull to create shades.
+        /// </summary>
+        /// <param name="baseColor">The base color to work with</param>
+        /// <param name="r">Red multiplier</param>
+        /// <param name="g">Green multiplier</param>
+        /// <param name="b">Blue multiplier</param>
+        /// <returns>The new color</returns>
         private static Color ApplyRatio(Color baseColor, double r, double g, double b)
         {
             Color newColor = baseColor;
@@ -53,7 +76,15 @@ namespace Yna.Engine.Graphics.Gui
             
             return newColor;
         }
-
+        
+        /// <summary>
+        /// Add RGB values to the given color. Usefull to create shades.
+        /// </summary>
+        /// <param name="baseColor">The base color to work with</param>
+        /// <param name="r">Red value</param>
+        /// <param name="g">Green value</param>
+        /// <param name="b">Blue value</param>
+        /// <returns>The new color</returns>
         private static Color Add(Color baseColor, float r, float g, float b)
         {
             Color newColor = baseColor;
@@ -64,6 +95,14 @@ namespace Yna.Engine.Graphics.Gui
             return newColor;
         }
 
+        /// <summary>
+        /// Remove RGB values to the given color. Usefull to create shades.
+        /// </summary>
+        /// <param name="baseColor">The base color to work with</param>
+        /// <param name="r">Red value</param>
+        /// <param name="g">Green value</param>
+        /// <param name="b">Blue value</param>
+        /// <returns>The new color</returns>
         private static Color Sub(Color baseColor, float r, float g, float b)
         {
             return Add(baseColor, -r, -g, -b);

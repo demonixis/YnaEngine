@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Yna.Engine;
+using Yna.Engine.Graphics.Component;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
 {
     public class ShapesGame : YnGame
     {
-        Menu menu;
+        YnMenu menu;
         MenuEntry[] menuItems;
      
         public ShapesGame()
@@ -29,7 +30,7 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            menu = new Menu("menu", "Custom Shapes", menuItems);
+            menu = new YnMenu("menu", "Custom Shapes", menuItems);
 
             stateManager.Add(menu, true);
             stateManager.Add(new CubeSample("cubeShapeSample"), false);

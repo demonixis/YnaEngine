@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Yna.Engine;
+using Yna.Engine.Graphics.Component;
 using Yna.Samples;
 using Yna.Samples.Screens;
 
@@ -8,7 +9,7 @@ namespace Yna.Samples
 {
     public class TilemapGame : YnGame
     {
-        Menu menu;
+        YnMenu menu;
         MenuEntry[] menuItems;
 
         public TilemapGame ()
@@ -25,7 +26,7 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            menu = new Menu("menu", "Tilemap", menuItems);
+            menu = new YnMenu("menu", "Tilemap", menuItems);
             stateManager.Add(menu, true);
             stateManager.Add(new TilemapSample("basicMap"), false);
             stateManager.Add(new IsometricMapSample("isoMap"), false);

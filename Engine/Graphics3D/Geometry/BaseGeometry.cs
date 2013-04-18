@@ -91,24 +91,6 @@ namespace Yna.Engine.Graphics3D.Geometry
             protected set { _origin = value; }
         }
 
-        public int Width
-        {
-            get { return (int)_segmentSizes.X; }
-            protected set { _segmentSizes.X = value; }
-        }
-
-        public int Height
-        {
-            get { return (int)_segmentSizes.Y; }
-            protected set { _segmentSizes.Y = value; }
-        }
-
-        public int Depth
-        {
-            get { return (int)_segmentSizes.Z; }
-            protected set { _segmentSizes.Z = value; }
-        }
-
         #endregion
 
         #region Constructors

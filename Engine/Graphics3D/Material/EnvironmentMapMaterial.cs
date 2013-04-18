@@ -147,7 +147,7 @@ namespace Yna.Engine.Graphics3D.Material
             if (!_effectLoaded)
             {
                 _effect = new EnvironmentMapEffect(YnG.GraphicsDevice);
-                _effectLoaded = true;
+				_effectLoaded = true;
             }
         }
 

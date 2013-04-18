@@ -17,34 +17,9 @@ namespace Yna.Engine.Graphics3D
             set { _world = value; }
         }
 
-        public Vector3 Position
+        public Matrix Transform
         {
-            get { return _position; }
-            set
-            {
-                _position = value;
-                UpdatePosition();
-            }
-        }
-
-        public Vector3 Rotation
-        {
-            get { return _rotation; }
-            set
-            {
-                _rotation = value;
-                UpdateRotation();
-            }
-        }
-
-        public Vector3 Scale
-        {
-            get { return _scale; }
-            set
-            {
-                _scale = value;
-                UpdateScale();
-            }
+            get { return GetTransform(); }
         }
 
         public YnTransform()
@@ -64,22 +39,40 @@ namespace Yna.Engine.Graphics3D
 
         public void Translate(float x, float y, float z)
         {
-
+            Vector3 move = new Vector3(x, y, z);
+            Matrix forwardMovement = Matrix.CreateRotationY(_rotation.Y);
+            Vector3 tVector = Vector3.Transform(move, forwardMovement);
+            _position += tVector;
         }
 
-        protected void UpdatePosition()
+        public void Rotate(float rx, float ry, float rz)
         {
-            _world *= Matrix.CreateTranslation(_position);
+            _rotation.X = rx;
+            _rotation.Y = ry;
+            _rotation.Z = rz;
         }
 
-        protected void UpdateRotation()
+        public void Turn(float rx, float ry, float rz)
         {
-            _world *= Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z);
+            _rotation.X += rx;
+            _rotation.Y += ry;
+            _rotation.Z += rz;
         }
 
-        protected void UpdateScale()
+        public void Scale(float sx, float sy, float sz)
         {
-            _world *= Matrix.CreateScale(_scale);
+            _scale.X = sx;
+            _scale.Y = sy;
+            _scale.Z = sz;
+        }
+
+        public Matrix GetTransform()
+        {
+            Matrix transform = Matrix.CreateScale(_scale) * 
+                Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) * 
+                Matrix.CreateTranslation(_position);
+
+            return transform;
         }
 
         public void Update()

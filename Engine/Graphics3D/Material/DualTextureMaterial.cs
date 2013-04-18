@@ -55,7 +55,7 @@ namespace Yna.Engine.Graphics3D.Material
             if (!_effectLoaded)
             {
                 _effect = new DualTextureEffect(YnG.GraphicsDevice);
-                _effectLoaded = true;
+				_effectLoaded = true;
             }
         }
 
@@ -65,7 +65,7 @@ namespace Yna.Engine.Graphics3D.Material
             base.Update(camera, ref world);
 
             DualTextureEffect dualTextureEffect = (DualTextureEffect)_effect;
-
+			
             // Fog
             UpdateFog(dualTextureEffect);
 

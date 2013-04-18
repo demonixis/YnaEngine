@@ -14,9 +14,8 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <summary>
         /// Create a new cube geometry
         /// </summary>
-        /// <param name="textureName"></param>
-        public CubeGeometry(string textureName)
-            : this(textureName, new Vector3(1.0f))
+        public CubeGeometry()
+            : this(new Vector3(1.0f))
         {
 
         }
@@ -26,13 +25,13 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// </summary>
         /// <param name="textureName"></param>
         /// <param name="sizes">Size of geometry</param>
-        public CubeGeometry(string textureName, Vector3 sizes)
-            : this(textureName, sizes, new Vector3(0.0f))
+        public CubeGeometry(Vector3 sizes)
+            : this(sizes, new Vector3(0.0f))
         {
 
         }
 
-        public CubeGeometry(string textureName, Vector3 sizes, Vector3 origin)
+        public CubeGeometry(Vector3 sizes, Vector3 origin)
         {
             _segmentSizes = sizes;
             _origin = origin;

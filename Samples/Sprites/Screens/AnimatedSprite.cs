@@ -16,6 +16,8 @@ namespace Yna.Samples.Screens
         // We create the background
         private YnEntity background;
 
+        private YnGroup spriteGroup;
+
         // We create 3 sprites
         private YnSprite womanSprite;
         private YnSprite manSprite;
@@ -37,22 +39,24 @@ namespace Yna.Samples.Screens
         public AnimatedSprites(string name)
             : base(name)
         {
-
             background = new YnEntity("Scene/GreenGround");
             Add(background);
+
+            spriteGroup = new YnGroup();
+            Add(spriteGroup);
 
             // Create the sprites at position (0, 0) and add it on the state
             // When we Add an object to the state, it is loaded and initialized
             // The main loop will update and draw the sprite
             // The asset name passed in constructor is a spritesheet
             womanSprite = new YnSprite("Sprites/BRivera-femaleelfwalk");
-            Add(womanSprite);
+            spriteGroup.Add(womanSprite);
 
             manSprite = new YnSprite("Sprites/BRivera-malesoldier");
-            Add(manSprite);
+            spriteGroup.Add(manSprite);
 
             gunnerSprite = new YnSprite("Sprites/BRivera-gunnerwalkcycle");
-            Add(gunnerSprite);
+            spriteGroup.Add(gunnerSprite);
 
             // Objects
             woodObject = new YnEntity("Scene/Tree");
@@ -134,6 +138,27 @@ namespace Yna.Samples.Screens
                 manSprite.X -= 2;
             else if (YnG.Keys.Right)
                 manSprite.X += 2;
+
+            if (YnG.Keys.Pressed(Keys.NumPad8))
+                spriteGroup.Y--;
+            else if (YnG.Keys.Pressed(Keys.NumPad5))
+                spriteGroup.Y++;
+
+            if (YnG.Keys.Pressed(Keys.NumPad4))
+                spriteGroup.X--;
+            else if (YnG.Keys.Pressed(Keys.NumPad6))
+                spriteGroup.X++;
+
+            if (YnG.Keys.Pressed(Keys.NumPad7))
+                spriteGroup.Rotation += 0.1f;
+            else if (YnG.Keys.Pressed(Keys.NumPad9))
+                spriteGroup.Rotation -= 0.1f;
+
+            if (YnG.Keys.Pressed(Keys.NumPad1))
+                spriteGroup.Scale += new Vector2(0.1f);
+            else if (YnG.Keys.Pressed(Keys.NumPad3))
+                spriteGroup.Scale -= new Vector2(0.1f);
+
 
             // A state can be transformed with translation, rotation and zoom
             // Move the screen

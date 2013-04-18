@@ -15,10 +15,9 @@ namespace Yna.Engine.State
 
         private static int ScreenCounter = 0;
 
-        private bool _visible;
-        private bool _initialized;
-        private bool _assetsLoaded;
-
+        protected bool _visible;
+        protected bool _initialized;
+        protected bool _assetsLoaded;
         protected SpriteBatch spriteBatch;
         protected StateManager stateManager;
 
@@ -38,7 +37,7 @@ namespace Yna.Engine.State
         /// <summary>
         /// Active or desactive this state. Enable & Visible
         /// </summary>
-        public bool Active
+        public new bool Active
         {
             get { return _enabled && _visible; }
             set

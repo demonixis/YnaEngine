@@ -1,56 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
-using Yna.Engine.Graphics3D.Geometry;
-using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D
 {
+    /// <summary>
+    /// A mesh object that contains a geometry and a material.
+    /// </summary>
     public abstract class YnMesh : YnEntity3D
     {
         protected BaseMaterial _material;
 
         /// <summary>
-        /// Update matrices world and view. There are 3 updates
-        /// 1 - Scale
-        /// 2 - Rotation on Y axis (override if you wan't more)
-        /// 3 - Translation
+        /// Gets or sets the material for this object
+        /// </summary>
+        public BaseMaterial Material
+        {
+            get { return _material; }
+            set
+            {
+                _material = value;
+                if (_initialized && !_material.Loaded)
+                    _material.LoadContent();
+            }
+        }
+
+        /// <summary>
+        /// Update world matrix. (Scale, Rotation, Translation)
         /// </summary>
         public override void UpdateMatrix()
         {
             _world = Matrix.CreateScale(Scale) *
                 Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
                 Matrix.CreateTranslation(Position);
-
-            _view = _camera.View;
-            _projection = _camera.Projection;
         }
 
         /// <summary>
-        /// Update Bounding Box and Bounding Sphere
+        /// Update BoundingBox and BoundingSphere
         /// </summary>
         public override void UpdateBoundingVolumes()
         {
-            _boundingBox = new BoundingBox(
-                new Vector3(X, Y, Z),
-                new Vector3(X + Width, Y + Height, Z + Depth));
+            _boundingBox.Min.X = X;
+            _boundingBox.Min.Y = Y;
+            _boundingBox.Min.Z = Z;
+            _boundingBox.Max.X = X + Width;
+            _boundingBox.Max.Y = Y + Height;
+            _boundingBox.Max.Z = Z + Depth;
 
-            _boundingSphere = new BoundingSphere(
-                new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2),
-                Math.Max(Math.Max(Width, Height), Depth));
+            _boundingSphere.Center.X = X + (Width / 2);
+            _boundingSphere.Center.Y = Y + (Height / 2);
+            _boundingSphere.Center.Z = Z + (Depth / 2);
+            _boundingSphere.Radius = Math.Max(Math.Max(Width, Height), Depth);
         }
 
-        public virtual void PreDraw()
+        /// <summary>
+        /// Update matrix world, bounding volumes if the mesh is dynamic and update the material.
+        /// </summary>
+        public virtual void PreDraw(BaseCamera camera)
         {
-           UpdateMatrix();
-
+            UpdateMatrix();
+			
             if (_dynamic)
                 UpdateBoundingVolumes();
 
-            _material.Update(Camera, ref _world);
+            _material.Update(camera, ref _world);
         }
     }
 }

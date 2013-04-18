@@ -5,7 +5,6 @@ using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 
-
 namespace Yna.Engine.Storage
 {
     /// <summary>
@@ -21,10 +20,10 @@ namespace Yna.Engine.Storage
             _storageDevice = new XnaPhoneStorageDevice();
 #elif MONOGAME && WINDOWS || LINUX || MACOSX || XNA
             _storageDevice = new BasicStorageDevice();
-#elif WINDOWS_STOREAPP
-            _storageDevice = new WinRTStorageDevice();
+#elif WINDOWS_STOREAPP || WINDOWS_PHONE_8
+            _storageDevice = new XnaStorageDevice();
 #else
-            _storageDevice = new DummyStorageDevice();
+			_storageDevice = new DummyStorageDevice();
 #endif
         }
 

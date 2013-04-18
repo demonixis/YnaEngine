@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Gui;
+using Yna.Engine.Graphics.Gui.Widgets;
 
 namespace Yna.Engine.Graphics.Component
 {
@@ -35,10 +36,14 @@ namespace Yna.Engine.Graphics.Component
         protected MenuEntry[] _menuItems;
         protected int _buttonWidth;
         protected int _buttonHeight;
+        protected YnWidgetProperties _buttonProps;
 
         public YnMenu(string name, string title, MenuEntry[] items)
-            : base(name)
+            : base(name, false, true)
         {
+            // Show the mouse on the menu
+            YnG.ShowMouse = true;
+
             _background = new YnEntity(new Rectangle(0, 0, YnG.Width, YnG.Height), new Color(13, 34, 56));
             Add(_background);
 
@@ -46,10 +51,17 @@ namespace Yna.Engine.Graphics.Component
 
             _menuTitle = title;
 
-            _buttonWidth = 250;
-            _buttonHeight = 50;
+            // Register the menu skin
+            YnGui.RegisterSkin("menuSkin", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/MenuFont"));
+            
+            // Register the title skin
+            YnGui.RegisterSkin("titleSkin", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/TitleFont"));
+            
+            // Initialize the button properties
+            _buttonProps = new YnWidgetProperties();
+            _buttonProps.Width = 250;
+            _buttonProps.Height = 50;
 
-            Gui.SetSkin(YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/Menu"));
         }
 
         /// <summary>
@@ -58,8 +70,9 @@ namespace Yna.Engine.Graphics.Component
         /// <param name='tooltip'>Text to show</param>
         protected void ShowTooltip(string tooltip)
         {
+        	YnSkin tooltipSkin = YnGui.GetSkin(_tooltip.SkinName);
             _tooltip.Text = tooltip;
-            Vector2 size = _tooltip.Skin.Font.MeasureString(tooltip);
+            Vector2 size = tooltipSkin.FontDefault.MeasureString(tooltip);
             _tooltip.X = (int)YnG.Width / 2 - (int)size.X / 2;
         }
 
@@ -70,38 +83,41 @@ namespace Yna.Engine.Graphics.Component
         {
             Gui.Clear();
 
-            YnLabel titleLabel = new YnLabel(_menuTitle);
-            titleLabel.Skin = YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/TitleFont");
+            YnLabel titleLabel = new YnLabel();
+            titleLabel.Text = _menuTitle;
+            titleLabel.SkinName = "titleSkin";
             titleLabel.Scale = new Vector2(3.0f);
             titleLabel.TextColor = Color.DodgerBlue;
             Gui.Add(titleLabel);
 
-            YnLabel toggleLabel = new YnLabel("F5 for fullscreen");
+            YnLabel toggleLabel = new YnLabel();
+            toggleLabel.Text = "F5 for fullscreen";
             toggleLabel.TextColor = Color.DeepSkyBlue;
             toggleLabel.Scale = new Vector2(0.9f);
             Gui.Add(toggleLabel);
 
-            YnPanel menu = new YnPanel();
+            YnPanel menu = new YnPanel(YnOrientation.Vertical);
             menu.Padding = 10;
-            menu.WithBackground = false;
-            menu.X = 500;
+            menu.HasBackground = false;
+            menu.X = YnG.Width/2 - ((int)_buttonProps.Width)/2;
+            menu.Y = 230;
             Gui.Add(menu);
 
             for (int i = 0, l = _menuItems.Length; i < l; i++)
                 menu.Add(CreateButton(_menuItems[i].StateName, _menuItems[i].TitleName, _menuItems[i].Description));
 
-            YnTextButton exitButton = new YnTextButton("Exit", _buttonWidth, _buttonHeight, false);
-            exitButton.MouseJustClicked += (o, e) => YnG.Exit();
+            YnTextButton exitButton = new YnTextButton(_buttonProps);
+            exitButton.Text = "Exit";
+            exitButton.MouseClicked += (o, e) => YnG.Exit();
             exitButton.MouseOver += (o, e) => ShowTooltip("Wanna leave? :(");
             menu.Add(exitButton);
+
+            menu.Layout();
 
             _tooltip = new YnLabel();
             _tooltip.Position = new Vector2(270, 150);
             Gui.Add(_tooltip);
 
-            Gui.PrepareWidgets();
-
-            menu.Position = new Vector2(YnG.Width / 2 - menu.Width / 2, 250);
             titleLabel.Position = new Vector2(YnG.Width / 2 - titleLabel.Width / 2, 50);
             toggleLabel.Position = new Vector2(YnG.Width - toggleLabel.Width - 15, 15);
         }
@@ -115,8 +131,9 @@ namespace Yna.Engine.Graphics.Component
         /// <param name='tooltip'>Tooltip content</param>
         protected YnButton CreateButton(string stateName, string label, string tooltip)
         {
-            YnTextButton button = new YnTextButton(label, _buttonWidth, _buttonHeight, false);
-            button.MouseJustClicked += (s, e) => YnG.StateManager.SetStateActive(stateName, true);
+            YnTextButton button = new YnTextButton(_buttonProps);
+            button.Text = label;
+            button.MouseClicked += (s, e) => YnG.StateManager.SetStateActive(stateName, true);
             button.MouseOver += (s, e) => ShowTooltip(tooltip);
             return button;
         }

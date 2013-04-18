@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Yna.Engine.Graphics3D.Camera
 {
     /// <summary>
-    /// A first person camera
+    /// A first person camera.
     /// </summary>
     public class FirstPersonCamera : BaseCamera
     {

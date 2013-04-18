@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Material;
 using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Terrain.Geometry;
 
 namespace Yna.Engine.Graphics3D.Terrain
 {
@@ -15,12 +16,10 @@ namespace Yna.Engine.Graphics3D.Terrain
         }
 
         public SimpleTerrain(string textureName, int width, int depth, int segmentX, int segmentZ)
+            : base(width, 0, depth)
         {
-            _width = width;
-            _height = 0;
-            _depth = depth;
-            _geometry = new SimpleTerrainGeometry(new Vector3(segmentX, 0, segmentZ));
+            _geometry = new SimpleTerrainGeometry(width, 0, depth, new Vector3(segmentX, 0, segmentZ));
             _material = new BasicMaterial(textureName);
-        } 
+        }
     }
 }
