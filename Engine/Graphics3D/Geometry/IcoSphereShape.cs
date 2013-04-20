@@ -285,22 +285,7 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            PreDraw(device);
-
-			device.SetVertexBuffer(_vertexBuffer);
-            device.Indices = _indexBuffer;
-
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                
-                device.SamplerStates[0] = SamplerState.LinearClamp;
-                device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
-            }
-            device.SetVertexBuffer(null);
-            device.Indices = null;
-
-            PostDraw(device);
+            DrawPrimitives(device, material);
         }
 
         private Vector3 ComputeNormal(Vector3 p1, Vector3 p2, Vector3 p3)

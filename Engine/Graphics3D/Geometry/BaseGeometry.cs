@@ -285,7 +285,15 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         protected virtual void DrawUserIndexedPrimitives(GraphicsDevice device, BaseMaterial material)
         {
-            DrawUserIndexedPrimitives(device, material);
+            PreDraw(device);
+
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
+            }
+
+            PostDraw(device);
         }
     }
 }
