@@ -321,10 +321,8 @@ namespace Yna.Engine.Graphics3D
             _boundingSphere = new BoundingSphere();
 
             _frustrumCulled = false;
-            _doubleSided = false;
+            
             _enableLight = true;
-            _newRasterizerState = new RasterizerState();
-            _oldRasterizerState = null;
         }
 
         public YnEntity3D()

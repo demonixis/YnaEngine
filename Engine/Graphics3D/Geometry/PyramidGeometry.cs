@@ -8,6 +8,7 @@ namespace Yna.Engine.Graphics3D.Geometry
     public class PyramidGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
         public PyramidGeometry(Vector3 sizes)
+            : base()
         {
             _segmentSizes = sizes;
         }

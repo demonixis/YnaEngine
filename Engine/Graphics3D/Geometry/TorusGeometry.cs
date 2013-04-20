@@ -37,6 +37,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         }
 
         public TorusGeometry(float radiusExterior, float radiusInterior, bool invertFaces, int nbSlices, int nbSegments, Vector3 sizes, Vector3 origin)
+            : base()
         {
             _segmentSizes = sizes;
             _origin = origin;

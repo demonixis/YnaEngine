@@ -20,6 +20,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         private static Random random = new Random();
 
         public CylinderGeometry(Vector3 startPosition, Vector3 endPosition, float startRadius, float endRadius, bool invertFaces, int nbSegments, int nbSlices, Vector3 sizes)
+            : base()
         {
             _segmentSizes = sizes;
             _startPosition = startPosition;

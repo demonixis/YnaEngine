@@ -153,6 +153,9 @@ namespace Yna.Engine.Graphics3D.Geometry
             _segmentSizes = Vector3.One;
             _constructed = false;
             _invertFaces = false;
+            _doubleSided = false;
+            _newRasterizerState = new RasterizerState();
+            _oldRasterizerState = null;
         }
 
         /// <summary>
