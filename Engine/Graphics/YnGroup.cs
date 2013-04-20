@@ -383,6 +383,21 @@ namespace Yna.Engine.Graphics
         #endregion
 
         /// <summary>
+        /// Draw the entity into a Texture2D. If you don't set useSingleBatch to true don't forget 
+        /// to call SpriteBatch::Begin() and End() before and after this method.
+        /// Be carefull and don't remove an entity from the collection during the draw call.
+        /// </summary>
+        /// <param name="gameTime">GameTime object.</param>
+        /// <param name="spriteBatch">A spriteBatch object</param>
+        /// <param name="useSingleBatch">Sets to true for drawing into single batch operation</param>
+        /// <returns>Return a Texture2D of the entity.</returns>
+        public override Texture2D DrawImage(GameTime gameTime, SpriteBatch spriteBatch, bool useSingleBatch)
+        {
+            _entitiesList.Update(gameTime);
+            return base.DrawImage(gameTime, spriteBatch, useSingleBatch);
+        }
+
+        /// <summary>
         /// Update the size of the group. It's the rectangle that contains all members
         /// </summary>
         public void UpdateRectangle()
