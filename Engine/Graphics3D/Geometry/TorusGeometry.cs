@@ -13,7 +13,6 @@ namespace Yna.Engine.Graphics3D.Geometry
     {
         private float _radiusExterior;
         private float _raduisInterior;
-        private bool _invertFaces;
         private int _nbSlices;
         private int _nbSegments;
 

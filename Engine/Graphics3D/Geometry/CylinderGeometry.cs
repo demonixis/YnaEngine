@@ -15,7 +15,6 @@ namespace Yna.Engine.Graphics3D.Geometry
         private Vector3 _endPosition;
         private float _startRadius;
         private float _endRadius;
-        private bool _invertFaces;
         private int _nbSegments;
         private int _nbSlices;
         private static Random random = new Random();

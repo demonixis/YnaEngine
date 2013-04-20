@@ -30,13 +30,11 @@ namespace Yna.Engine.Graphics3D.Geometry
 
     public class IcoSphereGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
-        protected float _radius;
-        protected int _lod;
-        protected bool _invertFaces; // Unused for now
-
-        protected List<Vector3> _vertexPositions;
+        private float _radius;
+        private int _lod;
+        private List<Vector3> _vertexPositions;
         private List<TriangleData> _triangles;
-        protected Dictionary<Int64, int> _cache;
+        private Dictionary<Int64, int> _cache;
 
         public IcoSphereGeometry(float radius, int lod, bool invertFaces)
             : base()

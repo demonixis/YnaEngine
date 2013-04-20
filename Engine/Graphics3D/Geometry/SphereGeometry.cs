@@ -12,19 +12,12 @@ namespace Yna.Engine.Graphics3D.Geometry
     public class SphereGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
         private float _radius;
-        private bool _invertFaces;
         private int _tessellationLevel;
 
         public float Radius
         {
             get { return _radius; }
             set { _radius = value; }
-        }
-
-        public bool InvertFaces
-        {
-            get { return _invertFaces; }
-            set { _invertFaces = value; }
         }
 
         public int TessellationLevel

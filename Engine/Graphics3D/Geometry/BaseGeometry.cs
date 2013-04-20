@@ -37,6 +37,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         protected Vector3 _origin;
         protected Vector3 _position;
         protected bool _constructed;
+        protected bool _invertFaces;
 
         #endregion
 
@@ -59,6 +60,16 @@ namespace Yna.Engine.Graphics3D.Geometry
         {
             get { return _constructed; }
             protected set { _constructed = value; }
+        }
+
+        /// <summary>
+        /// Enable of disable face inversion. Note that you can't invert faces when
+        /// the geometry is constructed.
+        /// </summary>
+        public bool InvertFaces
+        {
+            get { return _invertFaces; }
+            set { _invertFaces = value; }
         }
 
         /// <summary>
@@ -105,6 +116,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             _origin = Vector3.Zero;
             _segmentSizes = Vector3.One;
             _constructed = false;
+            _invertFaces = false;
         }
 
         /// <summary>
