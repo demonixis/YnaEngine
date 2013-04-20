@@ -285,6 +285,8 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
+            PreDraw(device);
+
 			device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;
 
@@ -298,7 +300,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             device.SetVertexBuffer(null);
             device.Indices = null;
 
-            //Renderer.BoundingBoxRenderer.Draw(_boundingBox, YnG.GraphicsDevice, Camera.View, Camera.Projection, Color.Red);
+            PostDraw(device);
         }
 
         private Vector3 ComputeNormal(Vector3 p1, Vector3 p2, Vector3 p3)

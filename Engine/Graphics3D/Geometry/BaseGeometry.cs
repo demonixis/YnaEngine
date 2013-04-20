@@ -38,6 +38,10 @@ namespace Yna.Engine.Graphics3D.Geometry
         protected Vector3 _position;
         protected bool _constructed;
         protected bool _invertFaces;
+        protected bool _doubleSided;
+        protected bool _wireframe;
+        protected RasterizerState _newRasterizerState;
+        protected RasterizerState _oldRasterizerState;
 
         #endregion
 
@@ -100,6 +104,38 @@ namespace Yna.Engine.Graphics3D.Geometry
         {
             get { return _origin; }
             protected set { _origin = value; }
+        }
+
+        /// <summary>
+        /// Enable or disable the rendering on all faces, event hidden faces.
+        /// </summary>
+        public bool DoubleSided
+        {
+            get { return _doubleSided; }
+            set
+            {
+                _doubleSided = value;
+                if (_doubleSided)
+                    _newRasterizerState.CullMode = CullMode.None;
+                else
+                    _newRasterizerState.CullMode = CullMode.CullClockwiseFace;
+            }
+        }
+
+        /// <summary>
+        /// Enable or disable the wireframe mode for this entity.
+        /// </summary>
+        public bool WireFrame
+        {
+            get { return _wireframe; }
+            set
+            {
+                _wireframe = value;
+                if (_wireframe)
+                    _newRasterizerState.FillMode = FillMode.WireFrame;
+                else
+                    _newRasterizerState.FillMode = FillMode.Solid;
+            }
         }
 
         #endregion
@@ -201,12 +237,34 @@ namespace Yna.Engine.Graphics3D.Geometry
                 vertices[i].Normal.Normalize();
         }
 
+        protected virtual void PreDraw(GraphicsDevice device)
+        {
+            if (_doubleSided || _wireframe)
+            {
+                _oldRasterizerState = device.RasterizerState;
+                device.RasterizerState = _newRasterizerState;
+            }
+        }
+
+        protected virtual void PostDraw(GraphicsDevice device)
+        {
+             if (_doubleSided || _wireframe)
+                device.RasterizerState = _oldRasterizerState;
+        }
+
         /// <summary>
         /// Draw the shape
         /// </summary>
         /// <param name="device">Graphics device</param>
         public virtual void Draw(GraphicsDevice device, BaseMaterial material)
         {
+            DrawPrimitives(device, material);
+        }
+
+        protected virtual void DrawPrimitives(GraphicsDevice device, BaseMaterial material)
+        {
+            PreDraw(device);
+
             device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;
 
@@ -218,6 +276,13 @@ namespace Yna.Engine.Graphics3D.Geometry
 
             device.SetVertexBuffer(null);
             device.Indices = null;
+
+            PostDraw(device);
+        }
+
+        protected virtual void DrawUserIndexedPrimitives(GraphicsDevice device, BaseMaterial material)
+        {
+            DrawUserIndexedPrimitives(device, material);
         }
     }
 }

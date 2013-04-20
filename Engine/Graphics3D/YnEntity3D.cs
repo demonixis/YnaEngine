@@ -47,8 +47,6 @@ namespace Yna.Engine.Graphics3D
         protected Matrix _world;
         protected bool _frustrumCulled;
         protected bool _enableLight;
-        protected bool _doubleSided;
-        protected RasterizerState _rasterizerState;
 
         #endregion
 
@@ -286,15 +284,6 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Determine if the material of an entity is double sided.
-        /// </summary>
-        public bool DoubleSided
-        {
-            get { return _doubleSided; }
-            set { _doubleSided = value; }
-        }
-
-        /// <summary>
         /// Enable or disable lighting on an entity.
         /// </summary>
         public bool EnableLighting
@@ -334,7 +323,8 @@ namespace Yna.Engine.Graphics3D
             _frustrumCulled = false;
             _doubleSided = false;
             _enableLight = true;
-            _rasterizerState = new RasterizerState();
+            _newRasterizerState = new RasterizerState();
+            _oldRasterizerState = null;
         }
 
         public YnEntity3D()
