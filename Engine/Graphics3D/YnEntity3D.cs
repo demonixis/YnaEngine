@@ -8,16 +8,17 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// This is a base class for all things that can be drawn on the screen
     /// </summary>
-    public abstract class YnEntity3D : YnBase3D, IDrawableEntity3D
+    public abstract class YnEntity3D : YnBase, IDrawableEntity3D
     {
         #region Protected & private declarations
 
         // Direction
-        protected Vector3 _rotation;        // @deprected
-        protected Vector3 _scale;           // @deprected
-        protected Vector3 _lastPosition;    // @deprected
-        protected Vector3 _direction;       // @deprected
-        protected Vector3 _lastDirection;   // @deprected
+        protected Vector3 _position;
+        protected Vector3 _rotation;    
+        protected Vector3 _scale;           
+        protected Vector3 _lastPosition;  
+        protected Vector3 _direction;      
+        protected Vector3 _lastDirection;   
 
         // Bounding Sphere/Box
         protected BoundingBox _boundingBox;
@@ -41,6 +42,13 @@ namespace Yna.Engine.Graphics3D
         // Initialization
         protected bool _initialized;
         protected bool _assetLoaded;
+
+        // Rendering
+        protected Matrix _world;
+        protected bool _frustrumCulled;
+        protected bool _enableLight;
+        protected bool _doubleSided;
+        protected RasterizerState _rasterizerState;
 
         #endregion
 
@@ -107,9 +115,27 @@ namespace Yna.Engine.Graphics3D
             set { _assetLoaded = value; }
         }
 
+        /// <summary>
+        /// Get or Set the World matrix of the object
+        /// </summary>
+        public Matrix World
+        {
+            get { return _world; }
+            set { _world = value; }
+        }
+
         #endregion
 
-        #region Properties for position, direction, rotation
+        #region Properties for position, direction, rotation, scale
+
+        /// <summary>
+        /// Gets or sets the position of the entity.
+        /// </summary>
+        public Vector3 Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
 
         /// <summary>
         /// Get the last position
@@ -149,6 +175,33 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
+        /// Get or Set the position on X axis
+        /// </summary>
+        public float X
+        {
+            get { return _position.X; }
+            set { _position.X = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the position on Y axis
+        /// </summary>
+        public float Y
+        {
+            get { return _position.Y; }
+            set { _position.Y = value; }
+        }
+
+        /// <summary>
+        /// Get or Set the position on Z axis
+        /// </summary>
+        public float Z
+        {
+            get { return _position.Z; }
+            set { _position.Z = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the rotation value on X axis
         /// </summary>
         public float RotationX
@@ -177,7 +230,7 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
-        #region Properties for size
+        #region Properties for size and bouding volumes
 
         /// <summary>
         /// Get the width of the model
@@ -203,10 +256,6 @@ namespace Yna.Engine.Graphics3D
             get { return _depth; }
         }
 
-        #endregion
-
-        #region Bounding volumes
-
         /// <summary>
         /// Get the bounding box of the object
         /// </summary>
@@ -225,6 +274,37 @@ namespace Yna.Engine.Graphics3D
 
         #endregion
 
+        #region Properties for rendering
+
+        /// <summary>
+        /// Determine if the entity must be in the frustrum.
+        /// </summary>
+        public bool FrustrumCulled
+        {
+            get { return _frustrumCulled; }
+            set { _frustrumCulled = value; }
+        }
+
+        /// <summary>
+        /// Determine if the material of an entity is double sided.
+        /// </summary>
+        public bool DoubleSided
+        {
+            get { return _doubleSided; }
+            set { _doubleSided = value; }
+        }
+
+        /// <summary>
+        /// Enable or disable lighting on an entity.
+        /// </summary>
+        public bool EnableLighting
+        {
+            get { return _enableLight; }
+            set { _enableLight = value; }
+        }
+
+        #endregion
+
         #region Constructors
 
         public YnEntity3D(Vector3 position)
@@ -232,6 +312,8 @@ namespace Yna.Engine.Graphics3D
         {
             _position = position;
             _lastPosition = position;
+            _direction = Vector3.Zero;
+            _lastDirection = Vector3.Zero;
             _rotation = Vector3.Zero;
             _scale = Vector3.One;
 
@@ -239,17 +321,20 @@ namespace Yna.Engine.Graphics3D
             _height = 0;
             _depth = 0;
 
-            _direction = Vector3.Zero;
-            _lastDirection = Vector3.Zero;
-
             _visible = true;
             _dirty = false;
+
             _initialized = false;
             _assetLoaded = false;
             _dynamic = false;
 
             _boundingBox = new BoundingBox();
             _boundingSphere = new BoundingSphere();
+
+            _frustrumCulled = false;
+            _doubleSided = false;
+            _enableLight = true;
+            _rasterizerState = new RasterizerState();
         }
 
         public YnEntity3D()
