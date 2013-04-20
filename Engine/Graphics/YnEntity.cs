@@ -806,6 +806,47 @@ namespace Yna.Engine.Graphics
             Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
         }
 
+        /// <summary>
+        /// Draw the entity into a Texture2D. Don't forget to call SpriteBatch::Begin() and End() before and after
+        /// this method.
+        /// </summary>
+        /// <param name="gameTime">GameTime object.</param>
+        /// <param name="spriteBatch">A spriteBatch object</param>
+        /// <returns>Return a Texture2D of the entity.</returns>
+        public virtual Texture2D DrawImage(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            return DrawImage(gameTime, spriteBatch);
+        }
+
+        /// <summary>
+        /// Draw the entity into a Texture2D. If you don't set useSingleBatch to true don't forget 
+        /// to call SpriteBatch::Begin() and End() before and after this method.
+        /// </summary>
+        /// <param name="gameTime">GameTime object.</param>
+        /// <param name="spriteBatch">A spriteBatch object</param>
+        /// <param name="useSingleBatch">Sets to true for drawing into single batch operation</param>
+        /// <returns>Return a Texture2D of the entity.</returns>
+        public virtual Texture2D DrawImage(GameTime gameTime, SpriteBatch spriteBatch, bool useSingleBatch)
+        {
+            RenderTarget2D renderTarget = new RenderTarget2D(YnG.GraphicsDevice, Width, Height);
+
+            YnG.GraphicsDevice.SetRenderTarget(renderTarget);
+            YnG.GraphicsDevice.Clear(Color.Transparent);
+
+            if (useSingleBatch)
+            {
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                Draw(gameTime, spriteBatch);
+                spriteBatch.End();
+            }
+            else
+                Draw(gameTime, spriteBatch);
+
+            YnG.GraphicsDevice.SetRenderTarget((RenderTarget2D)null);
+
+            return (Texture2D)renderTarget;
+        }
+
         #endregion
     }
 }
