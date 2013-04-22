@@ -13,7 +13,6 @@ namespace Yna.Engine.Graphics3D.Geometry
     {
         private float _radiusExterior;
         private float _raduisInterior;
-        private bool _invertFaces;
         private int _nbSlices;
         private int _nbSegments;
 
@@ -38,6 +37,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         }
 
         public TorusGeometry(float radiusExterior, float radiusInterior, bool invertFaces, int nbSlices, int nbSegments, Vector3 sizes, Vector3 origin)
+            : base()
         {
             _segmentSizes = sizes;
             _origin = origin;
@@ -124,11 +124,7 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
-            }
+            DrawUserIndexedPrimitives(device, material);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Yna.Engine.Graphics3D.Geometry
     public class PyramidGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
         public PyramidGeometry(Vector3 sizes)
+            : base()
         {
             _segmentSizes = sizes;
         }
@@ -68,11 +69,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
-            }
+            DrawUserIndexedPrimitives(device, material);
         }
     }
 }

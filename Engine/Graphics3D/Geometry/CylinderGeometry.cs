@@ -15,12 +15,12 @@ namespace Yna.Engine.Graphics3D.Geometry
         private Vector3 _endPosition;
         private float _startRadius;
         private float _endRadius;
-        private bool _invertFaces;
         private int _nbSegments;
         private int _nbSlices;
         private static Random random = new Random();
 
         public CylinderGeometry(Vector3 startPosition, Vector3 endPosition, float startRadius, float endRadius, bool invertFaces, int nbSegments, int nbSlices, Vector3 sizes)
+            : base()
         {
             _segmentSizes = sizes;
             _startPosition = startPosition;
@@ -164,11 +164,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
-            }
+            DrawUserIndexedPrimitives(device, material);
         }
     }
 }

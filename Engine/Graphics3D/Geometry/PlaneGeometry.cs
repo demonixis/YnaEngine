@@ -10,18 +10,25 @@ namespace Yna.Engine.Graphics3D.Geometry
     /// </summary>
     public class PlaneGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
-        private bool _invertFaces;
-
-        public bool InvertFaces
+        /// <summary>
+        /// Create a plane geometry.
+        /// </summary>
+        /// <param name="size">Size of geometry.</param>
+        public PlaneGeometry(Vector3 size)
+            : this(size, false)
         {
-            get { return _invertFaces; }
-            set { _invertFaces = value; }
         }
 
-        public PlaneGeometry(Vector3 sizes)
+        /// <summary>
+        /// Create a plane geometry.
+        /// </summary>
+        /// <param name="size">Size of geometry.</param>
+        /// <param name="invertFaces">Sets to true for invert faces.</param>
+        public PlaneGeometry(Vector3 size, bool invertFaces)
+            : base()
         {
-            _segmentSizes = sizes;
-            _invertFaces = false;
+            _segmentSizes = size;
+            _invertFaces = invertFaces;
         }
 
         protected override void CreateVertices()
@@ -54,7 +61,7 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         protected override void CreateIndices()
         {
-            _indices = new short[6]; 
+            _indices = new short[6];
             _indices[0] = 0;
             _indices[1] = (short)(_invertFaces ? 1 : 2);
             _indices[2] = (short)(_invertFaces ? 2 : 1);
@@ -62,18 +69,14 @@ namespace Yna.Engine.Graphics3D.Geometry
             _indices[4] = (short)(_invertFaces ? 3 : 2);
             _indices[5] = (short)(_invertFaces ? 2 : 3);
         }
-        
+
         /// <summary>
         /// Draw the plane shape
         /// </summary>
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
-            }
+            DrawUserIndexedPrimitives(device, material);
         }
     }
 }

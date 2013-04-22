@@ -12,19 +12,12 @@ namespace Yna.Engine.Graphics3D.Geometry
     public class SphereGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
         private float _radius;
-        private bool _invertFaces;
         private int _tessellationLevel;
 
         public float Radius
         {
             get { return _radius; }
             set { _radius = value; }
-        }
-
-        public bool InvertFaces
-        {
-            get { return _invertFaces; }
-            set { _invertFaces = value; }
         }
 
         public int TessellationLevel
@@ -54,6 +47,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         }
 
         public SphereGeometry(float radius, bool invertFaces, int tessellationLevel, Vector3 sizes, Vector3 origin)
+            : base()
         {
             _segmentSizes = sizes;
             _radius = radius;
@@ -165,11 +159,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <param name="device"></param>
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
-            }
+            DrawUserIndexedPrimitives(device, material);
         }
     }
 }

@@ -63,8 +63,6 @@
     <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Collision\YnCollide3.cs" />
     <Compile Include="Content\IContentManager.cs" />
-    <Compile Include="Content\LocalContentManager.cs" />
-    <Compile Include="Content\ZipContentManager.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
     <Compile Include="Extensions\BoundingSphereExtension.cs" />
@@ -205,7 +203,6 @@
     <Compile Include="Script\WaitScript.cs" />
     <Compile Include="Graphics\YnState2D.cs" />
     <Compile Include="YnBase.cs" />
-    <Compile Include="Graphics3D\YnBase3D.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Graphics\YnGroup.cs" />

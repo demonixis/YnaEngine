@@ -257,11 +257,11 @@ namespace Yna.Engine.Graphics3D
 
             sceneObject.Parent = this;
 
-            if (_initialized)
-            {
+            if (_assetLoaded)
                 sceneObject.LoadContent();
+
+            if (_initialized)
                 sceneObject.Initialize();
-            }
 
             return _members.Add(sceneObject);
         }

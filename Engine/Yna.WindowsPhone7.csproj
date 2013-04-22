@@ -204,7 +204,6 @@
     <Compile Include="Graphics\YnState2D.cs" />
     <Compile Include="Storage\XnaPhoneStorageDevice.cs" />
     <Compile Include="YnBase.cs" />
-    <Compile Include="Graphics3D\YnBase3D.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Graphics\YnGroup.cs" />

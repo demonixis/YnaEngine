@@ -37,6 +37,11 @@ namespace Yna.Engine.Graphics3D.Geometry
         protected Vector3 _origin;
         protected Vector3 _position;
         protected bool _constructed;
+        protected bool _invertFaces;
+        protected bool _doubleSided;
+        protected bool _wireframe;
+        protected RasterizerState _newRasterizerState;
+        protected RasterizerState _oldRasterizerState;
 
         #endregion
 
@@ -59,6 +64,16 @@ namespace Yna.Engine.Graphics3D.Geometry
         {
             get { return _constructed; }
             protected set { _constructed = value; }
+        }
+
+        /// <summary>
+        /// Enable of disable face inversion. Note that you can't invert faces when
+        /// the geometry is constructed.
+        /// </summary>
+        public bool InvertFaces
+        {
+            get { return _invertFaces; }
+            set { _invertFaces = value; }
         }
 
         /// <summary>
@@ -91,6 +106,38 @@ namespace Yna.Engine.Graphics3D.Geometry
             protected set { _origin = value; }
         }
 
+        /// <summary>
+        /// Enable or disable the rendering on all faces, event hidden faces.
+        /// </summary>
+        public bool DoubleSided
+        {
+            get { return _doubleSided; }
+            set
+            {
+                _doubleSided = value;
+                if (_doubleSided)
+                    _newRasterizerState.CullMode = CullMode.None;
+                else
+                    _newRasterizerState.CullMode = CullMode.CullClockwiseFace;
+            }
+        }
+
+        /// <summary>
+        /// Enable or disable the wireframe mode for this entity.
+        /// </summary>
+        public bool WireFrame
+        {
+            get { return _wireframe; }
+            set
+            {
+                _wireframe = value;
+                if (_wireframe)
+                    _newRasterizerState.FillMode = FillMode.WireFrame;
+                else
+                    _newRasterizerState.FillMode = FillMode.Solid;
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -105,6 +152,10 @@ namespace Yna.Engine.Graphics3D.Geometry
             _origin = Vector3.Zero;
             _segmentSizes = Vector3.One;
             _constructed = false;
+            _invertFaces = false;
+            _doubleSided = false;
+            _newRasterizerState = new RasterizerState();
+            _oldRasterizerState = null;
         }
 
         /// <summary>
@@ -189,12 +240,34 @@ namespace Yna.Engine.Graphics3D.Geometry
                 vertices[i].Normal.Normalize();
         }
 
+        protected virtual void PreDraw(GraphicsDevice device)
+        {
+            if (_doubleSided || _wireframe)
+            {
+                _oldRasterizerState = device.RasterizerState;
+                device.RasterizerState = _newRasterizerState;
+            }
+        }
+
+        protected virtual void PostDraw(GraphicsDevice device)
+        {
+             if (_doubleSided || _wireframe)
+                device.RasterizerState = _oldRasterizerState;
+        }
+
         /// <summary>
         /// Draw the shape
         /// </summary>
         /// <param name="device">Graphics device</param>
         public virtual void Draw(GraphicsDevice device, BaseMaterial material)
         {
+            DrawPrimitives(device, material);
+        }
+
+        protected virtual void DrawPrimitives(GraphicsDevice device, BaseMaterial material)
+        {
+            PreDraw(device);
+
             device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;
 
@@ -206,6 +279,21 @@ namespace Yna.Engine.Graphics3D.Geometry
 
             device.SetVertexBuffer(null);
             device.Indices = null;
+
+            PostDraw(device);
+        }
+
+        protected virtual void DrawUserIndexedPrimitives(GraphicsDevice device, BaseMaterial material)
+        {
+            PreDraw(device);
+
+            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
+            }
+
+            PostDraw(device);
         }
     }
 }

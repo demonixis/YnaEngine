@@ -30,13 +30,11 @@ namespace Yna.Engine.Graphics3D.Geometry
 
     public class IcoSphereGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
-        protected float _radius;
-        protected int _lod;
-        protected bool _invertFaces; // Unused for now
-
-        protected List<Vector3> _vertexPositions;
+        private float _radius;
+        private int _lod;
+        private List<Vector3> _vertexPositions;
         private List<TriangleData> _triangles;
-        protected Dictionary<Int64, int> _cache;
+        private Dictionary<Int64, int> _cache;
 
         public IcoSphereGeometry(float radius, int lod, bool invertFaces)
             : base()
@@ -287,20 +285,7 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         public override void Draw(GraphicsDevice device, BaseMaterial material)
         {
-			device.SetVertexBuffer(_vertexBuffer);
-            device.Indices = _indexBuffer;
-
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                
-                device.SamplerStates[0] = SamplerState.LinearClamp;
-                device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
-            }
-            device.SetVertexBuffer(null);
-            device.Indices = null;
-
-            //Renderer.BoundingBoxRenderer.Draw(_boundingBox, YnG.GraphicsDevice, Camera.View, Camera.Projection, Color.Red);
+            DrawPrimitives(device, material);
         }
 
         private Vector3 ComputeNormal(Vector3 p1, Vector3 p2, Vector3 p3)
