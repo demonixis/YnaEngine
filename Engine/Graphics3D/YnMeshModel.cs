@@ -128,8 +128,8 @@ namespace Yna.Engine.Graphics3D
                 }
             }
 
-            _boundingBox.Min = min;
-            _boundingBox.Max = max;
+            _boundingBox.Min = min *= _scale;
+            _boundingBox.Max = max *= _scale;
 
             // 2 - Global bounding sphere
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
