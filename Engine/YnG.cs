@@ -184,7 +184,7 @@ namespace Yna.Engine
         /// the StateManager will clear all other state and use your new state
         /// </summary>
         /// <param name="state">New state</param>
-        public static void SwitchState(BaseState state)
+        public static void SwitchState(YnState state)
         {
             if (StateManager != null)
                 StateManager.SwitchState(state);

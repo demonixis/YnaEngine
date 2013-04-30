@@ -10,7 +10,7 @@ namespace Yna.Samples
         public ModernUIGame()
             : base()
         {
-
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()

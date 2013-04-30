@@ -44,7 +44,6 @@
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
     <Compile Include="Extensions\BoundingSphereExtension.cs" />
-    <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
     <Compile Include="Extensions\ModelExtension.cs" />
     <Compile Include="Extensions\RectangleExtension.cs" />
     <Compile Include="Extensions\Texture2DExtension.cs" />
@@ -160,8 +159,6 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
-    <Compile Include="IDrawableEntity.cs" />
-    <Compile Include="IDrawableEntity3D.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
     <Compile Include="Input\Component\KeyboardComponent.cs" />
     <Compile Include="Input\Component\MouseComponent.cs" />
@@ -171,8 +168,8 @@
     <Compile Include="Input\YnMouse.cs" />
     <Compile Include="Input\YnTouch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="State\BaseState.cs" />
     <Compile Include="State\StateManager.cs" />
+    <Compile Include="State\YnState.cs" />
     <Compile Include="State\YnStateList.cs" />
     <Compile Include="Storage\BasicStorageDevice.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />

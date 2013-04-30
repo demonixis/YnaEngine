@@ -5,6 +5,12 @@ namespace Microsoft.Xna.Framework
 {
     public static class BoundingFrustrumExtension
     {
+        /// <summary>
+        /// Make a bounding frustrum of the scene.
+        /// </summary>
+        /// <param name="frustum"></param>
+        /// <param name="camera">Camera used on the scene.</param>
+        /// <returns>The bounding frustrum.</returns>
         public static BoundingFrustum BuildBoundingFrustum(this BoundingFrustum frustum, BaseCamera camera)
         {
             Matrix view = Matrix.CreateLookAt(camera.Position, camera.Target, camera.VectorUp);

@@ -5,7 +5,7 @@ namespace Microsoft.Xna.Framework
     public static class BoundingBoxExtension
     {
         /// <summary>
-        /// Get the rectangle of the bounding box
+        /// Gets the rectangle of the bounding box.
         /// </summary>
         /// <returns>A rectangle of the bounding box</returns>
         /// <param name='boundingBox'></param>
@@ -19,6 +19,11 @@ namespace Microsoft.Xna.Framework
             return new Rectangle(x, y, width, height);
         }
 
+        /// <summary>
+        /// Gets the max size of the bounding box.
+        /// </summary>
+        /// <param name="boundingBox"></param>
+        /// <returns>The maximum size of the bounding box.</returns>
         public static float GetMaxSize(this BoundingBox boundingBox)
         {
             float width = boundingBox.Max.X - boundingBox.Min.X;
@@ -27,6 +32,11 @@ namespace Microsoft.Xna.Framework
             return Math.Max(width, Math.Max(height, depth));
         }
 
+        /// <summary>
+        /// Gets the center of the bounding box.
+        /// </summary>
+        /// <param name="boundingBox"></param>
+        /// <returns>The center of the bounding box</returns>
         public static Vector3 GetCenter(this BoundingBox boundingBox)
         {
             Vector3 center = new Vector3(
@@ -36,6 +46,11 @@ namespace Microsoft.Xna.Framework
             return center;
         }
 
+        /// <summary>
+        /// Gets the bouding sphere of this bouding box.
+        /// </summary>
+        /// <param name="boundingBox"></param>
+        /// <returns>A bounding sphere.</returns>
         public static BoundingSphere ToBoundingSphere(this BoundingBox boundingBox)
         {
             var boundingSphere = new BoundingSphere(boundingBox.GetCenter(), boundingBox.GetMaxSize());

@@ -28,7 +28,7 @@ namespace Yna.Samples
             base.Initialize();
 
             // Get the player score previously saved, if not exist we create a new instance
-            playerScore = YnG.StorageManager.LoadDatas<PlayerScore>(ScoreContainerName, ScoreFileName);
+           // playerScore = YnG.StorageManager.LoadDatas<PlayerScore>(ScoreContainerName, ScoreFileName);
 
             if (playerScore == null)
                 playerScore = new PlayerScore();

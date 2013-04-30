@@ -7,6 +7,7 @@ using Yna.Engine.Graphics.Gui;
 using Yna.Engine.Graphics.Gui.Widgets;
 using Yna.Engine.State;
 using Yna.Engine.Graphics.Scene;
+using System;
 
 namespace Yna.Engine.Graphics
 {
@@ -15,7 +16,7 @@ namespace Yna.Engine.Graphics
     /// That allows you to add different types of objects.
     /// Timers, basic objects (which have an update method) and entities
     /// </summary>
-    public class YnState2D : BaseState
+    public class YnState2D : YnState
     {
         #region Private declarations
 
@@ -197,9 +198,17 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public override void LoadContent()
         {
-            base.LoadContent();
+            if (!_assetLoaded)
+            {
+                OnContentLoadingStarted(EventArgs.Empty);
+                
+                base.LoadContent();
+                _scene.LoadContent();
+                
+                OnContentLoadingFinished(EventArgs.Empty);
 
-            _scene.LoadContent();
+                _assetLoaded = true;
+            }
         }
 
         /// <summary>
@@ -207,7 +216,12 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public override void UnloadContent()
         {
-            _scene.UnloadContent();
+            if (_assetLoaded)
+            {
+                _scene.UnloadContent();
+                _scene.Clear();
+                _assetLoaded = false;
+            }
         }
 
         /// <summary>
@@ -217,7 +231,6 @@ namespace Yna.Engine.Graphics
         public override void Update(GameTime gameTime)
         {
             _camera.Update(gameTime);
-
             _scene.Update(gameTime);
         }
 
@@ -235,9 +248,7 @@ namespace Yna.Engine.Graphics
                 // If the scene is a YnSceneGui2D, a GUI is defined
                 YnSceneGui2D scene = _scene as YnSceneGui2D;
                 if (scene.UseOtherBatchForGUI)
-                {
                     useOtherBatchForGUI = true;
-                }
             }
 
             if (!useOtherBatchForGUI && Gui != null && Gui.HasWidgets)
@@ -249,9 +260,7 @@ namespace Yna.Engine.Graphics
             if (nbMembers > 0)
             {
                 spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _camera.GetTransformMatrix());
-
                 _scene.Draw(gameTime, spriteBatch);
-
                 spriteBatch.End();
             }
 
