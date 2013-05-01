@@ -218,6 +218,9 @@
     <Compile Include="Extensions\PointExtension.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Graphics3D\Material\Resources\NormalMapEffect.ogl.mgfxo" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\MonoGame\WindowsGL\MonoGame.Framework.dll</HintPath>
     </Reference>
