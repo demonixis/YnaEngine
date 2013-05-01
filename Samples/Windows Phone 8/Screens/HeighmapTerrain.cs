@@ -33,7 +33,7 @@ namespace Yna.Samples.Screens
 
             // 2 - Creating a controler (Keyboard + Gamepad + mouse)
             control = new FirstPersonControl(camera);
-            control.RotateSpeed = 0.45f;
+            control.RotationSpeed = 0.45f;
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.45f;
             control.MaxVelocityPosition = 0.96f;

@@ -58,7 +58,7 @@ namespace Yna.Samples.Screens
             for (int i = 0; i < 8; i++)
             {
                 cubePosition.X +=  5;             
-                cubeGeometry = new CubeGeometry(Vector3.One, cubePosition);
+                cubeGeometry = new CubeGeometry(Vector3.One);
                 mesh = new YnMeshGeometry(cubeGeometry, "Textures/pattern02_diffuse");
                 mesh.Position = cubePosition;
                 groupCube.Add(mesh);
