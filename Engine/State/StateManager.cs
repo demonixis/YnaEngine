@@ -336,9 +336,10 @@ namespace Yna.Engine.State
             state.StateManager = this;
 
             if (_assetLoaded)
+            {
                 state.LoadContent();
-
-            state.Initialize();
+                state.Initialize();
+            }
 
             _states.Add(state);
             _statesDictionary.Add(state.Name, _states.IndexOf(state));

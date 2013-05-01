@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -21,14 +22,33 @@ namespace Yna.Engine.Storage
 
         private string GetSaveContainer()
         {
-            return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "my games" + Path.DirectorySeparatorChar + YnGame.GameTitle + Path.DirectorySeparatorChar;
+            StringBuilder builder = new StringBuilder();
+            builder.Append(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            builder.Append(Path.DirectorySeparatorChar);
+            builder.Append("my games");
+            builder.Append(Path.DirectorySeparatorChar);
+            builder.Append(YnGame.GameTitle);
+            builder.Append(Path.DirectorySeparatorChar);
+            return builder.ToString();
         }
 
         private string GetContainer(string containerName)
         {
             _saveFolder = GetSaveContainer();
-
             return (string)(this as IStorageDevice).GetContainer(containerName);
+        }
+
+        private string GetFilePath(string container, string containerName, string fileName)
+        {
+            StringBuilder pathBuilder = new StringBuilder();
+            pathBuilder.Append(container);
+
+            if (containerName != String.Empty)    
+                pathBuilder.Append(Path.DirectorySeparatorChar);
+            
+            pathBuilder.Append(fileName);
+
+            return pathBuilder.ToString();
         }
 
         object IStorageDevice.GetContainer(string containerName)
@@ -36,28 +56,23 @@ namespace Yna.Engine.Storage
             string containerTarget = _saveFolder + containerName; 
 
             if (!Directory.Exists(containerTarget))
-            {
                 Directory.CreateDirectory(containerTarget);
-            }
-
+            
             return containerTarget;
         }
 
         bool IStorageDevice.SaveDatas<T>(string containerName, string fileName, T objectToSave)
         {
             string container = GetContainer(containerName);
-
-            string filePath = container + Path.DirectorySeparatorChar + fileName;
+            string filePath = GetFilePath(container, containerName, fileName);
 
             if (File.Exists(filePath))
                 File.Delete(filePath); // TODO : backup file
 
             StreamWriter writer = new StreamWriter(filePath);
-
             XmlSerializer serializer = new XmlSerializer(typeof(T));
 
             serializer.Serialize(writer, objectToSave);
-
             writer.Dispose();
 
             return true;
@@ -68,17 +83,14 @@ namespace Yna.Engine.Storage
             T datas = default(T);
 
             string container = GetContainer(containerName);
-
-            string filePath = container + Path.DirectorySeparatorChar + fileName;
+            string filePath = GetFilePath(container, containerName, fileName);
 
             if (File.Exists(filePath))
             {
                 Stream stream = File.Open(filePath, FileMode.Open);
-
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
 
                 datas = (T)serializer.Deserialize(stream);
-
                 stream.Dispose();
             }
 
