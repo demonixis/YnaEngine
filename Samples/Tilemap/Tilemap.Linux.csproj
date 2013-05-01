@@ -40,6 +40,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
     <Compile Include="Data\IsometricMap.cs" />
     <Compile Include="Data\MapBasic.cs" />
     <Compile Include="Menu.cs" />

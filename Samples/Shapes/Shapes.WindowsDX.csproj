@@ -43,6 +43,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
     <Compile Include="Screens\BaseSample.cs" />
     <Compile Include="Screens\CubeSample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

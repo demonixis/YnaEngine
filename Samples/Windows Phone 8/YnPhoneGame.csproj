@@ -84,6 +84,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+	<Compile Include="..\..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
     <Compile Include="Screens\AnimatedSpriteVirtualPad.cs" />
     <Compile Include="Screens\CubeSample.cs" />
     <Compile Include="Screens\HeighmapTerrain.cs" />

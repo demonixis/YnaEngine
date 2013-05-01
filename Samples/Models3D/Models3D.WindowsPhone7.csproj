@@ -75,6 +75,9 @@
     </None>
     <Compile Include="Models3DGame.cs" />
     <Compile Include="Screens\DungeonState.cs" />
+	<Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Background.png" />

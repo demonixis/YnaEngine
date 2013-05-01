@@ -34,7 +34,7 @@ namespace YnPhoneGame
                 new MenuEntry("heightmap", "Heightmap", "In this sample you'll learn how to\ncreate an heightmap")
             };
 
-            Menu menu = new Menu("menu", "Yna Engine for Windows Phone 8", menuItems);
+            YnMenu menu = new Menu("menu", "Yna Engine for Windows Phone 8", menuItems);
 
             stateManager.Add(menu, true);
             stateManager.Add(new AnimatedSpriteVirtualPad("sprites"), false);

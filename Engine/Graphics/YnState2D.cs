@@ -136,13 +136,10 @@ namespace Yna.Engine.Graphics
             InitializeDefaultState();
 
             if (enableGui)
-            {
                 _scene = new YnSceneGui2D();
-            }
             else
-            {
+            
                 _scene = new YnScene2D();
-            }
         }
 
         /// <summary>

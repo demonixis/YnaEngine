@@ -40,6 +40,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
     <Compile Include="Menu.cs" />
     <Compile Include="Screens\BasicTerrain.cs" />
     <Compile Include="Screens\HeighmapTerrain.cs" />
