@@ -89,7 +89,11 @@ namespace Yna.Engine.Graphics3D.Material
 #if DIRECTX
            suffix = "dx11"; 
 #endif
+#if WINDOWS_STOREAPP
+            var assembly = typeof(NormalMapMaterial).GetTypeInfo().Assembly;
+#else
             var assembly = Assembly.GetExecutingAssembly();
+#endif
             var stream = assembly.GetManifestResourceStream(String.Format("NormalMapEffect.{0}.mgfxo", suffix));
             byte[] shaderCode;
 
