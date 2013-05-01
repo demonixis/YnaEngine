@@ -352,7 +352,10 @@ namespace Yna.Engine.State
         public void Add(YnState state, bool isActive)
         {
             if (state.Active != isActive)
-                state.Active = isActive;
+            {
+                state.Enabled = isActive;
+                state.Visible = isActive;
+            }
             Add(state);
         }
 
@@ -369,15 +372,18 @@ namespace Yna.Engine.State
         /// <summary>
         /// Add a range of states and active or desactive them.
         /// </summary>
-        /// <param name="screens">An array of states</param>
+        /// <param name="states">An array of states</param>
         /// <param name="isActive">Sets to true for activating all screens.</param>
-        public void Add(YnState[] screens, bool isActive)
+        public void Add(YnState[] states, bool isActive)
         {
-            foreach (YnState screen in screens)
+            foreach (YnState state in states)
             {
-                if (screen.Active != isActive)
-                    screen.Active = isActive;
-                Add(screen);
+                if (state.Active != isActive)
+                {
+                    state.Enabled = isActive;
+                    state.Visible = isActive;
+                }
+                Add(state);
             }
         }
 

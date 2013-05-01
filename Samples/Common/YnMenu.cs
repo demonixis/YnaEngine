@@ -61,7 +61,6 @@ namespace Yna.Engine.Graphics.Component
             _buttonProps = new YnWidgetProperties();
             _buttonProps.Width = 250;
             _buttonProps.Height = 50;
-
         }
 
         /// <summary>
@@ -92,6 +91,7 @@ namespace Yna.Engine.Graphics.Component
 
             YnLabel toggleLabel = new YnLabel();
             toggleLabel.Text = "F5 for fullscreen";
+            toggleLabel.SkinName = "menuSkin";
             toggleLabel.TextColor = Color.DeepSkyBlue;
             toggleLabel.Scale = new Vector2(0.9f);
             Gui.Add(toggleLabel);
@@ -101,6 +101,7 @@ namespace Yna.Engine.Graphics.Component
             menu.HasBackground = false;
             menu.X = YnG.Width/2 - ((int)_buttonProps.Width)/2;
             menu.Y = 230;
+            menu.SkinName = "menuSkin";
             Gui.Add(menu);
 
             for (int i = 0, l = _menuItems.Length; i < l; i++)
@@ -108,6 +109,7 @@ namespace Yna.Engine.Graphics.Component
 
             YnTextButton exitButton = new YnTextButton(_buttonProps);
             exitButton.Text = "Exit";
+            exitButton.SkinName = "menuSkin";
             exitButton.MouseClicked += (o, e) => YnG.Exit();
             exitButton.MouseOver += (o, e) => ShowTooltip("Wanna leave? :(");
             menu.Add(exitButton);
@@ -115,6 +117,7 @@ namespace Yna.Engine.Graphics.Component
             menu.Layout();
 
             _tooltip = new YnLabel();
+            _tooltip.SkinName = "menuSkin";
             _tooltip.Position = new Vector2(270, 150);
             Gui.Add(_tooltip);
 
@@ -133,6 +136,7 @@ namespace Yna.Engine.Graphics.Component
         {
             YnTextButton button = new YnTextButton(_buttonProps);
             button.Text = label;
+            button.SkinName = "menuSkin";
             button.MouseClicked += (s, e) => YnG.StateManager.SetStateActive(stateName, true);
             button.MouseOver += (s, e) => ShowTooltip(tooltip);
             return button;
