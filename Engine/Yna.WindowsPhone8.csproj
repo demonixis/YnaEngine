@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Windows Phone 8\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;MONOGAME;WINDOWS_PHONE_8</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS_PHONE_8;MONOGAME;DIRECTX</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -34,7 +34,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Windows Phone 8\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;MONOGAME;WINDOWS_PHONE_8</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS_PHONE_8;MONOGAME;DIRECTX</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -93,7 +93,6 @@
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
     <Compile Include="Extensions\BoundingSphereExtension.cs" />
-    <Compile Include="Extensions\GraphicsDeviceExtension.cs" />
     <Compile Include="Extensions\ModelExtension.cs" />
     <Compile Include="Extensions\RectangleExtension.cs" />
     <Compile Include="Extensions\Texture2DExtension.cs" />
@@ -122,7 +121,6 @@
     <Compile Include="Graphics3D\YnScene3D.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
-    <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Event\MouseEntityEvents.cs" />
     <Compile Include="Graphics\Event\TouchEntityEvents.cs" />
@@ -205,8 +203,6 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
-    <Compile Include="IDrawableEntity.cs" />
-    <Compile Include="IDrawableEntity3D.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
     <Compile Include="Input\Component\KeyboardComponent.cs" />
     <Compile Include="Input\Component\MouseComponent.cs" />
@@ -216,8 +212,8 @@
     <Compile Include="Input\YnMouse.cs" />
     <Compile Include="Input\YnTouch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="State\BaseState.cs" />
     <Compile Include="State\StateManager.cs" />
+    <Compile Include="State\YnState.cs" />
     <Compile Include="State\YnStateList.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
@@ -244,6 +240,9 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\MonoGame\WindowsPhone8\MonoGame.Framework.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Graphics3D\Material\Resources\NormalMapEffect.dx11.mgfxo" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

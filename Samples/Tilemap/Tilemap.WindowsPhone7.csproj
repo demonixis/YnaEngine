@@ -64,7 +64,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -72,6 +71,9 @@
     <None Include="Properties\WMAppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </None>
+	<Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
     <Compile Include="Data\IsometricMap.cs" />
     <Compile Include="Data\MapBasic.cs" />
     <Compile Include="Screens\IsometricMapSample.cs" />

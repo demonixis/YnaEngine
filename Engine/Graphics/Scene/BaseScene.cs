@@ -13,7 +13,6 @@ namespace Yna.Engine.Graphics.Scene
     public abstract class BaseScene : YnBase
     {
         protected YnBaseList _baseList;
-        protected bool _initialized;
         protected bool _assetsLoaded;
 
         /// <summary>
@@ -25,11 +24,6 @@ namespace Yna.Engine.Graphics.Scene
             protected set { _baseList.Members = value; }
         }
 
-        public bool Initialized
-        {
-            get { return _initialized; }
-        }
-
         public bool AssetsLoaded
         {
             get { return _assetsLoaded; }
@@ -38,7 +32,6 @@ namespace Yna.Engine.Graphics.Scene
         public BaseScene()
         {
             _baseList = new YnBaseList();
-            _initialized = false;
             _assetsLoaded = false;
         }
 

@@ -76,6 +76,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
     <Compile Include="Screens\BasicTerrain.cs" />
     <Compile Include="Screens\HeighmapTerrain.cs" />
     <Compile Include="TerrainsGame.cs" />

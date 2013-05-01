@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 namespace Yna.Engine.Storage
 {
     /// <summary>
-    /// The storage manager is an object that can be used for store and load information like scores, achievments, etc..
+    /// The storage manager is an object that can be used for store and load informations like scores, achievments, etc..
     /// </summary>
     public class StorageManager
     {

@@ -24,7 +24,6 @@ namespace Yna.Engine.Content
         private string _rootDirectory;
         private string _gameDirectory;
         private string _fullPath;
-        private bool _enableZip;
         
         /// <summary>
         /// Collection of assets
@@ -52,7 +51,6 @@ namespace Yna.Engine.Content
             _gameDirectory = Directory.GetCurrentDirectory();
             _rootDirectory = "Content";
             _fullPath = Path.Combine(_gameDirectory, _rootDirectory);
-            _enableZip = false;
         }
 
         /// <summary>

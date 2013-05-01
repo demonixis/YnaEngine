@@ -66,7 +66,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -76,6 +75,9 @@
     </None>
     <Compile Include="Models3DGame.cs" />
     <Compile Include="Screens\DungeonState.cs" />
+	<Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Background.png" />

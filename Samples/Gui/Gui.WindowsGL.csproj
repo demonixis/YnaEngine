@@ -43,6 +43,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
     <Compile Include="GuiGame.cs" />
     <Compile Include="Screens\DepthState.cs" />
     <Compile Include="Screens\GuiState.cs" />

@@ -101,7 +101,6 @@
     <Compile Include="Graphics3D\YnMeshModel.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
-    <Compile Include="Graphics\Component\YnMenu.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Event\MouseEntityEvents.cs" />
     <Compile Include="Graphics\Event\TouchEntityEvents.cs" />

@@ -8,7 +8,7 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// This is a base class for all things that can be drawn on the screen
     /// </summary>
-    public abstract class YnEntity3D : YnBase, IDrawableEntity3D
+    public abstract class YnEntity3D : YnBase
     {
         #region Protected & private declarations
 

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Reflection;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Lighting;
@@ -72,8 +75,37 @@ namespace Yna.Engine.Graphics3D.Material
         {
             _texture = YnG.Content.Load<Texture2D>(_textureName);
             _normalMap = YnG.Content.Load<Texture2D>(_normalMapName);
+#if MONOGAME
+            _effect = LoadShaderFromResources();
+#else
             _effect = YnG.Content.Load<Effect>(_effectName);
+#endif
         }
+
+#if MONOGAME
+        private Effect LoadShaderFromResources()
+        {
+            string suffix = "ogl";
+#if DIRECTX
+           suffix = "dx11"; 
+#endif
+#if WINDOWS_STOREAPP
+            var assembly = typeof(NormalMapMaterial).GetTypeInfo().Assembly;
+#else
+            var assembly = Assembly.GetExecutingAssembly();
+#endif
+            var stream = assembly.GetManifestResourceStream(String.Format("NormalMapEffect.{0}.mgfxo", suffix));
+            byte[] shaderCode;
+
+            using (var ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                shaderCode = ms.ToArray();
+            }
+
+            return new Effect(YnG.GraphicsDevice, shaderCode);
+        }
+#endif
 
         public override void Update(BaseCamera camera, ref Matrix world)
         {

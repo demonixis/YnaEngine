@@ -78,7 +78,7 @@ namespace Yna.Engine
         /// <returns>A random Point.</returns>
         public Point GetPoint(int minX, int minY, int maxX, int maxY)
         {
-            return new Point(GetInteger(minX, minY), GetInteger(maxX, maxY));
+            return new Point(GetInteger(minX, maxX), GetInteger(minY, maxY));
         }
 
         /// <summary>
@@ -101,8 +101,8 @@ namespace Yna.Engine
         public Vector2 GetVector2(float minX, float minY, float maxX, float maxY)
         {
             return new Vector2(
-                GetFloat(minX, minY),
-                GetFloat(maxX, maxY));
+                GetFloat(minX, maxX),
+                GetFloat(minY, maxY));
         }
 
         /// <summary>
@@ -193,11 +193,11 @@ namespace Yna.Engine
         /// <returns>A random color.</returns>
         public Color GetColor(float? red, float? green, float? blue, float? alpha)
         {
-            float r = (red != null) ? (int)(red * 256) % 256 : GetFloat(0, 255);
-            float g = (green != null) ? (int)(green * 256) % 256 : GetFloat(0, 255);
-            float b = (blue != null) ? (int)(blue * 256) % 256 : GetFloat(0, 255);
-            float a = (alpha != null) ? (int)(alpha * 256) % 256 : GetFloat(0, 255);
-
+            float r = (red != null) ? (int)(red * 256) % 256 : GetInteger(0, 255);
+            float g = (green != null) ? (int)(green * 256) % 256 : GetInteger(0, 255);
+            float b = (blue != null) ? (int)(blue * 256) % 256 : GetInteger(0, 255);
+            float a = (alpha != null) ? (int)(alpha * 256) % 256 : GetInteger(0, 255);
+            
             return new Color(r, g, b, a);
         }
 

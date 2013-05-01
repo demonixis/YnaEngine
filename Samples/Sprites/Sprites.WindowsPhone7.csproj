@@ -63,7 +63,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -71,6 +70,9 @@
     <None Include="Properties\WMAppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </None>
+	<Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
     <Compile Include="Screens\AnimatedSprite.cs" />
     <Compile Include="Screens\AnimatedSpriteVirtualPad.cs" />
     <Compile Include="Screens\BasicSprite.cs" />

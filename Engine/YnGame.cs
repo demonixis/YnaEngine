@@ -158,14 +158,6 @@ namespace Yna.Engine
         }
 
         #endregion
-
-        /// <summary>
-        /// Close the game
-        /// </summary>
-        public void ExitGame()
-        {
-            Exit();
-        }
     }
 }
 

@@ -12,7 +12,7 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// A 3D state who contains a camera manager, a scene manager and a collection of basic objects (timers, controllers, etc...)
     /// </summary>
-    public class YnState3D : BaseState
+    public class YnState3D : YnState
     {
         private CameraManager _cameraManager;
         private YnScene3D _scene;
@@ -79,7 +79,6 @@ namespace Yna.Engine.Graphics3D
 
             _scene = new YnScene3D();
             _basicObjects = new YnBaseList();
-            Initialized = false;
         }
 
         /// <summary>
@@ -120,11 +119,16 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public override void LoadContent()
         {
-            if (!Initialized)
+            if (!_assetLoaded)
             {
+                OnContentLoadingStarted(EventArgs.Empty);
+
                 base.LoadContent();
+
                 _scene.LoadContent();
-                Initialized = true;
+                _assetLoaded = true;
+
+                OnContentLoadingFinished(EventArgs.Empty);
             }
         }
 
@@ -133,11 +137,11 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public override void UnloadContent()
         {
-            if (Initialized)
+            if (_assetLoaded)
             {
                 _scene.UnloadContent();
                 _scene.Clear();
-                Initialized = false;
+                _assetLoaded = false;
             }
         }
 

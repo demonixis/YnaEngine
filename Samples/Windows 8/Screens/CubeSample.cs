@@ -30,16 +30,15 @@ namespace Yna.Samples.Screens
             : base(name)
         {
             // 1 - Create an FPSCamera
-            _camera = new FirstPersonCamera();
-            _camera.SetupCamera();
-            Add(_camera);
+            Camera = new FirstPersonCamera();
+            Camera.SetupCamera();
 
             // 2 - Create a controler (Keyboard + Gamepad + mouse)
             // --- Setup move/rotate speeds
-            control = new FirstPersonControl((FirstPersonCamera)_camera);
+            control = new FirstPersonControl((FirstPersonCamera)Camera);
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.05f;
-            control.RotateSpeed = 0.45f;
+            control.RotationSpeed = 0.45f;
             control.MaxVelocityPosition = 0.95f;
             control.MaxVelocityRotation = 0.96f;
             Add(control);
@@ -47,19 +46,22 @@ namespace Yna.Samples.Screens
             // 3 - Create a simple terrain with a size of 50x50 with 1x1 space between each vertex
             terrain = new SimpleTerrain("Textures/pattern55_diffuse", 50, 50, 1, 1);
             // Repeat the ground texture 8x
-            terrain.TextureRepeat = new Vector2(8.0f);
+            //terrain.TextureRepeat = new Vector2(8.0f);
             Add(terrain);
 
             groupCube = new YnGroup3D(null);
 
-            CubeGeometry cube = null;
+            YnMeshGeometry mesh = null;
+            CubeGeometry cubeGeometry = null;
             Vector3 cubePosition = new Vector3(0, 1, 35);
 
             for (int i = 0; i < 8; i++)
             {
                 cubePosition.X +=  5;             
-                cube = new CubeGeometry("Textures/pattern02_diffuse", Vector3.One, cubePosition);
-                groupCube.Add(cube);
+                cubeGeometry = new CubeGeometry(Vector3.One);
+                mesh = new YnMeshGeometry(cubeGeometry, "Textures/pattern02_diffuse");
+                mesh.Position = cubePosition;
+                groupCube.Add(mesh);
             }
 
             Add(groupCube);
@@ -68,10 +70,10 @@ namespace Yna.Samples.Screens
             sky = new YnEntity("Textures/Sky");
 
             // Setup the light
-            Scene.BasicLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
-            Scene.BasicLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
-            Scene.BasicLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
-            Scene.BasicLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
+            Scene.SceneLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
+            Scene.SceneLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
+            Scene.SceneLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
+            Scene.SceneLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
 
             // Virtual pad
             virtualController = new FirstPersonVirtualPadControl((FirstPersonCamera)Camera);
@@ -92,7 +94,7 @@ namespace Yna.Samples.Screens
             virtualController.LoadContent();
 
             // Set the camera position at the middle of the terrain
-            _camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
+            Camera.Position = new Vector3(terrain.Width / 2, 2, terrain.Depth / 6);
         }
 
         public override void Update(GameTime gameTime)

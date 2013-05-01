@@ -4,14 +4,24 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     public static class Texture2DExtension
     {
+        /// <summary>
+        /// Gets the source rectangle of the texture.
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <returns>A rectangle that begin at 0, 0</returns>
         public static Rectangle GetSourceRectangle(this Texture2D texture)
         {
             return new Rectangle(0, 0, texture.Width, texture.Height);
         }
 
-        public static Vector2 GetSize(this Texture2D texture)
+        /// <summary>
+        /// Gets the size of the texture.
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <returns>Return a point that contains the size of the texture</returns>
+        public static Point GetSize(this Texture2D texture)
         {
-            return new Vector2(texture.Width, texture.Height);
+            return new Point(texture.Width, texture.Height);
         }
     }
 }

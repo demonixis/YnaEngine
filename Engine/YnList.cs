@@ -87,10 +87,8 @@ namespace Yna.Engine
                     _safeMembers.AddRange(_members);
                 }
                 else
-                {
                     _safeMembers = _members;
-                }
-
+                
                 DoUpdate(gameTime, nbMembers);
             }
         }

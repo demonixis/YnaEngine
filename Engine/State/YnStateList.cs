@@ -8,7 +8,7 @@ namespace Yna.Engine.State
     /// <summary>
     /// A safe updateable state collection.
     /// </summary>
-    public class YnStateList : YnList<BaseState>
+    public class YnStateList : YnList<YnState>
     {
         /// <summary>
         /// Initialize states
