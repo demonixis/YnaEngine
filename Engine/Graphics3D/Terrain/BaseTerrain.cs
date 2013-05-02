@@ -21,10 +21,13 @@ namespace Yna.Engine.Graphics3D.Terrain
         }
 
         public BaseTerrain(float width, float height, float depth)
+            : base()
         {
             _width = width;
             _height = height;
             _depth = depth;
+            _geometry = null;
+            _material = null;
         }
 
         public override void LoadContent()
@@ -32,7 +35,7 @@ namespace Yna.Engine.Graphics3D.Terrain
             _geometry.GenerateGeometry();
             _material.LoadContent();
             UpdateBoundingVolumes();
-            _initialized = true;
+            _initialized = true; 
         }
 
         public override void UpdateBoundingVolumes()

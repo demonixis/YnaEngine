@@ -35,7 +35,7 @@ namespace Yna.Samples.Screens
             Add(control);
 
             // 3 - Create a simple terrain with a size of 100x100 with 5x5 space between each vertex
-            terrain = new SimpleTerrain("Backgrounds/textureMap", 100, 100, 5, 5);
+            terrain = new SimpleTerrain("Textures/textureMap", 100, 100, 5, 5);
             Add(terrain);
 
             // A dungeon !
@@ -50,7 +50,7 @@ namespace Yna.Samples.Screens
             Scene.SceneLight.DirectionalLights[0].SpecularColor = Color.Red.ToVector3();
 
             // Sky & debug text ;)
-            sky = new YnEntity("Backgrounds/sky");
+            sky = new YnEntity("Textures/sky");
         }
 
         public override void LoadContent()
