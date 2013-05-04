@@ -4,11 +4,23 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Graphics
 {
-    public class YnPool : IEntity
+    public class YnPool : IEntity2D
     {
         private readonly int _maximumPoolSize;
         private YnEntity[] _poolEntities;
         private YnEntity _tempSearchedEntity;
+
+        public bool Enabled { get; set; }
+        public bool Visible { get; set; }
+        public bool Active
+        {
+            get { return Enabled && Visible; }
+            set
+            {
+                Enabled = value;
+                Visible = value;
+            }
+        }
 
         public YnEntity this[int index]
         {
@@ -28,6 +40,7 @@ namespace Yna.Engine.Graphics
 
         public YnPool(int maxSize)
         {
+            Active = true;
             _maximumPoolSize = maxSize;
             _poolEntities = new YnEntity[maxSize];
 

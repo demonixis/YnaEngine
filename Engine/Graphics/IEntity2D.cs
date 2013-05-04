@@ -3,8 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Graphics
 {
-    public interface IEntity
+    public interface IEntity2D
     {
+        bool Enabled { get; set; }
+        bool Visible { get; set; }
+        bool Active { get; set; }
+
         void Initialize();
         void LoadContent();
         void Update(GameTime gameTime);

@@ -53,7 +53,6 @@
         public static bool Collide(int x, int y, YnCircle circle)
         {
             int r2 = (x - circle.X) * (x - circle.X) + (y - circle.Y) * (y - circle.Y);
-
             return r2 > (circle.Radius * circle.Radius);
         }
 
@@ -66,7 +65,6 @@
         public static bool Collide(YnCircle circleA, YnCircle circleB)
         {
             int r2 = (circleA.X - circleB.X) * (circleA.X - circleB.X) + (circleA.Y - circleB.Y) * (circleA.Y - circleB.Y);
-
             return r2 > ((circleA.Radius + circleB.Radius) * (circleA.Radius + circleB.Radius));
         }
     }
