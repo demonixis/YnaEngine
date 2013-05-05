@@ -85,9 +85,10 @@ namespace Yna.Engine.Graphics.Scene
         public void Add(YnEntity entity, bool reload)
         {
             if (_assetsLoaded || reload)
-                entity.LoadContent(); 
-            
-            entity.Initialize();
+            {
+                entity.LoadContent();
+                entity.Initialize();
+            }
 
             _entities.Add(entity);
         }

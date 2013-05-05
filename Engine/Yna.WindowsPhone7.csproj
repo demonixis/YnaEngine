@@ -143,6 +143,7 @@
     <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Graphics3D\YnState3D.cs" />
     <Compile Include="Graphics\YnGraphics.cs" />
+    <Compile Include="Graphics\YnPool.cs" />
     <Compile Include="Graphics\YnText.cs" />
     <Compile Include="Graphics\YnSceneCamera2D.cs" />
     <Compile Include="Graphics\Animation\SpriteAnimation.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
+    <Compile Include="Graphics\IEntity2D.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
     <Compile Include="Input\Component\KeyboardComponent.cs" />
     <Compile Include="Input\Component\MouseComponent.cs" />

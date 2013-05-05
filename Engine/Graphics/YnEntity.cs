@@ -24,7 +24,7 @@ namespace Yna.Engine.Graphics
     /// <summary>
     /// A basic drawable object
     /// </summary>
-    public class YnEntity : YnBase, ICollidable2
+    public class YnEntity : YnBase, ICollidable2, IEntity2D
     {
         #region Protected and private declarations
 
@@ -815,7 +815,7 @@ namespace Yna.Engine.Graphics
         /// <returns>Return a Texture2D of the entity.</returns>
         public virtual Texture2D DrawImage(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            return DrawImage(gameTime, spriteBatch);
+            return DrawImage(gameTime, spriteBatch, false);
         }
 
         /// <summary>
