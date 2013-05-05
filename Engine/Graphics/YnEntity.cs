@@ -815,7 +815,7 @@ namespace Yna.Engine.Graphics
         /// <returns>Return a Texture2D of the entity.</returns>
         public virtual Texture2D DrawImage(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            return DrawImage(gameTime, spriteBatch);
+            return DrawImage(gameTime, spriteBatch, false);
         }
 
         /// <summary>

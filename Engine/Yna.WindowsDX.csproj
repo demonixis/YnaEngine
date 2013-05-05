@@ -74,6 +74,7 @@
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
     <Compile Include="Graphics\Gui\YnWidgetProperties.cs" />
+    <Compile Include="Graphics\IEntity2D.cs" />
     <Compile Include="Graphics\Particle\YnEmitter.cs" />
     <Compile Include="Graphics\Particle\YnParticle.cs" />
     <Compile Include="Graphics\Event\MouseEntityEvents.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Graphics3D\YnState3D.cs" />
     <Compile Include="Graphics\YnGraphics.cs" />
+    <Compile Include="Graphics\YnPool.cs" />
     <Compile Include="Graphics\YnText.cs" />
     <Compile Include="Graphics\YnSceneCamera2D.cs" />
     <Compile Include="Graphics\Animation\SpriteAnimation.cs" />

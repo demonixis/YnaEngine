@@ -12,6 +12,7 @@ namespace Yna.Engine.Graphics
 
         public bool Enabled { get; set; }
         public bool Visible { get; set; }
+
         public bool Active
         {
             get { return Enabled && Visible; }
@@ -20,6 +21,14 @@ namespace Yna.Engine.Graphics
                 Enabled = value;
                 Visible = value;
             }
+        }
+
+        /// <summary>
+        /// Gets the size of the pool.
+        /// </summary>
+        public int Size
+        {
+            get { return _maximumPoolSize; }
         }
 
         public YnEntity this[int index]
@@ -38,6 +47,10 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Create a pool collection with a fixed size. The collection can not be modified.
+        /// </summary>
+        /// <param name="maxSize">Maximum entity</param>
         public YnPool(int maxSize)
         {
             Active = true;
@@ -66,6 +79,10 @@ namespace Yna.Engine.Graphics
             return _tempSearchedEntity;
         }
 
+        /// <summary>
+        /// Gets the first disabled entity index.
+        /// </summary>
+        /// <returns>Return the index of the first disabled entity in the collection, otherwise return -1.</returns>
         protected int GetFirstDisabledEntityIndex()
         {
             int i = 0;
@@ -98,6 +115,11 @@ namespace Yna.Engine.Graphics
             return index;
         }
 
+        /// <summary>
+        /// Add a new entity to the pool.
+        /// </summary>
+        /// <param name="entity">An entity to add.</param>
+        /// <returns>Return true if the entity has been added, otherwise return false.</returns>
         public bool TryAdd(YnEntity entity)
         {
             bool result = false;
@@ -109,11 +131,16 @@ namespace Yna.Engine.Graphics
                 result = true;
             }
             else
-                result = TryRecycle(entity);
+                result = TryReplace(entity);
 
             return result;
         }
 
+        /// <summary>
+        /// Remove a new entity from the pool.
+        /// </summary>
+        /// <param name="entity">An entity to remove.</param>
+        /// <returns>Return true if the entity has been removed, otherwise return false.</returns>
         public bool Remove(YnEntity entity)
         {
             int index = System.Array.IndexOf(_poolEntities, entity);
@@ -127,7 +154,12 @@ namespace Yna.Engine.Graphics
             return false;
         }
 
-        public bool TryRecycle(YnEntity entity)
+        /// <summary>
+        /// Try to replace a disabled entity by a newer.
+        /// </summary>
+        /// <param name="entity">An newer entity to replace.</param>
+        /// <returns>Return true if the entity has been replaced, otherwise return false.</returns>
+        public bool TryReplace(YnEntity entity)
         {
             int index = GetFirstDisabledEntityIndex();
 
@@ -138,6 +170,26 @@ namespace Yna.Engine.Graphics
             }
 
             return false;
+        }
+
+        public YnEntity TryRecycle()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Clear the pool and sets all elements to null.
+        /// </summary>
+        public void Clear()
+        {
+            for (int i = 0; i < _maximumPoolSize; i++)
+            {
+                if (_poolEntities[i] != null)
+                {
+                    _poolEntities[i].Active = false;
+                    _poolEntities[i] = null;
+                }
+            }
         }
 
         /// <summary>
