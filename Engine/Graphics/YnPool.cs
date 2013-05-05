@@ -23,6 +23,11 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        public YnEntity[] Entities
+        {
+            get { return _poolEntities; }
+        }
+
         /// <summary>
         /// Gets the size of the pool.
         /// </summary>
