@@ -131,7 +131,7 @@ namespace Yna.Engine.Graphics3D.Terrain
         public void SetLightEnable(bool isEnabled)
         {
             for (int i = 0; i < 6; i++)
-                ((this[i] as YnMesh).Material as BasicMaterial).EnableDefaultLighting = !isEnabled;
+                ((this[i] as YnMesh).Material as BasicMaterial).EnableLighting = isEnabled;
         }
     }
 }

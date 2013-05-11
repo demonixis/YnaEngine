@@ -25,6 +25,7 @@ namespace Yna.Engine.Graphics3D.Material
             : base()
         {
             _enableDefaultLighting = false;
+            _enableLighting = true;
             _secondTextureLoaded = false;
             _secondTextureName = String.Empty;
             _effectName = "DualTextureEffect";
