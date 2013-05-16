@@ -188,7 +188,7 @@
     <Compile Include="YnList.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
-    <Compile Include="RandomMachine.cs" />
+    <Compile Include="YnRandom.cs" />
     <Compile Include="Extensions\PointExtension.cs" />
   </ItemGroup>
   <ItemGroup>

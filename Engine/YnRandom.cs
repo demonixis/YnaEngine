@@ -6,14 +6,14 @@ namespace Yna.Engine
     /// <summary>
     /// A class for generating random values
     /// </summary>
-    public class RandomMachine
+    public class YnRandom
     {
         private Random _random;
 
         /// <summary>
         /// Create a new random machine object with default seed value.
         /// </summary>
-        public RandomMachine()
+        public YnRandom()
             : this (DateTime.Now.Millisecond)
         {
 
@@ -23,7 +23,7 @@ namespace Yna.Engine
         /// Creae a new random machine object with a specified seed value.
         /// </summary>
         /// <param name="seed"></param>
-        public RandomMachine(int seed)
+        public YnRandom(int seed)
         {
             _random = new Random(seed);
         }

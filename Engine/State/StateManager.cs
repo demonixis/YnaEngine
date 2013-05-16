@@ -17,8 +17,7 @@ namespace Yna.Engine.State
     {
         #region Private declarations
 
-        private List<YnState> _states;
-        private List<YnState> _safeStates;
+        private YnStateList _states;
         private Dictionary<string, int> _statesDictionary;
         
         private bool _assetLoaded;
@@ -78,8 +77,7 @@ namespace Yna.Engine.State
         {
             _clearColor = Color.Black;
 
-            _states = new List<YnState>();
-            _safeStates = new List<YnState>();
+            _states = new YnStateList();
             _statesDictionary = new Dictionary<string, int>();
 
             _assetLoaded = false;
@@ -118,41 +116,13 @@ namespace Yna.Engine.State
 
         public override void Update(GameTime gameTime)
         {
-            // We make a copy of all screens to provide any error
-            // if a screen is removed during the update opreation
-            int nbScreens = _states.Count;
-
-            if (nbScreens > 0)
-            {
-                _safeStates.Clear();
-                _safeStates.AddRange(_states);
-
-                int nbSafeScreen = _safeStates.Count;
-
-                for (int i = 0; i < nbSafeScreen; i++)
-                {
-                    if (_safeStates[i].Active)
-                        _safeStates[i].Update(gameTime);
-                }
-            }
+            _states.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(_clearColor);
-
-            // We make a copy of all screens to provide any error
-            // if a screen is removed during the update opreation
-            int nbScreens = _safeStates.Count;
-
-            if (nbScreens > 0)
-            {
-                for (int i = 0; i < nbScreens; i++)
-                {
-                    if (_safeStates[i].Active)
-                        _safeStates[i].Draw(gameTime);
-                }
-            }
+            _states.Draw(gameTime, _spriteBatch);
         }
 
         #endregion
@@ -303,15 +273,6 @@ namespace Yna.Engine.State
         }
 
         /// <summary>
-        /// Do all state unactive
-        /// </summary>
-        public void PauseAllStates()
-        {
-            foreach (YnState state in _states)
-                state.Active = false;
-        }
-
-        /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
         /// the StateManager will clear all other states and use the new state
         /// </summary>
@@ -395,7 +356,6 @@ namespace Yna.Engine.State
         public void Remove(YnState state)
         {
             _states.Remove(state);
-
             _statesDictionary.Remove(state.Name);
         }
 
@@ -415,27 +375,7 @@ namespace Yna.Engine.State
         {
             Clear();
             _states.Clear();
-            _safeStates.Clear();
             _statesDictionary.Clear();
-        }
-
-        /// <summary>
-        /// Get Screen at a position
-        /// </summary>
-        /// <param name="index">position</param>
-        /// <returns>The screen at the position</returns>
-        public YnState GetAt(int index)
-        {
-            return _states[index];
-        }
-
-        /// <summary>
-        /// Get alls screens
-        /// </summary>
-        /// <returns></returns>
-        public YnState[] GetScreens()
-        {
-            return _states.ToArray();
         }
 
         public IEnumerator GetEnumerator()

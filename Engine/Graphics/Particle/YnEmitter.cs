@@ -18,7 +18,7 @@ namespace Yna.Engine.Graphics.Particle
         private int _maxParticles;
         private int _intensity;
         private List<YnParticle> _particles;
-        private RandomMachine _randomMachine;
+        private YnRandom _randomMachine;
         private long _elapsedTime;
         private int _nbParticlePerEmission;
         private int _activeParticleIndex;
@@ -97,7 +97,7 @@ namespace Yna.Engine.Graphics.Particle
             _direction = direction;
             _position = position;
             _particles = new List<YnParticle>(_maxParticles);
-            _randomMachine = new RandomMachine();
+            _randomMachine = new YnRandom();
             _elapsedTime = 0;
             _intensity = 100;
             _activeParticleIndex = 0;

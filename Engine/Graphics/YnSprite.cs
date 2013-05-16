@@ -22,20 +22,28 @@ namespace Yna.Engine.Graphics
         
         // Moving the sprite
         protected Vector2 _direction;
-        protected Vector2 _lastPosition;
-        protected Vector2 _lastDirection;
-        protected Rectangle _viewport;
-
+        protected Vector2 _distance;
+        protected Vector2 _previousPosition;
+        protected Vector2 _previousDirection;
+        protected Vector2 _previousDistance;
+        protected Vector2 _previousScale;
+        protected float _previousRotation;
+        
         // Collide with screen
-        protected bool _insideScreen;
-        protected bool _acrossScreen;
+        protected bool _forceStayInScreen;
+        protected bool _forceAllowAcrossScreen;
 
         // Position
         protected Rectangle? _sourceRectangle;
+        protected Rectangle _gameViewport;
 		
         // Animations
         protected bool _hasAnimation;
         protected SpriteAnimator _animator;
+
+        // Sprite to follow
+        protected YnSprite _followedSprite;
+        protected bool _followingSprite;
 
         #endregion
 
@@ -109,7 +117,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Vector2 LastDistance
         {
-            get { return _position - _lastPosition; }
+            get { return _position - _previousPosition; }
         }
 
         /// <summary>
@@ -117,8 +125,8 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Rectangle Viewport
         {
-            get { return _viewport; }
-            set { _viewport = value; }
+            get { return _gameViewport; }
+            set { _gameViewport = value; }
         }
 
         /// <summary>
@@ -126,13 +134,13 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public bool InsideScreen
         {
-            get { return _insideScreen; }
+            get { return _forceStayInScreen; }
             set
             {
-                _insideScreen = value;
+                _forceStayInScreen = value;
 
-                if (_insideScreen)
-                    _acrossScreen = false;
+                if (_forceStayInScreen)
+                    _forceAllowAcrossScreen = false;
             }
         }
 
@@ -141,13 +149,13 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public bool AcrossScreen
         {
-            get { return _acrossScreen; }
+            get { return _forceAllowAcrossScreen; }
             set
             {
-                _acrossScreen = value;
+                _forceAllowAcrossScreen = value;
 
-                if (_acrossScreen)
-                    _insideScreen = false;
+                if (_forceAllowAcrossScreen)
+                    _forceStayInScreen = false;
             }
         }
 
@@ -156,8 +164,8 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Vector2 LastPosition
         {
-            get { return _lastPosition; }
-            protected set { _lastPosition = value; }
+            get { return _previousPosition; }
+            protected set { _previousPosition = value; }
         }
 
         /// <summary>
@@ -165,8 +173,8 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public Vector2 LastDirection
         {
-            get { return _lastDirection; }
-            protected set { _lastDirection = value; }
+            get { return _previousDirection; }
+            protected set { _previousDirection = value; }
         }
 
         /// <summary>
@@ -187,6 +195,55 @@ namespace Yna.Engine.Graphics
         }
         #endregion
 
+        /// <summary>
+        /// Gets the previous position.
+        /// </summary>
+        public Vector2 PreviousPosition
+        {
+            get { return _previousPosition; }
+        }
+
+        /// <summary>
+        /// Gets the previous direction.
+        /// </summary>
+        public Vector2 PreviousDirection
+        {
+            get { return _previousDistance; }
+        }
+
+        /// <summary>
+        /// Gets the previous distance.
+        /// </summary>
+        public Vector2 PreviousDistance
+        {
+            get { return _previousDistance; }
+        }
+
+        /// <summary>
+        /// Gets the previous scale.
+        /// </summary>
+        public Vector2 PreviousScale
+        {
+            get { return _previousScale; }
+        }
+        
+        /// <summary>
+        /// Gets the previous rotation.
+        /// </summary>
+        public float PreviousRotation
+        {
+            get { return _previousRotation; }
+        }
+
+        /// <summary>
+        /// Enable or disable following if a sprite is already attached to this sprite.
+        /// </summary>
+        public bool FollowSprite
+        {
+            get { return _followingSprite; }
+            set { _followingSprite = value; }
+        }
+
         #region constructors
 
         /// <summary>
@@ -196,12 +253,12 @@ namespace Yna.Engine.Graphics
             : base ()
         {
             _sourceRectangle = null;
-            _lastPosition = Vector2.Zero;
-            _lastDirection = Vector2.Zero;
+            _previousPosition = Vector2.Zero;
+            _previousDirection = Vector2.Zero;
 
-            _viewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
-            _insideScreen = false;
-            _acrossScreen = false;
+            _gameViewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
+            _forceStayInScreen = false;
+            _forceAllowAcrossScreen = false;
 
             _hasAnimation = false;
             _animator = new SpriteAnimator();
@@ -212,12 +269,21 @@ namespace Yna.Engine.Graphics
             _enableDefaultPhysics = true;
 
             _direction = Vector2.One;
+            _distance = Vector2.Zero;
+            _previousPosition = Vector2.Zero;
+            _previousDirection = Vector2.Zero;
+            _previousDistance = Vector2.Zero;
+            _previousScale = Vector2.Zero;
+            _previousRotation = 0.0f;
+            _followedSprite = null;
+            _followingSprite = false;
         }
 
         private YnSprite(Vector2 position)
             : this()
         {
             _position = position;
+            _previousPosition = _position;
         }
 
         /// <summary>
@@ -431,8 +497,8 @@ namespace Yna.Engine.Graphics
             if (Enabled)
             {
                 // Sauvegarde de la dernière position
-                _lastPosition = _position;
-                _lastDirection = _direction;
+                _previousPosition = _position;
+                _previousDirection = _direction;
 
                 // Physics
                 if (_enableDefaultPhysics)
@@ -445,7 +511,7 @@ namespace Yna.Engine.Graphics
                 {
                     _animator.Update(gameTime);
 
-                    if (_lastDirection == Vector2.Zero && _animator.CurrentAnimationName != String.Empty)
+                    if (_previousDirection == Vector2.Zero && _animator.CurrentAnimationName != String.Empty)
                         _sourceRectangle = _animator.GetCurrentAnimation().Rectangle[0];
                 }
             }
@@ -462,41 +528,41 @@ namespace Yna.Engine.Graphics
             _direction.X = LastDistance.X;
             _direction.Y = LastDistance.Y;
 
-            if (_insideScreen)
+            if (_forceStayInScreen)
             {
-                if (X - _origin.X < _viewport.X)
+                if (X - _origin.X < _gameViewport.X)
                 {
-                    _position.X = _viewport.X + _origin.X;
+                    _position.X = _gameViewport.X + _origin.X;
                     _velocity *= 0.0f;
                 }
-                else if (X + (Width - Origin.X) > _viewport.Width)
+                else if (X + (Width - Origin.X) > _gameViewport.Width)
                 {
-                    _position.X = _viewport.Width - (Width - Origin.X);
+                    _position.X = _gameViewport.Width - (Width - Origin.X);
                     _velocity *= 0.0f;
                 }
 
-                if (Y - _origin.Y < _viewport.Y)
+                if (Y - _origin.Y < _gameViewport.Y)
                 {
-                    _position.Y = _viewport.Y + _origin.Y;
+                    _position.Y = _gameViewport.Y + _origin.Y;
                     _velocity *= 0.0f;
                 }
-                else if (Y + (Height - Origin.Y) > _viewport.Height)
+                else if (Y + (Height - Origin.Y) > _gameViewport.Height)
                 {
-                    _position.Y = _viewport.Height - (Height - _origin.Y);
+                    _position.Y = _gameViewport.Height - (Height - _origin.Y);
                     _velocity *= 0.0f;
                 }
             }
-            else if (_acrossScreen)
+            else if (_forceAllowAcrossScreen)
             {
-                if (X + (Width - Origin.X) < _viewport.X)
-                    _position.X = _viewport.Width - Origin.X;
-                else if (X > _viewport.Width)
-                    _position.X = _viewport.X;
+                if (X + (Width - Origin.X) < _gameViewport.X)
+                    _position.X = _gameViewport.Width - Origin.X;
+                else if (X > _gameViewport.Width)
+                    _position.X = _gameViewport.X;
 
-                if (Y + Height < _viewport.Y)
-                    _position.Y = _viewport.Height;
-                else if (Y > _viewport.Height)
-                    _position.Y = _viewport.Y;
+                if (Y + Height < _gameViewport.Y)
+                    _position.Y = _gameViewport.Height;
+                else if (Y > _gameViewport.Height)
+                    _position.Y = _gameViewport.Y;
             }
         }
 

@@ -44,10 +44,10 @@ namespace Yna.Engine.Graphics.Gui
         /// <summary>
         /// See documentation in YnList.
         /// </summary>
-		protected override void DoUpdate(GameTime gameTime, int count)
+		protected override void DoUpdate(GameTime gameTime)
         {
 			_hovered = false;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < SafeMembersCount; i++)
             {
                 if (_safeMembers[i].Enabled)
                 {

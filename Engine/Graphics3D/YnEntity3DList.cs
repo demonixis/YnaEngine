@@ -60,10 +60,9 @@ namespace Yna.Engine.Graphics3D
         /// Safe update.
         /// </summary>
         /// <param name="gameTime"></param>
-        /// <param name="count">Number of </param>
-        protected override void DoUpdate(GameTime gameTime, int count)
+        protected override void DoUpdate(GameTime gameTime)
         {
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < SafeMembersCount; i++)
             {
                 if (_safeMembers[i].Enabled)
                     _safeMembers[i].Update(gameTime);
@@ -89,11 +88,9 @@ namespace Yna.Engine.Graphics3D
         /// <param name="light"></param>
         public virtual void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera, SceneLight light)
         {
-            int nbMembers = _safeMembers.Count;
-
-            if (nbMembers > 0)
+            if (SafeMembersCount > 0)
             {
-                for (int i = 0; i < nbMembers; i++)
+                for (int i = 0; i < SafeMembersCount; i++)
                 {
                     if (_safeMembers[i].Enabled)
                     {

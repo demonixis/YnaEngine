@@ -57,12 +57,12 @@ namespace Yna.Engine.State
         /// </summary>
         /// <param name="gameTime">Game time</param>
         /// <param name="count">Number of states to update</param>
-        protected override void DoUpdate(GameTime gameTime, int count)
+        protected override void DoUpdate(GameTime gameTime)
         {
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < SafeMembersCount; i++)
             {
-                if (_members[i].Enabled)
-                    _members[i].Update(gameTime);
+                if (_safeMembers[i].Enabled)
+                    _safeMembers[i].Update(gameTime);
             }
         }
 
@@ -73,14 +73,12 @@ namespace Yna.Engine.State
         /// <param name="spriteBatch">SpriteBatch object</param>
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            int nbSafeMembers = _safeMembers.Count;
-
-            if (nbSafeMembers > 0)
+            if (SafeMembersCount > 0)
             {
-                for (int i = 0; i < nbSafeMembers; i++)
+                for (int i = 0; i < SafeMembersCount; i++)
                 {
                     if (_safeMembers[i].Visible)
-                        _members[i].Draw(gameTime);
+                        _safeMembers[i].Draw(gameTime);
                 }
             }
         }

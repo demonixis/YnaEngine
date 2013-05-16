@@ -15,11 +15,9 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public virtual void Initialize()
         {
-            int nbMembers = _members.Count;
-
-            if (nbMembers > 0)
+            if (MembersCount > 0)
             {
-                for (int i = 0; i < nbMembers; i++)
+                for (int i = 0; i < MembersCount; i++)
                     _members[i].Initialize();
             }
         }
@@ -29,11 +27,9 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public virtual void LoadContent()
         {
-            int nbMembers = _members.Count;
-
-            if (nbMembers > 0)
+            if (MembersCount > 0)
             {
-                for (int i = 0; i < nbMembers; i++)
+                for (int i = 0; i < MembersCount; i++)
                     _members[i].LoadContent();
             }
         }
@@ -43,11 +39,9 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public virtual void UnloadContent()
         {
-            int nbMembers = _members.Count;
-
-            if (nbMembers > 0)
+            if (MembersCount > 0)
             {
-                for (int i = 0; i < nbMembers; i++)
+                for (int i = 0; i < MembersCount; i++)
                     _members[i].UnloadContent();
             }
         }
@@ -56,10 +50,9 @@ namespace Yna.Engine.Graphics
         /// Update logic of safe entities.
         /// </summary>
         /// <param name="gameTime"></param>
-        /// <param name="count"></param>
-        protected override void DoUpdate(GameTime gameTime, int count)
+        protected override void DoUpdate(GameTime gameTime)
         {
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < SafeMembersCount; i++)
             {
                 if (_safeMembers[i].Enabled)
                     _safeMembers[i].Update(gameTime);
@@ -73,11 +66,9 @@ namespace Yna.Engine.Graphics
         /// <param name="spriteBatch"></param>
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            int nbSafeMembers = _safeMembers.Count;
-
-            if (nbSafeMembers > 0)
+            if (SafeMembersCount > 0)
             {
-                for (int i = 0; i < nbSafeMembers; i++)
+                for (int i = 0; i < SafeMembersCount; i++)
                 {
                     if (_safeMembers[i].Visible)
                         _safeMembers[i].Draw(gameTime, spriteBatch);
