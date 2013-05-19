@@ -10,10 +10,10 @@ namespace Yna.Engine.Graphics.Scene
     /// <summary>
     /// Represent an abstract scene with a collection of basic objects like timers and nothing else
     /// </summary>
-    public abstract class BaseScene : YnBasicEntity
+    public class YnScene : YnGameEntity
     {
         protected YnBasicCollection _baseList;
-        protected bool _assetsLoaded;
+        protected YnGameEntityCollection _entities;
 
         /// <summary>
         /// Gets or sets basic objects
@@ -21,32 +21,46 @@ namespace Yna.Engine.Graphics.Scene
         public List<YnBasicEntity> BaseObjects
         {
             get { return _baseList.Members; }
-            protected set { _baseList.Members = value; }
         }
 
-        public bool AssetsLoaded
+        public List<YnGameEntity> Entities
         {
-            get { return _assetsLoaded; }
+            get { return _entities.Members; }
         }
 
-        public BaseScene()
+
+        public YnScene()
         {
             _baseList = new YnBasicCollection();
-            _assetsLoaded = false;
+            _entities = new YnGameEntityCollection();
         }
 
-        public abstract void Initialize();
+        public override void Initialize()
+        {
+            _entities.Initialize();
+        }
 
-        public abstract void LoadContent();
+        public override void LoadContent()
+        {
+            _entities.LoadContent();
+        }
 
-        public virtual void UnloadContent()
+        public override void UnloadContent()
         {
             _baseList.Clear();
+            _entities.UnloadContent();
+            _entities.Clear();
         }
 
         public override void Update(GameTime gameTime)
         {
             _baseList.Update(gameTime);
+            _entities.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            _entities.Draw(gameTime, spriteBatch);
         }
 
         #region Collection methods
@@ -60,6 +74,11 @@ namespace Yna.Engine.Graphics.Scene
             _baseList.Add(basicObject);
         }
 
+        public virtual void Add(YnGameEntity entity)
+        {
+            _entities.Add(entity);
+        }
+
         /// <summary>
         /// Remove a basic object
         /// </summary>
@@ -69,15 +88,16 @@ namespace Yna.Engine.Graphics.Scene
             _baseList.Remove(basicObject);
         }
 
-        /// <summary>
-        /// Clear basic objects
-        /// </summary>
-        public virtual void ClearBasicObjects()
+        public virtual void Remove(YnEntity entity)
         {
-            _baseList.Clear();
+            _entities.Remove(entity);
         }
 
-        public abstract void Clear();
+        public virtual void Clear()
+        {
+            _baseList.Clear();
+            _entities.Clear();
+        }
 
         /// <summary>
         /// Gets an YnBase object by its name
@@ -86,18 +106,28 @@ namespace Yna.Engine.Graphics.Scene
         /// <returns>An YnBase object or null if don't exists</returns>
         public virtual YnBasicEntity GetMemberByName(string name)
         {
-            YnBasicEntity basicObject = null;
+            YnBasicEntity basicEntity = null;
 
             int baseSize = _baseList.Count;
             int i = 0;
-            while (i < baseSize && basicObject == null)
+            while (i < baseSize && basicEntity == null)
             {
-                if (_baseList[i].Name == name)
-                    basicObject = _baseList[i];
+                basicEntity = (_baseList[i].Name == name) ? _baseList[i] : null;
                 i++;
             }
 
-            return basicObject;
+            if (basicEntity != null)
+                return basicEntity;
+
+            i = 0;
+            int entitySize = _entities.Count;
+            while (i < entitySize && basicEntity == null)
+            {
+                basicEntity = (_entities[i].Name == name) ? _entities[i] : null;
+                i++;
+            }
+
+            return basicEntity;
         }
 
         #endregion

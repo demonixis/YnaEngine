@@ -12,36 +12,35 @@ using System;
 namespace Yna.Engine.Graphics
 {
     /// <summary>
+    /// A configuration structure used when rendering scene with sprite batch.
+    /// </summary>
+    public struct SpriteBatchConfiguration
+    {
+        public SpriteSortMode SpriteSortMode;
+        public BlendState BlendState;
+        public SamplerState SamplerState;
+        public DepthStencilState DepthStencilState;
+        public RasterizerState RasterizerState;
+        public Effect Effect;
+    }
+
+    /// <summary>
     /// This is a State object that contains the scene.
     /// That allows you to add different types of objects.
     /// Timers, basic objects (which have an update method) and entities
     /// </summary>
     public class YnState2D : YnState
     {
-        #region Private declarations
-
-        // The scene
-        protected YnScene2D _scene;
-
-        // SpriteBatch modes
-        protected SpriteSortMode _spriteSortMode;
-        protected BlendState _blendState;
-        protected SamplerState _samplerState;
-        protected DepthStencilState _depthStencilState;
-        protected RasterizerState _rasterizerState;
-        protected Effect _effect;
-        
-        // SpriteBatch transform camera
+        protected YnScene _scene;
+        protected SpriteBatchConfiguration _spriteBatchConfig;
         protected YnCamera2D _camera;
-
-        #endregion
 
         #region Properties
 
         /// <summary>
         /// Gets basic objects
         /// </summary>
-        public List<YnBasicEntity> BasicObjects
+        public List<YnBasicEntity> BasicEntities
         {
             get { return _scene.BaseObjects; }
         }
@@ -49,7 +48,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Gets members attached to the scene
         /// </summary>
-        public List<YnGameEntity> Entities
+        public List<YnGameEntity> GameEntities
         {
             get { return _scene.Entities; }
         }
@@ -62,7 +61,7 @@ namespace Yna.Engine.Graphics
         {
             get
             {
-                YnSceneGui2D guiScene = _scene as YnSceneGui2D;
+                YnSceneGui guiScene = _scene as YnSceneGui;
                 if (guiScene != null)
                 {
                     return guiScene.Gui;
@@ -72,39 +71,12 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets or sets SpriteSortMode
+        /// Gets or sets the configuration used for sprite batch.
         /// </summary>
-        public SpriteSortMode SpriteSortMode
+        public SpriteBatchConfiguration SpriteBatchConfiguration
         {
-            get { return _spriteSortMode; }
-            set { _spriteSortMode = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets BlendState
-        /// </summary>
-        public BlendState BlendState
-        {
-            get { return _blendState; }
-            set { _blendState = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets SamplerState
-        /// </summary>
-        public SamplerState SamplerState
-        {
-            get { return _samplerState; }
-            set { _samplerState = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets DepthStencilState
-        /// </summary>
-        public DepthStencilState DepthStencilState
-        {
-            get { return _depthStencilState; }
-            set { _depthStencilState = value; }
+            get { return _spriteBatchConfig; }
+            set { _spriteBatchConfig = value; }
         }
 
         /// <summary>
@@ -136,10 +108,9 @@ namespace Yna.Engine.Graphics
             InitializeDefaultState();
 
             if (enableGui)
-                _scene = new YnSceneGui2D();
+                _scene = new YnSceneGui();
             else
-            
-                _scene = new YnScene2D();
+                _scene = new YnScene();
         }
 
         /// <summary>
@@ -168,12 +139,15 @@ namespace Yna.Engine.Graphics
         /// </summary>
         private void InitializeDefaultState()
         {
-            _spriteSortMode = SpriteSortMode.Deferred;
-            _blendState = BlendState.AlphaBlend;
-            _samplerState = SamplerState.LinearClamp;
-            _depthStencilState = DepthStencilState.None;
-            _rasterizerState = RasterizerState.CullNone;
-            _effect = null;
+            _spriteBatchConfig = new SpriteBatchConfiguration()
+            {
+                SpriteSortMode = SpriteSortMode.Deferred,
+                BlendState = BlendState.AlphaBlend,
+                SamplerState = SamplerState.LinearClamp,
+                DepthStencilState = DepthStencilState.Default,
+                RasterizerState = RasterizerState.CullNone,
+                Effect = null
+            };
 
             _camera = new YnCamera2D();
         }
@@ -198,7 +172,7 @@ namespace Yna.Engine.Graphics
             if (!_assetLoaded)
             {
                 OnContentLoadingStarted(EventArgs.Empty);
-                
+              
                 base.LoadContent();
                 _scene.LoadContent();
                 
@@ -240,30 +214,43 @@ namespace Yna.Engine.Graphics
             int nbMembers = _scene.Entities.Count;
             bool useOtherBatchForGUI = false;
 
-            if (_scene is YnSceneGui2D)
+            if (_scene is YnSceneGui)
             {
                 // If the scene is a YnSceneGui2D, a GUI is defined
-                YnSceneGui2D scene = _scene as YnSceneGui2D;
+                YnSceneGui scene = _scene as YnSceneGui;
                 if (scene.UseOtherBatchForGUI)
                     useOtherBatchForGUI = true;
             }
 
+            // There is at least one widget to render in the scene sprite batch
             if (!useOtherBatchForGUI && Gui != null && Gui.HasWidgets)
-            {
-            	// There is at least one widget to render in the scene sprite batch
                 nbMembers++;
-            }
+            
             
             if (nbMembers > 0)
             {
-                spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _camera.GetTransformMatrix());
+                spriteBatch.Begin(
+                    _spriteBatchConfig.SpriteSortMode, 
+                    _spriteBatchConfig.BlendState, 
+                    _spriteBatchConfig.SamplerState, 
+                    _spriteBatchConfig.DepthStencilState, 
+                    _spriteBatchConfig.RasterizerState, 
+                    _spriteBatchConfig.Effect, 
+                    _camera.GetTransformMatrix());
                 _scene.Draw(gameTime, spriteBatch);
                 spriteBatch.End();
             }
 
             if (useOtherBatchForGUI)
             {
-                spriteBatch.Begin(_spriteSortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _effect, _camera.GetTransformMatrix());
+                spriteBatch.Begin(
+                    _spriteBatchConfig.SpriteSortMode,
+                    _spriteBatchConfig.BlendState,
+                    _spriteBatchConfig.SamplerState,
+                    _spriteBatchConfig.DepthStencilState,
+                    _spriteBatchConfig.RasterizerState,
+                    _spriteBatchConfig.Effect,
+                    _camera.GetTransformMatrix());
                 Gui.Draw(gameTime, spriteBatch);
                 spriteBatch.End();
             }
@@ -292,15 +279,6 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Add a widget to the scene
-        /// </summary>
-        /// <param name="widget">A widget</param>
-        public void Add(YnWidget widget)
-        {
-            _scene.Add(widget);
-        }
-
-        /// <summary>
         /// Remove a basic object to the scene
         /// </summary>
         /// <param name="basicObject">A basic object</param>
@@ -316,15 +294,6 @@ namespace Yna.Engine.Graphics
         public void Remove(YnEntity entity)
         {
             _scene.Remove(entity);
-        }
-
-        /// <summary>
-        /// Remove a widget to the scene
-        /// </summary>
-        /// <param name="widget">A widget</param>
-        public void Remove(YnWidget widget)
-        {
-            _scene.Remove(widget);
         }
 
         public YnBasicEntity GetMemberByName(string name)

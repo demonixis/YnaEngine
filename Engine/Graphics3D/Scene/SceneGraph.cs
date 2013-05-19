@@ -12,7 +12,7 @@ namespace Yna.Engine.Graphics3D.Scene
     /// <summary>
     /// SceneGraph class
     /// </summary>
-    public class SceneGraph : BaseScene
+    public class SceneGraph : YnScene
     {
         protected SceneNode _rootNode;
         protected CameraManager _cameraManager;

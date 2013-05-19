@@ -13,7 +13,7 @@ namespace Yna.Engine.Graphics.Scene
     /// <summary>
     /// A 2D Scene with a collection of basic objects like timers, a collection of entities (managed with a safe collection) and a gui manager
     /// </summary>
-    public class YnSceneGui2D : YnScene2D
+    public class YnSceneGui : YnScene
     {
         protected YnGui _guiManager;
         protected bool _useOtherBatchForGui;
@@ -36,7 +36,7 @@ namespace Yna.Engine.Graphics.Scene
             set { _useOtherBatchForGui = value; }
         }
 
-        public YnSceneGui2D()
+        public YnSceneGui()
             : base()
         {
             _guiManager = new YnGui();
@@ -49,7 +49,6 @@ namespace Yna.Engine.Graphics.Scene
         public override void Initialize()
         {
             base.Initialize();
-
             _guiManager.Initialize();
         }
 
@@ -80,7 +79,6 @@ namespace Yna.Engine.Graphics.Scene
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
             _guiManager.Update(gameTime);
         }
 
@@ -114,36 +112,18 @@ namespace Yna.Engine.Graphics.Scene
         /// </summary>
         public override void Clear()
         {
-            ClearBasicObjects();
-            ClearEntities();
+            base.Clear();
             _guiManager.Clear();
         }
 
         public override YnBasicEntity GetMemberByName(string name)
         {
-            YnBasicEntity basicObject = base.GetMemberByName(name);
+            YnBasicEntity basicEntity = base.GetMemberByName(name);
 
-            // try to find it in the Entities collection
-            if (basicObject == null)
-            {
-                int size = _entities.Count;
-                int i = 0;
-
-                while (i < size && basicObject == null)
-                {
-                    if (_entities[i].Name == name)
-                        basicObject = _entities[i];
-                    i++;
-                }
-            }
-
-            // Try to find it in the gui collection
-            if (basicObject == null)
-            {
-                basicObject = _guiManager.GetWidgetByName(name);
-            }
-
-            return basicObject;
+            if (basicEntity == null)
+                basicEntity = _guiManager.GetWidgetByName(name);
+            
+            return basicEntity;
         }
 
         #endregion
