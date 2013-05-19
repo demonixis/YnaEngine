@@ -8,7 +8,7 @@ namespace Yna.Engine.Graphics3D.Controls
     /// <summary>
     /// Define a basic controller for a camera
     /// </summary>
-    public abstract class BaseControl : YnBase
+    public abstract class BaseControl : YnBasicEntity
     {
         private BaseCamera _camera;
         protected PlayerIndex _playerIndex;

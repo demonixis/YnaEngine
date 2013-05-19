@@ -15,7 +15,7 @@ namespace Yna.Engine.Graphics
     {
         #region Private declarations
 
-        protected YnEntityList _entitiesList;
+        protected YnGameEntityCollection _entitiesList;
         private bool _initialized;
         private bool _assetsLoaded;
 
@@ -26,7 +26,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Members of the group
         /// </summary>
-        public List<YnEntity> Members
+        public List<YnGameEntity> Members
         {
             get { return _entitiesList.Members; }
         }
@@ -218,7 +218,7 @@ namespace Yna.Engine.Graphics
         /// <returns></returns>
         public YnEntity this[int index]
         {
-            get { return _entitiesList[index]; }
+            get { return _entitiesList[index] as YnEntity; }
             set { _entitiesList[index] = value; }
         }
 
@@ -234,7 +234,7 @@ namespace Yna.Engine.Graphics
 
         public YnGroup(int capacity)
         {
-            _entitiesList = new YnEntityList();
+            _entitiesList = new YnGameEntityCollection();
             _initialized = false;
             _assetsLoaded = false;
             _entitiesList.SecureCycle = true;
@@ -368,7 +368,7 @@ namespace Yna.Engine.Graphics
 
         public YnEntity GetChildByName(string name)
         {
-            YnEntity result = null;
+            YnGameEntity result = null;
             int i = 0;
             while (i < Count && result == null)
             {
@@ -377,7 +377,8 @@ namespace Yna.Engine.Graphics
 
                 i++;
             }
-            return result;
+
+            return result as YnEntity;
         }
 
         #endregion
@@ -411,8 +412,8 @@ namespace Yna.Engine.Graphics
             {
                 for (int i = 0; i < size; i++)
                 {
-                    width = Math.Max(width, _entitiesList[i].Width);
-                    height = Math.Max(height, _entitiesList[i].Height);
+                    width = Math.Max(width, this[i].Width);
+                    height = Math.Max(height, this[i].Height);
                 }
             }
 

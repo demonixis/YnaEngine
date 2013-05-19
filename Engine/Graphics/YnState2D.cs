@@ -32,7 +32,7 @@ namespace Yna.Engine.Graphics
         protected Effect _effect;
         
         // SpriteBatch transform camera
-        protected YnSceneCamera2D _camera;
+        protected YnCamera2D _camera;
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Gets basic objects
         /// </summary>
-        public List<YnBase> BasicObjects
+        public List<YnBasicEntity> BasicObjects
         {
             get { return _scene.BaseObjects; }
         }
@@ -49,7 +49,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Gets members attached to the scene
         /// </summary>
-        public List<YnEntity> Entities
+        public List<YnGameEntity> Entities
         {
             get { return _scene.Entities; }
         }
@@ -111,7 +111,7 @@ namespace Yna.Engine.Graphics
         /// Gets or sets the spriteBatchCamera used for add effect on the scene like 
         /// displacement, rotation and zoom
         /// </summary>
-        public YnSceneCamera2D Camera
+        public YnCamera2D Camera
         {
             get { return _camera; }
             set { _camera = value; }
@@ -175,7 +175,7 @@ namespace Yna.Engine.Graphics
             _rasterizerState = RasterizerState.CullNone;
             _effect = null;
 
-            _camera = new YnSceneCamera2D();
+            _camera = new YnCamera2D();
         }
 
         #region GameState pattern
@@ -277,7 +277,7 @@ namespace Yna.Engine.Graphics
         /// Add a basic object to the scene
         /// </summary>
         /// <param name="basicObject">A basic object</param>
-        public void Add(YnBase basicObject)
+        public void Add(YnBasicEntity basicObject)
         {
             _scene.Add(basicObject);
         }
@@ -304,7 +304,7 @@ namespace Yna.Engine.Graphics
         /// Remove a basic object to the scene
         /// </summary>
         /// <param name="basicObject">A basic object</param>
-        public void Remove(YnBase basicObject)
+        public void Remove(YnBasicEntity basicObject)
         {
             _scene.Remove(basicObject);
         }
@@ -327,7 +327,7 @@ namespace Yna.Engine.Graphics
             _scene.Remove(widget);
         }
 
-        public YnBase GetMemberByName(string name)
+        public YnBasicEntity GetMemberByName(string name)
         {
             return _scene.GetMemberByName(name);
         }

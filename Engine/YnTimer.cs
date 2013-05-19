@@ -9,7 +9,7 @@ namespace Yna.Engine
     /// <summary>
     /// A timer class
     /// </summary>
-    public class YnTimer : YnBase
+    public class YnTimer : YnBasicEntity
     {
         #region Private declarations
 

@@ -7,7 +7,7 @@ namespace Yna.Engine.Graphics.Animation
     /// <summary>
     /// A Shake effect for a SpriteBatchCamera
     /// </summary>
-    public class YnShakeEffect : YnBase, IEffectAnimation
+    public class YnShakeEffect : YnBasicEntity, IEffectAnimation
     {
         protected static readonly Random random = new Random();
         protected bool _shaking;
@@ -15,9 +15,9 @@ namespace Yna.Engine.Graphics.Animation
         protected float _shakeDuration;
         protected float _shakeTimer;
         protected Vector3 _shakeOffset;
-        protected YnSceneCamera2D _camera;
+        protected YnCamera2D _camera;
 
-        public YnShakeEffect(YnSceneCamera2D camera)
+        public YnShakeEffect(YnCamera2D camera)
         {
             _shaking = false;
             _shakeMagnitude = 0.0f;

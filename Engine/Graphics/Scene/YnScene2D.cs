@@ -12,9 +12,9 @@ namespace Yna.Engine.Graphics.Scene
     /// </summary>
     public class YnScene2D : BaseScene
     {
-        protected YnEntityList _entities;
+        protected YnGameEntityCollection _entities;
 
-        public List<YnEntity> Entities
+        public List<YnGameEntity> Entities
         {
             get { return _entities.Members; }
             set { _entities.Members = value; }
@@ -23,7 +23,7 @@ namespace Yna.Engine.Graphics.Scene
         public YnScene2D()
             : base()
         {
-            _entities = new YnEntityList();
+            _entities = new YnGameEntityCollection();
         }
 
         /// <summary>
@@ -128,9 +128,9 @@ namespace Yna.Engine.Graphics.Scene
             ClearEntities();
         }
 
-        public override YnBase GetMemberByName(string name)
+        public override YnBasicEntity GetMemberByName(string name)
         {
-            YnBase basicObject = base.GetMemberByName(name);
+            YnBasicEntity basicObject = base.GetMemberByName(name);
 
             // try to find it in the Entities collection
             if (basicObject == null)

@@ -8,7 +8,7 @@ namespace Yna.Engine.Graphics
     /// A simple camera used on the scene to make different type of effects.
     /// Position, Rotation and Zoom can be applied on the scene.
     /// </summary>
-    public class YnSceneCamera2D : YnBase
+    public class YnCamera2D : YnBasicEntity
     {
         protected Matrix _view;
         protected int _x;
@@ -63,7 +63,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Create a camera for the scene
         /// </summary>
-        public YnSceneCamera2D()
+        public YnCamera2D()
         {
             _view = Matrix.Identity;
             _x = 0;

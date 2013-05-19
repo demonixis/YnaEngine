@@ -10,15 +10,15 @@ namespace Yna.Engine.Graphics.Scene
     /// <summary>
     /// Represent an abstract scene with a collection of basic objects like timers and nothing else
     /// </summary>
-    public abstract class BaseScene : YnBase
+    public abstract class BaseScene : YnBasicEntity
     {
-        protected YnBaseList _baseList;
+        protected YnBasicCollection _baseList;
         protected bool _assetsLoaded;
 
         /// <summary>
         /// Gets or sets basic objects
         /// </summary>
-        public List<YnBase> BaseObjects
+        public List<YnBasicEntity> BaseObjects
         {
             get { return _baseList.Members; }
             protected set { _baseList.Members = value; }
@@ -31,7 +31,7 @@ namespace Yna.Engine.Graphics.Scene
 
         public BaseScene()
         {
-            _baseList = new YnBaseList();
+            _baseList = new YnBasicCollection();
             _assetsLoaded = false;
         }
 
@@ -55,7 +55,7 @@ namespace Yna.Engine.Graphics.Scene
         /// Add a basic object
         /// </summary>
         /// <param name="basicObject">A basic object</param>
-        public virtual void Add(YnBase basicObject)
+        public virtual void Add(YnBasicEntity basicObject)
         {
             _baseList.Add(basicObject);
         }
@@ -64,7 +64,7 @@ namespace Yna.Engine.Graphics.Scene
         /// Remove a basic object
         /// </summary>
         /// <param name="basicObject">A basic object</param>
-        public virtual void Remove(YnBase basicObject)
+        public virtual void Remove(YnBasicEntity basicObject)
         {
             _baseList.Remove(basicObject);
         }
@@ -84,9 +84,9 @@ namespace Yna.Engine.Graphics.Scene
         /// </summary>
         /// <param name="name">Name of the object</param>
         /// <returns>An YnBase object or null if don't exists</returns>
-        public virtual YnBase GetMemberByName(string name)
+        public virtual YnBasicEntity GetMemberByName(string name)
         {
-            YnBase basicObject = null;
+            YnBasicEntity basicObject = null;
 
             int baseSize = _baseList.Count;
             int i = 0;

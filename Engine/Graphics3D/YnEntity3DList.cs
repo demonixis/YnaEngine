@@ -12,7 +12,7 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// A safe collection of 3D entity who can be updated and drawn.
     /// </summary>
-    public class YnEntity3DList : YnList<YnEntity3D>
+    public class YnEntity3DList : YnCollection<YnEntity3D>
     {
         /// <summary>
         /// Initialize entities.

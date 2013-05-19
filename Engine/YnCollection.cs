@@ -12,7 +12,7 @@ namespace Yna.Engine
     /// An updateable "Safe list" where you can safely add, remove and clear items
     /// </summary>
     /// <typeparam name="T">Base class to use</typeparam>
-    public abstract class YnList<T>
+    public abstract class YnCollection<T>
     {
         protected List<T> _members;
         protected List<T> _safeMembers;
@@ -80,7 +80,7 @@ namespace Yna.Engine
             get { return _members.Count; }
         }
 
-        public YnList()
+        public YnCollection()
         {
             _members = new List<T>();
             _safeMembers = new List<T>();
@@ -160,21 +160,6 @@ namespace Yna.Engine
         {
             foreach (T t in _members)
                 yield return t; 
-        }
-    }
-
-    /// <summary>
-    /// Define a safe list for YnBase objects
-    /// </summary>
-    public class YnBaseList : YnList<YnBase>
-    {
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            for (int i = 0; i < SafeMembersCount; i++)
-            {
-                if (_safeMembers[i].Enabled)
-                    _safeMembers[i].Update(gameTime);
-            }
         }
     }
 }

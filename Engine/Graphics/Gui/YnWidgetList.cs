@@ -8,7 +8,7 @@ namespace Yna.Engine.Graphics.Gui
 	/// <summary>
 	/// Widget safe list for use in GUI.
 	/// </summary>
-	public class YnWidgetList : YnList<YnWidget>
+	public class YnWidgetList : YnCollection<YnWidget>
     {
         #region Attributes
 

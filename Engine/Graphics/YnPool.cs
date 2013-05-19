@@ -4,24 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Graphics
 {
-    public class YnPool : IEntity2D
+    public class YnPool : YnGameEntity
     {
         private readonly int _maximumPoolSize;
         private YnEntity[] _poolEntities;
         private YnEntity _tempSearchedEntity;
-
-        public bool Enabled { get; set; }
-        public bool Visible { get; set; }
-
-        public bool Active
-        {
-            get { return Enabled && Visible; }
-            set
-            {
-                Enabled = value;
-                Visible = value;
-            }
-        }
 
         public YnEntity[] Entities
         {
@@ -57,6 +44,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name="maxSize">Maximum entity</param>
         public YnPool(int maxSize)
+            : base()
         {
             Active = true;
             _maximumPoolSize = maxSize;
@@ -200,7 +188,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Load entities.
         /// </summary>
-        public void LoadContent()
+        public override void LoadContent()
         {
             for (int i = 0; i < _maximumPoolSize; i++)
             {
@@ -212,7 +200,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Unload entities
         /// </summary>
-        public void UnloadContent()
+        public override void UnloadContent()
         {
             for (int i = 0; i < _maximumPoolSize; i++)
             {
@@ -224,7 +212,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Initialize entities
         /// </summary>
-        public void Initialize()
+        public override void Initialize()
         {
             for (int i = 0; i < _maximumPoolSize; i++)
             {
@@ -237,7 +225,7 @@ namespace Yna.Engine.Graphics
         /// Update the logic of enabled entities.
         /// </summary>
         /// <param name="gameTime"></param>
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             for (int i = 0; i < _maximumPoolSize; i++)
             {
@@ -252,7 +240,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="spriteBatch"></param>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             for (int i = 0; i < _maximumPoolSize; i++)
             {

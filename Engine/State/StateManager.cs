@@ -17,7 +17,7 @@ namespace Yna.Engine.State
     {
         #region Private declarations
 
-        private YnStateList _states;
+        private YnGameEntityCollection _states;
         private Dictionary<string, int> _statesDictionary;
         
         private bool _assetLoaded;
@@ -57,7 +57,7 @@ namespace Yna.Engine.State
                 if (index < 0 || index > _states.Count - 1)
                     return null;
                 else
-                    return _states[index];
+                    return _states[index] as YnState;
             }
             set
             {
@@ -77,7 +77,7 @@ namespace Yna.Engine.State
         {
             _clearColor = Color.Black;
 
-            _states = new YnStateList();
+            _states = new YnGameEntityCollection();
             _statesDictionary = new Dictionary<string, int>();
 
             _assetLoaded = false;
@@ -208,7 +208,7 @@ namespace Yna.Engine.State
         {
             if (_statesDictionary.ContainsKey(name))
             {
-                YnState activableState = _states[_statesDictionary[name]];
+                YnState activableState = _states[_statesDictionary[name]] as YnState;
                 activableState.Active = true;
 
                 if (desactiveOtherScreens)
@@ -251,7 +251,7 @@ namespace Yna.Engine.State
         public YnState Get(string name)
         {
             if (_statesDictionary.ContainsKey(name))
-                return _states[_statesDictionary[name]];
+                return _states[_statesDictionary[name]] as YnState;
 
             return null;
         }
@@ -367,7 +367,7 @@ namespace Yna.Engine.State
             if (_states.Count > 0)
             {
                 for (int i = 0; i < _states.Count; i++)
-                    _states[i].Kill();
+                    (_states[i] as YnState).Kill();
             }
         }
 
