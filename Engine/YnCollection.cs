@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics;
-using Yna.Engine.Graphics3D;
 
 namespace Yna.Engine
 {
@@ -154,6 +151,11 @@ namespace Yna.Engine
         public virtual int IndexOf(T element)
         {
             return _members.IndexOf(element);
+        }
+
+        public virtual bool Contains(T element)
+        {
+            return _members.Contains(element);
         }
 
         public IEnumerator GetEnumerator()

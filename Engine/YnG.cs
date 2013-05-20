@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Yna.Engine.Audio;
-using Yna.Engine.Graphics;
-using Yna.Engine.Helpers;
 using Yna.Engine.Input;
 using Yna.Engine.State;
 using Yna.Engine.Storage;

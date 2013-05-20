@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Yna.Engine.Helpers;
-using Yna.Engine.Input;
 using Yna.Engine.Graphics.Animation;
-using Yna.Engine.Graphics.Event;
 
 namespace Yna.Engine.Graphics
 {
@@ -21,10 +16,10 @@ namespace Yna.Engine.Graphics
 		protected float _maxVelocity;
         
         // Moving the sprite
-        protected Vector2 _direction;
         protected Vector2 _distance;
+        protected Vector2 _direction;
         protected Vector2 _previousPosition;
-        protected Vector2 _previousDirection;
+        protected Vector2 _previousDistance;
         protected Vector2 _previousScale;
         protected float _previousRotation;
         
@@ -104,15 +99,6 @@ namespace Yna.Engine.Graphics
 		}
 
         /// <summary>
-        /// Gets or sets the direction of the sprite
-        /// </summary>
-        public Vector2 Direction
-        {
-            get { return _direction; }
-            set { _direction = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the rectangle Viewport used for this sprite. Default is the size of the screen
         /// </summary>
         public Rectangle Viewport
@@ -152,6 +138,14 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
+        /// Gets the direction.
+        /// </summary>
+        public Vector2 Direction
+        {
+            get { return _direction; }
+        }
+
+        /// <summary>
         /// Gets the previous position.
         /// </summary>
         public Vector2 PreviousPosition
@@ -160,11 +154,20 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
+        /// Gets or sets the distance of the sprite
+        /// </summary>
+        public Vector2 Distance
+        {
+            get { return _distance; }
+            set { _distance = value; }
+        }
+
+        /// <summary>
         /// Gets the previous direction.
         /// </summary>
-        public Vector2 PreviousDirection
+        public Vector2 PreviousDistance
         {
-            get { return _previousDirection; }
+            get { return _previousDistance; }
         }
 
         /// <summary>
@@ -241,23 +244,25 @@ namespace Yna.Engine.Graphics
             : base ()
         {
             _sourceRectangle = null;
-            _previousPosition = Vector2.Zero;
-            _previousDirection = Vector2.Zero;
             _gameViewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
             _forceInsideScreen = false;
             _forceAllowAcrossScreen = false;
+            
             _hasAnimation = false;
             _animator = new SpriteAnimator();
+            
             _acceleration = Vector2.One;
 			_velocity = Vector2.Zero;
             _maxVelocity = 1.0f;
             _enableDefaultPhysics = true;
-            _direction = Vector2.One;
-            _distance = Vector2.Zero;
+            
+            _distance = Vector2.One;
+            _direction = Vector2.Zero;
             _previousPosition = Vector2.Zero;
-            _previousDirection = Vector2.Zero;
+            _previousDistance = Vector2.Zero;
             _previousScale = Vector2.Zero;
             _previousRotation = 0.0f;
+
             _followedSprite = null;
             _followingSprite = false;
             _followOffset = 0;
@@ -480,12 +485,12 @@ namespace Yna.Engine.Graphics
             {
                 _previousPosition.X = _position.X;
                 _previousPosition.Y = _position.Y;
-                _previousDirection.X = _direction.X;
-                _previousDirection.Y = _direction.Y;
+                _previousDistance.X = _distance.X;
+                _previousDistance.Y = _distance.Y;
                 _previousScale.X = _scale.X;
                 _previousScale.Y = _scale.Y;
                 _previousRotation = _rotation;
-
+                
                 // Physics
                 if (_enableDefaultPhysics)
                 {
@@ -497,7 +502,7 @@ namespace Yna.Engine.Graphics
                 {
                     _animator.Update(gameTime);
 
-                    if (_previousDirection == Vector2.Zero && _animator.CurrentAnimationName != String.Empty)
+                    if (_previousDistance == Vector2.Zero && _animator.CurrentAnimationName != String.Empty)
                         _sourceRectangle = _animator.GetCurrentAnimation().Rectangle[0];
                 }
             }
@@ -510,10 +515,6 @@ namespace Yna.Engine.Graphics
         /// <param name="gameTime"></param>
         public virtual void PostUpdate(GameTime gameTime)
         {
-            // Update the direction
-            _direction.X = _position.X - _previousPosition.X;
-            _direction.Y = _position.Y - _previousPosition.Y;
-
             if (_forceInsideScreen)
             {
                 if (X - _origin.X < _gameViewport.X)
@@ -550,6 +551,15 @@ namespace Yna.Engine.Graphics
                 else if (Y > _gameViewport.Height)
                     _position.Y = _gameViewport.Y;
             }
+
+            // Update the direction
+            _distance.X = _position.X - _previousPosition.X;
+            _distance.Y = _position.Y - _previousPosition.Y;
+            _direction.X = _distance.X;
+            _direction.Y = _distance.Y;
+            
+            if (_direction.X != 0 && _direction.Y != 0)
+                _direction.Normalize();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

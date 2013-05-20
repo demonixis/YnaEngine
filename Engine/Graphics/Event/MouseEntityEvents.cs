@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Input;
 using Yna.Engine.Input;
 
 namespace Yna.Engine.Graphics.Event

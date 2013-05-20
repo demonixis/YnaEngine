@@ -70,15 +70,5 @@ namespace Yna.Engine.Graphics.Gui
                 	_safeMembers[i].Draw(gameTime, spriteBatch);
             }
 		}
-
-        /// <summary>
-        /// Ease access to the Contains method on the inner member list.
-        /// </summary>
-        /// <param name="widget">The widget to search for</param>
-        /// <returns>True if the widget is in the list</returns>
-        public bool Contains(YnWidget widget)
-        {
-            return _members.Contains(widget);
-        }
 	}
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Engine.Helpers;
 using Yna.Engine.Input.Service;
 
 namespace Yna.Engine.Input

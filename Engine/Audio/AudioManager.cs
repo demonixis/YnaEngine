@@ -1,11 +1,4 @@
 ﻿using System;
-#if !NETFX_CORE
-using System.IO;
-#endif
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
-using Yna.Engine;
 
 namespace Yna.Engine.Audio
 {

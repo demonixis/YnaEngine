@@ -1,17 +1,11 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Audio;
 using Yna.Engine.State;
 using Yna.Engine.Helpers;
 using Yna.Engine.Input;
 using Yna.Engine.Input.Service;
-using Yna.Engine.Graphics;
-using Yna.Engine.Graphics.Event;
-using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics.Gui;
 using Yna.Engine.Storage;
 
 namespace Yna.Engine

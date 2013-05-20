@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Yna.Engine.Content;
-using Yna.Engine.Graphics;
 
 namespace Yna.Engine.State
 {

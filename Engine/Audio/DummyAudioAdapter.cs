@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
+﻿using Microsoft.Xna.Framework.Audio;
 
 namespace Yna.Engine.Audio
 {

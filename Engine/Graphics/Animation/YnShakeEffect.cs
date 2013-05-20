@@ -1,5 +1,4 @@
 ﻿using System;
-using Yna.Engine;
 using Microsoft.Xna.Framework;
 
 namespace Yna.Engine.Graphics.Animation

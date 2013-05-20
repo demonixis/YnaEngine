@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
-using Microsoft.Xna.Framework;
-
-namespace Yna.Engine.Storage
+﻿namespace Yna.Engine.Storage
 {
     /// <summary>
     /// The storage manager is an object that can be used for store and load informations like scores, achievments, etc..

@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Linq;
-using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Gui;
-using Yna.Engine.Graphics.Gui.Widgets;
 using Yna.Engine.State;
 using Yna.Engine.Graphics.Scene;
 using System;

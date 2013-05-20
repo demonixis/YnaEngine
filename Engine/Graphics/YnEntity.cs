@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using Yna.Engine.Collision;
 using Yna.Engine.Graphics.Event;
-using Yna.Engine.Helpers;
 using Yna.Engine.Input;
 
 namespace Yna.Engine.Graphics
