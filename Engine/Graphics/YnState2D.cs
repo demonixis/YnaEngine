@@ -62,10 +62,10 @@ namespace Yna.Engine.Graphics
             get
             {
                 YnSceneGui guiScene = _scene as YnSceneGui;
+
                 if (guiScene != null)
-                {
                     return guiScene.Gui;
-                }
+                
                 return null;
             }
         }

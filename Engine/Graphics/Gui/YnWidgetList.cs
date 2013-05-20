@@ -64,13 +64,10 @@ namespace Yna.Engine.Graphics.Gui
         /// <param name="spriteBatch">The sprite batch</param>
 		public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
 		{
-			int count = _safeMembers.Count;
-			for (int i = 0; i < count; i++)
+			for (int i = 0; i < SafeMembersCount; i++)
             {
                 if (_safeMembers[i].Enabled)
-                {
                 	_safeMembers[i].Draw(gameTime, spriteBatch);
-                }
             }
 		}
 

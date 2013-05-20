@@ -25,12 +25,11 @@ namespace Yna.Engine.Graphics
         protected Vector2 _distance;
         protected Vector2 _previousPosition;
         protected Vector2 _previousDirection;
-        protected Vector2 _previousDistance;
         protected Vector2 _previousScale;
         protected float _previousRotation;
         
         // Collide with screen
-        protected bool _forceStayInScreen;
+        protected bool _forceInsideScreen;
         protected bool _forceAllowAcrossScreen;
 
         // Position
@@ -43,6 +42,7 @@ namespace Yna.Engine.Graphics
 
         // Sprite to follow
         protected YnSprite _followedSprite;
+        protected int _followOffset;
         protected bool _followingSprite;
 
         #endregion
@@ -52,7 +52,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Enable or disable the default physics system
         /// </summary>
-        public bool EnableDefaultPhysics
+        public bool EnablePhysics
         {
             get { return _enableDefaultPhysics; }
             set { _enableDefaultPhysics = value; }
@@ -113,14 +113,6 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Get the last distance traveled by the sprite
-        /// </summary>
-        public Vector2 LastDistance
-        {
-            get { return _position - _previousPosition; }
-        }
-
-        /// <summary>
         /// Gets or sets the rectangle Viewport used for this sprite. Default is the size of the screen
         /// </summary>
         public Rectangle Viewport
@@ -132,14 +124,14 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Force or not the sprite to stay in screen
         /// </summary>
-        public bool InsideScreen
+        public bool ForceInsideScreen
         {
-            get { return _forceStayInScreen; }
+            get { return _forceInsideScreen; }
             set
             {
-                _forceStayInScreen = value;
+                _forceInsideScreen = value;
 
-                if (_forceStayInScreen)
+                if (_forceInsideScreen)
                     _forceAllowAcrossScreen = false;
             }
         }
@@ -147,7 +139,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Authorizes or not the object across the screen and appear on the opposite
         /// </summary>
-        public bool AcrossScreen
+        public bool AllowAcrossScreen
         {
             get { return _forceAllowAcrossScreen; }
             set
@@ -155,26 +147,71 @@ namespace Yna.Engine.Graphics
                 _forceAllowAcrossScreen = value;
 
                 if (_forceAllowAcrossScreen)
-                    _forceStayInScreen = false;
+                    _forceInsideScreen = false;
             }
         }
 
         /// <summary>
-        /// Gets the last position of the sprite
+        /// Gets the previous position.
         /// </summary>
-        public Vector2 LastPosition
+        public Vector2 PreviousPosition
         {
             get { return _previousPosition; }
-            protected set { _previousPosition = value; }
         }
 
         /// <summary>
-        /// Gets the latest direction of the sprite.
+        /// Gets the previous direction.
         /// </summary>
-        public Vector2 LastDirection
+        public Vector2 PreviousDirection
         {
             get { return _previousDirection; }
-            protected set { _previousDirection = value; }
+        }
+
+        /// <summary>
+        /// Gets the previous scale.
+        /// </summary>
+        public Vector2 PreviousScale
+        {
+            get { return _previousScale; }
+        }
+
+        /// <summary>
+        /// Gets the previous rotation.
+        /// </summary>
+        public float PreviousRotation
+        {
+            get { return _previousRotation; }
+        }
+
+        /// <summary>
+        /// Gets or sets the followed sprite.
+        /// </summary>
+        public YnSprite Follow
+        {
+            get { return _followedSprite; }
+            set
+            {
+                _followingSprite = (value != null) ? true : false;
+                _followedSprite = value;
+            }
+        }
+
+        /// <summary>
+        /// Enable or disable following if a sprite is already attached to this sprite.
+        /// </summary>
+        public bool FollowSprite
+        {
+            get { return _followingSprite; }
+            set { _followingSprite = value; }
+        }
+
+        /// <summary>
+        /// Distance between this sprite and the followed sprite.
+        /// </summary>
+        public int FollowOffset
+        {
+            get { return _followOffset; }
+            set { _followOffset = value; }
         }
 
         /// <summary>
@@ -195,55 +232,6 @@ namespace Yna.Engine.Graphics
         }
         #endregion
 
-        /// <summary>
-        /// Gets the previous position.
-        /// </summary>
-        public Vector2 PreviousPosition
-        {
-            get { return _previousPosition; }
-        }
-
-        /// <summary>
-        /// Gets the previous direction.
-        /// </summary>
-        public Vector2 PreviousDirection
-        {
-            get { return _previousDistance; }
-        }
-
-        /// <summary>
-        /// Gets the previous distance.
-        /// </summary>
-        public Vector2 PreviousDistance
-        {
-            get { return _previousDistance; }
-        }
-
-        /// <summary>
-        /// Gets the previous scale.
-        /// </summary>
-        public Vector2 PreviousScale
-        {
-            get { return _previousScale; }
-        }
-        
-        /// <summary>
-        /// Gets the previous rotation.
-        /// </summary>
-        public float PreviousRotation
-        {
-            get { return _previousRotation; }
-        }
-
-        /// <summary>
-        /// Enable or disable following if a sprite is already attached to this sprite.
-        /// </summary>
-        public bool FollowSprite
-        {
-            get { return _followingSprite; }
-            set { _followingSprite = value; }
-        }
-
         #region constructors
 
         /// <summary>
@@ -255,28 +243,24 @@ namespace Yna.Engine.Graphics
             _sourceRectangle = null;
             _previousPosition = Vector2.Zero;
             _previousDirection = Vector2.Zero;
-
             _gameViewport = new Rectangle(0, 0, YnG.Width, YnG.Height);
-            _forceStayInScreen = false;
+            _forceInsideScreen = false;
             _forceAllowAcrossScreen = false;
-
             _hasAnimation = false;
             _animator = new SpriteAnimator();
-
             _acceleration = Vector2.One;
 			_velocity = Vector2.Zero;
             _maxVelocity = 1.0f;
             _enableDefaultPhysics = true;
-
             _direction = Vector2.One;
             _distance = Vector2.Zero;
             _previousPosition = Vector2.Zero;
             _previousDirection = Vector2.Zero;
-            _previousDistance = Vector2.Zero;
             _previousScale = Vector2.Zero;
             _previousRotation = 0.0f;
             _followedSprite = null;
             _followingSprite = false;
+            _followOffset = 0;
         }
 
         private YnSprite(Vector2 position)
@@ -452,8 +436,6 @@ namespace Yna.Engine.Graphics
 
         #region GameState patterns
 
-        public override void Initialize() { }
-
         /// <summary>
         /// Load the texture of the sprite.
         /// </summary>
@@ -496,9 +478,13 @@ namespace Yna.Engine.Graphics
 
             if (Enabled)
             {
-                // Sauvegarde de la dernière position
-                _previousPosition = _position;
-                _previousDirection = _direction;
+                _previousPosition.X = _position.X;
+                _previousPosition.Y = _position.Y;
+                _previousDirection.X = _direction.X;
+                _previousDirection.Y = _direction.Y;
+                _previousScale.X = _scale.X;
+                _previousScale.Y = _scale.Y;
+                _previousRotation = _rotation;
 
                 // Physics
                 if (_enableDefaultPhysics)
@@ -525,10 +511,10 @@ namespace Yna.Engine.Graphics
         public virtual void PostUpdate(GameTime gameTime)
         {
             // Update the direction
-            _direction.X = LastDistance.X;
-            _direction.Y = LastDistance.Y;
+            _direction.X = _position.X - _previousPosition.X;
+            _direction.Y = _position.Y - _previousPosition.Y;
 
-            if (_forceStayInScreen)
+            if (_forceInsideScreen)
             {
                 if (X - _origin.X < _gameViewport.X)
                 {
