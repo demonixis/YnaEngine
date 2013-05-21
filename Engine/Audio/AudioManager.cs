@@ -73,21 +73,60 @@ namespace Yna.Engine.Audio
 			_audioAdapter = audioAdapter;
 		}
 
+        #region Sound control
+
+        /// <summary>
+        /// Play a sound.
+        /// </summary>
+        /// <param name="assetName">Name of the sound</param>
+        /// <param name="volume">Volume value between 1.0f and 0.0f.</param>
+        /// <param name="pitch">Pitch value between 1.0f and 0.0f.</param>
+        /// <param name="pan">Pan value between 1.0f and -1.0f</param>
         public void PlaySound(string assetName, float volume, float pitch, float pan)
         {
 			_audioAdapter.PlaySound(assetName, volume, pitch, pan);
         }
 
-		#region Music controls
+        /// <summary>
+        /// Play a sound.
+        /// </summary>
+        /// <param name="assetName">Name of the sound</param>
+        /// <param name="volume">Volume value between 1.0f and 0.0f.</param>
+        public void PlaySound(string assetName, float volume)
+        {
+            PlaySound(assetName, volume, 1.0f, 0.0f);
+        }
+
+        /// <summary>
+        /// Play a sound.
+        /// </summary>
+        /// <param name="assetName">Name of the sound</param>
+        public void PlaySound(string assetName)
+        {
+            PlaySound(assetName, 1.0f, 1.0f, 0.0f);
+        }
+
+        #endregion
+
+        #region Music controls
 
         /// <summary>
         /// Play a music from the XNA's content manager
         /// </summary>
-        /// <param name="assetName"></param>
-        /// <param name="repeat"></param>
+        /// <param name="assetName">Name of the music to play.</param>
+        /// <param name="repeat">Enable or disable repeat</param>
         public void PlayMusic(string assetName, bool repeat)
         {
 			_audioAdapter.PlayMusic(assetName, repeat);
+        }
+
+        /// <summary>
+        /// Play a music from the XNA's content manager
+        /// </summary>
+        /// <param name="assetName">Name of the music to play.</param>
+        public void PlayMusic(string assetName)
+        {
+            _audioAdapter.PlayMusic(assetName, false);
         }
 
         /// <summary>
