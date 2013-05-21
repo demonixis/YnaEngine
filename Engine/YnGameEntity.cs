@@ -61,13 +61,13 @@ namespace Yna.Engine
         /// </summary>
         public event EventHandler<EventArgs> Desactivated = null;
 
-        protected void OnActivated(EventArgs e)
+        protected virtual void OnActivated(EventArgs e)
         {
             if (Activated != null)
                 Activated(this, e);
         }
 
-        protected void OnDesactivated(EventArgs e)
+        protected virtual void OnDesactivated(EventArgs e)
         {
             if (Desactivated != null)
                 Desactivated(this, e);
