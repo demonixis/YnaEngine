@@ -35,7 +35,6 @@ namespace Yna.Engine.Graphics
         {
             get { return _text; }
             set { _text = value; }
-
         }
 
         /// <summary>
