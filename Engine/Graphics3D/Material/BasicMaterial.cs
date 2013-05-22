@@ -19,6 +19,7 @@ namespace Yna.Engine.Graphics3D.Material
         {
             _effectName = "BasicEffect";
             _enableDefaultLighting = false;
+            _enableLighting = true;
         }
 
         /// <summary>

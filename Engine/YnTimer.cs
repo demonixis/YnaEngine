@@ -106,7 +106,7 @@ namespace Yna.Engine
         public YnTimer(int interval)
         {
             Interval = interval;
-            Repeat = -1;
+            Repeat = 0;
             _elapsedTime = 0;
             _counter = Repeat;
             _enabled = false;

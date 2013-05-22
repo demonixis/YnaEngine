@@ -26,6 +26,7 @@ namespace Yna.Engine.Graphics3D.Material
         protected bool _enablePerPixelLighting;
         protected bool _enableVertexColor;
         protected bool _enableDefaultLighting;
+        protected bool _enableLighting;
         protected SceneLight _basicLight;
 
         #endregion
@@ -120,6 +121,15 @@ namespace Yna.Engine.Graphics3D.Material
         }
 
         /// <summary>
+        /// Enable or disable lighting when the default lighting isn't enabled.
+        /// </summary>
+        public bool EnableLighting
+        {
+            get { return _enableLighting; }
+            set { _enableLighting = value; }
+        }
+
+        /// <summary>
         /// Enable or disable the main texture
         /// </summary>
         public bool EnableMainTexture
@@ -164,6 +174,7 @@ namespace Yna.Engine.Graphics3D.Material
             _enableMainTexture = false;
             _enablePerPixelLighting = false;
             _enableVertexColor = false;
+            _enableLighting = false;
             _effectName = "XNA Stock Effect";
         }
 
@@ -218,7 +229,7 @@ namespace Yna.Engine.Graphics3D.Material
             }
             else
             {
-                effectLights.LightingEnabled = !_enableDefaultLighting;
+                effectLights.LightingEnabled = !_enableLighting ;
                 effectLights.AmbientLightColor = _ambientColor * _ambientIntensity;
 
                 if (_light is SceneLight)
