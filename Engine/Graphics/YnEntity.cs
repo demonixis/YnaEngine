@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using Yna.Engine.Collision;
 using Yna.Engine.Graphics.Event;
-using Yna.Engine.Helpers;
 using Yna.Engine.Input;
 
 namespace Yna.Engine.Graphics
@@ -24,14 +23,11 @@ namespace Yna.Engine.Graphics
     /// <summary>
     /// A basic drawable object
     /// </summary>
-    public class YnEntity : YnBase, ICollidable2, IEntity2D
+    public class YnEntity : YnGameEntity, ICollidable2
     {
         #region Protected and private declarations
 
         protected bool _dirty;
-
-        // Define if the object is updated and drawn
-        protected bool _visible;
 
         // Sprite position and rectangle
         protected Vector2 _position;
@@ -41,7 +37,6 @@ namespace Yna.Engine.Graphics
         // Texture
         protected Texture2D _texture;
         protected string _assetName;
-        protected bool _assetLoaded;
 
         // Draw params
         protected Color _color;
@@ -79,38 +74,13 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets or sets the status of the object
-        /// If true the object is not paused and is visible
-        /// Else it's paused and not visible
-        /// </summary>
-        public new bool Active
-        {
-            get { return _enabled && _visible && !_dirty; }
-            set
-            {
-                _visible = value;
-                _enabled = value;
-                _dirty = !value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the visibility status of the object
-        /// </summary>
-        public bool Visible
-        {
-            get { return _visible; }
-            set { _visible = value; }
-        }
-
-        /// <summary>
         /// Flag indicating that the entity is currently hovered (touch or mouse)
         /// </summary>
         public bool Hovered
         {
-          get { return _hovered; }
+            get { return _hovered; }
         }
- 
+
         /// <summary>
         /// Flag indicating that the entity is currently beeing clicked (touch or mouse)
         /// </summary>
@@ -123,6 +93,7 @@ namespace Yna.Engine.Graphics
         {
             get { return _screenPosition; }
         }
+
         #endregion
 
         #region Properties for position/rotation/scale
@@ -159,11 +130,11 @@ namespace Yna.Engine.Graphics
         public Rectangle Rectangle
         {
             get { return _rectangle; }
-            set 
+            set
             {
                 if (_texture != null)
                 {
-                    _scale.X = (float)((float)value.Width / (float) _texture.Width);
+                    _scale.X = (float)((float)value.Width / (float)_texture.Width);
                     _scale.Y = (float)((float)value.Height / (float)_texture.Height);
                 }
                 _rectangle = value;
@@ -298,8 +269,8 @@ namespace Yna.Engine.Graphics
             {
                 if (_texture != null)
                     _scale.Y = (float)((float)value / (float)_texture.Height);
-                
-                _rectangle.Height = value; 
+
+                _rectangle.Height = value;
             }
         }
 
@@ -310,12 +281,12 @@ namespace Yna.Engine.Graphics
         public int Width
         {
             get { return _rectangle.Width; }
-            set 
+            set
             {
                 if (_texture != null)
                     _scale.X = (float)((float)value / (float)_texture.Width);
 
-                _rectangle.Width = value; 
+                _rectangle.Width = value;
             }
         }
 
@@ -333,15 +304,6 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Get the status of the texture2D
-        /// True if loaded
-        /// </summary>
-        public bool AssetLoaded
-        {
-            get { return _assetLoaded; }
-        }
-
-        /// <summary>
         /// Gets or sets the texture name used when the content is loaded
         /// </summary>
         public string AssetName
@@ -349,8 +311,11 @@ namespace Yna.Engine.Graphics
             get { return _assetName; }
             set
             {
-                _assetLoaded = false;
-                _assetName = value;
+                if (_assetName != value)
+                {
+                    _assetLoaded = false;
+                    _assetName = value;
+                }
             }
         }
 
@@ -516,16 +481,12 @@ namespace Yna.Engine.Graphics
         public YnEntity()
             : base()
         {
-            _visible = true;
             _dirty = false;
-
             _position = Vector2.Zero;
             _rectangle = Rectangle.Empty;
-
             _texture = null;
             _assetName = String.Empty;
             _assetLoaded = false;
-
             _color = Color.White;
             _rotation = 0.0f;
             _origin = Vector2.Zero;
@@ -533,7 +494,6 @@ namespace Yna.Engine.Graphics
             _alpha = 1.0f;
             _effects = SpriteEffects.None;
             _layerDepth = 1.0f;
-
             _parent = null;
             _nbMouseEventObservers = 0;
         }
@@ -578,17 +538,9 @@ namespace Yna.Engine.Graphics
         #region GameState pattern
 
         /// <summary>
-        /// Initialize logic.
-        /// </summary>
-        public virtual void Initialize()
-        {
-
-        }
-
-        /// <summary>
         /// Load asset.
         /// </summary>
-        public virtual void LoadContent()
+        public override void LoadContent()
         {
             if (!_assetLoaded && _assetName != String.Empty)
             {
@@ -600,19 +552,9 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Load asset.
-        /// </summary>
-        /// <param name="forceReload">Force reload if sets to true.</param>
-        public virtual void LoadContent(bool forceReload)
-        {
-            _assetLoaded = !forceReload;
-            LoadContent();
-        }
-
-        /// <summary>
         /// Dispose the Texture2D object if the Dirty property is set to true
         /// </summary>
-        public virtual void UnloadContent()
+        public override void UnloadContent()
         {
             if (_texture != null && _dirty)
                 _texture.Dispose();
@@ -720,7 +662,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="spriteBatch"></param>
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (_visible)
                 spriteBatch.Draw(_texture, _position, null, _color * _alpha, _rotation, _origin, _scale, _effects, _layerDepth);

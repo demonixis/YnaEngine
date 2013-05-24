@@ -97,7 +97,7 @@ namespace Yna.Samples.Screens
             gunnerSprite.Position = new Vector2((YnG.Width / 2) - (gunnerSprite.Width / 2), (YnG.Height / 2) - (gunnerSprite.Height / 2));
 
             // Force the sprite to stay on the screen
-            manSprite.InsideScreen = true;
+            manSprite.ForceInsideScreen = true;
 
             // Create animations for sprites
             CreateSpriteAnimations(womanSprite);
@@ -195,7 +195,7 @@ namespace Yna.Samples.Screens
             quadTree.TestCandidates(manSprite, (mSprite, lSprite) =>
                 {
                     if (mSprite.Rectangle.Intersects(lSprite.Rectangle))
-                        manSprite.Position = manSprite.LastPosition;
+                        manSprite.Position = manSprite.PreviousPosition;
                 });
 
             // return to the menu if escape key is just pressed

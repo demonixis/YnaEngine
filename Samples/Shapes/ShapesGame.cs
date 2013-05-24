@@ -12,7 +12,7 @@ namespace Yna.Samples
         MenuEntry[] menuItems;
      
         public ShapesGame()
-            : base(1440, 900, "Yna Samples : Custom Shapes")
+            : base(1280, 720, "Yna Samples : Custom Shapes")
         {
             menuItems = new MenuEntry[]
             {

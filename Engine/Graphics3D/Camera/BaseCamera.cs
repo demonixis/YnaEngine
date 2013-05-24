@@ -7,7 +7,7 @@ namespace Yna.Engine.Graphics3D.Camera
     /// <summary>
     /// Define a basic camera used to view a 3D scene
     /// </summary>
-    public abstract class BaseCamera : YnBase
+    public abstract class BaseCamera : YnBasicEntity
     {
         #region Protected declarations
 

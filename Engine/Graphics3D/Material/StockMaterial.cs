@@ -229,7 +229,7 @@ namespace Yna.Engine.Graphics3D.Material
             }
             else
             {
-                effectLights.LightingEnabled = !_enableLighting ;
+                effectLights.LightingEnabled = _enableLighting ;
                 effectLights.AmbientLightColor = _ambientColor * _ambientIntensity;
 
                 if (_light is SceneLight)

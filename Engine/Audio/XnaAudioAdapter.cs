@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 
 namespace Yna.Engine.Audio
@@ -34,22 +33,12 @@ namespace Yna.Engine.Audio
 
         #region Music management methods
 
-        /// <summary>
-        /// Play a music from the XNA's content manager
-        /// </summary>
-        /// <param name="assetName"></param>
-        /// <param name="repeat"></param>
-        public override void PlayMusic(string assetName)
-        {
-            PlayMusic(assetName, false);
-        }
-
         public override void PlayMusic(string assetName, bool repeat)
         {
             _repeatMusic = repeat;
             if (_musicEnabled)
             {
-#if !LINUX && !MACOSX && !(MONOGAME && WINDOWS)
+#if !LINUX && !(MONOGAME && WINDOWS)
                 Song music = YnG.Content.Load<Song>(assetName);
                 PlayMusic(music, repeat);
 #endif
@@ -97,16 +86,6 @@ namespace Yna.Engine.Audio
 
         #region Sound management
 
-        public override void PlaySound(string path)
-        {
-            PlaySound(path, 1.0f);
-        }
-
-        public override void PlaySound(string path, float volume)
-        {
-            PlaySound(path, volume, 1.0f, 0.0f);
-        }
-
         public override void PlaySound(string path, float volume, float pitch, float pan)
         {
             if (_soundEnabled)
@@ -118,11 +97,9 @@ namespace Yna.Engine.Audio
 
         #endregion
 
-        #region IDisposable implementation
         public override void Dispose()
         {
-            //MediaPlayer.Stop();
+            MediaPlayer.Stop();
         }
-        #endregion
     }
 }

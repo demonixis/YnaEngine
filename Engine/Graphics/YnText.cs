@@ -10,12 +10,13 @@ namespace Yna.Engine.Graphics
     /// </summary>
     public class YnText : YnEntity
     {
-        #region private declaration
-
+        /// <summary>
+        /// The default color used for all fonts when it created.
+        /// </summary>
+        public static Color DefaultColor = new Color(0, 0, 0);
         private SpriteFont _font;
         private string _text;
-
-        #endregion
+        private Vector2 _tempMeasure;
 
         #region Properties
 
@@ -25,7 +26,11 @@ namespace Yna.Engine.Graphics
         protected SpriteFont Font
         {
             get { return _font; }
-            set { _font = value; }
+            set
+            {
+                _font = value;
+                UpdateTextMeasure();
+            }
         }
 
         /// <summary>
@@ -34,7 +39,11 @@ namespace Yna.Engine.Graphics
         public string Text
         {
             get { return _text; }
-            set { _text = value; }
+            set
+            {
+                _text = value;
+                UpdateTextMeasure();
+            }
         }
 
         /// <summary>
@@ -42,7 +51,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public new int Width
         {
-            get { return (int)_font.MeasureString(Text).X; }
+            get { return (int)_tempMeasure.X; }
             protected set { base.Width = value; }
         }
 
@@ -51,7 +60,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public new int Height
         {
-            get { return (int)_font.MeasureString(Text).Y; }
+            get { return (int)_tempMeasure.Y; }
             protected set { base.Height = value; }
         }
 
@@ -65,7 +74,7 @@ namespace Yna.Engine.Graphics
             _assetName = String.Empty;
             _text = String.Empty;
             _assetLoaded = false;
-            _color = Color.Black;
+            _color = DefaultColor;
             _position = Vector2.Zero;
         }
 
@@ -157,9 +166,17 @@ namespace Yna.Engine.Graphics
             return sb.ToString();
         }
 
-        #region GameState pattern
+        private void UpdateTextMeasure()
+        {
+            if (_font != null)
+            {
+                _tempMeasure = _font.MeasureString(_text);
+                Width = (int)_tempMeasure.X;
+                Height = (int)_tempMeasure.Y;
+            }
+        }
 
-        public override void Initialize() { }
+        #region GameState pattern
 
         public override void LoadContent()
         {
@@ -168,23 +185,15 @@ namespace Yna.Engine.Graphics
                 _font = YnG.Content.Load<SpriteFont>(_assetName);
                 _assetLoaded = true;
 
-                Vector2 size = _font.MeasureString(Text);
-
-                Width = (int)size.X;
-                Height = (int)size.Y;
-
-                Rectangle = new Rectangle(X, Y, (int)size.X, (int)size.Y);
+                UpdateTextMeasure();
+                Rectangle = new Rectangle(X, Y, (int)_tempMeasure.X, (int)_tempMeasure.Y);
             }
         }
-
-        public override void UnloadContent() { }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (Visible)
-            {
                 spriteBatch.DrawString(_font, _text, _position, _color, _rotation, _origin, _scale, _effects, _layerDepth);
-            }
         }
 
         #endregion

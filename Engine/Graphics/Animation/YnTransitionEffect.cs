@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Yna.Engine;
 
 namespace Yna.Engine.Graphics.Animation
 {
@@ -12,7 +11,7 @@ namespace Yna.Engine.Graphics.Animation
     /// <summary>
     /// Simple transition effect
     /// </summary>
-    public class YnTransitionEffect : YnBase, IEffectAnimation
+    public class YnTransitionEffect : YnBasicEntity, IEffectAnimation
     {
         private TransitionState _transitionState;
         private float _timeTransitionOn;

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace Yna.Engine
@@ -9,7 +6,7 @@ namespace Yna.Engine
     /// <summary>
     /// A timer class
     /// </summary>
-    public class YnTimer : YnBase
+    public class YnTimer : YnBasicEntity
     {
         #region Private declarations
 

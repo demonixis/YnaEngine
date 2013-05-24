@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Yna.Engine.Input.Service;
-using Yna.Engine.Helpers;
 
 namespace Yna.Engine.Input
 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,15 +8,12 @@ namespace Yna.Engine.State
     /// A basic state used with the state manager
     /// A state represents a game screen as a menu, a scene or a score screen.
     /// </summary>
-    public abstract class YnState : YnBase
+    public abstract class YnState : YnGameEntity
     {
         #region Private declarations
 
         private static int ScreenCounter = 0;
-
         protected bool _reinitializeAfterActivation;
-        protected bool _visible;
-        protected bool _assetLoaded;
         protected SpriteBatch spriteBatch;
         protected StateManager stateManager;
 
@@ -33,43 +29,6 @@ namespace Yna.Engine.State
             get { return _reinitializeAfterActivation; }
             set { _reinitializeAfterActivation = value; }
         }
-
-        /// <summary>
-        /// Gets or sets the status of the asset loading.
-        /// </summary>
-        public bool AssetLoaded
-        {
-            get { return _assetLoaded; }
-            set { _assetLoaded = value; }
-        }
-
-        /// <summary>
-        /// Active or desactive this state. Enable & Visible
-        /// </summary>
-        public new bool Active
-        {
-            get { return _enabled && _visible; }
-            set
-            {
-                _enabled = value;
-                _visible = value;
-
-                if (value)
-                    OnActivated(EventArgs.Empty);
-                else
-                    OnDesactivated(EventArgs.Empty);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the visibility value
-        /// </summary>
-        public bool Visible
-        {
-            get { return _visible; }
-            set { _visible = value; }
-        }
-
        
         /// <summary>
         /// Gets or sets the Screen Manager
@@ -89,16 +48,6 @@ namespace Yna.Engine.State
         #region Events
 
         /// <summary>
-        /// Triggerd when the Active property is set to true
-        /// </summary>
-        public event EventHandler<EventArgs> Activated = null;
-
-        /// <summary>
-        /// Triggered when the Active property is set to false
-        /// </summary>
-        public event EventHandler<EventArgs> Desactivated = null;
-
-        /// <summary>
         /// Triggered when the state has begin to load content.
         /// </summary>
         public event EventHandler<EventArgs> ContentLoadingStarted = null;
@@ -107,31 +56,6 @@ namespace Yna.Engine.State
         /// Triggered when the state has finish to load content.
         /// </summary>
         public event EventHandler<EventArgs> ContentLoadingFinished = null;
-
-        /// <summary>
-        /// Called when the state is activated (not when the state is created).
-        /// If the property ReinitializeAfterAction is setted to true then the state will
-        /// be reinitialized with a call of the Initialize() method.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnActivated(EventArgs e)
-        {
-            if (Activated != null)
-                Activated(this, e);
-
-            if (_reinitializeAfterActivation)
-                Initialize();
-        }
-
-        /// <summary>
-        /// Called when the state is desactivated.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnDesactivated(EventArgs e)
-        {
-            if (Desactivated != null)
-                Desactivated(this, e);
-        }
 
         /// <summary>
         /// Called when the state has begin to load content.
@@ -158,6 +82,7 @@ namespace Yna.Engine.State
         #region Constructors
 
         public YnState()
+            : base()
         {
             _name = "State_" + (ScreenCounter++);
             _reinitializeAfterActivation = true;
@@ -175,17 +100,9 @@ namespace Yna.Engine.State
         #endregion
 
         /// <summary>
-        /// Initialize state logic.
-        /// </summary>
-        public virtual void Initialize()
-        {
-
-        }
-
-        /// <summary>
         /// Load state content.
         /// </summary>
-        public virtual void LoadContent()
+        public override void LoadContent()
         {
             spriteBatch = new SpriteBatch(stateManager.Game.GraphicsDevice);
         }
@@ -193,9 +110,9 @@ namespace Yna.Engine.State
         /// <summary>
         /// Unload state content.
         /// </summary>
-        public virtual void UnloadContent()
+        public override void UnloadContent()
         {
-
+            spriteBatch.Dispose();
         }
 
         /// <summary>
@@ -203,6 +120,11 @@ namespace Yna.Engine.State
         /// </summary>
         /// <param name="gameTime"></param>
         public abstract void Draw(GameTime gameTime);
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            Draw(gameTime);
+        }
 
         /// <summary>
         /// Quit the state and remove it from the ScreenManager

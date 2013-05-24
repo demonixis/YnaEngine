@@ -69,15 +69,12 @@ namespace Yna.Engine.Audio
         }
 
         // Music
-        public abstract void PlayMusic(string path);
 		public abstract void PlayMusic(string path, bool repeat);
         public abstract void StopMusic();
         public abstract void PauseMusic();
         public abstract void ResumeMusic();
 
         // Sound
-        public abstract void PlaySound(string path);
-        public abstract void PlaySound(string path, float volume);
         public abstract void PlaySound(string path, float volume, float pitch, float pan);
 
 		public abstract void Dispose();

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text;
-using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 
 namespace Yna.Engine.Storage

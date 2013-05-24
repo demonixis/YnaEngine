@@ -8,7 +8,7 @@ namespace Yna.Engine.Graphics.Gui
 	/// <summary>
 	/// Widget safe list for use in GUI.
 	/// </summary>
-	public class YnWidgetList : YnList<YnWidget>
+	public class YnWidgetList : YnCollection<YnWidget>
     {
         #region Attributes
 
@@ -44,10 +44,10 @@ namespace Yna.Engine.Graphics.Gui
         /// <summary>
         /// See documentation in YnList.
         /// </summary>
-		protected override void DoUpdate(GameTime gameTime, int count)
+		protected override void DoUpdate(GameTime gameTime)
         {
 			_hovered = false;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < SafeMembersCount; i++)
             {
                 if (_safeMembers[i].Enabled)
                 {
@@ -64,24 +64,11 @@ namespace Yna.Engine.Graphics.Gui
         /// <param name="spriteBatch">The sprite batch</param>
 		public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
 		{
-			int count = _safeMembers.Count;
-			for (int i = 0; i < count; i++)
+			for (int i = 0; i < SafeMembersCount; i++)
             {
                 if (_safeMembers[i].Enabled)
-                {
                 	_safeMembers[i].Draw(gameTime, spriteBatch);
-                }
             }
 		}
-
-        /// <summary>
-        /// Ease access to the Contains method on the inner member list.
-        /// </summary>
-        /// <param name="widget">The widget to search for</param>
-        /// <returns>True if the widget is in the list</returns>
-        public bool Contains(YnWidget widget)
-        {
-            return _members.Contains(widget);
-        }
 	}
 }

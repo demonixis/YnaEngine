@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Yna.Engine.Graphics;
+﻿using Yna.Engine.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace Yna.Engine.Script

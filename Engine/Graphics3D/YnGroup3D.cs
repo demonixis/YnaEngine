@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Camera;
-using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
 
 namespace Yna.Engine.Graphics3D

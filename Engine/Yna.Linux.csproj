@@ -32,7 +32,7 @@
     <DefineConstants>MONOGAME;LINUX;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Audio\AudioAdapter.cs" />
+     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\DummyAudioAdapter.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
@@ -47,6 +47,9 @@
     <Compile Include="Extensions\Texture2DExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />
     <Compile Include="Extensions\ViewportExtension.cs" />
+    <Compile Include="YnBasicCollection.cs" />
+    <Compile Include="YnGameEntityCollection.cs" />
+    <Compile Include="YnGameEntity.cs" />
     <Compile Include="Graphics3D\Camera\CameraManager.cs" />
     <Compile Include="Graphics3D\Controls\FirstPersonVirtualPadControl.cs" />
     <Compile Include="Graphics3D\Geometry\CylinderGeometry.cs" />
@@ -67,22 +70,23 @@
     <Compile Include="Graphics3D\YnMesh.cs" />
     <Compile Include="Graphics3D\YnMeshGeometry.cs" />
     <Compile Include="Graphics3D\YnMeshModel.cs" />
+    <Compile Include="Graphics3D\YnScene3D.cs" />
     <Compile Include="Graphics3D\YnTransform.cs" />
     <Compile Include="Graphics\Animation\AnimationEventArgs.cs" />
     <Compile Include="Graphics\Component\YnVirtualPadController.cs" />
+    <Compile Include="Graphics\Gui\YnWidgetProperties.cs" />
+    <Compile Include="Graphics\Particle\YnEmitter.cs" />
+    <Compile Include="Graphics\Particle\YnParticle.cs" />
     <Compile Include="Graphics\Event\MouseEntityEvents.cs" />
     <Compile Include="Graphics\Event\TouchEntityEvents.cs" />
-    <Compile Include="Graphics\Gui\YnWidgetProperties.cs" />
-    <Compile Include="Graphics\IEntity2D.cs" />
-    <Compile Include="Graphics\Scene\BaseScene.cs" />
-    <Compile Include="Graphics\Scene\YnScene2D.cs" />
-    <Compile Include="Graphics\Scene\YnSceneGui2D.cs" />
+    <Compile Include="Graphics\Scene\YnScene.cs" />
+    <Compile Include="Graphics\Scene\YnSceneGui.cs" />
     <Compile Include="Graphics\YnCircle.cs" />
     <Compile Include="Content\YnContentManager.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
+    <Compile Include="Graphics3D\Terrain\SkyBox.cs" />
     <Compile Include="Graphics\Animation\IEffectAnimation.cs" />
     <Compile Include="Graphics\Animation\YnInterpolator.cs" />
-    <Compile Include="Graphics\YnEntityList.cs" />
     <Compile Include="Graphics\Event\VirtualPadEventArgs.cs" />
     <Compile Include="Graphics\Component\YnVirtualPad.cs" />
     <Compile Include="Content\ContentEventArgs.cs" />
@@ -116,8 +120,9 @@
     <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Graphics3D\YnState3D.cs" />
     <Compile Include="Graphics\YnGraphics.cs" />
+    <Compile Include="Graphics\YnPool.cs" />
     <Compile Include="Graphics\YnText.cs" />
-    <Compile Include="Graphics\YnSceneCamera2D.cs" />
+    <Compile Include="Graphics\YnCamera2D.cs" />
     <Compile Include="Graphics\Animation\SpriteAnimation.cs" />
     <Compile Include="Graphics\Animation\SpriteAnimator.cs" />
     <Compile Include="Graphics\Animation\YnTransitionEffect.cs" />
@@ -140,6 +145,15 @@
     <Compile Include="Graphics\Gui\Widgets\YnWindow.cs" />
     <Compile Include="Collision\YnCollide.cs" />
     <Compile Include="Graphics\YnSprite.cs" />
+    <Compile Include="Graphics\TileMap\BaseLayer.cs" />
+    <Compile Include="Graphics\TileMap\BaseTile.cs" />
+    <Compile Include="Graphics\TileMap\BaseTileMap.cs" />
+    <Compile Include="Graphics\TileMap\Basic\Layer2D.cs" />
+    <Compile Include="Graphics\TileMap\Basic\Tile2D.cs" />
+    <Compile Include="Graphics\TileMap\Basic\TileMap2D.cs" />
+    <Compile Include="Graphics\TileMap\Iso\LayerIso.cs" />
+    <Compile Include="Graphics\TileMap\Iso\TileIso.cs" />
+    <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\IsometricHelper.cs" />
@@ -155,7 +169,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\YnState.cs" />
-    <Compile Include="State\YnStateList.cs" />
     <Compile Include="Storage\BasicStorageDevice.cs" />
     <Compile Include="Storage\IStorageDevice.cs" />
     <Compile Include="Storage\StorageManager.cs" />
@@ -164,29 +177,16 @@
     <Compile Include="Script\ScriptAnimator.cs" />
     <Compile Include="Script\WaitScript.cs" />
     <Compile Include="Graphics\YnState2D.cs" />
-    <Compile Include="YnBase.cs" />
+    <Compile Include="YnBasicEntity.cs" />
     <Compile Include="YnG.cs" />
     <Compile Include="YnGame.cs" />
     <Compile Include="Graphics\YnGroup.cs" />
     <Compile Include="Graphics\YnEntity.cs" />
-    <Compile Include="YnList.cs" />
+    <Compile Include="YnCollection.cs" />
     <Compile Include="YnQuadTree.cs" />
     <Compile Include="YnTimer.cs" />
-    <Compile Include="RandomMachine.cs" />
-    <Compile Include="Graphics\Particle\YnEmitter.cs" />
-    <Compile Include="Graphics\Particle\YnParticle.cs" />
+    <Compile Include="YnRandom.cs" />
     <Compile Include="Extensions\PointExtension.cs" />
-    <Compile Include="Graphics3D\Terrain\Skybox.cs" />
-    <Compile Include="Graphics\Tilemap\BaseLayer.cs" />
-    <Compile Include="Graphics\Tilemap\BaseTile.cs" />
-    <Compile Include="Graphics\Tilemap\BaseTileMap.cs" />
-    <Compile Include="Graphics\Tilemap\Basic\Layer2D.cs" />
-    <Compile Include="Graphics\Tilemap\Basic\Tile2D.cs" />
-    <Compile Include="Graphics\Tilemap\Basic\TileMap2D.cs" />
-    <Compile Include="Graphics\Tilemap\Iso\LayerIso.cs" />
-    <Compile Include="Graphics\Tilemap\Iso\TileIso.cs" />
-    <Compile Include="Graphics\Tilemap\Iso\TileMapIso.cs" />
-    <Compile Include="Graphics3D\YnScene3D.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics3D\Material\Resources\NormalMapEffect.ogl.mgfxo" />
