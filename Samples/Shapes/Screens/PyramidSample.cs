@@ -26,7 +26,7 @@ namespace Yna.Samples.Screens
                     "Textures/galaxy/galaxy+Z"
                 };
 
-            var material = new EnvironmentMapMaterial("textures/pyramid", textures);
+            var material = new EnvironmentMapMaterial("Textures/pyramid", textures);
             material.Amount = 0.95f;
             material.EnabledPerPixelLighting = true;
             material.FresnelFactor = 0.2f;

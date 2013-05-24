@@ -41,6 +41,8 @@ namespace Yna.Samples.Screens
             control.RotationSpeed = 0.45f;
             control.MaxVelocityPosition = 0.95f;
             control.MaxVelocityRotation = 0.96f;
+			control.EnableMouse = false;
+			control.EnableGamepad = false;
             Add(control);
 
             // 3 - Create a simple terrain with a size of 50x50 with 1x1 space between each vertex
