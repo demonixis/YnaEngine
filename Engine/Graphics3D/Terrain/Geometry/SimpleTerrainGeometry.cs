@@ -42,7 +42,7 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
                         ((float)x / (float)Width) * _textureRepeat.X,
                         ((float)z / (float)Depth) * _textureRepeat.Y);
 
-                    _vertices[x + z * Width].Normal = Vector3.Zero;
+                    _vertices[x + z * Width].Normal = Vector3.Up;  
                 }
             }
         }

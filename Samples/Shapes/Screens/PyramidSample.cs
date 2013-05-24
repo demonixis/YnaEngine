@@ -16,7 +16,22 @@ namespace Yna.Samples.Screens
             PyramidGeometry geometry = new PyramidGeometry(new Vector3(10));
             geometry.TextureRepeat = new Vector2(4);
 
-            pyramid = new YnMeshGeometry(geometry, new BasicMaterial("Textures/pyramid"));
+            string[] textures = new string[6]
+            {
+                    "Textures/galaxy/galaxy-X",
+                    "Textures/galaxy/galaxy+X",
+                    "Textures/galaxy/galaxy-Y",
+                    "Textures/galaxy/galaxy+Y",
+                    "Textures/galaxy/galaxy-Z",
+                    "Textures/galaxy/galaxy+Z"
+                };
+
+            var material = new EnvironmentMapMaterial("textures/pyramid", textures);
+            material.Amount = 0.95f;
+            material.EnabledPerPixelLighting = true;
+            material.FresnelFactor = 0.2f;
+
+            pyramid = new YnMeshGeometry(geometry, material);
             Add(pyramid);
         }
 
