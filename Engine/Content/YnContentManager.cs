@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Helpers;
+using Yna.Engine;
 
 namespace Yna.Engine.Content
 {
@@ -87,7 +87,7 @@ namespace Yna.Engine.Content
                         }
                         catch (Exception ex)
                         {
-                            DebugHelper.Error(ex.Message);
+                            throw new Exception(ex.Message);
                         }
                     }
 
@@ -101,7 +101,7 @@ namespace Yna.Engine.Content
                     }
                     else
                     {
-                        DebugHelper.Trace("Can't load this asset");
+                        throw new Exception("Can't load this asset");
                     }
                 }
 

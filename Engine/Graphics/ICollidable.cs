@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Engine.Collision
+namespace Yna.Engine.Graphics
 {
     /// <summary>
     /// An interface to collide with 2D object
@@ -16,14 +16,5 @@ namespace Yna.Engine.Collision
         Vector2 Scale { get; set; }
         Texture2D Texture { get; set; }
         Rectangle Rectangle { get; set; }
-    }
-
-    /// <summary>
-    /// An interface to collide with 3D object
-    /// </summary>
-    public interface ICollidable3
-    {
-        BoundingBox BoundingBox { get; set; }
-        BoundingSphere BoundingSphere { get; set; }
     }
 }

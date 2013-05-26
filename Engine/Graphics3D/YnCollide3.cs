@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Yna.Engine.Collision
+namespace Yna.Engine
 {
-    public class YnCollide3
+    public class YnCollider3
     {
         public static bool PointInsideBoundingSphere(Vector3 point, BoundingSphere boudingSphere)
         {

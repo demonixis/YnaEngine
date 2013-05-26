@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yna.Engine.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace Yna.Engine.Collision
+namespace Yna.Engine.Graphics
 {
     /// <summary>
     /// Helper for collide detection
     /// </summary>
-    public class YnCollide
+    public class YnCollider
     {
         /// <summary>
         /// Test if two entities collinding

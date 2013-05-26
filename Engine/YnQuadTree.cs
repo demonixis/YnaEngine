@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using Yna.Engine.Collision;
+using Yna.Engine.Graphics;
 
 namespace Yna.Engine
 {

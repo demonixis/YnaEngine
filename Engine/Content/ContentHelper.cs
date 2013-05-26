@@ -1,17 +1,17 @@
-﻿using System;
-using System.Text;
-using System.IO;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Engine.Helpers
+namespace Yna.Engine.Content
 {
     /// <summary>
     /// Content helper that provide some methods for load non xnb assets like Texture2D, Song, SoundEffect and XML

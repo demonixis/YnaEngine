@@ -56,12 +56,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\AudioAdapter.cs" />
+     <Compile Include="Audio\AudioAdapter.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\DummyAudioAdapter.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
-    <Compile Include="Collision\ICollidable.cs" />
-    <Compile Include="Collision\YnCollide3.cs" />
+    <Compile Include="Graphics3D\ICollidable3.cs" />
+    <Compile Include="Graphics\ICollidable.cs" />
+    <Compile Include="Graphics3D\YnCollide3.cs" />
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
@@ -167,7 +168,7 @@
     <Compile Include="Graphics\Gui\Widgets\YnTextButton.cs" />
     <Compile Include="Graphics\Gui\Widgets\YnWidget.cs" />
     <Compile Include="Graphics\Gui\Widgets\YnWindow.cs" />
-    <Compile Include="Collision\YnCollide.cs" />
+    <Compile Include="Graphics\YnCollider.cs" />
     <Compile Include="Graphics\YnSprite.cs" />
     <Compile Include="Graphics\TileMap\BaseLayer.cs" />
     <Compile Include="Graphics\TileMap\BaseTile.cs" />
@@ -178,10 +179,9 @@
     <Compile Include="Graphics\TileMap\Iso\LayerIso.cs" />
     <Compile Include="Graphics\TileMap\Iso\TileIso.cs" />
     <Compile Include="Graphics\TileMap\Iso\TileMapIso.cs" />
-    <Compile Include="Helpers\ContentHelper.cs" />
-    <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Helpers\IsometricHelper.cs" />
-    <Compile Include="Helpers\ScreenHelper.cs" />
+    <Compile Include="Content\ContentHelper.cs" />
+    <Compile Include="Graphics\IsometricHelper.cs" />
+    <Compile Include="ScreenHelper.cs" />
     <Compile Include="Input\Component\GamepadComponent.cs" />
     <Compile Include="Input\Component\KeyboardComponent.cs" />
     <Compile Include="Input\Component\MouseComponent.cs" />
@@ -211,7 +211,6 @@
     <Compile Include="YnTimer.cs" />
     <Compile Include="YnRandom.cs" />
     <Compile Include="Extensions\PointExtension.cs" />
-    <Compile Include="Storage\DummyStorageDevice.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics3D\Material\Resources\NormalMapEffect.ogl.mgfxo" />
