@@ -11,12 +11,12 @@
         {
 #if WINDOWS_PHONE_7
             _storageDevice = new XnaPhoneStorageDevice();
-#elif MONOGAME && WINDOWS || LINUX || MACOSX || XNA
-            _storageDevice = new BasicStorageDevice();
 #elif WINDOWS_STOREAPP || WINDOWS_PHONE_8
             _storageDevice = new XnaStorageDevice();
-#else
+#elif UNSUPPORTED
 			_storageDevice = new DummyStorageDevice();
+#else
+            _storageDevice = new BasicStorageDevice();
 #endif
         }
 

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5767A6BF-125F-47DE-9B08-C9A50DB565EA}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Terrains</RootNamespace>
+    <AssemblyName>Terrains</AssemblyName>
+    <StartupObject>Yna.Samples.TerrainsGame</StartupObject>
+    <ApplicationIcon>Game.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\ThirdParty\MonoGame\SDL2\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\BasicTerrain.cs" />
+    <Compile Include="Screens\HeighmapTerrain.cs" />
+    <Compile Include="TerrainsGame.cs" />
+    <Compile Include="Screens\RandomHeightmap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Common\YnMenu.cs">
+      <Link>YnMenu.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engine\Yna.SDL2.csproj">
+      <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
+      <Name>Yna.SDL2</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

@@ -6,8 +6,6 @@ using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Input;
 using Yna.Engine.Script;
-using Yna.Engine.Collision;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Samples.Screens
 {

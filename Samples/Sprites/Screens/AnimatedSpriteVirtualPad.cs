@@ -7,7 +7,6 @@ using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Component;
 using Yna.Engine.Input;
 using Yna.Engine.Script;
-using Yna.Engine.Collision;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Samples.Screens
@@ -149,7 +148,7 @@ namespace Yna.Samples.Screens
             UpdateAnimations(manSprite);
             UpdateAnimations(gunnerSprite);
 
-            if (YnCollide.CollideOneWithGroup(manSprite, spriteToCollide))
+            if (YnCollider.CollideOneWithGroup(manSprite, spriteToCollide))
                 manSprite.Position = manSprite.PreviousPosition;
 
             // return to the menu if escape key is just pressed

@@ -24,7 +24,6 @@ namespace Yna.Samples
         protected override void Initialize()
         {
             base.Initialize();
-
             menu = new YnMenu("menu", "Terrains", menuItems);
             stateManager.Add(menu, true);
             stateManager.Add(new BasicTerrain("basicSample"), false);

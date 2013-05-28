@@ -16,6 +16,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Yna Engine for Windows (OpenGL)")]
 #elif MONOGAME && WINDOWS && DIRECTX
 [assembly: AssemblyProduct("Yna Engine for Windows (DirectX)")]
+#elif SDL2
+[assembly: AssemblyProduct("Yna Engine for SDL2 targets (Linux, Windows and Mac)")]
 #elif WINDOWS_PHONE_7
 [assembly: AssemblyProduct("Yna Engine for Windows Phone 7")]
 #elif WINDOWS_PHONE_8
