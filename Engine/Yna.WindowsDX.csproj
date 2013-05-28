@@ -50,6 +50,7 @@
     <Compile Include="Extensions\Texture2DExtension.cs" />
     <Compile Include="Extensions\Vector2Extension.cs" />
     <Compile Include="Extensions\ViewportExtension.cs" />
+    <Compile Include="State\StateManagerException.cs" />
     <Compile Include="YnBasicCollection.cs" />
     <Compile Include="YnGameEntityCollection.cs" />
     <Compile Include="YnGameEntity.cs" />

@@ -254,6 +254,7 @@
     <Compile Include="YnTimer.cs" />
     <Compile Include="YnRandom.cs" />
     <Compile Include="Extensions\PointExtension.cs" />
+	<Compile Include="State\StateManagerException.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics3D\Material\Resources\NormalMapEffect.dx11.mgfxo" />

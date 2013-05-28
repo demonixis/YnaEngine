@@ -238,6 +238,7 @@
     <Compile Include="YnTimer.cs" />
     <Compile Include="YnRandom.cs" />
     <Compile Include="Extensions\PointExtension.cs" />
+	<Compile Include="State\StateManagerException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

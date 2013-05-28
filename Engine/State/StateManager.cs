@@ -17,7 +17,7 @@ namespace Yna.Engine.State
 
         private YnGameEntityCollection _states;
         private Dictionary<string, int> _statesDictionary;
-        
+
         private bool _assetLoaded;
         private SpriteBatch _spriteBatch;
         private Color _clearColor;
@@ -112,11 +112,19 @@ namespace Yna.Engine.State
             }
         }
 
+        /// <summary>
+        /// Update logic of enabled states.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             _states.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draw visible states.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(_clearColor);
@@ -219,26 +227,7 @@ namespace Yna.Engine.State
                 }
             }
             else
-                throw new Exception("[ScreenManager] This screen name doesn't exists");
-        }
-
-        /// <summary>
-        /// Get desactivated states
-        /// </summary>
-        /// <returns>An array of index</returns>
-        public int[] GetDisabledStatesIndex()
-        {
-            List<int> indexs = new List<int>();
-
-            int size = _states.Count;
-
-            for (int i = 0; i < size; i++)
-            {
-                if (!_states[i].Active)
-                    indexs.Add(i);
-            }
-
-            return indexs.ToArray();
+                throw new StateManagerException("This screen name doesn't exists");
         }
 
         /// <summary>
@@ -264,7 +253,7 @@ namespace Yna.Engine.State
             foreach (YnState screen in _states)
             {
                 if (_statesDictionary.ContainsKey(screen.Name))
-                    throw new Exception("[ScreenManager] Two screens can't have the same name, it's forbiden and it's bad :(");
+                    throw new StateManagerException("Two screens can't have the same name, it's forbiden and it's bad :(");
 
                 _statesDictionary.Add(screen.Name, _states.IndexOf(screen));
             }
@@ -296,6 +285,7 @@ namespace Yna.Engine.State
 
             if (_assetLoaded)
             {
+                state.AfterConstruct();
                 state.LoadContent();
                 state.Initialize();
             }
@@ -320,34 +310,6 @@ namespace Yna.Engine.State
         }
 
         /// <summary>
-        /// Add a range of states, you must manage the activation process yourself.
-        /// </summary>
-        /// <param name="screens">An array of states</param>
-        public void Add(YnState[] states)
-        {
-            foreach (YnState state in states)
-                Add(state);
-        }
-
-        /// <summary>
-        /// Add a range of states and active or desactive them.
-        /// </summary>
-        /// <param name="states">An array of states</param>
-        /// <param name="isActive">Sets to true for activating all screens.</param>
-        public void Add(YnState[] states, bool isActive)
-        {
-            foreach (YnState state in states)
-            {
-                if (state.Active != isActive)
-                {
-                    state.Enabled = isActive;
-                    state.Visible = isActive;
-                }
-                Add(state);
-            }
-        }
-
-        /// <summary>
         /// Remove a screen to the Manager
         /// </summary>
         /// <param name="screen">Screen to remove</param>
@@ -367,13 +329,6 @@ namespace Yna.Engine.State
                 for (int i = 0; i < _states.Count; i++)
                     (_states[i] as YnState).Kill();
             }
-        }
-
-        public void Clear(bool force)
-        {
-            Clear();
-            _states.Clear();
-            _statesDictionary.Clear();
         }
 
         public IEnumerator GetEnumerator()

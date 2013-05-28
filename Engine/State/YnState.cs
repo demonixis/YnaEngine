@@ -99,6 +99,11 @@ namespace Yna.Engine.State
 
         #endregion
 
+        public virtual void AfterConstruct()
+        {
+
+        }
+
         /// <summary>
         /// Load state content.
         /// </summary>
