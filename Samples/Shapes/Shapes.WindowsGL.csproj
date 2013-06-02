@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\CylinderSample.cs" />
     <Compile Include="Screens\IcosphereSample.cs" />
+    <Compile Include="Screens\MaterialsSample.cs" />
     <Compile Include="Screens\PlaneSample.cs" />
     <Compile Include="Screens\PyramidSample.cs" />
     <Compile Include="Screens\SphereSample.cs" />

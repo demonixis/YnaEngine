@@ -94,7 +94,7 @@ namespace Yna.Engine.Graphics3D.Material
 #else
             var assembly = Assembly.GetExecutingAssembly();
 #endif
-            var stream = assembly.GetManifestResourceStream(String.Format("NormalMapEffect.{0}.mgfxo", suffix));
+            var stream = assembly.GetManifestResourceStream(String.Format("Yna.Engine.Graphics3D.Material.Resources.NormalMapEffect.{0}.mgfxo", suffix));
             byte[] shaderCode;
 
             using (var ms = new MemoryStream())
@@ -124,9 +124,13 @@ namespace Yna.Engine.Graphics3D.Material
             _effect.Parameters["LightDirection"].SetValue(_diffuseDirection);
 
             // Textures
+#if MONOGAME
+            _effect.Parameters["ColorMap"].SetValue(_texture);
+            _effect.Parameters["NormalMap"].SetValue(_normalMap);
+#else
             _effect.Parameters["ColorMapSampler"].SetValue(_texture);
             _effect.Parameters["NormalMapSampler"].SetValue(_normalMap);
-            
+#endif
             // Position
             _effect.Parameters["EyePosition"].SetValue(world.Translation);
         }

@@ -88,6 +88,15 @@ namespace Yna.Engine.Graphics3D.Material
             _environmentTextureNames = environmentTextureNames;
         }
 
+        public EnvironmentMapMaterial(string textureName, string environmentTextureName)
+            : this()
+        {
+            _textureName = textureName;
+            _environmentTextureNames = new string[6];
+            for (int i = 0; i < 6; i++)
+                _environmentTextureNames[i] = environmentTextureName;
+        }
+
         public EnvironmentMapMaterial(string textureName)
             : this(textureName, new string[] { textureName })
         {

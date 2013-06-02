@@ -17,7 +17,6 @@ namespace Yna.Engine.Graphics3D.Geometry
         public CubeGeometry()
             : this(new Vector3(1.0f))
         {
-
         }
 
         /// <summary>
@@ -28,7 +27,6 @@ namespace Yna.Engine.Graphics3D.Geometry
         public CubeGeometry(Vector3 sizes)
             : this(sizes, new Vector3(0.0f))
         {
-
         }
 
         public CubeGeometry(Vector3 sizes, Vector3 origin)
@@ -36,6 +34,18 @@ namespace Yna.Engine.Graphics3D.Geometry
         {
             _segmentSizes = sizes;
             _origin = origin;
+        }
+
+        public CubeGeometry(float size, Vector3 origin)
+            : base()
+        {
+            _segmentSizes = new Vector3(size);
+            _origin = origin;
+        }
+
+        public CubeGeometry(float size)
+            : this(size, new Vector3(0))
+        {
         }
 
         #endregion

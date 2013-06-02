@@ -23,6 +23,7 @@ namespace Yna.Samples
                 new MenuEntry("pyramidSample", "Pyramid", "In this sample we create a textured pyramid with a custom material"),
                 new MenuEntry("sphereSample", "Sphere", "In this sample we create a textured sphere with a custom material"),
                 new MenuEntry("torusSample", "Torus", "In this sample we create a textured torus with a custom material"),
+                new MenuEntry("materialSample", "Material", "Custom materials"),
             };   
         }
 
@@ -40,6 +41,7 @@ namespace Yna.Samples
             stateManager.Add(new PyramidSample("pyramidSample"), false);
             stateManager.Add(new SphereSample("sphereSample"), false);
             stateManager.Add(new TorusSample("torusSample"), false);
+            stateManager.Add(new MaterialSample("materialSample"), false);
         }
 
 #if !WINDOWS_PHONE
