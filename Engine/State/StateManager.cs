@@ -285,10 +285,11 @@ namespace Yna.Engine.State
 
             if (_assetLoaded)
             {
-                state.AfterConstruct();
-                state.LoadContent();
-                state.Initialize();
+                state.Create();
+                state.LoadContent();    
             }
+
+            state.Initialize();
 
             _states.Add(state);
             _statesDictionary.Add(state.Name, _states.IndexOf(state));

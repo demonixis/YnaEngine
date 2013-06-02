@@ -203,7 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Collision\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

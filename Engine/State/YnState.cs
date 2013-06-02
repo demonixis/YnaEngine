@@ -99,7 +99,10 @@ namespace Yna.Engine.State
 
         #endregion
 
-        public virtual void AfterConstruct()
+        /// <summary>
+        /// First method called after constructor. You can instanciate your object here.
+        /// </summary>
+        public virtual void Create()
         {
 
         }
