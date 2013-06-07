@@ -260,6 +260,15 @@ namespace Yna.Engine.State
         }
 
         /// <summary>
+        /// Sets all state in pause by desabling them.
+        /// </summary>
+        public void PauseAllStates()
+        {
+            foreach (YnState state in _states)
+                state.Active = false;
+        }
+
+        /// <summary>
         /// Switch to a new state, just pass a new instance of a state and 
         /// the StateManager will clear all other states and use the new state
         /// </summary>

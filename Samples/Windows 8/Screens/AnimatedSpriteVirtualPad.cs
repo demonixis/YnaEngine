@@ -7,7 +7,6 @@ using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Component;
 using Yna.Engine.Input;
 using Yna.Engine.Script;
-using Yna.Engine.Collision;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Samples.Screens
@@ -100,7 +99,7 @@ namespace Yna.Samples.Screens
             gunnerSprite.Position = new Vector2((YnG.Width / 2) - (gunnerSprite.Width / 2), (YnG.Height / 2) - (gunnerSprite.Height / 2));
 
             // Force the sprite to stay on the screen
-            manSprite.InsideScreen = true;
+            manSprite.ForceInsideScreen = true;
 
             // Create animations for sprites
             CreateSpriteAnimations(womanSprite);
@@ -150,8 +149,8 @@ namespace Yna.Samples.Screens
             UpdateAnimations(manSprite);
             UpdateAnimations(gunnerSprite);
 
-            if (YnCollide.CollideOneWithGroup(manSprite, spriteToCollide))
-                manSprite.Position = manSprite.LastPosition;
+            if (YnCollider.CollideOneWithGroup(manSprite, spriteToCollide))
+                manSprite.Position = manSprite.PreviousPosition;
         }
 
         private void CreateSpriteAnimations(YnSprite sprite)
