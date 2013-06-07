@@ -334,11 +334,14 @@ namespace Yna.Engine.State
         /// </summary>
         public void Clear()
         {
-            if (_states.Count > 0)
-            {
-                for (int i = 0; i < _states.Count; i++)
-                    (_states[i] as YnState).Kill();
-            }
+			if (_states.Count > 0)
+			{
+                for (int i = _states.Count - 1; i >= 0; i--)
+                    _states[i].Active = false;
+
+                _states.Clear();
+                _statesDictionary.Clear();
+			}
         }
 
         public IEnumerator GetEnumerator()

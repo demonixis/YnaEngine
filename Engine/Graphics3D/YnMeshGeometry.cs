@@ -15,6 +15,7 @@ namespace Yna.Engine.Graphics3D
     {
         protected BaseGeometry<VertexPositionNormalTexture> _geometry;
         protected Vector2 _textureRepeat;
+        protected bool _worldMatrixIsMaster;
 
         /// <summary>
         /// Gets or sets the repeat value for texture.
@@ -32,6 +33,15 @@ namespace Yna.Engine.Graphics3D
         {
             get { return _geometry; }
             protected set { _geometry = value; }
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        public bool WorldMatrixIsMaster
+        {
+            get { return _worldMatrixIsMaster; }
+            set { _worldMatrixIsMaster = value; }
         }
 
         #region Constructors
@@ -76,10 +86,11 @@ namespace Yna.Engine.Graphics3D
         {
             _geometry = geometry;
             _material = material;
+            _worldMatrixIsMaster = false;
         }
 
         #endregion
-        
+
         /// <summary>
         /// Update BoundingBox and BoundingSphere
         /// </summary>
@@ -127,6 +138,19 @@ namespace Yna.Engine.Graphics3D
         {
             if (_material != null)
                 _material.Light = light;
+        }
+
+        /// <summary>
+        /// Update world matrix. (Scale, Rotation, Translation)
+        /// </summary>
+        public override void UpdateMatrix()
+        {
+            if (!_worldMatrixIsMaster)
+            {
+                _world = Matrix.CreateScale(Scale) *
+                    Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
+                    Matrix.CreateTranslation(Position);
+            }
         }
 
         /// <summary>

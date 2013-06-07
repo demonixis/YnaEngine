@@ -42,7 +42,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         protected bool _wireframe;
         protected RasterizerState _newRasterizerState;
         protected RasterizerState _oldRasterizerState;
-
+		
         #endregion
 
         #region Globals properties
