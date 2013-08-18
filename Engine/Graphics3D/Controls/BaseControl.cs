@@ -1,10 +1,20 @@
-﻿using System;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Engine.Graphics3D.Camera;
 
 namespace Yna.Engine.Graphics3D.Controls
 {
+    public struct PhysicsController
+    {
+        public Vector3 Acceleration;
+        public Vector3 Velocity;
+        public float MaxVelocity;
+    }
+
     /// <summary>
     /// Define a basic controller for a camera
     /// </summary>
@@ -12,15 +22,10 @@ namespace Yna.Engine.Graphics3D.Controls
     {
         private BaseCamera _camera;
         protected PlayerIndex _playerIndex;
-        protected KeysMapper _keyMapper;
 
         // Some physics
-        protected Vector3 _accelerationPosition;
-        protected Vector3 _accelerationRotation;
-        protected Vector3 _velocityPosition;
-        protected Vector3 _velocityRotation;
-        protected float _maxVelocityPosition;
-        protected float _maxVelocityRotation;
+        public PhysicsController PhysicsPosition;
+        public PhysicsController PhysicsRotation;
 
         // Speed
         protected float _moveSpeed;
@@ -43,69 +48,6 @@ namespace Yna.Engine.Graphics3D.Controls
         protected int _zRotation;
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the value for the keys mapper
-        /// </summary>
-        public KeysMapper KeysMapper
-        {
-            get { return _keyMapper; }
-            set { _keyMapper = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the value of acceleration for translations
-        /// </summary>
-        public Vector3 AccelerationPosition
-        {
-            get { return _accelerationPosition; }
-            set { _accelerationPosition = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the value of acceleration for rotations
-        /// </summary>
-        public Vector3 AccelerationRotation
-        {
-            get { return _accelerationRotation; }
-            set { _accelerationRotation = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the value of velocity for translations
-        /// </summary>
-        public Vector3 VelocityPosition
-        {
-            get { return _velocityPosition; }
-            set { _velocityPosition = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the value of velocity for rotations
-        /// </summary>
-        public Vector3 VelocityRotation
-        {
-            get { return _velocityRotation; }
-            set { _velocityRotation = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the velocity factor for translations
-        /// </summary>
-        public float MaxVelocityPosition
-        {
-            get { return _maxVelocityPosition; }
-            set { _maxVelocityPosition = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the velocity factor for rotations
-        /// </summary>
-        public float MaxVelocityRotation
-        {
-            get { return _maxVelocityRotation; }
-            set { _maxVelocityRotation = value; }
-        }
 
         /// <summary>
         /// Gets or sets the camera used with this control
@@ -233,15 +175,21 @@ namespace Yna.Engine.Graphics3D.Controls
         public BaseControl(BaseCamera camera)
         {
             _camera = camera;
-            _keyMapper = new KeysMapper();
 
             // Physics
-            _accelerationPosition = Vector3.One;
-            _accelerationRotation = Vector3.One;
-            _velocityPosition = Vector3.Zero;
-            _velocityRotation = Vector3.Zero;
-            _maxVelocityPosition = 0.5f;
-            _maxVelocityRotation = 0.5f;
+            PhysicsPosition = new PhysicsController()
+            {
+                Acceleration = Vector3.One,
+                Velocity = Vector3.Zero,
+                MaxVelocity = 0.5f
+            };
+
+            PhysicsRotation = new PhysicsController()
+            {
+                Acceleration = Vector3.One,
+                Velocity = Vector3.Zero,
+                MaxVelocity = 0.5f
+            };
 
             // Movement
             _moveSpeed = 0.3f;
@@ -285,8 +233,8 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <param name="gameTime"></param>
         public virtual void UpdatePhysics(GameTime gameTime)
         {
-            _velocityPosition *= _accelerationPosition * _maxVelocityPosition;
-            _velocityRotation *= _accelerationRotation * _maxVelocityRotation;
+            PhysicsPosition.Velocity *= PhysicsPosition.Acceleration * PhysicsPosition.MaxVelocity;
+            PhysicsRotation.Velocity *= PhysicsRotation.Acceleration * PhysicsRotation.MaxVelocity;
         }
 
         /// <summary>
@@ -295,10 +243,10 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <param name="gameTime">GameTime</param>
         public virtual void ApplyPhysics(GameTime gameTime)
         {
-            Camera.Translate(_velocityPosition.X * _xDirection, _velocityPosition.Y * _yDirection, _velocityPosition.Z * _zDirection);
-            Camera.RotateY(_velocityRotation.Y * _yRotation);
-            Camera.RotateX(_velocityRotation.X * _xRotation);
-            Camera.RotateZ(_velocityRotation.Z * _zRotation);
+            Camera.Translate(PhysicsPosition.Velocity.X * _xDirection, PhysicsPosition.Velocity.Y * _yDirection, PhysicsPosition.Velocity.Z * _zDirection);
+            Camera.RotateY(PhysicsRotation.Velocity.Y * _yRotation);
+            Camera.RotateX(PhysicsRotation.Velocity.X * _xRotation);
+            Camera.RotateZ(PhysicsRotation.Velocity.Z * _zRotation);
         }
 
         /// <summary>

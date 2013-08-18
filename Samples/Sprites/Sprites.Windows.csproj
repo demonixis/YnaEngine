@@ -68,10 +68,6 @@
       <Project>{fcfc0955-f7c2-4e6b-993a-6d47902c6fc1}</Project>
       <Name>Yna.Input.Wiimote</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Script\Yna.Script.Windows.csproj">
-      <Project>{6c26887b-3021-4aef-89d7-e19f27dc4711}</Project>
-      <Name>Yna.Script.Windows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Yna.Windows.csproj">
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.Windows</Name>

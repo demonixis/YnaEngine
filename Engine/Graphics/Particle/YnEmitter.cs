@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,7 +16,6 @@ namespace Yna.Engine.Graphics.Particle
         private int _maxParticles;
         private int _intensity;
         private List<YnParticle> _particles;
-        private YnRandom _randomMachine;
         private long _elapsedTime;
         private int _nbParticlePerEmission;
         private int _activeParticleIndex;
@@ -92,7 +94,6 @@ namespace Yna.Engine.Graphics.Particle
             _direction = direction;
             _position = position;
             _particles = new List<YnParticle>(_maxParticles);
-            _randomMachine = new YnRandom();
             _elapsedTime = 0;
             _intensity = 100;
             _activeParticleIndex = 0;
@@ -154,7 +155,7 @@ namespace Yna.Engine.Graphics.Particle
 
             for (int i = 0; i < _maxParticles; i++)
             {
-                direction = _randomMachine.GetVector2(
+                direction = YnRandom.GetVector2(
                     _direction.X - _rotation / 2,
                     _direction.X + _rotation / 2,
                     _direction.Y - _rotation / 2,
@@ -182,7 +183,7 @@ namespace Yna.Engine.Graphics.Particle
         /// </summary>
         public override void Initialize()
         {
-            Color color = _randomMachine.GetColor();
+            Color color = YnRandom.GetColor();
             Initialize(YnGraphics.CreateTexture(color, 4, 4));
         }
 

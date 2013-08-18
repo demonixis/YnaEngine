@@ -1,4 +1,7 @@
-﻿using System;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Engine.Graphics3D.Camera;
@@ -31,35 +34,35 @@ namespace Yna.Engine.Graphics3D.Controls
         public override void ApplyPhysics(GameTime gameTime)
         {
             var camera = Camera as ThirdPersonCamera;
-            camera.FollowedObject.Translate(_velocityPosition.X * _xDirection, _velocityPosition.Y * _yDirection, _velocityPosition.Z * _zDirection);
-            camera.FollowedObject.RotateY(_velocityRotation.Y * _yRotation);
+            camera.FollowedObject.Translate(PhysicsPosition.Velocity.X * _xDirection, PhysicsPosition.Velocity.Y * _yDirection, PhysicsPosition.Velocity.Z * _zDirection);
+            camera.FollowedObject.RotateY(PhysicsRotation.Velocity.Y * _yRotation);
         }
 
         protected override void UpdateKeyboardInput(GameTime gameTime)
         {
             // Translation Up/Down
             if (YnG.Keys.Pressed(Keys.A))
-                _velocityPosition.Y += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.Y += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.E))
-                _velocityPosition.Y -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.Y -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Translation Forward/backward
             if (YnG.Keys.Pressed(Keys.Z) || YnG.Keys.Up)
-                _velocityPosition.Z += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.Z += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.S) || YnG.Keys.Down)
-                _velocityPosition.Z -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.Z -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Translation Left/Right
             if (YnG.Keys.Pressed(Keys.Q))
-                _velocityPosition.X += _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.X += _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Pressed(Keys.D))
-                _velocityPosition.X -= _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.X -= _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Rotation Left/Right
             if (YnG.Keys.Left)
-                _velocityRotation.Y += _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsRotation.Velocity.Y += _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Keys.Right)
-                _velocityRotation.Y -= _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsRotation.Velocity.Y -= _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Rotate the camera arround the followed object
             if (YnG.Keys.Pressed(Keys.W))
@@ -73,14 +76,14 @@ namespace Yna.Engine.Graphics3D.Controls
             Vector2 leftStickValue = YnG.Gamepad.LeftStickValue(_playerIndex);
             Vector2 rightStickValue = YnG.Gamepad.RightStickValue(_playerIndex);
 
-            _velocityPosition.X += leftStickValue.X * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            _velocityPosition.Z += -leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
-            _velocityRotation.Y += -rightStickValue.X * _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            PhysicsPosition.Velocity.X += leftStickValue.X * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            PhysicsPosition.Velocity.Z += -leftStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+            PhysicsRotation.Velocity.Y += -rightStickValue.X * _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             if (YnG.Gamepad.LeftTrigger(PlayerIndex.One))
-                _velocityPosition.Y += _moveSpeed * YnG.Gamepad.LeftTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.Y += _moveSpeed * YnG.Gamepad.LeftTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (YnG.Gamepad.RightTrigger(PlayerIndex.One))
-                _velocityPosition.Y += -_moveSpeed * YnG.Gamepad.RightTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.Y += -_moveSpeed * YnG.Gamepad.RightTriggerValue(PlayerIndex.One) * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             Camera.RotateX(-rightStickValue.Y * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.1f);
 
@@ -100,9 +103,9 @@ namespace Yna.Engine.Graphics3D.Controls
             if (YnG.Mouse.Click(MouseButton.Left) || YnG.Mouse.Click(MouseButton.Right))
             {
                 if (YnG.Mouse.Click(MouseButton.Left))
-                    _velocityPosition.Z += YnG.Mouse.Delta.Y * 0.5f * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                    PhysicsPosition.Velocity.Z += YnG.Mouse.Delta.Y * 0.5f * _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
-                _velocityRotation.Y = -YnG.Mouse.Delta.X * 0.5f * _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsRotation.Velocity.Y = -YnG.Mouse.Delta.X * 0.5f * _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             }
 
             if (YnG.Mouse.Click(MouseButton.Right))

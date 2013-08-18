@@ -1,9 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
 
 namespace Yna.Engine
 {
     /// <summary>
-    /// Define a safe list for YnBase objects
+    /// Define a safe updateable list for YnBase objects
     /// </summary>
     public class YnBasicCollection : YnCollection<YnBasicEntity>
     {

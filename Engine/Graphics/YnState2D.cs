@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Yna.Engine.Graphics.Gui;
 using Yna.Engine.State;
 using Yna.Engine.Graphics.Scene;
 using System;
@@ -51,23 +53,6 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Returns the GUI attached to the state. If no GUI is used, null is returned
-        /// without error.
-        /// </summary>
-        public YnGui Gui
-        {
-            get
-            {
-                YnSceneGui guiScene = _scene as YnSceneGui;
-
-                if (guiScene != null)
-                    return guiScene.Gui;
-                
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the configuration used for sprite batch.
         /// </summary>
         public SpriteBatchConfiguration SpriteBatchConfiguration
@@ -104,10 +89,7 @@ namespace Yna.Engine.Graphics
 
             InitializeDefaultState();
 
-            if (enableGui)
-                _scene = new YnSceneGui();
-            else
-                _scene = new YnScene();
+            _scene = new YnScene();
         }
 
         /// <summary>
@@ -157,8 +139,8 @@ namespace Yna.Engine.Graphics
         public override void Initialize()
         {
             base.Initialize();
-
-            _scene.Initialize();
+            if (!_initialized)
+                _scene.Initialize();
         }
 
         /// <summary>
@@ -169,10 +151,10 @@ namespace Yna.Engine.Graphics
             if (!_assetLoaded)
             {
                 OnContentLoadingStarted(EventArgs.Empty);
-              
+
                 base.LoadContent();
                 _scene.LoadContent();
-                
+
                 OnContentLoadingFinished(EventArgs.Empty);
 
                 _assetLoaded = true;
@@ -209,36 +191,8 @@ namespace Yna.Engine.Graphics
         public override void Draw(GameTime gameTime)
         {
             int nbMembers = _scene.Entities.Count;
-            bool useOtherBatchForGUI = false;
 
-            if (_scene is YnSceneGui)
-            {
-                // If the scene is a YnSceneGui2D, a GUI is defined
-                YnSceneGui scene = _scene as YnSceneGui;
-                if (scene.UseOtherBatchForGUI)
-                    useOtherBatchForGUI = true;
-            }
-
-            // There is at least one widget to render in the scene sprite batch
-            if (!useOtherBatchForGUI && Gui != null && Gui.HasWidgets)
-                nbMembers++;
-            
-            
             if (nbMembers > 0)
-            {
-                spriteBatch.Begin(
-                    _spriteBatchConfig.SpriteSortMode, 
-                    _spriteBatchConfig.BlendState, 
-                    _spriteBatchConfig.SamplerState, 
-                    _spriteBatchConfig.DepthStencilState, 
-                    _spriteBatchConfig.RasterizerState, 
-                    _spriteBatchConfig.Effect, 
-                    _camera.GetTransformMatrix());
-                _scene.Draw(gameTime, spriteBatch);
-                spriteBatch.End();
-            }
-
-            if (useOtherBatchForGUI)
             {
                 spriteBatch.Begin(
                     _spriteBatchConfig.SpriteSortMode,
@@ -248,7 +202,7 @@ namespace Yna.Engine.Graphics
                     _spriteBatchConfig.RasterizerState,
                     _spriteBatchConfig.Effect,
                     _camera.GetTransformMatrix());
-                Gui.Draw(gameTime, spriteBatch);
+                _scene.Draw(gameTime, spriteBatch);
                 spriteBatch.End();
             }
         }
@@ -272,6 +226,12 @@ namespace Yna.Engine.Graphics
         /// <param name="entity">An entitiy</param>
         public void Add(YnEntity entity)
         {
+            if (Initialized && !entity.Initialized)
+                entity.Initialize();
+
+            if (AssetLoaded && !entity.AssetLoaded)
+                    entity.LoadContent();
+       
             _scene.Add(entity);
         }
 

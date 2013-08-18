@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -250,11 +253,14 @@ namespace Yna.Engine.Graphics3D.Camera
         /// Copy the collection in an array.
         /// </summary>
         /// <param name="array">Blank array</param>
-        /// <param name="arrayIndex">Start index.</param>
-        public void CopyTo(BaseCamera[] array, int arrayIndex)
+        /// <param name="startIndex">Start index.</param>
+        public void CopyTo(BaseCamera[] array, int startIndex)
         {
-            for (int i = 0; i < _arraySize; i++)
-                array[i] = _cameras[i];
+            int max = Math.Min(startIndex + _arraySize, array.Length);
+            int camIndex = 0;
+
+            for (int i = startIndex; i < max; i++)
+                array[i] = _cameras[camIndex++];
         }
 
         /// <summary>

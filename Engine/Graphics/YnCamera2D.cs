@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
 using Yna.Engine.Graphics.Animation;
 
 namespace Yna.Engine.Graphics
@@ -9,51 +12,39 @@ namespace Yna.Engine.Graphics
     /// </summary>
     public class YnCamera2D : YnBasicEntity
     {
-        protected Matrix _view;
-        protected int _x;
-        protected int _y;
-        protected float _rotation;
-        protected float _zoom;
+        // Avoid garbage generation because we use it on each update.
+        private Matrix _originMatrix;
+        private Matrix _rotationMatrix;
+        private Matrix _zoomMatrix;
+        private Matrix _translationMatrix;
+        
+        // Screen center
         protected Vector2 _centerScreen;
+
+        // Effects
         protected YnShakeEffect _shakeEffect;
 
         #region Properties
 
         /// <summary>
-        /// Get or set the position on X axis
+        /// X position
         /// </summary>
-        public int X
-        {
-            get { return _x; }
-            set { _x = value; }
-        }
+        public int X;
 
         /// <summary>
-        /// Get or set the position on Y axis
+        /// Y position
         /// </summary>
-        public int Y
-        {
-            get { return _y; }
-            set { _y = value; }
-        }
+        public int Y;
 
         /// <summary>
-        /// Get or set the rotation angle (in degree)
+        /// Rotation in degrees.
         /// </summary>
-        public float Rotation
-        {
-            get { return _rotation; }
-            set { _rotation = value; }
-        }
+        public float Rotation;
 
         /// <summary>
-        /// Get or set the zoom factor
+        /// Zoom in/out the scene.
         /// </summary>
-        public float Zoom
-        {
-            get { return _zoom; }
-            set { _zoom = value; }
-        }
+        public float Zoom;
 
         #endregion
 
@@ -64,14 +55,12 @@ namespace Yna.Engine.Graphics
         /// </summary>
         public YnCamera2D()
         {
-            _view = Matrix.Identity;
-            _x = 0;
-            _y = 0;
-            _rotation = 0.0f;
-            _zoom = 1.0f;
+            X = 0;
+            Y = 0;
+            Rotation = 0.0f;
+            Zoom = 1.0f;
 
             _centerScreen = new Vector2(YnG.Width / 2, YnG.Height / 2);
-
             _shakeEffect = new YnShakeEffect(this);
         }
 
@@ -102,13 +91,12 @@ namespace Yna.Engine.Graphics
         /// <returns></returns>
         public Matrix GetTransformMatrix()
         {
-            Matrix translateToOrigin = Matrix.CreateTranslation(_x + (-YnG.Width / 2), _y + (-YnG.Height / 2), 0);
-            Matrix rotation = Matrix.CreateRotationZ(MathHelper.ToRadians(_rotation));
-            Matrix zoom = Matrix.CreateScale(_zoom);
-            Matrix translateBackToPosition = Matrix.CreateTranslation(_x + (YnG.Width / 2), _y + (YnG.Height / 2), 0);
-            Matrix composition = zoom * translateToOrigin * rotation * translateBackToPosition;
+            _originMatrix = Matrix.CreateTranslation(X + (-YnG.Width / 2), Y + (-YnG.Height / 2), 0);
+            _rotationMatrix = Matrix.CreateRotationZ(MathHelper.ToRadians(Rotation));
+            _zoomMatrix = Matrix.CreateScale(Zoom);
+            _translationMatrix = Matrix.CreateTranslation(X + (YnG.Width / 2), Y + (YnG.Height / 2), 0);
 
-            return composition;
+            return (_zoomMatrix * _originMatrix * _rotationMatrix * _translationMatrix);
         }
     }
 }

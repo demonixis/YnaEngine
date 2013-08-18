@@ -63,10 +63,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\Graphics\Tilemap\Yna.Graphics.Tilemap.Windows.csproj">
-      <Project>{ae1f213d-d01d-4019-b398-cb9d7c346a7b}</Project>
-      <Name>Yna.Graphics.Tilemap.Windows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Yna.Windows.csproj">
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.Windows</Name>

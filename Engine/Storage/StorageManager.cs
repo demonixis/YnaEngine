@@ -1,4 +1,7 @@
-﻿namespace Yna.Engine.Storage
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+namespace Yna.Engine.Storage
 {
     /// <summary>
     /// The storage manager is an object that can be used for store and load informations like scores, achievments, etc..

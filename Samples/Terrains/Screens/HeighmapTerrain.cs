@@ -36,8 +36,8 @@ namespace Yna.Samples.Screens
             control.RotationSpeed = 0.45f;
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.45f;
-            control.MaxVelocityPosition = 0.96f;
-            control.MaxVelocityRotation = 0.96f;
+            control.PhysicsPosition.MaxVelocity = 0.96f;
+            control.PhysicsRotation.MaxVelocity = 0.96f;
             Add(control);
 
             // 3 - Create an Heigmap with 2 textures
@@ -45,7 +45,7 @@ namespace Yna.Samples.Screens
             // -- 2. map texture applied on the terrain
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
             heightmap = new Heightmap("terrains/heightfield", "terrains/heightmapTexture", new Vector3(5));
-            heightmap.Scale = new Vector3(1.5f);
+            
             Add(heightmap);
 
             BasicMaterial heightmapMaterial = new BasicMaterial("terrains/heightmapTexture");
@@ -88,12 +88,12 @@ namespace Yna.Samples.Screens
             base.Update(gameTime);
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetStateActive("menu", true);
+                YnG.StateManager.SetActive("menu", true);
 
             // Naive Collide detection with ground
             // This method get the current segment height on the terrain and set the Y position of the camera at this value
             // We add 2 units because the camera is a bit higher than the ground
-            camera.Y += (heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 5 - camera.Y) * 0.2f;
+            camera.Y += (heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 15 - camera.Y) * 0.2f;
 
             // Move the camera with a click
             if (YnG.Mouse.Click(MouseButton.Left))

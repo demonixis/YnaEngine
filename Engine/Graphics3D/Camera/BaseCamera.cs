@@ -1,4 +1,7 @@
-﻿using System;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,9 +17,9 @@ namespace Yna.Engine.Graphics3D.Camera
         // Position and Direction
         protected Vector3 _position;
         protected Vector3 _direction;
-        protected Vector3 _lastDirection;
-        protected Vector3 _lastPosition;
-        private bool _dynamic;
+        protected Vector3 _previousDirection;
+        protected Vector3 _previousPosition;
+        protected bool _isDynamic;
 
         // Matrix
         protected Matrix _world;
@@ -88,9 +91,9 @@ namespace Yna.Engine.Graphics3D.Camera
         /// <summary>
         /// Get the last position
         /// </summary>
-        public Vector3 LastPosition
+        public Vector3 PreviousPosition
         {
-            get { return _lastPosition; }
+            get { return _previousPosition; }
         }
 
         /// <summary>
@@ -105,9 +108,9 @@ namespace Yna.Engine.Graphics3D.Camera
         /// <summary>
         /// Get the last direction
         /// </summary>
-        public Vector3 LastDirection
+        public Vector3 PreviousDirection
         {
-            get { return _lastDirection; }
+            get { return _previousDirection; }
         }
 
         #endregion
@@ -191,10 +194,10 @@ namespace Yna.Engine.Graphics3D.Camera
         /// <summary>
         /// Define if the camera is dynamic or not, if dynamic it will be updated on each frame
         /// </summary>
-        public bool Dynamic
+        public bool IsDynamic
         {
-            get { return _dynamic; }
-            set { _dynamic = value; }
+            get { return _isDynamic; }
+            set { _isDynamic = value; }
         }
 
         #endregion
@@ -310,9 +313,9 @@ namespace Yna.Engine.Graphics3D.Camera
         {
             // Position & direction
             _position = Vector3.Zero;
-            _lastPosition = _position;
+            _previousPosition = _position;
             _direction = Vector3.Zero;
-            _lastDirection = Vector3.Zero;
+            _previousDirection = Vector3.Zero;
 
             // Rotations
             _yaw = 0.0f;
@@ -556,7 +559,14 @@ namespace Yna.Engine.Graphics3D.Camera
         {
             Move(moveVector.X, moveVector.Y, moveVector.Z);
         }
-		
+
+        public virtual void AddToReference(float rx, float ry, float rz)
+        {
+            _reference.X += rx;
+            _reference.Y += ry;
+            _reference.Z += rz;
+        }
+
         /// <summary>
         /// Sets the camera to front view.
         /// </summary>
@@ -566,13 +576,6 @@ namespace Yna.Engine.Graphics3D.Camera
 			_yaw = 0;
 			_roll = 0;
 		}
-
-        public virtual void AddToReference(float rx, float ry, float rz)
-        {
-            _reference.X += rx;
-            _reference.Y += ry;
-            _reference.Z += rz;
-        }
 
         /// <summary>
         /// Sets the camera to back view.
@@ -651,10 +654,13 @@ namespace Yna.Engine.Graphics3D.Camera
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            UpdateBoundingVolumes();
-            _lastDirection = _direction;
-            _direction = _position - _lastPosition;
-            _lastPosition = _position;
+            if (_isDynamic)
+            {
+                UpdateBoundingVolumes();
+                _previousDirection = _direction;
+                _direction = _position - _previousPosition;
+                _previousPosition = _position;
+            }
         }
     }
 }

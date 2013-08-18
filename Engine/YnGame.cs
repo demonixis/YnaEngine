@@ -1,3 +1,6 @@
+// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -5,7 +8,6 @@ using Yna.Engine.Audio;
 using Yna.Engine.State;
 using Yna.Engine.Helpers;
 using Yna.Engine.Input;
-using Yna.Engine.Input.Service;
 using Yna.Engine.Storage;
 
 namespace Yna.Engine
@@ -34,10 +36,10 @@ namespace Yna.Engine
             this.Content.RootDirectory = "Content";
             this.stateManager = new StateManager(this);
 
-            KeyboardComponent keyboardComponent = new KeyboardComponent(this);
-            MouseComponent mouseComponent = new MouseComponent(this);
-            GamepadComponent gamepadComponent = new GamepadComponent(this);
-            TouchComponent touchComponent = new TouchComponent(this);
+            YnKeyboard keyboardComponent = new YnKeyboard(this);
+            YnMouse mouseComponent = new YnMouse(this);
+            YnGamepad gamepadComponent = new YnGamepad(this);
+            YnTouch touchComponent = new YnTouch(this);
 
             Components.Add(keyboardComponent);
             Components.Add(mouseComponent);
@@ -48,10 +50,10 @@ namespace Yna.Engine
             // Registry globals objects
             YnG.Game = this;
             YnG.GraphicsDeviceManager = this.graphics;
-            YnG.Keys = new YnKeyboard(keyboardComponent);
-            YnG.Mouse = new YnMouse(mouseComponent);
-            YnG.Gamepad = new YnGamepad(gamepadComponent);
-            YnG.Touch = new YnTouch(touchComponent);
+            YnG.Keys = keyboardComponent;
+            YnG.Mouse = mouseComponent;
+            YnG.Gamepad = gamepadComponent;
+            YnG.Touch = touchComponent;
             YnG.StateManager = stateManager;
             YnG.StorageManager = new StorageManager();
             YnG.AudioManager = new AudioManager();

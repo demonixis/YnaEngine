@@ -1,4 +1,7 @@
-﻿using System;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics.Component;
@@ -61,7 +64,6 @@ namespace Yna.Engine.Graphics3D.Controls
             _enableGamepad = false;
             _enableKeyboard = false;
             _enableMouse = false;
-            _keyMapper = null;
             _moveSpeed = 0.8f;
             _strafeSpeed = 0.8f;
             _rotationSpeed = 1.4f;
@@ -82,8 +84,8 @@ namespace Yna.Engine.Graphics3D.Controls
         public override void Update(GameTime gameTime)
         {
             // Physics
-            _velocityPosition *= _accelerationPosition * _maxVelocityPosition;
-            _velocityRotation *= _accelerationRotation * _maxVelocityRotation;
+            PhysicsPosition.Velocity *= PhysicsPosition.Acceleration * PhysicsPosition.MaxVelocity;
+            PhysicsRotation.Velocity *= PhysicsRotation.Acceleration * PhysicsRotation.MaxVelocity;
 
             _virtualPadController.Update(gameTime);
 
@@ -102,21 +104,21 @@ namespace Yna.Engine.Graphics3D.Controls
         {
             // Move
             if (_virtualPadController.Pressed(PadButtons.Up))
-                _velocityPosition.Z += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.Z += _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (_virtualPadController.Pressed(PadButtons.Down))
-                _velocityPosition.Z -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.Z -= _moveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Strafe
             if (_virtualPadController.Pressed(PadButtons.StrafeLeft))
-                _velocityPosition.X += _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.X += _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (_virtualPadController.Pressed(PadButtons.StrafeRight))
-                _velocityPosition.X -= _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsPosition.Velocity.X -= _strafeSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
 
             // Rotate 
             if (_virtualPadController.Pressed(PadButtons.Left))
-                _velocityRotation.Y += _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsRotation.Velocity.Y += _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
             else if (_virtualPadController.Pressed(PadButtons.Right))
-                _velocityRotation.Y -= _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
+                PhysicsRotation.Velocity.Y -= _rotationSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.01f;
         }
 
         /// <summary>
@@ -125,10 +127,10 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <param name="gameTime"></param>
         protected virtual void UpdateTouchInput(GameTime gameTime)
         {
-            if (YnG.Touch.Moved && !_virtualPadController.hasPressedButton())
+            if (YnG.Touch.Moved(0) && !_virtualPadController.hasPressedButton())
             {
-                _velocityRotation.Y += YnG.Touch.Delta.X * 0.1f;
-                _velocityRotation.X -= YnG.Touch.Delta.Y * 0.1f;
+                PhysicsRotation.Velocity.Y += YnG.Touch.GetDelta(0).X * 0.1f;
+                PhysicsRotation.Velocity.X -= YnG.Touch.GetDelta(0).Y * 0.1f;
             }
         }
 

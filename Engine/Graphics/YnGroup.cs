@@ -1,4 +1,7 @@
-﻿using System;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using System;
 using System.Collections.Generic;
 using System.Collections;
 using Microsoft.Xna.Framework;
@@ -314,11 +317,11 @@ namespace Yna.Engine.Graphics
         {
             sceneObject.Parent = this;
 
-            if (_assetsLoaded)
-                sceneObject.LoadContent();
-
             if (_initialized)
                 sceneObject.Initialize();
+
+            if (_assetsLoaded)
+                sceneObject.LoadContent();
             
             UpdateRectangle();
 

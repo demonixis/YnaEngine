@@ -1,4 +1,7 @@
-﻿using System;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -21,15 +24,6 @@ namespace Yna.Engine.State
 
         #region Properties
 
-        /// <summary>
-        /// Sets to true for reinitialize the state after an activation.
-        /// </summary>
-        public bool ReinitializeAfterActivation
-        {
-            get { return _reinitializeAfterActivation; }
-            set { _reinitializeAfterActivation = value; }
-        }
-       
         /// <summary>
         /// Gets or sets the Screen Manager
         /// </summary>
@@ -99,12 +93,11 @@ namespace Yna.Engine.State
 
         #endregion
 
-        /// <summary>
-        /// First method called after constructor. You can instanciate your object here.
-        /// </summary>
-        public virtual void Create()
+        public override void Initialize()
         {
-
+            base.Initialize();
+            if (!_initialized)
+                _initialized = true;
         }
 
         /// <summary>
@@ -112,7 +105,12 @@ namespace Yna.Engine.State
         /// </summary>
         public override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(stateManager.Game.GraphicsDevice);
+            if (!_assetLoaded)
+            {
+                spriteBatch = new SpriteBatch(stateManager.Game.GraphicsDevice);
+                _assetLoaded = true;
+
+            }
         }
 
         /// <summary>
@@ -120,7 +118,11 @@ namespace Yna.Engine.State
         /// </summary>
         public override void UnloadContent()
         {
-            spriteBatch.Dispose();
+            if (_assetLoaded)
+            {
+                spriteBatch.Dispose();
+                _assetLoaded = false;
+            }
         }
 
         /// <summary>

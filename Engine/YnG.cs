@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Audio;
@@ -67,14 +70,19 @@ namespace Yna.Engine
         public static YnKeyboard Keys { get; set; }
 
         /// <summary>
+        /// Gets or Set the mouse states
+        /// </summary>
+        public static YnMouse Mouse { get; set; }
+
+        /// <summary>
         /// Gets or Set the Gamepad states
         /// </summary>
         public static YnGamepad Gamepad { get; set; }
 
         /// <summary>
-        /// Gets or Set the mouse states
+        /// Gets or Set the Touch states
         /// </summary>
-        public static YnMouse Mouse { get; set; }
+        public static YnTouch Touch { get; set; }
 
         public static bool ShowMouse
         {
@@ -82,10 +90,7 @@ namespace Yna.Engine
             set { Game.IsMouseVisible = value; }
         }
 
-        /// <summary>
-        /// Gets or Set the Touch states
-        /// </summary>
-        public static YnTouch Touch { get; set; }
+        
 
         #endregion
 
@@ -175,21 +180,10 @@ namespace Yna.Engine
 
         #region StateManager
 
-        /// <summary>
-        /// Switch to a new state, just pass a new instance of a state and 
-        /// the StateManager will clear all other state and use your new state
-        /// </summary>
-        /// <param name="state">New state</param>
-        public static void SwitchState(YnState state)
-        {
-            if (StateManager != null)
-                StateManager.SwitchState(state);
-        }
-
         public static void SetStateActive(string name, bool desactiveOtherStates)
         {
             if (StateManager != null)
-                StateManager.SetStateActive(name, desactiveOtherStates);
+                StateManager.SetActive(name, desactiveOtherStates);
         }
 
         #endregion

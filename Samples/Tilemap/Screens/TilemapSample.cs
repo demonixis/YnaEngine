@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Yna.Engine;
 using Yna.Engine.Graphics;
+using Yna.Engine.Graphics.TileMap;
 using Yna.Engine.Graphics.TileMap.Basic;
-using Yna.Engine.Helpers;
 using Yna.Samples.Data;
 
 namespace Yna.Samples.Screens
@@ -75,7 +75,7 @@ namespace Yna.Samples.Screens
                 camera.Y -= delta;
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetStateActive("menu", true);
+                YnG.StateManager.SetActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

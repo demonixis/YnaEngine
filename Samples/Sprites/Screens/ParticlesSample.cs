@@ -28,8 +28,10 @@ namespace Yna.Samples.Screens
             demoText.Scale = new Vector2(0.9f);
         }
 
-        public override void Initialize()
+        public override void LoadContent()
         {
+            base.LoadContent();
+
             // Load content a initialization
             emitter.LoadContent();
             emitter.Initialize(YnG.Content.Load<Texture2D>("Sprites/sphere_red"));
@@ -58,7 +60,7 @@ namespace Yna.Samples.Screens
         public override void Update(GameTime gameTime)
         {
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetStateActive("menu", true);
+                YnG.StateManager.SetActive("menu", true);
 
             emitter.Update(gameTime);
             emitter2.Update(gameTime);

@@ -82,9 +82,9 @@ namespace Yna.Samples.Screens
             spriteToCollide.Add(houseObject);
         }
 
-        public override void Initialize()
+        public override void LoadContent()
         {
-            base.Initialize();
+            base.LoadContent();
 
             // The background size is the window size
             background.Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
@@ -153,7 +153,7 @@ namespace Yna.Samples.Screens
 
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape) || virtualPadController.Pressed(PadButtons.Pause))
-                YnG.StateManager.SetStateActive("menu", true);
+                YnG.StateManager.SetActive("menu", true);
         }
 
         private void CreateSpriteAnimations(YnSprite sprite)

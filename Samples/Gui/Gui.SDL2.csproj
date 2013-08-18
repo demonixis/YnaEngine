@@ -71,6 +71,10 @@
   </Target>
   -->
   <ItemGroup>
+    <ProjectReference Include="..\..\Engine\Graphics\GUI\Yna.Graphics.GUI.SDL2.csproj">
+      <Project>{f17ad2e9-7d54-48a4-8d56-dac5846b9bfb}</Project>
+      <Name>Yna.Graphics.GUI.SDL2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Yna.SDL2.csproj">
       <Project>{BF58CAF2-143A-420C-8C0E-11D438522C35}</Project>
       <Name>Yna.SDL2</Name>

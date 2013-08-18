@@ -12,27 +12,21 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Yna Engine for Linux")]
 #elif MACOSX
 [assembly: AssemblyProduct("Yna Engine for Mac OSX")]
-#elif MONOGAME && WINDOWS && OPENGL
-[assembly: AssemblyProduct("Yna Engine for Windows (OpenGL)")]
 #elif MONOGAME && WINDOWS && DIRECTX
 [assembly: AssemblyProduct("Yna Engine for Windows (DirectX)")]
 #elif SDL2
 [assembly: AssemblyProduct("Yna Engine for SDL2 targets (Linux, Windows and Mac)")]
 #elif WINDOWS_PHONE_7
-[assembly: AssemblyProduct("Yna Engine for Windows Phone 7")]
-#elif WINDOWS_PHONE_8
-[assembly: AssemblyProduct("Yna Engine for Windows Phone 8")]
+[assembly: AssemblyProduct("Yna Engine for Windows Phone")]
 #elif WINDOWS_STOREAPP
 [assembly: AssemblyProduct("Yna Engine for Windows 8 & Windows RT")]
-#elif XNA
-[assembly: AssemblyProduct("Yna Engine for PC/XNA")]
 #else
 [assembly: AssemblyProduct("Yna Engine")]
 #endif
 [assembly: AssemblyDescription("Yna Engine")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Yna Engine")]
 [assembly: AssemblyCopyright("Copyright ©  2012-2013")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Yna Engine")]
 [assembly: AssemblyCulture("")]
 
 // Si vous définissez ComVisible sur False, les types de cet assembly ne sont plus visibles 

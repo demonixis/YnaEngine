@@ -16,11 +16,12 @@ namespace Yna.Samples.Screens
             groupCube = new YnGroup3D(null);
             Add(groupCube);
 
+#if !DIRECTX
             var normalMaterial = new NormalMapMaterial("Textures/cage1_diff", "Textures/cage1_norm");
             var cubeNormal = new YnMeshGeometry(new CubeGeometry(2), normalMaterial);
             cubeNormal.Position = new Vector3(15, 2, 50);
             groupCube.Add(cubeNormal);
-
+#endif
             var lavaMaterial = new EnvironmentMapMaterial("Textures/pattern02_diffuse", "Textures/lava2_diff");
             var cubeLava = new YnMeshGeometry(new CubeGeometry(2), lavaMaterial);
             cubeLava.Position = new Vector3(25, 2, 50);
@@ -30,12 +31,12 @@ namespace Yna.Samples.Screens
             var cubeWater = new YnMeshGeometry(new CubeGeometry(2), waterMaterial);
             cubeWater.Position = new Vector3(35, 2, 50);
             groupCube.Add(cubeWater);
-
+#if !DIRECTX
             var dualMaterial = new DualTextureMaterial("Textures/metal", "Textures/pyramid");
             var cubeDual = new YnMeshGeometry(new CubeGeometry(2), dualMaterial);
             cubeDual.Position = new Vector3(45, 2, 50);
             groupCube.Add(cubeDual);
-
+#endif
             var basicMaterial = new BasicMaterial("Textures/metal");
             var cubeBasic = new YnMeshGeometry(new CubeGeometry(2), basicMaterial);
             cubeBasic.Position = new Vector3(55, 2, 50);

@@ -39,8 +39,8 @@ namespace Yna.Samples.Screens
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.05f;
             control.RotationSpeed = 0.45f;
-            control.MaxVelocityPosition = 0.95f;
-            control.MaxVelocityRotation = 0.96f;
+            control.PhysicsPosition.MaxVelocity = 0.96f;
+            control.PhysicsRotation.MaxVelocity = 0.96f;
 			control.EnableMouse = false;
 			control.EnableGamepad = false;
             Add(control);
@@ -100,7 +100,7 @@ namespace Yna.Samples.Screens
                 Camera.Y = 50;
 
             if (YnG.Keys.JustPressed(Keys.Escape))
-                YnG.StateManager.SetStateActive("menu", true);
+                YnG.StateManager.SetActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

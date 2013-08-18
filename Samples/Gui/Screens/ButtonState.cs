@@ -32,6 +32,7 @@ namespace Yna.Samples.Screens
 
         private void BuildGUI()
         {
+            /*
             // Here is the simpliest creation of a text button. This button will be placed
             // at [0,0] as no position is set. The default button size is also used.
             YnTextButton basicButton = new YnTextButton("Simple button");
@@ -108,7 +109,7 @@ namespace Yna.Samples.Screens
             armageddonButton.SkinName = "armageddon";
             armageddonButton.HasBorders = true;
             Gui.Add(armageddonButton);
-
+            */
         }
 
         public override void Update(GameTime gameTime)

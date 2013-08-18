@@ -39,8 +39,8 @@ namespace Yna.Samples.Screens
             control.RotationSpeed = 0.45f;
             control.MoveSpeed = 0.15f;
             control.StrafeSpeed = 0.45f;
-            control.MaxVelocityPosition = 0.96f;
-            control.MaxVelocityRotation = 0.96f;
+            control.PhysicsPosition.MaxVelocity = 0.96f;
+            control.PhysicsRotation.MaxVelocity = 0.96f;
             Add(control);
 
             // 3 - The virtual pad
@@ -110,13 +110,13 @@ namespace Yna.Samples.Screens
             else if (virtualPad.Pressed(PadButtons.ButtonB))
                 virtalPadMovement.Y = -control.MoveSpeed * gameTime.ElapsedGameTime.Milliseconds * 0.005f;
 
-            control.VelocityPosition += virtalPadMovement;
-            control.VelocityRotation += virtualPadRotation;
+            control.PhysicsPosition.Velocity += virtalPadMovement;
+            control.PhysicsRotation.Velocity += virtualPadRotation;
             control.UpdatePhysics(gameTime);
             
             // Back to the menu
             if (YnG.Keys.JustPressed(Keys.Escape) || virtualPad.Pressed(PadButtons.Pause))
-                YnG.StateManager.SetStateActive("menu", true);
+                YnG.StateManager.SetActive("menu", true);
         }
 
         public override void Draw(GameTime gameTime)

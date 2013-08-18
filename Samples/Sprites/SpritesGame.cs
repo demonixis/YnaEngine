@@ -19,6 +19,9 @@ namespace Yna.Samples
                 new MenuEntry("particleSample", "Particle system", "Show you how to use the particle system"),
                 new MenuEntry("spritesheetSample", "Animated sprites", "In this sample we create animated sprites with spritesheets"),
                 new MenuEntry("virtualPadSample", "Virtual Pad", "This is the same sample as \"Animated Sprites\" but \nwe use a virtual pad for moving the player"),
+#if WIIMOTE
+                new MenuEntry("wiimoteSample", "Using Wiimote", "Do you want to use a wiimote and a nunchuck ?"),
+#endif
             };
         }
 
@@ -32,6 +35,9 @@ namespace Yna.Samples
             stateManager.Add(new ParticlesSample("particleSample"), false);
             stateManager.Add(new AnimatedSprites("spritesheetSample"), false);
             stateManager.Add(new AnimatedSpriteVirtualPad("virtualPadSample"), false);
+#if WIIMOTE
+            stateManager.Add(new AnimatedSpriteWiimote("wiimoteSample"), false);
+#endif
         }
 
 #if !WINDOWS_PHONE

@@ -1,38 +1,48 @@
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Engine.Input.Service;
 
 namespace Yna.Engine.Input
 {
-    /// <summary>
-    /// The keyboard manager
-    /// </summary>
-    public class YnKeyboard
+    public class YnKeyboard : GameComponent
     {
-        private KeyboardComponent _keyboardComponent;
+        KeyboardState kbState;
+        KeyboardState lastKbState;
 
-        public YnKeyboard(KeyboardComponent keyboardComponent)
+        public YnKeyboard(Game game)
+            : base(game)
         {
-            _keyboardComponent = keyboardComponent;
+            kbState = Keyboard.GetState();
+            lastKbState = kbState;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            lastKbState = kbState;
+            kbState = Keyboard.GetState();
+            base.Update(gameTime);
         }
 
         public bool Pressed(Keys key)
         {
-            return _keyboardComponent.Pressed(key);
+            return kbState.IsKeyDown(key);
         }
 
         public bool Released(Keys key)
         {
-            return _keyboardComponent.Released(key);
+            return kbState.IsKeyUp(key);
         }
 
         public bool JustPressed(Keys key)
         {
-            return _keyboardComponent.JustPressed(key);
+            return kbState.IsKeyUp(key) && lastKbState.IsKeyDown(key);
         }
 
         public bool JustReleased(Keys key)
         {
-            return _keyboardComponent.JustReleased(key);
+            return kbState.IsKeyDown(key) && lastKbState.IsKeyUp(key);
         }
 
         public bool Up
@@ -86,4 +96,3 @@ namespace Yna.Engine.Input
         }
     }
 }
-

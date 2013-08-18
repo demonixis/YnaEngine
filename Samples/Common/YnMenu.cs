@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Engine;
 using Yna.Engine.Graphics;
-using Yna.Engine.Graphics.Gui;
-using Yna.Engine.Graphics.Gui.Widgets;
 
 namespace Yna.Engine.Graphics.Component
 {
@@ -25,54 +23,77 @@ namespace Yna.Engine.Graphics.Component
         }
     }
 
+    public class MenuButton : YnGroup
+    {
+        public const int ButtonWidth = 160;
+        public const int ButtonHeight = 35;
+        private const string FontName = "Fonts/DefaultFont";
+        private YnEntity _background;
+        private YnText _text;
+
+        public MenuButton(string text)
+        {
+            _background = new YnEntity(new Rectangle(0, 0, ButtonWidth, ButtonHeight), Color.DarkGreen);
+            Add(_background);
+
+            _text = new YnText(FontName, text);
+            Add(_text);
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+            _text.Position = new Vector2(
+                _background.X + (_background.Width / 2) - (_text.ScaledWidth / 2),
+                _background.Y + (_background.Height / 2) - (_text.ScaledHeight / 2));
+        }
+    }
+
     /// <summary>
     /// A basic menu state ready to use
     /// </summary>
     public class YnMenu : YnState2D
     {
-        protected YnLabel _tooltip;
-        protected YnEntity _background;
-        protected string _menuTitle;
-        protected MenuEntry[] _menuItems;
-        protected int _buttonWidth;
-        protected int _buttonHeight;
-        protected YnWidgetProperties _buttonProps;
+        private MenuEntry[] _menuItems;
+        private YnEntity _background;
+        private YnText _title;
+        private MenuButton[] _clickableItems;
+      
 
         public YnMenu(string name, string title, MenuEntry[] items)
             : base(name, false, true)
         {
-            // Show the mouse on the menu
+            _menuItems = items;
+
             YnG.ShowMouse = true;
+            YnText.DefaultColor = Color.White;
 
             _background = new YnEntity(new Rectangle(0, 0, YnG.Width, YnG.Height), new Color(13, 34, 56));
             Add(_background);
 
-            _menuItems = items;
+            _clickableItems = new MenuButton[_menuItems.Length];
+            for (int i = 0, l = _clickableItems.Length; i < l; i++)
+            {
+                _clickableItems[i] = new MenuButton(_menuItems[i].TitleName);
+                _clickableItems[i].MouseClicked += YnMenu_MouseClicked;
+                _clickableItems[i].Name = "item_" + i;
+                Add(_clickableItems[i]);
+            }
 
-            _menuTitle = title;
-
-            // Register the menu skin
-            YnGui.RegisterSkin("menuSkin", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/MenuFont"));
-            
-            // Register the title skin
-            YnGui.RegisterSkin("titleSkin", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/TitleFont"));
-            
-            // Initialize the button properties
-            _buttonProps = new YnWidgetProperties();
-            _buttonProps.Width = 250;
-            _buttonProps.Height = 50;
+            _title = new YnText("Fonts/DefaultFont", title);
+            _title.Scale = new Vector2(2.5f);
+            Add(_title);
         }
 
-        /// <summary>
-        /// Shows the tooltip.
-        /// </summary>
-        /// <param name='tooltip'>Text to show</param>
-        protected void ShowTooltip(string tooltip)
+        void YnMenu_MouseClicked(object sender, Event.MouseClickEntityEventArgs e)
         {
-        	YnSkin tooltipSkin = YnGui.GetSkin(_tooltip.SkinName);
-            _tooltip.Text = tooltip;
-            Vector2 size = tooltipSkin.FontDefault.MeasureString(tooltip);
-            _tooltip.X = (int)YnG.Width / 2 - (int)size.X / 2;
+            MenuButton item = sender as MenuButton;
+
+            if (item != null)
+            {
+                int id = int.Parse(item.Name.Split(new char[] { '_' })[1].ToString());
+                YnG.StateManager.SetActive(_menuItems[id].StateName, true);
+            }
         }
 
         /// <summary>
@@ -80,66 +101,28 @@ namespace Yna.Engine.Graphics.Component
         /// </summary>
         public override void Initialize()
         {
-            Gui.Clear();
+            int startPx = 65;
+            int startPy = 95;
+            int px = startPx;
+            int py = startPy;
+            int counter = 0;
+            int itemCount = _clickableItems.Length;
+            int nbMaxPerRow = YnG.Height / (MenuButton.ButtonHeight * 2);
 
-            YnLabel titleLabel = new YnLabel();
-            titleLabel.Text = _menuTitle;
-            titleLabel.SkinName = "titleSkin";
-            titleLabel.Scale = new Vector2(3.0f);
-            titleLabel.TextColor = Color.DodgerBlue;
-            Gui.Add(titleLabel);
+            for (int i = 0; i < itemCount; i++)
+            {
+                if (counter > nbMaxPerRow)
+                {
+                    px += MenuButton.ButtonWidth + 35;
+                    py = startPy;
+                    counter = 0;
+                }
+                _clickableItems[i].Position = new Vector2(px, py);
+                py += MenuButton.ButtonHeight + 15;
+                counter++;
+            }
 
-            YnLabel toggleLabel = new YnLabel();
-            toggleLabel.Text = "F5 for fullscreen";
-            toggleLabel.SkinName = "menuSkin";
-            toggleLabel.TextColor = Color.DeepSkyBlue;
-            toggleLabel.Scale = new Vector2(0.9f);
-            Gui.Add(toggleLabel);
-
-            YnPanel menu = new YnPanel(YnOrientation.Vertical);
-            menu.Padding = 10;
-            menu.HasBackground = false;
-            menu.X = YnG.Width/2 - ((int)_buttonProps.Width)/2;
-            menu.Y = 230;
-            menu.SkinName = "menuSkin";
-            Gui.Add(menu);
-
-            for (int i = 0, l = _menuItems.Length; i < l; i++)
-                menu.Add(CreateButton(_menuItems[i].StateName, _menuItems[i].TitleName, _menuItems[i].Description));
-
-            YnTextButton exitButton = new YnTextButton(_buttonProps);
-            exitButton.Text = "Exit";
-            exitButton.SkinName = "menuSkin";
-            exitButton.MouseClicked += (o, e) => YnG.Exit();
-            exitButton.MouseOver += (o, e) => ShowTooltip("Wanna leave? :(");
-            menu.Add(exitButton);
-
-            menu.Layout();
-
-            _tooltip = new YnLabel();
-            _tooltip.SkinName = "menuSkin";
-            _tooltip.Position = new Vector2(270, 150);
-            Gui.Add(_tooltip);
-
-            titleLabel.Position = new Vector2(YnG.Width / 2 - titleLabel.Width / 2, 50);
-            toggleLabel.Position = new Vector2(YnG.Width - toggleLabel.Width - 15, 15);
-        }
-
-        /// <summary>
-        /// Creates a new button
-        /// </summary>
-        /// <returns>A button.</returns>
-        /// <param name='stateName'>The state's name to launch when you click on this button</param>
-        /// <param name='label'>Label content</param>
-        /// <param name='tooltip'>Tooltip content</param>
-        protected YnButton CreateButton(string stateName, string label, string tooltip)
-        {
-            YnTextButton button = new YnTextButton(_buttonProps);
-            button.Text = label;
-            button.SkinName = "menuSkin";
-            button.MouseClicked += (s, e) => YnG.StateManager.SetStateActive(stateName, true);
-            button.MouseOver += (s, e) => ShowTooltip(tooltip);
-            return button;
+            _title.Position = new Vector2(YnG.Width / 2 - _title.ScaledWidth / 2, 15);
         }
 
         public override void Update(GameTime gameTime)

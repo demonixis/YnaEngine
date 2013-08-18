@@ -64,10 +64,6 @@
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\Graphics3D\Yna.Graphics3D.Windows.csproj">
-      <Project>{096a90da-61a1-4917-bb8c-785335a4c102}</Project>
-      <Name>Yna.Graphics3D.Windows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Yna.Windows.csproj">
       <Project>{bf58caf2-143a-420c-8c0e-11d438522c35}</Project>
       <Name>Yna.Windows</Name>

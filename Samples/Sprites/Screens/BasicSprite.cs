@@ -52,7 +52,7 @@ namespace Yna.Samples.Screens
 
                 YnSprite sprite = new YnSprite(new Rectangle(0, 0, spriteWidth, spriteHeight), colors[i]);
                 sprite.Position = new Vector2(x, y);
-                sprite.SetOriginTo(ObjectOrigin.Center);
+                sprite.SetOrigin(ObjectOrigin.Center);
                 sprite.AllowAcrossScreen = true;
                 sprites.Add(sprite);
             }
@@ -71,7 +71,7 @@ namespace Yna.Samples.Screens
 
             if (YnG.Keys.JustPressed(Keys.Escape))
             {
-                YnG.StateManager.SetStateActive("menu", true);
+                YnG.StateManager.SetActive("menu", true);
             }
         }
     }

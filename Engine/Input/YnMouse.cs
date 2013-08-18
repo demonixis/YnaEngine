@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Engine.Input.Service;
 
 namespace Yna.Engine.Input
 {
@@ -9,60 +11,37 @@ namespace Yna.Engine.Input
         Left, Middle, Right
     }
 
-    /// <summary>
-    /// The mouse manager
-    /// </summary>
-    public class YnMouse
+    public class YnMouse : GameComponent
     {
-        private MouseComponent _mouseComponent;
+        private MouseState _mouseState;
+        private MouseState _lastMouseState;
+        private Vector2 _delta;
 
-        public YnMouse(MouseComponent component) 
-        {
-            _mouseComponent = component;
-        }
+        #region Fields
 
-        public int X
+        public int X 
         {
-            get { return _mouseComponent.X; }
+            get { return _mouseState.X; }
         }
 
         public int Y
         {
-            get { return _mouseComponent.Y; }
+            get { return _mouseState.Y; }
         }
 
-        /// <summary>
-        /// Get the mouse position on screen
-        /// </summary>
-        public Vector2 Position
+        public int Wheel
         {
-            get { return new Vector2(_mouseComponent.X, _mouseComponent.Y); }
+            get { return _mouseState.ScrollWheelValue; }
         }
 
-        public Vector2 LastPosition
+        public bool Moving
         {
-            get { return new Vector2(LastMouseState.X, LastMouseState.Y); }
+            get { return (_mouseState.X != _lastMouseState.X) || (_mouseState.Y != _lastMouseState.Y); }
         }
 
         public Vector2 Delta
         {
-            get { return _mouseComponent.Delta; }
-        }
-
-        /// <summary>
-        /// Get the wheel value
-        /// </summary>
-        public int Wheel
-        {
-            get { return _mouseComponent.Wheel; }
-        }
-
-        /// <summary>
-        /// Get the position state
-        /// </summary>
-        public bool Moving
-        {
-            get { return _mouseComponent.Moving; }
+            get { return _delta; }
         }
 
         /// <summary>
@@ -75,9 +54,112 @@ namespace Yna.Engine.Input
             return Click(button) && Moving;
         }
 
-        public bool Drop (MouseButton button)
+
+        /// <summary>
+        /// Gets the current mouse state
+        /// </summary>
+        public MouseState MouseState
         {
-            return Released(button) && !Moving;
+            get { return _mouseState; }
+        }
+
+        /// <summary>
+        /// Get the last mouse state
+        /// </summary>
+        public MouseState LastMouseState
+        {
+            get { return _lastMouseState; }
+        }
+
+        /// <summary>
+        /// Get the mouse position on screen
+        /// </summary>
+        public Vector2 Position
+        {
+            get { return new Vector2(_mouseState.X, _mouseState.Y); }
+        }
+
+        public Vector2 LastPosition
+        {
+            get { return new Vector2(_lastMouseState.X, _lastMouseState.Y); }
+        }
+
+        #endregion
+
+        public YnMouse(Game game)
+            : base(game)
+        {
+            _mouseState = Mouse.GetState();
+            _lastMouseState = _mouseState;
+            _delta = new Vector2();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            // Update states
+            _lastMouseState = _mouseState;
+            _mouseState = Mouse.GetState();
+
+            // Calculate the delta
+            _delta.X = _mouseState.X - _lastMouseState.X;
+            _delta.Y = _mouseState.Y - _lastMouseState.Y;
+
+            base.Update(gameTime);
+        }
+
+        public bool Released(MouseButton button)
+        {
+            return ClickOn(button, ButtonState.Released);
+        }
+
+        public void SetPosition(int x, int y)
+        {
+            Mouse.SetPosition(x, y);
+        }
+
+        #region Mouse click
+
+        public bool ClickLeft(ButtonState state)
+        {
+            return _mouseState.LeftButton == state;
+        }
+
+        public bool ClickRight(ButtonState state)
+        {
+            return _mouseState.RightButton == state;
+        }
+
+        public bool ClickMiddle(ButtonState state)
+        {
+            return _mouseState.MiddleButton == state;
+        }
+
+        public bool JustClicked(MouseButton button)
+        {
+            bool justClicked = false;
+
+            if (button == MouseButton.Left)
+                justClicked = _mouseState.LeftButton == ButtonState.Pressed && _lastMouseState.LeftButton == ButtonState.Released;
+            else if (button == MouseButton.Middle)
+                justClicked = _mouseState.MiddleButton == ButtonState.Pressed && _lastMouseState.MiddleButton == ButtonState.Released;
+            else if (button == MouseButton.Right)
+                justClicked = _mouseState.RightButton == ButtonState.Pressed && _lastMouseState.RightButton == ButtonState.Released;
+
+            return justClicked;
+        }
+
+        public bool JustReleased(MouseButton button)
+        {
+            bool justReleased = false;
+
+            if (button == MouseButton.Left)
+                justReleased = _mouseState.LeftButton == ButtonState.Released && _lastMouseState.LeftButton == ButtonState.Pressed;
+            else if (button == MouseButton.Middle)
+                justReleased = _mouseState.MiddleButton == ButtonState.Released && _lastMouseState.MiddleButton == ButtonState.Pressed;
+            else if (button == MouseButton.Right)
+                justReleased = _mouseState.RightButton == ButtonState.Released && _lastMouseState.RightButton == ButtonState.Pressed;
+
+            return justReleased;
         }
 
         public bool ClickOn(MouseButton button, ButtonState state)
@@ -86,12 +168,12 @@ namespace Yna.Engine.Input
 
             switch (button)
             {
-                case MouseButton.Left: result = _mouseComponent.ClickLeft(state); break;
-                case MouseButton.Middle: result = _mouseComponent.ClickMiddle(state); break;
-                case MouseButton.Right: result = _mouseComponent.ClickRight(state); break;
+                case MouseButton.Left: result = ClickLeft(state); break;
+                case MouseButton.Middle: result = ClickMiddle(state); break;
+                case MouseButton.Right: result = ClickRight(state); break;
             }
 
-            return result; 
+            return result;
         }
 
         public bool Click(MouseButton button)
@@ -99,45 +181,6 @@ namespace Yna.Engine.Input
             return ClickOn(button, ButtonState.Pressed);
         }
 
-        public bool Released(MouseButton button)
-        {
-            return ClickOn(button, ButtonState.Released);
-        }
-
-        public bool JustClicked(MouseButton button)
-        {
-            return _mouseComponent.JustClicked(button);
-        }
-
-        public bool JustReleased(MouseButton button)
-        {
-            return _mouseComponent.JustReleased(button);
-        }
-
-        /// <summary>
-        /// Get the currrent mouse state
-        /// </summary>
-        public MouseState MouseState
-        {
-            get { return _mouseComponent.MouseState; }
-        }
-
-        /// <summary>
-        /// Get the last mouse state
-        /// </summary>
-        public MouseState LastMouseState
-        {
-            get { return _mouseComponent.LastMouseState; }
-        }
-
-        public void SetPosition(int x, int y)
-        {
-            Mouse.SetPosition(x, y);
-        }
-
-        public void ResetDelta()
-        {
-            
-        }
+        #endregion
     }
 }

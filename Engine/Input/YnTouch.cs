@@ -1,114 +1,269 @@
-﻿using Microsoft.Xna.Framework;
-using Yna.Engine.Input.Service;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Yna.Engine.Input
 {
-    /// <summary>
-    /// The touch manager
-    /// </summary>
-    public class YnTouch
+    public class YnTouch : GameComponent
     {
-        private TouchComponent _touchComponent;
+        private TouchCollection touchCollection;
+        private TouchCollection lastTouchCollection;
+        private Vector2[] _position;
+        private Vector2[] _lastPosition;
+        private Vector2[] _direction;
+        private Vector2[] _lastDirection;
+        private bool[] _pressed;
+        private bool[] _moved;
+        private bool[] _released;
+        private float[] _pressure;
+        private int _maxFingerPoints;
+        private bool _needUpdate;
 
-        /// <summary>
-        /// Check if the first finger id has moved
-        /// </summary>
-        public bool Moved
+
+        public int MaxFingerPoints
         {
-            get { return _touchComponent.Moved(0); }
+            get { return _maxFingerPoints; }
         }
 
-        /// <summary>
-        /// Check if the first finger id has tapped
-        /// </summary>
-        public bool Tapped
+        public bool Available
         {
-            get { return _touchComponent.Pressed(0); }
+            get { return TouchPanel.IsGestureAvailable; }
         }
 
-        /// <summary>
-        /// Check if the first finger id has released
-        /// </summary>
-        public bool Released
+        public YnTouch(Game game)
+            : base(game)
         {
-            get { return _touchComponent.Released(0); }
+            touchCollection = TouchPanel.GetState();
+            lastTouchCollection = touchCollection;
+#if MONOGAME && (WINDOWS || LINUX)
+            _maxFingerPoints = 0;
+#else
+            if (TouchPanel.GetCapabilities().IsConnected)
+                _maxFingerPoints = TouchPanel.GetCapabilities().MaximumTouchCount;
+            else
+                _maxFingerPoints = 0;
+#endif
+            _needUpdate = true;
         }
 
-        /// <summary>
-        /// Gets the position of the first finger 
-        /// </summary>
-        public Vector2 Position
+        public void SetMaxFingerPoints(int fingerCount)
         {
-            get { return _touchComponent.GetPosition(0); }
+            if (fingerCount < 0)
+                _maxFingerPoints = 0;
+            else
+            {
+                if (fingerCount > TouchPanel.GetCapabilities().MaximumTouchCount)
+                    _maxFingerPoints = TouchPanel.GetCapabilities().MaximumTouchCount;
+                else
+                    _maxFingerPoints = fingerCount;
+            }
+
+            _needUpdate = true;
         }
 
-        /// <summary>
-        /// Gets the last position of the first finger 
-        /// </summary>
-        public Vector2 LastPosition
+        public override void Initialize()
         {
-            get { return _touchComponent.GetLastPosition(0); }
-        }
+            base.Initialize();
 
-        /// <summary>
-        /// Gets the delta of the first finger 
-        /// </summary>
-        public Vector2 Delta
-        {
-            get 
-            { 
-                Vector2 delta = _touchComponent.GetPosition(0) - _touchComponent.GetLastPosition(0);
-                return delta;
+            _position = new Vector2[MaxFingerPoints];
+            _lastPosition = new Vector2[MaxFingerPoints];
+            _direction = new Vector2[MaxFingerPoints];
+            _lastDirection = new Vector2[MaxFingerPoints];
+
+            _pressed = new bool[MaxFingerPoints];
+            _moved = new bool[MaxFingerPoints];
+            _released = new bool[MaxFingerPoints];
+            _pressure = new float[MaxFingerPoints];
+
+            for (int i = 0; i < MaxFingerPoints; i++)
+            {
+                _position[i] = Vector2.Zero;
+                _lastPosition[i] = Vector2.Zero;
+                _direction[i] = Vector2.Zero;
+                _lastDirection[i] = Vector2.Zero;
+                _pressed[i] = false;
+                _moved[i] = false;
+                _released[i] = false;
+                _pressure[i] = 0.0f;
             }
         }
 
-        /// <summary>
-        /// Create a new helper for touch input
-        /// </summary>
-        /// <param name="component">An instance of TouchComponent</param>
-        public YnTouch(TouchComponent component)
+        public override void Update(GameTime gameTime)
         {
-            _touchComponent = component;
+            base.Update(gameTime);
+
+            if (_needUpdate)
+            {
+                Initialize();
+                _needUpdate = false;
+            }
+
+            lastTouchCollection = touchCollection;
+            touchCollection = TouchPanel.GetState();
+            
+            if (MaxFingerPoints > 0)
+            {
+                if (touchCollection.Count > 0)
+                {
+                    int touchCount = touchCollection.Count;
+
+                    for (int i = 0; i < MaxFingerPoints; i++)
+                    {
+                        if (i < touchCount)
+                        {
+                            UpdateTouchState(i);
+                        }
+                        else
+                        {
+                            RestoreTouchState(i);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateTouchState(int index)
+        {
+            _lastPosition[index].X = _position[index].X;
+            _lastPosition[index].Y = _position[index].Y;
+
+            _lastDirection[index].X = _direction[index].X;
+            _lastDirection[index].Y = _direction[index].Y;
+
+            _position[index].X = touchCollection[index].Position.X;
+            _position[index].Y = touchCollection[index].Position.Y;
+
+            _direction[index].X = _position[index].X - _lastPosition[index].X;
+            _direction[index].Y = _position[index].X - _lastPosition[index].Y;
+
+            _pressed[index] = touchCollection[index].State == TouchLocationState.Pressed;
+            _moved[index] = touchCollection[index].State == TouchLocationState.Moved;
+            _released[index] = touchCollection[index].State == TouchLocationState.Released;
+
+#if !WINDOWS_PHONE_7 && !XNA
+            _pressure[index] = touchCollection[index].Pressure;
+#else
+            _pressure[index] = 1.0f;
+#endif
+        }
+
+        private void RestoreTouchState(int index)
+        {
+            _lastPosition[index].X = _position[index].X;
+            _lastPosition[index].Y = _position[index].Y;
+
+            _lastDirection[index].X = _direction[index].X;
+            _lastDirection[index].Y = _direction[index].Y;
+
+            _position[index].X = 0;
+            _position[index].Y = 0;
+
+            _direction[index].X = _position[index].X - _lastPosition[index].X;
+            _direction[index].Y = _position[index].X - _lastPosition[index].Y;
+
+            _pressed[index] = false;
+            _moved[index] = false;
+            _released[index] = false;
+
+            _pressure[index] = 0.0f;
+        }
+
+        public bool Pressed(int id)
+        {
+            if (id >= MaxFingerPoints)
+                return false;
+
+            return _pressed[id];
+        }
+
+        public bool Released(int id)
+        {
+            if (id >= MaxFingerPoints)
+                return false;
+
+            return _released[id];
+        }
+
+        public bool Moved(int id)
+        {
+            if (id >= MaxFingerPoints)
+                return false;
+
+            return _moved[id];
+        }
+
+        public Vector2 GetDelta(int id)
+        {
+            if (id >= MaxFingerPoints)
+                return Vector2.Zero;
+
+            return _position[id] - _lastPosition[id];
         }
 
         public Vector2 GetPosition(int id)
         {
-            return _touchComponent.GetPosition(id);
+            if (id >= MaxFingerPoints)
+                return Vector2.Zero;
+
+            return _position[id];
         }
 
         public Vector2 GetLastPosition(int id)
         {
-            return _touchComponent.GetLastPosition(id);
+            if (id >= MaxFingerPoints)
+                return Vector2.Zero;
+
+            return _lastPosition[id];
         }
 
         public Vector2 GetDirection(int id)
         {
-            return _touchComponent.GetDirection(id);
+            if (id >= MaxFingerPoints)
+                return Vector2.Zero;
+
+            return _direction[id];
         }
 
         public Vector2 GetLastDirection(int id)
         {
-            return _touchComponent.GetLastDirection(id);
+            if (id >= MaxFingerPoints)
+                return Vector2.Zero;
+
+            return _lastDirection[id];
         }
 
         public bool JustPressed(int id)
         {
-            return _touchComponent.JustPressed(id);
+            if (id >= MaxFingerPoints)
+                return false;
+
+            return (lastTouchCollection[id].State == TouchLocationState.Pressed || lastTouchCollection[id].State == TouchLocationState.Moved) && touchCollection[id].State == TouchLocationState.Released;
         }
 
         public bool JustReleased(int id)
         {
-            return _touchComponent.JustReleased(id);
+            if (id >= MaxFingerPoints)
+                return false;
+
+            return touchCollection[id].State == TouchLocationState.Released && (lastTouchCollection[id].State == TouchLocationState.Pressed || lastTouchCollection[id].State == TouchLocationState.Moved);
         }
 
         public bool Moving(int id)
         {
-            return _touchComponent.Moving(id);
+            if (id >= MaxFingerPoints)
+                return false;
+
+            return _position[id] != _lastPosition[id];
         }
 
         public float GetPressureLevel(int id)
         {
-            return _touchComponent.GetPressureLevel(id);
+            if (id >= MaxFingerPoints)
+                return 0.0f;
+
+            return _pressure[id];
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// YnaEngine - Copyright (C) YnaEngine team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics.Animation;
@@ -20,8 +23,6 @@ namespace Yna.Engine.Graphics
         protected Vector2 _direction;
         protected Vector2 _previousPosition;
         protected Vector2 _previousDistance;
-        protected Vector2 _previousScale;
-        protected float _previousRotation;
         
         // Collide with screen
         protected bool _forceInsideScreen;
@@ -34,11 +35,6 @@ namespace Yna.Engine.Graphics
         // Animations
         protected bool _hasAnimation;
         protected SpriteAnimator _animator;
-
-        // Sprite to follow
-        protected YnSprite _followedSprite;
-        protected int _followOffset;
-        protected bool _followingSprite;
 
         #endregion
 
@@ -171,53 +167,6 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets the previous scale.
-        /// </summary>
-        public Vector2 PreviousScale
-        {
-            get { return _previousScale; }
-        }
-
-        /// <summary>
-        /// Gets the previous rotation.
-        /// </summary>
-        public float PreviousRotation
-        {
-            get { return _previousRotation; }
-        }
-
-        /// <summary>
-        /// Gets or sets the followed sprite.
-        /// </summary>
-        public YnSprite Follow
-        {
-            get { return _followedSprite; }
-            set
-            {
-                _followingSprite = (value != null) ? true : false;
-                _followedSprite = value;
-            }
-        }
-
-        /// <summary>
-        /// Enable or disable following if a sprite is already attached to this sprite.
-        /// </summary>
-        public bool FollowSprite
-        {
-            get { return _followingSprite; }
-            set { _followingSprite = value; }
-        }
-
-        /// <summary>
-        /// Distance between this sprite and the followed sprite.
-        /// </summary>
-        public int FollowOffset
-        {
-            get { return _followOffset; }
-            set { _followOffset = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the Source rectangle
         /// </summary>
         public Rectangle? SourceRectangle
@@ -260,12 +209,6 @@ namespace Yna.Engine.Graphics
             _direction = Vector2.Zero;
             _previousPosition = Vector2.Zero;
             _previousDistance = Vector2.Zero;
-            _previousScale = Vector2.Zero;
-            _previousRotation = 0.0f;
-
-            _followedSprite = null;
-            _followingSprite = false;
-            _followOffset = 0;
         }
 
         private YnSprite(Vector2 position)
@@ -487,9 +430,6 @@ namespace Yna.Engine.Graphics
                 _previousPosition.Y = _position.Y;
                 _previousDistance.X = _distance.X;
                 _previousDistance.Y = _distance.Y;
-                _previousScale.X = _scale.X;
-                _previousScale.Y = _scale.Y;
-                _previousRotation = _rotation;
                 
                 // Physics
                 if (_enableDefaultPhysics)

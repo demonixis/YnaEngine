@@ -31,7 +31,7 @@ namespace Yna.Samples
         // Launch a demo
         public void RunState(string name)
         {
-            stateManager.SetStateActive(name, false);
+            stateManager.SetActive(name, false);
         }
     }
 }
