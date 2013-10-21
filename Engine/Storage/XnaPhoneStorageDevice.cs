@@ -24,7 +24,7 @@ namespace Yna.Engine.Storage
             return null;
         }
 
-        bool IStorageDevice.SaveDatas<T>(string containerName, string fileName, T objectToSave)
+        bool IStorageDevice.Save<T>(string containerName, string fileName, T objectToSave)
         {
             IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
 
@@ -46,7 +46,7 @@ namespace Yna.Engine.Storage
             return true;
         }
 
-        T IStorageDevice.LoadDatas<T>(string containerName, string fileName)
+        T IStorageDevice.Load<T>(string containerName, string fileName)
         {
             IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
 
@@ -67,6 +67,12 @@ namespace Yna.Engine.Storage
             }
 
             return default(T);
+        }
+
+        void IStorageDevice.Clear()
+        {
+            IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
+            storage.Remove();
         }
     }
 }

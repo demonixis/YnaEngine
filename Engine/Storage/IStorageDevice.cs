@@ -20,7 +20,7 @@ namespace Yna.Engine.Storage
         /// <param name="fileName"></param>
         /// <param name="objectToSave"></param>
         /// <returns></returns>
-        bool SaveDatas<T>(string containerName, string fileName, T objectToSave);
+        bool Save<T>(string containerName, string fileName, T objectToSave);
 
         /// <summary>
         /// Load an object from a serialized object stored in the local storage of the user
@@ -29,6 +29,8 @@ namespace Yna.Engine.Storage
         /// <param name="containerName"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        T LoadDatas<T>(string containerName, string fileName);
+        T Load<T>(string containerName, string fileName);
+
+        void Clear();
     }
 }

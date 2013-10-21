@@ -17,7 +17,6 @@ namespace Yna.Engine
         protected List<T> _members;
         protected List<T> _safeMembers;
         private bool _secureCyle;
-        private int _membersCount;
         private int _safeMembersCount;
 
         /// <summary>
@@ -45,22 +44,6 @@ namespace Yna.Engine
 
                 _members[index] = value;
             }
-        }
-
-        /// <summary>
-        /// Gets the size of the collection of safe members
-        /// </summary>
-        public int SafeMembersCount
-        {
-            get { return _safeMembersCount; }
-        }
-
-        /// <summary>
-        /// Gets the size of the collection of members.
-        /// </summary>
-        public int MembersCount
-        {
-            get { return _membersCount; }
         }
 
         /// <summary>
@@ -93,7 +76,7 @@ namespace Yna.Engine
         /// <param name="gameTime">GameTime object</param>
         public virtual void Update(GameTime gameTime)
         {
-            if (MembersCount > 0)
+            if (_members.Count > 0)
             {
                 if (_secureCyle)
                 {
@@ -124,7 +107,6 @@ namespace Yna.Engine
                 return false;
 
             _members.Add(item);
-            _membersCount++;
             return true;
         }
 
@@ -138,7 +120,6 @@ namespace Yna.Engine
                 return false;
 
             _members.Remove(item);
-            _membersCount--;
             return true;
         }
 
@@ -148,7 +129,6 @@ namespace Yna.Engine
         public virtual void Clear()
         {
             _members.Clear();
-            _membersCount = 0;
         }
 
         public virtual int IndexOf(T element)

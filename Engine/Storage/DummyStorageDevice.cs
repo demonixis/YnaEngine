@@ -29,5 +29,10 @@ namespace Yna.Engine.Storage
         {
             return default(T);
         }
+		
+		void IStorageDevice.Clear()
+        {
+
+        }
     }
 }
