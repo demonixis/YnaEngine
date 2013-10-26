@@ -50,7 +50,7 @@ namespace Yna.Engine.Graphics.Gui
 		protected override void DoUpdate(GameTime gameTime)
         {
 			_hovered = false;
-            for (int i = 0; i < SafeMembersCount; i++)
+            for (int i = 0, l = _safeMembers.Count; i < l; i++)
             {
                 if (_safeMembers[i].Enabled)
                 {
@@ -67,7 +67,7 @@ namespace Yna.Engine.Graphics.Gui
         /// <param name="spriteBatch">The sprite batch</param>
 		public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
 		{
-			for (int i = 0; i < SafeMembersCount; i++)
+            for (int i = 0, l = _safeMembers.Count; i < l; i++)
             {
                 if (_safeMembers[i].Enabled)
                 	_safeMembers[i].Draw(gameTime, spriteBatch);

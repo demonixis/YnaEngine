@@ -35,9 +35,9 @@ namespace Yna.Engine.Storage
         /// <param name="containerName">Folder in the user's storage. If the folder doesn't exist, it's created</param>
         /// <param name="fileName">The file's name</param>
         /// <param name="obj">Serializable object</param>
-        public virtual void SaveDatas<T>(string containerName, string fileName, T obj)
+        public virtual void Save<T>(string containerName, string fileName, T obj)
         {
-            _storageDevice.SaveDatas<T>(containerName, fileName, obj);
+            _storageDevice.Save<T>(containerName, fileName, obj);
         }
 
         /// <summary>
@@ -47,9 +47,14 @@ namespace Yna.Engine.Storage
         /// <param name="containerName">Folder in the user's storage.</param>
         /// <param name="fileName">The file's name</param>
         /// <returns>Instance of the object type with previous saved datas</returns>
-        public virtual T LoadDatas<T>(string containerName, string fileName)
+        public virtual T Load<T>(string containerName, string fileName)
         {
-            return _storageDevice.LoadDatas<T>(containerName, fileName);
+            return _storageDevice.Load<T>(containerName, fileName);
+        }
+
+        public virtual void Clear()
+        {
+            _storageDevice.Clear();
         }
     }
 }

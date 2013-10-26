@@ -101,6 +101,20 @@ namespace Yna.Samples.Screens
             // Force the sprite to stay on the screen
             manSprite.ForceInsideScreen = true;
 
+            womanAnimator = new ScriptAnimator(womanSprite);
+            womanAnimator.RepeatAnimation = true;
+            womanAnimator.Add(new WaitScript(2000));
+            womanAnimator.Add(new MoveScript(250, 50, 1));
+            womanAnimator.Add(new WaitScript(2000));
+            womanAnimator.Add(new MoveScript(50, 50, 1));
+            womanAnimator.Add(new MoveScript(50, 250, 1));
+            womanAnimator.Start();
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
             // Create animations for sprites
             CreateSpriteAnimations(womanSprite);
             CreateSpriteAnimations(manSprite);
@@ -110,15 +124,6 @@ namespace Yna.Samples.Screens
             woodObject.Position = new Vector2(50, YnG.Height - (1.5f * (woodObject.Height)));
             wood2Object.Position = new Vector2((YnG.Width - 50) - wood2Object.Width, YnG.Height - (1.5f * (wood2Object.Height)));
             houseObject.Position = new Vector2((YnG.Width / 2) - (houseObject.Width / 2), 10);
-
-            womanAnimator = new ScriptAnimator(womanSprite);
-            womanAnimator.RepeatAnimation = true;
-            womanAnimator.Add(new WaitScript(2000));
-            womanAnimator.Add(new MoveScript(250, 50, 1));
-            womanAnimator.Add(new WaitScript(2000));
-            womanAnimator.Add(new MoveScript(50, 50, 1));
-            womanAnimator.Add(new MoveScript(50, 250, 1));
-            womanAnimator.Start();
         }
 
         public override void Update(GameTime gameTime)

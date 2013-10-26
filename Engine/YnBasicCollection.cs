@@ -12,7 +12,7 @@ namespace Yna.Engine
     {
         protected override void DoUpdate(GameTime gameTime)
         {
-            for (int i = 0; i < SafeMembersCount; i++)
+            for (int i = 0, l = _safeMembers.Count; i < l; i++)
             {
                 if (_safeMembers[i].Enabled)
                     _safeMembers[i].Update(gameTime);

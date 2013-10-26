@@ -56,7 +56,11 @@ namespace Yna.Engine.Audio
 		/// </summary>
         public AudioManager()
         {
+#if SDL2
+            _audioAdapter = new SDLMixerAdapter();
+#else
 			_audioAdapter = new XnaAudioAdapter();
+#endif
             _audioAdapter.MusicEnabled = true;
             _audioAdapter.SoundEnabled = true;
             _audioAdapter.MusicVolume = 0.6f;

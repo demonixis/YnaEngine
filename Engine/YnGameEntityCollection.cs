@@ -16,7 +16,7 @@ namespace Yna.Engine
         /// </summary>
         public virtual void Initialize()
         {
-            for (int i = 0; i < MembersCount; i++)
+            for (int i = 0, l = _members.Count; i < l; i++)
                 _members[i].Initialize();
         }
 
@@ -25,7 +25,7 @@ namespace Yna.Engine
         /// </summary>
         public virtual void LoadContent()
         {
-            for (int i = 0; i < MembersCount; i++)
+            for (int i = 0, l = _members.Count; i < l; i++)
                 _members[i].LoadContent();
         }
 
@@ -34,7 +34,7 @@ namespace Yna.Engine
         /// </summary>
         public virtual void UnloadContent()
         {
-            for (int i = 0; i < MembersCount; i++)
+            for (int i = 0, l = _members.Count; i < l; i++)
                 _members[i].UnloadContent();
         }
 
@@ -44,7 +44,7 @@ namespace Yna.Engine
         /// <param name="gameTime"></param>
         protected override void DoUpdate(GameTime gameTime)
         {
-            for (int i = 0; i < SafeMembersCount; i++)
+            for (int i = 0, l = _safeMembers.Count; i < l; i++)
             {
                 if (_safeMembers[i].Enabled)
                     _safeMembers[i].Update(gameTime);
@@ -58,7 +58,7 @@ namespace Yna.Engine
         /// <param name="spriteBatch"></param>
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < SafeMembersCount; i++)
+            for (int i = 0, l = _safeMembers.Count; i < l; i++)
             {
                 if (_safeMembers[i].Visible)
                     _safeMembers[i].Draw(gameTime, spriteBatch);

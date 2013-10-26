@@ -62,7 +62,7 @@ namespace Yna.Engine.Storage
             return containerTarget;
         }
 
-        bool IStorageDevice.SaveDatas<T>(string containerName, string fileName, T objectToSave)
+        bool IStorageDevice.Save<T>(string containerName, string fileName, T objectToSave)
         {
             string container = GetContainer(containerName);
             string filePath = GetFilePath(container, containerName, fileName);
@@ -79,7 +79,7 @@ namespace Yna.Engine.Storage
             return true;
         }
 
-        T IStorageDevice.LoadDatas<T>(string containerName, string fileName)
+        T IStorageDevice.Load<T>(string containerName, string fileName)
         {
             T datas = default(T);
 
@@ -96,6 +96,11 @@ namespace Yna.Engine.Storage
             }
 
             return datas;
+        }
+		
+		void IStorageDevice.Clear()
+        {
+			
         }
     }
 }
