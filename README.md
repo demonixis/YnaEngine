@@ -5,6 +5,8 @@ Yna Engine
 
 The engine is no more developped, please take a look at C3DE now.
 
+Taje a look at the develop branch for more works.
+
 - [C3DE](https://github.com/demonixis/C3DE)
 
 ### What is Yna Engine ?
