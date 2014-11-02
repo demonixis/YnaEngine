@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
+using System;
 
 namespace Yna.Engine.Input
 {
@@ -13,14 +14,12 @@ namespace Yna.Engine.Input
         private Vector2[] _position;
         private Vector2[] _lastPosition;
         private Vector2[] _direction;
-        private Vector2[] _lastDirection;
         private bool[] _pressed;
         private bool[] _moved;
         private bool[] _released;
         private float[] _pressure;
         private int _maxFingerPoints;
         private bool _needUpdate;
-
 
         public int MaxFingerPoints
         {
@@ -70,7 +69,6 @@ namespace Yna.Engine.Input
             _position = new Vector2[MaxFingerPoints];
             _lastPosition = new Vector2[MaxFingerPoints];
             _direction = new Vector2[MaxFingerPoints];
-            _lastDirection = new Vector2[MaxFingerPoints];
 
             _pressed = new bool[MaxFingerPoints];
             _moved = new bool[MaxFingerPoints];
@@ -82,7 +80,6 @@ namespace Yna.Engine.Input
                 _position[i] = Vector2.Zero;
                 _lastPosition[i] = Vector2.Zero;
                 _direction[i] = Vector2.Zero;
-                _lastDirection[i] = Vector2.Zero;
                 _pressed[i] = false;
                 _moved[i] = false;
                 _released[i] = false;
@@ -102,23 +99,20 @@ namespace Yna.Engine.Input
 
             lastTouchCollection = touchCollection;
             touchCollection = TouchPanel.GetState();
-            
-            if (MaxFingerPoints > 0)
-            {
-                if (touchCollection.Count > 0)
-                {
-                    int touchCount = touchCollection.Count;
 
-                    for (int i = 0; i < MaxFingerPoints; i++)
+            if (MaxFingerPoints > 0 && touchCollection.Count > 0)
+            {
+                int touchCount = touchCollection.Count;
+
+                for (int i = 0; i < MaxFingerPoints; i++)
+                {
+                    if (i < touchCount)
                     {
-                        if (i < touchCount)
-                        {
-                            UpdateTouchState(i);
-                        }
-                        else
-                        {
-                            RestoreTouchState(i);
-                        }
+                        UpdateTouchState(i);
+                    }
+                    else
+                    {
+                        RestoreTouchState(i);
                     }
                 }
             }
@@ -129,14 +123,14 @@ namespace Yna.Engine.Input
             _lastPosition[index].X = _position[index].X;
             _lastPosition[index].Y = _position[index].Y;
 
-            _lastDirection[index].X = _direction[index].X;
-            _lastDirection[index].Y = _direction[index].Y;
-
             _position[index].X = touchCollection[index].Position.X;
             _position[index].Y = touchCollection[index].Position.Y;
 
             _direction[index].X = _position[index].X - _lastPosition[index].X;
             _direction[index].Y = _position[index].X - _lastPosition[index].Y;
+
+            if (_direction[index].X != 0 && _direction[index].Y != 0)
+                _direction[index].Normalize();
 
             _pressed[index] = touchCollection[index].State == TouchLocationState.Pressed;
             _moved[index] = touchCollection[index].State == TouchLocationState.Moved;
@@ -149,20 +143,17 @@ namespace Yna.Engine.Input
 #endif
         }
 
-        private void RestoreTouchState(int index)
+        public void RestoreTouchState(int index)
         {
-            _lastPosition[index].X = _position[index].X;
-            _lastPosition[index].Y = _position[index].Y;
-
-            _lastDirection[index].X = _direction[index].X;
-            _lastDirection[index].Y = _direction[index].Y;
+            _lastPosition[index].X = 0;
+            _lastPosition[index].Y = 0;
 
             _position[index].X = 0;
             _position[index].Y = 0;
 
-            _direction[index].X = _position[index].X - _lastPosition[index].X;
-            _direction[index].Y = _position[index].X - _lastPosition[index].Y;
-
+            _direction[index].X = 0;
+            _direction[index].Y = 0;
+            
             _pressed[index] = false;
             _moved[index] = false;
             _released[index] = false;
@@ -199,7 +190,11 @@ namespace Yna.Engine.Input
             if (id >= MaxFingerPoints)
                 return Vector2.Zero;
 
-            return _position[id] - _lastPosition[id];
+            var v = _position[id] - _lastPosition[id];
+            v.X = (Math.Abs(v.X) > 100) ? 0 : v.X;
+            v.Y = (Math.Abs(v.Y) > 100) ? 0 : v.Y;
+
+            return v;
         }
 
         public Vector2 GetPosition(int id)
@@ -226,14 +221,6 @@ namespace Yna.Engine.Input
             return _direction[id];
         }
 
-        public Vector2 GetLastDirection(int id)
-        {
-            if (id >= MaxFingerPoints)
-                return Vector2.Zero;
-
-            return _lastDirection[id];
-        }
-
         public bool JustPressed(int id)
         {
             if (id >= MaxFingerPoints)
@@ -248,14 +235,6 @@ namespace Yna.Engine.Input
                 return false;
 
             return touchCollection[id].State == TouchLocationState.Released && (lastTouchCollection[id].State == TouchLocationState.Pressed || lastTouchCollection[id].State == TouchLocationState.Moved);
-        }
-
-        public bool Moving(int id)
-        {
-            if (id >= MaxFingerPoints)
-                return false;
-
-            return _position[id] != _lastPosition[id];
         }
 
         public float GetPressureLevel(int id)

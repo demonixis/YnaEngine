@@ -144,7 +144,7 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Gets the previous position.
         /// </summary>
-        public Vector2 PreviousPosition
+        public Vector2 LastPosition
         {
             get { return _previousPosition; }
         }
@@ -268,7 +268,7 @@ namespace Yna.Engine.Graphics
             _animator.Initialize(width, height, _texture.Width, _texture.Height);
             
             // The sprite size is now the size of a sprite on the spritesheet
-            _rectangle = new Rectangle(X, Y, width, height);
+            _rectangle = new Rectangle((int)X, (int)Y, width, height);
 
             _hasAnimation = true;
         }
@@ -497,6 +497,9 @@ namespace Yna.Engine.Graphics
             _distance.Y = _position.Y - _previousPosition.Y;
             _direction.X = _distance.X;
             _direction.Y = _distance.Y;
+
+            _rectangle.X = (int)_position.X;
+            _rectangle.Y = (int)_position.Y;
             
             if (_direction.X != 0 && _direction.Y != 0)
                 _direction.Normalize();

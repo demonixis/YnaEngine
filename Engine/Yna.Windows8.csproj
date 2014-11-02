@@ -109,6 +109,7 @@
     <Compile Include="Audio\DummyAudioAdapter.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
+    <Compile Include="Graphics\Component\YnVirtualStick.cs" />
     <Compile Include="Graphics\ICollidable.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Extensions\BoundingSphereExtension.cs" />
@@ -254,6 +255,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics3D\Material\Resources\NormalMapEffect.dx11.mgfxo" />
+    <EmbeddedResource Include="Graphics\Component\Resources\gamepad_bg.png" />
+    <EmbeddedResource Include="Graphics\Component\Resources\gamepad_fg.png" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

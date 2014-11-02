@@ -11,13 +11,13 @@ namespace Yna.Engine.Graphics
     /// </summary>
     public interface ICollidable2
     {
-        Rectangle Rectangle { get; set; }
+        Rectangle Rectangle { get; }
     }
 
     public interface IColladable2PerfectPixel
     {
-        Vector2 Scale { get; set; }
-        Texture2D Texture { get; set; }
-        Rectangle Rectangle { get; set; }
+        Vector2 Scale { get; }
+        Texture2D Texture { get; }
+        Rectangle Rectangle { get; }
     }
 }

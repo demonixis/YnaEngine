@@ -341,10 +341,10 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         public void SetProperties(YnWidgetProperties properties)
         {
             if (properties.X != null) 
-                X = (int)properties.X;
+                Translate(properties.X.Value, 0);
 
             if (properties.Y != null) 
-                Y = (int)properties.Y;
+                Translate(0, properties.Y.Value);
 
             if (properties.Width != null) 
                 Width = (int)properties.Width;
@@ -451,17 +451,6 @@ namespace Yna.Engine.Graphics.Gui.Widgets
             }
 
             return widget;
-        }
-
-        /// <summary>
-        /// Move the widgets with the given deltas in X and Y.
-        /// </summary>
-        /// <param name="dx">X delta</param>
-        /// <param name="dy">Y delta</param>
-        public void Move(int dx, int dy)
-        {
-            X += dx;
-            Y += dy;
         }
 
         /// <summary>

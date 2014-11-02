@@ -52,17 +52,6 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets or sets the status of initialization
-        /// True when all objects are initialized
-        /// False when initialization has not started yet
-        /// </summary>
-        public bool Initialized
-        {
-            get { return _initialized; }
-            set { _initialized = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the status of asset loading
         /// </summary>
         public bool AssetsLoaded
@@ -87,7 +76,7 @@ namespace Yna.Engine.Graphics
                 _rectangle.Y = (int)_position.Y;
 
                 for (int i = 0, l = this.Count; i < l; i++)
-                    this[i].Position += rawValue;
+                    this[i].Translate(ref rawValue);
             }
         }
 
@@ -109,18 +98,18 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Gets or sets the position on X.
         /// </summary>
-        public new int X
+        public new float X
         {
             get { return (int)_position.X; }
             set
             {
-                int rawValue = value - (int)_position.X;
+                float rawValue = value - _position.X;
 
                 _position.X = value;
-                _rectangle.X = value;
+                _rectangle.X = (int)value;
 
                 for (int i = 0, l = this.Count; i < l; i++)
-                    this[i].X += rawValue;
+                    this[i].Translate(rawValue, 0);
 
                 UpdateRectangle();
             }
@@ -129,18 +118,18 @@ namespace Yna.Engine.Graphics
         /// <summary>
         /// Gets or sets the position on Y.
         /// </summary>
-        public new int Y
+        public new float Y
         {
             get { return (int)_position.Y; }
             set
             {
-                int rawValue = value - (int)_position.Y;
+                float rawValue = value - _position.Y;
 
                 _position.Y = value;
-                _rectangle.Y = value;
+                _rectangle.Y = (int)value;
 
                 for (int i = 0, l = this.Count; i < l; i++)
-                    this[i].Y += rawValue;
+                    this[i].Translate(0, rawValue);
 
                 UpdateRectangle();
             }
@@ -260,7 +249,6 @@ namespace Yna.Engine.Graphics
         public override void Initialize()
         {
             _entitiesList.Initialize();
-
             _initialized = true;
         }
 
@@ -270,9 +258,7 @@ namespace Yna.Engine.Graphics
         public override void LoadContent()
         {
             _entitiesList.LoadContent();
-
             _assetsLoaded = true;
-
             UpdateRectangle();
         }
 
@@ -291,7 +277,6 @@ namespace Yna.Engine.Graphics
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
             _entitiesList.Update(gameTime);
         }
 
@@ -385,21 +370,6 @@ namespace Yna.Engine.Graphics
         #endregion
 
         /// <summary>
-        /// Draw the entity into a Texture2D. If you don't set useSingleBatch to true don't forget 
-        /// to call SpriteBatch::Begin() and End() before and after this method.
-        /// Be carefull and don't remove an entity from the collection during the draw call.
-        /// </summary>
-        /// <param name="gameTime">GameTime object.</param>
-        /// <param name="spriteBatch">A spriteBatch object</param>
-        /// <param name="useSingleBatch">Sets to true for drawing into single batch operation</param>
-        /// <returns>Return a Texture2D of the entity.</returns>
-        public override Texture2D DrawImage(GameTime gameTime, SpriteBatch spriteBatch, bool useSingleBatch)
-        {
-            _entitiesList.Update(gameTime);
-            return base.DrawImage(gameTime, spriteBatch, useSingleBatch);
-        }
-
-        /// <summary>
         /// Update the size of the group. It's the rectangle that contains all members
         /// </summary>
         public void UpdateRectangle()
@@ -420,6 +390,22 @@ namespace Yna.Engine.Graphics
 
             Width = width;
             Height = height;
+        }
+
+        public override void Translate(float x, float y)
+        {
+            base.Translate(x, y);
+
+            for (int i = 0, l = this.Count; i < l; i++)
+                this[i].Translate(x, y);
+        }
+
+        public override void Move(float x, float y)
+        {
+            base.Move(x, y);
+
+            for (int i = 0, l = this.Count; i < l; i++)
+                this[i].Translate(X - this[i].X, Y - this[i].Y);
         }
     }
 }

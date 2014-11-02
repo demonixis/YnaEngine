@@ -124,10 +124,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
                 // TODO : handle mouse movement overflow to ease the use
                 // Ensure the cursor is still in his rail
-                _cursor.Position = new Vector2(
-                    MathHelper.Clamp(_cursor.Position.X, -Height / 2, Width - Height / 2),
-                    _cursor.Position.Y
-                );
+                _cursor.Move(MathHelper.Clamp(_cursor.Position.X, -Height / 2, Width - Height / 2), _cursor.Position.Y);
 
                 // Compute the slider new value
                 int oldValue = _currentValue;
@@ -150,7 +147,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         /// </summary>
         private void UpdateCursor()
         {
-            _cursor.Position = new Vector2((float)_currentValue * Width / _maxValue, _cursor.Position.Y);
+            _cursor.Move(_currentValue * Width / (float)_maxValue, _cursor.Position.Y);
         }
 
         /// <summary>
@@ -161,7 +158,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         {
             _cursor.Width = Height;
             _cursor.Height = Height;
-            _cursor.Position = new Vector2(-_cursor.Width / 2, 0);
+            _cursor.Move(-_cursor.Width / 2, 0);
 
             UpdateCursor();
         }

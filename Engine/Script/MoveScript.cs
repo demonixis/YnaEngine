@@ -87,7 +87,7 @@ namespace Yna.Engine.Script
                 Vector2 newPosition = Vector2.Multiply(direction, _speed);
 
                 // Move the object
-                o.Position += newPosition;
+                o.Translate(newPosition);
             }
         }
     }

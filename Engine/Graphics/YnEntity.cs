@@ -15,7 +15,7 @@ namespace Yna.Engine.Graphics
     /// <summary>
     /// Define the origin of an object
     /// </summary>
-    public enum ObjectOrigin
+    public enum SpriteOrigin
     {
         TopLeft = 0, Top, TopRight, Left, Center, Right, BottomLeft, Bottom, BottomRight
     }
@@ -98,7 +98,7 @@ namespace Yna.Engine.Graphics
 
         #endregion
 
-        #region Properties for position/rotation/scale
+        #region Transform fields
 
         /// <summary>
         /// Gets or sets the parent object of this object (null if don't have a parent)
@@ -110,139 +110,16 @@ namespace Yna.Engine.Graphics
         }
 
         /// <summary>
-        /// Gets or sets the position of the object
-        /// Note: The rectangle values are updated
-        /// </summary>
-        public Vector2 Position
-        {
-            get { return _position; }
-            set
-            {
-                _position.X = (int)value.X;
-                _position.Y = (int)value.Y;
-                _rectangle.X = (int)value.X;
-                _rectangle.Y = (int)value.Y;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the Rectangle (Bounding box) of the object
-        /// Note: The position values are updated
-        /// </summary>
-        public Rectangle Rectangle
-        {
-            get { return _rectangle; }
-            set
-            {
-                if (_texture != null)
-                {
-                    _scale.X = (float)((float)value.Width / (float)_texture.Width);
-                    _scale.Y = (float)((float)value.Height / (float)_texture.Height);
-                }
-                _rectangle = value;
-                _position.X = value.X;
-                _position.Y = value.Y;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the origin of the object. Default is Vector2.Zero
-        /// </summary>
-        public Vector2 Origin
-        {
-            get { return _origin; }
-            set { _origin = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the scale of the object.Default is Vector2.One
-        /// Note: The rectangle of the object is updated
-        /// </summary>
-        public Vector2 Scale
-        {
-            get { return _scale; }
-            set { _scale = value; }
-        }
-
-        public float ScaledWidth
-        {
-            get { return _rectangle.Width * _scale.X; }
-        }
-
-        public float ScaledHeight
-        {
-            get { return _rectangle.Height * _scale.Y; }
-        }
-
-        /// <summary>
-        /// Gets or sets the color applied to the object
-        /// </summary>
-        public Color Color
-        {
-            get { return _color; }
-            set { _color = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the rotation of the object in radians
-        /// </summary>
-        public float Rotation
-        {
-            get { return _rotation; }
-            set { _rotation = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the rotation of the object in degrees (angle is converted to radian)
-        /// </summary>
-        public float RotationDegrees
-        {
-            get { return MathHelper.ToDegrees(_rotation); }
-            set { _rotation = MathHelper.ToRadians(value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the Alpha applied to the object. Value between 0.0f and 1.0f
-        /// </summary>
-        public float Alpha
-        {
-            get { return _alpha; }
-            set
-            {
-                _alpha = value > 1.0f ? 1.0f : value;
-                _alpha = _alpha < 0.0f ? 0.0f : _alpha;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the SpriteEffect used for drawing the sprite
-        /// </summary>
-        public SpriteEffects Effects
-        {
-            get { return _effects; }
-            set { _effects = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the layer depth
-        /// </summary>
-        public float LayerDepth
-        {
-            get { return _layerDepth; }
-            set { _layerDepth = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the X position of the object.
         /// Note: The rectangle is updated when a value is setted
         /// </summary>
-        public int X
+        public float X
         {
             get { return (int)_position.X; }
             set
             {
                 _position.X = value;
-                _rectangle.X = value;
+                _rectangle.X = (int)value;
             }
         }
 
@@ -256,7 +133,7 @@ namespace Yna.Engine.Graphics
             set
             {
                 _position.Y = value;
-                _rectangle.Y = value;
+                _rectangle.Y = (int)value;
             }
         }
 
@@ -292,9 +169,128 @@ namespace Yna.Engine.Graphics
             }
         }
 
+        /// <summary>
+        /// Gets or sets the position of the object
+        /// Note: The rectangle values are updated
+        /// </summary>
+        public Vector2 Position
+        {
+            get { return _position; }
+            set
+            {
+                _position.X = value.X;
+                _position.Y = value.Y;
+                _rectangle.X = (int)value.X;
+                _rectangle.Y = (int)value.Y;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Rectangle (Bounding box) of the object
+        /// Note: The position values are updated
+        /// </summary>
+        public Rectangle Rectangle
+        {
+            get { return _rectangle; }
+            set
+            {
+                if (_texture != null)
+                {
+                    _scale.X = (float)((float)value.Width / (float)_texture.Width);
+                    _scale.Y = (float)((float)value.Height / (float)_texture.Height);
+                }
+
+                _rectangle = value;
+                _position.X = value.X;
+                _position.Y = value.Y;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the rotation of the object in radians
+        /// </summary>
+        public float Rotation
+        {
+            get { return _rotation; }
+            set { _rotation = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the scale of the object.Default is Vector2.One
+        /// Note: The rectangle of the object is updated
+        /// </summary>
+        public Vector2 Scale
+        {
+            get { return _scale; }
+            set { _scale = value; }
+        }
+
+        public float ScaledWidth
+        {
+            get { return _rectangle.Width * _scale.X; }
+        }
+
+        public float ScaledHeight
+        {
+            get { return _rectangle.Height * _scale.Y; }
+        }
+
         #endregion
 
-        #region Properties for asset
+        #region Batch fields
+
+        /// <summary>
+        /// Gets or sets the origin of the object. Default is Vector2.Zero
+        /// </summary>
+        public Vector2 Origin
+        {
+            get { return _origin; }
+            set { _origin = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the color applied to the object
+        /// </summary>
+        public Color Color
+        {
+            get { return _color; }
+            set { _color = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Alpha applied to the object. Value between 0.0f and 1.0f
+        /// </summary>
+        public float Alpha
+        {
+            get { return _alpha; }
+            set
+            {
+                _alpha = value > 1.0f ? 1.0f : value;
+                _alpha = _alpha < 0.0f ? 0.0f : _alpha;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the SpriteEffect used for drawing the sprite
+        /// </summary>
+        public SpriteEffects Effects
+        {
+            get { return _effects; }
+            set { _effects = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the layer depth
+        /// </summary>
+        public float LayerDepth
+        {
+            get { return _layerDepth; }
+            set { _layerDepth = value; }
+        }
+
+        #endregion
+
+        #region Asset fields
 
         /// <summary>
         /// Gets or sets the Texture2D used by the object
@@ -323,7 +319,7 @@ namespace Yna.Engine.Graphics
 
         #endregion
 
-        #region Global events
+        #region Events
 
         /// <summary>
         /// Triggered when the object was killed
@@ -569,6 +565,8 @@ namespace Yna.Engine.Graphics
         public override void Update(GameTime gameTime)
         {
             ComputeScreenPosition();
+            _rectangle.X = (int)_position.X;
+            _rectangle.Y = (int)_position.Y;
 
             // Reset flags
             _clicked = false;
@@ -672,7 +670,7 @@ namespace Yna.Engine.Graphics
 
         #endregion
 
-        #region Live, Die, Revive methods
+        #region Life cycle
 
         /// <summary>
         /// Flag the object for a purge action
@@ -704,19 +702,53 @@ namespace Yna.Engine.Graphics
 
         #endregion
 
-        #region Other methods
+        #region Transform methods
 
         /// <summary>
         /// Ease the positionning. Sets the position of the entity.
         /// </summary>
         /// <param name="x">Position on X axis.</param>
         /// <param name="y">Position on Y axis.</param>
-        public virtual void SetPosition(int x, int y)
+        public virtual void Move(float x, float y)
         {
             _position.X = x;
             _position.Y = y;
-            _rectangle.X = x;
-            _rectangle.Y = y;
+            _rectangle.X = (int)x;
+            _rectangle.Y = (int)y;
+        }
+
+        public virtual void Move(ref Vector2 position)
+        {
+            Move(position.X, position.Y);
+        }
+
+        public virtual void Move(Vector2 position)
+        {
+            Move(ref position);
+        }
+
+        public virtual void Translate(Vector2 position)
+        {
+            Translate(ref position);
+        }
+
+        public virtual void Translate(ref Vector2 position)
+        {
+            Translate(position.X, position.Y);
+        }
+
+        public virtual void Translate(float x, float y)
+        {
+            _position.X += x;
+            _position.Y += y;
+            _rectangle.X += (int)x;
+            _rectangle.Y += (int)y;
+        }
+
+        public virtual void SetSize(float width, float height)
+        {
+            _rectangle.Width = (int)width;
+            _rectangle.Height = (int)height;
         }
 
         /// <summary>
@@ -726,19 +758,19 @@ namespace Yna.Engine.Graphics
         /// origin point.
         /// </summary>
         /// <param name="spriteOrigin">Determinated point of origin</param>
-        public void SetOrigin(ObjectOrigin spriteOrigin)
+        public void SetOrigin(SpriteOrigin spriteOrigin)
         {
             switch (spriteOrigin)
             {
-                case ObjectOrigin.TopLeft: _origin = Vector2.Zero; break;
-                case ObjectOrigin.Top: _origin = new Vector2(Width / 2, 0); break;
-                case ObjectOrigin.TopRight: _origin = new Vector2(Width, 0); break;
-                case ObjectOrigin.Left: _origin = new Vector2(0, Height / 2); break;
-                case ObjectOrigin.Center: _origin = new Vector2(Width / 2, Height / 2); break;
-                case ObjectOrigin.Right: _origin = new Vector2(Width, Height / 2); break;
-                case ObjectOrigin.BottomLeft: _origin = new Vector2(0, Height); break;
-                case ObjectOrigin.Bottom: _origin = new Vector2(Width / 2, Height); break;
-                case ObjectOrigin.BottomRight: _origin = new Vector2(Width, Height); break;
+                case SpriteOrigin.TopLeft: _origin = Vector2.Zero; break;
+                case SpriteOrigin.Top: _origin = new Vector2(ScaledWidth / 2, 0); break;
+                case SpriteOrigin.TopRight: _origin = new Vector2(ScaledWidth, 0); break;
+                case SpriteOrigin.Left: _origin = new Vector2(0, ScaledHeight / 2); break;
+                case SpriteOrigin.Center: _origin = new Vector2(ScaledWidth / 2, ScaledHeight / 2); break;
+                case SpriteOrigin.Right: _origin = new Vector2(ScaledWidth, ScaledHeight / 2); break;
+                case SpriteOrigin.BottomLeft: _origin = new Vector2(0, ScaledHeight); break;
+                case SpriteOrigin.Bottom: _origin = new Vector2(ScaledWidth / 2, ScaledHeight); break;
+                case SpriteOrigin.BottomRight: _origin = new Vector2(ScaledWidth, ScaledHeight); break;
             }
         }
 
@@ -748,47 +780,6 @@ namespace Yna.Engine.Graphics
         public void SetFullScreen()
         {
             Rectangle = new Rectangle(0, 0, YnG.Width, YnG.Height);
-        }
-
-        /// <summary>
-        /// Draw the entity into a Texture2D. Don't forget to call SpriteBatch::Begin() and End() before and after
-        /// this method.
-        /// </summary>
-        /// <param name="gameTime">GameTime object.</param>
-        /// <param name="spriteBatch">A spriteBatch object</param>
-        /// <returns>Return a Texture2D of the entity.</returns>
-        public virtual Texture2D DrawImage(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            return DrawImage(gameTime, spriteBatch, false);
-        }
-
-        /// <summary>
-        /// Draw the entity into a Texture2D. If you don't set useSingleBatch to true don't forget 
-        /// to call SpriteBatch::Begin() and End() before and after this method.
-        /// </summary>
-        /// <param name="gameTime">GameTime object.</param>
-        /// <param name="spriteBatch">A spriteBatch object</param>
-        /// <param name="useSingleBatch">Sets to true for drawing into single batch operation</param>
-        /// <returns>Return a Texture2D of the entity.</returns>
-        public virtual Texture2D DrawImage(GameTime gameTime, SpriteBatch spriteBatch, bool useSingleBatch)
-        {
-            RenderTarget2D renderTarget = new RenderTarget2D(YnG.GraphicsDevice, Width, Height);
-
-            YnG.GraphicsDevice.SetRenderTarget(renderTarget);
-            YnG.GraphicsDevice.Clear(Color.Transparent);
-
-            if (useSingleBatch)
-            {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                Draw(gameTime, spriteBatch);
-                spriteBatch.End();
-            }
-            else
-                Draw(gameTime, spriteBatch);
-
-            YnG.GraphicsDevice.SetRenderTarget((RenderTarget2D)null);
-
-            return (Texture2D)renderTarget;
         }
 
         #endregion

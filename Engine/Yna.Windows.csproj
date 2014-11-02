@@ -39,6 +39,7 @@
     <Compile Include="Audio\DummyAudioAdapter.cs" />
     <Compile Include="Audio\XnaAudioAdapter.cs" />
     <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
+    <Compile Include="Graphics\Component\YnVirtualStick.cs" />
     <Compile Include="Graphics\ICollidable.cs" />
     <Compile Include="Extensions\BoundingBoxExtension.cs" />
     <Compile Include="Extensions\BoundingSphereExtension.cs" />
@@ -147,8 +148,7 @@
     <Compile Include="Graphics3D\Terrain\SimpleTerrain.cs" />
     <Compile Include="Graphics3D\Camera\FirstPersonCamera.cs" />
     <Compile Include="Graphics3D\YnState3D.cs" />
-	
-	<Compile Include="Graphics\Tilemap\IsometricHelper.cs" />
+    <Compile Include="Graphics\Tilemap\IsometricHelper.cs" />
     <Compile Include="Graphics\Tilemap\BaseLayer.cs" />
     <Compile Include="Graphics\Tilemap\BaseTile.cs" />
     <Compile Include="Graphics\Tilemap\BaseTileMap.cs" />
@@ -158,7 +158,6 @@
     <Compile Include="Graphics\Tilemap\Iso\LayerIso.cs" />
     <Compile Include="Graphics\Tilemap\Iso\TileIso.cs" />
     <Compile Include="Graphics\Tilemap\Iso\TileMapIso.cs" />
-	
     <Compile Include="Graphics\GUI\Widgets\YnCheckbox.cs" />
     <Compile Include="Graphics\GUI\YnGui.cs" />
     <Compile Include="Graphics\GUI\YnBorder.cs" />
@@ -176,14 +175,15 @@
     <Compile Include="Graphics\GUI\Widgets\YnWidget.cs" />
     <Compile Include="Graphics\GUI\Widgets\YnWindow.cs" />
     <Compile Include="Graphics\GUI\YnWidgetProperties.cs" />
-	
-	<Compile Include="Script\BaseScriptNode.cs" />
+    <Compile Include="Script\BaseScriptNode.cs" />
     <Compile Include="Script\MoveScript.cs" />
     <Compile Include="Script\ScriptAnimator.cs" />
     <Compile Include="Script\WaitScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics3D\Material\Resources\NormalMapEffect.dx11.mgfxo" />
+	<EmbeddedResource Include="Graphics\Component\Resources\gamepad_bg.png" />
+	<EmbeddedResource Include="Graphics\Component\Resources\gamepad_fg.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

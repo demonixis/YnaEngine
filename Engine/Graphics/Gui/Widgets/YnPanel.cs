@@ -110,14 +110,14 @@ namespace Yna.Engine.Graphics.Gui.Widgets
                 if(_orientation == YnOrientation.Horizontal)
                 {
                     // Horizontal layout
-                    _children[i].X = delta;
+                    _children[i].Move(delta, _children[i].Y);
                     totalWidth += _children[i].Width + _padding;
                     delta += _children[i].Width + _padding;
                 }
                 else
                 {
                     // Vertical layout
-                    _children[i].Y = delta;
+                    _children[i].Move(_children[i].X, delta);
                     totalHeight += _children[i].Height + _padding;
                     delta += _children[i].Height + _padding;
                 }

@@ -41,10 +41,8 @@ namespace Yna.Engine.Audio
             _repeatMusic = repeat;
             if (_musicEnabled)
             {
-#if !LINUX && !(MONOGAME && WINDOWS)
                 Song music = YnG.Content.Load<Song>(assetName);
                 PlayMusic(music, repeat);
-#endif
             }
         }
 
