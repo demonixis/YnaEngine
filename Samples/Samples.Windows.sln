@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprites.Windows", "Sprites\Sprites.Windows.csproj", "{F77F7C22-E38E-4D1F-8967-345BE83FB8D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tilemap.Windows", "Tilemap\Tilemap.Windows.csproj", "{7EC25909-3DF8-48AC-A9AB-2866B35F057F}"
@@ -14,8 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models3D.Windows", "Models3D\Models3D.Windows.csproj", "{EB068317-21C8-44D3-9F77-32AE7D47DB2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes.Windows", "Shapes\Shapes.Windows.csproj", "{2E5F76AD-573F-4833-A2DE-4DCED2940B80}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yna.Input.Wiimote", "..\Engine\Input\Wiimote\Yna.Input.Wiimote.csproj", "{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,16 +103,6 @@ Global
 		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2E5F76AD-573F-4833-A2DE-4DCED2940B80}.Release|x86.ActiveCfg = Release|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{FCFC0955-F7C2-4E6B-993A-6D47902C6FC1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -52,7 +52,7 @@ namespace Yna.Samples.Screens
 
                 YnSprite sprite = new YnSprite(new Rectangle(0, 0, spriteWidth, spriteHeight), colors[i]);
                 sprite.Position = new Vector2(x, y);
-                sprite.SetOrigin(ObjectOrigin.Center);
+                sprite.SetOrigin(SpriteOrigin.Center);
                 sprite.AllowAcrossScreen = true;
                 sprites.Add(sprite);
             }

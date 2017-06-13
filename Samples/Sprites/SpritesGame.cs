@@ -35,9 +35,6 @@ namespace Yna.Samples
             stateManager.Add(new ParticlesSample("particleSample"), false);
             stateManager.Add(new AnimatedSprites("spritesheetSample"), false);
             stateManager.Add(new AnimatedSpriteVirtualPad("virtualPadSample"), false);
-#if WIIMOTE
-            stateManager.Add(new AnimatedSpriteWiimote("wiimoteSample"), false);
-#endif
         }
 
 #if !WINDOWS_PHONE

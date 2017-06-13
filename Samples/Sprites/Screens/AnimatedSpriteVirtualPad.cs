@@ -149,7 +149,7 @@ namespace Yna.Samples.Screens
             UpdateAnimations(gunnerSprite);
 
             if (YnCollider.CollideOneWithGroup(manSprite, spriteToCollide))
-                manSprite.Position = manSprite.PreviousPosition;
+                manSprite.Position = manSprite.LastPosition;
 
             // return to the menu if escape key is just pressed
             if (YnG.Keys.JustPressed(Keys.Escape) || virtualPadController.Pressed(PadButtons.Pause))

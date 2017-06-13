@@ -33,7 +33,7 @@ namespace Yna.Samples
             base.Initialize();
 
             // Get the player score previously saved, if not exist we create a new instance
-            playerScore = YnG.StorageManager.LoadDatas<PlayerScore>(ScoreContainerName, ScoreFileName);
+            playerScore = YnG.StorageManager.Load<PlayerScore>(ScoreContainerName, ScoreFileName);
 
             if (playerScore == null)
                 playerScore = new PlayerScore();
@@ -57,13 +57,13 @@ namespace Yna.Samples
             // Press S to Save datas
             if (YnG.Keys.JustPressed(Keys.S))
             {
-                YnG.StorageManager.SaveDatas<PlayerScore>(ScoreContainerName, ScoreFileName, playerScore);
+                YnG.StorageManager.Save<PlayerScore>(ScoreContainerName, ScoreFileName, playerScore);
             }
 
             // Press L to Load datas
             if (YnG.Keys.JustPressed(Keys.L))
             {
-                playerScore = YnG.StorageManager.LoadDatas<PlayerScore>(ScoreContainerName, ScoreFileName);
+                playerScore = YnG.StorageManager.Load<PlayerScore>(ScoreContainerName, ScoreFileName);
             }
 
             // Press R to change datas with random values

@@ -193,7 +193,7 @@ namespace Yna.Samples.Screens
             quadTree.TestCandidates(manSprite, (mSprite, lSprite) =>
                 {
                     if (mSprite.Rectangle.Intersects(lSprite.Rectangle))
-                        manSprite.Position = manSprite.PreviousPosition;
+                        manSprite.Position = manSprite.LastPosition;
                 });
 
             // return to the menu if escape key is just pressed

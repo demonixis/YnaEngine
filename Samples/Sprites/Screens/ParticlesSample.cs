@@ -84,8 +84,8 @@ namespace Yna.Samples.Screens
             if (YnG.Mouse.Drag(Yna.Engine.Input.MouseButton.Right))
             {
                 var delta = YnG.Mouse.Delta;
-                emitter.SetPosition((int)(emitter.X + delta.X), (int)(emitter.Y + delta.Y));
-                emitter2.SetPosition((int)(emitter2.X + delta.X), (int)(emitter2.Y + delta.Y));
+                emitter.Position = new Vector2((int)(emitter.X + delta.X), (int)(emitter.Y + delta.Y));
+                emitter2.Position = new Vector2((int)(emitter2.X + delta.X), (int)(emitter2.Y + delta.Y));
             }
 
             base.Update(gameTime);
