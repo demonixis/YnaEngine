@@ -279,7 +279,9 @@ namespace Yna.Samples
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+            spriteBatch.Begin();
             Gui.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
     }
 }

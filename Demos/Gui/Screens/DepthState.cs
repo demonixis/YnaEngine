@@ -17,25 +17,25 @@ namespace Yna.Samples.Screens
     /// </summary>
     public class DepthState : YnState2D
     {
-        private YnGui ui;
+        private YnGui Gui;
 
         public DepthState(string name)
             : base(name, false, true)
         {
-            ui = new YnGui();
+            Gui = new YnGui();
         }
 
         public override void Initialize()
         {
             base.Initialize();
-            ui.Initialize();
+            Gui.Initialize();
             BuildGUI();
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-            ui.LoadContent();
+            Gui.LoadContent();
         }
 
         private void BuildGUI()
@@ -58,7 +58,7 @@ namespace Yna.Samples.Screens
             panelA.Height = 300;
             panelA.SkinName = "green";
             panelA.HasBackground = true;
-            ui.Add(panelA);
+            Gui.Add(panelA);
 
             // Group B
             YnPanel panelB = new YnPanel(YnOrientation.Vertical);
@@ -68,7 +68,7 @@ namespace Yna.Samples.Screens
             panelB.Height = 200;
             panelB.SkinName = "pink";
             panelB.HasBackground = true;
-            ui.Add(panelB);
+            Gui.Add(panelB);
 
             // Group C
             YnPanel panelC = new YnPanel(YnOrientation.Vertical);
@@ -78,7 +78,7 @@ namespace Yna.Samples.Screens
             panelC.Height = 300;
             panelC.SkinName = "chocolate";
             panelC.HasBackground = true;
-            ui.Add(panelC);
+            Gui.Add(panelC);
 
             // Depth management buttons
             // Note that these panels are used out of the GUI system to have no deth
@@ -101,22 +101,22 @@ namespace Yna.Samples.Screens
         private YnPanel CreateDepthPanel(string text, YnPanel panel)
         {
             YnPanel depthPanel = new YnPanel(YnOrientation.Vertical);
-            ui.Add(depthPanel);
+            Gui.Add(depthPanel);
 
             YnTextButton bottomButton = new YnTextButton(text + " to bottom");
-            bottomButton.MouseClicked += (s, e) => ui.DepthToBottom(panel);
+            bottomButton.MouseClicked += (s, e) => Gui.DepthToBottom(panel);
             depthPanel.Add(bottomButton);
 
             YnTextButton upButton = new YnTextButton(text + " Up");
-            upButton.MouseClicked += (s, e) => ui.DepthUp(panel);
+            upButton.MouseClicked += (s, e) => Gui.DepthUp(panel);
             depthPanel.Add(upButton);
 
             YnTextButton downButton = new YnTextButton(text + " Down");
-            downButton.MouseClicked += (s, e) => ui.DepthDown(panel);
+            downButton.MouseClicked += (s, e) => Gui.DepthDown(panel);
             depthPanel.Add(downButton);
 
             YnTextButton topButton = new YnTextButton(text + " to top");
-            topButton.MouseClicked += (s, e) => ui.DepthToTop(panel);
+            topButton.MouseClicked += (s, e) => Gui.DepthToTop(panel);
             depthPanel.Add(topButton);
 
             depthPanel.Layout();
@@ -128,7 +128,7 @@ namespace Yna.Samples.Screens
         {
             base.Update(gameTime);
 
-            ui.Update(gameTime);
+            Gui.Update(gameTime);
 
             if (YnG.Gamepad.Back(PlayerIndex.One) || YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SetStateActive("menu", true);
@@ -137,7 +137,9 @@ namespace Yna.Samples.Screens
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             base.Draw(gameTime, spriteBatch);
-            ui.Draw(gameTime, spriteBatch);
+            spriteBatch.Begin();
+            Gui.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
     }
 }

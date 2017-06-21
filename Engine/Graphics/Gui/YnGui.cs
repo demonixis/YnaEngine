@@ -37,10 +37,9 @@ namespace Yna.Engine.Graphics.Gui
     	{
     		if(!__skinCache.ContainsKey(name))
     		{
-    			// The skin was not found. Use the default one instead
-    			// TODO Add warning log
-    			__skinCache[name] = __skinCache[DEFAULT_SKIN];
-    			
+                if (__skinCache.Count == 0)
+                    __skinCache.Add(DEFAULT_SKIN, YnSkinGenerator.Generate(Color.AliceBlue, "Fonts/DefaultFont"));
+
     			return __skinCache[DEFAULT_SKIN];
     		}
     		return __skinCache[name];

@@ -90,7 +90,9 @@ namespace Yna.Samples.Screens
         {
             base.Draw(gameTime);
 
+            spriteBatch.Begin();
             Gui.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
     }
 }

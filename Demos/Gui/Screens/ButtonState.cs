@@ -119,5 +119,10 @@ namespace Yna.Samples.Screens
             if (YnG.Gamepad.Back(PlayerIndex.One) || YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SetStateActive("menu", true);
         }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+        }
     }
 }

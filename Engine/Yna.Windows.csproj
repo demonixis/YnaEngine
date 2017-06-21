@@ -195,8 +195,5 @@
     <Reference Include="System" />
     <Reference Include="System.XML" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

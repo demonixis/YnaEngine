@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
-    <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
