@@ -17,22 +17,30 @@ namespace Yna.Samples.Screens
     /// </summary>
     public class ButtonState : YnState2D
     {
+        private YnGui Gui;
+
         public ButtonState(string name)
             : base(name, false, true)
         {
+            Gui = new YnGui();
         }
 
         public override void Initialize()
         {
             base.Initialize();
-
+            Gui.Initialize();
             // The GUI set up must be done in the initialize method
             BuildGUI();
         }
 
+        public override void LoadContent()
+        {
+            base.LoadContent();
+            Gui.LoadContent();
+        }
+
         private void BuildGUI()
         {
-            /*
             // Here is the simpliest creation of a text button. This button will be placed
             // at [0,0] as no position is set. The default button size is also used.
             YnTextButton basicButton = new YnTextButton("Simple button");
@@ -109,20 +117,24 @@ namespace Yna.Samples.Screens
             armageddonButton.SkinName = "armageddon";
             armageddonButton.HasBorders = true;
             Gui.Add(armageddonButton);
-            */
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
+            Gui.Update(gameTime);
+
             if (YnG.Gamepad.Back(PlayerIndex.One) || YnG.Keys.JustPressed(Keys.Escape))
                 YnG.SetStateActive("menu", true);
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime);
+            base.Draw(gameTime, spriteBatch);
+            spriteBatch.Begin();
+            Gui.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
     }
 }
