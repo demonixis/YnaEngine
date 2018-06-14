@@ -28,7 +28,7 @@ namespace Yna.Samples.Screens
 
             var material = new EnvironmentMapMaterial("Textures/pyramid", textures);
             material.Amount = 0.95f;
-            material.EnabledPerPixelLighting = true;
+            material.PreferPerPixelLighting = true;
             material.FresnelFactor = 0.2f;
 
             pyramid = new YnMeshGeometry(geometry, material);

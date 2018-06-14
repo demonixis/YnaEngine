@@ -9,6 +9,8 @@ using Yna.Engine.Graphics3D.Cameras;
 
 namespace Yna.Engine.Graphics3D.Materials
 {
+    using XnaDirectionalLight = Microsoft.Xna.Framework.Graphics.DirectionalLight;
+
     /// <summary>
     /// Define a base class for all XNA stock effects
     /// </summary>
@@ -16,190 +18,114 @@ namespace Yna.Engine.Graphics3D.Materials
     {
         #region Protected declarations
 
-        protected float _alphaColor;
-        protected Vector3 _fogColor;
-        protected float _fogStart;
-        protected float _fogEnd;
-        protected Vector3 _emissiveColor;
-        protected float _emissiveIntensity;
-        protected Vector3 _specularColor;
-        protected float _specularIntensity;
-        protected bool _enableMainTexture;
-        protected bool _enableFog;
-        protected bool _enablePerPixelLighting;
-        protected bool _enableVertexColor;
-        protected bool _enableDefaultLighting;
-        protected bool _enableLighting;
-        protected SceneLight _basicLight;
-
         #endregion
 
         #region Properties
 
         /// <summary>
+        /// Gets or sets the ambient color
+        /// </summary>
+        public Vector3 AmbientColor { get; set; } = Vector3.One;
+
+        /// <summary>
+        /// Get or sets the value of ambient intensity
+        /// </summary>
+        public float AmbientIntensity { get; set; } = 1.0f;
+
+        /// <summary>
+        /// Gets or sets the default diffuse color
+        /// </summary>
+        public Vector3 DiffuseColor { get; set; } = Vector3.One;
+
+        /// <summary>
+        /// Gets or sets the default diffuse intensity
+        /// </summary>
+        public float DiffuseIntensity { get; set; } = 1.0f;
+
+        /// <summary>
         /// Gets or sets alpha value
         /// </summary>
-        public float AlphaColor
-        {
-            get { return _alphaColor; }
-            set { _alphaColor = value; }
-        }
+        public float AlphaColor { get; set; } = 1.0f;
 
         /// <summary>
         /// Gets or sets for color
         /// </summary>
-        public Vector3 FogColor
-        {
-            get { return _fogColor; }
-            set { _fogColor = value; }
-        }
+        public Vector3 FogColor { get; set; } = Vector3.One;
 
         /// <summary>
         /// Gets or sets fog start value
         /// </summary>
-        public float FogStart
-        {
-            get { return _fogStart; }
-            set { _fogStart = value; }
-        }
+        public float FogStart { get; set; } = 10.0f;
 
         /// <summary>
         /// Gets or sets fog end value
         /// </summary>
-        public float FogEnd
-        {
-            get { return _fogEnd; }
-            set { _fogEnd = value; }
-        }
+        public float FogEnd { get; set; } = 100.0f;
 
         /// <summary>
         /// Gets or sets the value of emissive color
         /// </summary>
-        public Vector3 EmissiveColor
-        {
-            get { return _emissiveColor; }
-            set { _emissiveColor = value; }
-        }
+        public Vector3 EmissiveColor { get; set; } = Vector3.Zero;
 
-        public float EmissiveIntensity
-        {
-            get { return _emissiveIntensity; }
-            set { _emissiveIntensity = value; }
-        }
+        public float EmissiveIntensity { get; set; } = 1.0f;
 
         /// <summary>
         /// Gets or sets the value of specular color
         /// </summary>
-        public Vector3 SpecularColor
-        {
-            get { return _specularColor; }
-            set { _specularColor = value; }
-        }
+        public Vector3 SpecularColor { get; set; } = new Vector3(0.3f);
 
         /// <summary>
         /// Gets or sets the value of specular intensity
         /// </summary>
-        public float SpecularIntensity
-        {
-            get { return _specularIntensity; }
-            set { _specularIntensity = value; }
-        }
+        public float SpecularIntensity { get; set; } = 0.4f;
 
         /// <summary>
         /// Enable or disable fog
         /// </summary>
-        public bool EnableFog
-        {
-            get { return _enableFog; }
-            set { _enableFog = value; }
-        }
+        public bool EnableFog { get; set; } = false;
 
         /// <summary>
         /// Enable or disable the default lighting
         /// </summary>
-        public bool EnableDefaultLighting
-        {
-            get { return _enableDefaultLighting; }
-            set { _enableDefaultLighting = value; }
-        }
+        public bool EnableDefaultLighting { get; set; } = false;
 
         /// <summary>
         /// Enable or disable lighting when the default lighting isn't enabled.
         /// </summary>
-        public bool EnableLighting
-        {
-            get { return _enableLighting; }
-            set { _enableLighting = value; }
-        }
+        public bool EnableLighting { get; set; } = true;
 
         /// <summary>
         /// Enable or disable the main texture
         /// </summary>
-        public bool EnableMainTexture
-        {
-            get { return _enableMainTexture; }
-            set { _enableMainTexture = value; }
-        }
+        public bool EnableMainTexture { get; set; } = true;
 
         /// <summary>
         /// Enable or disable per pixel lighting
         /// </summary>
-        public bool EnabledPerPixelLighting
-        {
-            get { return _enablePerPixelLighting; }
-            set { _enablePerPixelLighting = value; }
-        }
+        public bool PreferPerPixelLighting { get; set; } = true;
 
         /// <summary>
         /// Enable or disable vertex color
         /// </summary>
-        public bool EnableVertexColor
-        {
-            get { return _enableVertexColor; }
-            set { _enableVertexColor = value; }
-        }
+        public bool EnableVertexColor { get; set; } = false;
 
         #endregion
-
-        public StockMaterial()
-            : base()
-        {
-            _alphaColor = 1.0f;
-            _fogColor = Color.White.ToVector3();
-            _fogStart = 0.0f;
-            _fogEnd = 0.0f;
-            _emissiveColor = Color.Black.ToVector3();
-            _emissiveIntensity = 0.0f;
-            _specularColor = Color.Black.ToVector3();
-            _specularIntensity = 1.0f;
-            _enableDefaultLighting = true;
-            _enableFog = false;
-            _enableMainTexture = false;
-            _enablePerPixelLighting = false;
-            _enableVertexColor = false;
-            _enableLighting = false;
-            _effectName = "XNA Stock Effect";
-        }
 
         /// <summary>
         /// Load the main texture. If you want to reload another texture, use the MainTextureName propertie and call this method
         /// </summary>
         public override void LoadContent()
         {
-            if (!_textureLoaded && _textureName != String.Empty)
-            {
+            if (_texture == null && _textureName != String.Empty)
                 _texture = YnG.Content.Load<Texture2D>(_textureName);
-                _enableMainTexture = true;
-                _textureLoaded = true;
-            }
-            else
-                _enableMainTexture = _texture != null ? true : false;
+
+            EnableMainTexture = _texture != null ? true : false;
         }
 
-        public override void Update(Camera camera, ref Matrix world)
+        public override void Update(Camera camera, SceneLight light, ref Matrix world)
         {
             // Matrices
-            IEffectMatrices effectMatrices = (IEffectMatrices)_effect;
+            var effectMatrices = (IEffectMatrices)_effect;
             effectMatrices.World = world;
             effectMatrices.View = camera.View;
             effectMatrices.Projection = camera.Projection;
@@ -207,14 +133,10 @@ namespace Yna.Engine.Graphics3D.Materials
 
         protected virtual void UpdateFog(IEffectFog effectFog)
         {
-            // Fog
-            if (_enableFog)
-            {
-                effectFog.FogEnabled = _enableFog;
-                effectFog.FogColor = _fogColor;
-                effectFog.FogStart = _fogStart;
-                effectFog.FogEnd = _fogEnd;
-            }
+            effectFog.FogEnabled = EnableFog;
+            effectFog.FogColor = FogColor;
+            effectFog.FogStart = FogStart;
+            effectFog.FogEnd = FogEnd;
         }
 
         /// <summary>
@@ -222,45 +144,35 @@ namespace Yna.Engine.Graphics3D.Materials
         /// </summary>
         /// <param name="effectLights">The light effect</param>
         /// <returns>True if the lighting is enabled</returns>
-        protected virtual bool UpdateLights(IEffectLights effectLights)
+        protected virtual bool UpdateLights(IEffectLights effectLights, SceneLight light)
         {
-            // Lights
-            if (_enableDefaultLighting)
+            effectLights.LightingEnabled = EnableLighting;
+
+            if (!EnableDefaultLighting)
             {
-                effectLights.EnableDefaultLighting();
-                return false;
+                effectLights.AmbientLightColor = AmbientColor * AmbientIntensity;
+                effectLights.AmbientLightColor *= light.AmbientColor * light.AmbientIntensity;
+                UpdateLighting(effectLights, light);
             }
             else
-            {
-                effectLights.LightingEnabled = _enableLighting;
-                effectLights.AmbientLightColor = _ambientColor * _ambientIntensity;
+                effectLights.EnableDefaultLighting();
 
-                if (_light is SceneLight)
-                {
-                    UpdateLighting(effectLights, (SceneLight)_light);
-                    effectLights.AmbientLightColor *= _light.AmbientColor * _light.AmbientIntensity;
-                }
-
-                return true;
-            }
+            return !EnableDefaultLighting;
         }
 
         public static void UpdateLighting(IEffectLights effect, SceneLight light)
         {
-            effect.DirectionalLight0.Enabled = light.DirectionalLights[0].Enabled;
-            effect.DirectionalLight0.Direction = light.DirectionalLights[0].Direction;
-            effect.DirectionalLight0.DiffuseColor = light.DirectionalLights[0].DiffuseColor * light.DirectionalLights[0].DiffuseIntensity;
-            effect.DirectionalLight0.SpecularColor = light.DirectionalLights[0].SpecularColor * light.DirectionalLights[0].SpecularIntensity;
+            UpdateLight(effect.DirectionalLight0, 0, light);
+            UpdateLight(effect.DirectionalLight1, 1, light);
+            UpdateLight(effect.DirectionalLight2, 2, light);
+        }
 
-            effect.DirectionalLight1.Enabled = light.DirectionalLights[1].Enabled;
-            effect.DirectionalLight1.Direction = light.DirectionalLights[1].Direction;
-            effect.DirectionalLight1.DiffuseColor = light.DirectionalLights[1].DiffuseColor * light.DirectionalLights[1].DiffuseIntensity;
-            effect.DirectionalLight1.SpecularColor = light.DirectionalLights[1].SpecularColor * light.DirectionalLights[1].SpecularIntensity;
-
-            effect.DirectionalLight2.Enabled = light.DirectionalLights[2].Enabled;
-            effect.DirectionalLight2.Direction = light.DirectionalLights[2].Direction;
-            effect.DirectionalLight2.DiffuseColor = light.DirectionalLights[2].DiffuseColor * light.DirectionalLights[2].DiffuseIntensity;
-            effect.DirectionalLight2.SpecularColor = light.DirectionalLights[2].SpecularColor * light.DirectionalLights[2].SpecularIntensity;
+        public static void UpdateLight(XnaDirectionalLight directionalLight, int index, SceneLight light)
+        {
+            directionalLight.Enabled = light.DirectionalLights[index].Enabled;
+            directionalLight.Direction = light.DirectionalLights[index].Direction;
+            directionalLight.DiffuseColor = light.DirectionalLights[index].DiffuseColor * light.DirectionalLights[index].DiffuseIntensity;
+            directionalLight.SpecularColor = light.DirectionalLights[index].SpecularColor * light.DirectionalLights[index].SpecularIntensity;
         }
     }
 }

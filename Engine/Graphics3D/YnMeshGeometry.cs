@@ -14,7 +14,7 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// A mesh who use a procedural geometry.
     /// </summary>
-    public class YnMeshGeometry : YnMesh
+    public class YnMeshGeometry : YnEntity3D
     {
         protected BaseGeometry<VertexPositionNormalTexture> _geometry;
         protected Vector2 _textureRepeat;
@@ -123,22 +123,12 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Update lights.
-        /// </summary>
-        /// <param name="light"></param>
-        public override void UpdateLighting(SceneLight light)
-        {
-            if (_material != null)
-                _material.Light = light;
-        }
-
-        /// <summary>
         /// Draw mesh.
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light)
         {
-            PreDraw(camera);
+            PreDraw(camera, light);
             _geometry.Draw(device, _material);
         }
     }

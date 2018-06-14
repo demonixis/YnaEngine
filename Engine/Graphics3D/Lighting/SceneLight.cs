@@ -1,60 +1,34 @@
 ﻿// YnaEngine - Copyright (C) YnaEngine team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
-using System;
 using Microsoft.Xna.Framework;
 
 namespace Yna.Engine.Graphics3D.Lighting
 {
-    public class SceneLight : BaseLight
+    public class SceneLight
     {
-        protected Vector3 _specularColor;
-        protected float _specularIntensity;
-
-        protected DirectionalLight[] _directionalLights;
-
-        public Vector3 SpecularColor
-        {
-            get { return _specularColor; }
-            set { _specularColor = value; }
-        }
-
-        public float SpecularIntensity
-        {
-            get { return _specularIntensity; }
-            set { _specularIntensity = value; }
-        }
-
-        public DirectionalLight[] DirectionalLights
-        {
-            get { return _directionalLights; }
-            set { _directionalLights = value; }
-        }
+        public bool Enabled { get; set; } = true;
+        public Vector3 AmbientColor { get; set; } = Color.White.ToVector3();
+        public float AmbientIntensity { get; set; } = 1.0f;
+        public Vector3 DiffuseColor { get; set; } = Color.White.ToVector3();
+        public float DiffuseIntensity { get; set; } = 1.0f;
+        public Vector3 SpecularColor { get; set; } = new Vector3(0.3f);
+        public float SpecularIntensity { get; set; } = 0.4f;
+        public DirectionalLight[] DirectionalLights { get; set; }
 
         /// <summary>
         /// Create a basic light with just an ambient color set to white
         /// </summary>
         public SceneLight()
-            : base()
         {
-            _specularColor = Vector3.Zero;
-            _specularIntensity = 1.0f;
+            DirectionalLights = new DirectionalLight[3];
 
-            InitializeDirectionalLights();
-        }
-
-        private void InitializeDirectionalLights()
-        {
-            _directionalLights = new DirectionalLight[3];
-
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < DirectionalLights.Length; i++)
             {
-                _directionalLights[i] = new DirectionalLight();
+                DirectionalLights[i] = new DirectionalLight();
                 if (i > 0)
-                    _directionalLights[i].Enabled = false;
+                    DirectionalLights[i].Enabled = false;
             }
-
-            _enabled = true;
-        }    
+        }
     }
 }

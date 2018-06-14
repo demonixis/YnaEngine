@@ -14,12 +14,12 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// A mesh who use a model loaded from content manager.
     /// </summary>
-    public class YnMeshModel : YnMesh
+    public class YnMeshModel : YnEntity3D
     {
         private string _modelName;
         protected Model _model;
         protected Matrix[] _bonesTransforms;
-        protected Materials.Material[] _materials;
+        protected Material[] _materials;
 
         /// <summary>
         /// Gets the model used by this mesh
@@ -98,8 +98,8 @@ namespace Yna.Engine.Graphics3D
         public override void UpdateBoundingVolumes()
         {
             // 1 - Global Bounding box
-            Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-            Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+            var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
             _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 
@@ -146,7 +146,7 @@ namespace Yna.Engine.Graphics3D
         /// Update model effect
         /// </summary>
         /// <param name="meshEffect">An effect</param>
-        protected virtual void UpdateModelEffects(Effect meshEffect)
+        protected virtual void UpdateModelEffects(Effect meshEffect, SceneLight light)
         {
             if (meshEffect is BasicEffect)
             {
@@ -165,10 +165,9 @@ namespace Yna.Engine.Graphics3D
                 }
                 else
                 {
-                    BasicMaterial material = (BasicMaterial)_material;
-
+                    var material = (BasicMaterial)_material;
                     if (material != null)
-                        UpdateEffect(effect, material); 
+                        UpdateEffect(effect, material, light); 
                 }
             }
         }
@@ -178,7 +177,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="effect"></param>
         /// <param name="material"></param>
-        private void UpdateEffect(BasicEffect effect, BasicMaterial material)
+        private void UpdateEffect(BasicEffect effect, BasicMaterial material, SceneLight light)
         {
             effect.Alpha = material.AlphaColor;
             effect.AmbientLightColor = material.AmbientColor * material.AmbientIntensity;
@@ -193,12 +192,9 @@ namespace Yna.Engine.Graphics3D
             if (material.EnableDefaultLighting)
                 effect.EnableDefaultLighting();
 
-            effect.PreferPerPixelLighting = material.EnabledPerPixelLighting;
+            effect.PreferPerPixelLighting = material.PreferPerPixelLighting;
             effect.SpecularColor = material.SpecularColor * material.SpecularIntensity;
             effect.VertexColorEnabled = material.EnableVertexColor;
-
-
-            SceneLight light = (SceneLight)material.Light;
 
             if (light != null)
             {
@@ -224,10 +220,10 @@ namespace Yna.Engine.Graphics3D
         /// Gets material used by the model.
         /// </summary>
         /// <returns>An array of material used by the model.</returns>
-        public Materials.Material[] GetModelMaterial()
+        public Material[] GetModelMaterial()
         {
-            List<Materials.Material> materials = new List<Materials.Material>();
-            Materials.Material material = null;
+            List<Material> materials = new List<Material>();
+            Material material = null;
 
             foreach (ModelMesh mesh in _model.Meshes)
             {
@@ -248,23 +244,6 @@ namespace Yna.Engine.Graphics3D
             }
 
             return materials.ToArray();
-        }
-
-        /// <summary>
-        /// Update lights.
-        /// </summary>
-        /// <param name="light"></param>
-        public override void UpdateLighting(SceneLight light)
-        {
-            if (_material != null)
-            {
-                _material.Light = light;
-            }
-            else if (_materials != null)
-            {
-                foreach (Materials.Material material in _materials)
-                    material.Light = light;
-            }
         }
 
         /// <summary>
@@ -289,18 +268,18 @@ namespace Yna.Engine.Graphics3D
         /// Draw the model.
         /// </summary>
         /// <param name="device">GraphicsDevice</param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device, Cameras.Camera camera)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light)
         {
             UpdateMatrix();
-            _material.Update(camera, ref _world);
 
+            _material.Update(camera, light, ref _world);
             _model.CopyAbsoluteBoneTransformsTo(_bonesTransforms);
 
             foreach (ModelMesh mesh in _model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    UpdateModelEffects(effect);
+                    UpdateModelEffects(effect, light);
                     effect.World = _bonesTransforms[mesh.ParentBone.Index] * World;
                     effect.View = camera.View;
                     effect.Projection = camera.Projection;

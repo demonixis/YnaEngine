@@ -24,10 +24,5 @@ namespace Yna.Engine.Graphics3D.Terrain
             _geometry = new SimpleTerrainGeometry(width, 0, depth, new Vector3(segmentX, 0, segmentZ));
             _material = new BasicMaterial(textureName);
         }
-
-        public override void Draw(GameTime gameTime, GraphicsDevice device, Cameras.Camera camera)
-        {
-            base.Draw(gameTime, device, camera);
-        }
     }
 }

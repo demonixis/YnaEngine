@@ -27,11 +27,8 @@ namespace Yna.Engine.Graphics3D.Materials
         private DualTextureMaterial()
             : base()
         {
-            _enableDefaultLighting = false;
-            _enableLighting = true;
             _secondTextureLoaded = false;
             _secondTextureName = String.Empty;
-            _effectName = "DualTextureEffect";
         }
 
         /// <summary>
@@ -56,19 +53,16 @@ namespace Yna.Engine.Graphics3D.Materials
                 _secondTextureLoaded = true;
             }
 
-            if (!_effectLoaded)
-            {
+            if (_effect == null)
                 _effect = new DualTextureEffect(YnG.GraphicsDevice);
-				_effectLoaded = true;
-            }
         }
 
-        public override void Update(Cameras.Camera camera, ref Matrix world)
+        public override void Update(Camera camera, SceneLight light, ref Matrix world)
         {
             // Update matrices
-            base.Update(camera, ref world);
+            base.Update(camera, light, ref world);
 
-            DualTextureEffect dualTextureEffect = (DualTextureEffect)_effect;
+            var dualTextureEffect = (DualTextureEffect)_effect;
 			
             // Fog
             UpdateFog(dualTextureEffect);
@@ -78,8 +72,8 @@ namespace Yna.Engine.Graphics3D.Materials
             dualTextureEffect.Texture2 = _secondTexture;
             
             // Lights
-            dualTextureEffect.DiffuseColor = new Vector3(_diffuseColor.X, _diffuseColor.Y, _diffuseColor.Z) * _diffuseIntensity;
-            dualTextureEffect.Alpha = _alphaColor;
+            dualTextureEffect.DiffuseColor = DiffuseColor * DiffuseIntensity;
+            dualTextureEffect.Alpha = AlphaColor;
         }
     }
 }

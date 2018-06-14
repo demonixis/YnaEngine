@@ -40,7 +40,7 @@ namespace Yna.Samples.Screens
             SceneLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
             SceneLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
             SceneLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
-            SceneLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
+            SceneLight.SpecularColor = Color.Gray.ToVector3();
         }
 
         public override void Update(GameTime gameTime)

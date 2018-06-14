@@ -76,7 +76,6 @@ namespace Yna.Engine.Graphics3D.Materials
             _fresnelFactor = 0.5f; // Disabled
             _environmentTextureSize = 0;
             _enableTextureMipmap = false;
-            _effectName = "EnvironmentMapEffect";
         }
 
         /// <summary>
@@ -150,25 +149,20 @@ namespace Yna.Engine.Graphics3D.Materials
 
                 // If the first texture is null we create a dummy texture with the same size of environment texture
                 if (_texture == null)
-                {
                     _texture = YnGraphics.CreateTexture(Color.White, _environmentTextureSize, _environmentTextureSize);
-                    _textureLoaded = true;
-                }
             }
 
-            if (!_effectLoaded)
-            {
+            if (_effect == null)
                 _effect = new EnvironmentMapEffect(YnG.GraphicsDevice);
-				_effectLoaded = true;
-            }
         }
 
-        public override void Update(Cameras.Camera camera, ref Matrix world)
+        public override void Update(Camera camera, SceneLight light, ref Matrix world)
         {
-            if (!_effectLoaded) return;
+            if (_effect == null)
+                return;
 
             // Update matrices
-            base.Update(camera, ref world);
+            base.Update(camera, light, ref world);
 
             EnvironmentMapEffect environmentMapEffect = (EnvironmentMapEffect)_effect;
 
@@ -176,17 +170,17 @@ namespace Yna.Engine.Graphics3D.Materials
             environmentMapEffect.Texture = _texture;
             environmentMapEffect.EnvironmentMap = _environmentTexture;
             environmentMapEffect.EnvironmentMapAmount = _environmentAmount;
-            environmentMapEffect.EnvironmentMapSpecular = _specularColor * _specularIntensity;
+            environmentMapEffect.EnvironmentMapSpecular = SpecularColor * SpecularIntensity;
             environmentMapEffect.FresnelFactor = _fresnelFactor;
             // Fog
             UpdateFog(environmentMapEffect);
 
             // Lights
-            if (UpdateLights(environmentMapEffect))
+            if (UpdateLights(environmentMapEffect, light))
             {
-                environmentMapEffect.EmissiveColor = _emissiveColor;
-                environmentMapEffect.DiffuseColor = _diffuseColor * _diffuseIntensity;
-                environmentMapEffect.Alpha = _alphaColor;
+                environmentMapEffect.EmissiveColor = EmissiveColor;
+                environmentMapEffect.DiffuseColor = DiffuseColor * DiffuseIntensity;
+                environmentMapEffect.Alpha = AlphaColor;
             }
         }
     }

@@ -3,13 +3,9 @@
 // file 'LICENSE', which is part of this source code package.
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics.Gui.Widgets;
-using Yna.Engine.Helpers;
 
 namespace Yna.Engine.Graphics.Gui
 {
