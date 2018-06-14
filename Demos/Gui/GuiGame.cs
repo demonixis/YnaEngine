@@ -1,5 +1,4 @@
-﻿using System;
-using Yna.Engine;
+﻿using Yna.Engine;
 using Yna.Engine.Graphics.Component;
 using Yna.Samples.Screens;
 
@@ -7,15 +6,17 @@ namespace Yna.Samples
 {
     public class GuiGame : YnGame
     {
-        YnMenu menu;
-        MenuEntry[] menuItems;
+        private YnMenu _menu;
+        private MenuEntry[] _menuItems;
 
         public GuiGame()
-            : base (800, 600, "Yna Framework : Graphical User Interface Samples")
+            : base ()
         {
+            Window.Title = "Yna Framework : Graphical User Interface Samples";
+
             YnG.ShowMouse = true; 
 
-            menuItems = new MenuEntry[]
+            _menuItems = new MenuEntry[]
             {
                 new MenuEntry("buttonSample", "Buttons & Skins", "See how work buttons and skins"),
                 new MenuEntry("panelSample", "Panels", "Panels automatic layout"),
@@ -28,22 +29,17 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            menu = new YnMenu("menu", "GUI Samples", menuItems);
-
-            stateManager.Add(menu, true);
-            stateManager.Add(new ButtonState("buttonSample"), false);
-            stateManager.Add(new PanelState("panelSample"), false);
-            stateManager.Add(new DepthState("depthSample"), false);
+            _menu = new YnMenu("menu", "GUI Samples", _menuItems);
+            _stateManager.Add(_menu, true);
+            _stateManager.Add(new ButtonState("buttonSample"), false);
+            _stateManager.Add(new PanelState("panelSample"), false);
+            _stateManager.Add(new DepthState("depthSample"), false);
         }
 
-#if !WINDOWS_PHONE
         public static void Main(string[] args)
         {
             using (GuiGame game = new GuiGame())
-            {
                 game.Run();
-            }
         }
-#endif
     }
 }

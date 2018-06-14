@@ -33,6 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+	<Compile Include="Graphics\Tilemap\BaseLayer.cs" />
+	<Compile Include="Graphics\Tilemap\BaseTile.cs" />
+	<Compile Include="Graphics\Tilemap\BaseTileMap.cs" />
+	<Compile Include="Graphics\Tilemap\IsometricHelper.cs" />
+	<Compile Include="Graphics\Tilemap\Basic\Layer2D.cs" />
+	<Compile Include="Graphics\Tilemap\Basic\Tile2D.cs" />
+	<Compile Include="Graphics\Tilemap\Basic\TileMap2D.cs" />
+	<Compile Include="Graphics\Tilemap\Iso\LayerIso.cs" />
+	<Compile Include="Graphics\Tilemap\Iso\TileIso.cs" />
+	<Compile Include="Graphics\Tilemap\Iso\TileMapIso.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Extensions\BoundingFrustrumExtension.cs" />
     <Compile Include="Graphics3D\Renderer\DeviceState.cs" />

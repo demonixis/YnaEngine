@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using Yna.Engine;
+﻿using Yna.Engine;
 using Yna.Engine.Graphics.Component;
-using Yna.Samples;
 using Yna.Samples.Screens;
 
 namespace Yna.Samples
 {
     public class TilemapGame : YnGame
     {
-        YnMenu menu;
-        MenuEntry[] menuItems;
+        private YnMenu _menu;
+        private MenuEntry[] _menuItems;
 
         public TilemapGame ()
-            : base(800, 600, "Yna : Tilemap")
+            : base()
         {
-            menuItems = new MenuEntry[]
+            Window.Title = "Tilemap";
+           
+            _menuItems = new MenuEntry[]
             {
                 new MenuEntry("basicMap", "Basic tilemap 2D", "In this sample we create a simple tilemap 2D with a camera"),
                 new MenuEntry("isoMap", "Isometric tilemap 2D", "In this sample we create a simple isometric tilemap with a camera"),
@@ -26,20 +25,16 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            menu = new YnMenu("menu", "Tilemap", menuItems);
-            stateManager.Add(menu, true);
-            stateManager.Add(new TilemapSample("basicMap"), false);
-            stateManager.Add(new IsometricMapSample("isoMap"), false);
+            _menu = new YnMenu("menu", "Tilemap", _menuItems);
+            _stateManager.Add(_menu, true);
+            _stateManager.Add(new TilemapSample("basicMap"), false);
+            _stateManager.Add(new IsometricMapSample("isoMap"), false);
         }
 
-#if !WINDOWS_PHONE
         public static void Main(string[] args)
         {
             using (TilemapGame game = new TilemapGame())
-            {
                 game.Run();
-            }
         }
-#endif
     }
 }

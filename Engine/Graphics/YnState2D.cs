@@ -86,6 +86,9 @@ namespace Yna.Engine.Graphics
             _camera = new YnCamera2D();
             _entities = new List<YnEntity>();
             _GUIEnabled = enableGui;
+
+            if (_GUIEnabled)
+                _guiManager = new YnGui();
         }
 
         #endregion
@@ -172,7 +175,11 @@ namespace Yna.Engine.Graphics
             }
 
             if (_GUIEnabled)
+            {
+                spriteBatch.Begin();
                 _guiManager.Draw(gameTime, spriteBatch);
+                spriteBatch.End();
+            }
         }
 
         #endregion

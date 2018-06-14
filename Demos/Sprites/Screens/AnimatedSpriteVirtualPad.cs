@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics.Component;
-using Yna.Engine.Input;
-using Yna.Engine.Script;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Samples.Screens
 {
     public class AnimatedSpriteVirtualPad : YnState2D
     {
         // We create the background
-        private YnEntity background;
+        private YnEntity2D background;
 
         // We create 3 sprites
         private YnSprite womanSprite;
@@ -22,16 +18,13 @@ namespace Yna.Samples.Screens
         private YnSprite gunnerSprite;
 
         // And now some objects
-        private YnEntity woodObject;
-        private YnEntity wood2Object;
-        private YnEntity houseObject;
+        private YnEntity2D woodObject;
+        private YnEntity2D wood2Object;
+        private YnEntity2D houseObject;
 
         // Info text
         private YnText textInfo;
-
-        private ScriptAnimator womanAnimator;
-
-        private List<YnEntity> spriteToCollide;
+        private List<YnEntity2D> spriteToCollide;
 
         private YnVirtualPadController virtualPadController;
 
@@ -39,7 +32,7 @@ namespace Yna.Samples.Screens
             : base(name)
         {
 
-            background = new YnEntity("Sprites/GreenGround");
+            background = new YnEntity2D("Sprites/GreenGround");
             Add(background);
 
             // Create the sprites at position (0, 0) and add it on the state
@@ -56,13 +49,13 @@ namespace Yna.Samples.Screens
             Add(gunnerSprite);
 
             // Objects
-            woodObject = new YnEntity("Sprites/Tree");
+            woodObject = new YnEntity2D("Sprites/Tree");
             Add(woodObject);
 
-            wood2Object = new YnEntity("Sprites/Tree2");
+            wood2Object = new YnEntity2D("Sprites/Tree2");
             Add(wood2Object);
 
-            houseObject = new YnEntity("Sprites/House");
+            houseObject = new YnEntity2D("Sprites/House");
             Add(houseObject);
 
             string message = "Use the virtual pad for moving the player\nPress the first button for shake the scene\nPress the top left button for back to menu";
@@ -74,7 +67,7 @@ namespace Yna.Samples.Screens
             virtualPadController.VirtualPad.InverseDirectionStrafe = true;
             Add(virtualPadController.VirtualPad);
 
-            spriteToCollide = new List<YnEntity>(5);
+            spriteToCollide = new List<YnEntity2D>(5);
             spriteToCollide.Add(womanSprite);
             spriteToCollide.Add(gunnerSprite);
             spriteToCollide.Add(woodObject);
@@ -109,22 +102,11 @@ namespace Yna.Samples.Screens
             woodObject.Position = new Vector2(50, YnG.Height - (1.5f * (woodObject.Height)));
             wood2Object.Position = new Vector2((YnG.Width - 50) - wood2Object.Width, YnG.Height - (1.5f * (wood2Object.Height)));
             houseObject.Position = new Vector2((YnG.Width / 2) - (houseObject.Width / 2), 10);
-
-            womanAnimator = new ScriptAnimator(womanSprite);
-            womanAnimator.RepeatAnimation = true;
-            womanAnimator.Add(new WaitScript(2000));
-            womanAnimator.Add(new MoveScript(250, 50, 1));
-            womanAnimator.Add(new WaitScript(2000));
-            womanAnimator.Add(new MoveScript(50, 50, 1));
-            womanAnimator.Add(new MoveScript(50, 250, 1));
-            womanAnimator.Start();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            womanAnimator.Update(gameTime);
 
             // Move the sprite of the man
             if (YnG.Keys.Up || virtualPadController.Pressed(PadButtons.Up))

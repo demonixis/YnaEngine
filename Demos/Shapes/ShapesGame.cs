@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Yna.Engine;
+﻿using Yna.Engine;
 using Yna.Engine.Graphics.Component;
 using Yna.Samples.Screens;
 
@@ -8,13 +6,15 @@ namespace Yna.Samples
 {
     public class ShapesGame : YnGame
     {
-        YnMenu menu;
-        MenuEntry[] menuItems;
+        private YnMenu _menu;
+        private MenuEntry[] _menuItems;
      
         public ShapesGame()
-            : base(1280, 720, "Yna Samples : Custom Shapes")
+            : base()
         {
-            menuItems = new MenuEntry[]
+            Window.Title = "Yna Samples : Custom Shapes";
+
+            _menuItems = new MenuEntry[]
             {
                 new MenuEntry("cubeShapeSample", "Cube", "In this sample we create some cubes with differents materials"),
                 new MenuEntry("cylinderSample", "Cylinder", "In this sample we create a textured cylinder with a custom material"),
@@ -31,9 +31,9 @@ namespace Yna.Samples
         {
             base.Initialize();
 
-            menu = new YnMenu("menu", "Custom Shapes", menuItems);
+            _menu = new YnMenu("menu", "Custom Shapes", _menuItems);
 
-            _stateManager.Add(menu, true);
+            _stateManager.Add(_menu, true);
             _stateManager.Add(new CubeSample("cubeShapeSample"), false);
             _stateManager.Add(new CylinderSample("cylinderSample"), false);
             _stateManager.Add(new IcosphereSample("icosphereSample"), false);
@@ -43,15 +43,10 @@ namespace Yna.Samples
             _stateManager.Add(new TorusSample("torusSample"), false);
             _stateManager.Add(new MaterialSample("materialSample"), false);
         }
-
-#if !WINDOWS_PHONE
         public static void Main(string[] args)
         {
-            using (ShapesGame game = new ShapesGame())
-            {
+            using (var game = new ShapesGame())
                 game.Run();
-            }
         }
-#endif
     }
 }

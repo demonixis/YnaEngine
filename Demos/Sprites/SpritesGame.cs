@@ -1,5 +1,4 @@
-﻿using System;
-using Yna.Engine;
+﻿using Yna.Engine;
 using Yna.Engine.Graphics.Component;
 using Yna.Samples.Screens;
 
@@ -7,45 +6,41 @@ namespace Yna.Samples
 {
     public class SpritesGame : YnGame
     {
-        YnMenu menu;
-        MenuEntry[] menuItems;
+        private YnMenu _menu;
+        private MenuEntry[] _menuItems;
 
         public SpritesGame()
-            : base(800, 600, "Yna : Sprite samples")
+            : base()
         {
-            menuItems = new MenuEntry[]
+            Window.Title = "Yna : Sprite samples";
+
+            _menuItems = new MenuEntry[]
             {
                 new MenuEntry("basicSample", "Sprite generation", "In this sample we create some sprites and move/rotate it"),
                 new MenuEntry("particleSample", "Particle system", "Show you how to use the particle system"),
                 new MenuEntry("spritesheetSample", "Animated sprites", "In this sample we create animated sprites with spritesheets"),
                 new MenuEntry("virtualPadSample", "Virtual Pad", "This is the same sample as \"Animated Sprites\" but \nwe use a virtual pad for moving the player"),
-#if WIIMOTE
-                new MenuEntry("wiimoteSample", "Using Wiimote", "Do you want to use a wiimote and a nunchuck ?"),
-#endif
             };
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+
             YnG.ShowMouse = true;
-            menu = new YnMenu("menu", "Tilemap", menuItems);
-            stateManager.Add(menu, true);
-            stateManager.Add(new BasicSprites("basicSample"), false);
-            stateManager.Add(new ParticlesSample("particleSample"), false);
-            stateManager.Add(new AnimatedSprites("spritesheetSample"), false);
-            stateManager.Add(new AnimatedSpriteVirtualPad("virtualPadSample"), false);
+
+            _menu = new YnMenu("menu", "Tilemap", _menuItems);
+            _stateManager.Add(_menu, true);
+            _stateManager.Add(new BasicSprites("basicSample"), false);
+            _stateManager.Add(new ParticlesSample("particleSample"), false);
+            _stateManager.Add(new AnimatedSprites("spritesheetSample"), false);
+            _stateManager.Add(new AnimatedSpriteVirtualPad("virtualPadSample"), false);
         }
 
-#if !WINDOWS_PHONE
-        [STAThread]
         public static void Main(string[] args)
         {
             using (SpritesGame game = new SpritesGame())
-            {
                 game.Run();
-            }
         }
-#endif
     }
 }

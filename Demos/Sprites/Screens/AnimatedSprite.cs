@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Yna.Engine;
 using Yna.Engine.Graphics;
 using Yna.Engine.Input;
-using Yna.Engine.Script;
 
 namespace Yna.Samples.Screens
 {
     public class AnimatedSprites : YnState2D
     {
         // We create the background
-        private YnEntity background;
+        private YnEntity2D background;
 
         private YnGroup spriteGroup;
 
@@ -22,22 +20,20 @@ namespace Yna.Samples.Screens
         private YnSprite gunnerSprite;
 
         // And now some objects
-        private YnEntity woodObject;
-        private YnEntity wood2Object;
-        private YnEntity houseObject;
+        private YnEntity2D woodObject;
+        private YnEntity2D wood2Object;
+        private YnEntity2D houseObject;
 
         // Info text
         private YnText textInfo;
-
-        private ScriptAnimator womanAnimator;
-
+        
         private YnQuadTree quadTree;
-        private List<YnEntity> spriteToCollide;
+        private List<YnEntity2D> spriteToCollide;
 
         public AnimatedSprites(string name)
             : base(name)
         {
-            background = new YnEntity("Sprites/GreenGround");
+            background = new YnEntity2D("Sprites/GreenGround");
             Add(background);
 
             spriteGroup = new YnGroup();
@@ -57,13 +53,13 @@ namespace Yna.Samples.Screens
             spriteGroup.Add(gunnerSprite);
 
             // Objects
-            woodObject = new YnEntity("Sprites/Tree");
+            woodObject = new YnEntity2D("Sprites/Tree");
             Add(woodObject);
 
-            wood2Object = new YnEntity("Sprites/Tree2");
+            wood2Object = new YnEntity2D("Sprites/Tree2");
             Add(wood2Object);
 
-            houseObject = new YnEntity("Sprites/House");
+            houseObject = new YnEntity2D("Sprites/House");
             Add(houseObject);
 
             textInfo = new YnText("Fonts/DefaultFont", "Press S for shake the screen\nUse Right click to move the scene\nUse Middle click to rotate the scene\nUseLeft click to reset", Vector2.Zero, Color.YellowGreen);
@@ -71,7 +67,7 @@ namespace Yna.Samples.Screens
 
             quadTree = new YnQuadTree(0, new Rectangle(0, 0, YnG.Width, YnG.Height));
             quadTree.MaxObjectsPerNode = 2;
-            spriteToCollide = new List<YnEntity>(5);
+            spriteToCollide = new List<YnEntity2D>(5);
             spriteToCollide.Add(womanSprite);
             spriteToCollide.Add(gunnerSprite);
             spriteToCollide.Add(woodObject);
@@ -106,15 +102,6 @@ namespace Yna.Samples.Screens
             woodObject.Position = new Vector2(50, YnG.Height - (1.5f * (woodObject.Height)));
             wood2Object.Position = new Vector2((YnG.Width - 50) - wood2Object.Width, YnG.Height - (1.5f * (wood2Object.Height)));
             houseObject.Position = new Vector2((YnG.Width / 2) - (houseObject.Width / 2), 10);
-
-            womanAnimator = new ScriptAnimator(womanSprite);
-            womanAnimator.RepeatAnimation = true;
-            womanAnimator.Add(new WaitScript(2000));
-            womanAnimator.Add(new MoveScript(250, 50, 1));
-            womanAnimator.Add(new WaitScript(2000));
-            womanAnimator.Add(new MoveScript(50, 50, 1));
-            womanAnimator.Add(new MoveScript(50, 250, 1));
-            womanAnimator.Start();
         }
 
         public override void Update(GameTime gameTime)
@@ -124,8 +111,6 @@ namespace Yna.Samples.Screens
             // Update the quadtree structure
             quadTree.Begin(spriteToCollide.ToArray());
             
-            womanAnimator.Update(gameTime);
-
             // Move the sprite of the man
             if (YnG.Keys.Up)
                 manSprite.Y -= 2;
