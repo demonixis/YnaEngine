@@ -18,7 +18,7 @@ namespace Yna.Engine.Graphics
         /// <param name="entityA">Sprite 1</param>
         /// <param name="entityB">Sprite 2</param>
         /// <returns></returns>
-        public static bool Collide(YnEntity entityA, YnEntity entityB)
+        public static bool Collide(YnEntity2D entityA, YnEntity2D entityB)
         {
             Rectangle r1 = new Rectangle((int)(entityA.X - entityA.Origin.X), (int)(entityA.Y - entityA.Origin.Y), (int)entityA.ScaledWidth, (int)entityA.ScaledHeight);
             Rectangle r2 = new Rectangle((int)(entityB.X - entityB.Origin.X), (int)(entityB.Y - entityB.Origin.Y), (int)entityB.ScaledWidth, (int)entityB.ScaledHeight);
@@ -31,7 +31,7 @@ namespace Yna.Engine.Graphics
         /// <param name="entity"></param>
         /// <param name="group"></param>
         /// <returns></returns>
-        public static bool CollideOneWithGroup(YnEntity entity, List<YnEntity> group)
+        public static bool CollideOneWithGroup(YnEntity2D entity, List<YnEntity2D> group)
         {
             bool collide = false;
             int size = group.Count;

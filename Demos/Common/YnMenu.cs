@@ -28,12 +28,12 @@ namespace Yna.Engine.Graphics.Component
         public const int ButtonWidth = 160;
         public const int ButtonHeight = 35;
         private const string FontName = "Fonts/DefaultFont";
-        private YnEntity _background;
+        private YnEntity2D _background;
         private YnText _text;
 
         public MenuButton(string text)
         {
-            _background = new YnEntity(new Rectangle(0, 0, ButtonWidth, ButtonHeight), Color.DarkGreen);
+            _background = new YnEntity2D(new Rectangle(0, 0, ButtonWidth, ButtonHeight), Color.DarkGreen);
             Add(_background);
 
             _text = new YnText(FontName, text);
@@ -68,7 +68,7 @@ namespace Yna.Engine.Graphics.Component
             YnG.ShowMouse = true;
             YnText.DefaultColor = Color.White;
 
-            _background = new YnEntity(new Rectangle(0, 0, YnG.Width, YnG.Height), new Color(13, 34, 56));
+            _background = new YnEntity2D(new Rectangle(0, 0, YnG.Width, YnG.Height), new Color(13, 34, 56));
             Add(_background);
 
             _clickableItems = new MenuButton[_menuItems.Length];

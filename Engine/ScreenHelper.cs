@@ -26,21 +26,15 @@ namespace Yna.Engine.Helpers
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static float GetScaleX(float value)
-        {
-            return (((float)YnG.Width * value) / (float)ScreenWidthReference);
-        }
+        public static float GetScaleX(float value) => (((float)YnG.Width * value) / (float)ScreenWidthReference);
 
         /// <summary>
         /// Get the scaled Y coordinate relative to the reference height
         /// </summary>
         /// <param name="value">The default Y coordinate used with the reference height</param>
         /// <returns>A scaled Y coordinate</returns>
-        public static float GetScaleY(float value)
-        {
-            return (((float)YnG.Height * value) / (float)ScreenHeightReference);
-        }
-
+        public static float GetScaleY(float value) => (((float)YnG.Height * value) / (float)ScreenHeightReference);
+        
         /// <summary>
         /// Get the scale relative to the reference width and height
         /// </summary>

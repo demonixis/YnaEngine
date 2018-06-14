@@ -63,24 +63,24 @@ namespace Yna.Engine.Graphics3D.Geometry
             _vertices = new VertexPositionNormalTexture[36];
 
             // Calculate the position of the vertices on the top face.
-            Vector3 topLeftFront = new Vector3(-1.0f, 1.0f, -1.0f) * SegmentSizes;
-            Vector3 topLeftBack = new Vector3(-1.0f, 1.0f, 1.0f) * SegmentSizes;
-            Vector3 topRightFront = new Vector3(1.0f, 1.0f, -1.0f) * SegmentSizes;
-            Vector3 topRightBack = new Vector3(1.0f, 1.0f, 1.0f) * SegmentSizes;
+            Vector3 topLeftFront = new Vector3(-1.0f, 1.0f, -1.0f) * Size;
+            Vector3 topLeftBack = new Vector3(-1.0f, 1.0f, 1.0f) * Size;
+            Vector3 topRightFront = new Vector3(1.0f, 1.0f, -1.0f) * Size;
+            Vector3 topRightBack = new Vector3(1.0f, 1.0f, 1.0f) * Size;
 
             // Calculate the position of the vertices on the bottom face.
-            Vector3 btmLeftFront = new Vector3(-1.0f, -1.0f, -1.0f) * SegmentSizes;
-            Vector3 btmLeftBack = new Vector3(-1.0f, -1.0f, 1.0f) * SegmentSizes;
-            Vector3 btmRightFront = new Vector3(1.0f, -1.0f, -1.0f) * SegmentSizes;
-            Vector3 btmRightBack = new Vector3(1.0f, -1.0f, 1.0f) * SegmentSizes;
+            Vector3 btmLeftFront = new Vector3(-1.0f, -1.0f, -1.0f) * Size;
+            Vector3 btmLeftBack = new Vector3(-1.0f, -1.0f, 1.0f) * Size;
+            Vector3 btmRightFront = new Vector3(1.0f, -1.0f, -1.0f) * Size;
+            Vector3 btmRightBack = new Vector3(1.0f, -1.0f, 1.0f) * Size;
 
             // Normal vectors for each face (needed for lighting / display)
-            Vector3 normalFront = new Vector3(0.0f, 0.0f, 1.0f) * SegmentSizes;
-            Vector3 normalBack = new Vector3(0.0f, 0.0f, -1.0f) * SegmentSizes;
-            Vector3 normalTop = new Vector3(0.0f, 1.0f, 0.0f) * SegmentSizes;
-            Vector3 normalBottom = new Vector3(0.0f, -1.0f, 0.0f) * SegmentSizes;
-            Vector3 normalLeft = new Vector3(-1.0f, 0.0f, 0.0f) * SegmentSizes;
-            Vector3 normalRight = new Vector3(1.0f, 0.0f, 0.0f) * SegmentSizes;
+            Vector3 normalFront = new Vector3(0.0f, 0.0f, 1.0f) * Size;
+            Vector3 normalBack = new Vector3(0.0f, 0.0f, -1.0f) * Size;
+            Vector3 normalTop = new Vector3(0.0f, 1.0f, 0.0f) * Size;
+            Vector3 normalBottom = new Vector3(0.0f, -1.0f, 0.0f) * Size;
+            Vector3 normalLeft = new Vector3(-1.0f, 0.0f, 0.0f) * Size;
+            Vector3 normalRight = new Vector3(1.0f, 0.0f, 0.0f) * Size;
 
             // UV texture coordinates
             Vector2 textureTopLeft = new Vector2(1.0f * TextureRepeat.X, 0.0f * TextureRepeat.Y);

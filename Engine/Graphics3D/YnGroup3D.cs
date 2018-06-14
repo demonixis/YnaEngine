@@ -6,110 +6,52 @@ using System.Collections.Generic;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Lighting;
 
 namespace Yna.Engine.Graphics3D
 {
+    // TODO: Fix transforms
     /// <summary>
     /// A container for updating and drawing 3D object
     /// </summary>
     public class YnGroup3D : YnEntity3D
     {
-        protected YnEntity3DList _members;
+        protected List<YnEntity3D> _members;
 
         #region Properties
 
         /// <summary>
         /// Get the number of elements in the group
         /// </summary>
-        public int Count
-        {
-            get { return _members.Count; }
-        }
-
-        public new Matrix World
-        {
-            get
-            {
-                _world = Matrix.Identity;
-
-                foreach (YnEntity3D members in _members)
-                    _world *= members.World;
-
-                return _world;
-            }
-            set
-            {
-                foreach (YnEntity3D members in _members)
-                    members.World *= value;
-            }
-        }
+        public int Count => _members.Count;
 
         /// <summary>
         /// Get the YnObject3D on this scene
         /// </summary>
-        public List<YnEntity3D> SceneObjects
-        {
-            get { return _members.Members; }
-        }
+        public List<YnEntity3D> SceneObjects => _members;
 
         public YnEntity3D this[int index]
         {
             get
             {
-                if (index < 0 || index > _members.Count - 1)
-                    return null;
-                else
+                if (index >= 0 && index < _members.Count)
                     return _members[index];
+
+                return null;
             }
             set
             {
-                if (index < 0 || index > _members.Count - 1)
-                    throw new IndexOutOfRangeException();
-                else
+                if (index >= 0 && index < _members.Count)
                     _members[index] = value;
-            }
-        }
-
-        public new Vector3 Rotation
-        {
-            get { return _rotation; }
-            set
-            {
-                foreach (YnEntity3D entity in this)
-                    entity.Rotation += value;
-                _rotation = value;
-            }
-        }
-
-        public new Vector3 Position
-        {
-            get { return _position; }
-            set
-            {
-                foreach (YnEntity3D entity in this)
-                    entity.Position += value;
-                _position = value;
-            }
-        }
-
-        public new Vector3 Scale
-        {
-            get { return _scale; }
-            set
-            {
-                foreach (YnEntity3D entity in this)
-                    entity.Scale += value;
-                _scale = value;
             }
         }
 
         #endregion
 
-        public YnGroup3D(YnEntity3D parent)
+        public YnGroup3D(YnEntity3D parent = null)
         {
-            _members = new YnEntity3DList();
+            _members = new List<YnEntity3D>();
             _initialized = false;
             _parent = parent;
         }
@@ -124,24 +66,8 @@ namespace Yna.Engine.Graphics3D
         {
             _boundingBox = new BoundingBox();
 
-            if (_initialized)
-            {
-                if (_members.Count > 0)
-                {
-                    foreach (YnEntity3D sceneObject in _members)
-                    {
-                        BoundingBox box = sceneObject.BoundingBox;
-
-                        _boundingBox.Min.X = box.Min.X < _boundingBox.Min.X ? box.Min.X : _boundingBox.Min.X;
-                        _boundingBox.Min.X = box.Min.Y < _boundingBox.Min.Y ? box.Min.Y : _boundingBox.Min.Y;
-                        _boundingBox.Min.X = box.Min.Z < _boundingBox.Min.Z ? box.Min.Z : _boundingBox.Min.Z;
-
-                        _boundingBox.Min.X = box.Min.X < _boundingBox.Min.X ? box.Min.X : _boundingBox.Min.X;
-                        _boundingBox.Min.X = box.Min.Y < _boundingBox.Min.Y ? box.Min.Y : _boundingBox.Min.Y;
-                        _boundingBox.Min.X = box.Min.Z < _boundingBox.Min.Z ? box.Min.Z : _boundingBox.Min.Z;
-                    }
-                }
-            }
+            foreach (YnEntity3D entity in _members)
+                _boundingBox = BoundingBox.CreateMerged(_boundingBox, entity.BoundingBox);
 
             // Update sizes of the scene
             _width = _boundingBox.Max.X - _boundingBox.Min.X;
@@ -150,22 +76,6 @@ namespace Yna.Engine.Graphics3D
 
             _boundingSphere.Center = new Vector3(X + Width / 2, Y + Height / 2, Z + Depth / 2);
             _boundingSphere.Radius = Math.Max(Math.Max(_width, _height), _depth) / 2;
-
-            World = Matrix.Identity;
-
-            foreach (YnEntity3D members in _members)
-                World *= members.World;
-        }
-
-        /// <summary>
-        /// Update world and children world matrix.
-        /// </summary>
-        public override void UpdateMatrix()
-        {
-            World = Matrix.Identity;
-
-            foreach (YnEntity3D members in _members)
-                World *= members.World;
         }
 
         /// <summary>
@@ -174,7 +84,7 @@ namespace Yna.Engine.Graphics3D
         /// <param name="light">Light to use.</param>
         public override void UpdateLighting(SceneLight light)
         {
-            foreach (YnEntity3D entity3D in _members)
+            foreach (var entity3D in _members)
                 entity3D.UpdateLighting(light);
         }
 
@@ -187,11 +97,13 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public override void Initialize()
         {
-            if (!_initialized)
-            {
-                _members.Initialize();
-                _initialized = true;
-            }
+            if (_initialized)
+                return;
+
+            foreach (var member in _members)
+                member.Initialize();
+
+            _initialized = true;
         }
 
         /// <summary>
@@ -199,11 +111,13 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public override void LoadContent()
         {
-            if (!_assetLoaded)
-            {
-                _members.LoadContent();
-                _assetLoaded = true;
-            }
+            if (_assetLoaded)
+                return;
+
+            foreach (var member in _members)
+                member.LoadContent();
+
+            _assetLoaded = true;
         }
 
         /// <summary>
@@ -211,11 +125,13 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public override void UnloadContent()
         {
-            if (_assetLoaded)
-            {
-                _members.UnloadContent();
-                _assetLoaded = false;
-            }
+            if (!_assetLoaded)
+                return;
+
+            foreach (var member in _members)
+                member.UnloadContent();
+
+            _assetLoaded = false;
         }
 
         /// <summary>
@@ -224,8 +140,12 @@ namespace Yna.Engine.Graphics3D
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            if (Enabled)
-                _members.Update(gameTime);
+            if (!Enabled)
+                return;
+
+            foreach (var member in _members)
+                if (member.Enabled)
+                    member.Update(gameTime);
         }
 
         /// <summary>
@@ -233,10 +153,31 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="gameTime">GameTime object.</param>
         /// <param name="device">GraphicsDevice object</param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Cameras.Camera camera)
         {
-            if (Visible)
-                _members.Draw(gameTime, device, camera, null);
+            if (!Visible)
+                return;
+
+            foreach (var member in _members)
+                if (member.Visible)
+                    member.Draw(gameTime, device, camera);
+        }
+
+        public void Draw(GameTime gameTime, GraphicsDevice device, Cameras.Camera camera, SceneLight light)
+        {
+            if (!Visible)
+                return;
+
+            foreach (var member in _members)
+            {
+                if (!member.Visible)
+                    continue;
+
+                if (light != null)
+                    member.UpdateLighting(light);
+
+                member.Draw(gameTime, device, camera);
+            }
         }
 
         #endregion
@@ -249,9 +190,6 @@ namespace Yna.Engine.Graphics3D
         /// <param name="sceneObject">An object3D</param>
         public virtual bool Add(YnEntity3D sceneObject)
         {
-            if (sceneObject is YnScene3D)
-                throw new Exception("[YnGroup3D] You can't add a scene on a group, use an YnGroup3D instead");
-
             if (sceneObject == this)
                 throw new Exception("[YnGroup3D] You can't add this group");
 
@@ -263,25 +201,29 @@ namespace Yna.Engine.Graphics3D
             if (_initialized)
                 sceneObject.Initialize();
 
-            return _members.Add(sceneObject);
+            _members.Add(sceneObject);
+
+            return true;
+        }
+
+        public virtual YnEntity3D Get(int index)
+        {
+            if (index >= 0 && index < _members.Count)
+                return _members[index];
+
+            return null;
         }
 
         /// <summary>
         /// Remove an object of the group
         /// </summary>
         /// <param name="sceneObject"></param>
-        public virtual bool Remove(YnEntity3D sceneObject)
-        {
-            return _members.Remove(sceneObject);
-        }
+        public virtual bool Remove(YnEntity3D sceneObject) => _members.Remove(sceneObject);
 
         /// <summary>
         /// Clear the group
         /// </summary>
-        public virtual void Clear()
-        {
-            _members.Clear();
-        }
+        public virtual void Clear() => _members.Clear();
 
         public IEnumerator GetEnumerator()
         {

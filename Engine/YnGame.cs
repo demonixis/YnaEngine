@@ -9,6 +9,7 @@ using Yna.Engine.State;
 using Yna.Engine.Helpers;
 using Yna.Engine.Input;
 using Yna.Engine.Storage;
+using Yna.Engine.Graphics;
 
 namespace Yna.Engine
 {
@@ -17,11 +18,14 @@ namespace Yna.Engine
     /// </summary>
     public class YnGame : Game
     {
-        protected GraphicsDeviceManager graphics = null;
-        protected SpriteBatch spriteBatch = null;
-        protected StateManager stateManager = null;
         public static string GameTitle = "Yna Game";
         public static string GameVersion = "1.0.0.0";
+        protected GraphicsDeviceManager _graphicsDevice = null;
+        protected SpriteBatch _spriteBatch;
+        protected StateManager _stateManager;
+        private Texture2D _debugOverlay;
+        private SpriteFont _debugSpriteFont;
+        private bool _debugEnabled;
 
         #region Constructors
 
@@ -32,68 +36,25 @@ namespace Yna.Engine
         public YnGame()
             : base()
         {
-            this.graphics = new GraphicsDeviceManager(this);
-            this.Content.RootDirectory = "Content";
-            this.stateManager = new StateManager(this);
+            Content.RootDirectory = "Content";
+            
+            _graphicsDevice = new GraphicsDeviceManager(this);
+            _graphicsDevice.GraphicsProfile = GraphicsProfile.HiDef;
 
-            YnKeyboard keyboardComponent = new YnKeyboard(this);
-            YnMouse mouseComponent = new YnMouse(this);
-            YnGamepad gamepadComponent = new YnGamepad(this);
-            YnTouch touchComponent = new YnTouch(this);
-
-            Components.Add(keyboardComponent);
-            Components.Add(mouseComponent);
-            Components.Add(gamepadComponent);
-            Components.Add(touchComponent);
-            Components.Add(stateManager);
+            _stateManager = new StateManager(this);
 
             // Registry globals objects
             YnG.Game = this;
-            YnG.GraphicsDeviceManager = this.graphics;
-            YnG.Keys = keyboardComponent;
-            YnG.Mouse = mouseComponent;
-            YnG.Gamepad = gamepadComponent;
-            YnG.Touch = touchComponent;
-            YnG.StateManager = stateManager;
-            YnG.StorageManager = new StorageManager();
+            YnG.GraphicsDeviceManager = _graphicsDevice;
+            YnG.Keys = new YnKeyboard(this); ;
+            YnG.Mouse = new YnMouse(this); ;
+            YnG.Gamepad = new YnGamepad(this); ;
+            YnG.Touch = new YnTouch(this); ;
+            YnG.StateManager = _stateManager;
+            YnG.StorageManager = new StorageManager(this);
             YnG.AudioManager = new AudioManager();
-
-#if !ANDROID
-            this.Window.Title = String.Format("{0} - v{1}", GameTitle, GameVersion);
-#endif
-            ScreenHelper.ScreenWidthReference = graphics.PreferredBackBufferWidth;
-            ScreenHelper.ScreenHeightReference = graphics.PreferredBackBufferHeight;
-
-#if WINDOWS_PHONE_7
-            // 30 FPS for Windows Phone 7
-            TargetElapsedTime = TimeSpan.FromTicks(333333);
-
-            // Battery saving when screen suspended
-            InactiveSleepTime = TimeSpan.FromSeconds(1);
-#endif
-        }
-
-        public YnGame(int width, int height, string title)
-            : this()
-        {
-#if XNA || MONOGAME && (OPENGL || DIRECTX || LINUX || MACOSX) ||SDL2
-            SetScreenResolution(width, height);
-          
-            this.Window.Title = title;
-
-            ScreenHelper.ScreenWidthReference = width;
-            ScreenHelper.ScreenHeightReference = height;
-#endif
-        }
-
-        public YnGame(int width, int height, string title, bool useStateManager)
-            : this(width, height, title)
-        {
-            if (!useStateManager)
-            {
-                this.stateManager.Enabled = false;
-                this.Components.Remove(this.stateManager);
-            }
+            ScreenHelper.ScreenWidthReference = _graphicsDevice.PreferredBackBufferWidth;
+            ScreenHelper.ScreenHeightReference = _graphicsDevice.PreferredBackBufferHeight;
         }
 
         #endregion
@@ -106,8 +67,9 @@ namespace Yna.Engine
         protected override void LoadContent()
         {
             base.LoadContent();
-            this.spriteBatch = new SpriteBatch(GraphicsDevice);
-            GraphicsDevice.Viewport = new Viewport(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            GraphicsDevice.Viewport = new Viewport(0, 0, _graphicsDevice.PreferredBackBufferWidth, _graphicsDevice.PreferredBackBufferHeight);
+            Window.Title = String.Format("{0} - v{1}", GameTitle, GameVersion);
         }
 
         /// <summary>
@@ -116,29 +78,82 @@ namespace Yna.Engine
         protected override void UnloadContent()
         {
             base.UnloadContent();
-
             YnG.AudioManager.Dispose();
         }
 
-        protected override void Draw(GameTime gameTime)
-        {
+		protected override void Draw(GameTime gameTime)
+		{
             base.Draw(gameTime);
+
+            if (!_debugEnabled)
+                return;
+            
+            var metrics = GraphicsDevice.Metrics;
+            var strings = new string[]
+            {
+                $"ClearCount: {metrics.ClearCount}",
+                $"DrawCount: {metrics.DrawCount}",
+                $"SpriteCount: {metrics.SpriteCount}",
+                $"TargetCount: {metrics.TargetCount}",
+                $"TextureCount: {metrics.TextureCount}",
+                $"PrimitiveCount: {metrics.PrimitiveCount}",
+                $"VertexShaderCount: {metrics.VertexShaderCount}",
+                $"PixelShaderCount: {metrics.PixelShaderCount}"
+            };
+
+            var longer = 0;
+            var index = 0;
+
+            for (var i = 0; i < strings.Length; i++)
+            {
+                if (strings[i].Length > longer)
+                {
+                    longer = strings[i].Length;
+                    index = i;
+                }
+            }
+
+            var size = _debugSpriteFont.MeasureString(strings[index]);
+            var offset = size.Y;
+
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(_debugOverlay, new Rectangle(0, 0, (int)(5 + size.X), (int)(strings.Length * offset + 5)), Color.White);
+
+            for (var i = 0; i < strings.Length; i++)
+                _spriteBatch.DrawString(_debugSpriteFont, strings[i], new Vector2(5, 5 + (offset * i)), Color.LightGreen);
+                                        
+            _spriteBatch.End();
+		}
+
+		#endregion
+
+        public void SetDebugLayerEnabled(SpriteFont font)
+        {
+            _debugSpriteFont = font;
+            _debugEnabled = font != null;
+
+            if (_debugOverlay != null)
+                return;
+
+            var color = Color.Black;
+            color.A = 125;
+
+            _debugOverlay = YnGraphics.CreateTexture(color, 8, 8);
         }
 
-        #endregion
+		#region Resolution setup
 
-        #region Resolution setup
-
-        /// <summary>
-        /// Change the screen resolution
-        /// </summary>
-        /// <param name="width">Screen width</param>
-        /// <param name="height">Screen height</param>
-        public virtual void SetScreenResolution(int width, int height)
+		/// <summary>
+		/// Change the screen resolution
+		/// </summary>
+		/// <param name="width">Screen width</param>
+		/// <param name="height">Screen height</param>
+		public virtual void SetScreenResolution(int width, int height)
         {
-            this.graphics.PreferredBackBufferWidth = width;
-            this.graphics.PreferredBackBufferHeight = height;
-            this.graphics.ApplyChanges();
+            this._graphicsDevice.PreferredBackBufferWidth = width;
+            this._graphicsDevice.PreferredBackBufferHeight = height;
+            this._graphicsDevice.ApplyChanges();
         }
 
         /// <summary>
@@ -149,8 +164,8 @@ namespace Yna.Engine
         {
             SetScreenResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
             
-            if (!graphics.IsFullScreen && fullscreen)
-                graphics.ToggleFullScreen();
+            if (!_graphicsDevice.IsFullScreen && fullscreen)
+                _graphicsDevice.ToggleFullScreen();
         }
 
         #endregion

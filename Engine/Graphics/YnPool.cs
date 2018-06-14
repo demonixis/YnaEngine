@@ -7,39 +7,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Yna.Engine.Graphics
 {
-    public class YnPool : YnGameEntity
+    public class YnPool : YnEntity
     {
         private readonly int _maximumPoolSize;
-        private YnEntity[] _poolEntities;
-        private YnEntity _tempSearchedEntity;
+        private YnEntity2D[] _poolEntities;
 
-        public YnEntity[] Entities
-        {
-            get { return _poolEntities; }
-        }
+        public YnEntity2D[] Entities => _poolEntities;
 
         /// <summary>
         /// Gets the size of the pool.
         /// </summary>
-        public int Size
-        {
-            get { return _maximumPoolSize; }
-        }
+        public int Size => _maximumPoolSize;
 
-        public YnEntity this[int index]
+        public YnEntity2D this[int index]
         {
-            get
-            {
-                if (index < 0 || index >= _maximumPoolSize)
-                    throw new IndexOutOfRangeException();
-                return _poolEntities[index];
-            }
-            set
-            {
-                if (index < 0 || index >= _maximumPoolSize)
-                    throw new IndexOutOfRangeException();
-                _poolEntities[index] = value;
-            }
+            get { return _poolEntities[index]; }
+            set { _poolEntities[index] = value; }
         }
 
         /// <summary>
@@ -47,11 +30,10 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name="maxSize">Maximum entity</param>
         public YnPool(int maxSize)
-            : base()
         {
             Active = true;
             _maximumPoolSize = maxSize;
-            _poolEntities = new YnEntity[maxSize];
+            _poolEntities = new YnEntity2D[maxSize];
 
             for (int i = 0; i < _maximumPoolSize; i++)
                 _poolEntities[i] = null;
@@ -61,18 +43,13 @@ namespace Yna.Engine.Graphics
         /// Gets the first disabled entity.
         /// </summary>
         /// <returns>Return the first disabled entity, otherwise return null.</returns>
-        protected YnEntity GetFirstDisabledEntity()
+        protected YnEntity2D GetFirstDisabledEntity()
         {
-            _tempSearchedEntity = null;
-            int i = 0;
+            foreach (var entity in _poolEntities)
+                if (!entity.Enabled)
+                    return entity;
 
-            while (i < _maximumPoolSize && _tempSearchedEntity == null)
-            {
-                _tempSearchedEntity = _poolEntities[i].Enabled ? null : _poolEntities[i];
-                i++;
-            }
-
-            return _tempSearchedEntity;
+            return _poolEntities[0];
         }
 
         /// <summary>
@@ -116,7 +93,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name="entity">An entity to add.</param>
         /// <returns>Return true if the entity has been added, otherwise return false.</returns>
-        public bool TryAdd(YnEntity entity)
+        public bool TryAdd(YnEntity2D entity)
         {
             bool result = false;
             int validIndex = GetFirstNullIndex();
@@ -137,7 +114,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name="entity">An entity to remove.</param>
         /// <returns>Return true if the entity has been removed, otherwise return false.</returns>
-        public bool Remove(YnEntity entity)
+        public bool Remove(YnEntity2D entity)
         {
             int index = System.Array.IndexOf(_poolEntities, entity);
 
@@ -155,7 +132,7 @@ namespace Yna.Engine.Graphics
         /// </summary>
         /// <param name="entity">An newer entity to replace.</param>
         /// <returns>Return true if the entity has been replaced, otherwise return false.</returns>
-        public bool TryReplace(YnEntity entity)
+        public bool TryReplace(YnEntity2D entity)
         {
             int index = GetFirstDisabledEntityIndex();
 
@@ -166,11 +143,6 @@ namespace Yna.Engine.Graphics
             }
 
             return false;
-        }
-
-        public YnEntity TryRecycle()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

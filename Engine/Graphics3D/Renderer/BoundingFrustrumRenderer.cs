@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 
 namespace Yna.Engine.Graphics3D.Renderer
 {
@@ -42,7 +42,7 @@ namespace Yna.Engine.Graphics3D.Renderer
         /// <param name="frustum">Frustrum</param>
         /// <param name="camera">Camera</param>
         /// <param name="color">Color</param>
-        public static void Draw(BoundingFrustum frustum, BaseCamera camera, Color color)
+        public static void Draw(BoundingFrustum frustum, Cameras.Camera camera, Color color)
         {
             if (effect == null)
             {

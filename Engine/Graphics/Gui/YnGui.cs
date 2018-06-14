@@ -17,61 +17,63 @@ namespace Yna.Engine.Graphics.Gui
     /// This class is a manager for all UI widgets. It can be used as a simple manager handling widgets and 
     /// as a layer for global rendering.
     /// </summary>
-    public class YnGui : YnEntity
+    public class YnGui : YnEntity2D
     {
-    	#region Static skin storage
-    	
-    	public const string DEFAULT_SKIN = "default";
-    	
-    	/// <summary>
-    	/// This dictionary contains all registered GUI skins. They're identified by a name.
-    	/// </summary>
-    	private static Dictionary<string, YnSkin> __skinCache = new Dictionary<string, YnSkin>();
-    	
-    	/// <summary>
-    	/// Retreive a skin definition from the static cache.
-    	/// </summary>
-    	/// <param name="name">The skin name</param>
-    	/// <returns>the skin</returns>
-    	public static YnSkin GetSkin(string name)
-    	{
-    		if(!__skinCache.ContainsKey(name))
-    		{
-                if (__skinCache.Count == 0)
-                    __skinCache.Add(DEFAULT_SKIN, YnSkinGenerator.Generate(Color.AliceBlue, "Fonts/DefaultFont"));
+        #region Static skin storage
 
-    			return __skinCache[DEFAULT_SKIN];
-    		}
-    		return __skinCache[name];
-    	}
-    	
-    	/// <summary>
-    	/// Register a new skin in the cache. Be carefull when registering a new skin : names must
-    	/// be unique. 
-    	/// </summary>
-    	/// <param name="name">The skin name</param>
-    	/// <param name="skin">The skin definition</param>
-    	public static void RegisterSkin(string name, YnSkin skin)
-    	{
-    		if(__skinCache.ContainsKey(name))
-    		{
-    			// Skin overwriting
-    			// TODO Add warning log
-    		}
-    		__skinCache[name] = skin;
-    	}
-    	
-    	/// <summary>
-    	/// Loads a skin directly from an asset file.
-    	/// </summary>
-    	/// <param name="name">The skin resource file</param>
-    	public static void LoadSkin(string asset)
-    	{
-    		// TODO Load the skin from XML file or whatever
-    	}
-    	
-    	#endregion
-    	
+        public const string DEFAULT_SKIN = "default";
+
+        /// <summary>
+        /// This dictionary contains all registered GUI skins. They're identified by a name.
+        /// </summary>
+        private static Dictionary<string, YnSkin> __skinCache = new Dictionary<string, YnSkin>();
+
+        /// <summary>
+        /// Retreive a skin definition from the static cache.
+        /// </summary>
+        /// <param name="name">The skin name</param>
+        /// <returns>the skin</returns>
+        public static YnSkin GetSkin(string name)
+        {
+            if (!__skinCache.ContainsKey(name))
+            {
+                // The skin was not found. Use the default one instead
+                // TODO Add warning log
+                __skinCache[name] = __skinCache[DEFAULT_SKIN];
+
+                return __skinCache[DEFAULT_SKIN];
+            }
+            return __skinCache[name];
+        }
+
+        /// <summary>
+        /// Register a new skin in the cache. Be carefull when registering a new skin : names must
+        /// be unique. 
+        /// </summary>
+        /// <param name="name">The skin name</param>
+        /// <param name="skin">The skin definition</param>
+        public static void RegisterSkin(string name, YnSkin skin)
+        {
+            if (__skinCache.ContainsKey(name))
+            {
+                // Skin overwriting
+                // TODO Add warning log
+            }
+            __skinCache[name] = skin;
+        }
+
+        /// <summary>
+        /// Loads a skin directly from an asset file.
+        /// </summary>
+        /// <param name="name">The skin resource file</param>
+        public static void LoadSkin(string asset)
+        {
+            // TODO Load the skin from XML file or whatever
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region Attributes
 
         /// <summary>
@@ -79,7 +81,7 @@ namespace Yna.Engine.Graphics.Gui
         /// of those widgets will not be in this list.
         /// </summary>
         protected YnWidgetList _widgets;
-        
+
         /// <summary>
         /// The default's GUI skin name. If a widget is added to the GUI without 
         /// a specific skin, this one will be used.
@@ -113,15 +115,12 @@ namespace Yna.Engine.Graphics.Gui
             get { return _widgets; }
             set { _widgets = value; }
         }
-        
+
         /// <summary>
         /// Return true if at least one widget was added to the GUI.
         /// </summary>
-        public bool HasWidgets
-        {
-        	get { return _widgets.Count > 0; }
-        }
-        
+        public bool HasWidgets => _widgets.Count > 0;
+
         #endregion
 
         #region Constructors
@@ -131,7 +130,7 @@ namespace Yna.Engine.Graphics.Gui
         /// </summary>
         public YnGui()
         {
-        	_widgets = new YnWidgetList();
+            _widgets = new YnWidgetList();
             _skinName = DEFAULT_SKIN; // The default skin
 
             // The max depth is initialized at -1 for the first widget added to have a depth of 0
@@ -147,9 +146,9 @@ namespace Yna.Engine.Graphics.Gui
         /// </summary>
         public override void LoadContent()
         {
-        	// Generate the default skin
-        	// FIXME : load a stored default skin file instead of generating one with a spritefont asset
-        	RegisterSkin("default", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/DefaultFont"));
+            // Generate the default skin
+            // FIXME : load a stored default skin file instead of generating one with a spritefont asset
+            RegisterSkin("default", YnSkinGenerator.Generate(Color.DodgerBlue, "Fonts/DefaultFont"));
         }
 
         /// <summary>
@@ -159,10 +158,10 @@ namespace Yna.Engine.Graphics.Gui
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            
+
             // Update the widgets
             _widgets.Update(gameTime);
-            
+
             // Update the GUI hover flag
             _hovered = _widgets.Hovered;
         }
@@ -173,7 +172,7 @@ namespace Yna.Engine.Graphics.Gui
         /// <param name="gameTime">The game time</param>
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-        	_widgets.Draw(gameTime, spriteBatch);
+            _widgets.Draw(gameTime, spriteBatch);
         }
 
         /// <summary>
@@ -200,7 +199,7 @@ namespace Yna.Engine.Graphics.Gui
         public YnWidget Add(YnWidget widget)
         {
             // First, test if the widget is not already added
-            if(!_widgets.Contains(widget))
+            if (!_widgets.Contains(widget))
             {
                 // Increase the max depth and set it up on the added widget
                 _maxDepth++;
@@ -240,7 +239,7 @@ namespace Yna.Engine.Graphics.Gui
         /// <param name="widget">The widget to remove</param>
         public void Remove(YnWidget widget)
         {
-        	// TODO : make possible to remove any hierarchy level widget with this method
+            // TODO : make possible to remove any hierarchy level widget with this method
             if (_widgets.Count > 0)
                 _widgets.Remove(widget);
         }
@@ -260,7 +259,7 @@ namespace Yna.Engine.Graphics.Gui
             {
                 if (_widgets[i].Name == name)
                 {
-                	widget = _widgets[i];
+                    widget = _widgets[i];
                 }
                 i++;
             }
@@ -298,7 +297,7 @@ namespace Yna.Engine.Graphics.Gui
         /// <param name="widget">The widget to move up</param>
         public void DepthUp(YnWidget widget)
         {
-            if(widget.Depth < _maxDepth)
+            if (widget.Depth < _maxDepth)
             {
                 // The widget is not already on top of the layer
                 // Swap the widget with the one just above
@@ -313,7 +312,7 @@ namespace Yna.Engine.Graphics.Gui
         /// <param name="widget">The widget to mode down</param>
         public void DepthDown(YnWidget widget)
         {
-            if(widget.Depth > 0)
+            if (widget.Depth > 0)
             {
                 // The widget is not already on the bottom of the layer
                 // Swap the widget with the one just below
@@ -331,7 +330,7 @@ namespace Yna.Engine.Graphics.Gui
             // Depth - 1 => Depth
             // Depth - 2 => Depth - 1
             // and so on...
-            for (int i = widget.Depth -1; i >= 0; i--)
+            for (int i = widget.Depth - 1; i >= 0; i--)
             {
                 DepthUp(_widgets[i]);
             }
@@ -352,7 +351,7 @@ namespace Yna.Engine.Graphics.Gui
             // Depth + 1 => Depth
             // Depth + 2 => Depth + 1
             // and so on...
-            for (int i = widget.Depth +1; i <= _maxDepth; i++)
+            for (int i = widget.Depth + 1; i <= _maxDepth; i++)
             {
                 DepthDown(_widgets[i]);
             }

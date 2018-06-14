@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D
 {
@@ -19,7 +19,7 @@ namespace Yna.Engine.Graphics3D
         private string _modelName;
         protected Model _model;
         protected Matrix[] _bonesTransforms;
-        protected BaseMaterial[] _materials;
+        protected Materials.Material[] _materials;
 
         /// <summary>
         /// Gets the model used by this mesh
@@ -49,7 +49,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="model">A Model instance</param>
         /// <param name="material">A material</param>
-        public YnMeshModel(Model model, BaseMaterial material)
+        public YnMeshModel(Model model, Materials.Material material)
             : this()
         {
             _model = model;
@@ -72,7 +72,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="model">An YnModel instance</param>
         /// <param name="material">A material</param>
-        public YnMeshModel(string modelName, BaseMaterial material)
+        public YnMeshModel(string modelName, Materials.Material material)
             : this()
         {
             _model = null;
@@ -224,10 +224,10 @@ namespace Yna.Engine.Graphics3D
         /// Gets material used by the model.
         /// </summary>
         /// <returns>An array of material used by the model.</returns>
-        public BaseMaterial[] GetModelMaterial()
+        public Materials.Material[] GetModelMaterial()
         {
-            List<BaseMaterial> materials = new List<BaseMaterial>();
-            BaseMaterial material = null;
+            List<Materials.Material> materials = new List<Materials.Material>();
+            Materials.Material material = null;
 
             foreach (ModelMesh mesh in _model.Meshes)
             {
@@ -262,7 +262,7 @@ namespace Yna.Engine.Graphics3D
             }
             else if (_materials != null)
             {
-                foreach (BaseMaterial material in _materials)
+                foreach (Materials.Material material in _materials)
                     material.Light = light;
             }
         }
@@ -289,7 +289,7 @@ namespace Yna.Engine.Graphics3D
         /// Draw the model.
         /// </summary>
         /// <param name="device">GraphicsDevice</param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Cameras.Camera camera)
         {
             UpdateMatrix();
             _material.Update(camera, ref _world);

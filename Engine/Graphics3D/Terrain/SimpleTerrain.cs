@@ -4,8 +4,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Material;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Materials;
+using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Terrain.Geometry;
 
 namespace Yna.Engine.Graphics3D.Terrain
@@ -25,7 +25,7 @@ namespace Yna.Engine.Graphics3D.Terrain
             _material = new BasicMaterial(textureName);
         }
 
-        public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Cameras.Camera camera)
         {
             base.Draw(gameTime, device, camera);
         }

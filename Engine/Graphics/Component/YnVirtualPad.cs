@@ -65,7 +65,7 @@ namespace Yna.Engine.Graphics.Component
             {
                 _scale = value;
 
-                foreach (YnEntity entity in this)
+                foreach (YnEntity2D entity in this)
                     entity.Scale = value;
             }
         }

@@ -8,7 +8,7 @@ using Yna.Engine.Graphics.Animation;
 
 namespace Yna.Engine.Graphics
 {
-    public class YnSprite : YnEntity
+    public class YnSprite : YnEntity2D
     {
         #region Private declarations
 

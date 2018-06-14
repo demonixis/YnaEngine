@@ -36,32 +36,35 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         public int MinValue
         {
             get { return _minValue; }
-            set { 
+            set
+            {
                 _minValue = value;
                 UpdateCursor();
             }
         }
-        
+
         /// <summary>
         /// The maximum possible value
         /// </summary>
         public int MaxValue
         {
             get { return _maxValue; }
-            set {
+            set
+            {
                 _maxValue = value;
                 UpdateCursor();
-            
+
             }
         }
-        
+
         /// <summary>
         /// The current progress value
         /// </summary>
         public int Value
         {
             get { return _currentValue; }
-            set { 
+            set
+            {
                 _currentValue = (int)MathHelper.Clamp(value, _minValue, _maxValue);
                 UpdateCursor();
             }
@@ -70,13 +73,13 @@ namespace Yna.Engine.Graphics.Gui.Widgets
         /// <summary>
         /// Show or hide the slider value
         /// </summary>
-        public bool ShowValue 
+        public bool ShowValue
         {
             get { return _labelValue.Visible; }
             set { _labelValue.Visible = value; }
         }
 
-#endregion
+        #endregion
 
         #region Constructors
 
@@ -132,7 +135,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
                 // If the value was modified, trigger the change event
                 if (oldValue != _currentValue && Changed != null)
-                    Changed(this, new ValueChangedEventArgs<int>(_currentValue));
+                    Changed?.Invoke(_currentValue);
 
                 // Update the label value
                 _labelValue.Text = _currentValue.ToString() + "/" + _maxValue;
@@ -183,12 +186,12 @@ namespace Yna.Engine.Graphics.Gui.Widgets
 
             Texture2D tex = GetSkin().BackgroundClicked;
             spriteBatch.Draw(tex, rect, Color.White);
-            
+
         }
 
         /// <summary>
         /// Triggered when the value is changed.
         /// </summary>
-        public event EventHandler<ValueChangedEventArgs<int>> Changed = null;
+        public event Action<int> Changed = null;
     }
 }

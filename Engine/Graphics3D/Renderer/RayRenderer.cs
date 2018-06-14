@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 
 namespace Yna.Engine.Graphics3D.Renderer
 {
@@ -32,7 +32,7 @@ namespace Yna.Engine.Graphics3D.Renderer
             0, 4,
         };
         
-        public static void Draw(Ray ray, float length, BaseCamera camera, Color color)
+        public static void Draw(Ray ray, float length, Cameras.Camera camera, Color color)
         {
             if (effect == null)
             {

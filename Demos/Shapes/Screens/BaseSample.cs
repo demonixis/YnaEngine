@@ -1,14 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine;
-using Yna.Engine.Graphics;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Terrain;
 using Yna.Engine.Graphics3D.Controls;
-using Yna.Engine.Graphics3D.Geometry;
-using Yna.Engine.Graphics3D.Material;
 
 namespace Yna.Samples.Screens
 {
@@ -22,7 +18,6 @@ namespace Yna.Samples.Screens
         public BaseSample(string name)
             : this(name, false)
         {
-
         }
 
         public BaseSample(string name, bool night)
@@ -108,7 +103,7 @@ namespace Yna.Samples.Screens
             YnG.GraphicsDevice.Clear(Color.Black);
 
             // Restore default states for 3D
-            YnG3.RestoreGraphicsDeviceStates();
+            YnG.RestoreGraphicsDeviceStates();
 
             base.Draw(gameTime);
         }

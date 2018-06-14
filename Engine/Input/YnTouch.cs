@@ -21,30 +21,24 @@ namespace Yna.Engine.Input
         private int _maxFingerPoints;
         private bool _needUpdate;
 
-        public int MaxFingerPoints
-        {
-            get { return _maxFingerPoints; }
-        }
+        public int MaxFingerPoints => _maxFingerPoints;
 
-        public bool Available
-        {
-            get { return TouchPanel.IsGestureAvailable; }
-        }
+        public bool Available => TouchPanel.IsGestureAvailable;
 
         public YnTouch(Game game)
             : base(game)
         {
             touchCollection = TouchPanel.GetState();
             lastTouchCollection = touchCollection;
-#if MONOGAME && (WINDOWS || LINUX)
-            _maxFingerPoints = 0;
-#else
+
             if (TouchPanel.GetCapabilities().IsConnected)
                 _maxFingerPoints = TouchPanel.GetCapabilities().MaximumTouchCount;
             else
                 _maxFingerPoints = 0;
-#endif
+
             _needUpdate = true;
+
+            game.Components.Add(this);
         }
 
         public void SetMaxFingerPoints(int fingerCount)
@@ -135,12 +129,7 @@ namespace Yna.Engine.Input
             _pressed[index] = touchCollection[index].State == TouchLocationState.Pressed;
             _moved[index] = touchCollection[index].State == TouchLocationState.Moved;
             _released[index] = touchCollection[index].State == TouchLocationState.Released;
-
-#if !WINDOWS_PHONE_7 && !XNA
             _pressure[index] = touchCollection[index].Pressure;
-#else
-            _pressure[index] = 1.0f;
-#endif
         }
 
         public void RestoreTouchState(int index)
@@ -153,7 +142,7 @@ namespace Yna.Engine.Input
 
             _direction[index].X = 0;
             _direction[index].Y = 0;
-            
+
             _pressed[index] = false;
             _moved[index] = false;
             _released[index] = false;

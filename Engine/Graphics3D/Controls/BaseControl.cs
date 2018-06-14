@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 
 namespace Yna.Engine.Graphics3D.Controls
 {
@@ -18,9 +18,9 @@ namespace Yna.Engine.Graphics3D.Controls
     /// <summary>
     /// Define a basic controller for a camera
     /// </summary>
-    public abstract class BaseControl : YnBasicEntity
+    public abstract class BaseControl : YnEntity
     {
-        private BaseCamera _camera;
+        private Cameras.Camera _camera;
         protected PlayerIndex _playerIndex;
 
         // Some physics
@@ -52,7 +52,7 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <summary>
         /// Gets or sets the camera used with this control
         /// </summary>
-        public BaseCamera Camera
+        public Camera Camera
         {
             get { return _camera; }
             protected set { _camera = value; }
@@ -172,7 +172,7 @@ namespace Yna.Engine.Graphics3D.Controls
         /// A base control with a camera.
         /// </summary>
         /// <param name="camera"></param>
-        public BaseControl(BaseCamera camera)
+        public BaseControl(Cameras.Camera camera)
         {
             _camera = camera;
 
@@ -212,7 +212,7 @@ namespace Yna.Engine.Graphics3D.Controls
             _zRotation = 1;
         }
 
-        public BaseControl(BaseCamera camera, PlayerIndex index)
+        public BaseControl(Cameras.Camera camera, PlayerIndex index)
             : this(camera)
         {
             _playerIndex = index;

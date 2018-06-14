@@ -3,8 +3,8 @@
 // file 'LICENSE', which is part of this source code package.
 using System;
 using Microsoft.Xna.Framework;
-using Yna.Engine.Graphics3D.Material;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Materials;
+using Yna.Engine.Graphics3D.Cameras;
 
 namespace Yna.Engine.Graphics3D
 {
@@ -13,14 +13,14 @@ namespace Yna.Engine.Graphics3D
     /// </summary>
     public abstract class YnMesh : YnEntity3D
     {
-        protected BaseMaterial _material;
+        protected Materials.Material _material;
 
         /// <summary>
         /// Gets or sets the material for this object
         /// </summary>
-        public BaseMaterial Material
+        public Material Material
         {
-            get { return _material; }
+            get => _material;
             set
             {
                 _material = value;
@@ -30,41 +30,13 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Update world matrix. (Scale, Rotation, Translation)
-        /// </summary>
-        public override void UpdateMatrix()
-        {
-            _world = Matrix.CreateScale(Scale) *
-                Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
-                Matrix.CreateTranslation(Position);
-        }
-
-        /// <summary>
-        /// Update BoundingBox and BoundingSphere
-        /// </summary>
-        public override void UpdateBoundingVolumes()
-        {
-            _boundingBox.Min.X = X;
-            _boundingBox.Min.Y = Y;
-            _boundingBox.Min.Z = Z;
-            _boundingBox.Max.X = X + Width;
-            _boundingBox.Max.Y = Y + Height;
-            _boundingBox.Max.Z = Z + Depth;
-
-            _boundingSphere.Center.X = X + (Width / 2);
-            _boundingSphere.Center.Y = Y + (Height / 2);
-            _boundingSphere.Center.Z = Z + (Depth / 2);
-            _boundingSphere.Radius = Math.Max(Math.Max(Width, Height), Depth);
-        }
-
-        /// <summary>
         /// Update matrix world, bounding volumes if the mesh is dynamic and update the material.
         /// </summary>
-        public virtual void PreDraw(BaseCamera camera)
+        public virtual void PreDraw(Camera camera)
         {
             UpdateMatrix();
-			
-            if (_dynamic)
+
+            if (!_static)
                 UpdateBoundingVolumes();
 
             _material.Update(camera, ref _world);

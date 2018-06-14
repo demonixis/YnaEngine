@@ -6,27 +6,28 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Yna.Engine.Input
 {
-#if !WINDOWS_PHONE_8
     public class YnGamepad : GameComponent
     {
-        GamePadState [] state;
-        GamePadState [] lastState;
+        GamePadState[] state;
+        GamePadState[] lastState;
 
         public YnGamepad(Game game)
             : base(game)
         {
             state = new GamePadState[4];
             lastState = new GamePadState[4];
-            
+
             for (int i = 0; i < 4; i++)
             {
                 state[i] = GamePad.GetState((PlayerIndex)i);
                 lastState[i] = state[i];
             }
+
+            game.Components.Add(this);
         }
 
         public override void Update(GameTime gameTime)
-		{
+        {
             for (int i = 0; i < 4; i++)
             {
                 lastState[i] = state[i];
@@ -36,20 +37,12 @@ namespace Yna.Engine.Input
             base.Update(gameTime);
         }
 
-        public bool Connected(PlayerIndex index)
-        {
-            return state[(int)index].IsConnected;
-        }
+        public bool Connected(PlayerIndex index) => state[(int)index].IsConnected;
 
-        public bool Pressed(PlayerIndex index, Buttons button)
-        {
-            return state[(int)index].IsButtonDown(button);
-        }
+        public bool Pressed(PlayerIndex index, Buttons button) => state[(int)index].IsButtonDown(button);
 
-        public bool Released(PlayerIndex index, Buttons button)
-        {
-            return state[(int)index].IsButtonUp(button);
-        }
+        public bool Released(PlayerIndex index, Buttons button) => state[(int)index].IsButtonUp(button);
+
 
         public bool JustPressed(PlayerIndex index, Buttons button)
         {
@@ -79,95 +72,63 @@ namespace Yna.Engine.Input
 
         #region Digital pad
 
-        public bool Up(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.DPadUp);
-        }
+        public bool Up(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.DPadUp);
 
-        public bool Down(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.DPadDown);
-        }
+        public bool Down(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.DPadDown);
 
-        public bool Left(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.DPadLeft);
-        }
+        public bool Left(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.DPadLeft);
 
-        public bool Right(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.DPadRight);
-        }
+        public bool Right(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.DPadRight);
 
         #endregion
 
         #region Buttons
 
-        public bool A(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.A);
-        }
+        public bool A(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.A);
 
-        public bool B(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.B);
-        }
+        public bool B(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.B);
 
-        public bool X(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.X);
-        }
+        public bool X(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.X);
 
-        public bool Y(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.Y);
-        }
+        public bool Y(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.Y);
 
-        public bool Start(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.Start);
-        }
+        public bool Start(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.Start);
 
-        public bool Back(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.Back);
-        }
+        public bool Back(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.Back);
 
-        public bool Guide(PlayerIndex index)
-        {
-            return Pressed(index, Buttons.BigButton);
-        }
+        public bool Guide(PlayerIndex index = PlayerIndex.One) => Pressed(index, Buttons.BigButton);
+
 
         #endregion
 
         #region Triggers
 
-        public bool LeftTrigger(PlayerIndex index)
+        public bool LeftTrigger(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.LeftTrigger);
         }
 
-        public bool LeftShoulder(PlayerIndex index)
+        public bool LeftShoulder(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.LeftShoulder);
         }
 
-        public bool RightTrigger(PlayerIndex index)
+        public bool RightTrigger(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.RightTrigger);
         }
 
-        public bool RightShoulder(PlayerIndex index)
+        public bool RightShoulder(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.RightShoulder);
         }
 
-        public float LeftTriggerValue(PlayerIndex index)
+        public float LeftTriggerValue(PlayerIndex index = PlayerIndex.One)
         {
             return Triggers(index, true);
         }
 
-        public float RightTriggerValue(PlayerIndex index)
+        public float RightTriggerValue(PlayerIndex index = PlayerIndex.One)
         {
             return Triggers(index, false);
         }
@@ -176,32 +137,32 @@ namespace Yna.Engine.Input
 
         #region Left Thumbstick
 
-        public bool LeftStick(PlayerIndex index)
+        public bool LeftStick(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.LeftStick);
         }
 
-        public bool LeftStickUp(PlayerIndex index)
+        public bool LeftStickUp(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.LeftThumbstickUp);
         }
 
-        public bool LeftStickDown(PlayerIndex index)
+        public bool LeftStickDown(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.LeftThumbstickDown);
         }
 
-        public bool LeftStickLeft(PlayerIndex index)
+        public bool LeftStickLeft(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.LeftThumbstickLeft);
         }
 
-        public bool LeftStickRight(PlayerIndex index)
+        public bool LeftStickRight(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.LeftThumbstickRight);
         }
 
-        public Vector2 LeftStickValue(PlayerIndex index)
+        public Vector2 LeftStickValue(PlayerIndex index = PlayerIndex.One)
         {
             return ThumbSticks(index, true);
         }
@@ -210,81 +171,36 @@ namespace Yna.Engine.Input
 
         #region Right Thumbstick
 
-        public bool RightStick(PlayerIndex index)
+        public bool RightStick(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.RightStick);
         }
 
-        public bool RightStickUp(PlayerIndex index)
+        public bool RightStickUp(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.RightThumbstickUp);
         }
 
-        public bool RightStickDown(PlayerIndex index)
+        public bool RightStickDown(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.RightThumbstickDown);
         }
 
-        public bool RightStickLeft(PlayerIndex index)
+        public bool RightStickLeft(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.RightThumbstickLeft);
         }
 
-        public bool RightStickRight(PlayerIndex index)
+        public bool RightStickRight(PlayerIndex index = PlayerIndex.One)
         {
             return Pressed(index, Buttons.RightThumbstickRight);
         }
 
-        public Vector2 RightStickValue(PlayerIndex index)
+        public Vector2 RightStickValue(PlayerIndex index = PlayerIndex.One)
         {
             return ThumbSticks(index, false);
         }
 
         #endregion
     }
-#else
-    public class GamepadComponent : GameComponent
-    {
-        public GamepadComponent(Game game)
-            : base(game)
-        {
-
-        }
-
-        public bool Connected(PlayerIndex index)
-        {
-            return false;
-        }
-
-        public bool Pressed(PlayerIndex index, Buttons button)
-        {
-            return false;
-        }
-
-        public bool Released(PlayerIndex index, Buttons button)
-        {
-            return false;
-        }
-
-        public bool JustPressed(PlayerIndex index, Buttons button)
-        {
-            return false;
-        }
-
-        public bool JustReleased(PlayerIndex index, Buttons button)
-        {
-            return false;
-        }
-
-        public float Triggers(PlayerIndex index, bool left)
-        {
-            return 0.0f;
-        }
-
-        public Vector2 ThumbSticks(PlayerIndex index, bool left)
-        {
-            return Vector2.Zero;
-        }
-    }
-#endif
 }

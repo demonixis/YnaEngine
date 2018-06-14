@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Materials;
 using Yna.Engine.Graphics3D.Lighting;
 
 namespace Yna.Engine.Graphics3D.Geometry
@@ -25,7 +25,7 @@ namespace Yna.Engine.Graphics3D.Geometry
     public abstract class BaseGeometry<T> where T : struct, IVertexType
     {
         #region Protected declarations
-    
+
         // Geometry
         protected T[] _vertices;
         protected short[] _indices;
@@ -53,11 +53,9 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <summary>
         /// Gets the vertex array used by this object
         /// </summary>
-        public T[] Vertices
-        {
-            get { return _vertices; }
-            protected set { _vertices = value; }
-        }
+        public T[] Vertices => _vertices;
+        public short[] Indices => _indices;
+
 
         /// <summary>
         /// Gets the state of the geometry.
@@ -91,7 +89,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <summary>
         /// Gets or sets the segments size. It represent the space between two vertex.
         /// </summary>
-        public Vector3 SegmentSizes
+        public Vector3 Size
         {
             get { return _segmentSizes; }
             set { _segmentSizes = value; }
@@ -108,6 +106,9 @@ namespace Yna.Engine.Graphics3D.Geometry
             get { return _origin; }
             protected set { _origin = value; }
         }
+
+        public VertexBuffer VertexBuffer => _vertexBuffer;
+        public IndexBuffer IndexBuffer => _indexBuffer;
 
         /// <summary>
         /// Enable or disable the rendering on all faces, event hidden faces.
@@ -254,7 +255,7 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         protected virtual void PostDraw(GraphicsDevice device)
         {
-             if (_doubleSided || _wireframe)
+            if (_doubleSided || _wireframe)
                 device.RasterizerState = _oldRasterizerState;
         }
 
@@ -262,12 +263,12 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// Draw the shape
         /// </summary>
         /// <param name="device">Graphics device</param>
-        public virtual void Draw(GraphicsDevice device, BaseMaterial material)
+        public virtual void Draw(GraphicsDevice device, Material material)
         {
             DrawPrimitives(device, material);
         }
 
-        protected virtual void DrawPrimitives(GraphicsDevice device, BaseMaterial material)
+        protected virtual void DrawPrimitives(GraphicsDevice device, Material material)
         {
             PreDraw(device);
 
@@ -286,7 +287,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             PostDraw(device);
         }
 
-        protected virtual void DrawUserIndexedPrimitives(GraphicsDevice device, BaseMaterial material)
+        protected virtual void DrawUserIndexedPrimitives(GraphicsDevice device, Material material)
         {
             PreDraw(device);
 

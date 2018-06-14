@@ -6,8 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Material;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Materials;
+using Yna.Engine.Graphics3D.Cameras;
 
 namespace Yna.Engine.Graphics3D
 {
@@ -18,7 +18,6 @@ namespace Yna.Engine.Graphics3D
     {
         protected BaseGeometry<VertexPositionNormalTexture> _geometry;
         protected Vector2 _textureRepeat;
-        protected bool _worldMatrixIsMaster;
 
         /// <summary>
         /// Gets or sets the repeat value for texture.
@@ -36,15 +35,6 @@ namespace Yna.Engine.Graphics3D
         {
             get { return _geometry; }
             protected set { _geometry = value; }
-        }
-
-        /// <summary>
-        /// TODO
-        /// </summary>
-        public bool WorldMatrixIsMaster
-        {
-            get { return _worldMatrixIsMaster; }
-            set { _worldMatrixIsMaster = value; }
         }
 
         #region Constructors
@@ -84,12 +74,11 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="geometry">Geometry to use.</param>
         /// <param name="material">Material to use with geometry.</param>
-        public YnMeshGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, BaseMaterial material)
+        public YnMeshGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, Materials.Material material)
             : base()
         {
             _geometry = geometry;
             _material = material;
-            _worldMatrixIsMaster = false;
         }
 
         #endregion
@@ -144,23 +133,10 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Update world matrix. (Scale, Rotation, Translation)
-        /// </summary>
-        public override void UpdateMatrix()
-        {
-            if (!_worldMatrixIsMaster)
-            {
-                _world = Matrix.CreateScale(Scale) *
-                    Matrix.CreateFromYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z) *
-                    Matrix.CreateTranslation(Position);
-            }
-        }
-
-        /// <summary>
         /// Draw mesh.
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device, BaseCamera camera)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera)
         {
             PreDraw(camera);
             _geometry.Draw(device, _material);

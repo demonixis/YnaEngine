@@ -4,8 +4,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Cameras;
+using Yna.Engine.Graphics3D.Materials;
 using Yna.Engine.Graphics3D.Terrain.Geometry;
 
 namespace Yna.Engine.Graphics3D.Terrain
@@ -62,12 +62,12 @@ namespace Yna.Engine.Graphics3D.Terrain
 
             float terrainHeigth = 0.0f;
 
-            float sizedPosX = (positionX / geometry.SegmentSizes.X) / _scale.X;
-            float sizedPosY = (positionY / geometry.SegmentSizes.Y) / _scale.Y;
-            float sizedPosZ = (positionZ / geometry.SegmentSizes.Z) / _scale.Z;
+            float sizedPosX = (positionX / geometry.Size.X) / _scale.X;
+            float sizedPosY = (positionY / geometry.Size.Y) / _scale.Y;
+            float sizedPosZ = (positionZ / geometry.Size.Z) / _scale.Z;
 
-            int x = (int)((positionX / geometry.SegmentSizes.X) / _scale.X);
-            int z = (int)((positionZ / geometry.SegmentSizes.Z) / _scale.Z);
+            int x = (int)((positionX / geometry.Size.X) / _scale.X);
+            int z = (int)((positionZ / geometry.Size.Z) / _scale.Z);
 
             if (x < 0 || x >= geometry.HeightmapData.GetLength(0) - 1 || z < 0 || z >= geometry.HeightmapData.GetLength(1) - 1)
                 terrainHeigth = positionY;
@@ -97,7 +97,7 @@ namespace Yna.Engine.Graphics3D.Terrain
                 }
             }
 
-            return (terrainHeigth * geometry.SegmentSizes.Y * _scale.Y);
+            return (terrainHeigth * geometry.Size.Y * _scale.Y);
         }
     }
 }

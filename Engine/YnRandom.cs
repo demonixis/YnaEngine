@@ -19,19 +19,13 @@ namespace Yna.Engine
         /// <param name="min">Min value</param>
         /// <param name="max">Max value</param>
         /// <returns>A random float value.</returns>
-        public static float GetFloat(float min, float max)
-        {
-            return (float)(_random.NextDouble() * (max - min) + min);
-        }
+        public static float GetFloat(float min, float max) => (float)(_random.NextDouble() * (max - min) + min);
 
         /// <summary>
         /// Gets a random float value between float.MinValue and float.MaxValue.
         /// </summary>
         /// <returns>A random float value.</returns>
-        public static float GetFloat()
-        {
-            return GetFloat(float.MinValue, float.MaxValue);
-        }
+        public static float GetFloat() => GetFloat(float.MinValue, float.MaxValue);
 
         /// <summary>
         /// Gets a random integer value between min and max.
@@ -39,19 +33,13 @@ namespace Yna.Engine
         /// <param name="min">Min value</param>
         /// <param name="max">Max value</param>
         /// <returns>An random integer value.</returns>
-        public static int GetInteger(int min, int max)
-        {
-            return _random.Next(min, max);
-        }
+        public static int GetInteger(int min, int max) => _random.Next(min, max);
 
         /// <summary>
         /// Gets a random integer value between int.MinValue and int.MaxValue.
         /// </summary>
         /// <returns>A random integer value.</returns>
-        public static int GetInteger()
-        {
-            return GetInteger(int.MinValue, int.MaxValue);
-        }
+        public static int GetInteger() => GetInteger(int.MinValue, int.MaxValue);
 
         /// <summary>
         /// Gets a random Point.
@@ -147,7 +135,7 @@ namespace Yna.Engine
         /// <returns>A random Vector4.</returns>
         public static Vector4 GetVector4()
         {
-            return GetVector4(float.MinValue, float.MinValue, float.MinValue, float.MinValue, float.MaxValue, float.MaxValue, float.MaxValue, float.MaxValue);   
+            return GetVector4(float.MinValue, float.MinValue, float.MinValue, float.MinValue, float.MaxValue, float.MaxValue, float.MaxValue, float.MaxValue);
         }
 
         /// <summary>
@@ -165,7 +153,7 @@ namespace Yna.Engine
             int b = (blue != null ? GetInteger(0, (int)blue.Value) : GetInteger(0, 255));
             int a = (alpha != null ? GetInteger(0, (int)alpha.Value) : GetInteger(0, 255));
 
-            return new Color(r, g, b, a); 
+            return new Color(r, g, b, a);
         }
 
         /// <summary>
@@ -182,7 +170,7 @@ namespace Yna.Engine
             float g = (green != null) ? (int)(green * 255) % 255 : GetFloat(0, 1);
             float b = (blue != null) ? (int)(blue * 255) % 255 : GetFloat(0, 1);
             float a = (alpha != null) ? (int)(alpha * 255) % 255 : GetFloat(0, 1);
-            
+
             return new Color(r, g, b, a);
         }
 
@@ -200,10 +188,7 @@ namespace Yna.Engine
         /// Gets a random color with an alpha set to 1.0f;
         /// </summary>
         /// <returns>A random color.</returns>
-        public static Color GetColor()
-        {
-            return GetColor(1.0f);
-        }
+        public static Color GetColor() => GetColor(1.0f);
 
         /// <summary>
         /// Gets a random Rectangle.

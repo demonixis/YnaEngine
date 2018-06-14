@@ -33,15 +33,15 @@ namespace Yna.Samples
 
             menu = new YnMenu("menu", "Custom Shapes", menuItems);
 
-            stateManager.Add(menu, true);
-            stateManager.Add(new CubeSample("cubeShapeSample"), false);
-            stateManager.Add(new CylinderSample("cylinderSample"), false);
-            stateManager.Add(new IcosphereSample("icosphereSample"), false);
-            stateManager.Add(new PlaneSample("planeSample"), false);
-            stateManager.Add(new PyramidSample("pyramidSample"), false);
-            stateManager.Add(new SphereSample("sphereSample"), false);
-            stateManager.Add(new TorusSample("torusSample"), false);
-            stateManager.Add(new MaterialSample("materialSample"), false);
+            _stateManager.Add(menu, true);
+            _stateManager.Add(new CubeSample("cubeShapeSample"), false);
+            _stateManager.Add(new CylinderSample("cylinderSample"), false);
+            _stateManager.Add(new IcosphereSample("icosphereSample"), false);
+            _stateManager.Add(new PlaneSample("planeSample"), false);
+            _stateManager.Add(new PyramidSample("pyramidSample"), false);
+            _stateManager.Add(new SphereSample("sphereSample"), false);
+            _stateManager.Add(new TorusSample("torusSample"), false);
+            _stateManager.Add(new MaterialSample("materialSample"), false);
         }
 
 #if !WINDOWS_PHONE

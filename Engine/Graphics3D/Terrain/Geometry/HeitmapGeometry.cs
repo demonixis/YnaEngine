@@ -5,10 +5,10 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D.Terrain.Geometry
 {
@@ -77,7 +77,7 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
 
         protected override void CreateVertices()
         {
-            Vertices = new VertexPositionNormalTexture[Width * Depth];
+            _vertices = new VertexPositionNormalTexture[Width * Depth];
 
             Color color = Color.White;
 
@@ -86,9 +86,9 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
                 for (int z = 0; z < Depth; z++)
                 {
                     Vertices[x + z * Width].Position = new Vector3(
-                        x * SegmentSizes.X,
-                        _heightData[x, z] * SegmentSizes.Y,
-                        Position.Z + z * SegmentSizes.Z);
+                        x * Size.X,
+                        _heightData[x, z] * Size.Y,
+                        Position.Z + z * Size.Z);
 
                     Vertices[x + z * Width].TextureCoordinate = new Vector2(
                         (float)x / (float)Width * TextureRepeat.X,

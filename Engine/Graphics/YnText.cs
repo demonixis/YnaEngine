@@ -11,7 +11,7 @@ namespace Yna.Engine.Graphics
     /// <summary>
     /// Simple text component
     /// </summary>
-    public class YnText : YnEntity
+    public class YnText : YnEntity2D
     {
         /// <summary>
         /// The default color used for all fonts when it created.

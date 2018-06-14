@@ -11,7 +11,7 @@ namespace Yna.Engine.State
     /// A basic state used with the state manager
     /// A state represents a game screen as a menu, a scene or a score screen.
     /// </summary>
-    public abstract class YnState : YnGameEntity
+    public abstract class YnState : YnEntity
     {
         #region Private declarations
 
@@ -39,40 +39,6 @@ namespace Yna.Engine.State
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// Triggered when the state has begin to load content.
-        /// </summary>
-        public event EventHandler<EventArgs> ContentLoadingStarted = null;
-
-        /// <summary>
-        /// Triggered when the state has finish to load content.
-        /// </summary>
-        public event EventHandler<EventArgs> ContentLoadingFinished = null;
-
-        /// <summary>
-        /// Called when the state has begin to load content.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnContentLoadingStarted(EventArgs e)
-        {
-            if (ContentLoadingStarted != null)
-                ContentLoadingStarted(this, e);
-        }
-
-        /// <summary>
-        /// Called when the state has finish to load content.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnContentLoadingFinished(EventArgs e)
-        {
-            if (ContentLoadingFinished != null)
-                ContentLoadingFinished(this, e);
-        }
-
-        #endregion
-
         #region Constructors
 
         public YnState()
@@ -93,24 +59,13 @@ namespace Yna.Engine.State
 
         #endregion
 
-        public override void Initialize()
-        {
-            base.Initialize();
-            if (!_initialized)
-                _initialized = true;
-        }
-
         /// <summary>
         /// Load state content.
         /// </summary>
         public override void LoadContent()
         {
-            if (!_assetLoaded)
-            {
+            if (spriteBatch == null)
                 spriteBatch = new SpriteBatch(stateManager.Game.GraphicsDevice);
-                _assetLoaded = true;
-
-            }
         }
 
         /// <summary>
@@ -118,11 +73,7 @@ namespace Yna.Engine.State
         /// </summary>
         public override void UnloadContent()
         {
-            if (_assetLoaded)
-            {
-                spriteBatch.Dispose();
-                _assetLoaded = false;
-            }
+            spriteBatch?.Dispose();
         }
 
         /// <summary>

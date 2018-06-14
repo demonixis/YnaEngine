@@ -5,10 +5,10 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Geometry;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D.Terrain.Geometry
 {
@@ -96,7 +96,7 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
         /// Draw Terrain
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device, BaseMaterial material)
+        public override void Draw(GraphicsDevice device, Materials.Material material)
         {
             device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;

@@ -5,17 +5,16 @@ using Yna.Engine;
 using Yna.Engine.Input;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Terrain;
 using Yna.Engine.Graphics3D.Controls;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Samples.Screens
 {
     public class RandomHeightmap : YnState3D
     {
-
-        YnEntity sky;
+        YnEntity2D sky;
         YnText textInfo;
 
         Heightmap heightmap;
@@ -59,7 +58,7 @@ namespace Yna.Samples.Screens
             heightmap.Material = heightmapMaterial;
 
             // Sky & debug info
-            sky = new YnEntity("Textures/Sky");
+            sky = new YnEntity2D("Textures/Sky");
             textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
@@ -138,7 +137,7 @@ namespace Yna.Samples.Screens
             spriteBatch.End();
 
             // Restore default states for 3D
-            YnG3.RestoreGraphicsDeviceStates();
+            YnG.RestoreGraphicsDeviceStates();
 
             // Wirefram or solid fillmode
             YnG.GraphicsDevice.RasterizerState = rasterizerState;

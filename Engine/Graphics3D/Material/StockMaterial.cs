@@ -5,14 +5,14 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 
-namespace Yna.Engine.Graphics3D.Material
+namespace Yna.Engine.Graphics3D.Materials
 {
     /// <summary>
     /// Define a base class for all XNA stock effects
     /// </summary>
-    public abstract class StockMaterial : BaseMaterial
+    public abstract class StockMaterial : Material
     {
         #region Protected declarations
 
@@ -196,7 +196,7 @@ namespace Yna.Engine.Graphics3D.Material
                 _enableMainTexture = _texture != null ? true : false;
         }
 
-        public override void Update(BaseCamera camera, ref Matrix world)
+        public override void Update(Camera camera, ref Matrix world)
         {
             // Matrices
             IEffectMatrices effectMatrices = (IEffectMatrices)_effect;
@@ -232,7 +232,7 @@ namespace Yna.Engine.Graphics3D.Material
             }
             else
             {
-                effectLights.LightingEnabled = _enableLighting ;
+                effectLights.LightingEnabled = _enableLighting;
                 effectLights.AmbientLightColor = _ambientColor * _ambientIntensity;
 
                 if (_light is SceneLight)

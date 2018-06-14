@@ -6,23 +6,7 @@ using System.Runtime.InteropServices;
 // les attributs suivants. Modifiez la valeur de ces attributs pour modifier les informations
 // associées à l’assembly.
 [assembly: AssemblyTitle("Yna Engine")]
-#if ANDROID 
-[assembly: AssemblyProduct("Yna Engine for Android")]
-#elif LINUX
-[assembly: AssemblyProduct("Yna Engine for Linux")]
-#elif MACOSX
-[assembly: AssemblyProduct("Yna Engine for Mac OSX")]
-#elif MONOGAME && WINDOWS && DIRECTX
-[assembly: AssemblyProduct("Yna Engine for Windows (DirectX)")]
-#elif SDL2
-[assembly: AssemblyProduct("Yna Engine for SDL2 targets (Linux, Windows and Mac)")]
-#elif WINDOWS_PHONE_7
-[assembly: AssemblyProduct("Yna Engine for Windows Phone")]
-#elif WINDOWS_STOREAPP
-[assembly: AssemblyProduct("Yna Engine for Windows 8 & Windows RT")]
-#else
 [assembly: AssemblyProduct("Yna Engine")]
-#endif
 [assembly: AssemblyDescription("Yna Engine")]
 [assembly: AssemblyCompany("Yna Engine")]
 [assembly: AssemblyCopyright("Copyright ©  2012-2013")]
@@ -47,4 +31,4 @@ using System.Runtime.InteropServices;
 //      Numéro de version
 //      Révision
 //
-[assembly: AssemblyVersion("1.0.0.6")]
+[assembly: AssemblyVersion("1.99.0.0")]

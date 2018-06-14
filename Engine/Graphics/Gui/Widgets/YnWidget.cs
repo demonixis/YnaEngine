@@ -16,7 +16,7 @@ namespace Yna.Engine.Graphics.Gui.Widgets
     /// <summary>
     /// Base class for GUI widgets
     /// </summary>
-    public abstract class YnWidget : YnEntity
+    public abstract class YnWidget : YnEntity2D
     {
         #region Attributes
 

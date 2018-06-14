@@ -1,31 +1,53 @@
 ﻿// YnaEngine - Copyright (C) YnaEngine team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework;
+using System;
+using System.IO;
+using System.Text;
+using System.Xml.Serialization;
+
 namespace Yna.Engine.Storage
 {
     /// <summary>
     /// The storage manager is an object that can be used for store and load informations like scores, achievments, etc..
     /// </summary>
-    public class StorageManager
+    public class StorageManager : GameComponent
     {
-        private IStorageDevice _storageDevice;
+        private string _saveFolder;
 
-        public StorageManager()
+        public StorageManager(Game game)
+            : base(game)
         {
-#if WINDOWS_PHONE_7
-            _storageDevice = new XnaPhoneStorageDevice();
-#elif WINDOWS_STOREAPP || WINDOWS_PHONE_8
-            _storageDevice = new XnaStorageDevice();
-#elif UNSUPPORTED
-			_storageDevice = new DummyStorageDevice();
-#else
-            _storageDevice = new BasicStorageDevice();
-#endif
+            game.Components.Add(this);
         }
 
-        public StorageManager(IStorageDevice storageDevice)
+        public override void Initialize()
         {
-            _storageDevice = storageDevice;
+            base.Initialize();
+            _saveFolder = GetSaveContainer();
+        }
+
+        private string GetSaveContainer()
+        {
+            var builder = new StringBuilder();
+            builder.Append(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            builder.Append(Path.DirectorySeparatorChar);
+            builder.Append("My Games");
+            builder.Append(Path.DirectorySeparatorChar);
+            builder.Append(YnGame.GameTitle);
+            builder.Append(Path.DirectorySeparatorChar);
+            return builder.ToString();
+        }
+
+        private string GetContainer(string containerName)
+        {
+            var containerTarget = _saveFolder + containerName;
+
+            if (!Directory.Exists(containerTarget))
+                Directory.CreateDirectory(containerTarget);
+
+            return containerTarget;
         }
 
         /// <summary>
@@ -37,7 +59,17 @@ namespace Yna.Engine.Storage
         /// <param name="obj">Serializable object</param>
         public virtual void Save<T>(string containerName, string fileName, T obj)
         {
-            _storageDevice.Save<T>(containerName, fileName, obj);
+            var container = GetContainer(containerName);
+            var filePath = GetFilePath(container, containerName, fileName);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            using (var writer = new StreamWriter(filePath))
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                serializer.Serialize(writer, obj);
+            }
         }
 
         /// <summary>
@@ -49,12 +81,34 @@ namespace Yna.Engine.Storage
         /// <returns>Instance of the object type with previous saved datas</returns>
         public virtual T Load<T>(string containerName, string fileName)
         {
-            return _storageDevice.Load<T>(containerName, fileName);
+            T data = default(T);
+
+            var container = GetContainer(containerName);
+            var filePath = GetFilePath(container, containerName, fileName);
+
+            if (!File.Exists(filePath))
+                return data;
+
+            using (var stream = File.Open(filePath, FileMode.Open))
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                data = (T)serializer.Deserialize(stream);
+            }
+
+            return data;
         }
 
-        public virtual void Clear()
+        private string GetFilePath(string container, string containerName, string fileName)
         {
-            _storageDevice.Clear();
+            var pathBuilder = new StringBuilder();
+            pathBuilder.Append(container);
+
+            if (containerName != String.Empty)
+                pathBuilder.Append(Path.DirectorySeparatorChar);
+
+            pathBuilder.Append(fileName);
+
+            return pathBuilder.ToString();
         }
     }
 }

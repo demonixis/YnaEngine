@@ -5,7 +5,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics.Component;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 
 namespace Yna.Engine.Graphics3D.Controls
 {
@@ -59,7 +59,7 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <summary>
         /// Initialize default values
         /// </summary>
-        protected virtual void Initialize()
+        public override void Initialize()
         {
             _enableGamepad = false;
             _enableKeyboard = false;
@@ -72,7 +72,7 @@ namespace Yna.Engine.Graphics3D.Controls
         /// <summary>
         /// Load assets for the virtual pad
         /// </summary>
-        public virtual void LoadContent()
+        public override void LoadContent()
         {
             _virtualPadController.LoadContent();
         }
@@ -139,7 +139,7 @@ namespace Yna.Engine.Graphics3D.Controls
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="spriteBatch"></param>
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             _virtualPadController.Draw(gameTime, spriteBatch);
         }
@@ -160,17 +160,14 @@ namespace Yna.Engine.Graphics3D.Controls
 
         protected override void UpdateKeyboardInput(GameTime gameTime)
         {
-
         }
 
         protected override void UpdateGamepadInput(GameTime gameTime)
         {
-
         }
 
         protected override void UpdateMouseInput(GameTime gameTime)
         {
-
         }
 
         #endregion

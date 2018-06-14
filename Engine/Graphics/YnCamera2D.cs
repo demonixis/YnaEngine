@@ -10,7 +10,7 @@ namespace Yna.Engine.Graphics
     /// A simple camera used on the scene to make different type of effects.
     /// Position, Rotation and Zoom can be applied on the scene.
     /// </summary>
-    public class YnCamera2D : YnBasicEntity
+    public class YnCamera2D : Engine.YnEntity
     {
         // Avoid garbage generation because we use it on each update.
         private Matrix _originMatrix;

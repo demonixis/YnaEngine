@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 
 namespace Yna.Engine.Graphics3D.Renderer
 {
@@ -37,7 +37,7 @@ namespace Yna.Engine.Graphics3D.Renderer
 
         #endregion
 
-        public static void Draw(BoundingBox box, BaseCamera camera, Color color)
+        public static void Draw(BoundingBox box, Cameras.Camera camera, Color color)
         {
             if (effect == null)
             {

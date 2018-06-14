@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework;
 using Yna.Engine.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Camera;
+using Yna.Engine.Graphics3D.Cameras;
 
-namespace Yna.Engine.Graphics3D.Material
+namespace Yna.Engine.Graphics3D.Materials
 {
     public class EnvironmentMapMaterial : StockMaterial
     {
@@ -163,7 +163,7 @@ namespace Yna.Engine.Graphics3D.Material
             }
         }
 
-        public override void Update(BaseCamera camera, ref Matrix world)
+        public override void Update(Cameras.Camera camera, ref Matrix world)
         {
             if (!_effectLoaded) return;
 

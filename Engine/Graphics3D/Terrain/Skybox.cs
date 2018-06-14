@@ -4,9 +4,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using Yna.Engine.Graphics3D.Camera;
 using Yna.Engine.Graphics3D.Geometry;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D.Terrain
 {
@@ -88,31 +87,35 @@ namespace Yna.Engine.Graphics3D.Terrain
 
             Vector3 sizes = new Vector3(_width, 1, _depth);
 
-            Vector3[] positions = new Vector3[6]
+            var positions = new Vector3[6]
             {
                 new Vector3(X - Width, Y, Z),
                 new Vector3(X + Width, Y, Z),
                 new Vector3(X, Y - (Height), Z),
                 new Vector3(X, Y + (Height), Z),
-                
                 new Vector3(X, Y, Z - Depth),
                 new Vector3(X, Y, Z + Depth),
             };
 
-            Vector3[] rotations = new Vector3[6]
+            var rotations = new Vector3[6]
             {
                 new Vector3(-MathHelper.PiOver2, 0.0f, -MathHelper.PiOver2),
                 new Vector3(-MathHelper.PiOver2, 0.0f, MathHelper.PiOver2),
-                
                 new Vector3(0.0f),
                 new Vector3(MathHelper.Pi, 0, 0.0f),
                 new Vector3(-MathHelper.PiOver2, MathHelper.Pi, 0.0f),
                 new Vector3(-MathHelper.PiOver2, 0.0f, 0.0f),
             };
 
+            BasicMaterial material;
+
             for (int i = 0; i < 6; i++)
             {
-                _walls[i] = new YnMeshGeometry(new PlaneGeometry(sizes), new BasicMaterial(_textureNames[i]));
+                material = new BasicMaterial(_textureNames[i]);
+                material.EnableDefaultLighting = false;
+                material.EnableLighting = false;
+
+                _walls[i] = new YnMeshGeometry(new PlaneGeometry(sizes), material);
                 _walls[i].Rotation = rotations[i];
                 _walls[i].Position = positions[i];
                 Add(_walls[i]);
@@ -121,20 +124,14 @@ namespace Yna.Engine.Graphics3D.Terrain
             base.LoadContent();
         }
 
-        public BaseMaterial[] GetMaterials()
+        public Material[] GetMaterials()
         {
-            BaseMaterial[] materials = new BaseMaterial[6];
+            var materials = new Material[6];
 
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
                 materials[i] = (this[i] as YnMesh).Material;
 
             return materials;
-        }
-
-        public void SetLightEnable(bool isEnabled)
-        {
-            for (int i = 0; i < 6; i++)
-                ((this[i] as YnMesh).Material as BasicMaterial).EnableLighting = isEnabled;
         }
     }
 }

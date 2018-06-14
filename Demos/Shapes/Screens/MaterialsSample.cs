@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Materials;
 using Yna.Engine.Graphics3D.Geometry;
 
 namespace Yna.Samples.Screens
@@ -37,10 +37,10 @@ namespace Yna.Samples.Screens
             groupCube.Add(cubeBasic);
 
             // Setup lighting
-            Scene.SceneLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
-            Scene.SceneLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
-            Scene.SceneLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
-            Scene.SceneLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
+            SceneLight.DirectionalLights[0].DiffuseColor = Color.WhiteSmoke.ToVector3();
+            SceneLight.DirectionalLights[0].DiffuseIntensity = 2.5f;
+            SceneLight.DirectionalLights[0].Direction = new Vector3(1, 0, 0);
+            SceneLight.DirectionalLights[0].SpecularColor = Color.Gray.ToVector3();
         }
 
         public override void Update(GameTime gameTime)
@@ -49,11 +49,6 @@ namespace Yna.Samples.Screens
             
             for (int i = 0, l = groupCube.Count; i < l; i++)
                 groupCube[i].RotateY(0.01f * (i + 1) * gameTime.ElapsedGameTime.Milliseconds);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
         }
     }
 }

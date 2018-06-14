@@ -1,80 +1,64 @@
 ﻿// YnaEngine - Copyright (C) YnaEngine team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using System;
 
 namespace Yna.Engine.Audio
 {
+    public enum AudioState
+    {
+        Playing = 0, Stopped, Paused
+    }
+
     /// <summary>
     /// An audio manager for playing musics and sounds
     /// </summary>
     public class AudioManager : IDisposable
     {
-        protected AudioAdapter _audioAdapter;
-
         #region Properties
 
         /// <summary>
         /// Active or desactive sounds
         /// </summary>
-        public bool SoundEnabled
-        {
-            get { return _audioAdapter.SoundEnabled; }
-            set { _audioAdapter.SoundEnabled = value; }
-        }
+        public bool SoundEnabled { get; set; } = true;
 
         /// <summary>
         /// Active or desactive music
         /// </summary>
-        public bool MusicEnabled
-        {
-            get { return _audioAdapter.MusicEnabled; }
-            set { _audioAdapter.MusicEnabled = value; }
-        }
+        public bool MusicEnabled { get; set; } = true;
 
         /// <summary>
         /// Get or Set the music volume
         /// </summary>
-        public float MusicVolume
+        public float MusicVolume { get; set; } = 1.0f;
+
+        public AudioState AudioState
         {
-            get { return _audioAdapter.MusicVolume; }
-            set { _audioAdapter.MusicVolume = value; }
+            get
+            {
+                var state = AudioState.Stopped;
+
+                switch (MediaPlayer.State)
+                {
+                    case MediaState.Playing:
+                        state = AudioState.Playing;
+                        break;
+                    case MediaState.Paused:
+                        state = AudioState.Paused;
+                        break;
+                    case MediaState.Stopped:
+                        state = AudioState.Stopped;
+                        break;
+                }
+
+                return state;
+            }
         }
 
-		/// <summary>
-		/// Gets the audio adapter.
-		/// </summary>
-		public AudioAdapter AudioAdapter
-		{
-			get { return _audioAdapter; }
-		}
 
         #endregion
-
-		/// <summary>
-		/// Create an audio manager object with default audio adapter.
-		/// </summary>
-        public AudioManager()
-        {
-#if SDL2
-            _audioAdapter = new SDLMixerAdapter();
-#else
-			_audioAdapter = new XnaAudioAdapter();
-#endif
-            _audioAdapter.MusicEnabled = true;
-            _audioAdapter.SoundEnabled = true;
-            _audioAdapter.MusicVolume = 0.6f;
-			_audioAdapter.RepeatMusic = false;
-        }
-
-		/// <summary>
-		/// Create an audio manager object with a custom audio adapter.
-		/// </summary>
-		/// <param name='audioAdapter'>A custom audio adapter.</param>
-		public AudioManager(AudioAdapter audioAdapter)
-		{
-			_audioAdapter = audioAdapter;
-		}
 
         #region Sound control
 
@@ -85,28 +69,13 @@ namespace Yna.Engine.Audio
         /// <param name="volume">Volume value between 1.0f and 0.0f.</param>
         /// <param name="pitch">Pitch value between 1.0f and 0.0f.</param>
         /// <param name="pan">Pan value between 1.0f and -1.0f</param>
-        public void PlaySound(string assetName, float volume, float pitch, float pan)
+        public void PlaySound(string assetName, float volume = 1.0f, float pitch = 1.0f, float pan = 0.0f)
         {
-			_audioAdapter.PlaySound(assetName, volume, pitch, pan);
-        }
+            if (!SoundEnabled)
+                return;
 
-        /// <summary>
-        /// Play a sound.
-        /// </summary>
-        /// <param name="assetName">Name of the sound</param>
-        /// <param name="volume">Volume value between 1.0f and 0.0f.</param>
-        public void PlaySound(string assetName, float volume)
-        {
-            PlaySound(assetName, volume, 1.0f, 0.0f);
-        }
-
-        /// <summary>
-        /// Play a sound.
-        /// </summary>
-        /// <param name="assetName">Name of the sound</param>
-        public void PlaySound(string assetName)
-        {
-            PlaySound(assetName, 1.0f, 1.0f, 0.0f);
+            var sound = YnG.Content.Load<SoundEffect>(assetName);
+            sound.Play(volume, pitch, pan);
         }
 
         #endregion
@@ -118,18 +87,13 @@ namespace Yna.Engine.Audio
         /// </summary>
         /// <param name="assetName">Name of the music to play.</param>
         /// <param name="repeat">Enable or disable repeat</param>
-        public void PlayMusic(string assetName, bool repeat)
+        public void PlayMusic(string assetName, bool repeat = true)
         {
-			_audioAdapter.PlayMusic(assetName, repeat);
-        }
+            StopMusic();
 
-        /// <summary>
-        /// Play a music from the XNA's content manager
-        /// </summary>
-        /// <param name="assetName">Name of the music to play.</param>
-        public void PlayMusic(string assetName)
-        {
-            _audioAdapter.PlayMusic(assetName, false);
+            var music = YnG.Content.Load<Song>(assetName);
+            MediaPlayer.IsRepeating = repeat;
+            MediaPlayer.Play(music);
         }
 
         /// <summary>
@@ -137,7 +101,8 @@ namespace Yna.Engine.Audio
         /// </summary>
         public void StopMusic()
         {
-			_audioAdapter.StopMusic();
+            if (MediaPlayer.State != MediaState.Stopped)
+                MediaPlayer.Stop();
         }
 
         /// <summary>
@@ -145,19 +110,18 @@ namespace Yna.Engine.Audio
         /// </summary>
         public void PauseMusic()
         {
-            _audioAdapter.PauseMusic();
+            if (MediaPlayer.State == MediaState.Playing)
+                MediaPlayer.Pause();
         }
 
         public void ResumeMusic()
         {
-            _audioAdapter.ResumeMusic();
+            if (MediaPlayer.State == MediaState.Paused)
+                MediaPlayer.Resume();
         }
 
         #endregion
 
-        public void Dispose()
-        {
-			_audioAdapter.Dispose();
-        }
+        public void Dispose() => MediaPlayer.Stop();
     }
 }

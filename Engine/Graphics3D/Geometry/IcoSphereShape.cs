@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Yna.Engine.Graphics3D.Material;
+using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D.Geometry
 {
@@ -286,7 +286,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             return (a + b) / 2;
         }
 
-        public override void Draw(GraphicsDevice device, BaseMaterial material)
+        public override void Draw(GraphicsDevice device, Materials.Material material)
         {
             DrawPrimitives(device, material);
         }

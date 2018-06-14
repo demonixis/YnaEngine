@@ -10,7 +10,7 @@ namespace Yna.Engine.Graphics.Particle
     /// <summary>
     /// An particle emitter.
     /// </summary>
-    public class YnEmitter : YnEntity
+    public class YnEmitter : YnEntity2D
     {
         private Vector2 _direction;
         private int _maxParticles;
