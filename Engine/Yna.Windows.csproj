@@ -116,7 +116,6 @@
     <Compile Include="Graphics3D\Terrain\Geometry\SimpleTerrainGeometry.cs" />
     <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
     <Compile Include="Graphics3D\YnBillboard.cs" />
-    <Compile Include="Graphics3D\YnMesh.cs" />
     <Compile Include="Graphics3D\YnMeshGeometry.cs" />
     <Compile Include="Graphics3D\YnMeshModel.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
