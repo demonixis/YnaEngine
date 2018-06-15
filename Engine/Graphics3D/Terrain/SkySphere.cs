@@ -4,10 +4,10 @@
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Cameras;
-using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Geometries;
 using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Terrain
+namespace Yna.Engine.Graphics3D.Terrains
 {
     public class SkySphere : YnMeshGeometry
     {

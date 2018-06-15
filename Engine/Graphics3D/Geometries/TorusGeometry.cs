@@ -4,15 +4,14 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
     /// <summary>
     /// Torus geometry
     /// Inspired by Xnawiki : http://www.xnawiki.com/index.php/Shape_Generation#Torus
     /// </summary>
-    public class TorusGeometry : BaseGeometry<VertexPositionNormalTexture>
+    public sealed class TorusGeometry : Geometry
     {
         private float _radiusExterior;
         private float _raduisInterior;
@@ -24,25 +23,22 @@ namespace Yna.Engine.Graphics3D.Geometry
         public TorusGeometry(float radiusExterior, float radiusInterior)
             : this(radiusExterior, radiusInterior, new Vector3(1.0f))
         {
-
         }
 
         public TorusGeometry(float radiusExterior, float radiusInterior, Vector3 sizes)
             : this(radiusExterior, radiusInterior, false, 10, 10, sizes)
         {
-
         }
 
         public TorusGeometry(float radiusExterior, float radiusInterior, bool invertFaces, int nbSlices, int nbSegments, Vector3 sizes)
             : this(radiusExterior, radiusInterior, invertFaces, nbSlices, nbSegments, sizes, new Vector3(0.0f))
         {
-
         }
 
         public TorusGeometry(float radiusExterior, float radiusInterior, bool invertFaces, int nbSlices, int nbSegments, Vector3 sizes, Vector3 origin)
             : base()
         {
-            _segmentSizes = sizes;
+            _size = sizes;
             _origin = origin;
             _radiusExterior = radiusExterior;
             _raduisInterior = radiusInterior;
@@ -58,33 +54,36 @@ namespace Yna.Engine.Graphics3D.Geometry
             _nbSegments = Math.Max(3, _nbSegments);
             _nbSlices = Math.Max(3, _nbSlices);
 
-            float invSegments = 1f / _nbSegments, invSlices = 1f / _nbSlices;
-            float radSegment = MathHelper.TwoPi * invSegments;
-            float radSlice = MathHelper.TwoPi * invSlices;
-            bool lines = false;
+            var invSegments = 1f / _nbSegments;
+            var invSlices = 1f / _nbSlices;
+            var radSegment = MathHelper.TwoPi * invSegments;
+            var radSlice = MathHelper.TwoPi * invSlices;
+            var lines = false;
+            var indexCount = 0;
 
-            int indexCount = 0;
             _vertices = new VertexPositionNormalTexture[(_nbSegments + 1) * (_nbSlices + 1)];
             _indices = new short[_nbSegments * _nbSlices * (lines ? 8 : 6)];
 
-            for (int j = 0; j <= _nbSegments; j++)
+            for (var j = 0; j <= _nbSegments; j++)
             {
-                float theta = j * radSegment - MathHelper.PiOver2;
-                float cosTheta = (float)Math.Cos(theta), sinTheta = (float)Math.Sin(theta);
+                var theta = j * radSegment - MathHelper.PiOver2;
+                var cosTheta = (float)Math.Cos(theta);
+                var sinTheta = (float)Math.Sin(theta);
 
-                for (int i = 0; i <= _nbSlices; i++)
+                for (var i = 0; i <= _nbSlices; i++)
                 {
-                    float phi = i * radSlice;
-                    float cosPhi = (float)Math.Cos(phi);
-                    float sinPhi = (float)Math.Sin(phi);
+                    var phi = i * radSlice;
+                    var cosPhi = (float)Math.Cos(phi);
+                    var sinPhi = (float)Math.Sin(phi);
 
-                    Vector3 position = new Vector3()
+                    var position = new Vector3()
                     {
                         X = cosTheta * (_radiusExterior + _raduisInterior * cosPhi),
                         Y = _raduisInterior * sinPhi,
                         Z = sinTheta * (_radiusExterior + _raduisInterior * cosPhi)
                     };
-                    Vector3 center = new Vector3()
+
+                    var center = new Vector3()
                     {
                         X = _radiusExterior * cosTheta,
                         Y = 0,
@@ -95,7 +94,7 @@ namespace Yna.Engine.Graphics3D.Geometry
                     {
                         Position = position,
                         Normal = Vector3.Normalize(position - center),
-                        TextureCoordinate = new Vector2(j * invSegments, i * invSegments) * _textureRepeat
+                        TextureCoordinate = new Vector2(j * invSegments, i * invSegments) * _UVOffset
                     };
 
                     // 0---2
@@ -103,10 +102,10 @@ namespace Yna.Engine.Graphics3D.Geometry
                     // 1---3
                     if (j < _nbSegments && i < _nbSlices)
                     {
-                        short i0 = (short)((j * (_nbSlices + 1)) + i);
-                        short i1 = (short)((j * (_nbSlices + 1)) + i + 1);
-                        short i2 = (short)(((j + 1) * (_nbSlices + 1)) + i);
-                        short i3 = (short)(((j + 1) * (_nbSlices + 1)) + i + 1);
+                        var i0 = (short)((j * (_nbSlices + 1)) + i);
+                        var i1 = (short)((j * (_nbSlices + 1)) + i + 1);
+                        var i2 = (short)(((j + 1) * (_nbSlices + 1)) + i);
+                        var i3 = (short)(((j + 1) * (_nbSlices + 1)) + i + 1);
 
                         _indices[indexCount++] = i0;
                         _indices[indexCount++] = _invertFaces ? i1 : i3;
@@ -120,10 +119,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             }
         }
 
-        protected override void CreateIndices()
-        {
-
-        }
+        protected override void CreateIndices() { }
 
         public override void Draw(GraphicsDevice device, Materials.Material material)
         {

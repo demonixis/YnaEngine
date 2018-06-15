@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Geometries;
 using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Samples.Screens
@@ -13,10 +12,8 @@ namespace Yna.Samples.Screens
         public SphereSample(string name)
             : base(name)
         {
-            SphereGeometry geometry = new SphereGeometry(10);
-            geometry.TessellationLevel = 20;
-
-            BasicMaterial material = new BasicMaterial("Textures/metal");
+            var geometry = new SphereGeometry(10, 20);
+            var material = new BasicMaterial("Textures/metal");
 
             sphere = new YnMeshGeometry(geometry, material);
             Add(sphere);

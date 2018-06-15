@@ -6,55 +6,24 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
     /// <summary>
     /// Sphere geometry
     /// Inspired by Xnawiki : http://www.xnawiki.com/index.php/Shape_Generation#Sphere
     /// </summary>
-    public class SphereGeometry : BaseGeometry<VertexPositionNormalTexture>
+    public sealed class SphereGeometry : Geometry
     {
         private float _radius;
         private int _tessellationLevel;
 
-        public float Radius
-        {
-            get { return _radius; }
-            set { _radius = value; }
-        }
-
-        public int TessellationLevel
-        {
-            get { return _tessellationLevel; }
-            set { _tessellationLevel = value; }
-        }
-
         #region Constructors
 
-        public SphereGeometry(float radius)
-            : this(radius, false, 10)
-        {
-
-        }
-
-        public SphereGeometry(float radius, bool invertFaces, int tessellationLevel)
-            : this(radius, invertFaces, tessellationLevel, new Vector3(1.0f))
-        {
-
-        }
-
-        public SphereGeometry(float radius, bool invertFaces, int tessellationLevel, Vector3 sizes)
-            : this (radius, invertFaces, tessellationLevel, sizes, new Vector3(0.0f))
-        {
-
-        }
-
-        public SphereGeometry(float radius, bool invertFaces, int tessellationLevel, Vector3 sizes, Vector3 origin)
+        public SphereGeometry(float radius = 1, int tessellationLevel = 8, bool invertFaces = false)
             : base()
         {
-            _segmentSizes = sizes;
+              _invertFaces = invertFaces;
             _radius = radius;
-            _invertFaces = invertFaces;
             _tessellationLevel = tessellationLevel;
         }
 
@@ -68,27 +37,27 @@ namespace Yna.Engine.Graphics3D.Geometry
             _tessellationLevel = Math.Max(4, _tessellationLevel);
             _tessellationLevel += (_tessellationLevel % 2);
 
-            int vertexCount = 0;
-            int indexCount = 0;
+            var vertexCount = 0;
+            var indexCount = 0;
 
             _vertices = new VertexPositionNormalTexture[((_tessellationLevel / 2) * (_tessellationLevel - 1)) + 1];
             _indices = new short[(((_tessellationLevel / 2) - 2) * (_tessellationLevel + 1) * 6) + (6 * (_tessellationLevel + 1))];
 
-            for (int j = 0; j <= _tessellationLevel / 2; j++)
+            for (var j = 0; j <= _tessellationLevel / 2; j++)
             {
-                float theta = j * MathHelper.TwoPi / _tessellationLevel - MathHelper.PiOver2;
+                var theta = j * MathHelper.TwoPi / _tessellationLevel - MathHelper.PiOver2;
 
-                for (int i = 0; i <= _tessellationLevel; i++)
+                for (var i = 0; i <= _tessellationLevel; i++)
                 {
-                    float phi = i * MathHelper.TwoPi / _tessellationLevel;
+                    var phi = i * MathHelper.TwoPi / _tessellationLevel;
 
                     _vertices[vertexCount++] = new VertexPositionNormalTexture()
                     {
                         Position = new Vector3()
                         {
-                            X = (_radius * (float)(Math.Cos(theta) * Math.Cos(phi)) + _origin.X) * _segmentSizes.X,
-                            Y = (_radius * (float)(Math.Sin(theta)) + _origin.Y) * _segmentSizes.Y,
-                            Z = (_radius * (float)(Math.Cos(theta) * Math.Sin(phi)) + _origin.Z) * _segmentSizes.Z
+                            X = (_radius * (float)(Math.Cos(theta) * Math.Cos(phi)) + _origin.X) * _size.X,
+                            Y = (_radius * (float)(Math.Sin(theta)) + _origin.Y) * _size.Y,
+                            Z = (_radius * (float)(Math.Cos(theta) * Math.Sin(phi)) + _origin.Z) * _size.Z
                         },
                         TextureCoordinate = new Vector2()
                         {
@@ -102,9 +71,9 @@ namespace Yna.Engine.Graphics3D.Geometry
                         // bottom cap
                         for (i = 0; i <= _tessellationLevel; i++)
                         {
-                            short i0 = 0;
-                            short i1 = (short)((i % _tessellationLevel) + 1);
-                            short i2 = (short)i;
+                            var i0 = (short)0;
+                            var i1 = (short)((i % _tessellationLevel) + 1);
+                            var i2 = (short)i;
 
                             _indices[indexCount++] = i0;
                             _indices[indexCount++] = _invertFaces ? i2 : i1;
@@ -114,10 +83,10 @@ namespace Yna.Engine.Graphics3D.Geometry
                     else if (j < _tessellationLevel / 2 - 1)
                     {
                         // middle area
-                        short i0 = (short)(vertexCount - 1);
-                        short i1 = (short)vertexCount;
-                        short i2 = (short)(vertexCount + _tessellationLevel);
-                        short i3 = (short)(vertexCount + _tessellationLevel + 1);
+                        var i0 = (short)(vertexCount - 1);
+                        var i1 = (short)vertexCount;
+                        var i2 = (short)(vertexCount + _tessellationLevel);
+                        var i3 = (short)(vertexCount + _tessellationLevel + 1);
 
                         _indices[indexCount++] = i0;
                         _indices[indexCount++] = _invertFaces ? i2 : i1;
@@ -132,9 +101,9 @@ namespace Yna.Engine.Graphics3D.Geometry
                         // top cap
                         for (i = 0; i <= _tessellationLevel; i++)
                         {
-                            short i0 = (short)(vertexCount - 1);
-                            short i1 = (short)((vertexCount - 1) - ((i % _tessellationLevel) + 1));
-                            short i2 = (short)((vertexCount - 1) - i);
+                            var i0 = (short)(vertexCount - 1);
+                            var i1 = (short)((vertexCount - 1) - ((i % _tessellationLevel) + 1));
+                            var i2 = (short)((vertexCount - 1) - i);
 
                             _indices[indexCount++] = i0;
                             _indices[indexCount++] = _invertFaces ? i2 : i1;
@@ -145,14 +114,11 @@ namespace Yna.Engine.Graphics3D.Geometry
             }
         }
 
-        protected override void CreateIndices()
-        {
+        protected override void CreateIndices() { }
 
-        }
-
-        public override void GenerateGeometry()
+        public override void Generate()
         {
-            base.GenerateGeometry();
+            base.Generate();
             ComputeNormals(ref _vertices);
         }
 
@@ -160,7 +126,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// Draw the plane shape
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device, Materials.Material material)
+        public override void Draw(GraphicsDevice device, Material material)
         {
             DrawUserIndexedPrimitives(device, material);
         }

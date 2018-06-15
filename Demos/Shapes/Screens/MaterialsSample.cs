@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
 using Yna.Engine.Graphics3D.Materials;
-using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Geometries;
 
 namespace Yna.Samples.Screens
 {

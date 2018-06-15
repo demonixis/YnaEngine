@@ -5,7 +5,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Cameras;
-using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Geometries;
 using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Materials;
 
@@ -50,7 +50,7 @@ namespace Yna.Engine.Graphics3D
                 Matrix.CreateTranslation(_position);
         }
 
-        public override void PreDraw(Camera camera, SceneLight light)
+        public override void PreDraw(Camera camera, SceneLight light, ref FogData fog)
         {
             if (_isFixed)
             {
@@ -62,12 +62,12 @@ namespace Yna.Engine.Graphics3D
             if (!_static)
                 UpdateBoundingVolumes();
 
-            _material.Update(camera, light, ref _world);
+            _material.Update(camera, light, ref _world, ref fog);
         }
 
-        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light, ref FogData fog)
         {
-            PreDraw(camera, light);
+            PreDraw(camera, light, ref fog);
 
             device.BlendState = BlendState.AlphaBlend;
 

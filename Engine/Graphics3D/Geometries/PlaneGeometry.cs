@@ -1,26 +1,22 @@
 ﻿// YnaEngine - Copyright (C) YnaEngine team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
     /// <summary>
     /// Plane geometry
     /// </summary>
-    public class PlaneGeometry : BaseGeometry<VertexPositionNormalTexture>
+    public sealed class PlaneGeometry : Geometry
     {
         /// <summary>
         /// Create a plane geometry.
         /// </summary>
         /// <param name="size">Size of geometry.</param>
-        public PlaneGeometry(Vector3 size)
-            : this(size, false)
-        {
-        }
+        public PlaneGeometry(Vector3 size) : this(size, false) { }
 
         /// <summary>
         /// Create a plane geometry.
@@ -30,13 +26,13 @@ namespace Yna.Engine.Graphics3D.Geometry
         public PlaneGeometry(Vector3 size, bool invertFaces)
             : base()
         {
-            _segmentSizes = size;
+            _size = size;
             _invertFaces = invertFaces;
         }
 
         protected override void CreateVertices()
         {
-            Vector3[] vertexPositions = new Vector3[4]
+            var vertexPositions = new Vector3[4]
             {
                 new Vector3(-1.0f, 0.0f, -1.0f),
                 new Vector3(-1.0f, 0.0f, 1.0f),
@@ -44,7 +40,7 @@ namespace Yna.Engine.Graphics3D.Geometry
                 new Vector3(1.0f, 0.0f, 1.0f)
             };
 
-            Vector2[] textureCoordinates = new Vector2[4]
+            var textureCoordinates = new Vector2[4]
             {
                 new Vector2(0.0f, 1.0f),
                 new Vector2(0.0f, 0.0f),
@@ -54,10 +50,10 @@ namespace Yna.Engine.Graphics3D.Geometry
 
             _vertices = new VertexPositionNormalTexture[4];
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                _vertices[i].Position = (vertexPositions[i] + _origin) * _segmentSizes;
-                _vertices[i].TextureCoordinate = textureCoordinates[i] * _textureRepeat;
+                _vertices[i].Position = (vertexPositions[i] + _origin) * _size;
+                _vertices[i].TextureCoordinate = textureCoordinates[i] * _UVOffset;
                 _vertices[i].Normal = Vector3.Up;
             }
         }
@@ -77,7 +73,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// Draw the plane shape
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GraphicsDevice device, Materials.Material material)
+        public override void Draw(GraphicsDevice device, Material material)
         {
             DrawUserIndexedPrimitives(device, material);
         }

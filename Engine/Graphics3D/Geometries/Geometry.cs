@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Materials;
 using Yna.Engine.Graphics3D.Lighting;
 
-namespace Yna.Engine.Graphics3D.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
     /// <summary>
     /// Basic class for create an object geometry
@@ -22,21 +22,17 @@ namespace Yna.Engine.Graphics3D.Geometry
     ///     and call in first PreDraw() method. Do your stuff after that
     /// </summary>
     /// <typeparam name="T">Type of IVertexType</typeparam>
-    public abstract class BaseGeometry<T> where T : struct, IVertexType
+    public abstract class Geometry
     {
         #region Protected declarations
 
         // Geometry
-        protected T[] _vertices;
+        protected VertexPositionNormalTexture[] _vertices;
         protected short[] _indices;
         protected VertexBuffer _vertexBuffer;
         protected IndexBuffer _indexBuffer;
-
-        // Texture
-        protected Vector2 _textureRepeat;
-
-        // Segments size
-        protected Vector3 _segmentSizes;
+        protected Vector2 _UVOffset;
+        protected Vector3 _size;
         protected Vector3 _origin;
         protected Vector3 _position;
         protected bool _constructed;
@@ -53,9 +49,9 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <summary>
         /// Gets the vertex array used by this object
         /// </summary>
-        public T[] Vertices => _vertices;
-        public short[] Indices => _indices;
+        public VertexPositionNormalTexture[] Vertices => _vertices;
 
+        public short[] Indices => _indices;
 
         /// <summary>
         /// Gets the state of the geometry.
@@ -82,8 +78,8 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// </summary>
         public Vector2 TextureRepeat
         {
-            get { return _textureRepeat; }
-            set { _textureRepeat = value; }
+            get { return _UVOffset; }
+            set { _UVOffset = value; }
         }
 
         /// <summary>
@@ -91,8 +87,8 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// </summary>
         public Vector3 Size
         {
-            get { return _segmentSizes; }
-            set { _segmentSizes = value; }
+            get { return _size; }
+            set { _size = value; }
         }
 
         public Vector3 Position
@@ -149,12 +145,12 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <summary>
         /// Create a basic shape
         /// </summary>
-        public BaseGeometry()
+        public Geometry()
         {
-            _textureRepeat = Vector2.One;
+            _UVOffset = Vector2.One;
             _position = Vector3.Zero;
             _origin = Vector3.Zero;
-            _segmentSizes = Vector3.One;
+            _size = Vector3.One;
             _constructed = false;
             _invertFaces = false;
             _doubleSided = false;
@@ -168,10 +164,10 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <param name="textureName">The texture name</param>
         /// <param name="sizes">Desired size</param>
         /// <param name="position">Position</param>
-        public BaseGeometry(Vector3 sizes)
+        public Geometry(Vector3 sizes)
             : this()
         {
-            _segmentSizes = sizes;
+            _size = sizes;
         }
 
         #endregion
@@ -179,7 +175,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <summary>
         /// Generate the shape, update the shader and update bounding volumes
         /// </summary>
-        public virtual void GenerateGeometry()
+        public virtual void Generate()
         {
             if (_constructed)
             {
@@ -208,7 +204,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// </summary>
         protected virtual void CreateBuffers()
         {
-            _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(T), _vertices.Length, BufferUsage.WriteOnly);
+            _vertexBuffer = new VertexBuffer(YnG.GraphicsDevice, typeof(VertexPositionNormalTexture), _vertices.Length, BufferUsage.WriteOnly);
             _vertexBuffer.SetData(_vertices);
 
             _indexBuffer = new IndexBuffer(YnG.GraphicsDevice, IndexElementSize.SixteenBits, _indices.Length, BufferUsage.WriteOnly);
@@ -221,26 +217,26 @@ namespace Yna.Engine.Graphics3D.Geometry
         /// <param name="vertices">A reference of an array of VertexPositionNormalTexture</param>
         public virtual void ComputeNormals(ref VertexPositionNormalTexture[] vertices)
         {
-            for (int i = 0; i < _vertices.Length; i++)
+            for (var i = 0; i < _vertices.Length; i++)
                 vertices[i].Normal = Vector3.Zero;
 
-            for (int i = 0; i < _indices.Length / 3; i++)
+            for (var i = 0; i < _indices.Length / 3; i++)
             {
-                int index1 = _indices[i * 3];
-                int index2 = _indices[i * 3 + 1];
-                int index3 = _indices[i * 3 + 2];
+                var index1 = _indices[i * 3];
+                var index2 = _indices[i * 3 + 1];
+                var index3 = _indices[i * 3 + 2];
 
                 // Select the face
-                Vector3 side1 = vertices[index1].Position - vertices[index3].Position;
-                Vector3 side2 = vertices[index1].Position - vertices[index2].Position;
-                Vector3 normal = Vector3.Cross(side1, side2);
+                var side1 = vertices[index1].Position - vertices[index3].Position;
+                var side2 = vertices[index1].Position - vertices[index2].Position;
+                var normal = Vector3.Cross(side1, side2);
 
                 vertices[index1].Normal += normal;
                 vertices[index2].Normal += normal;
                 vertices[index3].Normal += normal;
             }
 
-            for (int i = 0; i < _vertices.Length; i++)
+            for (var i = 0; i < _vertices.Length; i++)
                 vertices[i].Normal.Normalize();
         }
 
@@ -275,7 +271,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             device.SetVertexBuffer(_vertexBuffer);
             device.Indices = _indexBuffer;
 
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
+            foreach (var pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
@@ -291,7 +287,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         {
             PreDraw(device);
 
-            foreach (EffectPass pass in material.Effect.CurrentTechnique.Passes)
+            foreach (var pass in material.Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);

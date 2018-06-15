@@ -27,14 +27,12 @@ namespace Yna.Engine.Graphics3D.Materials
             : this()
         {
             _textureName = textureName;
-            EnableMainTexture = true;
         }
 
         public BasicMaterial(Texture2D texture)
             : this()
         {
             _texture = texture;
-            EnableMainTexture = true;
         }
 
         public override void LoadContent()
@@ -47,19 +45,19 @@ namespace Yna.Engine.Graphics3D.Materials
             _effect = new BasicEffect(YnG.GraphicsDevice);
         }
 
-        public override void Update(Camera camera, SceneLight light, ref Matrix world)
+        public override void Update(Camera camera, SceneLight light, ref Matrix world, ref FogData fog)
         {
             // Update matrices
-            base.Update(camera, light, ref world);
+            base.Update(camera, light, ref world, ref fog);
 
             BasicEffect basicEffect = (BasicEffect)_effect;
 
             // Texture
-            basicEffect.TextureEnabled = EnableMainTexture;
+            basicEffect.TextureEnabled = _texture != null;
             basicEffect.Texture = _texture;
 
             // Fog
-            UpdateFog(basicEffect);
+            UpdateFog(basicEffect, ref fog);
 
             // Lights
             if (UpdateLights(basicEffect, light))

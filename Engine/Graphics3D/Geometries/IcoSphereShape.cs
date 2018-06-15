@@ -3,15 +3,13 @@
 // file 'LICENSE', which is part of this source code package.
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
-    internal class TriangleData
+    internal sealed class TriangleData
     {
         public int A;
         public int B;
@@ -31,7 +29,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         }
     }
 
-    public class IcoSphereGeometry : BaseGeometry<VertexPositionNormalTexture>
+    public sealed class IcoSphereGeometry : Geometry
     {
         private float _radius;
         private int _lod;
@@ -54,13 +52,13 @@ namespace Yna.Engine.Graphics3D.Geometry
             CreateVertexData();
             ApplyVertexData();
             for (int i = 0; i < _vertices.Length; i++)
-                _vertices[i].TextureCoordinate *= _textureRepeat;
+                _vertices[i].TextureCoordinate *= _UVOffset;
         }
 
         protected override void CreateIndices()
-		{
-			// Indices are calculated in ApplyVertexData
-		}
+        {
+            // Indices are calculated in ApplyVertexData
+        }
 
         /// <summary>
         /// Compute the vertices created in CreateVertexData into usable VertexPositionNormalTexture
@@ -130,7 +128,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             // TEST
             //u = (float)(0.5f - Math.Atan2(point.X, point.Z) * (1/Math.PI) * 2);
             //v = (float)(0.5f - Math.Asin(point.Y) * (1/Math.PI));
-            return new Vector2(u, v) * _textureRepeat;
+            return new Vector2(u, v) * _UVOffset;
         }
 
         /// <summary>
@@ -171,7 +169,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             // 5 faces around point 0
             AddTriangle(0, 5, 11, new Vector2(halfTriSize / w, 0), new Vector2(triSizeW / w, triSizeH / h), new Vector2(0, triSizeH / h));
             AddTriangle(0, 1, 5, new Vector2((halfTriSize + triSizeW) / w, 0), new Vector2((triSizeW * 2) / w, triSizeH / h), new Vector2(triSizeW / w, triSizeH / h));
-            AddTriangle(0, 7, 1, new Vector2((halfTriSize + triSizeW*2) / w, 0), new Vector2((triSizeW * 3) / w, triSizeH / h), new Vector2(triSizeW*2 / w, triSizeH / h));
+            AddTriangle(0, 7, 1, new Vector2((halfTriSize + triSizeW * 2) / w, 0), new Vector2((triSizeW * 3) / w, triSizeH / h), new Vector2(triSizeW * 2 / w, triSizeH / h));
             AddTriangle(0, 10, 7, new Vector2((halfTriSize + triSizeW * 3) / w, 0), new Vector2((triSizeW * 4) / w, triSizeH / h), new Vector2(triSizeW * 3 / w, triSizeH / h));
             AddTriangle(0, 11, 10, new Vector2((halfTriSize + triSizeW * 4) / w, 0), new Vector2((triSizeW * 5) / w, triSizeH / h), new Vector2(triSizeW * 4 / w, triSizeH / h));
 
@@ -187,15 +185,15 @@ namespace Yna.Engine.Graphics3D.Geometry
             AddTriangle(3, 4, 9, new Vector2(triSizeW / w, 1), new Vector2(halfTriSize / w, triSizeH * 2 / h), new Vector2((halfTriSize + triSizeW) / w, triSizeH * 2 / h));
             AddTriangle(3, 2, 4, new Vector2(triSizeW * 5 / w, 1), new Vector2((halfTriSize + triSizeW * 4) / w, triSizeH * 2 / h), new Vector2((halfTriSize + triSizeW * 5) / w, triSizeH * 2 / h));
             AddTriangle(3, 6, 2, new Vector2(triSizeW * 4 / w, 1), new Vector2((halfTriSize + triSizeW * 3) / w, triSizeH * 2 / h), new Vector2((halfTriSize + triSizeW * 4) / w, triSizeH * 2 / h));
-            AddTriangle(3, 8, 6, new Vector2(triSizeW * 3 / w, 1), new Vector2((halfTriSize + triSizeW*2) / w, triSizeH * 2 / h), new Vector2((halfTriSize + triSizeW * 3) / w, triSizeH * 2 / h));
+            AddTriangle(3, 8, 6, new Vector2(triSizeW * 3 / w, 1), new Vector2((halfTriSize + triSizeW * 2) / w, triSizeH * 2 / h), new Vector2((halfTriSize + triSizeW * 3) / w, triSizeH * 2 / h));
             AddTriangle(3, 9, 8, new Vector2(triSizeW * 2 / w, 1), new Vector2((halfTriSize + triSizeW) / w, triSizeH * 2 / h), new Vector2((halfTriSize + triSizeW * 2) / w, triSizeH * 2 / h));
 
             // 5 adjacent faces
-            AddTriangle(4, 5, 9, new Vector2(halfTriSize / w, triSizeH * 2 / h), new Vector2(triSizeW / w, triSizeH / h), new Vector2((halfTriSize + triSizeW)  / w, triSizeH * 2 / h));
+            AddTriangle(4, 5, 9, new Vector2(halfTriSize / w, triSizeH * 2 / h), new Vector2(triSizeW / w, triSizeH / h), new Vector2((halfTriSize + triSizeW) / w, triSizeH * 2 / h));
             AddTriangle(2, 11, 4, new Vector2((halfTriSize + triSizeW * 4) / w, triSizeH * 2 / h), new Vector2((triSizeW * 5) / w, triSizeH / h), new Vector2((halfTriSize + triSizeW * 5) / w, triSizeH * 2 / h));
             AddTriangle(6, 10, 2, new Vector2((halfTriSize + triSizeW * 3) / w, triSizeH * 2 / h), new Vector2(triSizeW * 4 / w, triSizeH / h), new Vector2((halfTriSize + triSizeW * 4) / w, triSizeH * 2 / h));
             AddTriangle(8, 7, 6, new Vector2((halfTriSize + triSizeW * 2) / w, triSizeH * 2 / h), new Vector2(triSizeW * 3 / w, triSizeH / h), new Vector2((halfTriSize + triSizeW * 3) / w, triSizeH * 2 / h));
-            AddTriangle(9, 1, 8, new Vector2((halfTriSize + triSizeW) / w, triSizeH * 2 / h), new Vector2((triSizeW * 2) / w, triSizeH / h), new Vector2((halfTriSize + triSizeW*2) / w, triSizeH * 2 / h));
+            AddTriangle(9, 1, 8, new Vector2((halfTriSize + triSizeW) / w, triSizeH * 2 / h), new Vector2((triSizeW * 2) / w, triSizeH / h), new Vector2((halfTriSize + triSizeW * 2) / w, triSizeH * 2 / h));
 
             // Refine the triangles to reach the wanted level of detail
             _cache = new Dictionary<Int64, int>();
@@ -286,7 +284,7 @@ namespace Yna.Engine.Graphics3D.Geometry
             return (a + b) / 2;
         }
 
-        public override void Draw(GraphicsDevice device, Materials.Material material)
+        public override void Draw(GraphicsDevice device, Material material)
         {
             DrawPrimitives(device, material);
         }

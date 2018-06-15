@@ -23,16 +23,6 @@ namespace Yna.Engine.Graphics3D.Materials
         #region Properties
 
         /// <summary>
-        /// Gets or sets the ambient color
-        /// </summary>
-        public Vector3 AmbientColor { get; set; } = Vector3.One;
-
-        /// <summary>
-        /// Get or sets the value of ambient intensity
-        /// </summary>
-        public float AmbientIntensity { get; set; } = 1.0f;
-
-        /// <summary>
         /// Gets or sets the default diffuse color
         /// </summary>
         public Vector3 DiffuseColor { get; set; } = Vector3.One;
@@ -46,21 +36,6 @@ namespace Yna.Engine.Graphics3D.Materials
         /// Gets or sets alpha value
         /// </summary>
         public float AlphaColor { get; set; } = 1.0f;
-
-        /// <summary>
-        /// Gets or sets for color
-        /// </summary>
-        public Vector3 FogColor { get; set; } = Vector3.One;
-
-        /// <summary>
-        /// Gets or sets fog start value
-        /// </summary>
-        public float FogStart { get; set; } = 10.0f;
-
-        /// <summary>
-        /// Gets or sets fog end value
-        /// </summary>
-        public float FogEnd { get; set; } = 100.0f;
 
         /// <summary>
         /// Gets or sets the value of emissive color
@@ -80,11 +55,6 @@ namespace Yna.Engine.Graphics3D.Materials
         public float SpecularIntensity { get; set; } = 0.4f;
 
         /// <summary>
-        /// Enable or disable fog
-        /// </summary>
-        public bool EnableFog { get; set; } = false;
-
-        /// <summary>
         /// Enable or disable the default lighting
         /// </summary>
         public bool EnableDefaultLighting { get; set; } = false;
@@ -93,11 +63,6 @@ namespace Yna.Engine.Graphics3D.Materials
         /// Enable or disable lighting when the default lighting isn't enabled.
         /// </summary>
         public bool EnableLighting { get; set; } = true;
-
-        /// <summary>
-        /// Enable or disable the main texture
-        /// </summary>
-        public bool EnableMainTexture { get; set; } = true;
 
         /// <summary>
         /// Enable or disable per pixel lighting
@@ -118,11 +83,9 @@ namespace Yna.Engine.Graphics3D.Materials
         {
             if (_texture == null && _textureName != String.Empty)
                 _texture = YnG.Content.Load<Texture2D>(_textureName);
-
-            EnableMainTexture = _texture != null ? true : false;
         }
 
-        public override void Update(Camera camera, SceneLight light, ref Matrix world)
+        public override void Update(Camera camera, SceneLight light, ref Matrix world, ref FogData fog)
         {
             // Matrices
             var effectMatrices = (IEffectMatrices)_effect;
@@ -131,12 +94,12 @@ namespace Yna.Engine.Graphics3D.Materials
             effectMatrices.Projection = camera.Projection;
         }
 
-        protected virtual void UpdateFog(IEffectFog effectFog)
+        protected virtual void UpdateFog(IEffectFog effectFog, ref FogData data)
         {
-            effectFog.FogEnabled = EnableFog;
-            effectFog.FogColor = FogColor;
-            effectFog.FogStart = FogStart;
-            effectFog.FogEnd = FogEnd;
+            effectFog.FogEnabled = data.Enabled;
+            effectFog.FogColor = data.Color;
+            effectFog.FogStart = data.Start;
+            effectFog.FogEnd = data.End;
         }
 
         /// <summary>
@@ -148,9 +111,9 @@ namespace Yna.Engine.Graphics3D.Materials
         {
             effectLights.LightingEnabled = EnableLighting;
 
-            if (!EnableDefaultLighting)
+            if (!EnableDefaultLighting && !light.DefaultLighting)
             {
-                effectLights.AmbientLightColor = AmbientColor * AmbientIntensity;
+                effectLights.AmbientLightColor = light.AmbientColor * light.AmbientIntensity;
                 effectLights.AmbientLightColor *= light.AmbientColor * light.AmbientIntensity;
                 UpdateLighting(effectLights, light);
             }

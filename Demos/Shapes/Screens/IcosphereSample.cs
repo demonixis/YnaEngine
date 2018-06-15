@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Geometries;
 using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Samples.Screens
@@ -17,18 +17,13 @@ namespace Yna.Samples.Screens
             Add(icosphere);
 
             // Setup a new material for the terrain
-            BasicMaterial terrainMaterial = new BasicMaterial("Textures/pattern55_diffuse");
-            terrainMaterial.FogColor = Color.White.ToVector3();
-            terrainMaterial.FogStart = 15.0f;
-            terrainMaterial.FogEnd = 65.0f;
-            terrainMaterial.EnableFog = true;
-            terrain.Material = terrainMaterial;
+            terrain.Material = new BasicMaterial("Textures/pattern55_diffuse");
+            SetFog(true, Color.White);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-            // Set the camera position at the middle of the terrain
             icosphere.Position = new Vector3(terrain.Width / 2, icosphere.Scale.Y, terrain.Depth / 2);
         }
 

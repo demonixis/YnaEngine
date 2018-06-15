@@ -42,6 +42,6 @@ namespace Yna.Engine.Graphics3D.Materials
         /// </summary>
         /// <param name="camera">Camera to use.</param>
         /// <param name="world">Entity World matrix</param>
-        public abstract void Update(Camera camera, SceneLight light, ref Matrix world);
+        public abstract void Update(Camera camera, SceneLight light, ref Matrix world, ref FogData fog);
     }
 }

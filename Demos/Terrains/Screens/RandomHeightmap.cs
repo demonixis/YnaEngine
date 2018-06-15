@@ -6,7 +6,7 @@ using Yna.Engine.Input;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics3D;
 using Yna.Engine.Graphics3D.Cameras;
-using Yna.Engine.Graphics3D.Terrain;
+using Yna.Engine.Graphics3D.Terrains;
 using Yna.Engine.Graphics3D.Controls;
 using Yna.Engine.Graphics3D.Materials;
 
@@ -14,75 +14,68 @@ namespace Yna.Samples.Screens
 {
     public class RandomHeightmap : YnState3D
     {
-        YnEntity2D sky;
-        YnText textInfo;
-
-        Heightmap heightmap;
-        FirstPersonCamera camera;
-        FirstPersonControl control;
-
-        RasterizerState rasterizerState;
+        private YnEntity2D _sky;
+        private YnText _textInfo;
+        private Terrain _heightmap;
+        private FirstPersonCamera _fpsCamera;
+        private FirstPersonControl _control;
+        private RasterizerState rasterizerState;
 
         public RandomHeightmap(string name)
             : base(name)
         {
             // 1 - Creating an FPSCamera
-            camera = new FirstPersonCamera();
-            camera.SetupCamera();
-            Add(camera);
+            _fpsCamera = new FirstPersonCamera();
+            _fpsCamera.SetupCamera();
+            Add(_fpsCamera);
 
             // 2 - Creating a controler (Keyboard + Gamepad + mouse)
-            control = new FirstPersonControl(camera);
-            control.RotationSpeed = 0.45f;
-            control.MoveSpeed = 0.15f;
-            control.StrafeSpeed = 0.45f;
-            control.PhysicsPosition.MaxVelocity = 0.96f;
-            control.PhysicsRotation.MaxVelocity = 0.96f;
-            Add(control);
+            _control = new FirstPersonControl(_fpsCamera);
+            _control.RotationSpeed = 0.45f;
+            _control.MoveSpeed = 0.15f;
+            _control.StrafeSpeed = 0.45f;
+            _control.PhysicsPosition.MaxVelocity = 0.96f;
+            _control.PhysicsRotation.MaxVelocity = 0.96f;
+            Add(_control);
 
             // 3 - Create an Heigmap with 2 textures
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
 
-            Texture2D randomTexture = YnGraphics.CreateRandomTexture(128);
+            var randomTexture = YnGraphics.CreateRandomTexture(128);
 
-            heightmap = new Heightmap(randomTexture, "Textures/heightmapTexture", new Vector3(25, 1, 25));
-            Add(heightmap);
-
-            BasicMaterial heightmapMaterial = new BasicMaterial("Textures/heightmapTexture");
-            heightmapMaterial.FogStart = 25.0f;
-            heightmapMaterial.FogEnd = 75.0f;
-            heightmapMaterial.EnableFog = true;
-            heightmapMaterial.FogColor = Color.White.ToVector3() * 0.4f;
-            heightmap.Material = heightmapMaterial;
+            _heightmap = new Terrain(randomTexture, "Textures/heightmapTexture", new Vector3(25, 1, 25));            
+            _heightmap.Material = new BasicMaterial("Textures/heightmapTexture");
+            Add(_heightmap);
 
             // Sky & debug info
-            sky = new YnEntity2D("Textures/Sky");
-            textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
+            _sky = new YnEntity2D("Textures/Sky");
+            _textInfo = new YnText("Fonts/DefaultFont", "F1 - Wireframe mode\nF2 - Normal mode");
 
             rasterizerState = new RasterizerState();
-        }
 
+            SetFog(true, Color.White, 25, 100);
+        }
 
         public override void LoadContent()
         {
             base.LoadContent();
 
             // Sky
-            sky.LoadContent();
-            sky.SetFullScreen();
+            _sky.LoadContent();
+            _sky.SetFullScreen();
 
             // Debug text config
-            textInfo.LoadContent();
-            textInfo.Position = new Vector2(10, 10);
-            textInfo.Color = Color.Wheat;
-            textInfo.Scale = new Vector2(1.1f);
-            heightmap.UpdateBoundingVolumes();
+            _textInfo.LoadContent();
+            _textInfo.Position = new Vector2(10, 10);
+            _textInfo.Color = Color.Wheat;
+            _textInfo.Scale = new Vector2(1.1f);
+            _heightmap.UpdateBoundingVolumes();
 
             // Set the camera position at the middle of the terrain
-            camera.Position = new Vector3(heightmap.Width / 2, 0, heightmap.Depth / 2);
-            camera.Y = heightmap.GetTerrainHeight(camera.X, camera.Y, camera.Z) + 5;
+            _fpsCamera.Position = new Vector3(_heightmap.Width / 2, 0, _heightmap.Depth / 2);
+            _fpsCamera.Y = _heightmap.GetTerrainHeight(_fpsCamera.X, _fpsCamera.Y, _fpsCamera.Z) + 5;
         }
 
         public override void Update(GameTime gameTime)
@@ -95,7 +88,7 @@ namespace Yna.Samples.Screens
             // Naive Collide detection with ground
             // This method get the current segment height on the terrain and set the Y position of the camera at this value
             // We add 2 units because the camera is a bit higher than the ground
-            camera.Y = heightmap.GetTerrainHeight(camera.X, 0, camera.Z) + 2;
+            _fpsCamera.Y = _heightmap.GetTerrainHeight(_fpsCamera.X, 0, _fpsCamera.Z) + 2;
 
             // Move the camera with a click
             if (YnG.Mouse.Click(MouseButton.Left))
@@ -133,7 +126,7 @@ namespace Yna.Samples.Screens
 
             // Draw 2D part
             spriteBatch.Begin();
-            sky.Draw(gameTime, spriteBatch);
+            _sky.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 
             // Restore default states for 3D
@@ -147,7 +140,7 @@ namespace Yna.Samples.Screens
 
             // Draw 2D part
             spriteBatch.Begin();
-            textInfo.Draw(gameTime, spriteBatch);
+            _textInfo.Draw(gameTime, spriteBatch);
             spriteBatch.End();
         }
     }

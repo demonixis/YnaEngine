@@ -5,26 +5,35 @@
 #if DEBUG && USE_NULL_SERVICE
 #define DEBUG_VR
 #endif
-using System.Collections.Generic;
+using C3DE.VR;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Yna.Engine.State;
 using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Lighting;
-using Microsoft.Xna.Framework.Graphics;
-using C3DE.VR;
 using Yna.Engine.Graphics3D.Renderer;
 
 namespace Yna.Engine.Graphics3D
 {
+    public struct FogData
+    {
+        public bool Enabled;
+        public Vector3 Color;
+        public float Start;
+        public float End;
+    }
+
     /// <summary>
     /// A 3D state who contains a camera manager, a scene manager and a collection of basic objects (timers, controllers, etc...)
     /// </summary>
     public class YnState3D : YnState
     {
         protected SceneLight _sceneLight;
-        private Camera _camera;
-        private YnGroup3D _scene;
-        private List<YnEntity> _basicObjects;
+        protected Camera _camera;
+        protected FogData _fog;
+        protected YnGroup3D _scene;
+        protected List<YnEntity> _basicObjects;
         private VRService _vrService;
         private bool _vrEnabled;
         private RenderTarget2D[] _sceneRenderTargets;
@@ -57,7 +66,7 @@ namespace Yna.Engine.Graphics3D
         public Camera Camera
         {
             get { return _camera; }
-            protected set { _camera = value; }
+            set { _camera = value; }
         }
 
         /// <summary>
@@ -68,7 +77,7 @@ namespace Yna.Engine.Graphics3D
             get { return _sceneLight; }
             set { _sceneLight = value; }
         }
-
+        
         public bool VREnabled
         {
             get => _vrEnabled;
@@ -85,6 +94,12 @@ namespace Yna.Engine.Graphics3D
                 else
                     TryInitializeVR();
             }
+        }
+
+        public FogData Fog
+        {
+            get => _fog;
+            set => _fog = value;
         }
 
         #region Constructors
@@ -142,6 +157,14 @@ namespace Yna.Engine.Graphics3D
         public YnState3D(string name) : this(name, null) { }
 
         #endregion
+
+        public void SetFog(bool enabled, Color color, float start = 10.0f, float end = 100.0f)
+        {
+            _fog.Enabled = enabled;
+            _fog.Start = start;
+            _fog.End = end;
+            _fog.Color = color.ToVector3();
+        }
 
         #region GameState pattern
 
@@ -215,7 +238,7 @@ namespace Yna.Engine.Graphics3D
 
                         _camera.Projection = _vrService.GetProjectionMatrix(i);
                         _camera.View = _vrService.GetViewMatrix(i, Matrix.Identity);
-                        _scene.Draw(gameTime, YnG.GraphicsDevice, _camera, _sceneLight);
+                        _scene.Draw(gameTime, YnG.GraphicsDevice, _camera, _sceneLight, ref _fog);
                     }
                 }
 
@@ -224,7 +247,7 @@ namespace Yna.Engine.Graphics3D
                 DrawVRPreview(0, true);
             }
             else
-                _scene.Draw(gameTime, graphics, _camera, _sceneLight);
+                _scene.Draw(gameTime, graphics, _camera, _sceneLight, ref _fog);
         }
 
         private void DrawVRPreview(int eye, bool stereo)

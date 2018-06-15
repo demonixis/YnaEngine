@@ -1,28 +1,21 @@
 ﻿// YnaEngine - Copyright (C) YnaEngine team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Cameras;
-using Yna.Engine.Graphics3D.Geometry;
-using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Terrain.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
-    public class SimpleTerrainGeometry : BaseTerrainGeometry
+    public class SimpleTerrainGeometry : TerrainGeometry
     {
         public SimpleTerrainGeometry(float width, float height, float depth)
             : this(width, height, depth, new Vector3(1.0f))
         {
-
         }
 
         public SimpleTerrainGeometry(float width, float height, float depth, Vector3 size)
         {
-            _segmentSizes = Vector3.Max(size, Vector3.One);
+            _size = Vector3.Max(size, Vector3.One);
             _width = width;
             _height = height;
             _depth = depth;
@@ -37,13 +30,13 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
                 for (int z = 0; z < Depth; z++)
                 {
                     _vertices[x + z * Width].Position = new Vector3(
-                        x * _segmentSizes.X,
-                        0 * _segmentSizes.Y,
-                        z * _segmentSizes.Z);
+                        x * _size.X,
+                        0 * _size.Y,
+                        z * _size.Z);
 
                     _vertices[x + z * Width].TextureCoordinate = new Vector2(
-                        ((float)x / (float)Width) * _textureRepeat.X,
-                        ((float)z / (float)Depth) * _textureRepeat.Y);
+                        ((float)x / (float)Width) * _UVOffset.X,
+                        ((float)z / (float)Depth) * _UVOffset.Y);
 
                     _vertices[x + z * Width].Normal = Vector3.Up;  
                 }

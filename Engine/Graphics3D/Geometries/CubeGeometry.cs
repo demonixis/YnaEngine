@@ -1,16 +1,15 @@
 ﻿// YnaEngine - Copyright (C) YnaEngine team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Yna.Engine.Graphics3D.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
     /// <summary>
-    /// A Cube geometry to use within an YnMesh with a Material
+    /// A Cube geometry to use within an YnEntity3D with a Material
     /// </summary>
-    public class CubeGeometry : BaseGeometry<VertexPositionNormalTexture>
+    public sealed class CubeGeometry : Geometry
     {
         #region Constructors
 
@@ -35,14 +34,14 @@ namespace Yna.Engine.Graphics3D.Geometry
         public CubeGeometry(Vector3 sizes, Vector3 origin)
             : base()
         {
-            _segmentSizes = sizes;
+            _size = sizes;
             _origin = origin;
         }
 
         public CubeGeometry(float size, Vector3 origin)
             : base()
         {
-            _segmentSizes = new Vector3(size);
+            _size = new Vector3(size);
             _origin = origin;
         }
 
@@ -55,38 +54,33 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         protected override void CreateVertices()
         {
-            Color[] _colors = new Color[]
-            {
-                Color.White, Color.White, Color.White, Color.White, Color.White, Color.White
-            };
-
             _vertices = new VertexPositionNormalTexture[36];
 
             // Calculate the position of the vertices on the top face.
-            Vector3 topLeftFront = new Vector3(-1.0f, 1.0f, -1.0f) * Size;
-            Vector3 topLeftBack = new Vector3(-1.0f, 1.0f, 1.0f) * Size;
-            Vector3 topRightFront = new Vector3(1.0f, 1.0f, -1.0f) * Size;
-            Vector3 topRightBack = new Vector3(1.0f, 1.0f, 1.0f) * Size;
+            var topLeftFront = new Vector3(-1.0f, 1.0f, -1.0f) * Size;
+            var topLeftBack = new Vector3(-1.0f, 1.0f, 1.0f) * Size;
+            var topRightFront = new Vector3(1.0f, 1.0f, -1.0f) * Size;
+            var topRightBack = new Vector3(1.0f, 1.0f, 1.0f) * Size;
 
             // Calculate the position of the vertices on the bottom face.
-            Vector3 btmLeftFront = new Vector3(-1.0f, -1.0f, -1.0f) * Size;
-            Vector3 btmLeftBack = new Vector3(-1.0f, -1.0f, 1.0f) * Size;
-            Vector3 btmRightFront = new Vector3(1.0f, -1.0f, -1.0f) * Size;
-            Vector3 btmRightBack = new Vector3(1.0f, -1.0f, 1.0f) * Size;
+            var btmLeftFront = new Vector3(-1.0f, -1.0f, -1.0f) * Size;
+            var btmLeftBack = new Vector3(-1.0f, -1.0f, 1.0f) * Size;
+            var btmRightFront = new Vector3(1.0f, -1.0f, -1.0f) * Size;
+            var btmRightBack = new Vector3(1.0f, -1.0f, 1.0f) * Size;
 
             // Normal vectors for each face (needed for lighting / display)
-            Vector3 normalFront = new Vector3(0.0f, 0.0f, 1.0f) * Size;
-            Vector3 normalBack = new Vector3(0.0f, 0.0f, -1.0f) * Size;
-            Vector3 normalTop = new Vector3(0.0f, 1.0f, 0.0f) * Size;
-            Vector3 normalBottom = new Vector3(0.0f, -1.0f, 0.0f) * Size;
-            Vector3 normalLeft = new Vector3(-1.0f, 0.0f, 0.0f) * Size;
-            Vector3 normalRight = new Vector3(1.0f, 0.0f, 0.0f) * Size;
+            var normalFront = new Vector3(0.0f, 0.0f, 1.0f) * Size;
+            var normalBack = new Vector3(0.0f, 0.0f, -1.0f) * Size;
+            var normalTop = new Vector3(0.0f, 1.0f, 0.0f) * Size;
+            var normalBottom = new Vector3(0.0f, -1.0f, 0.0f) * Size;
+            var normalLeft = new Vector3(-1.0f, 0.0f, 0.0f) * Size;
+            var normalRight = new Vector3(1.0f, 0.0f, 0.0f) * Size;
 
             // UV texture coordinates
-            Vector2 textureTopLeft = new Vector2(1.0f * TextureRepeat.X, 0.0f * TextureRepeat.Y);
-            Vector2 textureTopRight = new Vector2(0.0f * TextureRepeat.X, 0.0f * TextureRepeat.Y);
-            Vector2 textureBottomLeft = new Vector2(1.0f * TextureRepeat.X, 1.0f * TextureRepeat.Y);
-            Vector2 textureBottomRight = new Vector2(0.0f * TextureRepeat.X, 1.0f * TextureRepeat.Y);
+            var textureTopLeft = new Vector2(1.0f * TextureRepeat.X, 0.0f * TextureRepeat.Y);
+            var textureTopRight = new Vector2(0.0f * TextureRepeat.X, 0.0f * TextureRepeat.Y);
+            var textureBottomLeft = new Vector2(1.0f * TextureRepeat.X, 1.0f * TextureRepeat.Y);
+            var textureBottomRight = new Vector2(0.0f * TextureRepeat.X, 1.0f * TextureRepeat.Y);
 
             // Add the vertices for the FRONT face.
             _vertices[0] = new VertexPositionNormalTexture(topLeftFront, normalFront, textureTopLeft);

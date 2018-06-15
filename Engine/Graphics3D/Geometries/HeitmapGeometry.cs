@@ -1,18 +1,12 @@
 ﻿// YnaEngine - Copyright (C) YnaEngine team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Cameras;
-using Yna.Engine.Graphics3D.Geometry;
-using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Terrain.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
-    public class HeightmapGeometry : BaseTerrainGeometry
+    public class HeightmapGeometry : TerrainGeometry
     {
         private string _heightmapAssetName;
         private Texture2D _heightmapTexture;
@@ -32,7 +26,7 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
         public HeightmapGeometry(string heightmapName, Vector3 segmentSizes)
             : this(heightmapName)
         {
-            _segmentSizes = segmentSizes;
+            _size = segmentSizes;
         }
 
         public HeightmapGeometry(Texture2D heightmapTexture)
@@ -44,10 +38,10 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
         public HeightmapGeometry(Texture2D heightmapTexture, Vector3 segmentSizes)
             : this(heightmapTexture)
         {
-            _segmentSizes = segmentSizes;
+            _size = segmentSizes;
         }
 
-        public override void GenerateGeometry()
+        public override void Generate()
         {
             if (_heightmapTexture == null)
                 _heightmapTexture = YnG.Content.Load<Texture2D>(_heightmapAssetName);
@@ -62,28 +56,27 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
 
         private void LoadHeightDatas()
         {
-            Width = _heightmapTexture.Width;
-            Depth = _heightmapTexture.Height;
+            _width = _heightmapTexture.Width;
+            _depth = _heightmapTexture.Height;
 
-            Color[] colors = new Color[Width * Depth];
+            var colors = new Color[Width * Depth];
             _heightmapTexture.GetData(colors);
-
             _heightData = new float[Width, Depth];
 
-            for (int x = 0; x < Width; x++)
-                for (int y = 0; y < Depth; y++)
-                    _heightData[x, y] = colors[x + y * Width].R / 10.0f; // Max height 25.5f
+            for (var x = 0; x < Width; x++)
+                for (var y = 0; y < Depth; y++)
+                    _heightData[x, y] = colors[x + y * Width].R / 10.0f;
         }
 
         protected override void CreateVertices()
         {
             _vertices = new VertexPositionNormalTexture[Width * Depth];
 
-            Color color = Color.White;
+            var color = Color.White;
 
-            for (int x = 0; x < Width; x++)
+            for (var x = 0; x < Width; x++)
             {
-                for (int z = 0; z < Depth; z++)
+                for (var z = 0; z < Depth; z++)
                 {
                     Vertices[x + z * Width].Position = new Vector3(
                         x * Size.X,

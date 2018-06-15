@@ -6,7 +6,7 @@ using Yna.Engine.Input;
 using Yna.Engine.Graphics;
 using Yna.Engine.Graphics3D;
 using Yna.Engine.Graphics3D.Cameras;
-using Yna.Engine.Graphics3D.Terrain;
+using Yna.Engine.Graphics3D.Terrains;
 using Yna.Engine.Graphics3D.Controls;
 using Yna.Engine.Graphics3D.Materials;
 
@@ -14,14 +14,12 @@ namespace Yna.Samples.Screens
 {
     public class HeighmapTerrain : YnState3D
     {
-        YnEntity2D sky;
-        YnText textInfo;
-
-        Heightmap heightmap;
-        FirstPersonCamera camera;
-        FirstPersonControl control;
-
-        RasterizerState rasterizerState;
+        private YnEntity2D sky;
+        private YnText textInfo;
+        private Terrain heightmap;
+        private FirstPersonCamera camera;
+        private FirstPersonControl control;
+        private RasterizerState rasterizerState;
 
         public HeighmapTerrain(string name)
             : base(name)
@@ -44,15 +42,13 @@ namespace Yna.Samples.Screens
             // -- 1. heightfield texture
             // -- 2. map texture applied on the terrain
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
-            heightmap = new Heightmap("Textures/heightfield", "terrains/heightmapTexture", new Vector3(5));
-            
+            heightmap = new Terrain("Textures/heightfield", "terrains/heightmapTexture", new Vector3(5));
+
             Add(heightmap);
 
-            BasicMaterial heightmapMaterial = new BasicMaterial("Textures/heightmapTexture");
-            heightmapMaterial.FogStart = 25.0f;
-            heightmapMaterial.FogEnd = 75.0f;
-            heightmapMaterial.EnableFog = true;
-            heightmapMaterial.FogColor = Vector3.One * 0.3f;
+            SetFog(true, Color.White, 25, 100);
+
+            var heightmapMaterial = new BasicMaterial("Textures/heightmapTexture");
             heightmap.Material = heightmapMaterial;
 
             // Sky & debug info
@@ -61,7 +57,6 @@ namespace Yna.Samples.Screens
 
             rasterizerState = new RasterizerState();
         }
-
 
         public override void LoadContent()
         {
