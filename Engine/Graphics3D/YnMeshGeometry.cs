@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Geometries;
 using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Materials;
 using Yna.Engine.Graphics3D.Cameras;
@@ -14,9 +14,9 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// A mesh who use a procedural geometry.
     /// </summary>
-    public class YnEntity3DGeometry : YnEntity3D
+    public class YnMeshGeometry : YnEntity3D
     {
-        protected BaseGeometry<VertexPositionNormalTexture> _geometry;
+        protected Geometry _geometry;
         protected Vector2 _textureRepeat;
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Yna.Engine.Graphics3D
         /// <summary>
         /// Gets the geometry of the mesh.
         /// </summary>
-        public BaseGeometry<VertexPositionNormalTexture> Geometry
+        public Geometry Geometry
         {
             get { return _geometry; }
             protected set { _geometry = value; }
@@ -42,7 +42,7 @@ namespace Yna.Engine.Graphics3D
         /// <summary>
         /// Create an YnEntity3DGeometry without geometry and material. Don't forget to set it before draw.
         /// </summary>
-        public YnEntity3DGeometry()
+        public YnMeshGeometry()
             : this(null, "")
         {
 
@@ -52,7 +52,7 @@ namespace Yna.Engine.Graphics3D
         /// Create an YnEntity3DGeoemtry with a geometry and a BasicMaterial without texture.
         /// </summary>
         /// <param name="geometry"></param>
-        public YnEntity3DGeometry(BaseGeometry<VertexPositionNormalTexture> geometry)
+        public YnMeshGeometry(Geometry geometry)
             : this(geometry, "")
         {
 
@@ -63,7 +63,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="geometry">Geometry to use.</param>
         /// <param name="textureName">Texture name to use with BasicMaterial</param>
-        public YnEntity3DGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, string textureName)
+        public YnMeshGeometry(Geometry geometry, string textureName)
             : this(geometry, new BasicMaterial(textureName))
         {
 
@@ -74,7 +74,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="geometry">Geometry to use.</param>
         /// <param name="material">Material to use with geometry.</param>
-        public YnEntity3DGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, Materials.Material material)
+        public YnMeshGeometry(Geometry geometry, Materials.Material material)
             : base()
         {
             _geometry = geometry;
@@ -117,7 +117,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         public override void LoadContent()
         {
-            _geometry.GenerateGeometry();
+            _geometry.Generate();
             _material.LoadContent();
             UpdateBoundingVolumes();
         }
@@ -126,9 +126,9 @@ namespace Yna.Engine.Graphics3D
         /// Draw mesh.
         /// </summary>
         /// <param name="device"></param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light, ref FogData fog)
         {
-            PreDraw(camera, light);
+            PreDraw(camera, light, ref fog);
             _geometry.Draw(device, _material);
         }
     }

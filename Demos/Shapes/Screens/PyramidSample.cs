@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Geometries;
 using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Samples.Screens
 {
     public class PyramidSample : BaseSample
     {
-        YnEntity3DGeometry pyramid;
+        YnMeshGeometry pyramid;
 
         public PyramidSample(string name)
             : base(name, true)
@@ -31,7 +31,7 @@ namespace Yna.Samples.Screens
             material.PreferPerPixelLighting = true;
             material.FresnelFactor = 0.2f;
 
-            pyramid = new YnEntity3DGeometry(geometry, material);
+            pyramid = new YnMeshGeometry(geometry, material);
             Add(pyramid);
         }
 

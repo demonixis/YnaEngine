@@ -48,7 +48,7 @@ namespace Yna.Engine.Graphics3D.Materials
         public override void Update(Camera camera, SceneLight light, ref Matrix world, ref FogData fog)
         {
             // Update matrices
-            base.Update(camera, light, ref world);
+            base.Update(camera, light, ref world, ref fog);
 
             BasicEffect basicEffect = (BasicEffect)_effect;
 

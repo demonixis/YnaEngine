@@ -162,7 +162,7 @@ namespace Yna.Engine.Graphics3D.Materials
                 return;
 
             // Update matrices
-            base.Update(camera, light, ref world);
+            base.Update(camera, light, ref world, ref fog);
 
             EnvironmentMapEffect environmentMapEffect = (EnvironmentMapEffect)_effect;
 

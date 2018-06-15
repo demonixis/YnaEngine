@@ -334,7 +334,7 @@ namespace Yna.Engine.Graphics3D
             _material.Update(camera, light, ref _world, ref data);
         }
 
-        public virtual void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light) { }
+        public virtual void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light, ref FogData fog) { }
 
         #endregion
     }

@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
     /// <summary>
     /// Cylinder geometry
     /// Inspired by Xnawiki : http://www.xnawiki.com/index.php/Shape_Generation#Cylinder
     /// </summary>
-    public class CylinderGeometry : BaseGeometry<VertexPositionNormalTexture>
+    public class CylinderGeometry : Geometry
     {
         private Vector3 _startPosition;
         private Vector3 _endPosition;
@@ -25,7 +25,7 @@ namespace Yna.Engine.Graphics3D.Geometry
         public CylinderGeometry(Vector3 startPosition, Vector3 endPosition, float startRadius, float endRadius, bool invertFaces, int nbSegments, int nbSlices, Vector3 sizes)
             : base()
         {
-            _segmentSizes = sizes;
+            _size = sizes;
             _startPosition = startPosition;
             _endPosition = endPosition;
             _startRadius = startRadius;
@@ -65,8 +65,8 @@ namespace Yna.Engine.Graphics3D.Geometry
                 {
                     _vertices[vertexCount++] = new VertexPositionNormalTexture()
                     {
-                        Position = (_origin + center) * _segmentSizes,
-                        TextureCoordinate = new Vector2(0.5f, j * invSegments) * _textureRepeat
+                        Position = (_origin + center) * _size,
+                        TextureCoordinate = new Vector2(0.5f, j * invSegments) * _UVOffset
                     };
                 }
 
@@ -80,14 +80,14 @@ namespace Yna.Engine.Graphics3D.Geometry
                     {
                         Position = new Vector3()
                         {
-                            X = (_origin.X + center.X + rCosTheta * r.X + rSinTheta * s.X) * _segmentSizes.X,
-                            Y = (_origin.Y + center.Y + rCosTheta * r.Y + rSinTheta * s.Y) * _segmentSizes.Y,
-                            Z = (_origin.Z + center.Z + rCosTheta * r.Z + rSinTheta * s.Z) * _segmentSizes.Z
+                            X = (_origin.X + center.X + rCosTheta * r.X + rSinTheta * s.X) * _size.X,
+                            Y = (_origin.Y + center.Y + rCosTheta * r.Y + rSinTheta * s.Y) * _size.Y,
+                            Z = (_origin.Z + center.Z + rCosTheta * r.Z + rSinTheta * s.Z) * _size.Z
                         },
                         TextureCoordinate = new Vector2()
                         {
-                            X = i * invSlices * _textureRepeat.X,
-                            Y = j * invSegments * _textureRepeat.Y
+                            X = i * invSlices * _UVOffset.X,
+                            Y = j * invSegments * _UVOffset.Y
                         }
                     };
 
@@ -143,8 +143,8 @@ namespace Yna.Engine.Graphics3D.Geometry
                 {
                     _vertices[vertexCount++] = new VertexPositionNormalTexture()
                     {
-                        Position = (center + _origin) * _segmentSizes,
-                        TextureCoordinate = new Vector2(0.5f, j * invSegments) * _textureRepeat
+                        Position = (center + _origin) * _size,
+                        TextureCoordinate = new Vector2(0.5f, j * invSegments) * _UVOffset
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace Yna.Engine.Graphics3D.Geometry
 
         }
 
-        public override void GenerateGeometry()
+        public override void Generate()
         {
-            base.GenerateGeometry();
+            base.Generate();
             ComputeNormals(ref _vertices);
         }
 

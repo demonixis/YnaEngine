@@ -3,11 +3,10 @@
 // file 'LICENSE', which is part of this source code package.
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D.Geometry;
 
-namespace Yna.Engine.Graphics3D.Terrain.Geometry
+namespace Yna.Engine.Graphics3D.Geometries
 {
-    public abstract class TerrainGeometry : BaseGeometry<VertexPositionNormalTexture>
+    public abstract class TerrainGeometry : Geometry
     {
         protected float _width;
         protected float _height;
@@ -15,40 +14,20 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
 
         public int Width
         {
-            get { return (int)_width; }
-            protected set { _width = value; }
+            get => (int)_width;
+            protected set => _width = value;
         }
 
         public int Height
         {
-            get { return (int)_height; }
-            protected set { _height = value; }
+            get => (int)_height;
+            protected set => _height = value;
         }
 
         public int Depth
         {
-            get { return (int)_depth; }
-            protected set { _depth = value; }
-        }
-
-        public TerrainGeometry()
-            : this(0, 0, 0)
-        {
-
-        }
-
-        public TerrainGeometry(float width, float height, float depth)
-            : this(width, height, depth, new Vector3(0.0f))
-        {
-
-        }
-
-        public TerrainGeometry(float width, float height, float depth, Vector3 segmentSize)
-            : base(segmentSize)
-        {
-            _width = width;
-            _height = height;
-            _depth = depth;
+            get => (int)_depth;
+            protected set => _depth = value;
         }
 
         /// <summary>
@@ -56,7 +35,7 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
         /// </summary>
         protected override void CreateIndices()
         {
-            _indices = new short[(Width - 1) * (Depth - 1) * 6];
+            _indices = new short[((int)Width - 1) * ((int)Depth - 1) * 6];
 
             int counter = 0;
 
@@ -81,7 +60,7 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
 
         public virtual void MoveVertex(int x, int z, float deltaY)
         {
-            _vertices[x + z * Width].Position.Y += deltaY;
+            _vertices[x + z * (int)Width].Position.Y += deltaY;
 
             // TODO : compute vertex normal only for this vertex
             ComputeNormals(ref _vertices);

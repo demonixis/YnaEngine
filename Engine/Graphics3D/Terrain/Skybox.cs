@@ -4,10 +4,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using Yna.Engine.Graphics3D.Geometry;
+using Yna.Engine.Graphics3D.Geometries;
 using Yna.Engine.Graphics3D.Materials;
 
-namespace Yna.Engine.Graphics3D.Terrain
+namespace Yna.Engine.Graphics3D.Terrains
 {
     /// <summary>
     /// A Skybox for simulating boxed sky
@@ -24,16 +24,15 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// Create a Skybox 3D object.
         /// </summary>
         /// <param name="camera">Camera to use.</param>
-        /// <param name="parent">Parent entity</param>
         /// <param name="position">Position</param>
         /// <param name="size">Size of skybox</param>
         /// <param name="textureNames">An array of textures in this order: negX/posX/negY/posY/negZ/posZ</param>
-        public SkyBox(YnEntity3D parent, Vector3 position, float size, string[] textureNames)
-            : base(parent)
+        public SkyBox(Vector3 position, float size, string[] textureNames)
+            : base(null)
         {
             _textureNames = textureNames;
             _textures = new Texture2D[6];
-            _walls = new YnEntity3DGeometry[6];
+            _walls = new YnMeshGeometry[6];
             _position = position;
             _width = size;
             _height = size;
@@ -44,16 +43,15 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// Create a Skybox 3D object with just one texture.
         /// </summary>
         /// <param name="camera">Camera to use.</param>
-        /// <param name="parent">Parent entity</param>
         /// <param name="position">Position</param>
         /// <param name="size">Size of skybox</param>
         /// <param name="textureName">The texture to use on each face.</param>
-        public SkyBox(YnEntity3D parent, Vector3 position, float size, string textureName)
-            : this(parent, position, size, new string[] { })
+        public SkyBox(Vector3 position, float size, string textureName)
+            : this(position, size, new string[] { })
         {
             _textureNames = new string[6];
 
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
                 _textureNames[i] = textureName;
         }
 
@@ -63,9 +61,8 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// <param name="size">Size of skybox</param>
         /// <param name="textureNames">An array of textures in this order: negX/posX/negY/posY/negZ/posZ</param>
         public SkyBox(float size, string[] textureNames)
-            : this(null, new Vector3(0.0f), size, textureNames)
+            : this(new Vector3(0.0f), size, textureNames)
         {
-
         }
 
         /// <summary>
@@ -73,9 +70,8 @@ namespace Yna.Engine.Graphics3D.Terrain
         /// </summary>
         /// <param name="size">Size of skybox</param>
         public SkyBox(float size, string textureName)
-            : this(null, new Vector3(0.0f), size, textureName)
+            : this(new Vector3(0.0f), size, textureName)
         {
-
         }
 
         #endregion
@@ -115,7 +111,7 @@ namespace Yna.Engine.Graphics3D.Terrain
                 material.EnableDefaultLighting = false;
                 material.EnableLighting = false;
 
-                _walls[i] = new YnEntity3DGeometry(new PlaneGeometry(sizes), material);
+                _walls[i] = new YnMeshGeometry(new PlaneGeometry(sizes), material);
                 _walls[i].Rotation = rotations[i];
                 _walls[i].Position = positions[i];
                 Add(_walls[i]);
