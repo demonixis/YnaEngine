@@ -57,7 +57,7 @@ namespace Yna.Engine.Graphics3D.Materials
                 _effect = new DualTextureEffect(YnG.GraphicsDevice);
         }
 
-        public override void Update(Camera camera, SceneLight light, ref Matrix world)
+        public override void Update(Camera camera, SceneLight light, ref Matrix world, ref FogData fog)
         {
             // Update matrices
             base.Update(camera, light, ref world);
@@ -65,7 +65,7 @@ namespace Yna.Engine.Graphics3D.Materials
             var dualTextureEffect = (DualTextureEffect)_effect;
 			
             // Fog
-            UpdateFog(dualTextureEffect);
+            UpdateFog(dualTextureEffect, ref fog);
 
             // Textures
             dualTextureEffect.Texture = _texture;

@@ -14,13 +14,13 @@ namespace Yna.Samples.Screens
         {
             groupCube = new YnGroup3D(null);
 
-            YnMeshGeometry cube = null;
+            YnEntity3DGeometry cube = null;
             Vector3 cubePosition = new Vector3(10, 1, 35);
 
             for (int i = 0; i < 12; i++)
             {
                 cubePosition.X +=  5;             
-                cube = new YnMeshGeometry(new CubeGeometry(Vector3.One), new BasicMaterial("Textures/pattern02_diffuse"));
+                cube = new YnEntity3DGeometry(new CubeGeometry(Vector3.One), new BasicMaterial("Textures/pattern02_diffuse"));
                 cube.Position = cubePosition;
                 groupCube.Add(cube);
             }

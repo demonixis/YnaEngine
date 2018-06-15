@@ -7,12 +7,12 @@ namespace Yna.Samples.Screens
 {
     public class PlaneSample : BaseSample
     {
-        YnMeshGeometry plane;
+        YnEntity3DGeometry plane;
 
         public PlaneSample(string name)
             : base(name)
         {
-            plane = new YnMeshGeometry(new PlaneGeometry(new Vector3(10)), new BasicMaterial("Textures/metal"));
+            plane = new YnEntity3DGeometry(new PlaneGeometry(new Vector3(10)), new BasicMaterial("Textures/metal"));
             Add(plane);
         }
 

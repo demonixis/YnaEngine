@@ -11,7 +11,7 @@ using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D
 {
-    public class YnBillboard : YnMeshGeometry
+    public class YnBillboard : YnEntity3DGeometry
     {
         private bool _isFixed;
 

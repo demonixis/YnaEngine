@@ -321,7 +321,7 @@ namespace Yna.Engine
         /// <param name="modelA">First model</param>
         /// <param name="modelB">Second model</param>
         /// <returns>True if modelA collinding modelB else false</returns>
-        public static bool SphereCollide(YnMeshModel modelA, YnMeshModel modelB)
+        public static bool SphereCollide(YnModel modelA, YnModel modelB)
         {
             var collide = false;
             var j = 0;
@@ -354,14 +354,14 @@ namespace Yna.Engine
         /// <param name="model">The model</param>
         /// <param name="group">A collection of models</param>
         /// <returns>Array of models that collides with model</returns>
-        public static YnMeshModel[] SphereCollide(YnMeshModel model, YnGroup3D group)
+        public static YnModel[] SphereCollide(YnModel model, YnGroup3D group)
         {
-            var collides = new List<YnMeshModel>();
+            var collides = new List<YnModel>();
             var groupSize = group.Count;
 
             for (var i = 0; i < groupSize; i++)
-                if (group[i] is YnMeshModel && SphereCollide(model, group[i] as YnMeshModel))
-                    collides.Add(group[i] as YnMeshModel);
+                if (group[i] is YnModel && SphereCollide(model, group[i] as YnModel))
+                    collides.Add(group[i] as YnModel);
 
             return collides.ToArray();
         }
@@ -386,7 +386,7 @@ namespace Yna.Engine
         /// <param name="modelA">First model</param>
         /// <param name="modelB">Second model</param>
         /// <returns>True if modelA collinding modelB else false</returns>
-        public static bool CubeCollide(YnMeshModel modelA, YnMeshModel modelB)
+        public static bool CubeCollide(YnModel modelA, YnModel modelB)
         {
             if (!modelA.Static)
                 modelA.UpdateBoundingVolumes();
@@ -403,17 +403,17 @@ namespace Yna.Engine
         /// <param name="model">The model</param>
         /// <param name="group">A collection of models</param>
         /// <returns>Array of models that collides with model</returns>
-        public static YnMeshModel[] CubeCollide(YnMeshModel model, YnGroup3D group)
+        public static YnModel[] CubeCollide(YnModel model, YnGroup3D group)
         {
-            var collides = new List<YnMeshModel>();
+            var collides = new List<YnModel>();
             var groupSize = group.Count;
 
             for (var i = 0; i < groupSize; i++)
             {
-                if (group[i] is YnMeshModel)
+                if (group[i] is YnModel)
                 {
-                    if (CubeCollide(model, group[i] as YnMeshModel))
-                        collides.Add(group[i] as YnMeshModel);
+                    if (CubeCollide(model, group[i] as YnModel))
+                        collides.Add(group[i] as YnModel);
                 }
             }
 

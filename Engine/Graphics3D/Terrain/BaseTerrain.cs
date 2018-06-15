@@ -15,7 +15,7 @@ namespace Yna.Engine.Graphics3D.Terrain
     /// <summary>
     /// Abstract class that represent a basic Terrain
     /// </summary>
-    public abstract class BaseTerrain : YnMeshGeometry
+    public abstract class BaseTerrain : YnEntity3DGeometry
     {
         public BaseTerrain()
             : this(0, 0, 0)

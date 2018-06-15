@@ -8,7 +8,7 @@ namespace Yna.Samples.Screens
 {
     public class SphereSample : BaseSample
     {
-        YnMeshGeometry sphere;
+        YnEntity3DGeometry sphere;
 
         public SphereSample(string name)
             : base(name)
@@ -18,7 +18,7 @@ namespace Yna.Samples.Screens
 
             BasicMaterial material = new BasicMaterial("Textures/metal");
 
-            sphere = new YnMeshGeometry(geometry, material);
+            sphere = new YnEntity3DGeometry(geometry, material);
             Add(sphere);
         }
 

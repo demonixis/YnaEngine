@@ -306,14 +306,6 @@ namespace Yna.Engine.Graphics3D
             _boundingSphere.Radius = Math.Max(Math.Max(Width, Height), Depth);
         }
 
-        /// <summary>
-        /// Update lights.
-        /// </summary>
-        /// <param name="light">Light to use.</param>
-        public virtual void UpdateLighting(SceneLight light)
-        {
-        }
-
         #endregion
 
         #region GameState pattern
@@ -332,14 +324,14 @@ namespace Yna.Engine.Graphics3D
             _lastPosition = _position;
         }
 
-        public virtual void PreDraw(Camera camera, SceneLight light)
+        public virtual void PreDraw(Camera camera, SceneLight light, ref FogData data)
         {
             UpdateMatrix();
 
             if (!_static)
                 UpdateBoundingVolumes();
 
-            _material.Update(camera, light, ref _world);
+            _material.Update(camera, light, ref _world, ref data);
         }
 
         public virtual void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light) { }

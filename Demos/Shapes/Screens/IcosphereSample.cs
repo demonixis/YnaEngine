@@ -7,12 +7,12 @@ namespace Yna.Samples.Screens
 {
     public class IcosphereSample : BaseSample
     {
-        YnMeshGeometry icosphere;
+        YnEntity3DGeometry icosphere;
 
         public IcosphereSample(string name)
             : base(name, true)
         {
-            icosphere = new YnMeshGeometry(new IcoSphereGeometry(32, 4, false), new BasicMaterial("Textures/icosphere_map"));
+            icosphere = new YnEntity3DGeometry(new IcoSphereGeometry(32, 4, false), new BasicMaterial("Textures/icosphere_map"));
             icosphere.Scale = new Vector3(3.5f);
             Add(icosphere);
 

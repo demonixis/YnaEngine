@@ -16,7 +16,7 @@ namespace Yna.Engine.Graphics3D.Terrain
     {
         private string[] _textureNames;
         private Texture2D[] _textures;
-        private YnMesh[] _walls;
+        private YnEntity3D[] _walls;
 
         #region constructors
 
@@ -33,7 +33,7 @@ namespace Yna.Engine.Graphics3D.Terrain
         {
             _textureNames = textureNames;
             _textures = new Texture2D[6];
-            _walls = new YnMeshGeometry[6];
+            _walls = new YnEntity3DGeometry[6];
             _position = position;
             _width = size;
             _height = size;
@@ -115,7 +115,7 @@ namespace Yna.Engine.Graphics3D.Terrain
                 material.EnableDefaultLighting = false;
                 material.EnableLighting = false;
 
-                _walls[i] = new YnMeshGeometry(new PlaneGeometry(sizes), material);
+                _walls[i] = new YnEntity3DGeometry(new PlaneGeometry(sizes), material);
                 _walls[i].Rotation = rotations[i];
                 _walls[i].Position = positions[i];
                 Add(_walls[i]);
@@ -129,7 +129,7 @@ namespace Yna.Engine.Graphics3D.Terrain
             var materials = new Material[6];
 
             for (var i = 0; i < 6; i++)
-                materials[i] = (this[i] as YnMesh).Material;
+                materials[i] = (this[i] as YnEntity3D).Material;
 
             return materials;
         }

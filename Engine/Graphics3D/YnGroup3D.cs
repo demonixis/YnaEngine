@@ -153,7 +153,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="gameTime">GameTime object.</param>
         /// <param name="device">GraphicsDevice object</param>
-        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light)
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light, ref FogData data)
         {
             if (!Visible)
                 return;

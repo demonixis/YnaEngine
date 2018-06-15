@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Yna.Engine.Graphics3D.Geometry
 {
     /// <summary>
-    /// A Cube geometry to use within an YnMesh with a Material
+    /// A Cube geometry to use within an YnEntity3D with a Material
     /// </summary>
     public class CubeGeometry : BaseGeometry<VertexPositionNormalTexture>
     {

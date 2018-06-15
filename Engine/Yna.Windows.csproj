@@ -111,13 +111,13 @@
     <Compile Include="Graphics3D\Geometry\TorusGeometry.cs" />
     <Compile Include="Graphics3D\Lighting\DirectionalLight.cs" />
     <Compile Include="Graphics3D\Lighting\SceneLight.cs" />
-    <Compile Include="Graphics3D\Terrain\Geometry\BaseTerrainGeometry.cs" />
+    <Compile Include="Graphics3D\Terrain\Geometry\TerrainGeometry.cs" />
     <Compile Include="Graphics3D\Terrain\Geometry\HeitmapGeometry.cs" />
     <Compile Include="Graphics3D\Terrain\Geometry\SimpleTerrainGeometry.cs" />
     <Compile Include="Graphics3D\Terrain\SkySphere.cs" />
     <Compile Include="Graphics3D\YnBillboard.cs" />
     <Compile Include="Graphics3D\YnMeshGeometry.cs" />
-    <Compile Include="Graphics3D\YnMeshModel.cs" />
+    <Compile Include="Graphics3D\YnModel.cs" />
     <Compile Include="Graphics3D\Renderer\QuadRenderer.cs" />
     <Compile Include="Graphics3D\Terrain\SkyBox.cs" />
     <Compile Include="Graphics3D\Cameras\Camera.cs" />

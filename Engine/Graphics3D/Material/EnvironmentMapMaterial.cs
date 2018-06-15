@@ -156,7 +156,7 @@ namespace Yna.Engine.Graphics3D.Materials
                 _effect = new EnvironmentMapEffect(YnG.GraphicsDevice);
         }
 
-        public override void Update(Camera camera, SceneLight light, ref Matrix world)
+        public override void Update(Camera camera, SceneLight light, ref Matrix world, ref FogData fog)
         {
             if (_effect == null)
                 return;
@@ -173,7 +173,7 @@ namespace Yna.Engine.Graphics3D.Materials
             environmentMapEffect.EnvironmentMapSpecular = SpecularColor * SpecularIntensity;
             environmentMapEffect.FresnelFactor = _fresnelFactor;
             // Fog
-            UpdateFog(environmentMapEffect);
+            UpdateFog(environmentMapEffect, ref fog);
 
             // Lights
             if (UpdateLights(environmentMapEffect, light))

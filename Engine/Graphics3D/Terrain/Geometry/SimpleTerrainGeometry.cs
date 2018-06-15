@@ -12,7 +12,7 @@ using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D.Terrain.Geometry
 {
-    public class SimpleTerrainGeometry : BaseTerrainGeometry
+    public class SimpleTerrainGeometry : TerrainGeometry
     {
         public SimpleTerrainGeometry(float width, float height, float depth)
             : this(width, height, depth, new Vector3(1.0f))

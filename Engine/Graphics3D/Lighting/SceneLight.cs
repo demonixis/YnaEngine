@@ -15,6 +15,7 @@ namespace Yna.Engine.Graphics3D.Lighting
         public Vector3 SpecularColor { get; set; } = new Vector3(0.3f);
         public float SpecularIntensity { get; set; } = 0.4f;
         public DirectionalLight[] DirectionalLights { get; set; }
+        public bool DefaultLighting { get; set; } = false;
 
         /// <summary>
         /// Create a basic light with just an ambient color set to white

@@ -45,10 +45,10 @@ namespace Yna.Samples.Screens
             // -- 2. map texture applied on the terrain
             // Note : If you're using MonoGame and don't use xnb, you must use a jpg image for the heightfield
             heightmap = new Heightmap("Textures/heightfield", "terrains/heightmapTexture", new Vector3(5));
-            
+
             Add(heightmap);
 
-            BasicMaterial heightmapMaterial = new BasicMaterial("Textures/heightmapTexture");
+            var heightmapMaterial = new BasicMaterial("Textures/heightmapTexture");
             heightmapMaterial.FogStart = 25.0f;
             heightmapMaterial.FogEnd = 75.0f;
             heightmapMaterial.EnableFog = true;
@@ -61,7 +61,6 @@ namespace Yna.Samples.Screens
 
             rasterizerState = new RasterizerState();
         }
-
 
         public override void LoadContent()
         {

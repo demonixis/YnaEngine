@@ -14,7 +14,7 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// A mesh who use a model loaded from content manager.
     /// </summary>
-    public class YnMeshModel : YnEntity3D
+    public class YnModel : YnEntity3D
     {
         private string _modelName;
         protected Model _model;
@@ -35,7 +35,7 @@ namespace Yna.Engine.Graphics3D
         /// <summary>
         /// Create an empty mesh.
         /// </summary>
-        public YnMeshModel()
+        public YnModel()
         {
             _model = null;
             _material = null;
@@ -45,11 +45,11 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Create an YnMeshModel with a model loaded from content manager and a material.
+        /// Create an YnEntity3DModel with a model loaded from content manager and a material.
         /// </summary>
         /// <param name="model">A Model instance</param>
         /// <param name="material">A material</param>
-        public YnMeshModel(Model model, Materials.Material material)
+        public YnModel(Model model, Materials.Material material)
             : this()
         {
             _model = model;
@@ -58,21 +58,21 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Create an YnMeshModel with a model loaded from content manager and a BasicMaterial.
+        /// Create an YnEntity3DModel with a model loaded from content manager and a BasicMaterial.
         /// </summary>
         /// <param name="model">A Model instance</param>
-        public YnMeshModel(Model model)
+        public YnModel(Model model)
             : this(model, null)
         {
             
         }
 
         /// <summary>
-        /// Create an YnMeshModel with an YnModel and a material.
+        /// Create an YnEntity3DModel with an YnModel and a material.
         /// </summary>
         /// <param name="model">An YnModel instance</param>
         /// <param name="material">A material</param>
-        public YnMeshModel(string modelName, Materials.Material material)
+        public YnModel(string modelName, Materials.Material material)
             : this()
         {
             _model = null;
@@ -81,10 +81,10 @@ namespace Yna.Engine.Graphics3D
         }
 
         /// <summary>
-        /// Create an YnMeshModel.
+        /// Create an YnEntity3DModel.
         /// </summary>
         /// <param name="modelName">Model name.</param>
-        public YnMeshModel(string modelName)
+        public YnModel(string modelName)
             : this(modelName, new BasicMaterial())
         {
 

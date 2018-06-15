@@ -1,18 +1,13 @@
 ﻿// YnaEngine - Copyright (C) YnaEngine team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Yna.Engine.Graphics3D;
-using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Geometry;
-using Yna.Engine.Graphics3D.Lighting;
-using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D.Terrain.Geometry
 {
-    public abstract class BaseTerrainGeometry : BaseGeometry<VertexPositionNormalTexture>
+    public abstract class TerrainGeometry : BaseGeometry<VertexPositionNormalTexture>
     {
         protected float _width;
         protected float _height;
@@ -36,19 +31,19 @@ namespace Yna.Engine.Graphics3D.Terrain.Geometry
             protected set { _depth = value; }
         }
 
-        public BaseTerrainGeometry()
+        public TerrainGeometry()
             : this(0, 0, 0)
         {
 
         }
 
-        public BaseTerrainGeometry(float width, float height, float depth)
+        public TerrainGeometry(float width, float height, float depth)
             : this(width, height, depth, new Vector3(0.0f))
         {
 
         }
 
-        public BaseTerrainGeometry(float width, float height, float depth, Vector3 segmentSize)
+        public TerrainGeometry(float width, float height, float depth, Vector3 segmentSize)
             : base(segmentSize)
         {
             _width = width;

@@ -8,7 +8,7 @@ namespace Yna.Samples.Screens
 {
     public class PyramidSample : BaseSample
     {
-        YnMeshGeometry pyramid;
+        YnEntity3DGeometry pyramid;
 
         public PyramidSample(string name)
             : base(name, true)
@@ -31,7 +31,7 @@ namespace Yna.Samples.Screens
             material.PreferPerPixelLighting = true;
             material.FresnelFactor = 0.2f;
 
-            pyramid = new YnMeshGeometry(geometry, material);
+            pyramid = new YnEntity3DGeometry(geometry, material);
             Add(pyramid);
         }
 

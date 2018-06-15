@@ -16,6 +16,14 @@ using Yna.Engine.Graphics3D.Renderer;
 
 namespace Yna.Engine.Graphics3D
 {
+    public struct FogData
+    {
+        public bool Enabled;
+        public Vector3 Color;
+        public float Start;
+        public float End;
+    }
+
     /// <summary>
     /// A 3D state who contains a camera manager, a scene manager and a collection of basic objects (timers, controllers, etc...)
     /// </summary>
@@ -68,7 +76,7 @@ namespace Yna.Engine.Graphics3D
             get { return _sceneLight; }
             set { _sceneLight = value; }
         }
-
+        
         public bool VREnabled
         {
             get => _vrEnabled;
@@ -86,6 +94,8 @@ namespace Yna.Engine.Graphics3D
                     TryInitializeVR();
             }
         }
+
+        public FogData Fog { get; set; }
 
         #region Constructors
 
@@ -224,7 +234,7 @@ namespace Yna.Engine.Graphics3D
                 DrawVRPreview(0, true);
             }
             else
-                _scene.Draw(gameTime, graphics, _camera, _sceneLight);
+                _scene.Draw(gameTime, graphics, _camera, _sceneLight, ref FogData);
         }
 
         private void DrawVRPreview(int eye, bool stereo)

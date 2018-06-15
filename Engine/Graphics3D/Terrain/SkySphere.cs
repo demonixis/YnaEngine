@@ -9,7 +9,7 @@ using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D.Terrain
 {
-    public class SkySphere : YnMeshGeometry
+    public class SkySphere : YnEntity3DGeometry
     {
         public SkySphere(string textureName, float size)
             : base(new IcoSphereGeometry(size, 2, true), new BasicMaterial(textureName))

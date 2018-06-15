@@ -14,7 +14,7 @@ namespace Yna.Engine.Graphics3D
     /// <summary>
     /// A mesh who use a procedural geometry.
     /// </summary>
-    public class YnMeshGeometry : YnEntity3D
+    public class YnEntity3DGeometry : YnEntity3D
     {
         protected BaseGeometry<VertexPositionNormalTexture> _geometry;
         protected Vector2 _textureRepeat;
@@ -40,41 +40,41 @@ namespace Yna.Engine.Graphics3D
         #region Constructors
 
         /// <summary>
-        /// Create an YnMeshGeometry without geometry and material. Don't forget to set it before draw.
+        /// Create an YnEntity3DGeometry without geometry and material. Don't forget to set it before draw.
         /// </summary>
-        public YnMeshGeometry()
+        public YnEntity3DGeometry()
             : this(null, "")
         {
 
         }
 
         /// <summary>
-        /// Create an YnMeshGeoemtry with a geometry and a BasicMaterial without texture.
+        /// Create an YnEntity3DGeoemtry with a geometry and a BasicMaterial without texture.
         /// </summary>
         /// <param name="geometry"></param>
-        public YnMeshGeometry(BaseGeometry<VertexPositionNormalTexture> geometry)
+        public YnEntity3DGeometry(BaseGeometry<VertexPositionNormalTexture> geometry)
             : this(geometry, "")
         {
 
         }
 
         /// <summary>
-        /// Create an YnMeshGeometry with a geometry and a BasicMaterial.
+        /// Create an YnEntity3DGeometry with a geometry and a BasicMaterial.
         /// </summary>
         /// <param name="geometry">Geometry to use.</param>
         /// <param name="textureName">Texture name to use with BasicMaterial</param>
-        public YnMeshGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, string textureName)
+        public YnEntity3DGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, string textureName)
             : this(geometry, new BasicMaterial(textureName))
         {
 
         }
 
         /// <summary>
-        /// Create an YnMeshGeometry with a geometry and a material.
+        /// Create an YnEntity3DGeometry with a geometry and a material.
         /// </summary>
         /// <param name="geometry">Geometry to use.</param>
         /// <param name="material">Material to use with geometry.</param>
-        public YnMeshGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, Materials.Material material)
+        public YnEntity3DGeometry(BaseGeometry<VertexPositionNormalTexture> geometry, Materials.Material material)
             : base()
         {
             _geometry = geometry;
