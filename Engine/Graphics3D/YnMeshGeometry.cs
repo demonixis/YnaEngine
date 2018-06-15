@@ -74,7 +74,7 @@ namespace Yna.Engine.Graphics3D
         /// </summary>
         /// <param name="geometry">Geometry to use.</param>
         /// <param name="material">Material to use with geometry.</param>
-        public YnMeshGeometry(Geometry geometry, Materials.Material material)
+        public YnMeshGeometry(Geometry geometry, Material material)
             : base()
         {
             _geometry = geometry;

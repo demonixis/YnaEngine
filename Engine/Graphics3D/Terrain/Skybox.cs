@@ -4,7 +4,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Yna.Engine.Graphics3D.Cameras;
 using Yna.Engine.Graphics3D.Geometries;
+using Yna.Engine.Graphics3D.Lighting;
 using Yna.Engine.Graphics3D.Materials;
 
 namespace Yna.Engine.Graphics3D.Terrains
@@ -17,6 +19,9 @@ namespace Yna.Engine.Graphics3D.Terrains
         private string[] _textureNames;
         private Texture2D[] _textures;
         private YnEntity3D[] _walls;
+        private FogData _fogData;
+
+        public bool FogEnabled { get; set; }
 
         #region constructors
 
@@ -81,7 +86,7 @@ namespace Yna.Engine.Graphics3D.Terrains
             if (_textureNames.Length < 6)
                 throw new Exception("[Skybox] The array must contains 6 names");
 
-            Vector3 sizes = new Vector3(_width, 1, _depth);
+            var sizes = new Vector3(_width, 1, _depth);
 
             var positions = new Vector3[6]
             {
@@ -128,6 +133,14 @@ namespace Yna.Engine.Graphics3D.Terrains
                 materials[i] = (this[i] as YnEntity3D).Material;
 
             return materials;
+        }
+
+        public override void Draw(GameTime gameTime, GraphicsDevice device, Camera camera, SceneLight light, ref FogData fog)
+        {
+            if (FogEnabled)
+                base.Draw(gameTime, device, camera, light, ref fog);
+            else
+                base.Draw(gameTime, device, camera, light, ref _fogData);
         }
     }
 }

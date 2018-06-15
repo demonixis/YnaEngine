@@ -16,14 +16,8 @@ namespace Yna.Engine.Graphics3D.Geometries
         /// Create a plane geometry.
         /// </summary>
         /// <param name="size">Size of geometry.</param>
-        public PlaneGeometry(Vector3 size) : this(size, false) { }
-
-        /// <summary>
-        /// Create a plane geometry.
-        /// </summary>
-        /// <param name="size">Size of geometry.</param>
         /// <param name="invertFaces">Sets to true for invert faces.</param>
-        public PlaneGeometry(Vector3 size, bool invertFaces)
+        public PlaneGeometry(Vector3 size, bool invertFaces = false)
             : base()
         {
             _size = size;
@@ -69,6 +63,11 @@ namespace Yna.Engine.Graphics3D.Geometries
             _indices[5] = (short)(_invertFaces ? 2 : 3);
         }
 
+        protected override void CreateBuffers()
+        {
+            ComputeNormals(ref _vertices);
+            base.CreateBuffers();
+        }
         /// <summary>
         /// Draw the plane shape
         /// </summary>
